@@ -2,64 +2,223 @@
   <h1 class="text-2xl font-bold">Logical Functions</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Logical functions make decisions based on conditions. They return different results depending on whether conditions are TRUE or FALSE.</p>
+    <h2 class="font-bold text-lg">What Are Logical Functions?</h2>
+    <p>Logical functions make decisions in your spreadsheets. They evaluate conditions (is something true or false?) and return different results based on the answer. This is like programming "if-then" logic into your cells.</p>
+    <p class="mt-2">Think of it like a flow chart: <em>"IF the profit is positive, THEN label it 'Profit', OTHERWISE label it 'Loss'"</em></p>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key Functions</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">IF</span>(condition, if_true, if_false)
-<span class="text-purple-400">IFS</span>(cond1, val1, cond2, val2, ...)
-<span class="text-purple-400">AND</span>(cond1, cond2, ...)  - All must be true
-<span class="text-purple-400">OR</span>(cond1, cond2, ...)   - Any must be true
-<span class="text-purple-400">NOT</span>(condition)          - Reverses true/false
-<span class="text-purple-400">IFERROR</span>(formula, if_error)</pre>
+    <h2 class="font-bold text-lg">Comparison Operators</h2>
+    <p class="mb-2">These operators compare two values and return TRUE or FALSE:</p>
+    <div class="grid grid-cols-3 gap-2 text-sm">
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg">=</div>
+        <div>Equal to</div>
+        <div class="text-xs text-gray-500">5=5 → TRUE</div>
+      </div>
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg"><></div>
+        <div>Not equal to</div>
+        <div class="text-xs text-gray-500">5<>3 → TRUE</div>
+      </div>
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg">></div>
+        <div>Greater than</div>
+        <div class="text-xs text-gray-500">5>3 → TRUE</div>
+      </div>
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg"><</div>
+        <div>Less than</div>
+        <div class="text-xs text-gray-500">5<3 → FALSE</div>
+      </div>
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg">>=</div>
+        <div>Greater or equal</div>
+        <div class="text-xs text-gray-500">5>=5 → TRUE</div>
+      </div>
+      <div class="bg-gray-100 rounded p-2 text-center">
+        <div class="font-mono text-lg"><=</div>
+        <div>Less or equal</div>
+        <div class="text-xs text-gray-500">5<=3 → FALSE</div>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Examples</h2>
-    <p class="text-sm text-gray-600 mb-2">Using Superstore: Profit=Q, Sales=N, Discount=P</p>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Simple IF - is profit positive?</span>
-=<span class="text-purple-400">IF</span>(Q2>0, <span class="text-green-400">"Profit"</span>, <span class="text-green-400">"Loss"</span>)
+    <h2 class="font-bold text-lg">IF Function - The Foundation</h2>
+    <p>IF is the most important logical function. It has three parts:</p>
+    <div class="bg-gray-100 rounded-lg p-4 mt-2">
+      <div class="font-mono text-lg">=IF( <span class="text-blue-600">condition</span>, <span class="text-green-600">value_if_true</span>, <span class="text-red-600">value_if_false</span> )</div>
+      <div class="grid grid-cols-3 gap-4 mt-3 text-sm">
+        <div>
+          <div class="font-semibold text-blue-600">Condition</div>
+          <div>A test that returns TRUE or FALSE</div>
+        </div>
+        <div>
+          <div class="font-semibold text-green-600">Value if True</div>
+          <div>What to return if condition is TRUE</div>
+        </div>
+        <div>
+          <div class="font-semibold text-red-600">Value if False</div>
+          <div>What to return if condition is FALSE</div>
+        </div>
+      </div>
+    </div>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-3"><span class="text-gray-400">// Is the profit positive or negative?</span>
+=<span class="text-blue-400">IF</span>(U2>0, <span class="text-green-400">"Profit"</span>, <span class="text-green-400">"Loss"</span>)
 
-<span class="text-gray-400">// Nested IF - categorize profit</span>
-=<span class="text-purple-400">IF</span>(Q2>100, <span class="text-green-400">"High"</span>, <span class="text-purple-400">IF</span>(Q2>0, <span class="text-green-400">"Low"</span>, <span class="text-green-400">"Loss"</span>))
+<span class="text-gray-400">// Return the actual profit value or "No Profit"</span>
+=<span class="text-blue-400">IF</span>(U2>0, U2, <span class="text-green-400">"No Profit"</span>)
 
-<span class="text-gray-400">// IFS - cleaner multiple conditions</span>
-=<span class="text-purple-400">IFS</span>(Q2>100, <span class="text-green-400">"High"</span>, Q2>0, <span class="text-green-400">"Low"</span>, Q2<=0, <span class="text-green-400">"Loss"</span>)
+<span class="text-gray-400">// Calculate bonus: 10% of sales if sales > 500, otherwise 0</span>
+=<span class="text-blue-400">IF</span>(R2>500, R2*0.1, 0)
 
-<span class="text-gray-400">// AND - both conditions must be true</span>
-=<span class="text-purple-400">IF</span>(<span class="text-purple-400">AND</span>(Q2>0, P2=0), <span class="text-green-400">"Profitable No Discount"</span>, <span class="text-green-400">"Other"</span>)
-
-<span class="text-gray-400">// OR - either condition can be true</span>
-=<span class="text-purple-400">IF</span>(<span class="text-purple-400">OR</span>(L2=<span class="text-green-400">"East"</span>, L2=<span class="text-green-400">"West"</span>), <span class="text-green-400">"Coastal"</span>, <span class="text-green-400">"Central"</span>)
-
-<span class="text-gray-400">// IFERROR - handle divide by zero</span>
-=<span class="text-purple-400">IFERROR</span>(Q2/N2, 0)
-
-<span class="text-gray-400">// Combine with calculations</span>
-=<span class="text-purple-400">IF</span>(N2>500, N2*0.1, 0)  <span class="text-gray-400">// 10% bonus on sales over 500</span></pre>
+<span class="text-gray-400">// Check if discount was applied</span>
+=<span class="text-blue-400">IF</span>(T2>0, <span class="text-green-400">"Discounted"</span>, <span class="text-green-400">"Full Price"</span>)</pre>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>IF is the foundation - learn it well before others</li>
-      <li>IFS is cleaner than nested IFs for multiple conditions</li>
-      <li>AND/OR go inside IF, not standalone</li>
-      <li>IFERROR catches #DIV/0!, #N/A, #VALUE! errors</li>
-      <li>Conditions use: <code>=</code>, <code><></code>, <code>></code>, <code><</code>, <code>>=</code>, <code><=</code></li>
+    <h2 class="font-bold text-lg">Nested IF - Multiple Conditions</h2>
+    <p>You can put an IF inside another IF to handle more than two outcomes:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">// Categorize sales into three tiers</span>
+=<span class="text-blue-400">IF</span>(R2>500, <span class="text-green-400">"Large"</span>,
+    <span class="text-blue-400">IF</span>(R2>100, <span class="text-green-400">"Medium"</span>,
+        <span class="text-green-400">"Small"</span>))
+
+<span class="text-gray-400">// How it reads: If sales > 500, return "Large"
+//               Otherwise, if sales > 100, return "Medium"
+//               Otherwise, return "Small"</span></pre>
+    <p class="text-sm text-gray-600 mt-2">Nesting more than 3 levels gets confusing. Use IFS for complex scenarios.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">IFS Function - Cleaner Multiple Conditions</h2>
+    <p>IFS evaluates multiple conditions in order and returns the first TRUE result:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2">=<span class="text-blue-400">IFS</span>(
+    R2>1000, <span class="text-green-400">"Extra Large"</span>,
+    R2>500, <span class="text-green-400">"Large"</span>,
+    R2>100, <span class="text-green-400">"Medium"</span>,
+    R2>0, <span class="text-green-400">"Small"</span>,
+    <span class="text-blue-400">TRUE</span>, <span class="text-green-400">"Zero or Negative"</span>
+)
+
+<span class="text-gray-400">// TRUE as the last condition acts as "else" - catches everything remaining</span></pre>
+    <p class="text-sm text-gray-600 mt-2">⚠️ IFS evaluates top-to-bottom and stops at the first TRUE. Order matters!</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">AND / OR - Combining Conditions</h2>
+    <p>Test multiple conditions at once:</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">AND - All must be TRUE</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-gray-400">// Profitable AND no discount</span>
+=<span class="text-blue-400">IF</span>(
+    <span class="text-blue-400">AND</span>(U2>0, T2=0),
+    <span class="text-green-400">"Great sale"</span>,
+    <span class="text-green-400">"Regular sale"</span>
+)</pre>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700">OR - Any can be TRUE</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-gray-400">// East OR West region</span>
+=<span class="text-blue-400">IF</span>(
+    <span class="text-blue-400">OR</span>(M2=<span class="text-green-400">"East"</span>, M2=<span class="text-green-400">"West"</span>),
+    <span class="text-green-400">"Coastal"</span>,
+    <span class="text-green-400">"Inland"</span>
+)</pre>
+      </div>
+    </div>
+
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-3"><span class="text-gray-400">// Complex: High-value customers (sales > 1000 OR profit > 200) AND Consumer segment</span>
+=<span class="text-blue-400">IF</span>(
+    <span class="text-blue-400">AND</span>(
+        <span class="text-blue-400">OR</span>(R2>1000, U2>200),
+        H2=<span class="text-green-400">"Consumer"</span>
+    ),
+    <span class="text-green-400">"VIP Customer"</span>,
+    <span class="text-green-400">"Regular Customer"</span>
+)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">NOT - Reverse a Condition</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// If NOT profitable</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">NOT</span>(U2>0), <span class="text-green-400">"Needs Review"</span>, <span class="text-green-400">"OK"</span>)
+
+<span class="text-gray-400">// Same as:</span>
+=<span class="text-blue-400">IF</span>(U2<=0, <span class="text-green-400">"Needs Review"</span>, <span class="text-green-400">"OK"</span>)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">IFERROR - Handle Errors Gracefully</h2>
+    <p>Some formulas can produce errors (like dividing by zero). IFERROR catches these:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">// Without IFERROR - might show #DIV/0! if S2 is 0</span>
+=R2/S2
+
+<span class="text-gray-400">// With IFERROR - shows 0 instead of error</span>
+=<span class="text-blue-400">IFERROR</span>(R2/S2, 0)
+
+<span class="text-gray-400">// Show "N/A" for errors</span>
+=<span class="text-blue-400">IFERROR</span>(R2/S2, <span class="text-green-400">"N/A"</span>)
+
+<span class="text-gray-400">// Useful for VLOOKUP that might not find a match</span>
+=<span class="text-blue-400">IFERROR</span>(<span class="text-blue-400">VLOOKUP</span>(...), <span class="text-green-400">"Not Found"</span>)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">ISBLANK, ISNUMBER, ISTEXT - Check Data Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Check if cell is empty</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">ISBLANK</span>(A2), <span class="text-green-400">"Empty"</span>, <span class="text-green-400">"Has Data"</span>)
+
+<span class="text-gray-400">// Check if cell contains a number</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">ISNUMBER</span>(A2), <span class="text-green-400">"Number"</span>, <span class="text-green-400">"Not a Number"</span>)
+
+<span class="text-gray-400">// Check if cell contains text</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">ISTEXT</span>(A2), <span class="text-green-400">"Text"</span>, <span class="text-green-400">"Not Text"</span>)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>IF is the foundation</strong> - master it before moving to IFS</li>
+      <li><strong>Conditions return TRUE or FALSE</strong> - you can see this by typing <code>=5>3</code></li>
+      <li><strong>Text values need quotes</strong> - <code>"Profit"</code> not <code>Profit</code></li>
+      <li><strong>Numbers don't need quotes</strong> - <code>100</code> not <code>"100"</code></li>
+      <li><strong>AND/OR go inside IF</strong> - they return TRUE/FALSE, not values</li>
+      <li><strong>IFERROR is defensive programming</strong> - always use it for division and lookups</li>
+      <li><strong>Order matters in IFS</strong> - put most specific conditions first</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Add new columns to your data for each exercise:</p>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a column that shows "Discounted" if Discount > 0, otherwise "Full Price"</li>
-      <li>Categorize Sales into "Small" (<100), "Medium" (100-500), "Large" (>500)</li>
-      <li>Flag orders that are both "Consumer" segment AND have negative profit</li>
-      <li>Create a "Priority" column: "High" if Same Day shipping OR Sales > 1000, else "Normal"</li>
-      <li>Calculate profit margin (Profit/Sales) but show "N/A" if Sales is 0</li>
+      <li>Create a <strong>"Profit Status"</strong> column: "Profit" if Profit > 0, "Break Even" if Profit = 0, "Loss" if Profit < 0</li>
+      <li>Create a <strong>"Discount Flag"</strong> column: "Discounted" if Discount > 0, "Full Price" otherwise</li>
+      <li>Create a <strong>"Sales Tier"</strong> column: "Small" (<$100), "Medium" ($100-$500), "Large" ($500-$1000), "Enterprise" (>$1000)</li>
+      <li>Create a <strong>"Priority"</strong> column: "High" if Ship Mode is "Same Day" OR Sales > $1000, otherwise "Normal"</li>
+      <li>Create a <strong>"Coastal Region"</strong> column: "Yes" if Region is "East" or "West", "No" otherwise</li>
+      <li>Create a <strong>"Needs Review"</strong> column: "Yes" if Profit is negative AND Discount > 0 (discounted but still lost money)</li>
+      <li>Create a <strong>"Profit Margin %"</strong> column with IFERROR to handle any division errors, show "N/A" for errors</li>
+      <li>Create a <strong>"Customer Segment Value"</strong>: 3 if Consumer, 2 if Corporate, 1 if Home Office</li>
+      <li>Create a <strong>"High Value Order"</strong> flag: "Yes" if BOTH Sales > $500 AND Quantity > 3</li>
+      <li>Create a <strong>"Shipping Speed Score"</strong>: 4 for Same Day, 3 for First Class, 2 for Second Class, 1 for Standard Class (use IFS)</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge Exercise</h2>
+    <p>Create a comprehensive "Order Rating" column that evaluates multiple factors:</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li>⭐⭐⭐⭐⭐ (5 stars): Profit > $100 AND no discount AND Same Day shipping</li>
+      <li>⭐⭐⭐⭐ (4 stars): Profit > $50 AND no discount</li>
+      <li>⭐⭐⭐ (3 stars): Profit > $0</li>
+      <li>⭐⭐ (2 stars): Profit = $0</li>
+      <li>⭐ (1 star): Profit < $0</li>
+    </ul>
   </div>
 </div>

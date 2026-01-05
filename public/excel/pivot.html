@@ -2,85 +2,246 @@
   <h1 class="text-2xl font-bold">Pivot Tables</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Pivot tables summarize large datasets by grouping, filtering, and calculating totals. They're the most powerful tool for data analysis in Excel.</p>
+    <h2 class="font-bold text-lg">What Are Pivot Tables?</h2>
+    <p>Pivot tables are the most powerful tool for data analysis in spreadsheets. They allow you to:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Summarize</strong> thousands of rows into meaningful totals</li>
+      <li><strong>Group</strong> data by categories (region, product, date)</li>
+      <li><strong>Calculate</strong> sums, averages, counts, and more</li>
+      <li><strong>Reorganize</strong> data instantly by dragging fields</li>
+      <li><strong>Filter</strong> to focus on specific segments</li>
+    </ul>
+    <p class="mt-2">What would take dozens of SUMIF formulas can be done in seconds with a pivot table.</p>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Creating a Pivot Table</h2>
-    <ol class="list-decimal ml-5">
-      <li>Select your data (including headers)</li>
-      <li><strong>Google Sheets:</strong> Insert → Pivot table</li>
-      <li><strong>Excel:</strong> Insert → PivotTable</li>
-      <li>Choose where to place it (new sheet recommended)</li>
-    </ol>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-2">
+      <p class="font-semibold text-blue-800 mb-2">In Google Sheets:</p>
+      <ol class="list-decimal ml-5 text-sm">
+        <li>Select any cell in your data (or the entire data range)</li>
+        <li>Go to <strong>Insert → Pivot table</strong></li>
+        <li>Choose "New sheet" (recommended) or "Existing sheet"</li>
+        <li>Click <strong>Create</strong></li>
+      </ol>
+    </div>
+    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mt-3">
+      <p class="font-semibold text-green-800 mb-2">In Excel:</p>
+      <ol class="list-decimal ml-5 text-sm">
+        <li>Select any cell in your data</li>
+        <li>Go to <strong>Insert → PivotTable</strong></li>
+        <li>Verify the data range and choose location</li>
+        <li>Click <strong>OK</strong></li>
+      </ol>
+    </div>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Pivot Table Areas</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Rows</span>      - Categories to group by (vertical)
-<span class="text-blue-400">Columns</span>   - Categories to spread across (horizontal)  
-<span class="text-blue-400">Values</span>    - Numbers to calculate (SUM, COUNT, AVG)
-<span class="text-blue-400">Filters</span>   - Limit data shown</pre>
+    <p class="mb-2">A pivot table has four "drop zones" where you drag fields:</p>
+    
+    <div class="border-2 border-gray-300 rounded-lg overflow-hidden">
+      <div class="grid grid-cols-2">
+        <div class="bg-blue-100 p-3 border-r border-b border-gray-300">
+          <div class="font-bold text-blue-800">📊 Rows</div>
+          <p class="text-sm">Categories shown as row labels (vertical)</p>
+          <p class="text-xs text-gray-600 mt-1">Example: Region, Category, Customer</p>
+        </div>
+        <div class="bg-green-100 p-3 border-b border-gray-300">
+          <div class="font-bold text-green-800">📈 Columns</div>
+          <p class="text-sm">Categories spread across columns (horizontal)</p>
+          <p class="text-xs text-gray-600 mt-1">Example: Year, Quarter, Segment</p>
+        </div>
+        <div class="bg-yellow-100 p-3 border-r border-gray-300">
+          <div class="font-bold text-yellow-800">🔢 Values</div>
+          <p class="text-sm">Numbers to calculate (SUM, AVG, COUNT)</p>
+          <p class="text-xs text-gray-600 mt-1">Example: Sales, Profit, Quantity</p>
+        </div>
+        <div class="bg-purple-100 p-3">
+          <div class="font-bold text-purple-800">🔍 Filters</div>
+          <p class="text-sm">Limit what data is included</p>
+          <p class="text-xs text-gray-600 mt-1">Example: Show only 2017, only East region</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Example Pivot Tables</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Total Sales by Region</span>
-Rows: Region
-Values: SUM of Sales
+    
+    <div class="space-y-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">📊 Total Sales by Region</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-sm">
+            <p><strong>Setup:</strong></p>
+            <ul class="list-disc ml-5">
+              <li>Rows: Region</li>
+              <li>Values: SUM of Sales</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded p-2 text-sm">
+            <table class="w-full">
+              <tr class="border-b"><td class="font-semibold">Region</td><td class="text-right font-semibold">Sales</td></tr>
+              <tr><td>Central</td><td class="text-right">$501,240</td></tr>
+              <tr><td>East</td><td class="text-right">$678,781</td></tr>
+              <tr><td>South</td><td class="text-right">$391,722</td></tr>
+              <tr><td>West</td><td class="text-right">$725,458</td></tr>
+              <tr class="border-t font-semibold"><td>Grand Total</td><td class="text-right">$2,297,201</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
 
-<span class="text-gray-400">// Sales by Region and Category</span>
-Rows: Region
-Columns: Category
-Values: SUM of Sales
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">📊 Sales by Region AND Category</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-sm">
+            <p><strong>Setup:</strong></p>
+            <ul class="list-disc ml-5">
+              <li>Rows: Region</li>
+              <li>Columns: Category</li>
+              <li>Values: SUM of Sales</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded p-2 text-xs overflow-x-auto">
+            <table class="w-full">
+              <tr class="border-b"><td></td><td class="text-right">Furniture</td><td class="text-right">Office</td><td class="text-right">Technology</td></tr>
+              <tr><td>Central</td><td class="text-right">$163K</td><td class="text-right">$167K</td><td class="text-right">$170K</td></tr>
+              <tr><td>East</td><td class="text-right">$208K</td><td class="text-right">$222K</td><td class="text-right">$248K</td></tr>
+              <tr><td>South</td><td class="text-right">$117K</td><td class="text-right">$135K</td><td class="text-right">$139K</td></tr>
+              <tr><td>West</td><td class="text-right">$252K</td><td class="text-right">$195K</td><td class="text-right">$278K</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
 
-<span class="text-gray-400">// Average Profit by Segment and Ship Mode</span>
-Rows: Segment
-Columns: Ship Mode
-Values: AVERAGE of Profit
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">📊 Average Profit by Segment</div>
+        <div class="text-sm">
+          <p><strong>Setup:</strong></p>
+          <ul class="list-disc ml-5">
+            <li>Rows: Segment</li>
+            <li>Values: AVERAGE of Profit</li>
+          </ul>
+        </div>
+      </div>
 
-<span class="text-gray-400">// Order Count by Year and Quarter</span>
-Rows: Order Date (grouped by Year, Quarter)
-Values: COUNT of Order ID
-
-<span class="text-gray-400">// Top Products by Sales (filtered)</span>
-Rows: Product Name
-Values: SUM of Sales
-Filters: Category = "Technology"
-Sort: Descending by Sales</pre>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">📊 Order Count by Ship Mode</div>
+        <div class="text-sm">
+          <p><strong>Setup:</strong></p>
+          <ul class="list-disc ml-5">
+            <li>Rows: Ship Mode</li>
+            <li>Values: COUNT of Order ID (or COUNTA)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key Features</h2>
-    <ul class="list-disc ml-5">
-      <li><strong>Group dates:</strong> Right-click date field → Group by Month/Quarter/Year</li>
-      <li><strong>Sort:</strong> Click dropdown on row/column headers</li>
-      <li><strong>Filter:</strong> Add fields to Filter area or use dropdown arrows</li>
-      <li><strong>Show as %:</strong> Value field settings → Show values as → % of Grand Total</li>
-      <li><strong>Multiple values:</strong> Drag same field to Values twice with different calculations</li>
+    <h2 class="font-bold text-lg">Changing the Calculation Type</h2>
+    <p class="text-sm text-gray-600 mb-2">By default, numbers are summed. You can change this:</p>
+    <div class="bg-gray-100 rounded p-3 text-sm">
+      <p><strong>Google Sheets:</strong> Click the value field dropdown → Summarize by → Choose: SUM, COUNT, AVERAGE, MAX, MIN, etc.</p>
+      <p class="mt-2"><strong>Excel:</strong> Right-click a value in the pivot → Value Field Settings → Choose calculation</p>
+    </div>
+    <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
+      <div class="bg-gray-50 rounded p-2"><strong>SUM</strong> - Total of all values</div>
+      <div class="bg-gray-50 rounded p-2"><strong>COUNT</strong> - Number of items</div>
+      <div class="bg-gray-50 rounded p-2"><strong>AVERAGE</strong> - Mean value</div>
+      <div class="bg-gray-50 rounded p-2"><strong>MAX</strong> - Highest value</div>
+      <div class="bg-gray-50 rounded p-2"><strong>MIN</strong> - Lowest value</div>
+      <div class="bg-gray-50 rounded p-2"><strong>COUNTUNIQUE</strong> - Distinct count</div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Grouping Dates</h2>
+    <p>When you add a date field to Rows, you can group it by year, quarter, or month:</p>
+    <div class="bg-gray-100 rounded p-3 text-sm mt-2">
+      <p><strong>Google Sheets:</strong> Click the date field dropdown → "Group rule" → Choose: Year, Month, Quarter, etc.</p>
+      <p class="mt-2"><strong>Excel:</strong> Right-click any date in the pivot → Group → Choose grouping level</p>
+    </div>
+    <p class="text-sm text-gray-600 mt-2">This transforms thousands of daily rows into manageable monthly or yearly summaries!</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Sorting and Filtering</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sort by values</span>
+Click the dropdown arrow on a row label
+→ Sort by → Values (ascending/descending)
+
+<span class="text-gray-400">// Filter specific items</span>
+Click the dropdown arrow on a row label
+→ Uncheck items you don't want to see
+
+<span class="text-gray-400">// Show Top 10</span>
+Add a filter field
+→ Filter by condition → Top 10</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Showing Percentages</h2>
+    <p class="text-sm text-gray-600 mb-2">Show values as percentages of totals:</p>
+    <div class="bg-gray-100 rounded p-3 text-sm">
+      <p><strong>Google Sheets:</strong> Values dropdown → "Show as" → % of grand total (or row total, column total)</p>
+      <p class="mt-2"><strong>Excel:</strong> Right-click value → Show Values As → % of Grand Total</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Multiple Values</h2>
+    <p>You can add the same field multiple times with different calculations:</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li>Drag Sales to Values (SUM)</li>
+      <li>Drag Sales to Values again (change to AVERAGE)</li>
+      <li>Drag Sales to Values again (change to COUNT)</li>
+    </ul>
+    <p class="text-sm text-gray-600 mt-2">Now you see total sales, average sale, and number of sales all in one pivot!</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Pivot tables don't change your data</strong> - they create a summary view</li>
+      <li><strong>Refresh to update</strong> - if source data changes, right-click → Refresh</li>
+      <li><strong>Text fields go in Rows/Columns</strong>, number fields go in Values</li>
+      <li><strong>Start simple</strong> - one row field, one value field, then add complexity</li>
+      <li><strong>Double-click any cell</strong> to see the underlying rows (drill-down)</li>
+      <li><strong>Multiple row fields create hierarchy</strong> - expandable groups</li>
+      <li><strong>Use filters instead of deleting data</strong> - easily toggle segments on/off</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>Pivot tables don't change your original data</li>
-      <li>Refresh pivot table when source data changes</li>
-      <li>Text fields go in Rows/Columns, number fields go in Values</li>
-      <li>Start simple (one row, one value) then add complexity</li>
-      <li>Double-click any cell to see the underlying rows</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a pivot showing total Sales by Region</li>
-      <li>Add Category as columns to see Sales by Region AND Category</li>
-      <li>Create a pivot showing average Profit by Segment</li>
-      <li>Build a pivot with Order Date grouped by Year and Month, showing Sales</li>
-      <li>Create a pivot showing Count of Orders by Ship Mode, filtered to only "Consumer" segment</li>
+      <li>Create a pivot showing <strong>total Sales by Region</strong></li>
+      <li>Add Category as columns to see <strong>Sales by Region AND Category</strong></li>
+      <li>Create a pivot showing <strong>average Profit by Segment</strong></li>
+      <li>Create a pivot showing <strong>count of Orders by Ship Mode</strong></li>
+      <li>Create a pivot with Order Date grouped by <strong>Year and Month</strong>, showing total Sales</li>
+      <li>Create a pivot showing <strong>Sales by State</strong>, sorted from highest to lowest</li>
+      <li>Create a pivot showing <strong>% of total Sales by Region</strong></li>
+      <li>Create a pivot with <strong>both SUM and AVERAGE of Sales</strong> by Category</li>
+      <li>Create a pivot showing <strong>top 10 Products by Sales</strong></li>
+      <li>Create a pivot showing <strong>Profit by Sub-Category</strong>, filtered to only Furniture category</li>
+      <li>Create a pivot showing <strong>Sales by Customer Name</strong> - who are the top 5 customers?</li>
+      <li>Create a pivot comparing <strong>Discounted vs Non-Discounted orders</strong> (hint: create a helper column first, or use calculated field)</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge: Multi-Level Analysis</h2>
+    <p>Create a comprehensive pivot table that shows:</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li>Rows: Region → Category → Sub-Category (3-level hierarchy)</li>
+      <li>Columns: Year (from Order Date)</li>
+      <li>Values: Sum of Sales, Sum of Profit</li>
+      <li>Filter: Segment = Consumer only</li>
+    </ul>
+    <p class="mt-2">Use the expand/collapse features to drill into details and identify which sub-categories drive the most profit!</p>
   </div>
 </div>

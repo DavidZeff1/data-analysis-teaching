@@ -2,80 +2,213 @@
   <h1 class="text-2xl font-bold">Lookup Functions</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Lookup functions search for a value and return related data from another column or row. Essential for connecting data.</p>
+    <h2 class="font-bold text-lg">What Are Lookup Functions?</h2>
+    <p>Lookup functions search for a value in one place and return related information from another place. They're essential for:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Connecting data</strong> - Match customer IDs to names, product codes to descriptions</li>
+      <li><strong>Building reports</strong> - Pull specific values into summary tables</li>
+      <li><strong>Data validation</strong> - Check if a value exists in a reference list</li>
+    </ul>
+    <p class="mt-2">Think of it like using an index in a book: you look up a term (the search value) and find the page number (the return value).</p>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key Functions</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">VLOOKUP</span>(search, range, col_num, exact)   - Vertical lookup
-<span class="text-purple-400">HLOOKUP</span>(search, range, row_num, exact)   - Horizontal lookup
-<span class="text-purple-400">INDEX</span>(range, row, col)                   - Return value at position
-<span class="text-purple-400">MATCH</span>(search, range, type)               - Find position of value
-<span class="text-purple-400">XLOOKUP</span>(search, lookup_range, return_range) - Modern lookup</pre>
+    <h2 class="font-bold text-lg">VLOOKUP - Vertical Lookup</h2>
+    <p>The most commonly used lookup function. It searches DOWN the first column of a range and returns a value from a specified column.</p>
+    
+    <div class="bg-gray-100 rounded-lg p-4 mt-3">
+      <div class="font-mono">=VLOOKUP( <span class="text-blue-600">search_value</span>, <span class="text-green-600">range</span>, <span class="text-purple-600">column_number</span>, <span class="text-red-600">exact_match</span> )</div>
+      <div class="grid grid-cols-2 gap-4 mt-3 text-sm">
+        <div>
+          <div class="font-semibold text-blue-600">search_value</div>
+          <div>What you're looking for</div>
+        </div>
+        <div>
+          <div class="font-semibold text-green-600">range</div>
+          <div>Where to search (search column must be FIRST)</div>
+        </div>
+        <div>
+          <div class="font-semibold text-purple-600">column_number</div>
+          <div>Which column to return (1 = first column)</div>
+        </div>
+        <div>
+          <div class="font-semibold text-red-600">exact_match</div>
+          <div>FALSE (or 0) for exact match - almost always use this!</div>
+        </div>
+      </div>
+    </div>
+
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-3"><span class="text-gray-400">// Find customer name by Customer ID</span>
+=<span class="text-blue-400">VLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:G, 2, <span class="text-blue-400">FALSE</span>)
+<span class="text-gray-400">//   "CG-12520" = customer ID to find</span>
+<span class="text-gray-400">//   F:G = search in F (Customer ID), return from G (Customer Name)</span>
+<span class="text-gray-400">//   2 = return 2nd column (Customer Name)</span>
+<span class="text-gray-400">//   FALSE = exact match only</span>
+
+<span class="text-gray-400">// Find a product's category</span>
+=<span class="text-blue-400">VLOOKUP</span>(N2, N:O, 2, <span class="text-blue-400">FALSE</span>)
+
+<span class="text-gray-400">// Reference a cell for the search value</span>
+=<span class="text-blue-400">VLOOKUP</span>(A2, $F$2:$G$9995, 2, <span class="text-blue-400">FALSE</span>)</pre>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Examples</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// VLOOKUP - find customer name by ID</span>
-=<span class="text-purple-400">VLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:G, 2, <span class="text-blue-400">FALSE</span>)
-
-<span class="text-gray-400">// VLOOKUP breakdown:</span>
-<span class="text-gray-400">//   "CG-12520" = value to find</span>
-<span class="text-gray-400">//   F:G = range to search (ID in F, Name in G)</span>
-<span class="text-gray-400">//   2 = return 2nd column (Name)</span>
-<span class="text-gray-400">//   FALSE = exact match</span>
-
-<span class="text-gray-400">// INDEX + MATCH - more flexible than VLOOKUP</span>
-=<span class="text-purple-400">INDEX</span>(G:G, <span class="text-purple-400">MATCH</span>(<span class="text-green-400">"CG-12520"</span>, F:F, 0))
-
-<span class="text-gray-400">// INDEX + MATCH breakdown:</span>
-<span class="text-gray-400">//   MATCH finds the row number</span>
-<span class="text-gray-400">//   INDEX returns value from that row</span>
-
-<span class="text-gray-400">// XLOOKUP - simplest (Google Sheets & Excel 365)</span>
-=<span class="text-purple-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:G)
-
-<span class="text-gray-400">// Lookup with default value if not found</span>
-=<span class="text-purple-400">XLOOKUP</span>(<span class="text-green-400">"Unknown"</span>, F:F, G:G, <span class="text-green-400">"Not Found"</span>)
-
-<span class="text-gray-400">// Lookup from right to left (VLOOKUP can't do this)</span>
-=<span class="text-purple-400">INDEX</span>(F:F, <span class="text-purple-400">MATCH</span>(<span class="text-green-400">"Aaron Bergman"</span>, G:G, 0))</pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>VLOOKUP searches the <strong>first</strong> column of your range</li>
-      <li>Always use <code>FALSE</code> (or <code>0</code>) for exact match</li>
-      <li>INDEX+MATCH is more flexible - can look left, right, any direction</li>
-      <li>XLOOKUP is the modern replacement - simpler syntax</li>
-      <li>If lookup returns #N/A, the value wasn't found</li>
-      <li>Wrap in IFERROR to handle not-found cases</li>
+    <h2 class="font-bold text-lg">VLOOKUP Limitations</h2>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mt-2">
+      <p class="font-semibold text-red-700">⚠️ VLOOKUP Can Only Look Right</p>
+      <p class="text-sm mt-1">The search column MUST be the leftmost column in your range. If you need to search in column G and return from column F (looking left), VLOOKUP won't work.</p>
+    </div>
+    <ul class="list-disc ml-5 mt-3 text-sm">
+      <li>Search column must be first (leftmost) in the range</li>
+      <li>Column numbers can break if you insert/delete columns</li>
+      <li>Returns only the first match found</li>
+      <li>Can be slow on very large datasets</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">VLOOKUP vs INDEX+MATCH</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">VLOOKUP limitations:</span>
-- Can only search leftmost column
-- Column number breaks if columns inserted
-- Slower on large datasets
+    <h2 class="font-bold text-lg">INDEX + MATCH - The Powerful Alternative</h2>
+    <p>INDEX + MATCH is more flexible than VLOOKUP. It uses two functions together:</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">MATCH</div>
+        <p class="text-sm">Finds the POSITION of a value in a range</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2">=<span class="text-blue-400">MATCH</span>(<span class="text-green-400">"CG-12520"</span>, F:F, 0)
+<span class="text-gray-400">// Returns the row number where</span>
+<span class="text-gray-400">// "CG-12520" is found</span></pre>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700">INDEX</div>
+        <p class="text-sm">Returns the VALUE at a specific position</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2">=<span class="text-blue-400">INDEX</span>(G:G, 5)
+<span class="text-gray-400">// Returns the value in row 5</span>
+<span class="text-gray-400">// of column G</span></pre>
+      </div>
+    </div>
 
-<span class="text-gray-400">INDEX+MATCH advantages:</span>
-- Search any column, return any column
-- More flexible and robust
-- Faster on large datasets</pre>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-3"><span class="text-gray-400">// Combined: Find customer name by ID</span>
+=<span class="text-blue-400">INDEX</span>(G:G, <span class="text-blue-400">MATCH</span>(<span class="text-green-400">"CG-12520"</span>, F:F, 0))
+
+<span class="text-gray-400">// How it works:
+// 1. MATCH("CG-12520", F:F, 0) → finds row 5 (example)
+// 2. INDEX(G:G, 5) → returns value from row 5 of column G</span>
+
+<span class="text-gray-400">// Look LEFT (impossible with VLOOKUP!)
+// Find Customer ID by Customer Name</span>
+=<span class="text-blue-400">INDEX</span>(F:F, <span class="text-blue-400">MATCH</span>(<span class="text-green-400">"Claire Gute"</span>, G:G, 0))</pre>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">XLOOKUP - The Modern Solution</h2>
+    <p>XLOOKUP (available in Google Sheets and Excel 365) combines the best of both worlds:</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2">=<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:G)
+<span class="text-gray-400">//   search_value, lookup_range, return_range</span>
+
+<span class="text-gray-400">// With default value if not found</span>
+=<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"Unknown"</span>, F:F, G:G, <span class="text-green-400">"Not Found"</span>)
+
+<span class="text-gray-400">// Look LEFT easily - search in names, return IDs</span>
+=<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"Claire Gute"</span>, G:G, F:F)
+
+<span class="text-gray-400">// Return multiple columns at once</span>
+=<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:H)
+<span class="text-gray-400">// Returns both Customer Name AND Segment</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Comparison: Which Should You Use?</h2>
+    <table class="w-full text-sm border border-gray-300 mt-2">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2 text-left">Feature</th>
+          <th class="border px-3 py-2 text-center">VLOOKUP</th>
+          <th class="border px-3 py-2 text-center">INDEX/MATCH</th>
+          <th class="border px-3 py-2 text-center">XLOOKUP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border px-3 py-2">Look left</td>
+          <td class="border px-3 py-2 text-center text-red-500">❌</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-2">Easy to learn</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+          <td class="border px-3 py-2 text-center text-red-500">❌</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-2">Default value if not found</td>
+          <td class="border px-3 py-2 text-center text-red-500">❌</td>
+          <td class="border px-3 py-2 text-center text-red-500">❌</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-2">Universal compatibility</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+          <td class="border px-3 py-2 text-center text-green-500">✓</td>
+          <td class="border px-3 py-2 text-center text-yellow-500">Newer Excel/Sheets</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-sm text-gray-600 mt-2"><strong>Recommendation:</strong> Use XLOOKUP when available. Otherwise, learn INDEX/MATCH for flexibility.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Handling Errors</h2>
+    <p>Lookups return #N/A when the value isn't found. Always wrap in IFERROR:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2">=<span class="text-blue-400">IFERROR</span>(<span class="text-blue-400">VLOOKUP</span>(A2, F:G, 2, <span class="text-blue-400">FALSE</span>), <span class="text-green-400">"Not Found"</span>)
+
+=<span class="text-blue-400">IFERROR</span>(<span class="text-blue-400">INDEX</span>(G:G, <span class="text-blue-400">MATCH</span>(A2, F:F, 0)), <span class="text-green-400">"Not Found"</span>)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">HLOOKUP - Horizontal Lookup</h2>
+    <p>Same as VLOOKUP but searches across rows instead of down columns. Less common, used when data is arranged horizontally.</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2">=<span class="text-blue-400">HLOOKUP</span>(<span class="text-green-400">"Sales"</span>, A1:D3, 2, <span class="text-blue-400">FALSE</span>)
+<span class="text-gray-400">// Search first ROW for "Sales", return from row 2</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Always use FALSE (exact match)</strong> - TRUE gives unexpected results</li>
+      <li><strong>VLOOKUP column numbers are fragile</strong> - they break if you insert columns</li>
+      <li><strong>INDEX/MATCH is more robust</strong> - column references won't break</li>
+      <li><strong>XLOOKUP is the future</strong> - simpler syntax, more features</li>
+      <li><strong>#N/A means "not found"</strong> - wrap in IFERROR to handle gracefully</li>
+      <li><strong>Lookups return the first match</strong> - if duplicates exist, you get the first one</li>
+      <li><strong>Use absolute references for lookup ranges</strong> - $F$2:$G$9995 when copying formulas</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Use VLOOKUP to find the Category for Product ID "OFF-BI-10000756"</li>
-      <li>Use INDEX+MATCH to find the Customer Name for Order ID "CA-2016-152156"</li>
-      <li>Use XLOOKUP to find the Region for a given City</li>
-      <li>Create a summary sheet that looks up totals by Region</li>
-      <li>Handle errors: wrap a lookup in IFERROR to show "Not Found" for missing values</li>
+      <li>Use VLOOKUP to find the <strong>Customer Name</strong> for Customer ID "CG-12520"</li>
+      <li>Use VLOOKUP to find the <strong>Category</strong> for any Product ID</li>
+      <li>Use INDEX/MATCH to find the <strong>Customer ID</strong> for customer "Claire Gute" (looking left!)</li>
+      <li>Use XLOOKUP to find the <strong>Region</strong> for the city "Los Angeles"</li>
+      <li>Create a summary sheet where you type a Customer ID and it automatically shows their Name, Segment, and City</li>
+      <li>Handle errors: Create a lookup that shows "Customer Not Found" if the ID doesn't exist</li>
+      <li>Use VLOOKUP to find the <strong>Ship Mode</strong> for Order ID "CA-2016-152156"</li>
+      <li>Create a product lookup: Enter a Product Name and return its Category and Sub-Category</li>
+      <li>Use MATCH alone to find which <strong>row number</strong> contains the Order ID "US-2015-108966"</li>
+      <li>Build a "mini-dashboard": Create cells for Region, Segment, and Category dropdowns, then use lookups to show related data</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge: Two-Way Lookup</h2>
+    <p>Sometimes you need to look up based on TWO criteria. Combine INDEX/MATCH with MATCH:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">// Find value at intersection of row and column</span>
+=<span class="text-blue-400">INDEX</span>(DataRange,
+    <span class="text-blue-400">MATCH</span>(RowValue, RowHeaders, 0),
+    <span class="text-blue-400">MATCH</span>(ColValue, ColHeaders, 0)
+)</pre>
   </div>
 </div>

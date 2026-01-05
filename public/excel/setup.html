@@ -1,111 +1,107 @@
 <div class="space-y-4">
   <h1 class="text-2xl font-bold">Practice Setup</h1>
-
+  
   <div>
-    <h2 class="font-bold text-lg">1. Open Google Sheets</h2>
-    <p>
-      Go to
-      <a
-        href="https://sheets.new"
-        target="_blank"
-        class="text-blue-500 underline"
-        >sheets.new</a
-      >
-      (creates a new blank spreadsheet)
-    </p>
-    <p class="text-sm text-gray-600 mt-1">
-      Google Sheets is free and works like Excel. All formulas are the same.
-    </p>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">2. Import the Sample Superstore dataset</h2>
-    <p>In cell A1, paste this formula and press Enter:</p>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
-=IMPORTDATA("https://raw.githubusercontent.com/yannie28/Global-Superstore/master/Global_Superstore_100.csv")</pre
-    >
-    <p class="text-sm text-gray-600 mt-2">
-      Wait a few seconds for the data to load (~10,000 rows).
-    </p>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">3. Dataset overview</h2>
-    <p>
-      The Sample Superstore is a classic dataset for learning data analysis. It
-      contains sales data for a fictional retail company.
-    </p>
-
-    <div class="mt-2">
-      <p class="font-semibold">Columns:</p>
-      <ul class="list-disc ml-5 text-sm mt-1">
-        <li><code>Row ID</code> - Unique row identifier</li>
-        <li><code>Order ID</code> - Unique order identifier</li>
-        <li>
-          <code>Order Date</code> / <code>Ship Date</code> - When ordered and
-          shipped
-        </li>
-        <li>
-          <code>Ship Mode</code> - Standard, Second Class, First Class, Same Day
-        </li>
-        <li>
-          <code>Customer ID</code> / <code>Customer Name</code> - Customer info
-        </li>
-        <li><code>Segment</code> - Consumer, Corporate, Home Office</li>
-        <li>
-          <code>Country</code> / <code>City</code> / <code>State</code> /
-          <code>Region</code> - Location
-        </li>
-        <li>
-          <code>Product ID</code> / <code>Category</code> /
-          <code>Sub-Category</code> / <code>Product Name</code> - Product info
-        </li>
-        <li><code>Sales</code> - Revenue from the sale</li>
-        <li><code>Quantity</code> - Number of items</li>
-        <li><code>Discount</code> - Discount applied (0 to 0.8)</li>
-        <li><code>Profit</code> - Profit or loss from the sale</li>
-      </ul>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">4. Test it</h2>
-    <p>
-      After import, you should see data starting with headers in row 1. Try
-      these to verify:
-    </p>
-    <ul class="list-disc ml-5 text-sm mt-1">
-      <li>Scroll down - you should have ~9,994 rows of data</li>
-      <li>Column A should be "Row ID"</li>
-      <li>Column N should be "Sales"</li>
+    <h2 class="font-bold text-lg">1. Open Google Sheets (Free)</h2>
+    <p>Go to <a href="https://sheets.new" target="_blank" class="text-blue-500 underline">sheets.new</a> to create a new blank spreadsheet instantly.</p>
+    <p class="mt-2">Google Sheets is completely free and works almost identically to Microsoft Excel. All the formulas you learn here will work in both applications. The main advantages of Google Sheets for learning:</p>
+    <ul class="list-disc ml-5 mt-2 text-sm">
+      <li><strong>Free</strong> - No subscription required</li>
+      <li><strong>Cloud-based</strong> - Access from any device</li>
+      <li><strong>Auto-save</strong> - Never lose your work</li>
+      <li><strong>Easy sharing</strong> - Collaborate with others</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Alternative: Excel Online</h2>
-    <p>If you prefer Excel:</p>
-    <ol class="list-decimal ml-5 text-sm mt-1">
-      <li>
-        Go to
-        <a
-          href="https://www.office.com/launch/excel"
-          target="_blank"
-          class="text-blue-500 underline"
-          >Excel Online</a
-        >
-        (free with Microsoft account)
-      </li>
-      <li>
-        Download the CSV from
-        <a
-          href="https://raw.githubusercontent.com/leonism/sample-superstore/master/data/superstore.csv"
-          target="_blank"
-          class="text-blue-500 underline"
-          >this link</a
-        >
-        (right-click → Save As)
-      </li>
-      <li>In Excel Online: File → Open → Upload the CSV file</li>
+    <h2 class="font-bold text-lg">2. Import the Sample Superstore Dataset</h2>
+    <p>We'll use the famous "Sample Superstore" dataset - a fictional retail company's sales data. This dataset is widely used in data analysis courses because it contains realistic business data with multiple dimensions and measures.</p>
+    
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+      <p class="font-semibold text-blue-800">In cell A1, paste this formula and press Enter:</p>
+      <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2 overflow-x-auto">=IMPORTDATA("https://raw.githubusercontent.com/leonism/sample-superstore/master/data/superstore.csv")</pre>
+      <p class="text-sm text-blue-700 mt-2">Wait 5-10 seconds for the data to load. You'll see ~10,000 rows appear.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">3. Understanding the Dataset</h2>
+    <p>The Superstore dataset simulates a retail company selling office supplies, furniture, and technology products across the United States. Each row represents a single item in an order.</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-gray-700 mb-2">📋 Dimension Columns (Categories)</p>
+        <ul class="text-sm space-y-1">
+          <li><code class="bg-gray-200 px-1 rounded">Row ID</code> - Unique identifier for each row</li>
+          <li><code class="bg-gray-200 px-1 rounded">Order ID</code> - Unique order number (one order can have multiple rows)</li>
+          <li><code class="bg-gray-200 px-1 rounded">Order Date</code> - When the order was placed</li>
+          <li><code class="bg-gray-200 px-1 rounded">Ship Date</code> - When the order was shipped</li>
+          <li><code class="bg-gray-200 px-1 rounded">Ship Mode</code> - Shipping speed (Standard, Second Class, First Class, Same Day)</li>
+          <li><code class="bg-gray-200 px-1 rounded">Customer ID</code> - Unique customer identifier</li>
+          <li><code class="bg-gray-200 px-1 rounded">Customer Name</code> - Customer's full name</li>
+          <li><code class="bg-gray-200 px-1 rounded">Segment</code> - Customer type (Consumer, Corporate, Home Office)</li>
+          <li><code class="bg-gray-200 px-1 rounded">Country</code> - Always "United States" in this dataset</li>
+          <li><code class="bg-gray-200 px-1 rounded">City</code>, <code class="bg-gray-200 px-1 rounded">State</code>, <code class="bg-gray-200 px-1 rounded">Postal Code</code>, <code class="bg-gray-200 px-1 rounded">Region</code> - Location info</li>
+          <li><code class="bg-gray-200 px-1 rounded">Product ID</code> - Unique product identifier</li>
+          <li><code class="bg-gray-200 px-1 rounded">Category</code> - Product category (Furniture, Office Supplies, Technology)</li>
+          <li><code class="bg-gray-200 px-1 rounded">Sub-Category</code> - Detailed product type (Chairs, Phones, Paper, etc.)</li>
+          <li><code class="bg-gray-200 px-1 rounded">Product Name</code> - Full product description</li>
+        </ul>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-gray-700 mb-2">📊 Measure Columns (Numbers)</p>
+        <ul class="text-sm space-y-1">
+          <li><code class="bg-green-200 px-1 rounded">Sales</code> - Revenue from the sale (in dollars)</li>
+          <li><code class="bg-green-200 px-1 rounded">Quantity</code> - Number of items sold</li>
+          <li><code class="bg-green-200 px-1 rounded">Discount</code> - Discount applied (0 = no discount, 0.2 = 20% off)</li>
+          <li><code class="bg-green-200 px-1 rounded">Profit</code> - Profit or loss from the sale (can be negative!)</li>
+        </ul>
+        
+        <p class="font-semibold text-gray-700 mb-2 mt-4">🔑 Key Business Questions This Data Can Answer:</p>
+        <ul class="text-sm space-y-1">
+          <li>Which products are most profitable?</li>
+          <li>Which regions generate the most sales?</li>
+          <li>Do discounts increase or decrease profit?</li>
+          <li>Which customers are most valuable?</li>
+          <li>How do sales trend over time?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">4. Verify Your Setup</h2>
+    <p>After the data loads, confirm everything is correct:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li>Row 1 should contain headers (Row ID, Order ID, Order Date, etc.)</li>
+      <li>You should have approximately 9,994 rows of data (plus the header row)</li>
+      <li>Column A should be "Row ID" with numbers 1, 2, 3, etc.</li>
+      <li>Column N should be "Sales" with dollar amounts</li>
+      <li>Scroll right - you should see about 21 columns total</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">5. Alternative: Microsoft Excel Online</h2>
+    <p>If you prefer Excel or need it for work:</p>
+    <ol class="list-decimal ml-5 mt-2">
+      <li>Go to <a href="https://www.office.com/launch/excel" target="_blank" class="text-blue-500 underline">Excel Online</a> (free with Microsoft account)</li>
+      <li>Download the CSV file: <a href="https://raw.githubusercontent.com/leonism/sample-superstore/master/data/superstore.csv" target="_blank" class="text-blue-500 underline">Click here</a> (right-click → Save Link As)</li>
+      <li>In Excel Online: Click "Upload and open" and select the downloaded file</li>
     </ol>
+    <p class="text-sm text-gray-600 mt-2">Note: IMPORTDATA doesn't work in Excel. You must download and upload the file manually.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">6. Quick Column Reference</h2>
+    <p class="text-sm text-gray-600 mb-2">Use this reference throughout the exercises. Columns may shift if your import is different - always verify!</p>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm font-mono overflow-x-auto">
+      A: Row ID &nbsp;&nbsp; B: Order ID &nbsp;&nbsp; C: Order Date &nbsp;&nbsp; D: Ship Date
+      E: Ship Mode &nbsp;&nbsp; F: Customer ID &nbsp;&nbsp; G: Customer Name &nbsp;&nbsp; H: Segment
+      I: Country &nbsp;&nbsp; J: City &nbsp;&nbsp; K: State &nbsp;&nbsp; L: Postal Code &nbsp;&nbsp; M: Region
+      N: Product ID &nbsp;&nbsp; O: Category &nbsp;&nbsp; P: Sub-Category &nbsp;&nbsp; Q: Product Name
+      R: Sales &nbsp;&nbsp; S: Quantity &nbsp;&nbsp; T: Discount &nbsp;&nbsp; U: Profit
+    </div>
   </div>
 </div>

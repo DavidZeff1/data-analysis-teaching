@@ -2,110 +2,243 @@
   <h1 class="text-2xl font-bold">Maps</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Tableau automatically recognizes geographic data and can create maps. Great for showing regional patterns and location-based insights.</p>
+    <h2 class="font-bold text-lg">Why Maps?</h2>
+    <p>Geographic visualizations reveal spatial patterns that tables and charts miss. Maps answer "where" questions:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Where are sales concentrated?</strong></li>
+      <li><strong>Which regions underperform?</strong></li>
+      <li><strong>How does performance vary by state/city?</strong></li>
+      <li><strong>Are there geographic clusters or patterns?</strong></li>
+    </ul>
+    <p class="mt-2">Tableau automatically recognizes geographic data and knows where places are on a map.</p>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Geographic Fields</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm">Tableau auto-detects:
-- Country
-- State/Province
-- City
-- Postal Code / ZIP
-- Latitude / Longitude
-
-<span class="text-gray-400">Look for the globe icon 🌐 next to fields</span></pre>
+    <p class="text-sm text-gray-600 mb-2">Tableau auto-detects these geographic types (look for the globe icon 🌐):</p>
+    
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 Country</div>
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 State/Province</div>
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 City</div>
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 Postal Code / ZIP</div>
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 County</div>
+      <div class="bg-gray-50 rounded p-2 text-sm">🌐 Area Code</div>
+    </div>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>💡 Tip:</strong> If Tableau doesn't recognize a field as geographic, right-click it → Geographic Role → Assign the correct type.</p>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Creating a Map</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Auto-map</span>
-Double-click a geographic field (State, City, etc.)
+    <h2 class="font-bold text-lg">Creating Maps</h2>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Auto-map (fastest!)</span>
+Double-click a geographic field (<span class="text-blue-400">State</span>, <span class="text-blue-400">City</span>, etc.)
 → Tableau creates a map automatically!
 
-<span class="text-gray-400">// Method 2: Manual</span>
+<span class="text-gray-400">// Method 2: Drag to canvas</span>
+Drag <span class="text-blue-400">State</span> to the canvas
+→ Tableau plots points on a map
+
+<span class="text-gray-400">// Method 3: Using Show Me</span>
+Select <span class="text-blue-400">State</span> and <span class="text-green-400">Sales</span>
+Click Show Me → Symbol Map or Filled Map
+
+<span class="text-gray-400">// Method 4: Manual</span>
 Columns: <span class="text-green-400">Longitude</span> (generated)
 Rows: <span class="text-green-400">Latitude</span> (generated)
-Detail: <span class="text-blue-400">State</span> (or other geo field)
-
-<span class="text-gray-400">// Method 3: Show Me</span>
-Select geo field + measure
-Click Show Me → Symbol Map or Filled Map</pre>
+Detail: <span class="text-blue-400">State</span></pre>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Map Types</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Symbol Map</span>     - Circles on locations
-                <span class="text-gray-400">Size by Sales, Color by Profit</span>
-
-<span class="text-blue-400">Filled Map</span>     - Regions filled with color
-                <span class="text-gray-400">States colored by Sales total</span>
-
-<span class="text-blue-400">Density Map</span>    - Heatmap showing concentration
-                <span class="text-gray-400">Where are orders clustered?</span>
-
-<span class="text-gray-400">Change type: Marks dropdown → Map, Circle, etc.</span></pre>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">Symbol Map (Proportional)</div>
+        <p class="text-sm text-gray-600 mb-2">Circles on locations, sized/colored by values</p>
+        <div class="bg-white rounded p-2 h-24 relative">
+          <svg viewBox="0 0 100 60" class="w-full h-full">
+            <circle cx="70" cy="25" r="8" fill="#3B82F6" opacity="0.7"/>
+            <circle cx="30" cy="30" r="12" fill="#3B82F6" opacity="0.7"/>
+            <circle cx="50" cy="40" r="6" fill="#EF4444" opacity="0.7"/>
+            <circle cx="80" cy="45" r="10" fill="#3B82F6" opacity="0.7"/>
+            <circle cx="25" cy="50" r="4" fill="#EF4444" opacity="0.7"/>
+          </svg>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">Best for: Points (cities, stores, customers)</p>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold mb-2">Filled Map (Choropleth)</div>
+        <p class="text-sm text-gray-600 mb-2">Regions filled with color based on values</p>
+        <div class="bg-white rounded p-2 h-24 relative">
+          <svg viewBox="0 0 100 60" class="w-full h-full">
+            <rect x="5" y="10" width="25" height="40" fill="#93C5FD" stroke="#fff"/>
+            <rect x="30" y="5" width="30" height="25" fill="#3B82F6" stroke="#fff"/>
+            <rect x="30" y="30" width="30" height="25" fill="#BFDBFE" stroke="#fff"/>
+            <rect x="60" y="10" width="35" height="45" fill="#1D4ED8" stroke="#fff"/>
+          </svg>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">Best for: Regions (states, countries, territories)</p>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Map Examples</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by State (filled)</span>
+    <h2 class="font-bold text-lg">Building Map Examples</h2>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Filled map: Sales by State</span>
 Double-click <span class="text-blue-400">State</span>
-Marks type: Map (filled)
+Marks type: Map (filled regions)
 Color: <span class="text-green-400">SUM(Sales)</span>
+<span class="text-gray-400">→ States colored by total sales</span>
 
-<span class="text-gray-400">// City performance (symbol)</span>
+<span class="text-gray-400">// Symbol map: Cities sized by sales</span>
 Double-click <span class="text-blue-400">City</span>
 Marks type: Circle
 Size: <span class="text-green-400">SUM(Sales)</span>
 Color: <span class="text-green-400">SUM(Profit)</span>
+<span class="text-gray-400">→ Bubbles: bigger = more sales, color = profit</span>
 
-<span class="text-gray-400">// Profit/Loss by state</span>
+<span class="text-gray-400">// Profit/Loss by State</span>
 Double-click <span class="text-blue-400">State</span>
 Color: <span class="text-green-400">SUM(Profit)</span>
-→ Edit Colors → Diverging palette (red-green)</pre>
+<span class="text-gray-400">→ Edit Colors → Diverging palette (red-green)</span>
+<span class="text-gray-400">→ Red = loss, Green = profit</span></pre>
   </div>
 
   <div>
     <h2 class="font-bold text-lg">Customizing Maps</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Change background</span>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Change map style</span>
 Map → Map Layers
-→ Style: Light, Dark, Streets, Satellite
+→ Style: Light, Dark, Normal, Streets, Satellite
 
-<span class="text-gray-400">// Show/hide elements</span>
+<span class="text-gray-400">// Show/hide map elements</span>
 Map → Map Layers
-→ Toggle: Coastline, State borders, Cities
+→ Toggle: Coastline, State borders, City names, Terrain
 
-<span class="text-gray-400">// Zoom to area</span>
-Map → Map Options → Pan and Zoom (or Fixed)
-Use selection tools to zoom
+<span class="text-gray-400">// Zoom to specific area</span>
+Use zoom controls in the view
+<span class="text-gray-400">OR</span>
+Map → Map Options → Set zoom level
+
+<span class="text-gray-400">// Pan around</span>
+Click and drag the map, or use the pan tool
 
 <span class="text-gray-400">// Fix unknown locations</span>
-Click "X unknown" indicator
+Click the indicator showing "X unknown"
 Edit Locations → Match to correct place</pre>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>Tableau needs to recognize geo fields - check for globe icon</li>
-      <li>Right-click field → Geographic Role to set/change type</li>
-      <li>Filled maps work best for regions (states, countries)</li>
-      <li>Symbol maps work best for points (cities, stores)</li>
-      <li>Use diverging colors for profit/loss (red/green or orange/blue)</li>
-      <li>Maps are great for "where" questions in dashboards</li>
+    <h2 class="font-bold text-lg">Color Palettes for Maps</h2>
+    <p class="text-sm text-gray-600 mb-2">Choose colors that communicate effectively:</p>
+    
+    <div class="space-y-2 mt-2">
+      <div class="flex items-center gap-3">
+        <div class="flex">
+          <div class="w-6 h-6 bg-blue-100"></div>
+          <div class="w-6 h-6 bg-blue-300"></div>
+          <div class="w-6 h-6 bg-blue-500"></div>
+          <div class="w-6 h-6 bg-blue-700"></div>
+        </div>
+        <div class="text-sm"><strong>Sequential</strong> - Low to high (sales, quantity)</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex">
+          <div class="w-6 h-6 bg-red-500"></div>
+          <div class="w-6 h-6 bg-red-200"></div>
+          <div class="w-6 h-6 bg-green-200"></div>
+          <div class="w-6 h-6 bg-green-500"></div>
+        </div>
+        <div class="text-sm"><strong>Diverging</strong> - Negative to positive (profit/loss)</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex">
+          <div class="w-6 h-6 bg-blue-500"></div>
+          <div class="w-6 h-6 bg-orange-500"></div>
+          <div class="w-6 h-6 bg-green-500"></div>
+          <div class="w-6 h-6 bg-purple-500"></div>
+        </div>
+        <div class="text-sm"><strong>Categorical</strong> - Different groups (regions, segments)</div>
+      </div>
+    </div>
+    
+    <p class="text-sm text-gray-600 mt-3">To change: Click Color on Marks card → Edit Colors → Choose palette</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Dual-Axis Maps</h2>
+    <p class="text-sm text-gray-600 mb-2">Overlay two layers (e.g., state boundaries + city points):</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Create filled states with city bubbles on top</span>
+1. Double-click <span class="text-blue-400">State</span> (creates filled map)
+2. Drag <span class="text-blue-400">City</span> to the view → Drop on the existing map
+3. A dual-layer map appears!
+
+<span class="text-gray-400">OR manually:</span>
+1. Drag <span class="text-green-400">Longitude</span> to Columns twice
+2. Right-click second Longitude → Dual Axis
+3. Customize each layer on separate Marks cards</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Handling Unknown Locations</h2>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+      <p class="font-semibold text-yellow-800 mb-2">⚠️ "X unknown" indicator</p>
+      <p class="text-sm">Tableau couldn't find some locations on the map. Common causes:</p>
+      <ul class="list-disc ml-5 text-sm mt-1">
+        <li>Misspelled city/state names</li>
+        <li>Non-standard abbreviations</li>
+        <li>Missing country context for ambiguous city names</li>
+      </ul>
+      <p class="text-sm mt-2"><strong>Fix:</strong> Click the indicator → Edit Locations → Manually match unrecognized places</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Double-click is fastest</strong> - double-click any geo field to auto-create a map</li>
+      <li><strong>Globe icon = geographic</strong> - Tableau already knows it's a location</li>
+      <li><strong>Filled maps for regions</strong>, symbol maps for points</li>
+      <li><strong>Diverging colors for +/-</strong> - use red/green or orange/blue for profit/loss</li>
+      <li><strong>Add State to Detail</strong> for city maps - helps resolve ambiguous city names</li>
+      <li><strong>Maps work great in dashboards</strong> - use them as filters for other charts</li>
+      <li><strong>Check for unknowns</strong> - always verify all locations are mapped correctly</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a filled map showing Sales by State</li>
-      <li>Create a symbol map showing Cities, sized by Sales</li>
-      <li>Color the cities by Profit (positive = green, negative = red)</li>
-      <li>Add State to the tooltip so it shows on hover</li>
-      <li>Create a map filtered to show only the West region</li>
+      <li>Create a <strong>filled map showing Sales by State</strong></li>
+      <li>Create a <strong>symbol map showing Cities</strong>, sized by Sales</li>
+      <li>Color the city bubbles by <strong>Profit</strong> (positive = green, negative = red)</li>
+      <li>Add <strong>State and City to the tooltip</strong> so they show on hover</li>
+      <li>Create a map <strong>filtered to show only the West region</strong></li>
+      <li>Change the <strong>map background style</strong> to Dark or Satellite</li>
+      <li>Create a <strong>dual-axis map</strong>: State boundaries with City points on top</li>
+      <li>Find the states with <strong>negative total profit</strong> (they should stand out in red)</li>
+      <li>Add a <strong>Region filter</strong> and use the map in a dashboard</li>
+      <li>Make the map <strong>act as a filter</strong> - clicking a state filters other dashboard charts</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge: Geographic Performance Dashboard</h2>
+    <p>Build a dashboard that answers "Where should we focus our sales efforts?"</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li>Map showing profit by state (filled, diverging colors)</li>
+      <li>Bar chart showing top/bottom 5 states</li>
+      <li>KPI cards showing totals for selected region</li>
+      <li>Make the map filter everything else when you click a state</li>
+    </ul>
+    <p class="mt-2 text-sm">A sales manager should be able to click any state and immediately see detailed performance!</p>
   </div>
 </div>

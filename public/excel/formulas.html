@@ -2,68 +2,166 @@
   <h1 class="text-2xl font-bold">Basic Formulas</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Formulas perform calculations on your data. They always start with <code>=</code></p>
+    <h2 class="font-bold text-lg">What Are Formulas?</h2>
+    <p>Formulas are instructions that tell Excel to perform calculations on your data. Every formula starts with an equals sign <code class="bg-gray-200 px-1 rounded">=</code> which signals to Excel "this is a calculation, not regular text."</p>
+    <p class="mt-2">Formulas can be as simple as adding two numbers <code class="bg-gray-200 px-1 rounded">=5+3</code> or as complex as analyzing thousands of rows of data. The key insight is that formulas can reference cells, so when your data changes, your calculations automatically update.</p>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Common Functions</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">SUM</span>(range)      - Add all values
-<span class="text-purple-400">AVERAGE</span>(range)  - Calculate mean
-<span class="text-purple-400">COUNT</span>(range)    - Count numbers
-<span class="text-purple-400">COUNTA</span>(range)   - Count non-empty cells
-<span class="text-purple-400">MIN</span>(range)      - Smallest value
-<span class="text-purple-400">MAX</span>(range)      - Largest value
-<span class="text-purple-400">ROUND</span>(num, decimals) - Round a number</pre>
+    <h2 class="font-bold text-lg">Anatomy of a Formula</h2>
+    <div class="bg-gray-100 rounded-lg p-4 mt-2">
+      <div class="font-mono text-lg mb-2">=SUM(R2:R9995)</div>
+      <div class="grid grid-cols-4 gap-2 text-sm">
+        <div class="text-center">
+          <div class="bg-blue-500 text-white rounded px-2 py-1">=</div>
+          <div class="mt-1">Starts every formula</div>
+        </div>
+        <div class="text-center">
+          <div class="bg-purple-500 text-white rounded px-2 py-1">SUM</div>
+          <div class="mt-1">Function name</div>
+        </div>
+        <div class="text-center">
+          <div class="bg-green-500 text-white rounded px-2 py-1">( )</div>
+          <div class="mt-1">Parentheses contain arguments</div>
+        </div>
+        <div class="text-center">
+          <div class="bg-orange-500 text-white rounded px-2 py-1">R2:R9995</div>
+          <div class="mt-1">Range of cells</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Examples</h2>
-    <p class="text-sm text-gray-600 mb-2">Using the Superstore dataset (Sales is column N, Quantity is column O):</p>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Total sales</span>
-=<span class="text-purple-400">SUM</span>(N:N)
+    <h2 class="font-bold text-lg">Essential Aggregate Functions</h2>
+    <p class="text-sm text-gray-600 mb-3">These functions take a range of cells and return a single value.</p>
+    
+    <div class="space-y-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">SUM</span>
+          <span class="font-semibold">Add all values in a range</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">SUM</span>(R2:R9995)     <span class="text-gray-400">// Total of all Sales</span>
+=<span class="text-purple-400">SUM</span>(R:R)          <span class="text-gray-400">// Entire column (slower but includes new data)</span>
+=<span class="text-purple-400">SUM</span>(R2:R100, U2:U100)  <span class="text-gray-400">// Multiple ranges</span></pre>
+      </div>
 
-<span class="text-gray-400">// Average sale amount</span>
-=<span class="text-purple-400">AVERAGE</span>(N:N)
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">AVERAGE</span>
+          <span class="font-semibold">Calculate the arithmetic mean</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">AVERAGE</span>(R2:R9995)  <span class="text-gray-400">// Average sale amount</span>
+=<span class="text-purple-400">AVERAGE</span>(U:U)       <span class="text-gray-400">// Average profit per item</span></pre>
+        <p class="text-sm text-gray-600 mt-2">Note: AVERAGE ignores empty cells and text, but includes zeros.</p>
+      </div>
 
-<span class="text-gray-400">// Number of orders</span>
-=<span class="text-purple-400">COUNTA</span>(B2:B9995)
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">COUNT / COUNTA</span>
+          <span class="font-semibold">Count cells</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">COUNT</span>(R2:R9995)   <span class="text-gray-400">// Count cells with numbers</span>
+=<span class="text-purple-400">COUNTA</span>(B2:B9995)  <span class="text-gray-400">// Count non-empty cells (includes text)</span>
+=<span class="text-purple-400">COUNTBLANK</span>(R:R)   <span class="text-gray-400">// Count empty cells</span></pre>
+        <p class="text-sm text-gray-600 mt-2"><strong>COUNT</strong> only counts numbers. <strong>COUNTA</strong> counts any non-empty cell (text, numbers, dates). Use COUNTA for counting orders by Order ID.</p>
+      </div>
 
-<span class="text-gray-400">// Highest single sale</span>
-=<span class="text-purple-400">MAX</span>(N:N)
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">MIN / MAX</span>
+          <span class="font-semibold">Find smallest or largest value</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">MIN</span>(R2:R9995)   <span class="text-gray-400">// Smallest sale amount</span>
+=<span class="text-purple-400">MAX</span>(R2:R9995)   <span class="text-gray-400">// Largest sale amount</span>
+=<span class="text-purple-400">MIN</span>(U:U)        <span class="text-gray-400">// Biggest loss (most negative profit)</span>
+=<span class="text-purple-400">MAX</span>(U:U)        <span class="text-gray-400">// Biggest profit</span></pre>
+      </div>
 
-<span class="text-gray-400">// Lowest profit (might be negative)</span>
-=<span class="text-purple-400">MIN</span>(Q:Q)
-
-<span class="text-gray-400">// Average rounded to 2 decimals</span>
-=<span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVERAGE</span>(N:N), 2)
-
-<span class="text-gray-400">// Basic arithmetic</span>
-=N2*O2           <span class="text-gray-400">// Multiply cells</span>
-=N2+Q2           <span class="text-gray-400">// Add cells</span>
-=(N2-Q2)/N2      <span class="text-gray-400">// Calculate margin</span></pre>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">ROUND</span>
+          <span class="font-semibold">Round a number to specified decimals</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">ROUND</span>(3.14159, 2)        <span class="text-gray-400">// Returns 3.14</span>
+=<span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVERAGE</span>(R:R), 2)   <span class="text-gray-400">// Average rounded to 2 decimals</span>
+=<span class="text-purple-400">ROUNDUP</span>(3.14, 1)         <span class="text-gray-400">// Always round up: 3.2</span>
+=<span class="text-purple-400">ROUNDDOWN</span>(3.99, 0)       <span class="text-gray-400">// Always round down: 3</span></pre>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>Formulas always start with <code>=</code></li>
-      <li><code>N:N</code> means entire column N, <code>N2:N100</code> means specific range</li>
-      <li>COUNT only counts numbers, COUNTA counts any non-empty cell</li>
-      <li>You can nest functions: <code>=ROUND(AVERAGE(N:N), 2)</code></li>
-      <li>Use column letters and row numbers to reference cells</li>
+    <h2 class="font-bold text-lg">Basic Arithmetic</h2>
+    <p class="mb-2">You can use standard math operators in formulas:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">=R2 + U2          <span class="text-gray-400">// Addition: Sales + Profit</span>
+=R2 - U2          <span class="text-gray-400">// Subtraction: Sales - Profit (= Cost)</span>
+=R2 * S2          <span class="text-gray-400">// Multiplication: Sales × Quantity</span>
+=R2 / S2          <span class="text-gray-400">// Division: Sales ÷ Quantity (price per unit)</span>
+=R2 ^ 2           <span class="text-gray-400">// Exponent: Sales squared</span>
+=(R2 + U2) / 2    <span class="text-gray-400">// Parentheses control order of operations</span></pre>
+    <p class="text-sm text-gray-600 mt-2"><strong>Order of operations:</strong> Parentheses → Exponents → Multiplication/Division → Addition/Subtraction (PEMDAS)</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common Mistakes to Avoid</h2>
+    <div class="grid grid-cols-2 gap-3 mt-2">
+      <div class="bg-red-50 border border-red-200 rounded p-3">
+        <div class="font-semibold text-red-700">❌ Wrong</div>
+        <code class="text-sm">SUM(R:R)</code>
+        <p class="text-xs text-gray-600 mt-1">Missing equals sign</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded p-3">
+        <div class="font-semibold text-green-700">✓ Correct</div>
+        <code class="text-sm">=SUM(R:R)</code>
+        <p class="text-xs text-gray-600 mt-1">Starts with =</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded p-3">
+        <div class="font-semibold text-red-700">❌ Wrong</div>
+        <code class="text-sm">=SUM(R2-R9995)</code>
+        <p class="text-xs text-gray-600 mt-1">Using minus instead of colon</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded p-3">
+        <div class="font-semibold text-green-700">✓ Correct</div>
+        <code class="text-sm">=SUM(R2:R9995)</code>
+        <p class="text-xs text-gray-600 mt-1">Colon defines range</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>All formulas start with <code>=</code></strong> - this tells Excel to calculate</li>
+      <li><strong>R:R means entire column R</strong> - includes all current and future data</li>
+      <li><strong>R2:R100 means specific range</strong> - faster but won't include new rows</li>
+      <li><strong>Functions can be nested</strong> - put one function inside another: <code>=ROUND(AVERAGE(R:R), 2)</code></li>
+      <li><strong>Excel ignores spaces</strong> - <code>=SUM(R:R)</code> and <code>= SUM( R:R )</code> work the same</li>
+      <li><strong>#DIV/0! error</strong> - you divided by zero or an empty cell</li>
+      <li><strong>#VALUE! error</strong> - you're trying to do math on text</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
-    <p class="text-sm text-gray-600 mb-2">Create a new sheet and calculate:</p>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Create a new sheet called "Summary" and calculate the following. Compare your answers to verify!</p>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Total Sales (column N)</li>
-      <li>Total Profit (column Q)</li>
-      <li>Average Quantity per order (column O)</li>
-      <li>Maximum discount given (column P)</li>
-      <li>Total number of rows in the dataset</li>
+      <li>Calculate the <strong>total Sales</strong> for all orders (should be around $2.3 million)</li>
+      <li>Calculate the <strong>total Profit</strong> for all orders (should be around $286,000)</li>
+      <li>Calculate the <strong>average Sales</strong> per line item, rounded to 2 decimal places</li>
+      <li>Calculate the <strong>average Profit</strong> per line item, rounded to 2 decimal places</li>
+      <li>Find the <strong>maximum single Sale</strong> amount (highest revenue from one line item)</li>
+      <li>Find the <strong>minimum Profit</strong> value (the biggest loss - should be negative)</li>
+      <li>Count the <strong>total number of orders</strong> using COUNTA on Order ID column</li>
+      <li>Calculate the <strong>average Quantity</strong> per order</li>
+      <li>Calculate the <strong>overall profit margin</strong>: Total Profit ÷ Total Sales (as a percentage)</li>
+      <li>Calculate the <strong>average discount</strong> given across all orders</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Bonus Challenge</h2>
+    <p>Create a formula to calculate the "Cost" of goods sold. Since Profit = Sales - Cost, we can derive Cost = Sales - Profit. Calculate the total Cost for all orders.</p>
   </div>
 </div>

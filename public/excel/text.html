@@ -2,76 +2,194 @@
   <h1 class="text-2xl font-bold">Text Functions</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What they do</h2>
-    <p>Text functions manipulate strings - extract parts, combine text, change case, find patterns, and clean data.</p>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key Functions</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">LEFT</span>(text, num)         - First n characters
-<span class="text-purple-400">RIGHT</span>(text, num)        - Last n characters
-<span class="text-purple-400">MID</span>(text, start, num)   - Characters from middle
-<span class="text-purple-400">LEN</span>(text)               - Length of text
-<span class="text-purple-400">FIND</span>(find, text)        - Position of substring
-<span class="text-purple-400">CONCAT</span>(text1, text2)    - Join text
-<span class="text-purple-400">TEXTJOIN</span>(delim, ignore_empty, range)
-<span class="text-purple-400">TRIM</span>(text)              - Remove extra spaces
-<span class="text-purple-400">UPPER</span>/<span class="text-purple-400">LOWER</span>/<span class="text-purple-400">PROPER</span>     - Change case
-<span class="text-purple-400">SUBSTITUTE</span>(text, old, new)
-<span class="text-purple-400">TEXT</span>(value, format)     - Format numbers as text</pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Examples</h2>
-    <p class="text-sm text-gray-600 mb-2">Using Superstore: Order ID (B), Customer Name (G), Product Name (R)</p>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Extract state code from Order ID "CA-2016-152156"</span>
-=<span class="text-purple-400">LEFT</span>(B2, 2)                    <span class="text-gray-400">// Returns "CA"</span>
-
-<span class="text-gray-400">// Extract year from Order ID</span>
-=<span class="text-purple-400">MID</span>(B2, 4, 4)                  <span class="text-gray-400">// Returns "2016"</span>
-
-<span class="text-gray-400">// Get first name from "Claire Gute"</span>
-=<span class="text-purple-400">LEFT</span>(G2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2)-1)      <span class="text-gray-400">// Returns "Claire"</span>
-
-<span class="text-gray-400">// Get last name</span>
-=<span class="text-purple-400">RIGHT</span>(G2, <span class="text-purple-400">LEN</span>(G2)-<span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2))
-
-<span class="text-gray-400">// Combine text</span>
-=<span class="text-purple-400">CONCAT</span>(G2, <span class="text-green-400">" - "</span>, L2)         <span class="text-gray-400">// "Claire Gute - East"</span>
-=G2&<span class="text-green-400">" - "</span>&L2                     <span class="text-gray-400">// Same with & operator</span>
-
-<span class="text-gray-400">// Clean messy data</span>
-=<span class="text-purple-400">TRIM</span>(G2)                       <span class="text-gray-400">// Remove extra spaces</span>
-=<span class="text-purple-400">UPPER</span>(G2)                      <span class="text-gray-400">// "CLAIRE GUTE"</span>
-=<span class="text-purple-400">PROPER</span>(G2)                     <span class="text-gray-400">// "Claire Gute"</span>
-
-<span class="text-gray-400">// Replace text</span>
-=<span class="text-purple-400">SUBSTITUTE</span>(K2, <span class="text-green-400">"United States"</span>, <span class="text-green-400">"USA"</span>)
-
-<span class="text-gray-400">// Format number as text</span>
-=<span class="text-purple-400">TEXT</span>(N2, <span class="text-green-400">"$#,##0.00"</span>)         <span class="text-gray-400">// "$1,234.56"</span>
-=<span class="text-purple-400">TEXT</span>(C2, <span class="text-green-400">"MMMM YYYY"</span>)         <span class="text-gray-400">// "January 2016"</span></pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>FIND returns position (1-based), use it with LEFT/MID/RIGHT</li>
-      <li>Use <code>&</code> operator for quick concatenation</li>
-      <li>TRIM removes leading, trailing, and extra internal spaces</li>
-      <li>TEXT is powerful for formatting dates and numbers</li>
-      <li>SUBSTITUTE replaces all occurrences, REPLACE replaces by position</li>
+    <h2 class="font-bold text-lg">Why Text Functions Matter</h2>
+    <p>Real-world data is messy. Names come in different formats, codes contain embedded information, and fields need cleaning before analysis. Text functions help you:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Extract information</strong> - Pull state codes from order IDs, first names from full names</li>
+      <li><strong>Clean data</strong> - Remove extra spaces, fix capitalization</li>
+      <li><strong>Combine fields</strong> - Create full addresses, formatted labels</li>
+      <li><strong>Transform data</strong> - Split, join, replace, and reformat text</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">Extracting Parts of Text</h2>
+    
+    <div class="space-y-3 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">LEFT</span>
+          <span>Extract characters from the beginning</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm">=<span class="text-purple-400">LEFT</span>(B2, 2)              <span class="text-gray-400">// "CA-2016-152156" → "CA"</span>
+=<span class="text-purple-400">LEFT</span>(G2, 5)              <span class="text-gray-400">// "Claire Gute" → "Clair"</span>
+=<span class="text-purple-400">LEFT</span>(B2, 7)              <span class="text-gray-400">// "CA-2016-152156" → "CA-2016"</span></pre>
+      </div>
+
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">RIGHT</span>
+          <span>Extract characters from the end</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm">=<span class="text-purple-400">RIGHT</span>(B2, 6)             <span class="text-gray-400">// "CA-2016-152156" → "152156"</span>
+=<span class="text-purple-400">RIGHT</span>(G2, 4)             <span class="text-gray-400">// "Claire Gute" → "Gute"</span></pre>
+      </div>
+
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-purple-500 text-white px-2 py-1 rounded font-mono text-sm">MID</span>
+          <span>Extract characters from the middle</span>
+        </div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm">=<span class="text-purple-400">MID</span>(B2, 4, 4)            <span class="text-gray-400">// "CA-2016-152156" → "2016" (start at 4, take 4)</span>
+=<span class="text-purple-400">MID</span>(B2, 1, 2)            <span class="text-gray-400">// Same as LEFT(B2, 2) → "CA"</span>
+=<span class="text-purple-400">MID</span>(G2, 8, 4)            <span class="text-gray-400">// "Claire Gute" → "Gute"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Finding Text Position</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">=<span class="text-purple-400">FIND</span>(<span class="text-green-400">"-"</span>, B2)              <span class="text-gray-400">// "CA-2016-152156" → 3 (position of first dash)</span>
+=<span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2)              <span class="text-gray-400">// "Claire Gute" → 7 (position of space)</span>
+=<span class="text-purple-400">SEARCH</span>(<span class="text-green-400">"ca"</span>, B2)           <span class="text-gray-400">// Case-insensitive: "CA-2016..." → 1</span>
+
+<span class="text-gray-400">// FIND is case-sensitive, SEARCH is not</span>
+=<span class="text-purple-400">FIND</span>(<span class="text-green-400">"ca"</span>, <span class="text-green-400">"CA-2016"</span>)      <span class="text-gray-400">// Returns #VALUE! error</span>
+=<span class="text-purple-400">SEARCH</span>(<span class="text-green-400">"ca"</span>, <span class="text-green-400">"CA-2016"</span>)    <span class="text-gray-400">// Returns 1</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Dynamic Extraction (Using FIND)</h2>
+    <p class="mb-2">Combine FIND with LEFT/RIGHT/MID to extract variable-length text:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Extract first name (everything before the space)</span>
+=<span class="text-purple-400">LEFT</span>(G2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2) - 1)
+<span class="text-gray-400">// "Claire Gute" → FIND returns 7 → LEFT(G2, 6) → "Claire"</span>
+
+<span class="text-gray-400">// Extract last name (everything after the space)</span>
+=<span class="text-purple-400">RIGHT</span>(G2, <span class="text-purple-400">LEN</span>(G2) - <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2))
+<span class="text-gray-400">// LEN("Claire Gute")=11, FIND(" ")=7 → RIGHT(G2, 4) → "Gute"</span>
+
+<span class="text-gray-400">// Extract year from Order ID "CA-2016-152156"</span>
+=<span class="text-purple-400">MID</span>(B2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">"-"</span>, B2) + 1, 4)
+<span class="text-gray-400">// Start after first dash, take 4 characters → "2016"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Combining Text</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: CONCAT function</span>
+=<span class="text-purple-400">CONCAT</span>(J2, <span class="text-green-400">", "</span>, K2)       <span class="text-gray-400">// "Henderson, Kentucky"</span>
+
+<span class="text-gray-400">// Method 2: Ampersand (&) - most common</span>
+=J2 & <span class="text-green-400">", "</span> & K2               <span class="text-gray-400">// "Henderson, Kentucky"</span>
+=G2 & <span class="text-green-400">" ("</span> & H2 & <span class="text-green-400">")"</span>        <span class="text-gray-400">// "Claire Gute (Consumer)"</span>
+
+<span class="text-gray-400">// Method 3: TEXTJOIN - join with delimiter</span>
+=<span class="text-purple-400">TEXTJOIN</span>(<span class="text-green-400">", "</span>, <span class="text-blue-400">TRUE</span>, J2, K2, M2)
+<span class="text-gray-400">// "Henderson, Kentucky, South"</span>
+<span class="text-gray-400">// TRUE means skip empty cells</span>
+
+<span class="text-gray-400">// Combine with numbers (numbers auto-convert)</span>
+=<span class="text-green-400">"Order #"</span> & B2 & <span class="text-green-400">" - $"</span> & R2
+<span class="text-gray-400">// "Order #CA-2016-152156 - $261.96"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Changing Case</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">=<span class="text-purple-400">UPPER</span>(G2)                <span class="text-gray-400">// "Claire Gute" → "CLAIRE GUTE"</span>
+=<span class="text-purple-400">LOWER</span>(G2)                <span class="text-gray-400">// "Claire Gute" → "claire gute"</span>
+=<span class="text-purple-400">PROPER</span>(G2)               <span class="text-gray-400">// "CLAIRE GUTE" → "Claire Gute"</span>
+
+<span class="text-gray-400">// PROPER capitalizes first letter of each word</span>
+=<span class="text-purple-400">PROPER</span>(<span class="text-green-400">"john doe"</span>)        <span class="text-gray-400">// → "John Doe"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Cleaning Data</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Remove extra spaces (leading, trailing, and multiple internal)</span>
+=<span class="text-purple-400">TRIM</span>(<span class="text-green-400">"  Claire   Gute  "</span>)  <span class="text-gray-400">// → "Claire Gute"</span>
+
+<span class="text-gray-400">// Remove non-printable characters</span>
+=<span class="text-purple-400">CLEAN</span>(A2)
+
+<span class="text-gray-400">// Get length of text</span>
+=<span class="text-purple-400">LEN</span>(G2)                  <span class="text-gray-400">// "Claire Gute" → 11</span>
+=<span class="text-purple-400">LEN</span>(<span class="text-purple-400">TRIM</span>(G2))            <span class="text-gray-400">// Length after cleaning</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Replacing and Substituting</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// SUBSTITUTE - replace all occurrences of text</span>
+=<span class="text-purple-400">SUBSTITUTE</span>(I2, <span class="text-green-400">"United States"</span>, <span class="text-green-400">"USA"</span>)
+=<span class="text-purple-400">SUBSTITUTE</span>(B2, <span class="text-green-400">"-"</span>, <span class="text-green-400">"/"</span>)   <span class="text-gray-400">// "CA-2016-152156" → "CA/2016/152156"</span>
+
+<span class="text-gray-400">// Replace only the first occurrence</span>
+=<span class="text-purple-400">SUBSTITUTE</span>(B2, <span class="text-green-400">"-"</span>, <span class="text-green-400">"/"</span>, 1) <span class="text-gray-400">// "CA-2016-152156" → "CA/2016-152156"</span>
+
+<span class="text-gray-400">// REPLACE - replace by position</span>
+=<span class="text-purple-400">REPLACE</span>(B2, 1, 2, <span class="text-green-400">"NY"</span>)  <span class="text-gray-400">// "CA-2016-152156" → "NY-2016-152156"</span>
+<span class="text-gray-400">// Start at position 1, replace 2 characters with "NY"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Formatting Numbers as Text</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// TEXT function formats numbers with patterns</span>
+=<span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"$#,##0.00"</span>)     <span class="text-gray-400">// 1234.5 → "$1,234.50"</span>
+=<span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"0%"</span>)            <span class="text-gray-400">// 0.15 → "15%"</span>
+=<span class="text-purple-400">TEXT</span>(C2, <span class="text-green-400">"MMMM D, YYYY"</span>)  <span class="text-gray-400">// Date → "January 15, 2016"</span>
+=<span class="text-purple-400">TEXT</span>(C2, <span class="text-green-400">"MM/DD/YY"</span>)      <span class="text-gray-400">// Date → "01/15/16"</span>
+=<span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"000000"</span>)        <span class="text-gray-400">// 42 → "000042" (pad with zeros)</span>
+
+<span class="text-gray-400">// Combine formatted number with text</span>
+=<span class="text-green-400">"Total: "</span> & <span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"$#,##0.00"</span>)
+<span class="text-gray-400">// "Total: $261.96"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Repeating Text</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">=<span class="text-purple-400">REPT</span>(<span class="text-green-400">"*"</span>, 5)             <span class="text-gray-400">// "*****"</span>
+=<span class="text-purple-400">REPT</span>(<span class="text-green-400">"★"</span>, U2/100)         <span class="text-gray-400">// Visual rating based on profit</span>
+=<span class="text-purple-400">REPT</span>(<span class="text-green-400">"-"</span>, 20)             <span class="text-gray-400">// "--------------------" separator</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Position starts at 1</strong>, not 0 (unlike programming languages)</li>
+      <li><strong>FIND is case-sensitive</strong>, SEARCH is not</li>
+      <li><strong>& is the fastest way to concatenate</strong> - easier than CONCAT</li>
+      <li><strong>TRIM is essential for data cleaning</strong> - invisible spaces cause matching errors</li>
+      <li><strong>LEN helps verify data</strong> - check if codes are the right length</li>
+      <li><strong>TEXT is for display</strong> - converts numbers to formatted strings</li>
+      <li><strong>SUBSTITUTE replaces text</strong>, REPLACE replaces by position</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Extract the state abbreviation from Order ID (first 2 characters)</li>
-      <li>Extract the first name from Customer Name</li>
-      <li>Combine City and State into one cell with a comma separator</li>
-      <li>Count the number of characters in each Product Name</li>
-      <li>Create a formatted string: "Order #[OrderID] - $[Sales]"</li>
+      <li>Extract the <strong>state code</strong> (first 2 characters) from Order ID</li>
+      <li>Extract the <strong>year</strong> from Order ID (characters 4-7)</li>
+      <li>Extract the <strong>first name</strong> from Customer Name</li>
+      <li>Extract the <strong>last name</strong> from Customer Name</li>
+      <li>Create a <strong>full location</strong> string: "City, State (Region)"</li>
+      <li>Convert all Customer Names to <strong>UPPERCASE</strong></li>
+      <li>Create a <strong>formatted sales string</strong>: "Sale: $X,XXX.XX"</li>
+      <li>Count the <strong>number of characters</strong> in each Product Name</li>
+      <li>Replace "United States" with "USA" in the Country column</li>
+      <li>Create an <strong>email address</strong> from customer name: firstname.lastname@example.com (all lowercase, no spaces)</li>
+      <li>Create a <strong>visual rating</strong> using REPT: show stars (★) based on profit level (1-5 stars)</li>
+      <li>Extract the <strong>order number</strong> (last part after second dash) from Order ID</li>
     </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge: Parse Product ID</h2>
+    <p>Product IDs like "FUR-BO-10001798" contain embedded information:</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li>First 3 characters = Category code (FUR=Furniture, OFF=Office, TEC=Technology)</li>
+      <li>Characters 5-6 = Sub-category code</li>
+      <li>Last 8 characters = Product number</li>
+    </ul>
+    <p class="mt-2">Create formulas to extract each part and decode the category code to full name.</p>
   </div>
 </div>
