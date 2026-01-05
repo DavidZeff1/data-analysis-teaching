@@ -1,0 +1,100 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Chart Types</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Common Charts & How to Build</h2>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Bar Chart</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by Category</span>
+Rows: <span class="text-blue-400">Category</span>
+Columns: <span class="text-green-400">SUM(Sales)</span>
+
+<span class="text-gray-400">// Sorted descending</span>
+Click sort icon in toolbar (or right-click axis)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Line Chart</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales over time</span>
+Columns: <span class="text-blue-400">Order Date</span> (as continuous)
+Rows: <span class="text-green-400">SUM(Sales)</span>
+
+<span class="text-gray-400">// Change date granularity</span>
+Right-click date pill → Month, Quarter, Year
+
+<span class="text-gray-400">// Multiple lines by category</span>
+Color: <span class="text-blue-400">Category</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Scatter Plot</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales vs Profit by Sub-Category</span>
+Columns: <span class="text-green-400">SUM(Sales)</span>
+Rows: <span class="text-green-400">SUM(Profit)</span>
+Detail: <span class="text-blue-400">Sub-Category</span>
+
+<span class="text-gray-400">// Add trend line</span>
+Analytics pane → Drag "Trend Line" to view</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Pie Chart</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by Region</span>
+1. Click Show Me → Pie chart
+2. Or manually:
+   Marks type: Pie
+   Angle: <span class="text-green-400">SUM(Sales)</span>
+   Color: <span class="text-blue-400">Region</span>
+   Label: <span class="text-blue-400">Region</span>, <span class="text-green-400">SUM(Sales)</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Dual Axis</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales (bars) and Profit (line)</span>
+Columns: <span class="text-blue-400">Order Date</span>
+Rows: <span class="text-green-400">SUM(Sales)</span>
+      <span class="text-green-400">SUM(Profit)</span>  <span class="text-gray-400">(drag second measure to Rows)</span>
+
+Right-click second axis → Dual Axis
+Right-click axis → Synchronize Axis
+
+<span class="text-gray-400">Change mark types separately:</span>
+Click SUM(Sales) dropdown → Bar
+Click SUM(Profit) dropdown → Line</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Highlight Table (Heatmap)</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by Region and Category</span>
+Rows: <span class="text-blue-400">Region</span>
+Columns: <span class="text-blue-400">Category</span>
+Color: <span class="text-green-400">SUM(Sales)</span>
+Label: <span class="text-green-400">SUM(Sales)</span>
+
+Marks type: Square (for cleaner look)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li><strong>Show Me</strong> highlights valid chart types for your data</li>
+      <li>Dates on Columns usually = line chart</li>
+      <li>Dimension on Rows + Measure on Columns = bar chart</li>
+      <li>Two measures on axes + dimension on Detail = scatter plot</li>
+      <li>Right-click for more options (sort, format, filter)</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a bar chart: Profit by Sub-Category, sorted descending</li>
+      <li>Create a line chart: Sales by Month, with separate lines for each Region</li>
+      <li>Create a scatter plot: Discount vs Profit, colored by Category</li>
+      <li>Create a dual axis chart: Sales and Quantity over time</li>
+      <li>Create a heatmap: Sales by State and Category</li>
+    </ol>
+  </div>
+</div>

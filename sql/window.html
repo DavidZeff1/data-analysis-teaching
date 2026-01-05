@@ -1,0 +1,99 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Window Functions</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>Window functions perform calculations across a set of rows related to the current row, without collapsing them like GROUP BY. You keep all rows while adding computed columns.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common Functions</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">ROW_NUMBER()</span>  - Sequential number for each row
+<span class="text-purple-400">RANK()</span>        - Rank with gaps for ties
+<span class="text-purple-400">DENSE_RANK()</span>  - Rank without gaps for ties
+<span class="text-purple-400">SUM()</span>         - Running or partitioned total
+<span class="text-purple-400">AVG()</span>         - Running or partitioned average
+<span class="text-purple-400">LAG()</span>         - Value from previous row
+<span class="text-purple-400">LEAD()</span>        - Value from next row
+<span class="text-purple-400">FIRST_VALUE()</span> - First value in window
+<span class="text-purple-400">LAST_VALUE()</span>  - Last value in window</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">FUNCTION</span>() <span class="text-blue-400">OVER</span> (
+    <span class="text-blue-400">PARTITION BY</span> column    <span class="text-gray-400">-- optional: divide into groups</span>
+    <span class="text-blue-400">ORDER BY</span> column        <span class="text-gray-400">-- optional: order within partition</span>
+)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Row number for all tracks</span>
+<span class="text-blue-400">SELECT</span> Name, AlbumId,
+    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Name) <span class="text-blue-400">AS</span> RowNum
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">LIMIT</span> 10;
+
+<span class="text-gray-400">-- Row number within each album</span>
+<span class="text-blue-400">SELECT</span> Name, AlbumId,
+    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> AlbumId <span class="text-blue-400">ORDER BY</span> Name) <span class="text-blue-400">AS</span> TrackNum
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- Rank tracks by price</span>
+<span class="text-blue-400">SELECT</span> Name, UnitPrice,
+    <span class="text-purple-400">RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> UnitPrice <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> PriceRank
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- Running total of invoice amounts</span>
+<span class="text-blue-400">SELECT</span> InvoiceDate, Total,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> RunningTotal
+<span class="text-blue-400">FROM</span> Invoice;
+
+<span class="text-gray-400">-- Total per customer alongside each invoice</span>
+<span class="text-blue-400">SELECT</span> CustomerId, InvoiceDate, Total,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> CustomerId) <span class="text-blue-400">AS</span> CustomerTotal
+<span class="text-blue-400">FROM</span> Invoice;
+
+<span class="text-gray-400">-- Compare to previous invoice</span>
+<span class="text-blue-400">SELECT</span> InvoiceDate, Total,
+    <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> PrevTotal,
+    Total - <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> Difference
+<span class="text-blue-400">FROM</span> Invoice;
+
+<span class="text-gray-400">-- Average track length per album vs each track</span>
+<span class="text-blue-400">SELECT</span> Name, AlbumId, Milliseconds,
+    <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> AlbumId) <span class="text-blue-400">AS</span> AlbumAvg
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- Top 3 tracks per genre by length</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> (
+    <span class="text-blue-400">SELECT</span> Name, GenreId, Milliseconds,
+        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> GenreId <span class="text-blue-400">ORDER BY</span> Milliseconds <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> rn
+    <span class="text-blue-400">FROM</span> Track
+) <span class="text-blue-400">WHERE</span> rn <= 3;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Unlike GROUP BY, window functions don't collapse rows</li>
+      <li>PARTITION BY is like GROUP BY but keeps all rows</li>
+      <li>ORDER BY in OVER() defines window frame order</li>
+      <li>No PARTITION BY = entire result set is one window</li>
+      <li>Great for rankings, running totals, and row comparisons</li>
+      <li>Can use aggregate functions (SUM, AVG) as window functions</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Number all tracks within each album (PARTITION BY AlbumId)</li>
+      <li>Rank customers by their total spending (join Invoice, use SUM with GROUP BY first, then RANK)</li>
+      <li>Show each invoice with a running total per customer</li>
+      <li>For each track, show the album's average track length alongside it</li>
+      <li>Find the longest track in each genre using ROW_NUMBER and filtering for row 1</li>
+    </ol>
+  </div>
+</div>

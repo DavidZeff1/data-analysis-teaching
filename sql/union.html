@@ -1,0 +1,76 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">UNION</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>UNION combines results from two or more SELECT statements into a single result set. It stacks rows vertically.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">UNION</span>      - Combines and removes duplicates
+<span class="text-blue-400">UNION ALL</span>  - Combines and keeps duplicates (faster)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> columns <span class="text-blue-400">FROM</span> table1
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> columns <span class="text-blue-400">FROM</span> table2;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- All names from artists and customers</span>
+<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">AS</span> Name <span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> FirstName <span class="text-blue-400">FROM</span> Customer;
+
+<span class="text-gray-400">-- Cities from both customers and employees</span>
+<span class="text-blue-400">SELECT</span> City, <span class="text-green-400">'Customer'</span> <span class="text-blue-400">AS</span> Type <span class="text-blue-400">FROM</span> Customer
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> City, <span class="text-green-400">'Employee'</span> <span class="text-blue-400">AS</span> Type <span class="text-blue-400">FROM</span> Employee;
+
+<span class="text-gray-400">-- UNION ALL to keep duplicates</span>
+<span class="text-blue-400">SELECT</span> Country <span class="text-blue-400">FROM</span> Customer
+<span class="text-blue-400">UNION ALL</span>
+<span class="text-blue-400">SELECT</span> BillingCountry <span class="text-blue-400">FROM</span> Invoice;
+
+<span class="text-gray-400">-- Multiple UNIONs</span>
+<span class="text-blue-400">SELECT</span> <span class="text-green-400">'Artist'</span> <span class="text-blue-400">AS</span> Type, Name <span class="text-blue-400">FROM</span> Artist <span class="text-blue-400">WHERE</span> Name <span class="text-blue-400">LIKE</span> <span class="text-green-400">'A%'</span>
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> <span class="text-green-400">'Album'</span> <span class="text-blue-400">AS</span> Type, Title <span class="text-blue-400">FROM</span> Album <span class="text-blue-400">WHERE</span> Title <span class="text-blue-400">LIKE</span> <span class="text-green-400">'A%'</span>
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> <span class="text-green-400">'Track'</span> <span class="text-blue-400">AS</span> Type, Name <span class="text-blue-400">FROM</span> Track <span class="text-blue-400">WHERE</span> Name <span class="text-blue-400">LIKE</span> <span class="text-green-400">'A%'</span>;
+
+<span class="text-gray-400">-- ORDER BY applies to final result</span>
+<span class="text-blue-400">SELECT</span> Name, <span class="text-green-400">'Artist'</span> <span class="text-blue-400">AS</span> Source <span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> Title, <span class="text-green-400">'Album'</span> <span class="text-blue-400">FROM</span> Album
+<span class="text-blue-400">ORDER BY</span> Name
+<span class="text-blue-400">LIMIT</span> 10;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>All SELECTs must have the same number of columns</li>
+      <li>Column types should be compatible</li>
+      <li>Column names come from the first SELECT</li>
+      <li>UNION ALL is faster because it skips duplicate checking</li>
+      <li>ORDER BY goes at the very end, applies to combined result</li>
+      <li>Use UNION to merge similar data from different tables</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Get a list of all unique countries from both Customer and Invoice tables</li>
+      <li>Combine employee and customer names with a column indicating their type</li>
+      <li>Get all emails from both Employee and Customer tables</li>
+      <li>Find all names (artists, albums, tracks) that contain the word "Love"</li>
+      <li>Get all cities where we have either customers or employees, sorted alphabetically</li>
+    </ol>
+  </div>
+</div>

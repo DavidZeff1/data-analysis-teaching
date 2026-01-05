@@ -1,0 +1,125 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Visualizations</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Common Visual Types</h2>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Bar & Column Charts</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Clustered Bar - horizontal</span>
+Y-axis: <span class="text-blue-400">Category</span>
+X-axis: <span class="text-green-400">Sales</span>
+
+<span class="text-gray-400">// Clustered Column - vertical</span>
+X-axis: <span class="text-blue-400">Category</span>
+Y-axis: <span class="text-green-400">Sales</span>
+
+<span class="text-gray-400">// Stacked - add a Legend field</span>
+Legend: <span class="text-blue-400">Region</span>
+<span class="text-gray-400">→ Bars split by region</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Line Chart</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales over time</span>
+X-axis: <span class="text-blue-400">Order Date</span>
+Y-axis: <span class="text-green-400">Sales</span>
+
+<span class="text-gray-400">// Multiple lines</span>
+Legend: <span class="text-blue-400">Category</span>
+
+<span class="text-gray-400">// Change date granularity</span>
+Click arrow on date field in well
+→ Choose: Year, Quarter, Month, Day</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Pie & Donut Charts</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by Region</span>
+Legend: <span class="text-blue-400">Region</span>
+Values: <span class="text-green-400">Sales</span>
+
+<span class="text-gray-400">// Show percentages</span>
+Format → Detail labels → Label contents
+→ Select "Percent of total"</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Card & KPI</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Card - single big number</span>
+Fields: <span class="text-green-400">Sales</span>
+<span class="text-gray-400">→ Shows total sales</span>
+
+<span class="text-gray-400">// Multi-row Card - multiple metrics</span>
+Fields: <span class="text-green-400">Sales</span>, <span class="text-green-400">Profit</span>, <span class="text-green-400">Quantity</span>
+
+<span class="text-gray-400">// KPI - with target/trend</span>
+Value: <span class="text-green-400">Sales</span>
+Trend axis: <span class="text-blue-400">Order Date</span>
+Target: <span class="text-green-400">Target Sales</span> (if you have it)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Table & Matrix</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Table - flat list</span>
+Columns: <span class="text-blue-400">Product Name</span>, <span class="text-green-400">Sales</span>, <span class="text-green-400">Profit</span>
+
+<span class="text-gray-400">// Matrix - pivot table style</span>
+Rows: <span class="text-blue-400">Category</span>, <span class="text-blue-400">Sub-Category</span>
+Columns: <span class="text-blue-400">Region</span>
+Values: <span class="text-green-400">Sales</span>
+<span class="text-gray-400">→ Expandable hierarchy!</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Map</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Bubble map</span>
+Location: <span class="text-blue-400">State</span> (or City)
+Size: <span class="text-green-400">Sales</span>
+Color: <span class="text-green-400">Profit</span>
+
+<span class="text-gray-400">// Filled map</span>
+Location: <span class="text-blue-400">State</span>
+Color saturation: <span class="text-green-400">Sales</span>
+
+<span class="text-gray-400">Note: May need to set data category</span>
+Select column → Column tools → Data category → State</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Scatter Chart</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales vs Profit by Sub-Category</span>
+X-axis: <span class="text-green-400">Sales</span>
+Y-axis: <span class="text-green-400">Profit</span>
+Details: <span class="text-blue-400">Sub-Category</span>
+
+<span class="text-gray-400">// Add size dimension</span>
+Size: <span class="text-green-400">Quantity</span>
+
+<span class="text-gray-400">// Add trend line</span>
+Analytics pane → Trend line → Add</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Hover over visual icons to see names</li>
+      <li>Click a visual, then click different icon to change type</li>
+      <li>Some visuals need specific field types (dates for line charts)</li>
+      <li>Format pane (paint roller) customizes appearance</li>
+      <li>Analytics pane adds trend lines, reference lines, etc.</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a column chart: Profit by Sub-Category</li>
+      <li>Create a line chart: Sales by Month, with lines for each Region</li>
+      <li>Create a Card showing total Sales</li>
+      <li>Create a Matrix: Rows = Category/Sub-Category, Columns = Region, Values = Sales</li>
+      <li>Create a Map showing Sales by State</li>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Pivot Tables</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Pivot tables summarize large datasets by grouping, filtering, and calculating totals. They're the most powerful tool for data analysis in Excel.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating a Pivot Table</h2>
+    <ol class="list-decimal ml-5">
+      <li>Select your data (including headers)</li>
+      <li><strong>Google Sheets:</strong> Insert → Pivot table</li>
+      <li><strong>Excel:</strong> Insert → PivotTable</li>
+      <li>Choose where to place it (new sheet recommended)</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Pivot Table Areas</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Rows</span>      - Categories to group by (vertical)
+<span class="text-blue-400">Columns</span>   - Categories to spread across (horizontal)  
+<span class="text-blue-400">Values</span>    - Numbers to calculate (SUM, COUNT, AVG)
+<span class="text-blue-400">Filters</span>   - Limit data shown</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Example Pivot Tables</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Total Sales by Region</span>
+Rows: Region
+Values: SUM of Sales
+
+<span class="text-gray-400">// Sales by Region and Category</span>
+Rows: Region
+Columns: Category
+Values: SUM of Sales
+
+<span class="text-gray-400">// Average Profit by Segment and Ship Mode</span>
+Rows: Segment
+Columns: Ship Mode
+Values: AVERAGE of Profit
+
+<span class="text-gray-400">// Order Count by Year and Quarter</span>
+Rows: Order Date (grouped by Year, Quarter)
+Values: COUNT of Order ID
+
+<span class="text-gray-400">// Top Products by Sales (filtered)</span>
+Rows: Product Name
+Values: SUM of Sales
+Filters: Category = "Technology"
+Sort: Descending by Sales</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Features</h2>
+    <ul class="list-disc ml-5">
+      <li><strong>Group dates:</strong> Right-click date field → Group by Month/Quarter/Year</li>
+      <li><strong>Sort:</strong> Click dropdown on row/column headers</li>
+      <li><strong>Filter:</strong> Add fields to Filter area or use dropdown arrows</li>
+      <li><strong>Show as %:</strong> Value field settings → Show values as → % of Grand Total</li>
+      <li><strong>Multiple values:</strong> Drag same field to Values twice with different calculations</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Pivot tables don't change your original data</li>
+      <li>Refresh pivot table when source data changes</li>
+      <li>Text fields go in Rows/Columns, number fields go in Values</li>
+      <li>Start simple (one row, one value) then add complexity</li>
+      <li>Double-click any cell to see the underlying rows</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a pivot showing total Sales by Region</li>
+      <li>Add Category as columns to see Sales by Region AND Category</li>
+      <li>Create a pivot showing average Profit by Segment</li>
+      <li>Build a pivot with Order Date grouped by Year and Month, showing Sales</li>
+      <li>Create a pivot showing Count of Orders by Ship Mode, filtered to only "Consumer" segment</li>
+    </ol>
+  </div>
+</div>

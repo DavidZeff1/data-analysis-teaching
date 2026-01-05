@@ -1,0 +1,157 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">DAX (Data Analysis Expressions)</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is DAX?</h2>
+    <p>DAX is Power BI's formula language for creating custom calculations. Similar to Excel formulas but designed for data models.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Measures vs Calculated Columns</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Measures</span>
+- Calculated at query time
+- Aggregate data (SUM, AVERAGE, etc.)
+- React to filters and slicers
+- <span class="text-gray-400">Use for: KPIs, totals, ratios</span>
+
+<span class="text-yellow-300">Calculated Columns</span>
+- Calculated when data loads
+- Row-by-row calculation
+- Stored in the table
+- <span class="text-gray-400">Use for: Categories, flags, row-level calcs</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating Measures & Columns</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// New Measure</span>
+Home → New Measure
+<span class="text-gray-400">OR</span>
+Right-click table → New measure
+
+<span class="text-gray-400">// New Calculated Column</span>
+Table tools → New column
+<span class="text-gray-400">OR</span>
+Right-click table → New column</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Basic Measures</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Total Sales</span>
+Total Sales = <span class="text-purple-400">SUM</span>(superstore[Sales])
+
+<span class="text-gray-400">// Total Profit</span>
+Total Profit = <span class="text-purple-400">SUM</span>(superstore[Profit])
+
+<span class="text-gray-400">// Order Count</span>
+Order Count = <span class="text-purple-400">DISTINCTCOUNT</span>(superstore[Order ID])
+
+<span class="text-gray-400">// Average Sale</span>
+Avg Sale = <span class="text-purple-400">AVERAGE</span>(superstore[Sales])
+
+<span class="text-gray-400">// Profit Margin</span>
+Profit Margin = 
+    <span class="text-purple-400">DIVIDE</span>(
+        <span class="text-purple-400">SUM</span>(superstore[Profit]),
+        <span class="text-purple-400">SUM</span>(superstore[Sales])
+    )</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Calculated Columns</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Profit Status</span>
+Profit Status = 
+    <span class="text-blue-400">IF</span>(
+        superstore[Profit] > 0,
+        <span class="text-green-400">"Profit"</span>,
+        <span class="text-green-400">"Loss"</span>
+    )
+
+<span class="text-gray-400">// Sales Tier</span>
+Sales Tier = 
+    <span class="text-blue-400">SWITCH</span>(
+        <span class="text-blue-400">TRUE</span>(),
+        superstore[Sales] > 1000, <span class="text-green-400">"High"</span>,
+        superstore[Sales] > 100, <span class="text-green-400">"Medium"</span>,
+        <span class="text-green-400">"Low"</span>
+    )
+
+<span class="text-gray-400">// Days to Ship</span>
+Days to Ship = 
+    <span class="text-purple-400">DATEDIFF</span>(
+        superstore[Order Date],
+        superstore[Ship Date],
+        <span class="text-blue-400">DAY</span>
+    )</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Time Intelligence</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Year to Date Sales</span>
+YTD Sales = 
+    <span class="text-purple-400">TOTALYTD</span>(
+        <span class="text-purple-400">SUM</span>(superstore[Sales]),
+        superstore[Order Date]
+    )
+
+<span class="text-gray-400">// Previous Year Sales</span>
+PY Sales = 
+    <span class="text-purple-400">CALCULATE</span>(
+        <span class="text-purple-400">SUM</span>(superstore[Sales]),
+        <span class="text-purple-400">SAMEPERIODLASTYEAR</span>(superstore[Order Date])
+    )
+
+<span class="text-gray-400">// Year over Year Growth</span>
+YoY Growth = 
+    <span class="text-purple-400">DIVIDE</span>(
+        [Total Sales] - [PY Sales],
+        [PY Sales]
+    )</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">CALCULATE - The Power Function</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales for just East region</span>
+East Sales = 
+    <span class="text-purple-400">CALCULATE</span>(
+        <span class="text-purple-400">SUM</span>(superstore[Sales]),
+        superstore[Region] = <span class="text-green-400">"East"</span>
+    )
+
+<span class="text-gray-400">// Sales ignoring slicer filters</span>
+All Sales = 
+    <span class="text-purple-400">CALCULATE</span>(
+        <span class="text-purple-400">SUM</span>(superstore[Sales]),
+        <span class="text-purple-400">ALL</span>(superstore)
+    )
+
+<span class="text-gray-400">// Percent of Total</span>
+% of Total = 
+    <span class="text-purple-400">DIVIDE</span>(
+        [Total Sales],
+        <span class="text-purple-400">CALCULATE</span>([Total Sales], <span class="text-purple-400">ALL</span>(superstore))
+    )</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Measures react to filters, calculated columns don't</li>
+      <li>Use DIVIDE instead of / to handle divide-by-zero</li>
+      <li>Table[Column] references a column in a table</li>
+      <li>[MeasureName] references another measure</li>
+      <li>CALCULATE is the most powerful function - it modifies filter context</li>
+      <li>Time intelligence needs a proper date table for best results</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a "Total Sales" measure</li>
+      <li>Create a "Profit Margin" measure (Profit / Sales)</li>
+      <li>Create a "Profit Status" calculated column (Profit vs Loss)</li>
+      <li>Create a "% of Total Sales" measure using CALCULATE and ALL</li>
+      <li>Create a "Days to Ship" calculated column</li>
+    </ol>
+  </div>
+</div>

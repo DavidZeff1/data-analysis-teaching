@@ -1,0 +1,79 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">HAVING</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>HAVING filters groups after GROUP BY. It's like WHERE, but for aggregated results.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">WHERE vs HAVING</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">WHERE</span>   - Filters rows BEFORE grouping
+<span class="text-blue-400">HAVING</span>  - Filters groups AFTER grouping</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> column, <span class="text-purple-400">AGGREGATE</span>(column)
+<span class="text-blue-400">FROM</span> table
+<span class="text-blue-400">GROUP BY</span> column
+<span class="text-blue-400">HAVING</span> condition;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Albums with more than 10 tracks</span>
+<span class="text-blue-400">SELECT</span> AlbumId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> TrackCount
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">GROUP BY</span> AlbumId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) > 10;
+
+<span class="text-gray-400">-- Countries with total sales over 40</span>
+<span class="text-blue-400">SELECT</span> BillingCountry, <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
+<span class="text-blue-400">FROM</span> Invoice
+<span class="text-blue-400">GROUP BY</span> BillingCountry
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">SUM</span>(Total) > 40;
+
+<span class="text-gray-400">-- Genres with average track length over 5 minutes</span>
+<span class="text-blue-400">SELECT</span> GenreId, <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">AS</span> AvgLength
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">GROUP BY</span> GenreId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">AVG</span>(Milliseconds) > 300000;
+
+<span class="text-gray-400">-- Combining WHERE and HAVING</span>
+<span class="text-blue-400">SELECT</span> AlbumId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> TrackCount
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">WHERE</span> UnitPrice > 0.99
+<span class="text-blue-400">GROUP BY</span> AlbumId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) > 5;
+
+<span class="text-gray-400">-- Artists with more than 5 albums</span>
+<span class="text-blue-400">SELECT</span> Artist.Name, <span class="text-purple-400">COUNT</span>(Album.AlbumId) <span class="text-blue-400">AS</span> AlbumCount
+<span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">JOIN</span> Album <span class="text-blue-400">ON</span> Artist.ArtistId = Album.ArtistId
+<span class="text-blue-400">GROUP BY</span> Artist.ArtistId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(Album.AlbumId) > 5;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Use WHERE to filter individual rows before grouping</li>
+      <li>Use HAVING to filter groups after aggregation</li>
+      <li>HAVING conditions always involve aggregate functions</li>
+      <li>Order of execution: WHERE → GROUP BY → HAVING → SELECT</li>
+      <li>You can use both WHERE and HAVING in the same query</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Find genres that have more than 100 tracks</li>
+      <li>Find customers who have spent more than 40 in total</li>
+      <li>Find albums where the average track length is over 4 minutes (240000 ms)</li>
+      <li>Find countries with more than 5 customers</li>
+      <li>Find artists with more than 2 albums, but only count albums that have more than 10 tracks (hint: use a subquery or nested condition)</li>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">CASE</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>CASE adds conditional logic to your query. It's like an if-else statement that returns different values based on conditions.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">CASE</span>
+    <span class="text-blue-400">WHEN</span> condition1 <span class="text-blue-400">THEN</span> result1
+    <span class="text-blue-400">WHEN</span> condition2 <span class="text-blue-400">THEN</span> result2
+    <span class="text-blue-400">ELSE</span> default_result
+<span class="text-blue-400">END</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Categorize tracks by length</span>
+<span class="text-blue-400">SELECT</span> Name,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> Milliseconds < 180000 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Short'</span>
+        <span class="text-blue-400">WHEN</span> Milliseconds < 300000 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Long'</span>
+    <span class="text-blue-400">END AS</span> Duration
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- Price tier for tracks</span>
+<span class="text-blue-400">SELECT</span> Name, UnitPrice,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> UnitPrice < 1 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Budget'</span>
+        <span class="text-blue-400">WHEN</span> UnitPrice < 2 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Standard'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Premium'</span>
+    <span class="text-blue-400">END AS</span> PriceTier
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- Simple CASE (matching exact values)</span>
+<span class="text-blue-400">SELECT</span> FirstName, Country,
+    <span class="text-blue-400">CASE</span> Country
+        <span class="text-blue-400">WHEN</span> <span class="text-green-400">'USA'</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">'North America'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-green-400">'Canada'</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">'North America'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-green-400">'Brazil'</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">'South America'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Other'</span>
+    <span class="text-blue-400">END AS</span> Region
+<span class="text-blue-400">FROM</span> Customer;
+
+<span class="text-gray-400">-- CASE in aggregation: count by category</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> Milliseconds < 180000 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> ShortTracks,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> Milliseconds >= 180000 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> LongTracks
+<span class="text-blue-400">FROM</span> Track;
+
+<span class="text-gray-400">-- CASE in ORDER BY</span>
+<span class="text-blue-400">SELECT</span> Name, GenreId
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">ORDER BY</span>
+    <span class="text-blue-400">CASE WHEN</span> GenreId = 1 <span class="text-blue-400">THEN</span> 0 <span class="text-blue-400">ELSE</span> 1 <span class="text-blue-400">END</span>,
+    Name;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>CASE evaluates conditions in order, returns first match</li>
+      <li>ELSE is optional - returns NULL if no match and no ELSE</li>
+      <li>Can be used in SELECT, WHERE, ORDER BY, GROUP BY</li>
+      <li>Simple CASE (CASE column WHEN value) for exact matches</li>
+      <li>Searched CASE (CASE WHEN condition) for complex conditions</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Categorize invoices as 'Small' (<5), 'Medium' (5-15), or 'Large' (>15) based on Total</li>
+      <li>Label employees as 'Manager' if their Title contains 'Manager', otherwise 'Staff'</li>
+      <li>Count how many customers are from USA vs non-USA using CASE with SUM</li>
+      <li>Create a column showing 'Has Support Rep' or 'No Support Rep' based on SupportRepId being NULL or not</li>
+      <li>Sort tracks so that Rock genre (GenreId = 1) appears first, then everything else alphabetically</li>
+    </ol>
+  </div>
+</div>

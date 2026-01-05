@@ -1,0 +1,65 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Logical Functions</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Logical functions make decisions based on conditions. They return different results depending on whether conditions are TRUE or FALSE.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Functions</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">IF</span>(condition, if_true, if_false)
+<span class="text-purple-400">IFS</span>(cond1, val1, cond2, val2, ...)
+<span class="text-purple-400">AND</span>(cond1, cond2, ...)  - All must be true
+<span class="text-purple-400">OR</span>(cond1, cond2, ...)   - Any must be true
+<span class="text-purple-400">NOT</span>(condition)          - Reverses true/false
+<span class="text-purple-400">IFERROR</span>(formula, if_error)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <p class="text-sm text-gray-600 mb-2">Using Superstore: Profit=Q, Sales=N, Discount=P</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Simple IF - is profit positive?</span>
+=<span class="text-purple-400">IF</span>(Q2>0, <span class="text-green-400">"Profit"</span>, <span class="text-green-400">"Loss"</span>)
+
+<span class="text-gray-400">// Nested IF - categorize profit</span>
+=<span class="text-purple-400">IF</span>(Q2>100, <span class="text-green-400">"High"</span>, <span class="text-purple-400">IF</span>(Q2>0, <span class="text-green-400">"Low"</span>, <span class="text-green-400">"Loss"</span>))
+
+<span class="text-gray-400">// IFS - cleaner multiple conditions</span>
+=<span class="text-purple-400">IFS</span>(Q2>100, <span class="text-green-400">"High"</span>, Q2>0, <span class="text-green-400">"Low"</span>, Q2<=0, <span class="text-green-400">"Loss"</span>)
+
+<span class="text-gray-400">// AND - both conditions must be true</span>
+=<span class="text-purple-400">IF</span>(<span class="text-purple-400">AND</span>(Q2>0, P2=0), <span class="text-green-400">"Profitable No Discount"</span>, <span class="text-green-400">"Other"</span>)
+
+<span class="text-gray-400">// OR - either condition can be true</span>
+=<span class="text-purple-400">IF</span>(<span class="text-purple-400">OR</span>(L2=<span class="text-green-400">"East"</span>, L2=<span class="text-green-400">"West"</span>), <span class="text-green-400">"Coastal"</span>, <span class="text-green-400">"Central"</span>)
+
+<span class="text-gray-400">// IFERROR - handle divide by zero</span>
+=<span class="text-purple-400">IFERROR</span>(Q2/N2, 0)
+
+<span class="text-gray-400">// Combine with calculations</span>
+=<span class="text-purple-400">IF</span>(N2>500, N2*0.1, 0)  <span class="text-gray-400">// 10% bonus on sales over 500</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>IF is the foundation - learn it well before others</li>
+      <li>IFS is cleaner than nested IFs for multiple conditions</li>
+      <li>AND/OR go inside IF, not standalone</li>
+      <li>IFERROR catches #DIV/0!, #N/A, #VALUE! errors</li>
+      <li>Conditions use: <code>=</code>, <code><></code>, <code>></code>, <code><</code>, <code>>=</code>, <code><=</code></li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a column that shows "Discounted" if Discount > 0, otherwise "Full Price"</li>
+      <li>Categorize Sales into "Small" (<100), "Medium" (100-500), "Large" (>500)</li>
+      <li>Flag orders that are both "Consumer" segment AND have negative profit</li>
+      <li>Create a "Priority" column: "High" if Same Day shipping OR Sales > 1000, else "Normal"</li>
+      <li>Calculate profit margin (Profit/Sales) but show "N/A" if Sales is 0</li>
+    </ol>
+  </div>
+</div>

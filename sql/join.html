@@ -1,0 +1,69 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">JOIN</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>JOIN combines rows from two or more tables based on a related column between them.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">INNER JOIN</span>  - Only matching rows from both tables
+<span class="text-blue-400">LEFT JOIN</span>   - All rows from left table + matches from right
+<span class="text-blue-400">RIGHT JOIN</span>  - All rows from right table + matches from left (not in SQLite)
+<span class="text-blue-400">FULL JOIN</span>   - All rows from both tables (not in SQLite)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> columns
+<span class="text-blue-400">FROM</span> table1
+<span class="text-blue-400">JOIN</span> table2 <span class="text-blue-400">ON</span> table1.column = table2.column;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Get album titles with artist names</span>
+<span class="text-blue-400">SELECT</span> Album.Title, Artist.Name
+<span class="text-blue-400">FROM</span> Album
+<span class="text-blue-400">JOIN</span> Artist <span class="text-blue-400">ON</span> Album.ArtistId = Artist.ArtistId;
+
+<span class="text-gray-400">-- Get track names with their genre</span>
+<span class="text-blue-400">SELECT</span> Track.Name, Genre.Name <span class="text-blue-400">AS</span> GenreName
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">JOIN</span> Genre <span class="text-blue-400">ON</span> Track.GenreId = Genre.GenreId;
+
+<span class="text-gray-400">-- Multiple joins: track with album and artist</span>
+<span class="text-blue-400">SELECT</span> Track.Name <span class="text-blue-400">AS</span> Track, Album.Title <span class="text-blue-400">AS</span> Album, Artist.Name <span class="text-blue-400">AS</span> Artist
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">JOIN</span> Album <span class="text-blue-400">ON</span> Track.AlbumId = Album.AlbumId
+<span class="text-blue-400">JOIN</span> Artist <span class="text-blue-400">ON</span> Album.ArtistId = Artist.ArtistId;
+
+<span class="text-gray-400">-- LEFT JOIN: all customers, even without invoices</span>
+<span class="text-blue-400">SELECT</span> Customer.FirstName, Invoice.Total
+<span class="text-blue-400">FROM</span> Customer
+<span class="text-blue-400">LEFT JOIN</span> Invoice <span class="text-blue-400">ON</span> Customer.CustomerId = Invoice.CustomerId;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Think of JOIN as matching IDs between tables</li>
+      <li>INNER JOIN is the default - just writing JOIN means INNER JOIN</li>
+      <li>LEFT JOIN keeps all left rows, fills NULLs where no match</li>
+      <li>Use table aliases to shorten: <code>FROM Album a JOIN Artist ar ON a.ArtistId = ar.ArtistId</code></li>
+      <li>Always specify which table a column comes from when names could be ambiguous</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Get all album titles with their artist names</li>
+      <li>Get all track names with their media type name</li>
+      <li>Get invoice date, customer first name, and total for all invoices</li>
+      <li>Get track name, album title, and artist name for all tracks</li>
+      <li>Get all customers with their support rep's first and last name (Employee table)</li>
+    </ol>
+  </div>
+</div>

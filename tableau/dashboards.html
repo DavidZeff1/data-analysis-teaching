@@ -1,0 +1,199 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Dashboards</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Dashboards combine multiple worksheets into a single interactive view. They tell a complete data story.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating a Dashboard</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Method 1:</span> Dashboard → New Dashboard
+<span class="text-gray-400">Method 2:</span> Click the dashboard icon (bottom of screen)
+<span class="text-gray-400">Method 3:</span> Right-click tab area → New Dashboard</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Dashboard Layout</h2>
+    <div class="border-2 border-gray-400 rounded-lg overflow-hidden text-sm bg-white">
+      <div class="flex">
+        <!-- Left sidebar -->
+        <div class="w-40 bg-gray-100 border-r border-gray-300 p-2">
+          <div class="text-xs font-bold text-gray-600 mb-2">Sheets</div>
+          <div class="space-y-1">
+            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1">
+              <span class="text-gray-400">📊</span> Sales by Region
+            </div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1">
+              <span class="text-gray-400">📈</span> Sales Trend
+            </div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1">
+              <span class="text-gray-400">📊</span> Profit by Category
+            </div>
+          </div>
+          
+          <div class="text-xs font-bold text-gray-600 mt-4 mb-2">Objects</div>
+          <div class="grid grid-cols-2 gap-1 text-xs">
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Horizontal</div>
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Vertical</div>
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Text</div>
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Image</div>
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Blank</div>
+            <div class="bg-gray-200 rounded px-1 py-0.5 text-center">Web</div>
+          </div>
+        </div>
+        
+        <!-- Dashboard canvas -->
+        <div class="flex-1 bg-gray-50 p-2">
+          <div class="bg-white border border-gray-300 rounded h-full p-2">
+            <!-- Title -->
+            <div class="text-center font-bold text-gray-700 mb-2">Sales Dashboard</div>
+            
+            <!-- Top row - 2 charts -->
+            <div class="flex gap-2 mb-2">
+              <!-- Chart 1 -->
+              <div class="flex-1 border border-gray-200 rounded p-2 bg-gray-50">
+                <div class="text-xs text-gray-500 mb-1">Sales by Region</div>
+                <div class="flex items-end gap-1 h-16">
+                  <div class="flex-1 bg-blue-400 rounded-t" style="height: 70%"></div>
+                  <div class="flex-1 bg-blue-500 rounded-t" style="height: 100%"></div>
+                  <div class="flex-1 bg-blue-400 rounded-t" style="height: 55%"></div>
+                  <div class="flex-1 bg-blue-500 rounded-t" style="height: 85%"></div>
+                </div>
+              </div>
+              
+              <!-- Chart 2 -->
+              <div class="flex-1 border border-gray-200 rounded p-2 bg-gray-50">
+                <div class="text-xs text-gray-500 mb-1">Sales Trend</div>
+                <svg class="w-full h-16" viewBox="0 0 100 40">
+                  <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="0,35 20,28 40,30 60,20 80,15 100,10"/>
+                </svg>
+              </div>
+            </div>
+            
+            <!-- Bottom row - 1 wide chart -->
+            <div class="border border-gray-200 rounded p-2 bg-gray-50">
+              <div class="text-xs text-gray-500 mb-1">Profit by Category</div>
+              <div class="flex items-center gap-2 h-12">
+                <div class="flex items-center flex-1">
+                  <span class="text-xs w-16">Furniture</span>
+                  <div class="flex-1 bg-green-400 rounded h-4" style="width: 60%"></div>
+                </div>
+                <div class="flex items-center flex-1">
+                  <span class="text-xs w-16">Office</span>
+                  <div class="flex-1 bg-green-500 rounded h-4" style="width: 80%"></div>
+                </div>
+                <div class="flex items-center flex-1">
+                  <span class="text-xs w-16">Tech</span>
+                  <div class="flex-1 bg-green-600 rounded h-4" style="width: 95%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Building a Dashboard</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">1. Set size</span>
+   Dashboard → Size → Fixed or Automatic
+   <span class="text-gray-400">(1200x800 is common)</span>
+
+<span class="text-gray-400">2. Drag sheets to canvas</span>
+   Drag from Sheets panel to canvas
+   Blue highlight shows where it will land
+
+<span class="text-gray-400">3. Arrange layout</span>
+   Use containers (Horizontal/Vertical) for structure
+   Resize by dragging edges
+
+<span class="text-gray-400">4. Add interactivity</span>
+   Click sheet → Use as Filter (funnel icon)
+   This makes clicking one chart filter others
+
+<span class="text-gray-400">5. Add elements</span>
+   Drag Text for titles
+   Drag Image for logos</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Filter Actions</h2>
+    <div class="bg-gray-100 rounded-lg p-3 text-sm">
+      <div class="flex items-center gap-4 mb-2">
+        <div class="border border-gray-300 rounded p-2 bg-white">
+          <div class="text-xs text-gray-500 mb-1">Click a bar...</div>
+          <div class="flex gap-1">
+            <div class="w-4 bg-blue-300 h-8 rounded"></div>
+            <div class="w-4 bg-blue-500 h-12 rounded ring-2 ring-orange-400"></div>
+            <div class="w-4 bg-blue-300 h-6 rounded"></div>
+          </div>
+        </div>
+        <div class="text-2xl text-gray-400">→</div>
+        <div class="border border-gray-300 rounded p-2 bg-white">
+          <div class="text-xs text-gray-500 mb-1">...filters other charts!</div>
+          <svg class="w-20 h-12" viewBox="0 0 80 40">
+            <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="0,30 20,25 40,20 60,15 80,10"/>
+          </svg>
+        </div>
+      </div>
+      <div class="text-xs text-gray-600">
+        Click the <span class="bg-gray-200 px-1 rounded">funnel icon</span> on a sheet to enable "Use as Filter"
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Dashboard Objects</h2>
+    <div class="grid grid-cols-2 gap-2 text-sm">
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-8 h-6 border border-gray-300 flex"><div class="flex-1 border-r border-gray-300"></div><div class="flex-1"></div></div>
+        <div><strong>Horizontal</strong> - Side-by-side layout</div>
+      </div>
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-6 h-8 border border-gray-300 flex flex-col"><div class="flex-1 border-b border-gray-300"></div><div class="flex-1"></div></div>
+        <div><strong>Vertical</strong> - Stacked layout</div>
+      </div>
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-xs text-gray-400">Aa</div>
+        <div><strong>Text</strong> - Titles, descriptions</div>
+      </div>
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-gray-400">🖼</div>
+        <div><strong>Image</strong> - Logos, pictures</div>
+      </div>
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-8 h-6 border border-dashed border-gray-300"></div>
+        <div><strong>Blank</strong> - Spacing</div>
+      </div>
+      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
+        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-xs text-gray-400">🌐</div>
+        <div><strong>Web Page</strong> - Embed URLs</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Best Practices</h2>
+    <ul class="list-disc ml-5">
+      <li>Start with a clear story or question to answer</li>
+      <li>Most important viz goes top-left (first thing seen)</li>
+      <li>3-4 charts per dashboard max - avoid clutter</li>
+      <li>Use consistent colors across charts</li>
+      <li>Include context: titles, labels, filters visible</li>
+      <li>Test interactivity - click around to verify filters work</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create 3 worksheets: Sales by Region (bar), Sales over Time (line), Profit by Category (bar)</li>
+      <li>Create a new dashboard and add all 3 charts</li>
+      <li>Add a title using the Text object</li>
+      <li>Make the Region chart act as a filter for the others</li>
+      <li>Add an interactive Category filter that applies to all sheets</li>
+    </ol>
+  </div>
+</div>

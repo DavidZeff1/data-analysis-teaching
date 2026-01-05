@@ -1,0 +1,77 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Practice Setup</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">1. Get Power BI Desktop (Free)</h2>
+    <p>Download from <a href="https://powerbi.microsoft.com/desktop/" target="_blank" class="text-blue-500 underline">powerbi.microsoft.com/desktop</a></p>
+    <p class="text-sm text-gray-600 mt-1">Power BI Desktop is completely free. Only publishing to Power BI Service requires a license.</p>
+    <p class="text-sm text-gray-600 mt-1"><strong>Note:</strong> Windows only. Mac users can use a VM or Power BI Service (web).</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">2. Alternative: Power BI Service (Web)</h2>
+    <p>No download needed:</p>
+    <ol class="list-decimal ml-5 mt-2 text-sm">
+      <li>Go to <a href="https://app.powerbi.com" target="_blank" class="text-blue-500 underline">app.powerbi.com</a></li>
+      <li>Sign up with a work/school email (free tier available)</li>
+      <li>Create reports directly in browser</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">3. Load the Sample Superstore dataset</h2>
+    <ol class="list-decimal ml-5 mt-2">
+      <li>Download the CSV from <a href="https://raw.githubusercontent.com/leonism/sample-superstore/master/data/superstore.csv" target="_blank" class="text-blue-500 underline">this link</a> (right-click → Save As)</li>
+      <li>Open Power BI Desktop</li>
+      <li>Click <strong>Get Data → Text/CSV</strong></li>
+      <li>Select the downloaded file</li>
+      <li>Click <strong>Load</strong></li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">4. Dataset Overview</h2>
+    <p>Same Superstore dataset used in Excel and Tableau:</p>
+    <div class="grid grid-cols-2 gap-4 mt-2 text-sm">
+      <div>
+        <p class="font-semibold">Dimensions (Text):</p>
+        <ul class="list-disc ml-5">
+          <li>Order ID, Order Date, Ship Date</li>
+          <li>Customer Name, Segment</li>
+          <li>City, State, Region, Country</li>
+          <li>Product Name, Category, Sub-Category</li>
+          <li>Ship Mode</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold">Measures (Numbers):</p>
+        <ul class="list-disc ml-5">
+          <li>Sales</li>
+          <li>Quantity</li>
+          <li>Discount</li>
+          <li>Profit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">5. Verify it works</h2>
+    <p>After loading data:</p>
+    <ul class="list-disc ml-5 text-sm mt-1">
+      <li>You should see "superstore" in the Fields pane (right side)</li>
+      <li>Expand it to see all columns</li>
+      <li>Drag "Sales" to the canvas - a bar chart should appear</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Power BI vs Tableau</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Tableau</span>              →  <span class="text-yellow-300">Power BI</span>
+Dimensions/Measures  →  Fields
+Worksheets           →  Report Pages
+Calculated Fields    →  DAX Measures
+Marks Card           →  Format Pane
+Show Me              →  Visualizations Pane</pre>
+  </div>
+</div>

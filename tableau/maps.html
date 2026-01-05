@@ -1,0 +1,111 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Maps</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Tableau automatically recognizes geographic data and can create maps. Great for showing regional patterns and location-based insights.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Geographic Fields</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">Tableau auto-detects:
+- Country
+- State/Province
+- City
+- Postal Code / ZIP
+- Latitude / Longitude
+
+<span class="text-gray-400">Look for the globe icon 🌐 next to fields</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating a Map</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Auto-map</span>
+Double-click a geographic field (State, City, etc.)
+→ Tableau creates a map automatically!
+
+<span class="text-gray-400">// Method 2: Manual</span>
+Columns: <span class="text-green-400">Longitude</span> (generated)
+Rows: <span class="text-green-400">Latitude</span> (generated)
+Detail: <span class="text-blue-400">State</span> (or other geo field)
+
+<span class="text-gray-400">// Method 3: Show Me</span>
+Select geo field + measure
+Click Show Me → Symbol Map or Filled Map</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Map Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Symbol Map</span>     - Circles on locations
+                <span class="text-gray-400">Size by Sales, Color by Profit</span>
+
+<span class="text-blue-400">Filled Map</span>     - Regions filled with color
+                <span class="text-gray-400">States colored by Sales total</span>
+
+<span class="text-blue-400">Density Map</span>    - Heatmap showing concentration
+                <span class="text-gray-400">Where are orders clustered?</span>
+
+<span class="text-gray-400">Change type: Marks dropdown → Map, Circle, etc.</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Map Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by State (filled)</span>
+Double-click <span class="text-blue-400">State</span>
+Marks type: Map (filled)
+Color: <span class="text-green-400">SUM(Sales)</span>
+
+<span class="text-gray-400">// City performance (symbol)</span>
+Double-click <span class="text-blue-400">City</span>
+Marks type: Circle
+Size: <span class="text-green-400">SUM(Sales)</span>
+Color: <span class="text-green-400">SUM(Profit)</span>
+
+<span class="text-gray-400">// Profit/Loss by state</span>
+Double-click <span class="text-blue-400">State</span>
+Color: <span class="text-green-400">SUM(Profit)</span>
+→ Edit Colors → Diverging palette (red-green)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Customizing Maps</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Change background</span>
+Map → Map Layers
+→ Style: Light, Dark, Streets, Satellite
+
+<span class="text-gray-400">// Show/hide elements</span>
+Map → Map Layers
+→ Toggle: Coastline, State borders, Cities
+
+<span class="text-gray-400">// Zoom to area</span>
+Map → Map Options → Pan and Zoom (or Fixed)
+Use selection tools to zoom
+
+<span class="text-gray-400">// Fix unknown locations</span>
+Click "X unknown" indicator
+Edit Locations → Match to correct place</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Tableau needs to recognize geo fields - check for globe icon</li>
+      <li>Right-click field → Geographic Role to set/change type</li>
+      <li>Filled maps work best for regions (states, countries)</li>
+      <li>Symbol maps work best for points (cities, stores)</li>
+      <li>Use diverging colors for profit/loss (red/green or orange/blue)</li>
+      <li>Maps are great for "where" questions in dashboards</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a filled map showing Sales by State</li>
+      <li>Create a symbol map showing Cities, sized by Sales</li>
+      <li>Color the cities by Profit (positive = green, negative = red)</li>
+      <li>Add State to the tooltip so it shows on hover</li>
+      <li>Create a map filtered to show only the West region</li>
+    </ol>
+  </div>
+</div>

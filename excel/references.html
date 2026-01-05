@@ -1,0 +1,67 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Cell References</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>References tell formulas which cells to use. Understanding relative vs absolute references is crucial for copying formulas.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Types of References</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-yellow-300">A1</span>      - Relative: changes when copied
+<span class="text-yellow-300">$A$1</span>    - Absolute: stays fixed when copied
+<span class="text-yellow-300">$A1</span>     - Mixed: column fixed, row changes
+<span class="text-yellow-300">A$1</span>     - Mixed: row fixed, column changes</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Relative reference - changes when copied down</span>
+=N2*O2          <span class="text-gray-400">// Becomes N3*O3, N4*O4, etc.</span>
+
+<span class="text-gray-400">// Absolute reference - stays fixed</span>
+=N2/<span class="text-yellow-300">$N$9995</span>    <span class="text-gray-400">// Always divides by the total in N9995</span>
+
+<span class="text-gray-400">// Mixed reference - useful for tables</span>
+=<span class="text-yellow-300">$A</span>2*B<span class="text-yellow-300">$1</span>        <span class="text-gray-400">// Column A fixed, Row 1 fixed</span>
+
+<span class="text-gray-400">// Calculating % of total sales</span>
+=N2/<span class="text-purple-400">SUM</span>(<span class="text-yellow-300">$N$2:$N$9995</span>)
+
+<span class="text-gray-400">// Reference another sheet</span>
+=Sheet2!A1
+='Sheet Name With Spaces'!A1</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li><code>$</code> locks the part that follows it</li>
+      <li>Press <kbd class="bg-gray-200 px-1 rounded">F4</kbd> to cycle through reference types</li>
+      <li>Use absolute references when referring to a fixed cell (like a total)</li>
+      <li>Use relative references when you want the formula to adjust as you copy</li>
+      <li>Named ranges (Insert → Named ranges) can replace complex references</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Visual Example</h2>
+    <p class="text-sm mb-2">If you copy <code>=A1+B1</code> from row 1 to row 2:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">Row 1: =A1+B1
+Row 2: =A2+B2  <span class="text-gray-400">← adjusted automatically</span>
+
+<span class="text-gray-400">If you copy</span> =$A$1+B1 <span class="text-gray-400">from row 1 to row 2:</span>
+Row 1: =$A$1+B1
+Row 2: =$A$1+B2  <span class="text-gray-400">← A1 stays fixed, B adjusts</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>In a new column, calculate each row's Sales as a % of total Sales (use absolute reference for total)</li>
+      <li>Create a formula that calculates Profit Margin (Profit/Sales) and copy it down</li>
+      <li>Reference a cell from the first sheet in a second sheet</li>
+      <li>Create a named range for the Sales column and use it in a SUM formula</li>
+    </ol>
+  </div>
+</div>

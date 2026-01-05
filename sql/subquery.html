@@ -1,0 +1,82 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Subquery</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>A subquery is a query inside another query. The inner query runs first, and its result is used by the outer query.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Where you can use them</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">WHERE</span>   - Filter based on subquery result
+<span class="text-blue-400">FROM</span>    - Use subquery as a temporary table
+<span class="text-blue-400">SELECT</span>  - Return a single value per row</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> columns
+<span class="text-blue-400">FROM</span> table
+<span class="text-blue-400">WHERE</span> column <span class="text-blue-400">IN</span> (<span class="text-blue-400">SELECT</span> column <span class="text-blue-400">FROM</span> other_table <span class="text-blue-400">WHERE</span> condition);</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Tracks priced above average</span>
+<span class="text-blue-400">SELECT</span> Name, UnitPrice
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">WHERE</span> UnitPrice > (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(UnitPrice) <span class="text-blue-400">FROM</span> Track);
+
+<span class="text-gray-400">-- Artists who have albums</span>
+<span class="text-blue-400">SELECT</span> Name
+<span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">WHERE</span> ArtistId <span class="text-blue-400">IN</span> (<span class="text-blue-400">SELECT</span> ArtistId <span class="text-blue-400">FROM</span> Album);
+
+<span class="text-gray-400">-- Customers who made purchases over 10</span>
+<span class="text-blue-400">SELECT</span> FirstName, LastName
+<span class="text-blue-400">FROM</span> Customer
+<span class="text-blue-400">WHERE</span> CustomerId <span class="text-blue-400">IN</span> (<span class="text-blue-400">SELECT</span> CustomerId <span class="text-blue-400">FROM</span> Invoice <span class="text-blue-400">WHERE</span> Total > 10);
+
+<span class="text-gray-400">-- Subquery in FROM (derived table)</span>
+<span class="text-blue-400">SELECT</span> AvgPerAlbum
+<span class="text-blue-400">FROM</span> (<span class="text-blue-400">SELECT</span> AlbumId, <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">AS</span> AvgPerAlbum <span class="text-blue-400">FROM</span> Track <span class="text-blue-400">GROUP BY</span> AlbumId);
+
+<span class="text-gray-400">-- Subquery in SELECT (scalar subquery)</span>
+<span class="text-blue-400">SELECT</span> Name,
+       (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> Album <span class="text-blue-400">WHERE</span> Album.ArtistId = Artist.ArtistId) <span class="text-blue-400">AS</span> AlbumCount
+<span class="text-blue-400">FROM</span> Artist;
+
+<span class="text-gray-400">-- NOT IN: artists with no albums</span>
+<span class="text-blue-400">SELECT</span> Name
+<span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">WHERE</span> ArtistId <span class="text-blue-400">NOT IN</span> (<span class="text-blue-400">SELECT</span> ArtistId <span class="text-blue-400">FROM</span> Album);
+
+<span class="text-gray-400">-- EXISTS: customers with invoices</span>
+<span class="text-blue-400">SELECT</span> FirstName, LastName
+<span class="text-blue-400">FROM</span> Customer c
+<span class="text-blue-400">WHERE EXISTS</span> (<span class="text-blue-400">SELECT</span> 1 <span class="text-blue-400">FROM</span> Invoice i <span class="text-blue-400">WHERE</span> i.CustomerId = c.CustomerId);</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Subquery runs first, outer query uses its result</li>
+      <li>Use <code>IN</code> when subquery returns multiple values</li>
+      <li>Use <code>=</code>, <code>></code>, etc. when subquery returns one value</li>
+      <li><code>EXISTS</code> checks if subquery returns any rows (faster for large datasets)</li>
+      <li>Subqueries in FROM need an alias: <code>(SELECT ...) AS alias</code></li>
+      <li>Correlated subquery: references outer query, runs once per row (slower)</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Find all tracks that are longer than the average track length</li>
+      <li>Find all customers who have never made a purchase (NOT IN)</li>
+      <li>Find all albums by artists whose name starts with 'A'</li>
+      <li>Get each artist's name and their album count using a scalar subquery</li>
+      <li>Find tracks that belong to playlists (use PlaylistTrack table)</li>
+    </ol>
+  </div>
+</div>

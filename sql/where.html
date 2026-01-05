@@ -1,0 +1,70 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">WHERE Clause</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>WHERE filters rows based on a condition. Only rows that match are returned.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> columns <span class="text-blue-400">FROM</span> table <span class="text-blue-400">WHERE</span> condition;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Operators</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-yellow-300">=</span>    Equal
+<span class="text-yellow-300"><></span>   Not equal
+<span class="text-yellow-300">></span>    Greater than
+<span class="text-yellow-300"><</span>    Less than
+<span class="text-yellow-300">>=</span>   Greater or equal
+<span class="text-yellow-300"><=</span>   Less or equal
+<span class="text-blue-400">AND</span>  Both conditions true
+<span class="text-blue-400">OR</span>   Either condition true
+<span class="text-blue-400">IN</span>   Matches any in list
+<span class="text-blue-400">LIKE</span> Pattern matching (% = any chars, _ = one char)
+<span class="text-blue-400">BETWEEN</span>  Within a range</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Exact match</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Customer <span class="text-blue-400">WHERE</span> Country = <span class="text-green-400">'USA'</span>;
+
+<span class="text-gray-400">-- Numeric comparison</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Track <span class="text-blue-400">WHERE</span> UnitPrice > 0.99;
+
+<span class="text-gray-400">-- Multiple conditions</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Track <span class="text-blue-400">WHERE</span> UnitPrice > 0.99 <span class="text-blue-400">AND</span> Milliseconds > 300000;
+
+<span class="text-gray-400">-- Pattern matching</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Artist <span class="text-blue-400">WHERE</span> Name <span class="text-blue-400">LIKE</span> <span class="text-green-400">'The%'</span>;
+
+<span class="text-gray-400">-- Match from a list</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Customer <span class="text-blue-400">WHERE</span> Country <span class="text-blue-400">IN</span> (<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>, <span class="text-green-400">'Brazil'</span>);
+
+<span class="text-gray-400">-- Range</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Invoice <span class="text-blue-400">WHERE</span> Total <span class="text-blue-400">BETWEEN</span> 5 <span class="text-blue-400">AND</span> 10;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>WHERE runs before SELECT - it filters first, then picks columns</li>
+      <li>Strings need quotes, numbers don't</li>
+      <li>LIKE is case-insensitive in SQLite</li>
+      <li>Use <code>IS NULL</code> or <code>IS NOT NULL</code> for null checks (not <code>= NULL</code>)</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Get all customers from <code>Germany</code></li>
+      <li>Get all tracks longer than 5 minutes (300000 milliseconds)</li>
+      <li>Get all employees whose <code>Title</code> contains 'Manager'</li>
+      <li>Get all invoices with <code>Total</code> greater than 10 from <code>USA</code></li>
+      <li>Get all artists whose name starts with 'A'</li>
+    </ol>
+  </div>
+</div>

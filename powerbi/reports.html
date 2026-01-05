@@ -1,0 +1,139 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Reports & Publishing</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Report Structure</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-yellow-300">Report</span> (.pbix file)
+  └── <span class="text-blue-400">Page 1</span>
+  │     └── Visuals, slicers, text
+  └── <span class="text-blue-400">Page 2</span>
+  │     └── Visuals, slicers, text
+  └── <span class="text-blue-400">Page 3</span>
+        └── ...
+
+<span class="text-gray-400">Each page is like a slide in a presentation</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Adding Pages</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// New page</span>
+Click + icon next to page tabs
+<span class="text-gray-400">OR</span>
+Right-click tab → New page
+
+<span class="text-gray-400">// Rename page</span>
+Double-click tab → Type new name
+
+<span class="text-gray-400">// Duplicate page</span>
+Right-click tab → Duplicate page
+
+<span class="text-gray-400">// Page order</span>
+Drag tabs to reorder</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Design Best Practices</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Layout</span>
+- Most important visual → top left
+- Related visuals grouped together
+- Consistent alignment (use guides)
+- White space is good!
+
+<span class="text-yellow-300">Colors</span>
+- Use a consistent color palette
+- View → Themes to apply preset themes
+- Or create custom theme (JSON)
+
+<span class="text-green-400">Navigation</span>
+- Clear page names
+- Use buttons for navigation
+- Consider bookmarks for different views</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Adding Text & Images</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Text box</span>
+Insert → Text box
+- Add titles, descriptions
+- Format with rich text options
+
+<span class="text-gray-400">// Image</span>
+Insert → Image
+- Add logos, icons
+- Can link to URLs
+
+<span class="text-gray-400">// Shapes</span>
+Insert → Shapes
+- Rectangles for grouping
+- Lines for separation</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Bookmarks & Buttons</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Bookmarks - save a view state</span>
+View → Bookmarks pane → Add
+- Captures: filters, slicer selections, visible visuals
+
+<span class="text-gray-400">// Buttons - for navigation</span>
+Insert → Buttons → choose type
+- Assign action: Bookmark, Page navigation, URL
+
+<span class="text-gray-400">Example: Toggle between views</span>
+1. Create "Chart View" bookmark
+2. Create "Table View" bookmark  
+3. Add button → Action → Bookmark → select</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Publishing</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Publish to Power BI Service</span>
+Home → Publish
+- Sign in with work/school account
+- Select workspace
+- Report appears in app.powerbi.com
+
+<span class="text-gray-400">// Sharing options (in Power BI Service)</span>
+- Share with specific users
+- Publish to web (public link)
+- Embed in Teams/SharePoint
+- Create an App (bundle of reports)
+
+<span class="text-gray-400">// Scheduled refresh</span>
+Dataset settings → Scheduled refresh
+- Set times to auto-update data</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Mobile Layout</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Create mobile-optimized view</span>
+View → Mobile layout
+- Drag visuals to phone canvas
+- Resize for mobile screen
+- Different layout, same data
+
+<span class="text-gray-400">Users see mobile layout in Power BI app</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Build for your audience - executives want summaries, analysts want detail</li>
+      <li>Use page hierarchy: Overview → Detail pages</li>
+      <li>Bookmarks are powerful for toggling views without new pages</li>
+      <li>Test cross-filtering - click around to verify interactions</li>
+      <li>Save frequently (.pbix file)</li>
+      <li>Performance: fewer visuals per page = faster loading</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a 3-page report: Overview, Sales Detail, Profit Analysis</li>
+      <li>Add a title text box to each page</li>
+      <li>Apply a theme (View → Themes)</li>
+      <li>Create two bookmarks: one with filters applied, one without</li>
+      <li>Add buttons to toggle between the bookmarks</li>
+    </ol>
+  </div>
+</div>

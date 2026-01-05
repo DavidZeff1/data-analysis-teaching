@@ -1,0 +1,103 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Filters & Slicers</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Filter Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Visual-level</span>   - Affects only one visual
+<span class="text-yellow-300">Page-level</span>     - Affects all visuals on the page
+<span class="text-green-400">Report-level</span>   - Affects all pages in the report
+<span class="text-purple-400">Drillthrough</span>   - Navigate to detail page</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Using the Filters Pane</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Add a filter</span>
+1. Expand Filters pane (right side)
+2. Drag field from Fields pane to filter area
+3. Choose filter level:
+   - "Filters on this visual"
+   - "Filters on this page"
+   - "Filters on all pages"
+
+<span class="text-gray-400">// Filter options</span>
+Basic: Check/uncheck values
+Advanced: Contains, starts with, is blank, etc.
+Top N: Top 10 by Sales</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Slicers (Interactive Filters)</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Create a slicer</span>
+1. Click Slicer icon in Visualizations
+2. Drag a field to the Field well
+   Example: <span class="text-blue-400">Region</span>
+
+<span class="text-gray-400">// Slicer styles (Format pane)</span>
+- List (vertical checkboxes)
+- Dropdown
+- Between (for dates/numbers)
+- Relative date (last 7 days, this month)
+- Tile (horizontal buttons)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Slicer Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Category dropdown</span>
+Slicer field: <span class="text-blue-400">Category</span>
+Format → Slicer settings → Options → Dropdown
+
+<span class="text-gray-400">// Date range slider</span>
+Slicer field: <span class="text-blue-400">Order Date</span>
+Format → Slicer settings → Options → Between
+
+<span class="text-gray-400">// Region buttons</span>
+Slicer field: <span class="text-blue-400">Region</span>
+Format → Slicer settings → Options → Tile
+General → Orientation → Horizontal</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Cross-Filtering</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Visuals interact automatically!</span>
+
+<span class="text-gray-400">When you click a bar in one chart:</span>
+- Other visuals filter/highlight
+- This is called "cross-filtering"
+
+<span class="text-gray-400">Control interaction type:</span>
+Format → Edit interactions
+Choose per visual: Filter, Highlight, or None</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Sync Slicers Across Pages</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Make slicer affect multiple pages</span>
+1. Select the slicer
+2. View → Sync slicers
+3. Check which pages to sync
+4. Check which pages to show the slicer</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Filters pane = hidden filters (for report builders)</li>
+      <li>Slicers = visible filters (for report users)</li>
+      <li>Click visual, then add to "Filters on this visual" for visual-specific</li>
+      <li>Ctrl+Click in slicers to multi-select</li>
+      <li>Slicers with dates auto-detect and offer relative options</li>
+      <li>Use "Edit interactions" to control which visuals respond</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a Region slicer as horizontal buttons</li>
+      <li>Create a Category slicer as a dropdown</li>
+      <li>Create a date slicer showing a date range slider</li>
+      <li>Add a page-level filter for Segment = "Consumer"</li>
+      <li>Use Edit interactions to make one chart NOT filter another</li>
+    </ol>
+  </div>
+</div>

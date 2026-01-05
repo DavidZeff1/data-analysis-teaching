@@ -1,0 +1,100 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Filters</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Filters limit the data shown in your visualization. You can filter by dimensions, measures, or dates.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Types of Filters</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Dimension Filter</span>  - Keep/exclude specific values
+                    <span class="text-gray-400">"Show only East and West regions"</span>
+
+<span class="text-green-400">Measure Filter</span>    - Filter by numeric range
+                    <span class="text-gray-400">"Show only Sales > 1000"</span>
+
+<span class="text-yellow-300">Date Filter</span>       - Filter by time period
+                    <span class="text-gray-400">"Show only 2017 data"</span>
+
+<span class="text-purple-400">Context Filter</span>    - Filter that applies first
+                    <span class="text-gray-400">"Top 10 within East region only"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Adding Filters</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Drag to Filters shelf</span>
+Drag <span class="text-blue-400">Region</span> to Filters shelf
+→ Select which regions to include
+
+<span class="text-gray-400">// Method 2: Right-click in view</span>
+Right-click a bar → Exclude (or Keep Only)
+
+<span class="text-gray-400">// Method 3: From Data pane</span>
+Right-click field → Show Filter
+→ Creates interactive filter card</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Filter Card Styles</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Right-click filter card to change style:</span>
+
+<span class="text-blue-400">Single Value (list)</span>     - Radio buttons
+<span class="text-blue-400">Single Value (dropdown)</span> - Dropdown menu
+<span class="text-blue-400">Multiple Values (list)</span>  - Checkboxes
+<span class="text-blue-400">Multiple Values (dropdown)</span> - Multi-select dropdown
+<span class="text-blue-400">Wildcard</span>               - Text search
+<span class="text-blue-400">Slider</span>                 - For measures/dates</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Filter Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Show only specific categories</span>
+Drag <span class="text-blue-400">Category</span> to Filters
+→ Check: Furniture, Technology
+
+<span class="text-gray-400">// Show sales above threshold</span>
+Drag <span class="text-green-400">Sales</span> to Filters
+→ Range: 500 to maximum
+
+<span class="text-gray-400">// Show last 2 years</span>
+Drag <span class="text-blue-400">Order Date</span> to Filters
+→ Relative dates → Last 2 years
+
+<span class="text-gray-400">// Top 10 products by sales</span>
+Drag <span class="text-blue-400">Product Name</span> to Filters
+→ Top tab → By field: Top 10 by Sales</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Filter Order of Operations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm">1. Extract Filters
+2. Data Source Filters
+3. <span class="text-purple-400">Context Filters</span>      ← Use for "Top N within..."
+4. Dimension Filters
+5. Measure Filters
+6. Table Calc Filters</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Filters on the shelf don't show UI - use "Show Filter" for interactive</li>
+      <li>Right-click filter → Apply to Worksheets → All Using This Data Source</li>
+      <li>Context filters are needed for correct "Top N" within a subset</li>
+      <li>Use "Exclude" sparingly - "Include" is usually clearer</li>
+      <li>Quick filters (filter cards) let users interact with your viz</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Filter to show only the "Consumer" segment</li>
+      <li>Create an interactive Region filter (Show Filter)</li>
+      <li>Filter to show only orders from 2017</li>
+      <li>Show only products with Sales > 5000</li>
+      <li>Show Top 10 Customers by Sales (hint: filter on Customer Name)</li>
+    </ol>
+  </div>
+</div>

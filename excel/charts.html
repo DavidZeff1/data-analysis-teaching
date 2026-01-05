@@ -1,0 +1,88 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Charts</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Charts visualize data to reveal patterns, trends, and comparisons. Choose the right chart type for your data story.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating a Chart</h2>
+    <ol class="list-decimal ml-5">
+      <li>Select your data (including headers)</li>
+      <li><strong>Google Sheets:</strong> Insert → Chart</li>
+      <li><strong>Excel:</strong> Insert → Select chart type</li>
+      <li>Customize in the Chart Editor panel</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Chart Types & When to Use</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">Column/Bar</span>     - Compare categories
+                 <span class="text-gray-400">Sales by Region, Products by Count</span>
+
+<span class="text-blue-400">Line</span>           - Show trends over time
+                 <span class="text-gray-400">Monthly Sales, Daily Orders</span>
+
+<span class="text-blue-400">Pie/Donut</span>      - Show parts of a whole (use sparingly)
+                 <span class="text-gray-400">Market share, % by Category</span>
+
+<span class="text-blue-400">Scatter</span>        - Show relationship between 2 variables
+                 <span class="text-gray-400">Sales vs Profit, Discount vs Quantity</span>
+
+<span class="text-blue-400">Area</span>           - Show cumulative trends
+                 <span class="text-gray-400">Running total, Stacked categories over time</span>
+
+<span class="text-blue-400">Combo</span>          - Mix chart types (bars + line)
+                 <span class="text-gray-400">Sales (bars) with Profit margin (line)</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Chart from Pivot Table</h2>
+    <p class="text-sm mb-2">Best practice: Create a pivot table first, then chart it.</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">1. Create pivot: Sales by Region</span>
+   Rows: Region
+   Values: SUM of Sales
+
+<span class="text-gray-400">2. Select the pivot table results</span>
+
+<span class="text-gray-400">3. Insert → Chart → Column chart</span>
+
+<span class="text-gray-400">4. The chart updates when pivot updates!</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Customization Tips</h2>
+    <ul class="list-disc ml-5">
+      <li><strong>Title:</strong> Always add a clear, descriptive title</li>
+      <li><strong>Labels:</strong> Add data labels for key values</li>
+      <li><strong>Legend:</strong> Position where it doesn't overlap data</li>
+      <li><strong>Colors:</strong> Use consistent colors across related charts</li>
+      <li><strong>Axis:</strong> Start at zero for bar charts (usually)</li>
+      <li><strong>Gridlines:</strong> Reduce or remove for cleaner look</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Less is more - don't overcrowd charts</li>
+      <li>Pie charts work best with 2-5 categories max</li>
+      <li>Line charts need time-based or sequential data</li>
+      <li>Horizontal bar charts are better for long category names</li>
+      <li>Always label axes and include units</li>
+      <li>Charts from pivot tables are dynamic and update automatically</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a column chart showing total Sales by Category</li>
+      <li>Create a line chart showing Sales over time (by month)</li>
+      <li>Create a pie chart showing % of Sales by Region</li>
+      <li>Create a scatter plot with Discount on X-axis and Profit on Y-axis</li>
+      <li>Build a combo chart: Sales (bars) and Profit (line) by Sub-Category</li>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Lookup Functions</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Lookup functions search for a value and return related data from another column or row. Essential for connecting data.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Functions</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">VLOOKUP</span>(search, range, col_num, exact)   - Vertical lookup
+<span class="text-purple-400">HLOOKUP</span>(search, range, row_num, exact)   - Horizontal lookup
+<span class="text-purple-400">INDEX</span>(range, row, col)                   - Return value at position
+<span class="text-purple-400">MATCH</span>(search, range, type)               - Find position of value
+<span class="text-purple-400">XLOOKUP</span>(search, lookup_range, return_range) - Modern lookup</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// VLOOKUP - find customer name by ID</span>
+=<span class="text-purple-400">VLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:G, 2, <span class="text-blue-400">FALSE</span>)
+
+<span class="text-gray-400">// VLOOKUP breakdown:</span>
+<span class="text-gray-400">//   "CG-12520" = value to find</span>
+<span class="text-gray-400">//   F:G = range to search (ID in F, Name in G)</span>
+<span class="text-gray-400">//   2 = return 2nd column (Name)</span>
+<span class="text-gray-400">//   FALSE = exact match</span>
+
+<span class="text-gray-400">// INDEX + MATCH - more flexible than VLOOKUP</span>
+=<span class="text-purple-400">INDEX</span>(G:G, <span class="text-purple-400">MATCH</span>(<span class="text-green-400">"CG-12520"</span>, F:F, 0))
+
+<span class="text-gray-400">// INDEX + MATCH breakdown:</span>
+<span class="text-gray-400">//   MATCH finds the row number</span>
+<span class="text-gray-400">//   INDEX returns value from that row</span>
+
+<span class="text-gray-400">// XLOOKUP - simplest (Google Sheets & Excel 365)</span>
+=<span class="text-purple-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:G)
+
+<span class="text-gray-400">// Lookup with default value if not found</span>
+=<span class="text-purple-400">XLOOKUP</span>(<span class="text-green-400">"Unknown"</span>, F:F, G:G, <span class="text-green-400">"Not Found"</span>)
+
+<span class="text-gray-400">// Lookup from right to left (VLOOKUP can't do this)</span>
+=<span class="text-purple-400">INDEX</span>(F:F, <span class="text-purple-400">MATCH</span>(<span class="text-green-400">"Aaron Bergman"</span>, G:G, 0))</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>VLOOKUP searches the <strong>first</strong> column of your range</li>
+      <li>Always use <code>FALSE</code> (or <code>0</code>) for exact match</li>
+      <li>INDEX+MATCH is more flexible - can look left, right, any direction</li>
+      <li>XLOOKUP is the modern replacement - simpler syntax</li>
+      <li>If lookup returns #N/A, the value wasn't found</li>
+      <li>Wrap in IFERROR to handle not-found cases</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">VLOOKUP vs INDEX+MATCH</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">VLOOKUP limitations:</span>
+- Can only search leftmost column
+- Column number breaks if columns inserted
+- Slower on large datasets
+
+<span class="text-gray-400">INDEX+MATCH advantages:</span>
+- Search any column, return any column
+- More flexible and robust
+- Faster on large datasets</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Use VLOOKUP to find the Category for Product ID "OFF-BI-10000756"</li>
+      <li>Use INDEX+MATCH to find the Customer Name for Order ID "CA-2016-152156"</li>
+      <li>Use XLOOKUP to find the Region for a given City</li>
+      <li>Create a summary sheet that looks up totals by Region</li>
+      <li>Handle errors: wrap a lookup in IFERROR to show "Not Found" for missing values</li>
+    </ol>
+  </div>
+</div>

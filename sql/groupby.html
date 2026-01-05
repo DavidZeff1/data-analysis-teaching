@@ -1,0 +1,75 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">GROUP BY</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What it does</h2>
+    <p>GROUP BY groups rows that have the same values into summary rows. Used with aggregate functions to calculate stats per group.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Aggregate Functions</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">COUNT()</span>  - Number of rows
+<span class="text-purple-400">SUM()</span>    - Total of values
+<span class="text-purple-400">AVG()</span>    - Average of values
+<span class="text-purple-400">MIN()</span>    - Smallest value
+<span class="text-purple-400">MAX()</span>    - Largest value</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> column, <span class="text-purple-400">AGGREGATE</span>(column)
+<span class="text-blue-400">FROM</span> table
+<span class="text-blue-400">GROUP BY</span> column;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Count tracks per album</span>
+<span class="text-blue-400">SELECT</span> AlbumId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> TrackCount
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">GROUP BY</span> AlbumId;
+
+<span class="text-gray-400">-- Total sales per country</span>
+<span class="text-blue-400">SELECT</span> BillingCountry, <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
+<span class="text-blue-400">FROM</span> Invoice
+<span class="text-blue-400">GROUP BY</span> BillingCountry;
+
+<span class="text-gray-400">-- Average track length per genre</span>
+<span class="text-blue-400">SELECT</span> GenreId, <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">AS</span> AvgLength
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">GROUP BY</span> GenreId;
+
+<span class="text-gray-400">-- Multiple aggregates</span>
+<span class="text-blue-400">SELECT</span> AlbumId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> Tracks, <span class="text-purple-400">SUM</span>(UnitPrice) <span class="text-blue-400">AS</span> TotalPrice, <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">AS</span> AvgLength
+<span class="text-blue-400">FROM</span> Track
+<span class="text-blue-400">GROUP BY</span> AlbumId;
+
+<span class="text-gray-400">-- Group by with JOIN</span>
+<span class="text-blue-400">SELECT</span> Artist.Name, <span class="text-purple-400">COUNT</span>(Album.AlbumId) <span class="text-blue-400">AS</span> AlbumCount
+<span class="text-blue-400">FROM</span> Artist
+<span class="text-blue-400">JOIN</span> Album <span class="text-blue-400">ON</span> Artist.ArtistId = Album.ArtistId
+<span class="text-blue-400">GROUP BY</span> Artist.ArtistId;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Every column in SELECT must be either in GROUP BY or inside an aggregate function</li>
+      <li>GROUP BY collapses many rows into one row per group</li>
+      <li>Think: "for each ___" → that's your GROUP BY column</li>
+      <li>COUNT(*) counts all rows, COUNT(column) counts non-null values</li>
+      <li>ORDER BY often follows to sort results</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Count how many tracks are in each genre (use GenreId)</li>
+      <li>Find total invoice amount per customer (CustomerId)</li>
+      <li>Get the average track price per album</li>
+      <li>Count how many customers are in each country</li>
+      <li>Find the longest track (MAX) in each album</li>
+    </ol>
+  </div>
+</div>

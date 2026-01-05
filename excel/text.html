@@ -1,0 +1,77 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Text Functions</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Text functions manipulate strings - extract parts, combine text, change case, find patterns, and clean data.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Functions</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">LEFT</span>(text, num)         - First n characters
+<span class="text-purple-400">RIGHT</span>(text, num)        - Last n characters
+<span class="text-purple-400">MID</span>(text, start, num)   - Characters from middle
+<span class="text-purple-400">LEN</span>(text)               - Length of text
+<span class="text-purple-400">FIND</span>(find, text)        - Position of substring
+<span class="text-purple-400">CONCAT</span>(text1, text2)    - Join text
+<span class="text-purple-400">TEXTJOIN</span>(delim, ignore_empty, range)
+<span class="text-purple-400">TRIM</span>(text)              - Remove extra spaces
+<span class="text-purple-400">UPPER</span>/<span class="text-purple-400">LOWER</span>/<span class="text-purple-400">PROPER</span>     - Change case
+<span class="text-purple-400">SUBSTITUTE</span>(text, old, new)
+<span class="text-purple-400">TEXT</span>(value, format)     - Format numbers as text</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Examples</h2>
+    <p class="text-sm text-gray-600 mb-2">Using Superstore: Order ID (B), Customer Name (G), Product Name (R)</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Extract state code from Order ID "CA-2016-152156"</span>
+=<span class="text-purple-400">LEFT</span>(B2, 2)                    <span class="text-gray-400">// Returns "CA"</span>
+
+<span class="text-gray-400">// Extract year from Order ID</span>
+=<span class="text-purple-400">MID</span>(B2, 4, 4)                  <span class="text-gray-400">// Returns "2016"</span>
+
+<span class="text-gray-400">// Get first name from "Claire Gute"</span>
+=<span class="text-purple-400">LEFT</span>(G2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2)-1)      <span class="text-gray-400">// Returns "Claire"</span>
+
+<span class="text-gray-400">// Get last name</span>
+=<span class="text-purple-400">RIGHT</span>(G2, <span class="text-purple-400">LEN</span>(G2)-<span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2))
+
+<span class="text-gray-400">// Combine text</span>
+=<span class="text-purple-400">CONCAT</span>(G2, <span class="text-green-400">" - "</span>, L2)         <span class="text-gray-400">// "Claire Gute - East"</span>
+=G2&<span class="text-green-400">" - "</span>&L2                     <span class="text-gray-400">// Same with & operator</span>
+
+<span class="text-gray-400">// Clean messy data</span>
+=<span class="text-purple-400">TRIM</span>(G2)                       <span class="text-gray-400">// Remove extra spaces</span>
+=<span class="text-purple-400">UPPER</span>(G2)                      <span class="text-gray-400">// "CLAIRE GUTE"</span>
+=<span class="text-purple-400">PROPER</span>(G2)                     <span class="text-gray-400">// "Claire Gute"</span>
+
+<span class="text-gray-400">// Replace text</span>
+=<span class="text-purple-400">SUBSTITUTE</span>(K2, <span class="text-green-400">"United States"</span>, <span class="text-green-400">"USA"</span>)
+
+<span class="text-gray-400">// Format number as text</span>
+=<span class="text-purple-400">TEXT</span>(N2, <span class="text-green-400">"$#,##0.00"</span>)         <span class="text-gray-400">// "$1,234.56"</span>
+=<span class="text-purple-400">TEXT</span>(C2, <span class="text-green-400">"MMMM YYYY"</span>)         <span class="text-gray-400">// "January 2016"</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>FIND returns position (1-based), use it with LEFT/MID/RIGHT</li>
+      <li>Use <code>&</code> operator for quick concatenation</li>
+      <li>TRIM removes leading, trailing, and extra internal spaces</li>
+      <li>TEXT is powerful for formatting dates and numbers</li>
+      <li>SUBSTITUTE replaces all occurrences, REPLACE replaces by position</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Extract the state abbreviation from Order ID (first 2 characters)</li>
+      <li>Extract the first name from Customer Name</li>
+      <li>Combine City and State into one cell with a comma separator</li>
+      <li>Count the number of characters in each Product Name</li>
+      <li>Create a formatted string: "Order #[OrderID] - $[Sales]"</li>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Calculated Fields</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What they do</h2>
+    <p>Calculated fields create new data from existing fields using formulas. Similar to Excel formulas but applied to entire columns.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating a Calculated Field</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Method 1:</span> Analysis → Create Calculated Field
+<span class="text-gray-400">Method 2:</span> Right-click in Data pane → Create Calculated Field
+<span class="text-gray-400">Method 3:</span> Click dropdown on any field → Create → Calculated Field</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Basic Calculations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Profit Margin</span>
+[Profit] / [Sales]
+
+<span class="text-gray-400">// Revenue after discount</span>
+[Sales] * (1 - [Discount])
+
+<span class="text-gray-400">// Price per unit</span>
+[Sales] / [Quantity]
+
+<span class="text-gray-400">// Profit per unit</span>
+[Profit] / [Quantity]
+
+<span class="text-gray-400">// Combined text</span>
+[City] + <span class="text-green-400">", "</span> + [State]</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Logical Calculations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// IF statement</span>
+<span class="text-blue-400">IF</span> [Profit] > 0 <span class="text-blue-400">THEN</span> <span class="text-green-400">"Profitable"</span>
+<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Loss"</span>
+<span class="text-blue-400">END</span>
+
+<span class="text-gray-400">// Multiple conditions (ELSEIF)</span>
+<span class="text-blue-400">IF</span> [Sales] > 1000 <span class="text-blue-400">THEN</span> <span class="text-green-400">"High"</span>
+<span class="text-blue-400">ELSEIF</span> [Sales] > 500 <span class="text-blue-400">THEN</span> <span class="text-green-400">"Medium"</span>
+<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Low"</span>
+<span class="text-blue-400">END</span>
+
+<span class="text-gray-400">// IIF (inline if - simpler)</span>
+<span class="text-blue-400">IIF</span>([Profit] > 0, <span class="text-green-400">"Profit"</span>, <span class="text-green-400">"Loss"</span>)
+
+<span class="text-gray-400">// CASE statement</span>
+<span class="text-blue-400">CASE</span> [Region]
+    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"East"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Eastern US"</span>
+    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"West"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Western US"</span>
+    <span class="text-blue-400">ELSE</span> <span class="text-green-400">"Central US"</span>
+<span class="text-blue-400">END</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Aggregate Calculations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Total profit margin (aggregated)</span>
+<span class="text-purple-400">SUM</span>([Profit]) / <span class="text-purple-400">SUM</span>([Sales])
+
+<span class="text-gray-400">// Count of profitable orders</span>
+<span class="text-purple-400">COUNTD</span>(<span class="text-blue-400">IF</span> [Profit] > 0 <span class="text-blue-400">THEN</span> [Order ID] <span class="text-blue-400">END</span>)
+
+<span class="text-gray-400">// Percent of total (LOD expression)</span>
+<span class="text-purple-400">SUM</span>([Sales]) / {<span class="text-purple-400">FIXED</span> : <span class="text-purple-400">SUM</span>([Sales])}</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Date Calculations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Days to ship</span>
+<span class="text-purple-400">DATEDIFF</span>(<span class="text-green-400">'day'</span>, [Order Date], [Ship Date])
+
+<span class="text-gray-400">// Extract year</span>
+<span class="text-purple-400">YEAR</span>([Order Date])
+
+<span class="text-gray-400">// Month name</span>
+<span class="text-purple-400">DATENAME</span>(<span class="text-green-400">'month'</span>, [Order Date])
+
+<span class="text-gray-400">// Is this year?</span>
+<span class="text-purple-400">YEAR</span>([Order Date]) = <span class="text-purple-400">YEAR</span>(<span class="text-purple-400">TODAY</span>())</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Calculated fields appear in Data pane with = icon</li>
+      <li>Tableau validates formulas as you type (green checkmark = valid)</li>
+      <li>Row-level calcs vs Aggregate calcs behave differently</li>
+      <li>Use // for comments in calculations</li>
+      <li>Field names go in [brackets]</li>
+      <li>Strings use "double quotes"</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a "Profit Margin" calculated field (Profit / Sales)</li>
+      <li>Create a "Profit Status" field: "Profit" if positive, "Loss" if negative</li>
+      <li>Create a "Days to Ship" calculation</li>
+      <li>Create "Sales Tier": High (>1000), Medium (100-1000), Low (<100)</li>
+      <li>Create a field that combines City and State with a comma</li>
+    </ol>
+  </div>
+</div>

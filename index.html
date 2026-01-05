@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Analysis Teaching</title>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-white shadow">
+    <div class="flex gap-1 p-2">
+      <button class="tab px-4 py-2 rounded bg-blue-500 text-white" data-tab="sql">SQL</button>
+      <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="excel">Excel</button>
+      <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="tableau">Tableau</button>
+      <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="powerbi">Power BI</button>
+    </div>
+  </nav>
+  <main class="p-4">
+    <div id="sql" class="content">
+      <div class="flex flex-wrap gap-1 mb-4">
+        <button class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm" data-tab="sql" data-sub="setup">Setup</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="select">SELECT</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="where">WHERE</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="join">JOIN</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="groupby">GROUP BY</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="having">HAVING</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="subquery">Subquery</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="case">CASE</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="union">UNION</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="sql" data-sub="window">Window Functions</button>
+      </div>
+      <div id="sql-setup" class="subcontent">Loading...</div>
+      <div id="sql-select" class="subcontent hidden">Loading...</div>
+      <div id="sql-where" class="subcontent hidden">Loading...</div>
+      <div id="sql-join" class="subcontent hidden">Loading...</div>
+      <div id="sql-groupby" class="subcontent hidden">Loading...</div>
+      <div id="sql-having" class="subcontent hidden">Loading...</div>
+      <div id="sql-subquery" class="subcontent hidden">Loading...</div>
+      <div id="sql-case" class="subcontent hidden">Loading...</div>
+      <div id="sql-union" class="subcontent hidden">Loading...</div>
+      <div id="sql-window" class="subcontent hidden">Loading...</div>
+    </div>
+    <div id="excel" class="content hidden">
+      <div class="flex flex-wrap gap-1 mb-4">
+        <button class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm" data-tab="excel" data-sub="setup">Setup</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="formulas">Formulas</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="references">References</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="logical">Logical</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="lookup">Lookup</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="text">Text</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="pivot">Pivot Tables</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="excel" data-sub="charts">Charts</button>
+      </div>
+      <div id="excel-setup" class="subcontent">Loading...</div>
+      <div id="excel-formulas" class="subcontent hidden">Loading...</div>
+      <div id="excel-references" class="subcontent hidden">Loading...</div>
+      <div id="excel-logical" class="subcontent hidden">Loading...</div>
+      <div id="excel-lookup" class="subcontent hidden">Loading...</div>
+      <div id="excel-text" class="subcontent hidden">Loading...</div>
+      <div id="excel-pivot" class="subcontent hidden">Loading...</div>
+      <div id="excel-charts" class="subcontent hidden">Loading...</div>
+    </div>
+    <div id="tableau" class="content hidden">
+      <div class="flex flex-wrap gap-1 mb-4">
+        <button class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm" data-tab="tableau" data-sub="setup">Setup</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="interface">Interface</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="charts">Charts</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="filters">Filters</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="calculated">Calculated Fields</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="dashboards">Dashboards</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="tableau" data-sub="maps">Maps</button>
+      </div>
+      <div id="tableau-setup" class="subcontent">Loading...</div>
+      <div id="tableau-interface" class="subcontent hidden">Loading...</div>
+      <div id="tableau-charts" class="subcontent hidden">Loading...</div>
+      <div id="tableau-filters" class="subcontent hidden">Loading...</div>
+      <div id="tableau-calculated" class="subcontent hidden">Loading...</div>
+      <div id="tableau-dashboards" class="subcontent hidden">Loading...</div>
+      <div id="tableau-maps" class="subcontent hidden">Loading...</div>
+    </div>
+    <div id="powerbi" class="content hidden">
+      <div class="flex flex-wrap gap-1 mb-4">
+        <button class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm" data-tab="powerbi" data-sub="setup">Setup</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="interface">Interface</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="visuals">Visuals</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="filters">Filters</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="dax">DAX</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="modeling">Data Modeling</button>
+        <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="powerbi" data-sub="reports">Reports</button>
+      </div>
+      <div id="powerbi-setup" class="subcontent">Loading...</div>
+      <div id="powerbi-interface" class="subcontent hidden">Loading...</div>
+      <div id="powerbi-visuals" class="subcontent hidden">Loading...</div>
+      <div id="powerbi-filters" class="subcontent hidden">Loading...</div>
+      <div id="powerbi-dax" class="subcontent hidden">Loading...</div>
+      <div id="powerbi-modeling" class="subcontent hidden">Loading...</div>
+      <div id="powerbi-reports" class="subcontent hidden">Loading...</div>
+    </div>
+  </main>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Practice Setup</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">1. Open the compiler</h2>
+    <p>Go to <a href="https://sqliteonline.com/" target="_blank" class="text-blue-500 underline">sqliteonline.com</a></p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">2. Load Chinook database</h2>
+    <ol class="list-decimal ml-5 space-y-1">
+      <li>Click <strong>Syntax</strong> (top right)</li>
+      <li>Select <strong>Example: Chinook SQL</strong></li>
+      <li>Click <strong>Run</strong></li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">3. Available Tables</h2>
+    <ul class="list-disc ml-5 text-sm">
+      <li><code>Artist</code> - artist names</li>
+      <li><code>Album</code> - albums linked to artists</li>
+      <li><code>Track</code> - songs with price, duration, genre</li>
+      <li><code>Customer</code> - customer info and location</li>
+      <li><code>Invoice</code> - purchases with dates and totals</li>
+      <li><code>InvoiceLine</code> - line items per invoice</li>
+      <li><code>Employee</code> - staff with manager hierarchy</li>
+      <li><code>Genre</code>, <code>MediaType</code>, <code>Playlist</code>, <code>PlaylistTrack</code></li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">4. Test it</h2>
+    <p>Clear the editor and run:</p>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> Artist <span class="text-blue-400">LIMIT</span> 5;</pre>
+  </div>
+</div>

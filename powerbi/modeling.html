@@ -1,0 +1,124 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Data Modeling</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is Data Modeling?</h2>
+    <p>Data modeling defines how tables relate to each other. Proper relationships enable accurate calculations across multiple tables.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Model View</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Click Model View icon (left sidebar)</span>
+
+You'll see:
+- Tables as boxes
+- Lines connecting related tables
+- Relationship indicators (1, *)
+
+<span class="text-gray-400">Drag fields between tables to create relationships</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Relationship Types</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">One-to-Many (1:*)</span>  - Most common
+<span class="text-gray-400">Example: One Category → Many Products</span>
+
+<span class="text-yellow-300">One-to-One (1:1)</span>   - Rare
+<span class="text-gray-400">Example: Customer → CustomerDetails</span>
+
+<span class="text-green-400">Many-to-Many (*:*)</span> - Use carefully
+<span class="text-gray-400">Example: Students ↔ Classes</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Star Schema</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">Best practice for Power BI:</span>
+
+           ┌───────────┐
+           │  <span class="text-blue-400">Date</span>     │
+           └─────┬─────┘
+                 │
+┌───────────┐    │    ┌───────────┐
+│ <span class="text-blue-400">Product</span>   │────┼────│ <span class="text-blue-400">Customer</span>  │
+└───────────┘    │    └───────────┘
+                 │
+           ┌─────┴─────┐
+           │  <span class="text-yellow-300">Sales</span>    │  ← Fact table (center)
+           │  (Facts)  │
+           └───────────┘
+
+<span class="text-blue-400">Dimension tables</span> = Descriptive (who, what, when)
+<span class="text-yellow-300">Fact table</span> = Transactional (numbers, events)</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Creating Relationships</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Drag and drop</span>
+In Model View, drag a field from one table
+to the matching field in another table
+
+<span class="text-gray-400">// Method 2: Manage Relationships</span>
+Home → Manage relationships → New
+- Select tables and columns
+- Set cardinality (1:*, 1:1, *:*)
+- Set cross-filter direction
+
+<span class="text-gray-400">// Auto-detect</span>
+Home → Manage relationships → Autodetect</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Date Table</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Create a proper date table for time intelligence</span>
+
+Date Table = 
+    <span class="text-purple-400">CALENDAR</span>(
+        <span class="text-purple-400">DATE</span>(2014, 1, 1),
+        <span class="text-purple-400">DATE</span>(2017, 12, 31)
+    )
+
+<span class="text-gray-400">// Add useful columns</span>
+Year = <span class="text-purple-400">YEAR</span>('Date Table'[Date])
+Month = <span class="text-purple-400">FORMAT</span>('Date Table'[Date], <span class="text-green-400">"MMMM"</span>)
+Quarter = <span class="text-green-400">"Q"</span> & <span class="text-purple-400">QUARTER</span>('Date Table'[Date])
+
+<span class="text-gray-400">// Mark as date table</span>
+Table tools → Mark as date table</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Hiding Fields</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Hide technical columns from report view</span>
+Right-click column → Hide in report view
+
+<span class="text-gray-400">Good to hide:</span>
+- ID columns (used for relationships)
+- Duplicate keys
+- Technical fields users don't need
+
+<span class="text-gray-400">Hidden fields still work in DAX and relationships!</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key intuitions</h2>
+    <ul class="list-disc ml-5">
+      <li>Relationships flow from "one" side to "many" side</li>
+      <li>Filters propagate through relationships</li>
+      <li>Star schema = best performance and simplest design</li>
+      <li>Always create a dedicated Date table for time intelligence</li>
+      <li>Avoid circular relationships (A→B→C→A)</li>
+      <li>Hide technical columns to keep Fields pane clean</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice</h2>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Open Model View and explore the auto-detected relationships</li>
+      <li>Create a Date table using CALENDAR function</li>
+      <li>Add Year, Month, Quarter columns to the Date table</li>
+      <li>Create a relationship between Date table and Order Date</li>
+      <li>Hide the Row ID and Order ID columns from report view</li>
+    </ol>
+  </div>
+</div>
