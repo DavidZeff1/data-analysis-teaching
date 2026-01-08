@@ -1,0 +1,564 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Power Query</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is Power Query?</h2>
+    <p>Power Query is Excel's built-in ETL (Extract, Transform, Load) tool. It lets you connect to data sources, clean and transform data, and load it into Excel - all without writing formulas. Power Query is essential for:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Automating data cleaning</strong> - Steps are recorded and can be refreshed with one click</li>
+      <li><strong>Combining multiple files</strong> - Merge dozens of CSVs or Excel files automatically</li>
+      <li><strong>Reshaping data</strong> - Pivot, unpivot, split columns, merge tables</li>
+      <li><strong>Handling large datasets</strong> - Process millions of rows that would crash regular Excel</li>
+      <li><strong>Reproducibility</strong> - Your transformation steps are saved and documented</li>
+    </ul>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+      <p class="text-sm"><strong>Also known as:</strong> "Get & Transform" in Excel 2016+, or "Power Query Editor". In Power BI, the same tool is called "Power Query Editor".</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Accessing Power Query</h2>
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-gray-700 mb-2">Excel (Windows)</p>
+        <ol class="list-decimal ml-5 text-sm space-y-1">
+          <li>Go to <strong>Data</strong> tab</li>
+          <li>Click <strong>Get Data</strong> (or "From Table/Range")</li>
+          <li>Choose your data source</li>
+          <li>Power Query Editor opens</li>
+        </ol>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-gray-700 mb-2">Excel Online / Google Sheets</p>
+        <p class="text-sm text-red-600">⚠️ Power Query is NOT available in Excel Online or Google Sheets. You need the desktop version of Excel (Windows or Mac).</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">The Power Query Editor Interface</h2>
+    
+    <div class="border-2 border-gray-400 rounded-lg overflow-hidden text-sm bg-white mt-3">
+      <!-- Ribbon -->
+      <div class="bg-gray-100 border-b border-gray-300 px-3 py-1 text-xs">
+        <span class="font-semibold text-green-700 border-b-2 border-green-600 pb-1 mr-4">Home</span>
+        <span class="text-gray-600 mr-4">Transform</span>
+        <span class="text-gray-600 mr-4">Add Column</span>
+        <span class="text-gray-600 mr-4">View</span>
+      </div>
+      
+      <div class="flex">
+        <!-- Left - Queries pane -->
+        <div class="w-40 bg-gray-50 border-r border-gray-300 p-2">
+          <div class="text-xs font-bold text-gray-600 mb-2">Queries [3]</div>
+          <div class="space-y-1">
+            <div class="bg-white border border-blue-400 rounded px-2 py-1 text-xs">📋 Sales_Data</div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs">📋 Customers</div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs">📋 Products</div>
+          </div>
+        </div>
+        
+        <!-- Center - Data preview -->
+        <div class="flex-1 p-2">
+          <div class="text-xs font-bold text-gray-600 mb-2">Preview</div>
+          <table class="w-full text-xs border border-gray-300">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">
+                  <span class="text-blue-600">ABC</span> Order ID
+                </th>
+                <th class="border px-2 py-1 text-left">
+                  <span class="text-green-600">123</span> Sales
+                </th>
+                <th class="border px-2 py-1 text-left">
+                  <span class="text-purple-600">📅</span> Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="border px-2 py-1">CA-2017-001</td><td class="border px-2 py-1">261.96</td><td class="border px-2 py-1">1/3/2017</td></tr>
+              <tr><td class="border px-2 py-1">CA-2017-002</td><td class="border px-2 py-1">731.94</td><td class="border px-2 py-1">1/4/2017</td></tr>
+              <tr><td class="border px-2 py-1">CA-2017-003</td><td class="border px-2 py-1">14.62</td><td class="border px-2 py-1">1/5/2017</td></tr>
+            </tbody>
+          </table>
+          <div class="text-xs text-gray-500 mt-1">Showing first 1000 rows</div>
+        </div>
+        
+        <!-- Right - Applied Steps -->
+        <div class="w-48 bg-gray-50 border-l border-gray-300 p-2">
+          <div class="text-xs font-bold text-gray-600 mb-2">Query Settings</div>
+          <div class="text-xs text-gray-500 mb-1">APPLIED STEPS</div>
+          <div class="space-y-1 text-xs">
+            <div class="bg-white border border-gray-300 rounded px-2 py-1">Source</div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1">Promoted Headers</div>
+            <div class="bg-white border border-gray-300 rounded px-2 py-1">Changed Type</div>
+            <div class="bg-white border border-blue-400 rounded px-2 py-1">Filtered Rows</div>
+          </div>
+          <div class="text-xs text-gray-400 mt-2">Click step to see data at that point</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-3 gap-3 mt-4 text-sm">
+      <div class="bg-gray-50 rounded p-2">
+        <div class="font-semibold">📋 Queries Pane (Left)</div>
+        <p class="text-xs text-gray-600">Lists all your queries. Each query is a separate data transformation pipeline.</p>
+      </div>
+      <div class="bg-gray-50 rounded p-2">
+        <div class="font-semibold">📊 Data Preview (Center)</div>
+        <p class="text-xs text-gray-600">Shows your data. Column headers show data types (ABC=text, 123=number, 📅=date).</p>
+      </div>
+      <div class="bg-gray-50 rounded p-2">
+        <div class="font-semibold">📝 Applied Steps (Right)</div>
+        <p class="text-xs text-gray-600">Your recorded transformation steps. Click any step to see data at that point.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Loading Data</h2>
+    <p class="text-sm text-gray-600 mb-3">Power Query can connect to almost any data source:</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-sm mb-2">Common Sources</p>
+        <ul class="text-sm space-y-1">
+          <li>📄 <strong>CSV / Text files</strong> - Data → From Text/CSV</li>
+          <li>📗 <strong>Excel files</strong> - Data → From Workbook</li>
+          <li>📁 <strong>Folder</strong> - Combine multiple files at once</li>
+          <li>🗄️ <strong>Database</strong> - SQL Server, Access, etc.</li>
+          <li>🌐 <strong>Web</strong> - Scrape tables from websites</li>
+          <li>📋 <strong>Table/Range</strong> - Data already in Excel</li>
+        </ul>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <p class="font-semibold text-sm mb-2">From Excel Table</p>
+        <ol class="list-decimal ml-5 text-sm space-y-1">
+          <li>Select your data range</li>
+          <li>Data → From Table/Range</li>
+          <li>If not already a table, Excel will convert it</li>
+          <li>Power Query Editor opens</li>
+        </ol>
+        <p class="text-xs text-gray-600 mt-2">💡 Tip: Convert data to Table first (Ctrl+T) for best results</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Essential Transformations</h2>
+    
+    <div class="space-y-3 mt-3">
+      <!-- Remove Columns -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Remove Columns</div>
+        <p class="text-sm text-gray-600 mb-2">Delete columns you don't need</p>
+        <div class="flex gap-4">
+          <div class="text-sm">
+            <p class="font-medium">Method 1:</p>
+            <p class="text-xs text-gray-600">Right-click column header → Remove</p>
+          </div>
+          <div class="text-sm">
+            <p class="font-medium">Method 2:</p>
+            <p class="text-xs text-gray-600">Select columns to KEEP → Right-click → Remove Other Columns</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Filter Rows -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Filter Rows</div>
+        <p class="text-sm text-gray-600 mb-2">Keep only rows that match criteria (like SQL WHERE)</p>
+        <p class="text-sm">Click the dropdown arrow ▼ on any column header → Choose filter options</p>
+        <div class="flex gap-2 mt-2 text-xs">
+          <span class="bg-gray-100 px-2 py-1 rounded">Text: Contains, Starts with, Equals</span>
+          <span class="bg-gray-100 px-2 py-1 rounded">Numbers: Greater than, Between, Top N</span>
+          <span class="bg-gray-100 px-2 py-1 rounded">Dates: Before, After, This Year</span>
+        </div>
+      </div>
+      
+      <!-- Sort Rows -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Sort Rows</div>
+        <p class="text-sm text-gray-600 mb-2">Order your data</p>
+        <p class="text-sm">Click dropdown arrow ▼ → Sort Ascending / Sort Descending</p>
+        <p class="text-xs text-gray-500 mt-1">Or: Home tab → Sort (for multi-column sorting)</p>
+      </div>
+      
+      <!-- Change Data Type -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Change Data Type</div>
+        <p class="text-sm text-gray-600 mb-2">Convert columns to correct types (crucial for dates and numbers!)</p>
+        <p class="text-sm">Click the type icon in column header (ABC/123/📅) → Select correct type</p>
+        <div class="flex gap-2 mt-2 text-xs">
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">ABC = Text</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">123 = Whole Number</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">1.2 = Decimal</span>
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">📅 = Date</span>
+        </div>
+      </div>
+      
+      <!-- Rename Columns -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Rename Columns</div>
+        <p class="text-sm text-gray-600 mb-2">Give columns meaningful names</p>
+        <p class="text-sm">Double-click column header → Type new name → Press Enter</p>
+      </div>
+      
+      <!-- Replace Values -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Replace Values</div>
+        <p class="text-sm text-gray-600 mb-2">Find and replace text or fix data issues</p>
+        <p class="text-sm">Right-click column → Replace Values → Enter "Find" and "Replace with"</p>
+        <p class="text-xs text-gray-500 mt-1">Great for: Fixing typos, standardizing names, replacing nulls</p>
+      </div>
+      
+      <!-- Split Column -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Split Column</div>
+        <p class="text-sm text-gray-600 mb-2">Break one column into multiple (like splitting "City, State")</p>
+        <p class="text-sm">Right-click column → Split Column → By Delimiter (comma, space, etc.)</p>
+        <div class="text-xs text-gray-500 mt-1">Options: By delimiter, by number of characters, by positions</div>
+      </div>
+      
+      <!-- Merge Columns -->
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Merge Columns</div>
+        <p class="text-sm text-gray-600 mb-2">Combine multiple columns into one</p>
+        <p class="text-sm">Select columns (Ctrl+click) → Right-click → Merge Columns → Choose separator</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Adding Custom Columns</h2>
+    <p class="text-sm text-gray-600 mb-3">Create new columns with calculations or logic:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Add Column tab → Custom Column</strong></p>
+      
+      <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Profit Margin</span>
+[Profit] / [Sales]
+
+<span class="text-gray-400">// Full Name</span>
+[First Name] & <span class="text-green-400">" "</span> & [Last Name]
+
+<span class="text-gray-400">// Conditional (like IF)</span>
+<span class="text-blue-400">if</span> [Sales] > 1000 <span class="text-blue-400">then</span> <span class="text-green-400">"High"</span> 
+<span class="text-blue-400">else if</span> [Sales] > 100 <span class="text-blue-400">then</span> <span class="text-green-400">"Medium"</span> 
+<span class="text-blue-400">else</span> <span class="text-green-400">"Low"</span>
+
+<span class="text-gray-400">// Extract Year from Date</span>
+Date.Year([Order Date])
+
+<span class="text-gray-400">// Text transformations</span>
+Text.Upper([Category])
+Text.Start([Product ID], 3)  <span class="text-gray-400">// First 3 characters</span></pre>
+    </div>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>💡 M Language:</strong> Power Query uses "M" formula language. Column names go in [brackets]. It's case-sensitive! Use the dropdown in the Custom Column dialog to insert column names correctly.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Conditional Columns (No Code)</h2>
+    <p class="text-sm text-gray-600 mb-3">Create IF/THEN logic without writing M code:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Add Column tab → Conditional Column</strong></p>
+      <div class="bg-white border border-gray-300 rounded p-3 mt-2">
+        <div class="text-xs space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">If</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">Sales</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">is greater than</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">1000</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">Then</span>
+            <span class="bg-green-100 px-2 py-1 rounded">"High"</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">Else if</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">Sales</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">is greater than</span>
+            <span class="bg-gray-100 px-2 py-1 rounded">100</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">Then</span>
+            <span class="bg-yellow-100 px-2 py-1 rounded">"Medium"</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-500">Else</span>
+            <span class="bg-red-100 px-2 py-1 rounded">"Low"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Grouping & Aggregating</h2>
+    <p class="text-sm text-gray-600 mb-3">Like SQL GROUP BY - summarize data by categories:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Home tab → Group By</strong></p>
+      
+      <div class="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <p class="text-sm font-medium mb-2">Basic Mode:</p>
+          <ul class="text-sm space-y-1">
+            <li>Group by: <span class="bg-gray-200 px-1 rounded">Region</span></li>
+            <li>New column: <span class="bg-gray-200 px-1 rounded">Total Sales</span></li>
+            <li>Operation: <span class="bg-gray-200 px-1 rounded">Sum</span></li>
+            <li>Column: <span class="bg-gray-200 px-1 rounded">Sales</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-medium mb-2">Available Operations:</p>
+          <ul class="text-xs space-y-1">
+            <li>• Sum, Average, Min, Max</li>
+            <li>• Count Rows, Count Distinct</li>
+            <li>• All Rows (keeps detail)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p class="text-xs text-gray-500 mt-3">💡 Click "Advanced" to group by multiple columns or create multiple aggregations at once.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Merging Queries (JOIN)</h2>
+    <p class="text-sm text-gray-600 mb-3">Combine two tables like SQL JOIN:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Home tab → Merge Queries</strong></p>
+      
+      <div class="space-y-3 mt-3">
+        <div class="flex items-center gap-4">
+          <div class="bg-white border border-gray-300 rounded p-2 text-sm">
+            <div class="font-medium">Sales_Data</div>
+            <div class="text-xs text-gray-500">Select: CustomerID</div>
+          </div>
+          <span class="text-2xl">🔗</span>
+          <div class="bg-white border border-gray-300 rounded p-2 text-sm">
+            <div class="font-medium">Customers</div>
+            <div class="text-xs text-gray-500">Select: CustomerID</div>
+          </div>
+        </div>
+        
+        <div class="text-sm">
+          <p class="font-medium mb-1">Join Kind:</p>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-white border border-gray-300 rounded p-2">
+              <div class="font-medium">Left Outer</div>
+              <div class="text-gray-500">All from first, matching from second</div>
+            </div>
+            <div class="bg-white border border-gray-300 rounded p-2">
+              <div class="font-medium">Inner</div>
+              <div class="text-gray-500">Only matching rows</div>
+            </div>
+            <div class="bg-white border border-gray-300 rounded p-2">
+              <div class="font-medium">Full Outer</div>
+              <div class="text-gray-500">All rows from both</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <p class="text-xs text-gray-500 mt-3">After merging, expand the new column to select which fields to include from the second table.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Appending Queries (UNION)</h2>
+    <p class="text-sm text-gray-600 mb-3">Stack tables on top of each other (like SQL UNION):</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Home tab → Append Queries</strong></p>
+      
+      <div class="flex items-center gap-4 mt-3">
+        <div class="bg-white border border-gray-300 rounded p-2 text-sm text-center">
+          <div>Sales_2022</div>
+          <div class="text-xs text-gray-500">1000 rows</div>
+        </div>
+        <span class="text-xl">+</span>
+        <div class="bg-white border border-gray-300 rounded p-2 text-sm text-center">
+          <div>Sales_2023</div>
+          <div class="text-xs text-gray-500">1200 rows</div>
+        </div>
+        <span class="text-xl">=</span>
+        <div class="bg-green-100 border border-green-300 rounded p-2 text-sm text-center">
+          <div>Combined</div>
+          <div class="text-xs text-green-600">2200 rows</div>
+        </div>
+      </div>
+      
+      <p class="text-xs text-gray-500 mt-3">💡 Columns are matched by name. Missing columns become null.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Pivot & Unpivot</h2>
+    <p class="text-sm text-gray-600 mb-3">Reshape your data structure:</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Unpivot (Wide → Long)</div>
+        <p class="text-xs text-gray-600 mb-2">Convert columns to rows - great for normalizing data</p>
+        <div class="flex gap-2 items-center text-xs">
+          <table class="border border-gray-300">
+            <tr><td class="border px-1">Product</td><td class="border px-1">Jan</td><td class="border px-1">Feb</td></tr>
+            <tr><td class="border px-1">A</td><td class="border px-1">10</td><td class="border px-1">20</td></tr>
+          </table>
+          <span>→</span>
+          <table class="border border-gray-300">
+            <tr><td class="border px-1">Product</td><td class="border px-1">Month</td><td class="border px-1">Value</td></tr>
+            <tr><td class="border px-1">A</td><td class="border px-1">Jan</td><td class="border px-1">10</td></tr>
+            <tr><td class="border px-1">A</td><td class="border px-1">Feb</td><td class="border px-1">20</td></tr>
+          </table>
+        </div>
+        <p class="text-xs mt-2">Select columns to unpivot → Transform → Unpivot Columns</p>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Pivot (Long → Wide)</div>
+        <p class="text-xs text-gray-600 mb-2">Convert rows to columns - create summary tables</p>
+        <div class="flex gap-2 items-center text-xs">
+          <table class="border border-gray-300">
+            <tr><td class="border px-1">Region</td><td class="border px-1">Cat</td><td class="border px-1">Sales</td></tr>
+            <tr><td class="border px-1">East</td><td class="border px-1">A</td><td class="border px-1">100</td></tr>
+            <tr><td class="border px-1">East</td><td class="border px-1">B</td><td class="border px-1">200</td></tr>
+          </table>
+          <span>→</span>
+          <table class="border border-gray-300">
+            <tr><td class="border px-1">Region</td><td class="border px-1">A</td><td class="border px-1">B</td></tr>
+            <tr><td class="border px-1">East</td><td class="border px-1">100</td><td class="border px-1">200</td></tr>
+          </table>
+        </div>
+        <p class="text-xs mt-2">Select values column → Transform → Pivot Column</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Combine Files from Folder</h2>
+    <p class="text-sm text-gray-600 mb-3">One of Power Query's most powerful features - merge many files at once:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <ol class="list-decimal ml-5 text-sm space-y-2">
+        <li><strong>Data → Get Data → From File → From Folder</strong></li>
+        <li>Select the folder containing your files (CSVs, Excel files, etc.)</li>
+        <li>Click <strong>Combine & Transform Data</strong></li>
+        <li>Power Query automatically detects the structure and combines all files</li>
+        <li>A "Source.Name" column shows which file each row came from</li>
+      </ol>
+      
+      <div class="bg-yellow-50 border border-yellow-200 rounded p-2 mt-3">
+        <p class="text-xs"><strong>💡 Amazing for:</strong> Monthly reports, regional data files, exported logs - any scenario where you regularly get new files with the same structure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Loading Data Back to Excel</h2>
+    <p class="text-sm text-gray-600 mb-3">When you're done transforming, load the results:</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Home → Close & Load</div>
+        <ul class="text-sm space-y-1">
+          <li><strong>To Table</strong> - Creates an Excel table</li>
+          <li><strong>To PivotTable</strong> - Direct to pivot table</li>
+          <li><strong>Connection Only</strong> - Don't load, just save the query</li>
+        </ul>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Refreshing Data</div>
+        <ul class="text-sm space-y-1">
+          <li>Right-click table → Refresh</li>
+          <li>Data tab → Refresh All</li>
+          <li>Set automatic refresh schedule</li>
+        </ul>
+        <p class="text-xs text-gray-500 mt-2">All your transformation steps re-run automatically!</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common M Functions Reference</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Text Functions</span>
+Text.Upper([Column])              <span class="text-gray-400">// UPPERCASE</span>
+Text.Lower([Column])              <span class="text-gray-400">// lowercase</span>
+Text.Proper([Column])             <span class="text-gray-400">// Title Case</span>
+Text.Trim([Column])               <span class="text-gray-400">// Remove spaces</span>
+Text.Start([Column], 3)           <span class="text-gray-400">// First 3 chars</span>
+Text.End([Column], 3)             <span class="text-gray-400">// Last 3 chars</span>
+Text.Contains([Column], <span class="text-green-400">"text"</span>)   <span class="text-gray-400">// Returns true/false</span>
+Text.Replace([Col], <span class="text-green-400">"old"</span>, <span class="text-green-400">"new"</span>) <span class="text-gray-400">// Find & replace</span>
+
+<span class="text-gray-400">// Date Functions</span>
+Date.Year([Date Column])          <span class="text-gray-400">// Extract year</span>
+Date.Month([Date Column])         <span class="text-gray-400">// Extract month (1-12)</span>
+Date.Day([Date Column])           <span class="text-gray-400">// Extract day</span>
+Date.MonthName([Date Column])     <span class="text-gray-400">// "January", etc.</span>
+Date.DayOfWeek([Date Column])     <span class="text-gray-400">// 0=Sunday to 6=Saturday</span>
+
+<span class="text-gray-400">// Number Functions</span>
+Number.Round([Column], 2)         <span class="text-gray-400">// Round to 2 decimals</span>
+Number.Abs([Column])              <span class="text-gray-400">// Absolute value</span>
+
+<span class="text-gray-400">// Null Handling</span>
+<span class="text-blue-400">if</span> [Column] = <span class="text-blue-400">null</span> <span class="text-blue-400">then</span> <span class="text-green-400">"N/A"</span> <span class="text-blue-400">else</span> [Column]</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Steps are recorded</strong> - Every action creates a step that can be edited or deleted</li>
+      <li><strong>Click steps to preview</strong> - See your data at any point in the transformation</li>
+      <li><strong>Changes are non-destructive</strong> - Original data is never modified</li>
+      <li><strong>Refresh updates everything</strong> - Change source data, hit refresh, done</li>
+      <li><strong>Queries can reference each other</strong> - Build modular data pipelines</li>
+      <li><strong>Error handling is important</strong> - Check for errors before loading</li>
+      <li><strong>Data types matter</strong> - Set them early to avoid issues later</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Using the Sample Superstore data:</p>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Load the data into Power Query and <strong>remove unnecessary columns</strong> (keep only Order ID, Order Date, Region, Category, Sales, Profit)</li>
+      <li><strong>Change data types</strong> - ensure Sales and Profit are decimals, Order Date is a date</li>
+      <li><strong>Filter</strong> to show only orders from 2017</li>
+      <li>Create a <strong>custom column</strong> for Profit Margin (Profit / Sales)</li>
+      <li>Create a <strong>conditional column</strong> categorizing Sales as "High", "Medium", or "Low"</li>
+      <li><strong>Extract the year</strong> from Order Date into a new column</li>
+      <li>Use <strong>Group By</strong> to calculate total Sales and Profit by Region</li>
+      <li><strong>Split</strong> the Order ID column by the "-" delimiter</li>
+      <li><strong>Replace values</strong> - change "Consumer" to "B2C" in the Segment column</li>
+      <li>Create a second query with customer data and <strong>Merge</strong> it with your sales data</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Power Query vs Formulas - When to Use Which</h2>
+    <table class="w-full text-sm border border-gray-300 mt-2">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2 text-left">Use Power Query When...</th>
+          <th class="border px-3 py-2 text-left">Use Formulas When...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="border px-3 py-2">Data needs cleaning every time</td><td class="border px-3 py-2">One-time calculation</td></tr>
+        <tr><td class="border px-3 py-2">Combining multiple files</td><td class="border px-3 py-2">Working with data already in Excel</td></tr>
+        <tr><td class="border px-3 py-2">Reshaping data structure</td><td class="border px-3 py-2">Simple lookups (VLOOKUP)</td></tr>
+        <tr><td class="border px-3 py-2">Large datasets (100K+ rows)</td><td class="border px-3 py-2">Small datasets with live updates</td></tr>
+        <tr><td class="border px-3 py-2">Reproducible, documented process</td><td class="border px-3 py-2">Quick ad-hoc analysis</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,506 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">SQL Interview Questions</h1>
+  
+  <div>
+    <p class="text-gray-600">Practice these 20 medium-difficulty SQL questions typical of data analyst and data science interviews. Each question has hints you can reveal if you get stuck. Try to solve them using the Chinook database.</p>
+  </div>
+
+  <style>
+    .hint-toggle:checked + .hint-content { display: block; }
+    .hint-content { display: none; }
+  </style>
+
+  <!-- Question 1 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">1. Second Highest Value</div>
+    <p class="text-gray-700 mb-3">Write a query to find the <strong>second highest total invoice amount</strong>. Do not use LIMIT/OFFSET.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Think about what "second highest" means - it's the maximum value that is less than the overall maximum.</p>
+        <p class="mt-2"><strong>Approach:</strong> Use a subquery to find the MAX, then find the MAX of values less than that.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT MAX</span>(Total) <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Total < (<span class="text-blue-400">SELECT MAX</span>(Total) <span class="text-blue-400">FROM</span> invoices)</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">2. Customers Without Purchases</div>
+    <p class="text-gray-700 mb-3">Find all customers who have <strong>never made a purchase</strong> (no invoices).</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> You need to find customers whose ID doesn't appear in the invoices table.</p>
+        <p class="mt-2"><strong>Approaches:</strong></p>
+        <ul class="list-disc ml-5 text-sm">
+          <li>LEFT JOIN and check for NULL</li>
+          <li>NOT IN with a subquery</li>
+          <li>NOT EXISTS with a correlated subquery</li>
+        </ul>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers c
+<span class="text-blue-400">LEFT JOIN</span> invoices i <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId
+<span class="text-blue-400">WHERE</span> i.InvoiceId <span class="text-blue-400">IS NULL</span></pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 3 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">3. Running Total</div>
+    <p class="text-gray-700 mb-3">Calculate a <strong>running total of sales by date</strong> - each row should show the invoice date, daily total, and cumulative total up to that date.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> This requires a window function with a frame clause.</p>
+        <p class="mt-2"><strong>Approach:</strong> Use SUM() OVER() with ORDER BY and ROWS UNBOUNDED PRECEDING.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span> 
+    InvoiceDate,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> DailyTotal,
+    <span class="text-purple-400">SUM</span>(<span class="text-purple-400">SUM</span>(Total)) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> InvoiceDate
+        <span class="text-blue-400">ROWS UNBOUNDED PRECEDING</span>
+    ) <span class="text-blue-400">AS</span> RunningTotal
+<span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">GROUP BY</span> InvoiceDate</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 4 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">4. Duplicate Detection</div>
+    <p class="text-gray-700 mb-3">Find all <strong>customers who share the same email domain</strong> (e.g., gmail.com) with at least one other customer. Show the domain and count.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Extract the domain from email using string functions, then GROUP BY and filter with HAVING.</p>
+        <p class="mt-2"><strong>Approach:</strong> Use SUBSTR and INSTR (or similar) to get text after '@'.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span> 
+    <span class="text-purple-400">SUBSTR</span>(Email, <span class="text-purple-400">INSTR</span>(Email, <span class="text-green-400">'@'</span>) + 1) <span class="text-blue-400">AS</span> Domain,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> CustomerCount
+<span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">GROUP BY</span> Domain
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) > 1
+<span class="text-blue-400">ORDER BY</span> CustomerCount <span class="text-blue-400">DESC</span></pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 5 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">5. Year-over-Year Comparison</div>
+    <p class="text-gray-700 mb-3">Show <strong>total sales per year</strong> and the <strong>percentage change from the previous year</strong>.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use LAG() to get the previous year's value, then calculate the percentage change.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> YearlySales <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Year,
+        <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> Total
+    <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">GROUP BY</span> Year
+)
+<span class="text-blue-400">SELECT</span> 
+    Year,
+    Total,
+    <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Year) <span class="text-blue-400">AS</span> PrevYear,
+    <span class="text-purple-400">ROUND</span>((Total - <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Year)) * 100.0 
+        / <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Year), 2) <span class="text-blue-400">AS</span> PctChange
+<span class="text-blue-400">FROM</span> YearlySales</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 6 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">6. Top N per Group</div>
+    <p class="text-gray-700 mb-3">Find the <strong>top 3 best-selling tracks for each genre</strong> (by total quantity sold).</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use ROW_NUMBER() or RANK() partitioned by genre, then filter for rank <= 3.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> TrackSales <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        g.Name <span class="text-blue-400">AS</span> Genre,
+        t.Name <span class="text-blue-400">AS</span> Track,
+        <span class="text-purple-400">SUM</span>(il.Quantity) <span class="text-blue-400">AS</span> TotalSold,
+        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+            <span class="text-blue-400">PARTITION BY</span> g.GenreId 
+            <span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">SUM</span>(il.Quantity) <span class="text-blue-400">DESC</span>
+        ) <span class="text-blue-400">AS</span> Rank
+    <span class="text-blue-400">FROM</span> genres g
+    <span class="text-blue-400">JOIN</span> tracks t <span class="text-blue-400">ON</span> g.GenreId = t.GenreId
+    <span class="text-blue-400">JOIN</span> invoice_items il <span class="text-blue-400">ON</span> t.TrackId = il.TrackId
+    <span class="text-blue-400">GROUP BY</span> g.GenreId, t.TrackId
+)
+<span class="text-blue-400">SELECT</span> Genre, Track, TotalSold
+<span class="text-blue-400">FROM</span> TrackSales <span class="text-blue-400">WHERE</span> Rank <= 3</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 7 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">7. Consecutive Days</div>
+    <p class="text-gray-700 mb-3">Find customers who made purchases on <strong>at least 2 consecutive days</strong>.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use LAG() to get the previous invoice date for each customer, then check if the difference is 1 day.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> CustomerDates <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        CustomerId,
+        <span class="text-purple-400">DATE</span>(InvoiceDate) <span class="text-blue-400">AS</span> InvDate,
+        <span class="text-purple-400">LAG</span>(<span class="text-purple-400">DATE</span>(InvoiceDate)) <span class="text-blue-400">OVER</span> (
+            <span class="text-blue-400">PARTITION BY</span> CustomerId 
+            <span class="text-blue-400">ORDER BY</span> InvoiceDate
+        ) <span class="text-blue-400">AS</span> PrevDate
+    <span class="text-blue-400">FROM</span> invoices
+)
+<span class="text-blue-400">SELECT DISTINCT</span> c.FirstName, c.LastName
+<span class="text-blue-400">FROM</span> CustomerDates cd
+<span class="text-blue-400">JOIN</span> customers c <span class="text-blue-400">ON</span> cd.CustomerId = c.CustomerId
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">JULIANDAY</span>(cd.InvDate) - <span class="text-purple-400">JULIANDAY</span>(cd.PrevDate) = 1</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 8 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">8. Median Calculation</div>
+    <p class="text-gray-700 mb-3">Calculate the <strong>median invoice total</strong>. (Note: SQL doesn't have a built-in MEDIAN function)</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> The median is the middle value. Use ROW_NUMBER to rank values, then select the middle row(s).</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> Ranked <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        Total,
+        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Total) <span class="text-blue-400">AS</span> RowNum,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">OVER</span> () <span class="text-blue-400">AS</span> TotalCount
+    <span class="text-blue-400">FROM</span> invoices
+)
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">AS</span> Median
+<span class="text-blue-400">FROM</span> Ranked
+<span class="text-blue-400">WHERE</span> RowNum <span class="text-blue-400">IN</span> ((TotalCount + 1) / 2, (TotalCount + 2) / 2)</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 9 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">9. Pivot-Style Query</div>
+    <p class="text-gray-700 mb-3">Create a report showing <strong>total sales by country as columns</strong> for the top 5 countries. (Simulate a pivot table)</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use CASE statements to create conditional sums for each country.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> BillingCountry = <span class="text-green-400">'USA'</span> <span class="text-blue-400">THEN</span> Total <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> USA,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> BillingCountry = <span class="text-green-400">'Canada'</span> <span class="text-blue-400">THEN</span> Total <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> Canada,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> BillingCountry = <span class="text-green-400">'France'</span> <span class="text-blue-400">THEN</span> Total <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> France,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> BillingCountry = <span class="text-green-400">'Brazil'</span> <span class="text-blue-400">THEN</span> Total <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> Brazil,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> BillingCountry = <span class="text-green-400">'Germany'</span> <span class="text-blue-400">THEN</span> Total <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> Germany
+<span class="text-blue-400">FROM</span> invoices</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 10 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">10. Self-Join: Manager-Employee</div>
+    <p class="text-gray-700 mb-3">List all employees with their <strong>manager's name</strong>. Include employees with no manager.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Join the employees table to itself using ReportsTo = EmployeeId. Use LEFT JOIN to include those without managers.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span>
+    e.FirstName || <span class="text-green-400">' '</span> || e.LastName <span class="text-blue-400">AS</span> Employee,
+    e.Title,
+    <span class="text-purple-400">COALESCE</span>(m.FirstName || <span class="text-green-400">' '</span> || m.LastName, <span class="text-green-400">'No Manager'</span>) <span class="text-blue-400">AS</span> Manager
+<span class="text-blue-400">FROM</span> employees e
+<span class="text-blue-400">LEFT JOIN</span> employees m <span class="text-blue-400">ON</span> e.ReportsTo = m.EmployeeId</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 11 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">11. Percentile/Quartile</div>
+    <p class="text-gray-700 mb-3">Categorize customers into <strong>quartiles (Q1-Q4)</strong> based on their total spending.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use NTILE(4) window function to divide customers into 4 equal groups.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> CustomerTotals <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        c.CustomerId,
+        c.FirstName || <span class="text-green-400">' '</span> || c.LastName <span class="text-blue-400">AS</span> Customer,
+        <span class="text-purple-400">SUM</span>(i.Total) <span class="text-blue-400">AS</span> TotalSpent
+    <span class="text-blue-400">FROM</span> customers c
+    <span class="text-blue-400">JOIN</span> invoices i <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId
+    <span class="text-blue-400">GROUP BY</span> c.CustomerId
+)
+<span class="text-blue-400">SELECT</span> 
+    Customer,
+    TotalSpent,
+    <span class="text-purple-400">NTILE</span>(4) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> TotalSpent) <span class="text-blue-400">AS</span> Quartile
+<span class="text-blue-400">FROM</span> CustomerTotals</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 12 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">12. Gap Analysis</div>
+    <p class="text-gray-700 mb-3">Find <strong>gaps in the InvoiceId sequence</strong> (missing invoice numbers).</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use LEAD() to get the next InvoiceId, then find where the difference is more than 1.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> InvoiceGaps <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        InvoiceId,
+        <span class="text-purple-400">LEAD</span>(InvoiceId) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceId) <span class="text-blue-400">AS</span> NextId
+    <span class="text-blue-400">FROM</span> invoices
+)
+<span class="text-blue-400">SELECT</span>
+    InvoiceId + 1 <span class="text-blue-400">AS</span> GapStart,
+    NextId - 1 <span class="text-blue-400">AS</span> GapEnd
+<span class="text-blue-400">FROM</span> InvoiceGaps
+<span class="text-blue-400">WHERE</span> NextId - InvoiceId > 1</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 13 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">13. Moving Average</div>
+    <p class="text-gray-700 mb-3">Calculate a <strong>3-month moving average</strong> of monthly sales.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use AVG() with a window frame: ROWS BETWEEN 2 PRECEDING AND CURRENT ROW.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> MonthlySales <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y-%m'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Month,
+        <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> MonthlyTotal
+    <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">GROUP BY</span> Month
+)
+<span class="text-blue-400">SELECT</span>
+    Month,
+    MonthlyTotal,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(MonthlyTotal) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> Month
+        <span class="text-blue-400">ROWS BETWEEN</span> 2 <span class="text-blue-400">PRECEDING AND CURRENT ROW</span>
+    ), 2) <span class="text-blue-400">AS</span> MovingAvg3Mo
+<span class="text-blue-400">FROM</span> MonthlySales</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 14 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">14. Customers Who Bought Everything</div>
+    <p class="text-gray-700 mb-3">Find customers who have purchased tracks from <strong>every genre</strong> (division problem).</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Count distinct genres per customer and compare to total genre count.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span> c.FirstName, c.LastName
+<span class="text-blue-400">FROM</span> customers c
+<span class="text-blue-400">JOIN</span> invoices i <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId
+<span class="text-blue-400">JOIN</span> invoice_items ii <span class="text-blue-400">ON</span> i.InvoiceId = ii.InvoiceId
+<span class="text-blue-400">JOIN</span> tracks t <span class="text-blue-400">ON</span> ii.TrackId = t.TrackId
+<span class="text-blue-400">GROUP BY</span> c.CustomerId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(<span class="text-blue-400">DISTINCT</span> t.GenreId) = 
+    (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> genres)</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 15 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">15. Cohort Retention</div>
+    <p class="text-gray-700 mb-3">For customers who made their first purchase in 2009, what <strong>percentage made another purchase in 2010</strong>?</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">�� Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> First identify 2009 cohort (first purchase), then check who also purchased in 2010.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> FirstPurchase <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> CustomerId, <span class="text-purple-400">MIN</span>(<span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y'</span>, InvoiceDate)) <span class="text-blue-400">AS</span> FirstYear
+    <span class="text-blue-400">FROM</span> invoices <span class="text-blue-400">GROUP BY</span> CustomerId
+),
+Cohort2009 <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> CustomerId <span class="text-blue-400">FROM</span> FirstPurchase <span class="text-blue-400">WHERE</span> FirstYear = <span class="text-green-400">'2009'</span>
+),
+Returned2010 <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT DISTINCT</span> CustomerId <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">WHERE</span> <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y'</span>, InvoiceDate) = <span class="text-green-400">'2010'</span>
+      <span class="text-blue-400">AND</span> CustomerId <span class="text-blue-400">IN</span> (<span class="text-blue-400">SELECT</span> CustomerId <span class="text-blue-400">FROM</span> Cohort2009)
+)
+<span class="text-blue-400">SELECT</span>
+    (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> Cohort2009) <span class="text-blue-400">AS</span> Cohort2009Size,
+    (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> Returned2010) <span class="text-blue-400">AS</span> ReturnedIn2010,
+    <span class="text-purple-400">ROUND</span>(100.0 * (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> Returned2010) / 
+        (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> Cohort2009), 2) <span class="text-blue-400">AS</span> RetentionPct</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 16 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">16. Dense Rank vs Rank</div>
+    <p class="text-gray-700 mb-3">Rank genres by total track count showing <strong>both RANK and DENSE_RANK</strong>. Explain when they differ.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> RANK() skips numbers after ties, DENSE_RANK() doesn't.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span>
+    g.Name,
+    <span class="text-purple-400">COUNT</span>(t.TrackId) <span class="text-blue-400">AS</span> TrackCount,
+    <span class="text-purple-400">RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">COUNT</span>(t.TrackId) <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> Rank,
+    <span class="text-purple-400">DENSE_RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">COUNT</span>(t.TrackId) <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> DenseRank
+<span class="text-blue-400">FROM</span> genres g
+<span class="text-blue-400">LEFT JOIN</span> tracks t <span class="text-blue-400">ON</span> g.GenreId = t.GenreId
+<span class="text-blue-400">GROUP BY</span> g.GenreId
+<span class="text-blue-400">ORDER BY</span> TrackCount <span class="text-blue-400">DESC</span></pre>
+        <p class="mt-2 text-sm">If two genres tie at rank 2, RANK gives: 1,2,2,4 while DENSE_RANK gives: 1,2,2,3</p>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 17 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">17. Cumulative Distribution</div>
+    <p class="text-gray-700 mb-3">Show each customer's total spending and their <strong>percentile rank</strong> (what % of customers they outspend).</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use PERCENT_RANK() or CUME_DIST() window functions.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> CustomerTotals <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        c.FirstName || <span class="text-green-400">' '</span> || c.LastName <span class="text-blue-400">AS</span> Customer,
+        <span class="text-purple-400">SUM</span>(i.Total) <span class="text-blue-400">AS</span> TotalSpent
+    <span class="text-blue-400">FROM</span> customers c
+    <span class="text-blue-400">JOIN</span> invoices i <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId
+    <span class="text-blue-400">GROUP BY</span> c.CustomerId
+)
+<span class="text-blue-400">SELECT</span>
+    Customer,
+    TotalSpent,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">PERCENT_RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> TotalSpent) * 100, 1) <span class="text-blue-400">AS</span> PercentileRank
+<span class="text-blue-400">FROM</span> CustomerTotals
+<span class="text-blue-400">ORDER BY</span> TotalSpent <span class="text-blue-400">DESC</span></pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 18 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">18. String Aggregation</div>
+    <p class="text-gray-700 mb-3">For each artist, show a <strong>comma-separated list of their album names</strong>.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Use GROUP_CONCAT() in SQLite, STRING_AGG() in PostgreSQL/SQL Server, or LISTAGG() in Oracle.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span>
+    ar.Name <span class="text-blue-400">AS</span> Artist,
+    <span class="text-purple-400">GROUP_CONCAT</span>(al.Title, <span class="text-green-400">', '</span>) <span class="text-blue-400">AS</span> Albums,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> AlbumCount
+<span class="text-blue-400">FROM</span> artists ar
+<span class="text-blue-400">JOIN</span> albums al <span class="text-blue-400">ON</span> ar.ArtistId = al.ArtistId
+<span class="text-blue-400">GROUP BY</span> ar.ArtistId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 3
+<span class="text-blue-400">ORDER BY</span> AlbumCount <span class="text-blue-400">DESC</span></pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 19 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">19. Islands Problem</div>
+    <p class="text-gray-700 mb-3">Find <strong>consecutive ranges of track IDs</strong> that belong to the same album. Show the start and end of each range.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> The classic "islands" technique: subtract ROW_NUMBER from the TrackId. Consecutive tracks will have the same difference.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">WITH</span> TrackGroups <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        TrackId,
+        AlbumId,
+        TrackId - <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+            <span class="text-blue-400">PARTITION BY</span> AlbumId <span class="text-blue-400">ORDER BY</span> TrackId
+        ) <span class="text-blue-400">AS</span> Grp
+    <span class="text-blue-400">FROM</span> tracks
+)
+<span class="text-blue-400">SELECT</span>
+    AlbumId,
+    <span class="text-purple-400">MIN</span>(TrackId) <span class="text-blue-400">AS</span> RangeStart,
+    <span class="text-purple-400">MAX</span>(TrackId) <span class="text-blue-400">AS</span> RangeEnd,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> TracksInRange
+<span class="text-blue-400">FROM</span> TrackGroups
+<span class="text-blue-400">GROUP BY</span> AlbumId, Grp
+<span class="text-blue-400">ORDER BY</span> AlbumId, RangeStart</pre>
+      </div>
+    </label>
+  </div>
+
+  <!-- Question 20 -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <div class="font-semibold text-lg mb-2">20. Anti-Join with Multiple Conditions</div>
+    <p class="text-gray-700 mb-3">Find tracks that have <strong>never been purchased</strong> and are <strong>longer than 5 minutes</strong>.</p>
+    <label class="cursor-pointer text-blue-600 text-sm">
+      <input type="checkbox" class="hint-toggle hidden">
+      <span class="hover:underline">💡 Show Hint</span>
+      <div class="hint-content bg-blue-50 rounded p-3 mt-2 text-gray-700">
+        <p><strong>Hint:</strong> Combine LEFT JOIN with IS NULL (anti-join) and a WHERE clause for duration.</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">SELECT</span>
+    t.Name <span class="text-blue-400">AS</span> Track,
+    a.Title <span class="text-blue-400">AS</span> Album,
+    <span class="text-purple-400">ROUND</span>(t.Milliseconds / 60000.0, 2) <span class="text-blue-400">AS</span> Minutes
+<span class="text-blue-400">FROM</span> tracks t
+<span class="text-blue-400">JOIN</span> albums a <span class="text-blue-400">ON</span> t.AlbumId = a.AlbumId
+<span class="text-blue-400">LEFT JOIN</span> invoice_items ii <span class="text-blue-400">ON</span> t.TrackId = ii.TrackId
+<span class="text-blue-400">WHERE</span> ii.InvoiceLineId <span class="text-blue-400">IS NULL</span>
+  <span class="text-blue-400">AND</span> t.Milliseconds > 300000
+<span class="text-blue-400">ORDER BY</span> t.Milliseconds <span class="text-blue-400">DESC</span></pre>
+      </div>
+    </label>
+  </div>
+
+  <div class="bg-gray-100 rounded-lg p-4 mt-6">
+    <h2 class="font-bold text-lg mb-2">Tips for SQL Interviews</h2>
+    <ul class="list-disc ml-5 space-y-1 text-sm">
+      <li><strong>Talk through your approach</strong> - Explain your thinking before writing</li>
+      <li><strong>Start simple</strong> - Get a working query first, then optimize</li>
+      <li><strong>Know your window functions</strong> - ROW_NUMBER, RANK, LAG, LEAD are very common</li>
+      <li><strong>CTEs make complex queries readable</strong> - Use them liberally</li>
+      <li><strong>Watch for edge cases</strong> - NULLs, duplicates, empty results</li>
+      <li><strong>Ask clarifying questions</strong> - "Should ties be handled differently?" "Is this per-group or overall?"</li>
+    </ul>
+  </div>
+</div>

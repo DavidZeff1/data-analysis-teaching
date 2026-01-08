@@ -1,0 +1,754 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">SQL to Pandas Cheat Sheet</h1>
+  
+  <div>
+    <p class="text-gray-600">Pandas is Python's data manipulation library. If you know SQL, you already understand the concepts - the syntax is just different. This guide shows side-by-side comparisons to help you translate between the two.</p>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+      <p class="text-sm"><strong>Setup:</strong> All examples assume you have a DataFrame called <code class="bg-gray-200 px-1 rounded">df</code> loaded from your data.</p>
+      <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+
+<span class="text-gray-400"># Load data (like connecting to a database)</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)
+invoices = pd.read_csv(<span class="text-green-400">'invoices.csv'</span>)
+customers = pd.read_csv(<span class="text-green-400">'customers.csv'</span>)</pre>
+    </div>
+  </div>
+
+  <!-- SELECT -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">SELECT - Choosing Columns</h2>
+    <p class="text-sm text-gray-600 mb-3">In SQL you SELECT columns, in Pandas you use bracket notation or <code>.loc[]</code></p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Select all columns</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Select specific columns</span>
+<span class="text-blue-400">SELECT</span> InvoiceId, Total 
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Select with alias</span>
+<span class="text-blue-400">SELECT</span> Total <span class="text-blue-400">AS</span> Amount 
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Select distinct</span>
+<span class="text-blue-400">SELECT DISTINCT</span> Country 
+<span class="text-blue-400">FROM</span> customers;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Select all columns</span>
+invoices
+
+<span class="text-gray-400"># Select specific columns</span>
+invoices[[<span class="text-green-400">'InvoiceId'</span>, <span class="text-green-400">'Total'</span>]]
+
+<span class="text-gray-400"># Select with rename (alias)</span>
+invoices[[<span class="text-green-400">'Total'</span>]].rename(
+    columns={<span class="text-green-400">'Total'</span>: <span class="text-green-400">'Amount'</span>})
+
+<span class="text-gray-400"># Select distinct</span>
+customers[<span class="text-green-400">'Country'</span>].unique()
+<span class="text-gray-400"># or as DataFrame:</span>
+customers[[<span class="text-green-400">'Country'</span>]].drop_duplicates()</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> Single brackets <code>df['col']</code> return a Series, double brackets <code>df[['col']]</code> return a DataFrame. Use double brackets when selecting multiple columns or when you need DataFrame output.
+    </div>
+  </div>
+
+  <!-- WHERE -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">WHERE - Filtering Rows</h2>
+    <p class="text-sm text-gray-600 mb-3">SQL's WHERE becomes boolean indexing in Pandas. The condition goes inside brackets.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Simple filter</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Total > 10;
+
+<span class="text-gray-400">-- Multiple conditions (AND)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Total > 10 
+  <span class="text-blue-400">AND</span> Country = <span class="text-green-400">'USA'</span>;
+
+<span class="text-gray-400">-- Multiple conditions (OR)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">WHERE</span> Country = <span class="text-green-400">'USA'</span> 
+   <span class="text-blue-400">OR</span> Country = <span class="text-green-400">'Canada'</span>;
+
+<span class="text-gray-400">-- IN operator</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">WHERE</span> Country <span class="text-blue-400">IN</span> (<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>);
+
+<span class="text-gray-400">-- BETWEEN</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Total <span class="text-blue-400">BETWEEN</span> 5 <span class="text-blue-400">AND</span> 15;
+
+<span class="text-gray-400">-- LIKE (pattern matching)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">WHERE</span> Email <span class="text-blue-400">LIKE</span> <span class="text-green-400">'%gmail.com'</span>;
+
+<span class="text-gray-400">-- IS NULL / IS NOT NULL</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">WHERE</span> Company <span class="text-blue-400">IS NULL</span>;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Simple filter</span>
+invoices[invoices[<span class="text-green-400">'Total'</span>] > 10]
+
+<span class="text-gray-400"># Multiple conditions (AND) - use &</span>
+invoices[
+    (invoices[<span class="text-green-400">'Total'</span>] > 10) & 
+    (invoices[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>)
+]
+
+<span class="text-gray-400"># Multiple conditions (OR) - use |</span>
+customers[
+    (customers[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>) | 
+    (customers[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'Canada'</span>)
+]
+
+<span class="text-gray-400"># IN operator - use .isin()</span>
+customers[
+    customers[<span class="text-green-400">'Country'</span>].isin([<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>])
+]
+
+<span class="text-gray-400"># BETWEEN - use .between()</span>
+invoices[invoices[<span class="text-green-400">'Total'</span>].between(5, 15)]
+
+<span class="text-gray-400"># LIKE - use .str.contains()</span>
+customers[
+    customers[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail.com'</span>)
+]
+
+<span class="text-gray-400"># IS NULL / IS NOT NULL</span>
+customers[customers[<span class="text-green-400">'Company'</span>].isna()]
+customers[customers[<span class="text-green-400">'Company'</span>].notna()]</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> Always wrap each condition in parentheses when combining with <code>&</code> or <code>|</code>. Use <code>&</code> for AND, <code>|</code> for OR, <code>~</code> for NOT.
+    </div>
+  </div>
+
+  <!-- ORDER BY & LIMIT -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">ORDER BY & LIMIT - Sorting and Limiting</h2>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Sort ascending</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">ORDER BY</span> Total;
+
+<span class="text-gray-400">-- Sort descending</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>;
+
+<span class="text-gray-400">-- Multiple sort columns</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">ORDER BY</span> Country, Total <span class="text-blue-400">DESC</span>;
+
+<span class="text-gray-400">-- LIMIT (top N rows)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
+<span class="text-blue-400">LIMIT</span> 10;
+
+<span class="text-gray-400">-- OFFSET (skip rows)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">LIMIT</span> 10 <span class="text-blue-400">OFFSET</span> 5;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Sort ascending</span>
+invoices.sort_values(<span class="text-green-400">'Total'</span>)
+
+<span class="text-gray-400"># Sort descending</span>
+invoices.sort_values(<span class="text-green-400">'Total'</span>, ascending=<span class="text-blue-400">False</span>)
+
+<span class="text-gray-400"># Multiple sort columns</span>
+invoices.sort_values(
+    [<span class="text-green-400">'Country'</span>, <span class="text-green-400">'Total'</span>],
+    ascending=[<span class="text-blue-400">True</span>, <span class="text-blue-400">False</span>]
+)
+
+<span class="text-gray-400"># LIMIT (top N rows)</span>
+invoices.nlargest(10, <span class="text-green-400">'Total'</span>)
+<span class="text-gray-400"># or:</span>
+invoices.sort_values(<span class="text-green-400">'Total'</span>, ascending=<span class="text-blue-400">False</span>).head(10)
+
+<span class="text-gray-400"># OFFSET (skip rows)</span>
+invoices.iloc[5:15]</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>.head(n)</code> and <code>.tail(n)</code> are quick ways to get first/last rows. <code>.nlargest()</code> and <code>.nsmallest()</code> are optimized for "top N" queries.
+    </div>
+  </div>
+
+  <!-- GROUP BY -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">GROUP BY - Aggregation</h2>
+    <p class="text-sm text-gray-600 mb-3">Both SQL and Pandas use the same concept: group rows, then aggregate.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Simple aggregation</span>
+<span class="text-blue-400">SELECT</span> 
+    Country,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> Count,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
+<span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">GROUP BY</span> Country;
+
+<span class="text-gray-400">-- Multiple group columns</span>
+<span class="text-blue-400">SELECT</span> 
+    Country,
+    City,
+    <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">AS</span> AvgSale
+<span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">GROUP BY</span> Country, City;
+
+<span class="text-gray-400">-- All aggregate functions</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">COUNT</span>(*),
+    <span class="text-purple-400">SUM</span>(Total),
+    <span class="text-purple-400">AVG</span>(Total),
+    <span class="text-purple-400">MIN</span>(Total),
+    <span class="text-purple-400">MAX</span>(Total)
+<span class="text-blue-400">FROM</span> invoices;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Simple aggregation</span>
+invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
+    Count=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'count'</span>),
+    TotalSales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
+).reset_index()
+
+<span class="text-gray-400"># Multiple group columns</span>
+invoices.groupby([<span class="text-green-400">'Country'</span>, <span class="text-green-400">'City'</span>]).agg(
+    AvgSale=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'mean'</span>)
+).reset_index()
+
+<span class="text-gray-400"># All aggregate functions</span>
+invoices.agg({
+    <span class="text-green-400">'Total'</span>: [<span class="text-green-400">'count'</span>, <span class="text-green-400">'sum'</span>, <span class="text-green-400">'mean'</span>, <span class="text-green-400">'min'</span>, <span class="text-green-400">'max'</span>]
+})
+
+<span class="text-gray-400"># Quick shorthand</span>
+invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].sum()</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>.reset_index()</code> converts the grouped result back to a regular DataFrame (like SQL output). Without it, group columns become the index.
+    </div>
+  </div>
+
+  <!-- HAVING -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">HAVING - Filtering Groups</h2>
+    <p class="text-sm text-gray-600 mb-3">HAVING filters after aggregation. In Pandas, you aggregate first, then filter the result.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Filter after grouping</span>
+<span class="text-blue-400">SELECT</span> 
+    Country,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
+<span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">GROUP BY</span> Country
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">SUM</span>(Total) > 100;
+
+<span class="text-gray-400">-- HAVING with COUNT</span>
+<span class="text-blue-400">SELECT</span> 
+    CustomerId,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> Orders
+<span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">GROUP BY</span> CustomerId
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 5;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Filter after grouping</span>
+grouped = invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
+    TotalSales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
+).reset_index()
+grouped[grouped[<span class="text-green-400">'TotalSales'</span>] > 100]
+
+<span class="text-gray-400"># HAVING with COUNT</span>
+grouped = invoices.groupby(<span class="text-green-400">'CustomerId'</span>).agg(
+    Orders=(<span class="text-green-400">'InvoiceId'</span>, <span class="text-green-400">'count'</span>)
+).reset_index()
+grouped[grouped[<span class="text-green-400">'Orders'</span>] >= 5]
+
+<span class="text-gray-400"># One-liner with .filter()</span>
+invoices.groupby(<span class="text-green-400">'CustomerId'</span>).filter(
+    <span class="text-blue-400">lambda</span> x: len(x) >= 5
+)</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> In Pandas, HAVING is just a regular filter applied to the aggregated DataFrame. The <code>.filter()</code> method is an alternative that returns the original rows (not aggregated).
+    </div>
+  </div>
+
+  <!-- JOIN -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">JOIN - Combining Tables</h2>
+    <p class="text-sm text-gray-600 mb-3">Pandas uses <code>merge()</code> for SQL-style joins. The syntax maps directly.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- INNER JOIN</span>
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> invoices i
+<span class="text-blue-400">JOIN</span> customers c 
+  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
+
+<span class="text-gray-400">-- LEFT JOIN</span>
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> customers c
+<span class="text-blue-400">LEFT JOIN</span> invoices i 
+  <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId;
+
+<span class="text-gray-400">-- RIGHT JOIN</span>
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> invoices i
+<span class="text-blue-400">RIGHT JOIN</span> customers c 
+  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
+
+<span class="text-gray-400">-- FULL OUTER JOIN</span>
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> invoices i
+<span class="text-blue-400">FULL OUTER JOIN</span> customers c 
+  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
+
+<span class="text-gray-400">-- Multiple join keys</span>
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> table1 t1
+<span class="text-blue-400">JOIN</span> table2 t2 
+  <span class="text-blue-400">ON</span> t1.key1 = t2.key1 
+ <span class="text-blue-400">AND</span> t1.key2 = t2.key2;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># INNER JOIN</span>
+pd.merge(invoices, customers, 
+         on=<span class="text-green-400">'CustomerId'</span>, 
+         how=<span class="text-green-400">'inner'</span>)
+
+<span class="text-gray-400"># LEFT JOIN</span>
+pd.merge(customers, invoices,
+         on=<span class="text-green-400">'CustomerId'</span>,
+         how=<span class="text-green-400">'left'</span>)
+
+<span class="text-gray-400"># RIGHT JOIN</span>
+pd.merge(invoices, customers,
+         on=<span class="text-green-400">'CustomerId'</span>,
+         how=<span class="text-green-400">'right'</span>)
+
+<span class="text-gray-400"># FULL OUTER JOIN</span>
+pd.merge(invoices, customers,
+         on=<span class="text-green-400">'CustomerId'</span>,
+         how=<span class="text-green-400">'outer'</span>)
+
+<span class="text-gray-400"># Multiple join keys</span>
+pd.merge(table1, table2,
+         on=[<span class="text-green-400">'key1'</span>, <span class="text-green-400">'key2'</span>])
+
+<span class="text-gray-400"># Different column names</span>
+pd.merge(df1, df2,
+         left_on=<span class="text-green-400">'cust_id'</span>,
+         right_on=<span class="text-green-400">'customer_id'</span>)</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>how=</code> parameter maps to JOIN type: <code>'inner'</code>, <code>'left'</code>, <code>'right'</code>, <code>'outer'</code>. Default is inner join.
+    </div>
+  </div>
+
+  <!-- UNION -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">UNION - Combining Rows</h2>
+    <p class="text-sm text-gray-600 mb-3">UNION stacks DataFrames vertically. Pandas uses <code>concat()</code>.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- UNION (removes duplicates)</span>
+<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> artists
+<span class="text-blue-400">UNION</span>
+<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> customers;
+
+<span class="text-gray-400">-- UNION ALL (keeps duplicates)</span>
+<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> artists
+<span class="text-blue-400">UNION ALL</span>
+<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> customers;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># UNION (removes duplicates)</span>
+pd.concat([
+    artists[[<span class="text-green-400">'Name'</span>]], 
+    customers[[<span class="text-green-400">'Name'</span>]]
+]).drop_duplicates()
+
+<span class="text-gray-400"># UNION ALL (keeps duplicates)</span>
+pd.concat([
+    artists[[<span class="text-green-400">'Name'</span>]], 
+    customers[[<span class="text-green-400">'Name'</span>]]
+])</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>concat()</code> is like UNION ALL by default. Add <code>.drop_duplicates()</code> for UNION behavior.
+    </div>
+  </div>
+
+  <!-- CASE -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">CASE - Conditional Logic</h2>
+    <p class="text-sm text-gray-600 mb-3">SQL's CASE becomes <code>np.where()</code>, <code>np.select()</code>, or <code>.apply()</code> in Pandas.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Simple CASE (2 outcomes)</span>
+<span class="text-blue-400">SELECT</span>
+    Total,
+    <span class="text-blue-400">CASE</span> 
+        <span class="text-blue-400">WHEN</span> Total > 10 <span class="text-blue-400">THEN</span> <span class="text-green-400">'High'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Low'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> Category
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Multiple conditions</span>
+<span class="text-blue-400">SELECT</span>
+    Total,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> Total > 15 <span class="text-blue-400">THEN</span> <span class="text-green-400">'High'</span>
+        <span class="text-blue-400">WHEN</span> Total > 5 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Low'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> Category
+<span class="text-blue-400">FROM</span> invoices;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
+
+<span class="text-gray-400"># Simple CASE (2 outcomes)</span>
+invoices[<span class="text-green-400">'Category'</span>] = np.where(
+    invoices[<span class="text-green-400">'Total'</span>] > 10,
+    <span class="text-green-400">'High'</span>,
+    <span class="text-green-400">'Low'</span>
+)
+
+<span class="text-gray-400"># Multiple conditions</span>
+conditions = [
+    invoices[<span class="text-green-400">'Total'</span>] > 15,
+    invoices[<span class="text-green-400">'Total'</span>] > 5
+]
+choices = [<span class="text-green-400">'High'</span>, <span class="text-green-400">'Medium'</span>]
+invoices[<span class="text-green-400">'Category'</span>] = np.select(
+    conditions, choices, default=<span class="text-green-400">'Low'</span>
+)
+
+<span class="text-gray-400"># Alternative: pd.cut() for ranges</span>
+invoices[<span class="text-green-400">'Category'</span>] = pd.cut(
+    invoices[<span class="text-green-400">'Total'</span>],
+    bins=[0, 5, 15, float(<span class="text-green-400">'inf'</span>)],
+    labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
+)</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>np.where()</code> for simple if/else. <code>np.select()</code> for multiple conditions. <code>pd.cut()</code> is perfect for binning numeric ranges.
+    </div>
+  </div>
+
+  <!-- Subqueries -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Subqueries</h2>
+    <p class="text-sm text-gray-600 mb-3">Subqueries in SQL become chained operations or intermediate variables in Pandas.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Subquery in WHERE</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Total > (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">FROM</span> invoices
+);
+
+<span class="text-gray-400">-- Subquery with IN</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
+<span class="text-blue-400">WHERE</span> CustomerId <span class="text-blue-400">IN</span> (
+    <span class="text-blue-400">SELECT</span> CustomerId 
+    <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">WHERE</span> Total > 20
+);
+
+<span class="text-gray-400">-- Subquery in FROM (derived table)</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> (
+    <span class="text-blue-400">SELECT</span> Country, <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> Sales
+    <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">GROUP BY</span> Country
+) <span class="text-blue-400">AS</span> country_sales
+<span class="text-blue-400">WHERE</span> Sales > 100;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Subquery in WHERE</span>
+avg_total = invoices[<span class="text-green-400">'Total'</span>].mean()
+invoices[invoices[<span class="text-green-400">'Total'</span>] > avg_total]
+
+<span class="text-gray-400"># Subquery with IN</span>
+high_spenders = invoices[
+    invoices[<span class="text-green-400">'Total'</span>] > 20
+][<span class="text-green-400">'CustomerId'</span>]
+customers[customers[<span class="text-green-400">'CustomerId'</span>].isin(high_spenders)]
+
+<span class="text-gray-400"># Subquery in FROM (derived table)</span>
+country_sales = invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
+    Sales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
+).reset_index()
+country_sales[country_sales[<span class="text-green-400">'Sales'</span>] > 100]</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> Pandas encourages breaking down complex queries into steps. Store intermediate results in variables - it's more readable than nested SQL.
+    </div>
+  </div>
+
+  <!-- Window Functions -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Window Functions</h2>
+    <p class="text-sm text-gray-600 mb-3">Pandas has equivalents for all major window functions using <code>.transform()</code>, <code>.rank()</code>, and <code>.shift()</code>.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- ROW_NUMBER</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
+    ) <span class="text-blue-400">AS</span> RowNum
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- RANK / DENSE_RANK</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">RANK</span>() <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
+    ) <span class="text-blue-400">AS</span> Rank
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Partition by (group window)</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Country
+        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
+    ) <span class="text-blue-400">AS</span> CountryRank
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Running total</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> InvoiceDate
+    ) <span class="text-blue-400">AS</span> RunningTotal
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- LAG / LEAD</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> InvoiceDate
+    ) <span class="text-blue-400">AS</span> PrevTotal
+<span class="text-blue-400">FROM</span> invoices;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># ROW_NUMBER</span>
+invoices[<span class="text-green-400">'RowNum'</span>] = invoices[<span class="text-green-400">'Total'</span>].rank(
+    method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>
+).astype(int)
+
+<span class="text-gray-400"># RANK / DENSE_RANK</span>
+invoices[<span class="text-green-400">'Rank'</span>] = invoices[<span class="text-green-400">'Total'</span>].rank(
+    method=<span class="text-green-400">'min'</span>, ascending=<span class="text-blue-400">False</span>  <span class="text-gray-400"># 'dense' for dense_rank</span>
+).astype(int)
+
+<span class="text-gray-400"># Partition by (group window)</span>
+invoices[<span class="text-green-400">'CountryRank'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].rank(
+    method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>
+).astype(int)
+
+<span class="text-gray-400"># Running total</span>
+invoices = invoices.sort_values(<span class="text-green-400">'InvoiceDate'</span>)
+invoices[<span class="text-green-400">'RunningTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].cumsum()
+
+<span class="text-gray-400"># LAG / LEAD</span>
+invoices[<span class="text-green-400">'PrevTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].shift(1)  <span class="text-gray-400"># LAG</span>
+invoices[<span class="text-green-400">'NextTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].shift(-1) <span class="text-gray-400"># LEAD</span></pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> The <code>method</code> parameter in <code>.rank()</code> controls tie handling: <code>'first'</code>=ROW_NUMBER, <code>'min'</code>=RANK, <code>'dense'</code>=DENSE_RANK.
+    </div>
+  </div>
+
+  <!-- CTEs -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">CTEs - Step-by-Step Queries</h2>
+    <p class="text-sm text-gray-600 mb-3">CTEs are just named intermediate results. In Pandas, use variables.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">WITH</span> CustomerTotals <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        CustomerId,
+        <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSpent
+    <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">GROUP BY</span> CustomerId
+),
+AvgSpending <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(TotalSpent) <span class="text-blue-400">AS</span> Avg
+    <span class="text-blue-400">FROM</span> CustomerTotals
+)
+<span class="text-blue-400">SELECT</span> ct.*
+<span class="text-blue-400">FROM</span> CustomerTotals ct, AvgSpending av
+<span class="text-blue-400">WHERE</span> ct.TotalSpent > av.Avg;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># CTE 1: CustomerTotals</span>
+customer_totals = invoices.groupby(<span class="text-green-400">'CustomerId'</span>).agg(
+    TotalSpent=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
+).reset_index()
+
+<span class="text-gray-400"># CTE 2: AvgSpending</span>
+avg_spending = customer_totals[<span class="text-green-400">'TotalSpent'</span>].mean()
+
+<span class="text-gray-400"># Final query</span>
+customer_totals[customer_totals[<span class="text-green-400">'TotalSpent'</span>] > avg_spending]</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> Pandas naturally encourages the CTE pattern - breaking queries into readable steps. Name your intermediate DataFrames descriptively.
+    </div>
+  </div>
+
+  <!-- Useful Extras -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Useful Extras</h2>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Count distinct</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(<span class="text-blue-400">DISTINCT</span> Country)
+<span class="text-blue-400">FROM</span> customers;
+
+<span class="text-gray-400">-- NULL handling</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COALESCE</span>(Company, <span class="text-green-400">'N/A'</span>)
+<span class="text-blue-400">FROM</span> customers;
+
+<span class="text-gray-400">-- String concatenation</span>
+<span class="text-blue-400">SELECT</span> FirstName || <span class="text-green-400">' '</span> || LastName
+<span class="text-blue-400">FROM</span> customers;
+
+<span class="text-gray-400">-- Date extraction</span>
+<span class="text-blue-400">SELECT</span> 
+    <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Year,
+    <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%m'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Month
+<span class="text-blue-400">FROM</span> invoices;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400"># Count distinct</span>
+customers[<span class="text-green-400">'Country'</span>].nunique()
+
+<span class="text-gray-400"># NULL handling</span>
+customers[<span class="text-green-400">'Company'</span>].fillna(<span class="text-green-400">'N/A'</span>)
+
+<span class="text-gray-400"># String concatenation</span>
+customers[<span class="text-green-400">'FirstName'</span>] + <span class="text-green-400">' '</span> + customers[<span class="text-green-400">'LastName'</span>]
+
+<span class="text-gray-400"># Date extraction</span>
+invoices[<span class="text-green-400">'InvoiceDate'</span>] = pd.to_datetime(
+    invoices[<span class="text-green-400">'InvoiceDate'</span>]
+)
+invoices[<span class="text-green-400">'Year'</span>] = invoices[<span class="text-green-400">'InvoiceDate'</span>].dt.year
+invoices[<span class="text-green-400">'Month'</span>] = invoices[<span class="text-green-400">'InvoiceDate'</span>].dt.month</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Reference Table -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Quick Reference</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">SQL</th>
+            <th class="border px-3 py-2 text-left">Pandas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1 font-mono text-xs">SELECT col1, col2</td><td class="border px-3 py-1 font-mono text-xs">df[['col1', 'col2']]</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">SELECT DISTINCT</td><td class="border px-3 py-1 font-mono text-xs">df.drop_duplicates()</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">WHERE condition</td><td class="border px-3 py-1 font-mono text-xs">df[df['col'] > value]</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">AND / OR</td><td class="border px-3 py-1 font-mono text-xs">& / | (with parentheses)</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">IN (...)</td><td class="border px-3 py-1 font-mono text-xs">.isin([...])</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">BETWEEN a AND b</td><td class="border px-3 py-1 font-mono text-xs">.between(a, b)</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">LIKE '%text%'</td><td class="border px-3 py-1 font-mono text-xs">.str.contains('text')</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">IS NULL / IS NOT NULL</td><td class="border px-3 py-1 font-mono text-xs">.isna() / .notna()</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">ORDER BY col DESC</td><td class="border px-3 py-1 font-mono text-xs">.sort_values('col', ascending=False)</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">LIMIT n</td><td class="border px-3 py-1 font-mono text-xs">.head(n)</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">GROUP BY col</td><td class="border px-3 py-1 font-mono text-xs">.groupby('col')</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">COUNT(*) / SUM / AVG</td><td class="border px-3 py-1 font-mono text-xs">.count() / .sum() / .mean()</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">JOIN</td><td class="border px-3 py-1 font-mono text-xs">pd.merge(df1, df2, on='key')</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">UNION ALL</td><td class="border px-3 py-1 font-mono text-xs">pd.concat([df1, df2])</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">CASE WHEN</td><td class="border px-3 py-1 font-mono text-xs">np.where() or np.select()</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">ROW_NUMBER()</td><td class="border px-3 py-1 font-mono text-xs">.rank(method='first')</td></tr>
+          <tr><td class="border px-3 py-1 font-mono text-xs">LAG() / LEAD()</td><td class="border px-3 py-1 font-mono text-xs">.shift(1) / .shift(-1)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="bg-gray-100 rounded-lg p-4 mt-4">
+    <h2 class="font-bold text-lg mb-2">Key Differences to Remember</h2>
+    <ul class="list-disc ml-5 space-y-1 text-sm">
+      <li><strong>Pandas is 0-indexed</strong>, SQL is 1-indexed (for positions)</li>
+      <li><strong>Pandas uses & | ~</strong> for AND OR NOT, not the words</li>
+      <li><strong>Always wrap conditions in parentheses</strong> when combining with & or |</li>
+      <li><strong>Pandas operations return new DataFrames</strong> - assign to save changes</li>
+      <li><strong>Use .reset_index()</strong> after groupby to get a clean DataFrame</li>
+      <li><strong>Pandas is more flexible</strong> - you can chain operations fluently</li>
+    </ul>
+  </div>
+</div>

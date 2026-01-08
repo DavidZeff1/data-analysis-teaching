@@ -1,0 +1,599 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Data Validation & Cleanup</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Why Data Quality Matters</h2>
+    <p>Dirty data leads to wrong conclusions. Before any analysis, you need to ensure your data is accurate, consistent, and complete. Common issues include:</p>
+    <ul class="list-disc ml-5 mt-2">
+      <li><strong>Duplicates</strong> - Same record entered multiple times</li>
+      <li><strong>Inconsistent formatting</strong> - "USA", "U.S.A.", "United States"</li>
+      <li><strong>Missing values</strong> - Empty cells that should have data</li>
+      <li><strong>Invalid entries</strong> - Text in number fields, future dates for past events</li>
+      <li><strong>Typos and errors</strong> - "Calfornia" instead of "California"</li>
+      <li><strong>Extra whitespace</strong> - Leading/trailing spaces that break lookups</li>
+    </ul>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mt-3">
+      <p class="text-sm"><strong>⚠️ The 80/20 Rule:</strong> Data analysts typically spend 80% of their time cleaning data and only 20% analyzing it. Good validation habits save enormous time!</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Data Validation Overview Workflow</h2>
+    <div class="bg-gray-100 rounded-lg p-4 mt-3">
+      <div class="flex items-center justify-between text-sm">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">1</div>
+          <div class="mt-1 font-medium">Explore</div>
+          <div class="text-xs text-gray-500">Understand your data</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">2</div>
+          <div class="mt-1 font-medium">Identify</div>
+          <div class="text-xs text-gray-500">Find problems</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">3</div>
+          <div class="mt-1 font-medium">Clean</div>
+          <div class="text-xs text-gray-500">Fix issues</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">4</div>
+          <div class="mt-1 font-medium">Validate</div>
+          <div class="text-xs text-gray-500">Verify fixes</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">5</div>
+          <div class="mt-1 font-medium">Prevent</div>
+          <div class="text-xs text-gray-500">Add validation rules</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 1: Initial Data Exploration</h2>
+    <p class="text-sm text-gray-600 mb-3">Before cleaning, understand what you're working with:</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Quick Checks</div>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>Row count:</strong> Select column → Look at status bar (or use COUNTA)</li>
+          <li>• <strong>Scroll through data:</strong> Look for obvious anomalies</li>
+          <li>• <strong>Check data types:</strong> Numbers stored as text? Dates as text?</li>
+          <li>• <strong>Look at extremes:</strong> Sort each column to see min/max values</li>
+        </ul>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Useful Formulas for Exploration</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Count total rows</span>
+=<span class="text-purple-400">COUNTA</span>(A:A) - 1  <span class="text-gray-400">// minus header</span>
+
+<span class="text-gray-400">// Count blanks</span>
+=<span class="text-purple-400">COUNTBLANK</span>(A2:A1000)
+
+<span class="text-gray-400">// Count unique values</span>
+=<span class="text-purple-400">COUNTUNIQUE</span>(A2:A1000)  <span class="text-gray-400">// Google Sheets</span>
+
+<span class="text-gray-400">// Min and Max</span>
+=<span class="text-purple-400">MIN</span>(B2:B1000)
+=<span class="text-purple-400">MAX</span>(B2:B1000)</pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 2: Finding Duplicates</h2>
+    <p class="text-sm text-gray-600 mb-3">Duplicates are one of the most common data quality issues:</p>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Method 1: Conditional Formatting (Visual)</div>
+        <p class="text-sm text-gray-600 mb-2">Highlight duplicates so you can see them:</p>
+        <div class="text-sm">
+          <p><strong>Excel:</strong> Home → Conditional Formatting → Highlight Cell Rules → Duplicate Values</p>
+          <p><strong>Google Sheets:</strong> Format → Conditional Formatting → Custom formula: <code class="bg-gray-200 px-1 rounded">=COUNTIF(A:A, A1) > 1</code></p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Method 2: COUNTIF Formula</div>
+        <p class="text-sm text-gray-600 mb-2">Add a helper column to flag duplicates:</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// In a new column, count occurrences</span>
+=<span class="text-purple-400">COUNTIF</span>($A$2:$A$1000, A2)
+
+<span class="text-gray-400">// Result > 1 means duplicate</span>
+=<span class="text-blue-400">IF</span>(<span class="text-purple-400">COUNTIF</span>($A$2:$A$1000, A2) > 1, <span class="text-green-400">"Duplicate"</span>, <span class="text-green-400">"Unique"</span>)</pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Method 3: Remove Duplicates Tool</div>
+        <p class="text-sm text-gray-600 mb-2">Automatically remove duplicate rows:</p>
+        <div class="text-sm">
+          <p><strong>Excel:</strong> Data → Remove Duplicates → Select columns to check</p>
+          <p><strong>Google Sheets:</strong> Data → Data cleanup → Remove duplicates</p>
+        </div>
+        <div class="bg-yellow-50 rounded p-2 mt-2 text-xs">
+          <strong>⚠️ Warning:</strong> Always make a backup before removing duplicates! This action cannot be undone.
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Method 4: Check Multiple Columns</div>
+        <p class="text-sm text-gray-600 mb-2">Sometimes duplicates are defined by multiple columns (same name + same date):</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Concatenate key columns, then count</span>
+=<span class="text-purple-400">COUNTIFS</span>($A$2:$A$1000, A2, $B$2:$B$1000, B2)
+
+<span class="text-gray-400">// Or create a composite key</span>
+=A2 & <span class="text-green-400">"|"</span> & B2 & <span class="text-green-400">"|"</span> & C2
+<span class="text-gray-400">// Then COUNTIF on this combined column</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 3: Handling Missing Values</h2>
+    <p class="text-sm text-gray-600 mb-3">Empty cells can break calculations and analysis:</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Finding Blanks</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Count blank cells</span>
+=<span class="text-purple-400">COUNTBLANK</span>(A2:A1000)
+
+<span class="text-gray-400">// Check if cell is blank</span>
+=<span class="text-purple-400">ISBLANK</span>(A2)
+
+<span class="text-gray-400">// Flag rows with any blanks</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">OR</span>(<span class="text-purple-400">ISBLANK</span>(A2), <span class="text-purple-400">ISBLANK</span>(B2)), 
+   <span class="text-green-400">"Missing Data"</span>, <span class="text-green-400">"Complete"</span>)</pre>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Filling Blanks</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Replace blank with default</span>
+=<span class="text-blue-400">IF</span>(<span class="text-purple-400">ISBLANK</span>(A2), <span class="text-green-400">"Unknown"</span>, A2)
+
+<span class="text-gray-400">// Replace blank with 0</span>
+=<span class="text-blue-400">IF</span>(<span class="text-purple-400">ISBLANK</span>(A2), 0, A2)
+
+<span class="text-gray-400">// Use previous value (fill down)</span>
+=<span class="text-blue-400">IF</span>(<span class="text-purple-400">ISBLANK</span>(A2), A1, A2)</pre>
+      </div>
+    </div>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="font-semibold text-yellow-800 text-sm">💡 Deciding What To Do With Blanks</p>
+      <ul class="text-sm mt-1 space-y-1">
+        <li><strong>Delete the row</strong> - If the blank makes the record useless</li>
+        <li><strong>Fill with default</strong> - "Unknown", "N/A", 0 (be careful with 0!)</li>
+        <li><strong>Fill with average/median</strong> - For numeric columns (advanced)</li>
+        <li><strong>Leave blank</strong> - If your analysis can handle nulls</li>
+        <li><strong>Investigate</strong> - Sometimes blanks indicate a data source problem</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 4: Text Cleanup</h2>
+    <p class="text-sm text-gray-600 mb-3">Standardize text data for consistency:</p>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Remove Extra Whitespace</div>
+        <p class="text-sm text-gray-600 mb-2">Leading, trailing, and extra internal spaces break lookups:</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Remove leading/trailing spaces and normalize internal spaces</span>
+=<span class="text-purple-400">TRIM</span>(A2)
+
+<span class="text-gray-400">// Remove ALL spaces (rarely needed)</span>
+=<span class="text-purple-400">SUBSTITUTE</span>(A2, <span class="text-green-400">" "</span>, <span class="text-green-400">""</span>)
+
+<span class="text-gray-400">// Remove non-printable characters</span>
+=<span class="text-purple-400">CLEAN</span>(A2)
+
+<span class="text-gray-400">// Combine both (recommended for imported data)</span>
+=<span class="text-purple-400">TRIM</span>(<span class="text-purple-400">CLEAN</span>(A2))</pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Standardize Case</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// UPPERCASE</span>
+=<span class="text-purple-400">UPPER</span>(A2)         <span class="text-gray-400">// "NEW YORK"</span>
+
+<span class="text-gray-400">// lowercase</span>
+=<span class="text-purple-400">LOWER</span>(A2)         <span class="text-gray-400">// "new york"</span>
+
+<span class="text-gray-400">// Title Case (Proper)</span>
+=<span class="text-purple-400">PROPER</span>(A2)        <span class="text-gray-400">// "New York"</span></pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Find and Replace Inconsistencies</div>
+        <p class="text-sm text-gray-600 mb-2">Fix common variations:</p>
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="font-medium">Using Find & Replace (Ctrl+H):</p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>Find: "U.S.A." → Replace: "USA"</li>
+              <li>Find: "Calif." → Replace: "California"</li>
+              <li>Find: "NY" → Replace: "New York"</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-medium">Using SUBSTITUTE formula:</p>
+            <pre class="bg-gray-800 text-white p-2 rounded text-xs">=<span class="text-purple-400">SUBSTITUTE</span>(A2, <span class="text-green-400">"U.S.A."</span>, <span class="text-green-400">"USA"</span>)
+
+<span class="text-gray-400">// Chain multiple substitutions</span>
+=<span class="text-purple-400">SUBSTITUTE</span>(
+  <span class="text-purple-400">SUBSTITUTE</span>(A2, <span class="text-green-400">"St."</span>, <span class="text-green-400">"Street"</span>),
+  <span class="text-green-400">"Ave."</span>, <span class="text-green-400">"Avenue"</span>
+)</pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Extract Parts of Text</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Get email domain</span>
+=<span class="text-purple-400">RIGHT</span>(A2, <span class="text-purple-400">LEN</span>(A2) - <span class="text-purple-400">FIND</span>(<span class="text-green-400">"@"</span>, A2))
+
+<span class="text-gray-400">// Get first name (before space)</span>
+=<span class="text-purple-400">LEFT</span>(A2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, A2) - 1)
+
+<span class="text-gray-400">// Get last name (after space)</span>
+=<span class="text-purple-400">RIGHT</span>(A2, <span class="text-purple-400">LEN</span>(A2) - <span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, A2))</pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 5: Number and Date Validation</h2>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Check If Values Are Actually Numbers</div>
+        <p class="text-sm text-gray-600 mb-2">Numbers stored as text cause calculation errors:</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Check if it's a number</span>
+=<span class="text-purple-400">ISNUMBER</span>(A2)      <span class="text-gray-400">// Returns TRUE or FALSE</span>
+
+<span class="text-gray-400">// Convert text to number</span>
+=<span class="text-purple-400">VALUE</span>(A2)         <span class="text-gray-400">// Converts "123" to 123</span>
+
+<span class="text-gray-400">// Multiply by 1 (quick conversion)</span>
+=A2 * 1
+
+<span class="text-gray-400">// Flag non-numeric values</span>
+=<span class="text-blue-400">IF</span>(<span class="text-purple-400">ISNUMBER</span>(A2), <span class="text-green-400">"OK"</span>, <span class="text-green-400">"Not a Number"</span>)</pre>
+        <div class="bg-yellow-50 rounded p-2 mt-2 text-xs">
+          <strong>💡 Quick Fix:</strong> Select the column → Data → Text to Columns → Finish (Excel) or Format → Number (Google Sheets)
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Validate Number Ranges</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Check if value is within expected range</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">AND</span>(A2 >= 0, A2 <= 100), <span class="text-green-400">"Valid"</span>, <span class="text-green-400">"Out of Range"</span>)
+
+<span class="text-gray-400">// Check for negative values (if they shouldn't exist)</span>
+=<span class="text-blue-400">IF</span>(A2 < 0, <span class="text-green-400">"ERROR: Negative"</span>, <span class="text-green-400">"OK"</span>)
+
+<span class="text-gray-400">// Flag outliers (simple method: > 3x average)</span>
+=<span class="text-blue-400">IF</span>(A2 > 3 * <span class="text-purple-400">AVERAGE</span>($A$2:$A$1000), <span class="text-green-400">"Outlier?"</span>, <span class="text-green-400">"Normal"</span>)</pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Date Validation</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">// Check if it's a valid date</span>
+=<span class="text-purple-400">ISNUMBER</span>(A2)      <span class="text-gray-400">// Dates are stored as numbers</span>
+
+<span class="text-gray-400">// Check if date is in the future (shouldn't be for historical data)</span>
+=<span class="text-blue-400">IF</span>(A2 > <span class="text-purple-400">TODAY</span>(), <span class="text-green-400">"Future Date!"</span>, <span class="text-green-400">"OK"</span>)
+
+<span class="text-gray-400">// Check if date is in reasonable range</span>
+=<span class="text-blue-400">IF</span>(<span class="text-blue-400">AND</span>(A2 >= <span class="text-purple-400">DATE</span>(2020,1,1), A2 <= <span class="text-purple-400">TODAY</span>()), 
+   <span class="text-green-400">"Valid"</span>, <span class="text-green-400">"Check Date"</span>)
+
+<span class="text-gray-400">// Convert text to date</span>
+=<span class="text-purple-400">DATEVALUE</span>(A2)    <span class="text-gray-400">// Converts "1/15/2024" to date</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 6: Error Detection and Handling</h2>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Common Excel Errors</div>
+        <ul class="text-sm space-y-1">
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#N/A</code> - Value not found (VLOOKUP failed)</li>
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#VALUE!</code> - Wrong data type</li>
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#REF!</code> - Invalid reference</li>
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#DIV/0!</code> - Division by zero</li>
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#NAME?</code> - Unrecognized formula</li>
+          <li><code class="bg-red-100 text-red-700 px-1 rounded">#NUM!</code> - Invalid number</li>
+        </ul>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Handling Errors</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Check for any error</span>
+=<span class="text-purple-400">ISERROR</span>(A2)
+
+<span class="text-gray-400">// Replace error with default</span>
+=<span class="text-purple-400">IFERROR</span>(A2, <span class="text-green-400">"N/A"</span>)
+=<span class="text-purple-400">IFERROR</span>(A2, 0)
+
+<span class="text-gray-400">// Count errors in a range</span>
+=<span class="text-purple-400">SUMPRODUCT</span>(--<span class="text-purple-400">ISERROR</span>(A2:A1000))
+
+<span class="text-gray-400">// Check for specific error</span>
+=<span class="text-purple-400">ISNA</span>(A2)        <span class="text-gray-400">// Only #N/A</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 7: Data Validation Rules (Prevention)</h2>
+    <p class="text-sm text-gray-600 mb-3">Prevent bad data from being entered in the first place:</p>
+    
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm mb-2"><strong>Excel:</strong> Data → Data Validation</p>
+      <p class="text-sm mb-3"><strong>Google Sheets:</strong> Data → Data validation</p>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="font-semibold text-sm mb-2">Validation Types:</p>
+          <ul class="text-sm space-y-2">
+            <li class="flex items-start gap-2">
+              <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">List</span>
+              <span>Dropdown of allowed values</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">Number</span>
+              <span>Between, greater than, etc.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">Date</span>
+              <span>Date range restrictions</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs">Text Length</span>
+              <span>Min/max characters</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs">Custom</span>
+              <span>Your own formula</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold text-sm mb-2">Example Validations:</p>
+          <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Only allow positive numbers</span>
+Number → Greater than → 0
+
+<span class="text-gray-400">// Only allow dates in 2024</span>
+Date → Between → 1/1/2024 and 12/31/2024
+
+<span class="text-gray-400">// Only allow from list</span>
+List → Source: East,West,North,South
+
+<span class="text-gray-400">// Custom: Must be email format</span>
+Custom → =<span class="text-purple-400">ISNUMBER</span>(<span class="text-purple-400">FIND</span>(<span class="text-green-400">"@"</span>, A2))
+
+<span class="text-gray-400">// Custom: No duplicates allowed</span>
+Custom → =<span class="text-purple-400">COUNTIF</span>($A:$A, A2) = 1</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 8: Conditional Formatting for Visual Validation</h2>
+    <p class="text-sm text-gray-600 mb-3">Use colors to instantly spot issues:</p>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Highlight Problems</div>
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="font-medium">Built-in Rules:</p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>• Highlight duplicates (red)</li>
+              <li>• Highlight blanks (yellow)</li>
+              <li>• Highlight values > or < threshold</li>
+              <li>• Color scales for numeric ranges</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-medium">Custom Formula Rules:</p>
+            <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">// Highlight if blank</span>
+=<span class="text-purple-400">ISBLANK</span>(A1)
+
+<span class="text-gray-400">// Highlight if not a number</span>
+=<span class="text-blue-400">NOT</span>(<span class="text-purple-400">ISNUMBER</span>(A1))
+
+<span class="text-gray-400">// Highlight if date is future</span>
+=A1 > <span class="text-purple-400">TODAY</span>()
+
+<span class="text-gray-400">// Highlight entire row if error</span>
+=<span class="text-purple-400">ISERROR</span>($A1)</pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Data Quality Dashboard</div>
+        <p class="text-xs text-gray-600 mb-2">Create a summary of data quality metrics:</p>
+        <table class="text-xs border border-gray-300 w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-2 py-1 text-left">Metric</th>
+              <th class="border px-2 py-1 text-left">Formula</th>
+              <th class="border px-2 py-1 text-left">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-2 py-1">Total Rows</td>
+              <td class="border px-2 py-1 font-mono">=COUNTA(A:A)-1</td>
+              <td class="border px-2 py-1 text-green-600">9,994</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Blank Cells</td>
+              <td class="border px-2 py-1 font-mono">=COUNTBLANK(A2:A10000)</td>
+              <td class="border px-2 py-1 text-green-600">0</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Duplicates</td>
+              <td class="border px-2 py-1 font-mono">=ROWS(A:A)-COUNTUNIQUE(A:A)</td>
+              <td class="border px-2 py-1 text-red-600">23</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Errors</td>
+              <td class="border px-2 py-1 font-mono">=SUMPRODUCT(--ISERROR(B2:B10000))</td>
+              <td class="border px-2 py-1 text-green-600">0</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Completeness %</td>
+              <td class="border px-2 py-1 font-mono">=(Rows-Blanks)/Rows*100</td>
+              <td class="border px-2 py-1 text-green-600">100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Complete Data Cleaning Workflow Example</h2>
+    <div class="bg-gray-50 rounded-lg p-4 mt-3">
+      <p class="text-sm mb-3">A systematic approach to cleaning a new dataset:</p>
+      
+      <div class="space-y-3 text-sm">
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">1</span>
+          <div>
+            <p class="font-medium">Make a Backup</p>
+            <p class="text-xs text-gray-600">Copy the original data to a separate sheet before making any changes</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">2</span>
+          <div>
+            <p class="font-medium">Remove Exact Duplicates</p>
+            <p class="text-xs text-gray-600">Data → Remove Duplicates (check all columns)</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">3</span>
+          <div>
+            <p class="font-medium">Fix Data Types</p>
+            <p class="text-xs text-gray-600">Ensure numbers are numbers, dates are dates (not text)</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">4</span>
+          <div>
+            <p class="font-medium">Clean Text Columns</p>
+            <p class="text-xs text-gray-600">=TRIM(CLEAN(PROPER(A2))) - Remove spaces, standardize case</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">5</span>
+          <div>
+            <p class="font-medium">Standardize Values</p>
+            <p class="text-xs text-gray-600">Find & Replace variations (CA → California, Y → Yes)</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">6</span>
+          <div>
+            <p class="font-medium">Handle Missing Values</p>
+            <p class="text-xs text-gray-600">Decide: Delete rows, fill with default, or leave blank</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">7</span>
+          <div>
+            <p class="font-medium">Validate Ranges</p>
+            <p class="text-xs text-gray-600">Check for outliers, negative values where there shouldn't be, future dates</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs flex-shrink-0">8</span>
+          <div>
+            <p class="font-medium">Document Changes</p>
+            <p class="text-xs text-gray-600">Note what you changed and why (in a separate sheet or cell comments)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Quick Reference: Validation Formulas</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Check For</th>
+            <th class="border px-3 py-2 text-left">Formula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1">Is blank?</td><td class="border px-3 py-1 font-mono text-xs">=ISBLANK(A2)</td></tr>
+          <tr><td class="border px-3 py-1">Is number?</td><td class="border px-3 py-1 font-mono text-xs">=ISNUMBER(A2)</td></tr>
+          <tr><td class="border px-3 py-1">Is text?</td><td class="border px-3 py-1 font-mono text-xs">=ISTEXT(A2)</td></tr>
+          <tr><td class="border px-3 py-1">Is error?</td><td class="border px-3 py-1 font-mono text-xs">=ISERROR(A2)</td></tr>
+          <tr><td class="border px-3 py-1">Is duplicate?</td><td class="border px-3 py-1 font-mono text-xs">=COUNTIF($A$2:$A$1000, A2) > 1</td></tr>
+          <tr><td class="border px-3 py-1">Has extra spaces?</td><td class="border px-3 py-1 font-mono text-xs">=LEN(A2) <> LEN(TRIM(A2))</td></tr>
+          <tr><td class="border px-3 py-1">Is valid email?</td><td class="border px-3 py-1 font-mono text-xs">=AND(ISNUMBER(FIND("@",A2)), ISNUMBER(FIND(".",A2)))</td></tr>
+          <tr><td class="border px-3 py-1">Is within range?</td><td class="border px-3 py-1 font-mono text-xs">=AND(A2>=0, A2<=100)</td></tr>
+          <tr><td class="border px-3 py-1">Is valid date?</td><td class="border px-3 py-1 font-mono text-xs">=AND(ISNUMBER(A2), A2>0)</td></tr>
+          <tr><td class="border px-3 py-1">Length check</td><td class="border px-3 py-1 font-mono text-xs">=LEN(A2)=5 (e.g., for ZIP codes)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Using the Sample Superstore data:</p>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li><strong>Find duplicates</strong> - Check if any Order IDs appear more than once</li>
+      <li><strong>Check for blanks</strong> - Count blank cells in the Customer Name column</li>
+      <li><strong>Validate dates</strong> - Find any Order Dates that are in the future or before 2014</li>
+      <li><strong>Standardize text</strong> - Convert all Region values to uppercase</li>
+      <li><strong>Check for outliers</strong> - Flag any Sales values more than 3 standard deviations from the mean</li>
+      <li><strong>Validate ranges</strong> - Ensure all Discount values are between 0 and 1</li>
+      <li><strong>Clean whitespace</strong> - Use TRIM on the Product Name column</li>
+      <li><strong>Create a data quality report</strong> - Show counts of blanks, duplicates, and errors</li>
+      <li><strong>Add data validation</strong> - Create a dropdown list for Ship Mode with only valid options</li>
+      <li><strong>Conditional formatting</strong> - Highlight all negative Profit values in red</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>Always backup first</strong> - Make a copy before cleaning</li>
+      <li><strong>Understand your data</strong> - Explore before you clean</li>
+      <li><strong>Document everything</strong> - Note what you changed and why</li>
+      <li><strong>TRIM is your friend</strong> - Whitespace issues are extremely common</li>
+      <li><strong>Prevention > cure</strong> - Add validation rules to prevent future bad data</li>
+      <li><strong>Test your cleaning</strong> - Verify that fixes actually worked</li>
+      <li><strong>Be consistent</strong> - Apply the same rules across similar columns</li>
+      <li><strong>Watch for false positives</strong> - Not every outlier is an error</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,313 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">CTEs (Common Table Expressions)</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What Are CTEs?</h2>
+    <p>A Common Table Expression (CTE) is a temporary named result set that you can reference within a SELECT, INSERT, UPDATE, or DELETE statement. Think of it as creating a temporary table that only exists for the duration of your query.</p>
+    <p class="mt-2">CTEs make complex queries more readable by breaking them into logical, named building blocks. Instead of nesting subqueries inside subqueries, you define each step separately at the top of your query.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Basic Syntax</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">WITH</span> cte_name <span class="text-blue-400">AS</span> (
+    <span class="text-gray-400">-- Your query here</span>
+    <span class="text-blue-400">SELECT</span> column1, column2
+    <span class="text-blue-400">FROM</span> some_table
+    <span class="text-blue-400">WHERE</span> condition
+)
+<span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> cte_name;</pre>
+    
+    <div class="bg-gray-100 rounded-lg p-3 mt-3">
+      <p class="font-semibold mb-2">Key parts:</p>
+      <ul class="text-sm space-y-1">
+        <li><code class="bg-gray-200 px-1 rounded">WITH</code> - Keyword that starts the CTE definition</li>
+        <li><code class="bg-gray-200 px-1 rounded">cte_name</code> - The name you give to your temporary result set</li>
+        <li><code class="bg-gray-200 px-1 rounded">AS (...)</code> - The query that defines the CTE's contents</li>
+        <li>The final SELECT uses the CTE like a regular table</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Simple CTE Example</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Find tracks longer than 5 minutes</span>
+<span class="text-blue-400">WITH</span> LongTracks <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        TrackId,
+        Name,
+        Milliseconds / 60000.0 <span class="text-blue-400">AS</span> Minutes
+    <span class="text-blue-400">FROM</span> tracks
+    <span class="text-blue-400">WHERE</span> Milliseconds > 300000
+)
+<span class="text-blue-400">SELECT</span> Name, <span class="text-purple-400">ROUND</span>(Minutes, 2) <span class="text-blue-400">AS</span> Minutes
+<span class="text-blue-400">FROM</span> LongTracks
+<span class="text-blue-400">ORDER BY</span> Minutes <span class="text-blue-400">DESC</span>
+<span class="text-blue-400">LIMIT</span> 10;</pre>
+    <p class="text-sm text-gray-600 mt-2">This is equivalent to a subquery, but much more readable. The CTE "LongTracks" is defined once and can be referenced by name.</p>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Multiple CTEs</h2>
+    <p class="text-sm text-gray-600 mb-2">You can define multiple CTEs separated by commas. Later CTEs can reference earlier ones!</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Compare artist album counts to the average</span>
+<span class="text-blue-400">WITH</span> ArtistAlbums <span class="text-blue-400">AS</span> (
+    <span class="text-gray-400">-- First CTE: Count albums per artist</span>
+    <span class="text-blue-400">SELECT</span> 
+        ar.ArtistId,
+        ar.Name <span class="text-blue-400">AS</span> ArtistName,
+        <span class="text-purple-400">COUNT</span>(al.AlbumId) <span class="text-blue-400">AS</span> AlbumCount
+    <span class="text-blue-400">FROM</span> artists ar
+    <span class="text-blue-400">LEFT JOIN</span> albums al <span class="text-blue-400">ON</span> ar.ArtistId = al.ArtistId
+    <span class="text-blue-400">GROUP BY</span> ar.ArtistId, ar.Name
+),
+AverageAlbums <span class="text-blue-400">AS</span> (
+    <span class="text-gray-400">-- Second CTE: Calculate the average (references first CTE!)</span>
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(AlbumCount) <span class="text-blue-400">AS</span> AvgAlbums
+    <span class="text-blue-400">FROM</span> ArtistAlbums
+)
+<span class="text-gray-400">-- Main query: Find artists above average</span>
+<span class="text-blue-400">SELECT</span> 
+    aa.ArtistName,
+    aa.AlbumCount,
+    <span class="text-purple-400">ROUND</span>(av.AvgAlbums, 2) <span class="text-blue-400">AS</span> AvgAlbums
+<span class="text-blue-400">FROM</span> ArtistAlbums aa, AverageAlbums av
+<span class="text-blue-400">WHERE</span> aa.AlbumCount > av.AvgAlbums
+<span class="text-blue-400">ORDER BY</span> aa.AlbumCount <span class="text-blue-400">DESC</span>;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">CTEs vs Subqueries</h2>
+    <p class="text-sm text-gray-600 mb-2">CTEs and subqueries can often accomplish the same thing, but CTEs are usually more readable:</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 mb-2">❌ Nested Subqueries (Hard to Read)</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto"><span class="text-blue-400">SELECT</span> *
+<span class="text-blue-400">FROM</span> (
+    <span class="text-blue-400">SELECT</span> *
+    <span class="text-blue-400">FROM</span> (
+        <span class="text-blue-400">SELECT</span> ArtistId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> cnt
+        <span class="text-blue-400">FROM</span> albums
+        <span class="text-blue-400">GROUP BY</span> ArtistId
+    ) <span class="text-blue-400">AS</span> inner1
+    <span class="text-blue-400">WHERE</span> cnt > 5
+) <span class="text-blue-400">AS</span> inner2
+<span class="text-blue-400">ORDER BY</span> cnt <span class="text-blue-400">DESC</span>;</pre>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700 mb-2">✓ CTE (Easy to Read)</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto"><span class="text-blue-400">WITH</span> AlbumCounts <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> ArtistId, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> cnt
+    <span class="text-blue-400">FROM</span> albums
+    <span class="text-blue-400">GROUP BY</span> ArtistId
+),
+ProlificArtists <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> AlbumCounts
+    <span class="text-blue-400">WHERE</span> cnt > 5
+)
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> ProlificArtists
+<span class="text-blue-400">ORDER BY</span> cnt <span class="text-blue-400">DESC</span>;</pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">CTEs with Aggregations</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Find customers who spent more than the average customer</span>
+<span class="text-blue-400">WITH</span> CustomerSpending <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        c.CustomerId,
+        c.FirstName || <span class="text-green-400">' '</span> || c.LastName <span class="text-blue-400">AS</span> CustomerName,
+        <span class="text-purple-400">SUM</span>(i.Total) <span class="text-blue-400">AS</span> TotalSpent
+    <span class="text-blue-400">FROM</span> customers c
+    <span class="text-blue-400">JOIN</span> invoices i <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId
+    <span class="text-blue-400">GROUP BY</span> c.CustomerId, CustomerName
+),
+AvgSpending <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(TotalSpent) <span class="text-blue-400">AS</span> AvgTotal
+    <span class="text-blue-400">FROM</span> CustomerSpending
+)
+<span class="text-blue-400">SELECT</span> 
+    cs.CustomerName,
+    <span class="text-purple-400">ROUND</span>(cs.TotalSpent, 2) <span class="text-blue-400">AS</span> TotalSpent,
+    <span class="text-purple-400">ROUND</span>(av.AvgTotal, 2) <span class="text-blue-400">AS</span> AverageSpending,
+    <span class="text-purple-400">ROUND</span>(cs.TotalSpent - av.AvgTotal, 2) <span class="text-blue-400">AS</span> AboveAverage
+<span class="text-blue-400">FROM</span> CustomerSpending cs, AvgSpending av
+<span class="text-blue-400">WHERE</span> cs.TotalSpent > av.AvgTotal
+<span class="text-blue-400">ORDER BY</span> cs.TotalSpent <span class="text-blue-400">DESC</span>;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">CTEs for Data Transformation</h2>
+    <p class="text-sm text-gray-600 mb-2">Use CTEs to clean and transform data step by step:</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Categorize tracks by length and count each category</span>
+<span class="text-blue-400">WITH</span> TrackLengths <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        TrackId,
+        Name,
+        Milliseconds / 60000.0 <span class="text-blue-400">AS</span> Minutes
+    <span class="text-blue-400">FROM</span> tracks
+),
+CategorizedTracks <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        TrackId,
+        Name,
+        Minutes,
+        <span class="text-blue-400">CASE</span>
+            <span class="text-blue-400">WHEN</span> Minutes < 2 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Short'</span>
+            <span class="text-blue-400">WHEN</span> Minutes < 5 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
+            <span class="text-blue-400">WHEN</span> Minutes < 10 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Long'</span>
+            <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Very Long'</span>
+        <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> LengthCategory
+    <span class="text-blue-400">FROM</span> TrackLengths
+)
+<span class="text-blue-400">SELECT</span> 
+    LengthCategory,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> TrackCount,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(Minutes), 2) <span class="text-blue-400">AS</span> AvgMinutes
+<span class="text-blue-400">FROM</span> CategorizedTracks
+<span class="text-blue-400">GROUP BY</span> LengthCategory
+<span class="text-blue-400">ORDER BY</span> AvgMinutes;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">CTEs with JOINs</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Find the top genre for each artist</span>
+<span class="text-blue-400">WITH</span> ArtistGenres <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> 
+        ar.Name <span class="text-blue-400">AS</span> ArtistName,
+        g.Name <span class="text-blue-400">AS</span> GenreName,
+        <span class="text-purple-400">COUNT</span>(t.TrackId) <span class="text-blue-400">AS</span> TrackCount
+    <span class="text-blue-400">FROM</span> artists ar
+    <span class="text-blue-400">JOIN</span> albums al <span class="text-blue-400">ON</span> ar.ArtistId = al.ArtistId
+    <span class="text-blue-400">JOIN</span> tracks t <span class="text-blue-400">ON</span> al.AlbumId = t.AlbumId
+    <span class="text-blue-400">JOIN</span> genres g <span class="text-blue-400">ON</span> t.GenreId = g.GenreId
+    <span class="text-blue-400">GROUP BY</span> ar.Name, g.Name
+),
+RankedGenres <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        ArtistName,
+        GenreName,
+        TrackCount,
+        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+            <span class="text-blue-400">PARTITION BY</span> ArtistName 
+            <span class="text-blue-400">ORDER BY</span> TrackCount <span class="text-blue-400">DESC</span>
+        ) <span class="text-blue-400">AS</span> GenreRank
+    <span class="text-blue-400">FROM</span> ArtistGenres
+)
+<span class="text-blue-400">SELECT</span> ArtistName, GenreName, TrackCount
+<span class="text-blue-400">FROM</span> RankedGenres
+<span class="text-blue-400">WHERE</span> GenreRank = 1
+<span class="text-blue-400">ORDER BY</span> TrackCount <span class="text-blue-400">DESC</span>
+<span class="text-blue-400">LIMIT</span> 15;</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Recursive CTEs (Advanced)</h2>
+    <p class="text-sm text-gray-600 mb-2">Recursive CTEs can reference themselves - useful for hierarchical data like org charts or category trees:</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Employee hierarchy (who reports to whom)</span>
+<span class="text-blue-400">WITH RECURSIVE</span> EmployeeHierarchy <span class="text-blue-400">AS</span> (
+    <span class="text-gray-400">-- Base case: top-level employees (no manager)</span>
+    <span class="text-blue-400">SELECT</span> 
+        EmployeeId,
+        FirstName || <span class="text-green-400">' '</span> || LastName <span class="text-blue-400">AS</span> EmployeeName,
+        ReportsTo,
+        1 <span class="text-blue-400">AS</span> Level
+    <span class="text-blue-400">FROM</span> employees
+    <span class="text-blue-400">WHERE</span> ReportsTo <span class="text-blue-400">IS NULL</span>
+    
+    <span class="text-blue-400">UNION ALL</span>
+    
+    <span class="text-gray-400">-- Recursive case: employees who report to someone</span>
+    <span class="text-blue-400">SELECT</span> 
+        e.EmployeeId,
+        e.FirstName || <span class="text-green-400">' '</span> || e.LastName,
+        e.ReportsTo,
+        eh.Level + 1
+    <span class="text-blue-400">FROM</span> employees e
+    <span class="text-blue-400">JOIN</span> EmployeeHierarchy eh <span class="text-blue-400">ON</span> e.ReportsTo = eh.EmployeeId
+)
+<span class="text-blue-400">SELECT</span> 
+    <span class="text-purple-400">REPEAT</span>(<span class="text-green-400">'  '</span>, Level - 1) || EmployeeName <span class="text-blue-400">AS</span> Employee,
+    Level
+<span class="text-blue-400">FROM</span> EmployeeHierarchy
+<span class="text-blue-400">ORDER BY</span> Level, EmployeeName;</pre>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>💡 Note:</strong> Recursive CTEs use <code class="bg-gray-200 px-1 rounded">WITH RECURSIVE</code> and have two parts: a base case and a recursive case connected by <code class="bg-gray-200 px-1 rounded">UNION ALL</code>.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">When to Use CTEs</h2>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700 mb-2">✓ Great Use Cases</div>
+        <ul class="text-sm space-y-1">
+          <li>• Breaking complex queries into steps</li>
+          <li>• Referencing the same subquery multiple times</li>
+          <li>• Calculating values to compare against (averages)</li>
+          <li>• Multi-step data transformations</li>
+          <li>• Hierarchical/recursive data</li>
+          <li>• Making queries self-documenting</li>
+        </ul>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 mb-2">✗ Not Necessary For</div>
+        <ul class="text-sm space-y-1">
+          <li>• Simple queries with one table</li>
+          <li>• Basic JOINs that are already readable</li>
+          <li>• When a simple subquery works fine</li>
+          <li>• One-time-use result sets (subquery is fine)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>CTEs are temporary</strong> - They only exist for the duration of the query</li>
+      <li><strong>Name them descriptively</strong> - <code>CustomerTotals</code> is better than <code>cte1</code></li>
+      <li><strong>Think in steps</strong> - What do I need first? Then what? Build it piece by piece</li>
+      <li><strong>Order matters</strong> - A CTE can only reference CTEs defined before it</li>
+      <li><strong>Multiple CTEs use commas</strong> - No comma before the final SELECT</li>
+      <li><strong>Debug by running CTEs alone</strong> - Test each CTE independently</li>
+      <li><strong>Performance is usually the same as subqueries</strong> - The database optimizes both similarly</li>
+    </ul>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Using the Chinook database:</p>
+    <ol class="list-decimal ml-5 space-y-2">
+      <li>Create a CTE to find all tracks longer than 4 minutes, then select the top 10 longest</li>
+      <li>Create a CTE with total sales per customer, then find customers above the average</li>
+      <li>Use two CTEs: one for album counts per artist, one for track counts per artist. Join them to show both metrics together</li>
+      <li>Create a CTE that categorizes invoices as 'Small' (<$5), 'Medium' ($5-$10), or 'Large' (>$10). Count how many of each</li>
+      <li>Write a query with CTEs to find the genre with the most tracks for each artist</li>
+      <li>Create a CTE to calculate monthly sales, then use it to find months above average</li>
+      <li>Use CTEs to find customers who have purchased tracks from more than 5 different genres</li>
+      <li>Create a CTE that shows the price difference between each track and its album's average track price</li>
+      <li>Write a query using CTEs to rank employees by total sales they've processed</li>
+      <li>Use a recursive CTE to show the employee reporting hierarchy (if your SQL engine supports it)</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Challenge: Multi-Step Analysis</h2>
+    <p>Build a comprehensive sales analysis using multiple CTEs:</p>
+    <ul class="list-disc ml-5 text-sm mt-2">
+      <li><strong>CTE 1:</strong> Calculate total revenue per genre</li>
+      <li><strong>CTE 2:</strong> Calculate the overall average genre revenue</li>
+      <li><strong>CTE 3:</strong> Identify genres above average</li>
+      <li><strong>Final query:</strong> Show above-average genres with their rank, revenue, and % of total</li>
+    </ul>
+    <p class="mt-2 text-sm">This demonstrates how CTEs can break a complex analysis into logical, readable steps!</p>
+  </div>
+</div>
