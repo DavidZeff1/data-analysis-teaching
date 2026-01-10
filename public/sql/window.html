@@ -2,98 +2,513 @@
   <h1 class="text-2xl font-bold">Window Functions</h1>
   
   <div>
-    <h2 class="font-bold text-lg">What it does</h2>
-    <p>Window functions perform calculations across a set of rows related to the current row, without collapsing them like GROUP BY. You keep all rows while adding computed columns.</p>
+    <h2 class="font-bold text-lg">What Are Window Functions?</h2>
+    <p>Window functions perform calculations across a set of rows that are related to the current row - without collapsing them into a single output like GROUP BY does. They let you add running totals, rankings, and comparisons while keeping all your original rows.</p>
+    
+    <div class="grid grid-cols-2 gap-4 mt-3">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 mb-2">GROUP BY (Collapses Rows)</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-blue-400">SELECT</span> Region, <span class="text-purple-400">SUM</span>(Sales)
+<span class="text-blue-400">FROM</span> orders <span class="text-blue-400">GROUP BY</span> Region</pre>
+        <table class="text-xs mt-2 w-full">
+          <tr class="bg-gray-100"><td class="px-2 py-1 border">Region</td><td class="px-2 py-1 border">SUM</td></tr>
+          <tr><td class="px-2 py-1 border">East</td><td class="px-2 py-1 border">500</td></tr>
+          <tr><td class="px-2 py-1 border">West</td><td class="px-2 py-1 border">700</td></tr>
+        </table>
+        <p class="text-xs mt-1 text-gray-600">2 rows output (one per group)</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700 mb-2">Window Function (Keeps Rows)</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-blue-400">SELECT</span> Region, Sales,
+  <span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> Region)</pre>
+        <table class="text-xs mt-2 w-full">
+          <tr class="bg-gray-100"><td class="px-2 py-1 border">Region</td><td class="px-2 py-1 border">Sales</td><td class="px-2 py-1 border">SUM</td></tr>
+          <tr><td class="px-2 py-1 border">East</td><td class="px-2 py-1 border">200</td><td class="px-2 py-1 border">500</td></tr>
+          <tr><td class="px-2 py-1 border">East</td><td class="px-2 py-1 border">300</td><td class="px-2 py-1 border">500</td></tr>
+          <tr><td class="px-2 py-1 border">West</td><td class="px-2 py-1 border">400</td><td class="px-2 py-1 border">700</td></tr>
+          <tr><td class="px-2 py-1 border">West</td><td class="px-2 py-1 border">300</td><td class="px-2 py-1 border">700</td></tr>
+        </table>
+        <p class="text-xs mt-1 text-gray-600">4 rows output (all original rows)</p>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Common Functions</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">ROW_NUMBER()</span>  - Sequential number for each row
-<span class="text-purple-400">RANK()</span>        - Rank with gaps for ties
-<span class="text-purple-400">DENSE_RANK()</span>  - Rank without gaps for ties
-<span class="text-purple-400">SUM()</span>         - Running or partitioned total
-<span class="text-purple-400">AVG()</span>         - Running or partitioned average
-<span class="text-purple-400">LAG()</span>         - Value from previous row
-<span class="text-purple-400">LEAD()</span>        - Value from next row
-<span class="text-purple-400">FIRST_VALUE()</span> - First value in window
-<span class="text-purple-400">LAST_VALUE()</span>  - Last value in window</pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Syntax</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">FUNCTION</span>() <span class="text-blue-400">OVER</span> (
-    <span class="text-blue-400">PARTITION BY</span> column    <span class="text-gray-400">-- optional: divide into groups</span>
-    <span class="text-blue-400">ORDER BY</span> column        <span class="text-gray-400">-- optional: order within partition</span>
+    <h2 class="font-bold text-lg">Window Function Anatomy</h2>
+    <p class="text-sm text-gray-600 mb-3">Every window function has up to four components:</p>
+    
+    <div class="bg-gray-100 rounded-lg p-4">
+      <pre class="text-lg font-mono"><span class="text-purple-600 font-bold">FUNCTION</span>(<span class="text-gray-500">column</span>) <span class="text-blue-600 font-bold">OVER</span> (
+    <span class="text-green-600 font-bold">PARTITION BY</span> <span class="text-gray-500">column(s)</span>
+    <span class="text-orange-600 font-bold">ORDER BY</span> <span class="text-gray-500">column(s)</span>
+    <span class="text-red-600 font-bold">ROWS/RANGE</span> <span class="text-gray-500">frame_clause</span>
 )</pre>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-3 mt-4">
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+        <div class="font-semibold text-purple-700">1. FUNCTION</div>
+        <p class="text-sm">What calculation to perform</p>
+        <p class="text-xs text-gray-600 mt-1">SUM, AVG, COUNT, ROW_NUMBER, RANK, LAG, LEAD, etc.</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <div class="font-semibold text-green-700">2. PARTITION BY</div>
+        <p class="text-sm">How to divide rows into groups (optional)</p>
+        <p class="text-xs text-gray-600 mt-1">Like GROUP BY but doesn't collapse rows. Omit for whole table.</p>
+      </div>
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-3">
+        <div class="font-semibold text-orange-700">3. ORDER BY</div>
+        <p class="text-sm">How to sort rows within each partition</p>
+        <p class="text-xs text-gray-600 mt-1">Required for ranking and running calculations. Defines "before" and "after".</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700">4. FRAME (ROWS/RANGE)</div>
+        <p class="text-sm">Which rows to include in the calculation</p>
+        <p class="text-xs text-gray-600 mt-1">The "window" within the partition. Defaults vary by function.</p>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Examples</h2>
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Row number for all tracks</span>
-<span class="text-blue-400">SELECT</span> Name, AlbumId,
-    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Name) <span class="text-blue-400">AS</span> RowNum
-<span class="text-blue-400">FROM</span> Track
-<span class="text-blue-400">LIMIT</span> 10;
-
-<span class="text-gray-400">-- Row number within each album</span>
-<span class="text-blue-400">SELECT</span> Name, AlbumId,
-    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> AlbumId <span class="text-blue-400">ORDER BY</span> Name) <span class="text-blue-400">AS</span> TrackNum
-<span class="text-blue-400">FROM</span> Track;
-
-<span class="text-gray-400">-- Rank tracks by price</span>
-<span class="text-blue-400">SELECT</span> Name, UnitPrice,
-    <span class="text-purple-400">RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> UnitPrice <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> PriceRank
-<span class="text-blue-400">FROM</span> Track;
-
-<span class="text-gray-400">-- Running total of invoice amounts</span>
-<span class="text-blue-400">SELECT</span> InvoiceDate, Total,
-    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> RunningTotal
-<span class="text-blue-400">FROM</span> Invoice;
-
-<span class="text-gray-400">-- Total per customer alongside each invoice</span>
-<span class="text-blue-400">SELECT</span> CustomerId, InvoiceDate, Total,
-    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> CustomerId) <span class="text-blue-400">AS</span> CustomerTotal
-<span class="text-blue-400">FROM</span> Invoice;
-
-<span class="text-gray-400">-- Compare to previous invoice</span>
-<span class="text-blue-400">SELECT</span> InvoiceDate, Total,
-    <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> PrevTotal,
-    Total - <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> InvoiceDate) <span class="text-blue-400">AS</span> Difference
-<span class="text-blue-400">FROM</span> Invoice;
-
-<span class="text-gray-400">-- Average track length per album vs each track</span>
-<span class="text-blue-400">SELECT</span> Name, AlbumId, Milliseconds,
-    <span class="text-purple-400">AVG</span>(Milliseconds) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> AlbumId) <span class="text-blue-400">AS</span> AlbumAvg
-<span class="text-blue-400">FROM</span> Track;
-
-<span class="text-gray-400">-- Top 3 tracks per genre by length</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> (
-    <span class="text-blue-400">SELECT</span> Name, GenreId, Milliseconds,
-        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">PARTITION BY</span> GenreId <span class="text-blue-400">ORDER BY</span> Milliseconds <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> rn
-    <span class="text-blue-400">FROM</span> Track
-) <span class="text-blue-400">WHERE</span> rn <= 3;</pre>
+    <h2 class="font-bold text-lg">The Frame Clause - Defining Your Window</h2>
+    <p class="text-sm text-gray-600 mb-3">The frame clause specifies exactly which rows are included in each calculation. This is the actual "window" that slides over your data.</p>
+    
+    <div class="bg-gray-100 rounded-lg p-4">
+      <pre class="font-mono text-sm"><span class="text-red-600 font-bold">ROWS</span> <span class="text-blue-600">BETWEEN</span> <span class="text-green-600">&lt;start&gt;</span> <span class="text-blue-600">AND</span> <span class="text-green-600">&lt;end&gt;</span></pre>
+      <p class="text-sm mt-2">Where start and end can be:</p>
+      <ul class="text-sm mt-1 space-y-1">
+        <li><code class="bg-gray-200 px-1 rounded">UNBOUNDED PRECEDING</code> - From the first row of the partition</li>
+        <li><code class="bg-gray-200 px-1 rounded">n PRECEDING</code> - n rows before current row</li>
+        <li><code class="bg-gray-200 px-1 rounded">CURRENT ROW</code> - The current row</li>
+        <li><code class="bg-gray-200 px-1 rounded">n FOLLOWING</code> - n rows after current row</li>
+        <li><code class="bg-gray-200 px-1 rounded">UNBOUNDED FOLLOWING</code> - To the last row of the partition</li>
+      </ul>
+    </div>
+    
+    <div class="mt-4">
+      <p class="font-semibold text-sm mb-2">Visual Example: Row 4 in a 7-row partition</p>
+      <div class="flex items-center gap-1 text-xs font-mono">
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">1</div>
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">2</div>
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">3</div>
+        <div class="w-8 h-8 bg-yellow-300 rounded flex items-center justify-center border-2 border-yellow-600 font-bold">4</div>
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">5</div>
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">6</div>
+        <div class="w-8 h-8 bg-blue-200 rounded flex items-center justify-center border border-blue-400">7</div>
+      </div>
+      <div class="mt-2 space-y-2 text-xs">
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1">
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded border-2 border-yellow-600"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+          </div>
+          <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code>
+          <span class="text-gray-500">(Running total - default)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1">
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded border-2 border-yellow-600"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+          </div>
+          <code>ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</code>
+          <span class="text-gray-500">(3-row moving average)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1">
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded border-2 border-yellow-600"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+            <div class="w-4 h-4 bg-gray-200 rounded"></div>
+          </div>
+          <code>ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING</code>
+          <span class="text-gray-500">(Centered 3-row window)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1">
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded border-2 border-yellow-600"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+            <div class="w-4 h-4 bg-green-400 rounded"></div>
+          </div>
+          <code>ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code>
+          <span class="text-gray-500">(Entire partition)</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Key intuitions</h2>
-    <ul class="list-disc ml-5">
-      <li>Unlike GROUP BY, window functions don't collapse rows</li>
-      <li>PARTITION BY is like GROUP BY but keeps all rows</li>
-      <li>ORDER BY in OVER() defines window frame order</li>
-      <li>No PARTITION BY = entire result set is one window</li>
-      <li>Great for rankings, running totals, and row comparisons</li>
-      <li>Can use aggregate functions (SUM, AVG) as window functions</li>
+    <h2 class="font-bold text-lg">ROWS vs RANGE</h2>
+    <p class="text-sm text-gray-600 mb-3">Two ways to define the frame - they differ in how they handle ties:</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">ROWS</div>
+        <p class="text-sm">Counts physical rows</p>
+        <p class="text-xs text-gray-600 mt-1">Exact number of rows regardless of values. <code>2 PRECEDING</code> always means exactly 2 rows back.</p>
+        <p class="text-xs text-green-600 mt-1">✓ Use for: Moving averages, running counts</p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+        <div class="font-semibold text-purple-700">RANGE</div>
+        <p class="text-sm">Counts by value ranges</p>
+        <p class="text-xs text-gray-600 mt-1">Includes all rows with the same ORDER BY value. Ties are treated as one unit.</p>
+        <p class="text-xs text-green-600 mt-1">✓ Use for: When duplicates should be grouped</p>
+      </div>
+    </div>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-3"><span class="text-gray-400">-- ROWS: Exactly 2 rows before current</span>
+<span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (
+    <span class="text-blue-400">ORDER BY</span> Date
+    <span class="text-red-400">ROWS</span> <span class="text-blue-400">BETWEEN</span> 2 <span class="text-blue-400">PRECEDING AND CURRENT ROW</span>
+)
+
+<span class="text-gray-400">-- RANGE: All rows with dates within 2 days (numeric comparison)</span>
+<span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (
+    <span class="text-blue-400">ORDER BY</span> Date
+    <span class="text-red-400">RANGE</span> <span class="text-blue-400">BETWEEN</span> 2 <span class="text-blue-400">PRECEDING AND CURRENT ROW</span>
+)</pre>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>💡 Default frames:</strong></p>
+      <ul class="text-xs mt-1 space-y-1">
+        <li>• With ORDER BY: <code>RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code></li>
+        <li>• Without ORDER BY: <code>RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code> (entire partition)</li>
+        <li>• ROW_NUMBER, RANK, etc. don't use frames - they operate row-by-row</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Types of Window Functions</h2>
+    
+    <div class="space-y-3 mt-3">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-gray-700">Aggregate Functions (with OVER)</div>
+        <p class="text-xs text-gray-600 mb-2">Regular aggregates that can also work as window functions</p>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">SUM()</span>
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">AVG()</span>
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">COUNT()</span>
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">MIN()</span>
+          <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">MAX()</span>
+        </div>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-gray-700">Ranking Functions</div>
+        <p class="text-xs text-gray-600 mb-2">Assign ranks to rows based on ORDER BY</p>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">ROW_NUMBER()</span>
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">RANK()</span>
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">DENSE_RANK()</span>
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">NTILE()</span>
+          <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">PERCENT_RANK()</span>
+        </div>
+      </div>
+      
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="font-semibold text-gray-700">Value Functions</div>
+        <p class="text-xs text-gray-600 mb-2">Access values from other rows</p>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">LAG()</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">LEAD()</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">FIRST_VALUE()</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">LAST_VALUE()</span>
+          <span class="bg-green-100 text-green-700 px-2 py-1 rounded">NTH_VALUE()</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Ranking Functions Explained</h2>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> 
+    Name, Score,
+    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Score <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> row_num,
+    <span class="text-purple-400">RANK</span>()       <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Score <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> rank,
+    <span class="text-purple-400">DENSE_RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Score <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> dense_rank
+<span class="text-blue-400">FROM</span> students</pre>
+    
+    <div class="overflow-x-auto mt-3">
+      <table class="text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2">Name</th>
+            <th class="border px-3 py-2">Score</th>
+            <th class="border px-3 py-2 bg-blue-50">ROW_NUMBER</th>
+            <th class="border px-3 py-2 bg-green-50">RANK</th>
+            <th class="border px-3 py-2 bg-purple-50">DENSE_RANK</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1">Alice</td><td class="border px-3 py-1">95</td><td class="border px-3 py-1 bg-blue-50">1</td><td class="border px-3 py-1 bg-green-50">1</td><td class="border px-3 py-1 bg-purple-50">1</td></tr>
+          <tr><td class="border px-3 py-1">Bob</td><td class="border px-3 py-1 font-bold">90</td><td class="border px-3 py-1 bg-blue-50">2</td><td class="border px-3 py-1 bg-green-50 font-bold">2</td><td class="border px-3 py-1 bg-purple-50 font-bold">2</td></tr>
+          <tr><td class="border px-3 py-1">Carol</td><td class="border px-3 py-1 font-bold">90</td><td class="border px-3 py-1 bg-blue-50">3</td><td class="border px-3 py-1 bg-green-50 font-bold">2</td><td class="border px-3 py-1 bg-purple-50 font-bold">2</td></tr>
+          <tr><td class="border px-3 py-1">Dave</td><td class="border px-3 py-1">85</td><td class="border px-3 py-1 bg-blue-50">4</td><td class="border px-3 py-1 bg-green-50">4 ←skip</td><td class="border px-3 py-1 bg-purple-50">3 ←no skip</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="grid grid-cols-3 gap-2 mt-3 text-xs">
+      <div class="bg-blue-50 rounded p-2">
+        <strong>ROW_NUMBER:</strong> Always unique, arbitrary for ties
+      </div>
+      <div class="bg-green-50 rounded p-2">
+        <strong>RANK:</strong> Same rank for ties, skips next
+      </div>
+      <div class="bg-purple-50 rounded p-2">
+        <strong>DENSE_RANK:</strong> Same rank for ties, no skip
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">NTILE - Divide Into Buckets</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Divide customers into 4 quartiles by spending</span>
+<span class="text-blue-400">SELECT</span> 
+    CustomerName,
+    TotalSpent,
+    <span class="text-purple-400">NTILE</span>(4) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> TotalSpent <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> Quartile
+<span class="text-blue-400">FROM</span> customer_totals
+
+<span class="text-gray-400">-- Result: 1 = Top 25%, 2 = Next 25%, 3 = Next 25%, 4 = Bottom 25%</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">LAG and LEAD - Access Other Rows</h2>
+    <p class="text-sm text-gray-600 mb-2">Look at previous or next row values:</p>
+    
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Compare each month's sales to previous month</span>
+<span class="text-blue-400">SELECT</span>
+    Month,
+    Sales,
+    <span class="text-purple-400">LAG</span>(Sales, 1) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Month) <span class="text-blue-400">AS</span> PrevMonth,
+    <span class="text-purple-400">LEAD</span>(Sales, 1) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Month) <span class="text-blue-400">AS</span> NextMonth,
+    Sales - <span class="text-purple-400">LAG</span>(Sales, 1) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> Month) <span class="text-blue-400">AS</span> MoM_Change
+<span class="text-blue-400">FROM</span> monthly_sales
+
+<span class="text-gray-400">-- LAG(column, n, default) - n rows back, default if no row exists
+-- LEAD(column, n, default) - n rows forward</span></pre>
+    
+    <div class="overflow-x-auto mt-3">
+      <table class="text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2">Month</th>
+            <th class="border px-3 py-2">Sales</th>
+            <th class="border px-3 py-2">PrevMonth (LAG)</th>
+            <th class="border px-3 py-2">NextMonth (LEAD)</th>
+            <th class="border px-3 py-2">MoM_Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1">Jan</td><td class="border px-3 py-1">100</td><td class="border px-3 py-1 text-gray-400">NULL</td><td class="border px-3 py-1">120</td><td class="border px-3 py-1 text-gray-400">NULL</td></tr>
+          <tr><td class="border px-3 py-1">Feb</td><td class="border px-3 py-1">120</td><td class="border px-3 py-1">100</td><td class="border px-3 py-1">115</td><td class="border px-3 py-1 text-green-600">+20</td></tr>
+          <tr><td class="border px-3 py-1">Mar</td><td class="border px-3 py-1">115</td><td class="border px-3 py-1">120</td><td class="border px-3 py-1">140</td><td class="border px-3 py-1 text-red-600">-5</td></tr>
+          <tr><td class="border px-3 py-1">Apr</td><td class="border px-3 py-1">140</td><td class="border px-3 py-1">115</td><td class="border px-3 py-1 text-gray-400">NULL</td><td class="border px-3 py-1 text-green-600">+25</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Running Total (Cumulative Sum)</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Running total of sales by date</span>
+<span class="text-blue-400">SELECT</span>
+    OrderDate,
+    Sales,
+    <span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> OrderDate
+        <span class="text-red-400">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>
+    ) <span class="text-blue-400">AS</span> RunningTotal
+<span class="text-blue-400">FROM</span> orders
+
+<span class="text-gray-400">-- The frame clause here is actually the default, so this also works:</span>
+<span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> OrderDate) <span class="text-blue-400">AS</span> RunningTotal</pre>
+    
+    <div class="overflow-x-auto mt-3">
+      <table class="text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2">OrderDate</th>
+            <th class="border px-3 py-2">Sales</th>
+            <th class="border px-3 py-2">RunningTotal</th>
+            <th class="border px-3 py-2 text-gray-500">How it's calculated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1">Jan 1</td><td class="border px-3 py-1">100</td><td class="border px-3 py-1 font-bold">100</td><td class="border px-3 py-1 text-xs text-gray-500">100</td></tr>
+          <tr><td class="border px-3 py-1">Jan 2</td><td class="border px-3 py-1">150</td><td class="border px-3 py-1 font-bold">250</td><td class="border px-3 py-1 text-xs text-gray-500">100 + 150</td></tr>
+          <tr><td class="border px-3 py-1">Jan 3</td><td class="border px-3 py-1">75</td><td class="border px-3 py-1 font-bold">325</td><td class="border px-3 py-1 text-xs text-gray-500">100 + 150 + 75</td></tr>
+          <tr><td class="border px-3 py-1">Jan 4</td><td class="border px-3 py-1">200</td><td class="border px-3 py-1 font-bold">525</td><td class="border px-3 py-1 text-xs text-gray-500">100 + 150 + 75 + 200</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Moving Average</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- 3-period moving average</span>
+<span class="text-blue-400">SELECT</span>
+    Month,
+    Sales,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(Sales) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> Month
+        <span class="text-red-400">ROWS BETWEEN 2 PRECEDING AND CURRENT ROW</span>
+    ), 2) <span class="text-blue-400">AS</span> MovingAvg_3
+<span class="text-blue-400">FROM</span> monthly_sales
+
+<span class="text-gray-400">-- Centered moving average (1 before, current, 1 after)</span>
+<span class="text-purple-400">AVG</span>(Sales) <span class="text-blue-400">OVER</span> (
+    <span class="text-blue-400">ORDER BY</span> Month
+    <span class="text-red-400">ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING</span>
+) <span class="text-blue-400">AS</span> CenteredAvg</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">FIRST_VALUE and LAST_VALUE</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Get first and last values in each partition</span>
+<span class="text-blue-400">SELECT</span>
+    Region,
+    OrderDate,
+    Sales,
+    <span class="text-purple-400">FIRST_VALUE</span>(Sales) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Region
+        <span class="text-blue-400">ORDER BY</span> OrderDate
+    ) <span class="text-blue-400">AS</span> FirstSale,
+    <span class="text-purple-400">LAST_VALUE</span>(Sales) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Region
+        <span class="text-blue-400">ORDER BY</span> OrderDate
+        <span class="text-red-400">ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</span>
+    ) <span class="text-blue-400">AS</span> LastSale
+<span class="text-blue-400">FROM</span> orders</pre>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>⚠️ LAST_VALUE Gotcha:</strong> The default frame only goes to CURRENT ROW, so LAST_VALUE would just return the current row's value! You must specify <code>ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING</code> to get the actual last value.</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Partitioned Rankings (Top N per Group)</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Top 3 products per category by sales</span>
+<span class="text-blue-400">WITH</span> RankedProducts <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        Category,
+        ProductName,
+        Sales,
+        <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
+            <span class="text-blue-400">PARTITION BY</span> Category
+            <span class="text-blue-400">ORDER BY</span> Sales <span class="text-blue-400">DESC</span>
+        ) <span class="text-blue-400">AS</span> Rank
+    <span class="text-blue-400">FROM</span> products
+)
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> RankedProducts
+<span class="text-blue-400">WHERE</span> Rank <= 3</pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Percent of Total</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Each row's percentage of total sales</span>
+<span class="text-blue-400">SELECT</span>
+    Region,
+    Sales,
+    <span class="text-purple-400">ROUND</span>(100.0 * Sales / <span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (), 2) <span class="text-blue-400">AS</span> PctOfTotal,
+    <span class="text-purple-400">ROUND</span>(100.0 * Sales / <span class="text-purple-400">SUM</span>(Sales) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Region
+    ), 2) <span class="text-blue-400">AS</span> PctOfRegion
+<span class="text-blue-400">FROM</span> orders
+
+<span class="text-gray-400">-- OVER () with empty parentheses = entire table</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Complete Syntax Reference</h2>
+    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-purple-400">function</span>(<span class="text-gray-400">expression</span>) <span class="text-blue-400">OVER</span> (
+    [<span class="text-blue-400">PARTITION BY</span> <span class="text-gray-400">column1, column2, ...</span>]
+    [<span class="text-blue-400">ORDER BY</span> <span class="text-gray-400">column1</span> [<span class="text-blue-400">ASC</span>|<span class="text-blue-400">DESC</span>], <span class="text-gray-400">column2</span> [<span class="text-blue-400">ASC</span>|<span class="text-blue-400">DESC</span>], ...]
+    [<span class="text-red-400">ROWS</span>|<span class="text-red-400">RANGE</span> <span class="text-blue-400">BETWEEN</span> <span class="text-gray-400">frame_start</span> <span class="text-blue-400">AND</span> <span class="text-gray-400">frame_end</span>]
+)
+
+<span class="text-gray-400">frame_start / frame_end options:</span>
+    <span class="text-blue-400">UNBOUNDED PRECEDING</span>  <span class="text-gray-400">-- First row of partition</span>
+    <span class="text-gray-400">n</span> <span class="text-blue-400">PRECEDING</span>          <span class="text-gray-400">-- n rows/range before current</span>
+    <span class="text-blue-400">CURRENT ROW</span>          <span class="text-gray-400">-- Current row</span>
+    <span class="text-gray-400">n</span> <span class="text-blue-400">FOLLOWING</span>          <span class="text-gray-400">-- n rows/range after current</span>
+    <span class="text-blue-400">UNBOUNDED FOLLOWING</span>  <span class="text-gray-400">-- Last row of partition</span></pre>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common Patterns Summary</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Use Case</th>
+            <th class="border px-3 py-2 text-left">Function & Frame</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1">Running total</td><td class="border px-3 py-1 font-mono text-xs">SUM() OVER (ORDER BY date)</td></tr>
+          <tr><td class="border px-3 py-1">Moving average (3)</td><td class="border px-3 py-1 font-mono text-xs">AVG() OVER (ORDER BY date ROWS 2 PRECEDING)</td></tr>
+          <tr><td class="border px-3 py-1">Row number</td><td class="border px-3 py-1 font-mono text-xs">ROW_NUMBER() OVER (ORDER BY column)</td></tr>
+          <tr><td class="border px-3 py-1">Rank with gaps</td><td class="border px-3 py-1 font-mono text-xs">RANK() OVER (ORDER BY column DESC)</td></tr>
+          <tr><td class="border px-3 py-1">Rank without gaps</td><td class="border px-3 py-1 font-mono text-xs">DENSE_RANK() OVER (ORDER BY column DESC)</td></tr>
+          <tr><td class="border px-3 py-1">Previous value</td><td class="border px-3 py-1 font-mono text-xs">LAG(column, 1) OVER (ORDER BY date)</td></tr>
+          <tr><td class="border px-3 py-1">Next value</td><td class="border px-3 py-1 font-mono text-xs">LEAD(column, 1) OVER (ORDER BY date)</td></tr>
+          <tr><td class="border px-3 py-1">First in group</td><td class="border px-3 py-1 font-mono text-xs">FIRST_VALUE(col) OVER (PARTITION BY grp ORDER BY date)</td></tr>
+          <tr><td class="border px-3 py-1">% of total</td><td class="border px-3 py-1 font-mono text-xs">col / SUM(col) OVER ()</td></tr>
+          <tr><td class="border px-3 py-1">Top N per group</td><td class="border px-3 py-1 font-mono text-xs">ROW_NUMBER() OVER (PARTITION BY grp ORDER BY val DESC)</td></tr>
+          <tr><td class="border px-3 py-1">Quartiles</td><td class="border px-3 py-1 font-mono text-xs">NTILE(4) OVER (ORDER BY column)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Key Intuitions</h2>
+    <ul class="list-disc ml-5 space-y-1">
+      <li><strong>OVER() is what makes it a window function</strong> - without OVER, it's a regular aggregate</li>
+      <li><strong>PARTITION BY is like GROUP BY</strong> but doesn't collapse rows</li>
+      <li><strong>ORDER BY defines sequence</strong> - required for running totals and rankings</li>
+      <li><strong>The frame defines the "window"</strong> - which rows to include for each calculation</li>
+      <li><strong>ROWS counts physical rows</strong>, RANGE groups by value</li>
+      <li><strong>Default frame changes with ORDER BY</strong> - be explicit when it matters</li>
+      <li><strong>LAST_VALUE needs explicit frame</strong> - the default only goes to current row</li>
+      <li><strong>Ranking functions don't use frames</strong> - they compare against the whole partition</li>
     </ul>
   </div>
 
   <div>
-    <h2 class="font-bold text-lg">Practice</h2>
+    <h2 class="font-bold text-lg">Practice Exercises</h2>
+    <p class="text-sm text-gray-600 mb-2">Using the Chinook database:</p>
     <ol class="list-decimal ml-5 space-y-2">
-      <li>Number all tracks within each album (PARTITION BY AlbumId)</li>
-      <li>Rank customers by their total spending (join Invoice, use SUM with GROUP BY first, then RANK)</li>
-      <li>Show each invoice with a running total per customer</li>
-      <li>For each track, show the album's average track length alongside it</li>
-      <li>Find the longest track in each genre using ROW_NUMBER and filtering for row 1</li>
+      <li>Add a <strong>running total</strong> of invoice amounts ordered by date</li>
+      <li>Calculate each customer's <strong>rank by total spending</strong></li>
+      <li>Show each invoice with the <strong>previous invoice amount</strong> for comparison</li>
+      <li>Calculate a <strong>3-month moving average</strong> of monthly sales</li>
+      <li>Find the <strong>top 3 tracks per genre</strong> by sales</li>
+      <li>Show each track's <strong>percentage of its album's total sales</strong></li>
+      <li>Divide customers into <strong>4 spending quartiles</strong> using NTILE</li>
+      <li>Calculate the <strong>month-over-month growth rate</strong> of sales</li>
+      <li>Find the <strong>first and last purchase date</strong> for each customer</li>
+      <li>Show each employee's <strong>sales rank within their department</strong></li>
     </ol>
   </div>
 </div>

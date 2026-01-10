@@ -1,0 +1,1210 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">A/B Testing: The Complete Guide</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Why A/B Testing is Critical</h2>
+    <p>A/B testing is the gold standard for establishing causation in business decisions. It's how you prove that a change actually works, rather than just hoping it does. As a data analyst, you'll design, analyze, and interpret A/B tests constantly.</p>
+    
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🎯</div>
+        <div class="font-semibold text-blue-700">Proves Causation</div>
+        <p class="text-xs text-gray-600">Not just correlation - actual cause and effect</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">💰</div>
+        <div class="font-semibold text-green-700">Reduces Risk</div>
+        <p class="text-xs text-gray-600">Test before full rollout to avoid costly mistakes</p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">📊</div>
+        <div class="font-semibold text-purple-700">Data-Driven Decisions</div>
+        <p class="text-xs text-gray-600">Replace opinions with evidence</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE A/B TESTING PROCESS -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">The A/B Testing Process</h2>
+    
+    <div class="bg-gray-50 rounded-lg p-4 mt-3">
+      <div class="flex items-center justify-between text-sm">
+        <div class="text-center flex-1">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">1</div>
+          <div class="mt-2 font-medium">Hypothesis</div>
+          <div class="text-xs text-gray-500">What do you expect?</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center flex-1">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">2</div>
+          <div class="mt-2 font-medium">Design</div>
+          <div class="text-xs text-gray-500">Sample size, duration</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center flex-1">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">3</div>
+          <div class="mt-2 font-medium">Run</div>
+          <div class="text-xs text-gray-500">Collect data</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center flex-1">
+          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">4</div>
+          <div class="mt-2 font-medium">Analyze</div>
+          <div class="text-xs text-gray-500">Statistical test</div>
+        </div>
+        <div class="text-gray-400">→</div>
+        <div class="text-center flex-1">
+          <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center font-bold mx-auto">5</div>
+          <div class="mt-2 font-medium">Decide</div>
+          <div class="text-xs text-gray-500">Ship or don't ship</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHOOSING THE RIGHT TEST -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">Choosing the Right Statistical Test</h2>
+    <p class="text-sm text-gray-600 mb-3">The test you use depends on what type of metric you're measuring. This is the most important decision in A/B test analysis.</p>
+    
+    <div class="bg-white border-2 border-green-300 rounded-lg p-4">
+      <div class="font-semibold text-green-700 text-lg mb-3">Decision Tree: Which Test Do I Use?</div>
+      
+      <div class="space-y-4">
+        <div class="bg-gray-50 rounded-lg p-3">
+          <div class="flex items-start gap-3">
+            <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">?</div>
+            <div class="flex-1">
+              <p class="font-medium">What type of metric are you measuring?</p>
+              
+              <div class="grid grid-cols-3 gap-3 mt-3">
+                <div class="bg-white border-2 border-blue-400 rounded-lg p-3">
+                  <div class="font-semibold text-blue-700">Binary (Yes/No)</div>
+                  <p class="text-xs text-gray-600 mt-1">Did the user convert or not?</p>
+                  <ul class="text-xs mt-2 space-y-1">
+                    <li>• Conversion rate</li>
+                    <li>• Click-through rate</li>
+                    <li>• Sign-up rate</li>
+                    <li>• Bounce rate</li>
+                    <li>• Retention (retained or not)</li>
+                  </ul>
+                  <div class="mt-3 p-2 bg-blue-50 rounded text-center">
+                    <p class="font-bold text-blue-700">→ Z-Test for Proportions</p>
+                    <p class="text-xs">or Chi-Square Test</p>
+                  </div>
+                </div>
+                
+                <div class="bg-white border-2 border-green-400 rounded-lg p-3">
+                  <div class="font-semibold text-green-700">Continuous (Numbers)</div>
+                  <p class="text-xs text-gray-600 mt-1">A measurable quantity</p>
+                  <ul class="text-xs mt-2 space-y-1">
+                    <li>• Revenue per user</li>
+                    <li>• Average order value</li>
+                    <li>• Time on site</li>
+                    <li>• Pages per session</li>
+                    <li>• Load time</li>
+                  </ul>
+                  <div class="mt-3 p-2 bg-green-50 rounded text-center">
+                    <p class="font-bold text-green-700">→ T-Test</p>
+                    <p class="text-xs">or Mann-Whitney U (if skewed)</p>
+                  </div>
+                </div>
+                
+                <div class="bg-white border-2 border-purple-400 rounded-lg p-3">
+                  <div class="font-semibold text-purple-700">Count Data</div>
+                  <p class="text-xs text-gray-600 mt-1">Number of events per user</p>
+                  <ul class="text-xs mt-2 space-y-1">
+                    <li>• Orders per user</li>
+                    <li>• Sessions per user</li>
+                    <li>• Support tickets</li>
+                    <li>• Items in cart</li>
+                    <li>• Clicks per session</li>
+                  </ul>
+                  <div class="mt-3 p-2 bg-purple-50 rounded text-center">
+                    <p class="font-bold text-purple-700">→ Poisson Test</p>
+                    <p class="text-xs">or Negative Binomial</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 1: PROPORTIONS (BINARY) -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">1. Testing Proportions (Binary Metrics)</h2>
+    <p class="text-sm text-gray-600 mb-3">The most common A/B test scenario: comparing conversion rates, click-through rates, or any yes/no outcome.</p>
+    
+    <div class="space-y-4">
+      <!-- When to Use -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">When to Use</div>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <div>
+            <p class="font-medium text-sm">Your metric is binary (0 or 1):</p>
+            <ul class="text-sm mt-1 space-y-1">
+              <li>✓ Did they purchase? (Yes/No)</li>
+              <li>✓ Did they click? (Yes/No)</li>
+              <li>✓ Did they sign up? (Yes/No)</li>
+              <li>✓ Did they churn? (Yes/No)</li>
+              <li>✓ Did they bounce? (Yes/No)</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-medium text-sm">The underlying distribution:</p>
+            <div class="bg-blue-50 rounded p-3 mt-1">
+              <p class="font-semibold">Binomial Distribution</p>
+              <p class="text-xs text-gray-600">Each user is an independent trial with two outcomes (success/failure)</p>
+              <p class="text-xs mt-2">As sample size grows, approaches Normal distribution (Central Limit Theorem)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- The Formula -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">Z-Test for Two Proportions</div>
+        
+        <div class="bg-gray-50 rounded-lg p-4 mt-3">
+          <div class="text-center">
+            <p class="text-sm font-medium mb-2">The Z-Statistic Formula:</p>
+            <div class="bg-white rounded p-3 inline-block font-mono text-lg">
+              Z = (p₁ - p₂) / √[p̂(1-p̂)(1/n₁ + 1/n₂)]
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+            <div>
+              <p class="font-medium">Where:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>p₁ = conversion rate of group 1</li>
+                <li>p₂ = conversion rate of group 2</li>
+                <li>p̂ = pooled proportion = (x₁ + x₂)/(n₁ + n₂)</li>
+                <li>n₁, n₂ = sample sizes</li>
+              </ul>
+            </div>
+            <div>
+              <p class="font-medium">Decision rule:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>If |Z| > 1.96 → p < 0.05 (significant)</li>
+                <li>If |Z| > 2.58 → p < 0.01 (highly significant)</li>
+                <li>If |Z| > 3.29 → p < 0.001 (very highly significant)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Real Example -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-800 text-lg">🛒 Real Example: Checkout Button Test</div>
+        
+        <div class="bg-white rounded-lg p-4 mt-3">
+          <p class="font-medium">Scenario:</p>
+          <p class="text-sm text-gray-600">You want to test if changing the checkout button from blue to green increases purchases.</p>
+          
+          <div class="grid grid-cols-2 gap-4 mt-3">
+            <div class="bg-blue-50 rounded p-3 text-center">
+              <div class="font-bold text-blue-700">Control (Blue Button)</div>
+              <div class="text-3xl font-bold mt-2">3.2%</div>
+              <p class="text-sm">conversion rate</p>
+              <p class="text-xs text-gray-500 mt-1">320 conversions / 10,000 users</p>
+            </div>
+            <div class="bg-green-50 rounded p-3 text-center">
+              <div class="font-bold text-green-700">Treatment (Green Button)</div>
+              <div class="text-3xl font-bold mt-2">3.8%</div>
+              <p class="text-sm">conversion rate</p>
+              <p class="text-xs text-gray-500 mt-1">380 conversions / 10,000 users</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3 mt-4">
+            <p class="font-medium text-sm">Step-by-step calculation:</p>
+            <div class="text-xs font-mono mt-2 space-y-1">
+              <p>p₁ = 320/10000 = 0.032</p>
+              <p>p₂ = 380/10000 = 0.038</p>
+              <p>p̂ = (320 + 380)/(10000 + 10000) = 700/20000 = 0.035</p>
+              <p>SE = √[0.035 × 0.965 × (1/10000 + 1/10000)] = √[0.0338 × 0.0002] = 0.0026</p>
+              <p>Z = (0.038 - 0.032) / 0.0026 = 0.006 / 0.0026 = <strong>2.31</strong></p>
+            </div>
+          </div>
+          
+          <div class="bg-green-100 rounded p-3 mt-3">
+            <p class="font-medium text-green-800">Result: Z = 2.31 > 1.96</p>
+            <p class="text-sm mt-1">✓ Statistically significant at p < 0.05</p>
+            <p class="text-sm">✓ The green button genuinely performs better</p>
+            <p class="text-sm mt-2"><strong>Business impact:</strong> At 100,000 monthly visitors, this means ~600 additional conversions/month</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SQL Implementation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">SQL Implementation</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2 overflow-x-auto"><span class="text-gray-400">-- Calculate conversion rates and perform Z-test</span>
+<span class="text-blue-400">WITH</span> variant_stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        variant,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+        <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conversions,
+        <span class="text-purple-400">AVG</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1.0 <span class="text-blue-400">ELSE</span> 0.0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conv_rate
+    <span class="text-blue-400">FROM</span> ab_test_users
+    <span class="text-blue-400">WHERE</span> experiment_id = <span class="text-green-400">'checkout_button_v1'</span>
+    <span class="text-blue-400">GROUP BY</span> variant
+),
+pooled <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        <span class="text-purple-400">SUM</span>(conversions) * 1.0 / <span class="text-purple-400">SUM</span>(n) <span class="text-blue-400">AS</span> pooled_rate,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n_control,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n_treatment,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> conv_rate <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> p_control,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> conv_rate <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> p_treatment
+    <span class="text-blue-400">FROM</span> variant_stats
+)
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">ROUND</span>(p_control * 100, 2) <span class="text-blue-400">AS</span> control_rate_pct,
+    <span class="text-purple-400">ROUND</span>(p_treatment * 100, 2) <span class="text-blue-400">AS</span> treatment_rate_pct,
+    <span class="text-purple-400">ROUND</span>((p_treatment - p_control) * 100, 2) <span class="text-blue-400">AS</span> absolute_lift_pct,
+    <span class="text-purple-400">ROUND</span>((p_treatment - p_control) / p_control * 100, 2) <span class="text-blue-400">AS</span> relative_lift_pct,
+    <span class="text-gray-400">-- Z-score calculation</span>
+    <span class="text-purple-400">ROUND</span>(
+        (p_treatment - p_control) / 
+        <span class="text-purple-400">SQRT</span>(pooled_rate * (1 - pooled_rate) * (1.0/n_control + 1.0/n_treatment))
+    , 3) <span class="text-blue-400">AS</span> z_score,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((p_treatment - p_control) / 
+             <span class="text-purple-400">SQRT</span>(pooled_rate * (1 - pooled_rate) * (1.0/n_control + 1.0/n_treatment))) > 2.58
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Highly Significant (p < 0.01)'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((p_treatment - p_control) / 
+             <span class="text-purple-400">SQRT</span>(pooled_rate * (1 - pooled_rate) * (1.0/n_control + 1.0/n_treatment))) > 1.96
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Significant (p < 0.05)'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Not Significant'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> significance
+<span class="text-blue-400">FROM</span> pooled;</pre>
+      </div>
+      
+      <!-- Sample Size Calculator -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">Sample Size for Proportion Tests</div>
+        <p class="text-sm text-gray-600 mt-1">How many users do you need per variant?</p>
+        
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <p class="text-sm font-medium">Quick formula (80% power, α = 0.05):</p>
+          <div class="bg-white rounded p-3 mt-2 text-center font-mono">
+            n ≈ 16 × p(1-p) / δ²
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Where p = baseline rate, δ = minimum detectable effect (absolute)</p>
+        </div>
+        
+        <div class="mt-4">
+          <p class="font-medium text-sm mb-2">Sample Size Reference Table (per group, 80% power, α=0.05)</p>
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1">Baseline Rate</th>
+                <th class="border px-2 py-1">5% Relative Lift</th>
+                <th class="border px-2 py-1">10% Relative Lift</th>
+                <th class="border px-2 py-1">20% Relative Lift</th>
+                <th class="border px-2 py-1">50% Relative Lift</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="border px-2 py-1 font-medium">1%</td><td class="border px-2 py-1">~3,100,000</td><td class="border px-2 py-1">~780,000</td><td class="border px-2 py-1">~195,000</td><td class="border px-2 py-1">~31,000</td></tr>
+              <tr><td class="border px-2 py-1 font-medium">2%</td><td class="border px-2 py-1">~1,530,000</td><td class="border px-2 py-1">~385,000</td><td class="border px-2 py-1">~96,000</td><td class="border px-2 py-1">~15,400</td></tr>
+              <tr><td class="border px-2 py-1 font-medium">5%</td><td class="border px-2 py-1">~590,000</td><td class="border px-2 py-1">~148,000</td><td class="border px-2 py-1">~37,000</td><td class="border px-2 py-1">~5,900</td></tr>
+              <tr><td class="border px-2 py-1 font-medium">10%</td><td class="border px-2 py-1">~280,000</td><td class="border px-2 py-1">~70,000</td><td class="border px-2 py-1">~17,500</td><td class="border px-2 py-1">~2,800</td></tr>
+              <tr><td class="border px-2 py-1 font-medium">20%</td><td class="border px-2 py-1">~125,000</td><td class="border px-2 py-1">~31,000</td><td class="border px-2 py-1">~7,800</td><td class="border px-2 py-1">~1,250</td></tr>
+              <tr><td class="border px-2 py-1 font-medium">50%</td><td class="border px-2 py-1">~39,000</td><td class="border px-2 py-1">~9,800</td><td class="border px-2 py-1">~2,500</td><td class="border px-2 py-1">~390</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-gray-500 mt-1">💡 Lower baseline rates need MUCH larger samples to detect the same relative lift</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 2: CONTINUOUS METRICS (T-TEST) -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">2. Testing Continuous Metrics (T-Test)</h2>
+    <p class="text-sm text-gray-600 mb-3">When your metric is a continuous number like revenue, time, or score - not just yes/no.</p>
+    
+    <div class="space-y-4">
+      <!-- When to Use -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700">When to Use</div>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <div>
+            <p class="font-medium text-sm">Your metric is a continuous number:</p>
+            <ul class="text-sm mt-1 space-y-1">
+              <li>✓ Revenue per user</li>
+              <li>✓ Average order value</li>
+              <li>✓ Time on page</li>
+              <li>✓ Session duration</li>
+              <li>✓ Load time</li>
+              <li>✓ NPS score</li>
+              <li>✓ Number of items viewed</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-medium text-sm">The underlying distribution:</p>
+            <div class="bg-green-50 rounded p-3 mt-1">
+              <p class="font-semibold">Normal Distribution (or approximately)</p>
+              <p class="text-xs text-gray-600">T-test assumes data is roughly normal</p>
+              <p class="text-xs mt-2 text-orange-600">⚠️ If highly skewed (like revenue), consider Mann-Whitney U test or log transformation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- The Formula -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700">Two-Sample T-Test (Welch's)</div>
+        
+        <div class="bg-gray-50 rounded-lg p-4 mt-3">
+          <div class="text-center">
+            <p class="text-sm font-medium mb-2">The T-Statistic Formula:</p>
+            <div class="bg-white rounded p-3 inline-block font-mono text-lg">
+              t = (x̄₁ - x̄₂) / √(s₁²/n₁ + s₂²/n₂)
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+            <div>
+              <p class="font-medium">Where:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>x̄₁, x̄₂ = sample means</li>
+                <li>s₁², s₂² = sample variances</li>
+                <li>n₁, n₂ = sample sizes</li>
+              </ul>
+            </div>
+            <div>
+              <p class="font-medium">Decision rule (large samples):</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>If |t| > 1.96 → p < 0.05 (significant)</li>
+                <li>If |t| > 2.58 → p < 0.01 (highly significant)</li>
+              </ul>
+              <p class="text-xs text-gray-500 mt-2">For smaller samples, use t-distribution critical values</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Real Example -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-800 text-lg">💰 Real Example: Revenue Per User Test</div>
+        
+        <div class="bg-white rounded-lg p-4 mt-3">
+          <p class="font-medium">Scenario:</p>
+          <p class="text-sm text-gray-600">You're testing a new product recommendation algorithm. Does it increase revenue per user?</p>
+          
+          <div class="grid grid-cols-2 gap-4 mt-3">
+            <div class="bg-blue-50 rounded p-3 text-center">
+              <div class="font-bold text-blue-700">Control (Old Algorithm)</div>
+              <div class="text-3xl font-bold mt-2">$45.20</div>
+              <p class="text-sm">mean revenue per user</p>
+              <p class="text-xs text-gray-500 mt-1">std dev: $38.50</p>
+              <p class="text-xs text-gray-500">n = 5,000 users</p>
+            </div>
+            <div class="bg-green-50 rounded p-3 text-center">
+              <div class="font-bold text-green-700">Treatment (New Algorithm)</div>
+              <div class="text-3xl font-bold mt-2">$48.75</div>
+              <p class="text-sm">mean revenue per user</p>
+              <p class="text-xs text-gray-500 mt-1">std dev: $41.20</p>
+              <p class="text-xs text-gray-500">n = 5,000 users</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3 mt-4">
+            <p class="font-medium text-sm">Step-by-step calculation:</p>
+            <div class="text-xs font-mono mt-2 space-y-1">
+              <p>x̄₁ = 45.20, x̄₂ = 48.75</p>
+              <p>s₁ = 38.50, s₂ = 41.20</p>
+              <p>n₁ = n₂ = 5000</p>
+              <p>SE = √(38.50²/5000 + 41.20²/5000) = √(296.45 + 339.69) = √(0.1273) = 0.798</p>
+              <p>t = (48.75 - 45.20) / 0.798 = 3.55 / 0.798 = <strong>4.45</strong></p>
+            </div>
+          </div>
+          
+          <div class="bg-green-100 rounded p-3 mt-3">
+            <p class="font-medium text-green-800">Result: t = 4.45 > 2.58</p>
+            <p class="text-sm mt-1">✓ Highly significant (p < 0.01)</p>
+            <p class="text-sm">✓ The new algorithm genuinely increases revenue</p>
+            <p class="text-sm mt-2"><strong>Business impact:</strong> $3.55 more per user × 100,000 monthly users = $355,000/month additional revenue</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SQL Implementation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700">SQL Implementation</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2 overflow-x-auto"><span class="text-gray-400">-- T-test for continuous metrics</span>
+<span class="text-blue-400">WITH</span> variant_stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        variant,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+        <span class="text-purple-400">AVG</span>(revenue) <span class="text-blue-400">AS</span> mean_revenue,
+        <span class="text-purple-400">STDDEV</span>(revenue) <span class="text-blue-400">AS</span> std_revenue,
+        <span class="text-purple-400">VARIANCE</span>(revenue) <span class="text-blue-400">AS</span> var_revenue
+    <span class="text-blue-400">FROM</span> ab_test_users
+    <span class="text-blue-400">WHERE</span> experiment_id = <span class="text-green-400">'recommendation_algo_v2'</span>
+    <span class="text-blue-400">GROUP BY</span> variant
+),
+test_calc <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> mean_revenue <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> mean_control,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> mean_revenue <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> mean_treatment,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> var_revenue <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> var_control,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> var_revenue <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> var_treatment,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n_control,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n_treatment
+    <span class="text-blue-400">FROM</span> variant_stats
+)
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">ROUND</span>(mean_control, 2) <span class="text-blue-400">AS</span> control_mean,
+    <span class="text-purple-400">ROUND</span>(mean_treatment, 2) <span class="text-blue-400">AS</span> treatment_mean,
+    <span class="text-purple-400">ROUND</span>(mean_treatment - mean_control, 2) <span class="text-blue-400">AS</span> absolute_lift,
+    <span class="text-purple-400">ROUND</span>((mean_treatment - mean_control) / mean_control * 100, 2) <span class="text-blue-400">AS</span> relative_lift_pct,
+    <span class="text-gray-400">-- T-statistic (Welch's t-test)</span>
+    <span class="text-purple-400">ROUND</span>(
+        (mean_treatment - mean_control) / 
+        <span class="text-purple-400">SQRT</span>(var_control/n_control + var_treatment/n_treatment)
+    , 3) <span class="text-blue-400">AS</span> t_statistic,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((mean_treatment - mean_control) / 
+             <span class="text-purple-400">SQRT</span>(var_control/n_control + var_treatment/n_treatment)) > 2.58
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Highly Significant (p < 0.01)'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((mean_treatment - mean_control) / 
+             <span class="text-purple-400">SQRT</span>(var_control/n_control + var_treatment/n_treatment)) > 1.96
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Significant (p < 0.05)'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Not Significant'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> significance
+<span class="text-blue-400">FROM</span> test_calc;</pre>
+      </div>
+      
+      <!-- Handling Skewed Data -->
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700">⚠️ Handling Skewed Revenue Data</div>
+        <p class="text-sm mt-2">Revenue data is almost always right-skewed (many small purchases, few large ones). The t-test assumes normality, which can be problematic.</p>
+        
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Option 1: Log Transformation</p>
+            <p class="text-xs text-gray-600 mt-1">Take log(revenue + 1) to make it more normal</p>
+            <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-purple-400">AVG</span>(<span class="text-purple-400">LN</span>(revenue + 1)) <span class="text-blue-400">AS</span> log_mean</pre>
+            <p class="text-xs text-gray-500 mt-1">Interpret results in terms of geometric mean</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Option 2: Mann-Whitney U Test</p>
+            <p class="text-xs text-gray-600 mt-1">Non-parametric test that doesn't assume normality</p>
+            <p class="text-xs text-gray-500 mt-2">Tests if one group tends to have higher values than the other</p>
+            <p class="text-xs text-green-600 mt-1">Better for highly skewed data</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Option 3: Bootstrap</p>
+            <p class="text-xs text-gray-600 mt-1">Resample your data thousands of times to estimate the distribution</p>
+            <p class="text-xs text-gray-500 mt-2">Most flexible, works with any distribution</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Option 4: Winsorize</p>
+            <p class="text-xs text-gray-600 mt-1">Cap extreme values at a percentile (e.g., 99th)</p>
+            <p class="text-xs text-gray-500 mt-2">Reduces impact of outliers on mean</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 3: COUNT DATA -->
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">3. Testing Count Data (Poisson)</h2>
+    <p class="text-sm text-gray-600 mb-3">When your metric is the number of events per user/session - like orders, clicks, or page views.</p>
+    
+    <div class="space-y-4">
+      <!-- When to Use -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">When to Use</div>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <div>
+            <p class="font-medium text-sm">Your metric counts discrete events:</p>
+            <ul class="text-sm mt-1 space-y-1">
+              <li>✓ Orders per customer</li>
+              <li>✓ Sessions per user</li>
+              <li>✓ Support tickets per user</li>
+              <li>✓ Items added to cart</li>
+              <li>✓ Pages viewed per session</li>
+              <li>✓ Clicks per email</li>
+              <li>✓ Comments per post</li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-medium text-sm">The underlying distribution:</p>
+            <div class="bg-purple-50 rounded p-3 mt-1">
+              <p class="font-semibold">Poisson Distribution</p>
+              <p class="text-xs text-gray-600">Models the number of events in a fixed interval</p>
+              <p class="text-xs mt-2">Key property: Mean ≈ Variance</p>
+              <p class="text-xs mt-1 text-orange-600">⚠️ If variance >> mean, use Negative Binomial instead</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Real Example -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-800 text-lg">📧 Real Example: Email Campaign - Clicks Per Email</div>
+        
+        <div class="bg-white rounded-lg p-4 mt-3">
+          <p class="font-medium">Scenario:</p>
+          <p class="text-sm text-gray-600">You're testing a new email subject line. Does it increase the number of link clicks per email sent?</p>
+          
+          <div class="grid grid-cols-2 gap-4 mt-3">
+            <div class="bg-blue-50 rounded p-3 text-center">
+              <div class="font-bold text-blue-700">Control (Old Subject)</div>
+              <div class="text-3xl font-bold mt-2">1.2</div>
+              <p class="text-sm">mean clicks per email</p>
+              <p class="text-xs text-gray-500 mt-1">Total: 12,000 clicks</p>
+              <p class="text-xs text-gray-500">10,000 emails sent</p>
+            </div>
+            <div class="bg-green-50 rounded p-3 text-center">
+              <div class="font-bold text-green-700">Treatment (New Subject)</div>
+              <div class="text-3xl font-bold mt-2">1.4</div>
+              <p class="text-sm">mean clicks per email</p>
+              <p class="text-xs text-gray-500 mt-1">Total: 14,000 clicks</p>
+              <p class="text-xs text-gray-500">10,000 emails sent</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3 mt-4">
+            <p class="font-medium text-sm">For large counts, use normal approximation:</p>
+            <div class="text-xs font-mono mt-2 space-y-1">
+              <p>λ₁ = 12000, λ₂ = 14000 (total clicks)</p>
+              <p>Rate₁ = 1.2, Rate₂ = 1.4 (per email)</p>
+              <p>Z = (λ₂ - λ₁) / √(λ₁ + λ₂)</p>
+              <p>Z = (14000 - 12000) / √(26000) = 2000 / 161.2 = <strong>12.4</strong></p>
+            </div>
+          </div>
+          
+          <div class="bg-green-100 rounded p-3 mt-3">
+            <p class="font-medium text-green-800">Result: Z = 12.4 >> 1.96</p>
+            <p class="text-sm mt-1">✓ Extremely significant</p>
+            <p class="text-sm">✓ The new subject line drives more clicks</p>
+            <p class="text-sm mt-2"><strong>Business impact:</strong> 16.7% more clicks per email</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SQL Implementation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">SQL Implementation for Count Data</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2 overflow-x-auto"><span class="text-gray-400">-- Poisson rate test (normal approximation for large counts)</span>
+<span class="text-blue-400">WITH</span> variant_counts <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        variant,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n_users,
+        <span class="text-purple-400">SUM</span>(click_count) <span class="text-blue-400">AS</span> total_clicks,
+        <span class="text-purple-400">AVG</span>(click_count) <span class="text-blue-400">AS</span> mean_clicks_per_user
+    <span class="text-blue-400">FROM</span> email_campaign_results
+    <span class="text-blue-400">WHERE</span> campaign_id = <span class="text-green-400">'subject_line_test'</span>
+    <span class="text-blue-400">GROUP BY</span> variant
+)
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> mean_clicks_per_user <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> control_rate,
+    <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> mean_clicks_per_user <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> treatment_rate,
+    <span class="text-gray-400">-- Z-test for Poisson rates</span>
+    (<span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> total_clicks <span class="text-blue-400">END</span>) - 
+     <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> total_clicks <span class="text-blue-400">END</span>)) /
+    <span class="text-purple-400">SQRT</span>(<span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> total_clicks <span class="text-blue-400">END</span>) + 
+         <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> total_clicks <span class="text-blue-400">END</span>)) <span class="text-blue-400">AS</span> z_score
+<span class="text-blue-400">FROM</span> variant_counts;</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIAL CASES -->
+  <div class="border-t-4 border-red-500 pt-4">
+    <h2 class="font-bold text-xl text-red-700">4. Special Cases & Advanced Scenarios</h2>
+    
+    <div class="space-y-4">
+      <!-- Ratio Metrics -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700">Ratio Metrics (Revenue per Click, etc.)</div>
+        <p class="text-sm text-gray-600 mt-1">When your metric is a ratio of two other metrics.</p>
+        
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <p class="font-medium text-sm">Examples:</p>
+          <ul class="text-sm mt-1 space-y-1">
+            <li>• Revenue per session (revenue / sessions)</li>
+            <li>• Cost per acquisition (spend / conversions)</li>
+            <li>• Average items per order (items / orders)</li>
+          </ul>
+          
+          <p class="font-medium text-sm mt-3">The challenge:</p>
+          <p class="text-xs text-gray-600">Ratios don't have a nice distribution. The variance depends on both numerator and denominator.</p>
+          
+          <p class="font-medium text-sm mt-3">Solutions:</p>
+          <div class="grid grid-cols-2 gap-3 mt-2">
+            <div class="bg-white rounded p-2 text-xs">
+              <p class="font-medium">Delta Method</p>
+              <p class="text-gray-600">Approximate the variance of the ratio using calculus</p>
+            </div>
+            <div class="bg-white rounded p-2 text-xs">
+              <p class="font-medium">Bootstrap</p>
+              <p class="text-gray-600">Resample to estimate the distribution empirically</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Multiple Testing -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700">Multiple Testing Correction</div>
+        <p class="text-sm text-gray-600 mt-1">When you test multiple metrics or variants, you inflate false positive risk.</p>
+        
+        <div class="bg-red-50 rounded p-3 mt-3">
+          <p class="font-medium text-sm text-red-700">The Problem:</p>
+          <p class="text-xs mt-1">If you test 20 metrics at α = 0.05, you expect 1 false positive by chance alone!</p>
+          <p class="text-xs font-mono mt-2">P(at least one false positive) = 1 - (1 - 0.05)²⁰ = 64%</p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">Bonferroni Correction</p>
+            <p class="text-xs text-gray-600 mt-1">Divide α by number of tests</p>
+            <p class="text-xs mt-1">Testing 5 metrics? Use α = 0.05/5 = 0.01</p>
+            <p class="text-xs text-orange-600 mt-1">Conservative - may miss real effects</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">False Discovery Rate (FDR)</p>
+            <p class="text-xs text-gray-600 mt-1">Control expected proportion of false positives</p>
+            <p class="text-xs mt-1">Benjamini-Hochberg procedure</p>
+            <p class="text-xs text-green-600 mt-1">More powerful than Bonferroni</p>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Best practice:</strong> Pre-specify ONE primary metric. Analyze others as exploratory (don't make ship decisions on secondary metrics alone).</p>
+        </div>
+      </div>
+      
+      <!-- Sequential Testing -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700">Sequential Testing (Peeking Problem)</div>
+        <p class="text-sm text-gray-600 mt-1">What if you want to stop early when you see a clear winner?</p>
+        
+        <div class="bg-red-50 rounded p-3 mt-3">
+          <p class="font-medium text-sm text-red-700">The Problem:</p>
+          <p class="text-xs mt-1">If you check p-values repeatedly and stop when significant, your actual false positive rate is much higher than 5%.</p>
+          <p class="text-xs mt-2">Checking daily for 2 weeks can inflate α to 20-30%!</p>
+        </div>
+        
+        <div class="bg-green-50 rounded p-3 mt-3">
+          <p class="font-medium text-sm text-green-700">Solutions:</p>
+          <ul class="text-xs mt-1 space-y-1">
+            <li><strong>• Group Sequential Methods:</strong> Pre-specify a few checkpoints with adjusted thresholds</li>
+            <li><strong>• Always Valid P-values:</strong> Methods that maintain valid inference regardless of when you stop</li>
+            <li><strong>• Bayesian Methods:</strong> Update beliefs continuously without multiple testing penalty</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRACTICAL WORKFLOW -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">5. The Complete A/B Testing Workflow</h2>
+    
+    <div class="space-y-4">
+      <!-- Before the Test -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Phase 1: Before the Test</div>
+        
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">1. Define the Hypothesis</p>
+            <div class="text-xs mt-1 space-y-1">
+              <p><strong>Bad:</strong> "The new design is better"</p>
+              <p><strong>Good:</strong> "Changing the CTA button from 'Submit' to 'Get Started' will increase sign-up rate by at least 10%"</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">2. Choose Primary Metric</p>
+            <div class="text-xs mt-1 space-y-1">
+              <p>• One metric that defines success</p>
+              <p>• Should align with business goal</p>
+              <p>• Must be measurable in test timeframe</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">3. Calculate Sample Size</p>
+            <div class="text-xs mt-1 space-y-1">
+              <p>• What's your baseline rate?</p>
+              <p>• What's the MDE you care about?</p>
+              <p>• How long will it take to get enough users?</p>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">4. Document Everything</p>
+            <div class="text-xs mt-1 space-y-1">
+              <p>• Hypothesis</p>
+              <p>• Primary & secondary metrics</p>
+              <p>• Sample size calculation</p>
+              <p>• Expected duration</p>
+              <p>• Success criteria</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- During the Test -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Phase 2: During the Test</div>
+        
+        <div class="grid grid-cols-3 gap-3 mt-3">
+          <div class="bg-green-50 rounded p-3 text-center">
+            <div class="text-2xl">✓</div>
+            <p class="font-medium text-sm text-green-700">DO</p>
+            <ul class="text-xs text-left mt-1 space-y-1">
+              <li>• Monitor for data quality issues</li>
+              <li>• Check sample ratio mismatch</li>
+              <li>• Verify randomization is working</li>
+              <li>• Watch for novelty effects</li>
+            </ul>
+          </div>
+          <div class="bg-red-50 rounded p-3 text-center">
+            <div class="text-2xl">✗</div>
+            <p class="font-medium text-sm text-red-700">DON'T</p>
+            <ul class="text-xs text-left mt-1 space-y-1">
+              <li>• Peek at p-values</li>
+              <li>• Stop early based on results</li>
+              <li>• Change the test mid-flight</li>
+              <li>• Add new metrics after seeing data</li>
+            </ul>
+          </div>
+          <div class="bg-yellow-50 rounded p-3 text-center">
+            <div class="text-2xl">⚠️</div>
+            <p class="font-medium text-sm text-yellow-700">WATCH FOR</p>
+            <ul class="text-xs text-left mt-1 space-y-1">
+              <li>• Sample ratio mismatch (SRM)</li>
+              <li>• Logging issues</li>
+              <li>• External events</li>
+              <li>• Day-of-week effects</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- After the Test -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Phase 3: After the Test</div>
+        
+        <div class="space-y-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">1. Validate Data Quality</p>
+            <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-gray-400">-- Check for sample ratio mismatch</span>
+<span class="text-blue-400">SELECT</span> variant, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+       <span class="text-purple-400">COUNT</span>(*) * 100.0 / <span class="text-purple-400">SUM</span>(<span class="text-purple-400">COUNT</span>(*)) <span class="text-blue-400">OVER</span>() <span class="text-blue-400">AS</span> pct
+<span class="text-blue-400">FROM</span> ab_test_users <span class="text-blue-400">GROUP BY</span> variant;
+<span class="text-gray-400">-- Should be ~50/50. If not, investigate!</span></pre>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">2. Run Statistical Test</p>
+            <p class="text-xs text-gray-600 mt-1">Use the appropriate test for your metric type (see cheat sheet below)</p>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">3. Calculate Confidence Intervals</p>
+            <p class="text-xs text-gray-600 mt-1">Don't just report "significant" - show the range of likely effect sizes</p>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">4. Check Segments</p>
+            <p class="text-xs text-gray-600 mt-1">Does the effect hold across device types, user segments, etc.?</p>
+            <p class="text-xs text-orange-600 mt-1">⚠️ Be careful - segment analysis is exploratory, not confirmatory</p>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">5. Make Decision</p>
+            <div class="grid grid-cols-3 gap-2 mt-2 text-xs">
+              <div class="bg-green-100 rounded p-2 text-center">
+                <p class="font-medium text-green-700">Ship It</p>
+                <p>Significant positive effect</p>
+              </div>
+              <div class="bg-red-100 rounded p-2 text-center">
+                <p class="font-medium text-red-700">Don't Ship</p>
+                <p>Significant negative OR not significant with enough power</p>
+              </div>
+              <div class="bg-yellow-100 rounded p-2 text-center">
+                <p class="font-medium text-yellow-700">Iterate</p>
+                <p>Promising but not conclusive - test a stronger variation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">📋 A/B Testing Cheat Sheet</h2>
+    
+    <!-- Test Selection -->
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Which Statistical Test to Use</div>
+      
+      <table class="text-sm border border-gray-300 w-full">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Metric Type</th>
+            <th class="border px-3 py-2 text-left">Examples</th>
+            <th class="border px-3 py-2 text-left">Distribution</th>
+            <th class="border px-3 py-2 text-left">Statistical Test</th>
+            <th class="border px-3 py-2 text-left">When to Use Alternative</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-2 font-medium">Binary (Yes/No)</td>
+            <td class="border px-3 py-2 text-xs">Conversion rate, CTR, bounce rate, retention</td>
+            <td class="border px-3 py-2">Binomial</td>
+            <td class="border px-3 py-2 font-medium text-blue-600">Z-Test for Proportions</td>
+            <td class="border px-3 py-2 text-xs">Chi-Square for small samples; Fisher's exact for very small</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2 font-medium">Continuous (Normal)</td>
+            <td class="border px-3 py-2 text-xs">Time on site, load time, session duration</td>
+            <td class="border px-3 py-2">Normal</td>
+            <td class="border px-3 py-2 font-medium text-green-600">T-Test (Welch's)</td>
+            <td class="border px-3 py-2 text-xs">Mann-Whitney U if non-normal</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2 font-medium">Continuous (Skewed)</td>
+            <td class="border px-3 py-2 text-xs">Revenue, order value, LTV</td>
+            <td class="border px-3 py-2">Log-normal</td>
+            <td class="border px-3 py-2 font-medium text-green-600">T-Test on log-transformed</td>
+            <td class="border px-3 py-2 text-xs">Mann-Whitney U; Bootstrap for complex cases</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2 font-medium">Count Data</td>
+            <td class="border px-3 py-2 text-xs">Orders per user, clicks per email, pages per session</td>
+            <td class="border px-3 py-2">Poisson</td>
+            <td class="border px-3 py-2 font-medium text-purple-600">Poisson Rate Test</td>
+            <td class="border px-3 py-2 text-xs">Negative Binomial if variance >> mean</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2 font-medium">Ratio Metrics</td>
+            <td class="border px-3 py-2 text-xs">Revenue per click, cost per acquisition</td>
+            <td class="border px-3 py-2">Complex</td>
+            <td class="border px-3 py-2 font-medium text-orange-600">Delta Method / Bootstrap</td>
+            <td class="border px-3 py-2 text-xs">Always validate with bootstrap</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Critical Values -->
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Critical Values Quick Reference</div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="font-medium text-sm mb-2">Z-Test / Large Sample T-Test</p>
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1">Significance Level</th>
+                <th class="border px-2 py-1">Two-tailed |Z|</th>
+                <th class="border px-2 py-1">One-tailed Z</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="border px-2 py-1">p < 0.10</td><td class="border px-2 py-1">1.645</td><td class="border px-2 py-1">1.28</td></tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1">p < 0.05</td><td class="border px-2 py-1 font-bold">1.96</td><td class="border px-2 py-1">1.645</td></tr>
+              <tr><td class="border px-2 py-1">p < 0.01</td><td class="border px-2 py-1 font-bold">2.58</td><td class="border px-2 py-1">2.33</td></tr>
+              <tr><td class="border px-2 py-1">p < 0.001</td><td class="border px-2 py-1">3.29</td><td class="border px-2 py-1">3.09</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p class="font-medium text-sm mb-2">Interpreting Results</p>
+          <div class="space-y-2 text-xs">
+            <div class="bg-green-50 rounded p-2">
+              <p class="font-medium text-green-700">|Z| or |t| > 1.96</p>
+              <p>Statistically significant at p < 0.05</p>
+              <p class="text-gray-500">Standard threshold for most tests</p>
+            </div>
+            <div class="bg-blue-50 rounded p-2">
+              <p class="font-medium text-blue-700">|Z| or |t| > 2.58</p>
+              <p>Highly significant at p < 0.01</p>
+              <p class="text-gray-500">Strong evidence</p>
+            </div>
+            <div class="bg-red-50 rounded p-2">
+              <p class="font-medium text-red-700">|Z| or |t| < 1.96</p>
+              <p>Not statistically significant</p>
+              <p class="text-gray-500">Can't rule out chance</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sample Size Quick Reference -->
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Sample Size Rules of Thumb</div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-50 rounded p-3">
+          <p class="font-medium text-sm">For Proportion Tests:</p>
+          <div class="bg-white rounded p-2 mt-2 font-mono text-sm text-center">
+            n ≈ 16 × p(1-p) / δ²
+          </div>
+          <p class="text-xs text-gray-600 mt-2">p = baseline rate, δ = minimum detectable effect (absolute)</p>
+          <p class="text-xs text-gray-600 mt-1">Example: p=5%, want to detect 1% absolute lift → n ≈ 7,600 per group</p>
+        </div>
+        <div class="bg-gray-50 rounded p-3">
+          <p class="font-medium text-sm">For Continuous Metrics:</p>
+          <div class="bg-white rounded p-2 mt-2 font-mono text-sm text-center">
+            n ≈ 16 × σ² / δ²
+          </div>
+          <p class="text-xs text-gray-600 mt-2">σ = standard deviation, δ = minimum detectable effect</p>
+          <p class="text-xs text-gray-600 mt-1">Example: σ=$50, want to detect $5 lift → n ≈ 1,600 per group</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Common Mistakes -->
+    <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg text-red-700 mb-3">⚠️ Common A/B Testing Mistakes</div>
+      
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">1. Peeking at Results</p>
+          <p class="text-xs">Checking repeatedly and stopping when significant inflates false positive rate</p>
+        </div>
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">2. Underpowered Tests</p>
+          <p class="text-xs">Not enough users to detect the effect you care about</p>
+        </div>
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">3. Wrong Test for Metric Type</p>
+          <p class="text-xs">Using t-test for highly skewed revenue data</p>
+        </div>
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">4. Multiple Testing</p>
+          <p class="text-xs">Testing many metrics without correction</p>
+        </div>
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">5. Ignoring Practical Significance</p>
+          <p class="text-xs">"Significant" 0.01% improvement isn't worth shipping</p>
+        </div>
+        <div class="bg-white rounded p-2">
+          <p class="font-medium text-sm text-red-700">6. Sample Ratio Mismatch</p>
+          <p class="text-xs">Not checking if 50/50 split actually happened</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Decision Framework -->
+    <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg text-green-700 mb-3">✓ Quick Decision Framework</div>
+      
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-white rounded p-3">
+          <p class="font-bold text-green-700 text-center text-lg">SHIP IT</p>
+          <ul class="text-xs mt-2 space-y-1">
+            <li>✓ p < 0.05 (significant)</li>
+            <li>✓ Lift is practically meaningful</li>
+            <li>✓ Effect consistent across segments</li>
+            <li>✓ No guardrail metric degradation</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded p-3">
+          <p class="font-bold text-red-700 text-center text-lg">DON'T SHIP</p>
+          <ul class="text-xs mt-2 space-y-1">
+            <li>✗ p > 0.05 (not significant)</li>
+            <li>✗ Negative effect observed</li>
+            <li>✗ Guardrail metrics degraded</li>
+            <li>✗ Test was properly powered</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded p-3">
+          <p class="font-bold text-yellow-700 text-center text-lg">ITERATE</p>
+          <ul class="text-xs mt-2 space-y-1">
+            <li>~ Promising but p = 0.05-0.15</li>
+            <li>~ Test was underpowered</li>
+            <li>~ Positive in key segments</li>
+            <li>~ Try bigger/bolder change</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCISES -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">📝 Practice Exercises</h2>
+    
+    <div class="space-y-4 mt-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <p class="font-medium">Exercise 1: Identify the Right Test</p>
+        <p class="text-sm text-gray-600 mt-1">For each metric, identify which statistical test you would use:</p>
+        <ol class="text-sm mt-2 space-y-1 list-decimal list-inside">
+          <li>Sign-up rate (signed up or not)</li>
+          <li>Average session duration in seconds</li>
+          <li>Number of pages viewed per session</li>
+          <li>Revenue per user (highly skewed)</li>
+          <li>Email open rate</li>
+        </ol>
+        <details class="mt-3">
+          <summary class="text-sm text-blue-600 cursor-pointer">Show Answers</summary>
+          <ol class="text-xs mt-2 space-y-1 list-decimal list-inside bg-gray-50 p-2 rounded">
+            <li>Z-Test for Proportions (binary)</li>
+            <li>T-Test (continuous, likely normal)</li>
+            <li>Poisson Test (count data)</li>
+            <li>T-Test on log-transformed data or Mann-Whitney U (skewed continuous)</li>
+            <li>Z-Test for Proportions (binary)</li>
+          </ol>
+        </details>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <p class="font-medium">Exercise 2: Calculate Z-Score</p>
+        <p class="text-sm text-gray-600 mt-1">Control: 200 conversions out of 5,000 users (4%)<br/>Treatment: 240 conversions out of 5,000 users (4.8%)</p>
+        <p class="text-sm mt-2">Calculate the Z-score. Is this significant at p < 0.05?</p>
+        <details class="mt-3">
+          <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+          <div class="text-xs mt-2 bg-gray-50 p-2 rounded font-mono">
+            <p>p₁ = 0.04, p₂ = 0.048</p>
+            <p>p̂ = (200+240)/(5000+5000) = 0.044</p>
+            <p>SE = √(0.044 × 0.956 × (1/5000 + 1/5000)) = √(0.0421 × 0.0004) = 0.0041</p>
+            <p>Z = (0.048 - 0.04) / 0.0041 = 0.008 / 0.0041 = <strong>1.95</strong></p>
+            <p class="mt-2 text-red-600">Z = 1.95 < 1.96, so NOT quite significant at p < 0.05</p>
+            <p>You'd need a slightly larger sample or larger effect to reach significance.</p>
+          </div>
+        </details>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <p class="font-medium">Exercise 3: Sample Size Calculation</p>
+        <p class="text-sm text-gray-600 mt-1">Your current checkout conversion rate is 3%. You want to detect a 15% relative improvement (to 3.45%). Approximately how many users per variant do you need?</p>
+        <details class="mt-3">
+          <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+          <div class="text-xs mt-2 bg-gray-50 p-2 rounded">
+            <p>Baseline: p = 0.03</p>
+            <p>Target: p = 0.0345</p>
+            <p>Absolute effect: δ = 0.0345 - 0.03 = 0.0045</p>
+            <p class="mt-1">Using n ≈ 16 × p(1-p) / δ²:</p>
+            <p class="font-mono">n ≈ 16 × 0.03 × 0.97 / 0.0045²</p>
+            <p class="font-mono">n ≈ 16 × 0.0291 / 0.00002025</p>
+            <p class="font-mono">n ≈ <strong>23,000 per variant</strong></p>
+            <p class="mt-2">Total: ~46,000 users for the entire test</p>
+          </div>
+        </details>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <p class="font-medium">Exercise 4: Interpret Results</p>
+        <p class="text-sm text-gray-600 mt-1">Your A/B test results show:</p>
+        <ul class="text-sm mt-1">
+          <li>• Z-score: 2.15</li>
+          <li>• Relative lift: +8%</li>
+          <li>• 95% CI for lift: [+1%, +15%]</li>
+        </ul>
+        <p class="text-sm mt-2">What would you recommend?</p>
+        <details class="mt-3">
+          <summary class="text-sm text-blue-600 cursor-pointer">Show Analysis</summary>
+          <div class="text-xs mt-2 bg-gray-50 p-2 rounded">
+            <p><strong>Statistical significance:</strong> Z = 2.15 > 1.96, so p < 0.05. ✓ Significant</p>
+            <p class="mt-1"><strong>Practical significance:</strong> +8% lift is meaningful for most businesses. ✓ Meaningful</p>
+            <p class="mt-1"><strong>Confidence interval:</strong> [+1%, +15%] doesn't include 0, consistent with significance. The true effect is likely positive.</p>
+            <p class="mt-2 text-green-600 font-medium">Recommendation: Ship it!</p>
+            <p>The effect is both statistically and practically significant. Even at the low end of the CI (+1%), there's a positive impact.</p>
+          </div>
+        </details>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <p class="font-medium">Exercise 5: SQL Analysis</p>
+        <p class="text-sm text-gray-600 mt-1">Write SQL to analyze an A/B test with the following table:</p>
+        <pre class="bg-gray-100 p-2 rounded text-xs mt-2">ab_test_data (user_id, variant, converted, revenue)</pre>
+        <p class="text-sm mt-2">Calculate: users per variant, conversions, conversion rate, revenue per user, and Z-score for conversion rate.</p>
+        <details class="mt-3">
+          <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+          <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2 overflow-x-auto"><span class="text-blue-400">WITH</span> stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        variant,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+        <span class="text-purple-400">SUM</span>(converted) <span class="text-blue-400">AS</span> conversions,
+        <span class="text-purple-400">AVG</span>(converted * 1.0) <span class="text-blue-400">AS</span> conv_rate,
+        <span class="text-purple-400">AVG</span>(revenue) <span class="text-blue-400">AS</span> avg_revenue
+    <span class="text-blue-400">FROM</span> ab_test_data
+    <span class="text-blue-400">GROUP BY</span> variant
+),
+pooled <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        <span class="text-purple-400">SUM</span>(conversions) * 1.0 / <span class="text-purple-400">SUM</span>(n) <span class="text-blue-400">AS</span> p_pooled,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant=<span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> conv_rate <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> p1,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant=<span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> conv_rate <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> p2,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant=<span class="text-green-400">'control'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n1,
+        <span class="text-purple-400">MAX</span>(<span class="text-blue-400">CASE WHEN</span> variant=<span class="text-green-400">'treatment'</span> <span class="text-blue-400">THEN</span> n <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> n2
+    <span class="text-blue-400">FROM</span> stats
+)
+<span class="text-blue-400">SELECT</span>
+    s.*,
+    <span class="text-purple-400">ROUND</span>((p2 - p1) / <span class="text-purple-400">SQRT</span>(p_pooled*(1-p_pooled)*(1.0/n1 + 1.0/n2)), 3) <span class="text-blue-400">AS</span> z_score
+<span class="text-blue-400">FROM</span> stats s, pooled;</pre>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL SUMMARY -->
+  <div class="bg-gray-100 rounded-lg p-4 mt-6">
+    <h2 class="font-bold text-lg mb-3">🎯 Key Takeaways</h2>
+    <div class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="font-semibold mb-1">Before Testing:</p>
+        <ul class="text-xs space-y-1">
+          <li>• Define one primary metric</li>
+          <li>• Calculate required sample size</li>
+          <li>• Document hypothesis and success criteria</li>
+          <li>• Choose the right test for your metric type</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">During Testing:</p>
+        <ul class="text-xs space-y-1">
+          <li>• Don't peek at p-values</li>
+          <li>• Monitor data quality, not results</li>
+          <li>• Run for full planned duration</li>
+          <li>• Watch for sample ratio mismatch</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Test Selection:</p>
+        <ul class="text-xs space-y-1">
+          <li>• Binary → Z-Test for Proportions</li>
+          <li>• Continuous → T-Test (or Mann-Whitney if skewed)</li>
+          <li>• Count → Poisson Test</li>
+          <li>• Ratio → Delta Method or Bootstrap</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">After Testing:</p>
+        <ul class="text-xs space-y-1">
+          <li>• Check statistical significance (p < 0.05)</li>
+          <li>• Check practical significance (is lift meaningful?)</li>
+          <li>• Report confidence intervals</li>
+          <li>• Document and share learnings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

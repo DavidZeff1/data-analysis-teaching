@@ -1,0 +1,672 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Data Analysis Workflow</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What Makes a Great Data Analyst?</h2>
+    <p>Technical skills are only part of the equation. Great data analysts combine SQL, Excel, and visualization skills with critical thinking, business understanding, and communication. This section covers the complete workflow and mindset you need.</p>
+    
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🔧</div>
+        <div class="font-semibold text-blue-700">Technical Skills</div>
+        <p class="text-xs text-gray-600">SQL, Excel, Python, Visualization tools</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🧠</div>
+        <div class="font-semibold text-green-700">Analytical Thinking</div>
+        <p class="text-xs text-gray-600">Problem-solving, Logic, Statistics</p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">💬</div>
+        <div class="font-semibold text-purple-700">Communication</div>
+        <p class="text-xs text-gray-600">Storytelling, Visualization, Stakeholder management</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">The Data Analysis Lifecycle</h2>
+    <p class="text-sm text-gray-600 mb-3">Every analysis follows this general flow. Iteration between steps is normal and expected.</p>
+    
+    <div class="bg-gray-100 rounded-lg p-4">
+      <div class="flex items-center justify-between text-sm">
+        <div class="text-center">
+          <div class="w-14 h-14 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto text-lg">1</div>
+          <div class="mt-2 font-medium">Define</div>
+          <div class="text-xs text-gray-500">The Question</div>
+        </div>
+        <div class="text-gray-400 text-xl">→</div>
+        <div class="text-center">
+          <div class="w-14 h-14 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto text-lg">2</div>
+          <div class="mt-2 font-medium">Collect</div>
+          <div class="text-xs text-gray-500">The Data</div>
+        </div>
+        <div class="text-gray-400 text-xl">→</div>
+        <div class="text-center">
+          <div class="w-14 h-14 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto text-lg">3</div>
+          <div class="mt-2 font-medium">Clean</div>
+          <div class="text-xs text-gray-500">& Validate</div>
+        </div>
+        <div class="text-gray-400 text-xl">→</div>
+        <div class="text-center">
+          <div class="w-14 h-14 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mx-auto text-lg">4</div>
+          <div class="mt-2 font-medium">Explore</div>
+          <div class="text-xs text-gray-500">& Analyze</div>
+        </div>
+        <div class="text-gray-400 text-xl">→</div>
+        <div class="text-center">
+          <div class="w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center font-bold mx-auto text-lg">5</div>
+          <div class="mt-2 font-medium">Communicate</div>
+          <div class="text-xs text-gray-500">Insights</div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <div class="inline-flex items-center text-xs text-gray-500">
+          <span>←</span>
+          <span class="mx-2 border border-gray-300 rounded px-2 py-1">Iterate as needed</span>
+          <span>→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 1: Define the Question</h2>
+    <p class="text-sm text-gray-600 mb-3">The most important step. A vague question leads to wasted effort and useless answers.</p>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Clarify the Business Problem</div>
+        <p class="text-sm text-gray-600 mb-2">Before touching any data, understand what decision your analysis will inform:</p>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>What decision needs to be made?</strong> (launch a product, change pricing, hire more staff)</li>
+          <li>• <strong>Who is the audience?</strong> (CEO needs summary, team needs details)</li>
+          <li>• <strong>What would success look like?</strong> (what answer format is useful)</li>
+          <li>• <strong>When is it needed?</strong> (quick answer vs. deep dive)</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Turn Vague Questions into Specific Ones</div>
+        <div class="grid grid-cols-2 gap-4 mt-2 text-sm">
+          <div class="bg-red-50 rounded p-2">
+            <div class="font-medium text-red-700 mb-1">❌ Vague</div>
+            <ul class="text-xs space-y-1">
+              <li>"How are we doing?"</li>
+              <li>"Why are sales down?"</li>
+              <li>"Is the campaign working?"</li>
+              <li>"What should we do?"</li>
+            </ul>
+          </div>
+          <div class="bg-green-50 rounded p-2">
+            <div class="font-medium text-green-700 mb-1">✓ Specific</div>
+            <ul class="text-xs space-y-1">
+              <li>"What was Q3 revenue vs Q2?"</li>
+              <li>"Which regions declined? By how much?"</li>
+              <li>"Did conversion rate increase after launch?"</li>
+              <li>"Which 3 products have highest margins?"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Questions to Ask Stakeholders</div>
+        <ul class="text-sm space-y-1">
+          <li>• "What will you do differently based on the answer?"</li>
+          <li>• "What's your hypothesis? What do you expect to see?"</li>
+          <li>• "What time period should I look at?"</li>
+          <li>• "Are there specific segments you care about?"</li>
+          <li>• "Have you looked at this before? What did you find?"</li>
+          <li>• "What does [term] mean in this context?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 2: Collect and Understand the Data</h2>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Identify Data Sources</div>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>What data exists?</strong> Databases, spreadsheets, APIs, third-party tools</li>
+          <li>• <strong>Where does it come from?</strong> User actions, system logs, manual entry</li>
+          <li>• <strong>How fresh is it?</strong> Real-time, daily, weekly updates</li>
+          <li>• <strong>Who owns it?</strong> Who to ask about definitions and access</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Understand the Data Structure</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-gray-400">-- Explore tables and columns</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> table_name <span class="text-blue-400">LIMIT</span> 10;
+
+<span class="text-gray-400">-- Check row counts</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">FROM</span> table_name;
+
+<span class="text-gray-400">-- Check date range</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">MIN</span>(date_col), <span class="text-purple-400">MAX</span>(date_col) <span class="text-blue-400">FROM</span> table_name;
+
+<span class="text-gray-400">-- Check for key columns' unique values</span>
+<span class="text-blue-400">SELECT DISTINCT</span> status <span class="text-blue-400">FROM</span> orders;</pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Create a Data Dictionary</div>
+        <p class="text-sm text-gray-600 mb-2">Document what each field means:</p>
+        <table class="text-xs border border-gray-300 w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-2 py-1 text-left">Column</th>
+              <th class="border px-2 py-1 text-left">Description</th>
+              <th class="border px-2 py-1 text-left">Type</th>
+              <th class="border px-2 py-1 text-left">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="border px-2 py-1">order_date</td><td class="border px-2 py-1">When order was placed</td><td class="border px-2 py-1">Date</td><td class="border px-2 py-1">UTC timezone</td></tr>
+            <tr><td class="border px-2 py-1">revenue</td><td class="border px-2 py-1">Order total after discounts</td><td class="border px-2 py-1">Decimal</td><td class="border px-2 py-1">Excludes tax, shipping</td></tr>
+            <tr><td class="border px-2 py-1">status</td><td class="border px-2 py-1">Order status</td><td class="border px-2 py-1">String</td><td class="border px-2 py-1">pending, complete, refunded</td></tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+        <p class="font-semibold text-yellow-800 text-sm">⚠️ Common Data Traps</p>
+        <ul class="text-sm mt-1 space-y-1">
+          <li>• <strong>Duplicate definitions:</strong> "Customer" might mean different things in different tables</li>
+          <li>• <strong>Changed definitions:</strong> Field meaning may have changed over time</li>
+          <li>• <strong>Survivorship bias:</strong> Only seeing data for things that exist today</li>
+          <li>• <strong>Hidden filters:</strong> The data you have may already be filtered</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 3: Clean and Validate</h2>
+    <p class="text-sm text-gray-600 mb-3">Never trust data blindly. Always validate before analyzing.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-3">
+      <div class="font-semibold text-blue-700">Data Quality Checklist</div>
+      <div class="grid grid-cols-2 gap-4 mt-2">
+        <div>
+          <p class="font-medium text-sm mb-1">Check for:</p>
+          <ul class="text-sm space-y-1">
+            <li>☐ Missing values (NULLs, blanks)</li>
+            <li>☐ Duplicates</li>
+            <li>☐ Outliers (unusually high/low)</li>
+            <li>☐ Invalid values (future dates, negative prices)</li>
+            <li>☐ Inconsistent formats (date formats, case)</li>
+            <li>☐ Data type issues (numbers as text)</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-medium text-sm mb-1">Validation queries:</p>
+          <pre class="bg-gray-800 text-white p-2 rounded text-xs"><span class="text-gray-400">-- NULL check</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(*) 
+<span class="text-blue-400">WHERE</span> column <span class="text-blue-400">IS NULL</span>
+
+<span class="text-gray-400">-- Duplicate check</span>
+<span class="text-blue-400">SELECT</span> id, <span class="text-purple-400">COUNT</span>(*)
+<span class="text-blue-400">GROUP BY</span> id <span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) > 1
+
+<span class="text-gray-400">-- Value distribution</span>
+<span class="text-blue-400">SELECT</span> status, <span class="text-purple-400">COUNT</span>(*)
+<span class="text-blue-400">GROUP BY</span> status</pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-3 mt-3">
+      <div class="font-semibold text-blue-700">Sanity Checks</div>
+      <p class="text-sm text-gray-600 mb-2">Compare your data against known facts:</p>
+      <ul class="text-sm space-y-1">
+        <li>• Does total revenue match finance reports?</li>
+        <li>• Does customer count match CRM?</li>
+        <li>• Are there orders on days the business was closed?</li>
+        <li>• Do averages seem reasonable for your industry?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 4: Exploratory Data Analysis (EDA)</h2>
+    <p class="text-sm text-gray-600 mb-3">Before answering specific questions, understand your data's shape and patterns.</p>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Univariate Analysis</div>
+        <p class="text-xs text-gray-600 mb-2">Examine one variable at a time:</p>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>Distribution:</strong> Histogram, box plot</li>
+          <li>• <strong>Central tendency:</strong> Mean, median, mode</li>
+          <li>• <strong>Spread:</strong> Range, std dev, IQR</li>
+          <li>• <strong>Categories:</strong> Frequency counts</li>
+        </ul>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">AVG</span>(sales),
+    <span class="text-purple-400">MIN</span>(sales),
+    <span class="text-purple-400">MAX</span>(sales),
+    <span class="text-purple-400">COUNT</span>(*)
+<span class="text-blue-400">FROM</span> orders</pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Bivariate Analysis</div>
+        <p class="text-xs text-gray-600 mb-2">Examine relationships between variables:</p>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>Correlation:</strong> Do they move together?</li>
+          <li>• <strong>Comparison:</strong> How do groups differ?</li>
+          <li>• <strong>Trends:</strong> How does Y change with X?</li>
+        </ul>
+        <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-gray-400">-- Compare by category</span>
+<span class="text-blue-400">SELECT</span>
+    region,
+    <span class="text-purple-400">AVG</span>(sales),
+    <span class="text-purple-400">COUNT</span>(*)
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> region</pre>
+      </div>
+    </div>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-3 mt-3">
+      <div class="font-semibold text-blue-700">Time Series Analysis</div>
+      <p class="text-xs text-gray-600 mb-2">For data over time, look for:</p>
+      <div class="grid grid-cols-4 gap-2 text-xs">
+        <div class="bg-gray-50 rounded p-2">
+          <strong>Trend</strong>
+          <p class="text-gray-600">Long-term direction (up, down, flat)</p>
+        </div>
+        <div class="bg-gray-50 rounded p-2">
+          <strong>Seasonality</strong>
+          <p class="text-gray-600">Repeating patterns (weekly, monthly, yearly)</p>
+        </div>
+        <div class="bg-gray-50 rounded p-2">
+          <strong>Anomalies</strong>
+          <p class="text-gray-600">Unusual spikes or drops</p>
+        </div>
+        <div class="bg-gray-50 rounded p-2">
+          <strong>Changes</strong>
+          <p class="text-gray-600">Points where pattern shifts</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-3 mt-3">
+      <div class="font-semibold text-blue-700">Segmentation</div>
+      <p class="text-xs text-gray-600 mb-2">Break down by meaningful categories:</p>
+      <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">-- Segment by customer type, region, product, channel, etc.</span>
+<span class="text-blue-400">SELECT</span>
+    customer_segment,
+    region,
+    <span class="text-purple-400">COUNT</span>(<span class="text-blue-400">DISTINCT</span> customer_id) <span class="text-blue-400">AS</span> customers,
+    <span class="text-purple-400">SUM</span>(revenue) <span class="text-blue-400">AS</span> total_revenue,
+    <span class="text-purple-400">AVG</span>(revenue) <span class="text-blue-400">AS</span> avg_order
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> customer_segment, region
+<span class="text-blue-400">ORDER BY</span> total_revenue <span class="text-blue-400">DESC</span></pre>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common Analysis Frameworks</h2>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Comparison Analysis</div>
+        <p class="text-sm text-gray-600 mb-2">Compare performance across dimensions:</p>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>Time comparison:</strong> This month vs last month, YoY</li>
+          <li>• <strong>Cohort comparison:</strong> Users who joined in Jan vs Feb</li>
+          <li>• <strong>Segment comparison:</strong> Enterprise vs SMB customers</li>
+          <li>• <strong>Benchmark comparison:</strong> Actual vs target/budget</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Funnel Analysis</div>
+        <p class="text-sm text-gray-600 mb-2">Track progression through stages:</p>
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <div class="bg-blue-500 text-white px-3 py-2 rounded">Visited<br/>10,000</div>
+          <div class="text-gray-400">→</div>
+          <div class="bg-blue-400 text-white px-3 py-2 rounded">Signed Up<br/>2,000 (20%)</div>
+          <div class="text-gray-400">→</div>
+          <div class="bg-blue-300 text-white px-3 py-2 rounded">Activated<br/>800 (40%)</div>
+          <div class="text-gray-400">→</div>
+          <div class="bg-green-500 text-white px-3 py-2 rounded">Paid<br/>200 (25%)</div>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">Identify where the biggest drop-offs occur</p>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Cohort Analysis</div>
+        <p class="text-sm text-gray-600 mb-2">Group users by when they joined, track over time:</p>
+        <table class="text-xs border border-gray-300 w-full mt-2">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-2 py-1">Cohort</th>
+              <th class="border px-2 py-1">Month 0</th>
+              <th class="border px-2 py-1">Month 1</th>
+              <th class="border px-2 py-1">Month 2</th>
+              <th class="border px-2 py-1">Month 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="border px-2 py-1 font-medium">Jan 2024</td><td class="border px-2 py-1 bg-green-200">100%</td><td class="border px-2 py-1 bg-green-100">65%</td><td class="border px-2 py-1 bg-yellow-100">45%</td><td class="border px-2 py-1 bg-yellow-100">40%</td></tr>
+            <tr><td class="border px-2 py-1 font-medium">Feb 2024</td><td class="border px-2 py-1 bg-green-200">100%</td><td class="border px-2 py-1 bg-green-100">70%</td><td class="border px-2 py-1 bg-yellow-100">50%</td><td class="border px-2 py-1"></td></tr>
+            <tr><td class="border px-2 py-1 font-medium">Mar 2024</td><td class="border px-2 py-1 bg-green-200">100%</td><td class="border px-2 py-1 bg-green-100">72%</td><td class="border px-2 py-1"></td><td class="border px-2 py-1"></td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-gray-500 mt-1">Great for retention, LTV, and behavior analysis</p>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Pareto Analysis (80/20 Rule)</div>
+        <p class="text-sm text-gray-600 mb-2">Find what drives most of the impact:</p>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">-- Which products drive 80% of revenue?</span>
+<span class="text-blue-400">SELECT</span>
+    product_name,
+    revenue,
+    <span class="text-purple-400">SUM</span>(revenue) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> revenue <span class="text-blue-400">DESC</span>) <span class="text-blue-400">AS</span> cumulative,
+    <span class="text-purple-400">SUM</span>(revenue) <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> revenue <span class="text-blue-400">DESC</span>) / 
+        <span class="text-purple-400">SUM</span>(revenue) <span class="text-blue-400">OVER</span> () <span class="text-blue-400">AS</span> cumulative_pct
+<span class="text-blue-400">FROM</span> product_sales
+<span class="text-blue-400">ORDER BY</span> revenue <span class="text-blue-400">DESC</span></pre>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Root Cause Analysis (5 Whys)</div>
+        <p class="text-sm text-gray-600 mb-2">Drill down to find the real cause:</p>
+        <div class="text-sm space-y-1">
+          <div class="flex gap-2"><span class="text-gray-500">1.</span> <strong>Why</strong> are sales down? → Fewer orders</div>
+          <div class="flex gap-2 ml-4"><span class="text-gray-500">2.</span> <strong>Why</strong> fewer orders? → Fewer website visitors</div>
+          <div class="flex gap-2 ml-8"><span class="text-gray-500">3.</span> <strong>Why</strong> fewer visitors? → Less paid traffic</div>
+          <div class="flex gap-2 ml-12"><span class="text-gray-500">4.</span> <strong>Why</strong> less paid traffic? → Budget was cut</div>
+          <div class="flex gap-2 ml-16"><span class="text-gray-500">5.</span> <strong>Why</strong> was budget cut? → ← Root cause!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Step 5: Communicate Insights</h2>
+    <p class="text-sm text-gray-600 mb-3">Your analysis is worthless if others don't understand it.</p>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Structure Your Findings</div>
+        <p class="text-sm text-gray-600 mb-2">Use the "Pyramid Principle" - lead with the answer:</p>
+        <div class="bg-gray-50 rounded p-3">
+          <div class="text-center mb-2">
+            <div class="inline-block bg-blue-500 text-white px-4 py-2 rounded font-bold">Main Insight</div>
+          </div>
+          <div class="flex justify-center gap-4 mb-2">
+            <div class="bg-blue-300 text-white px-3 py-1 rounded text-sm">Supporting Point 1</div>
+            <div class="bg-blue-300 text-white px-3 py-1 rounded text-sm">Supporting Point 2</div>
+            <div class="bg-blue-300 text-white px-3 py-1 rounded text-sm">Supporting Point 3</div>
+          </div>
+          <div class="flex justify-center gap-2">
+            <div class="bg-blue-100 px-2 py-1 rounded text-xs">Data</div>
+            <div class="bg-blue-100 px-2 py-1 rounded text-xs">Data</div>
+            <div class="bg-blue-100 px-2 py-1 rounded text-xs">Data</div>
+            <div class="bg-blue-100 px-2 py-1 rounded text-xs">Data</div>
+            <div class="bg-blue-100 px-2 py-1 rounded text-xs">Data</div>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">Don't make readers wait until the end for the conclusion</p>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">The SCQA Framework</div>
+        <p class="text-sm text-gray-600 mb-2">A storytelling structure for presentations:</p>
+        <ul class="text-sm space-y-1">
+          <li><strong>S</strong>ituation: "We launched a new product line in March..."</li>
+          <li><strong>C</strong>omplication: "...but sales have been 30% below forecast"</li>
+          <li><strong>Q</strong>uestion: "Why, and what should we do about it?"</li>
+          <li><strong>A</strong>nswer: "The issue is pricing in the SMB segment. We should..."</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Visualization Best Practices</div>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+          <div class="bg-green-50 rounded p-2">
+            <div class="font-medium text-green-700 text-sm mb-1">✓ Do</div>
+            <ul class="text-xs space-y-1">
+              <li>• Clear, descriptive titles</li>
+              <li>• Label axes and include units</li>
+              <li>• Use color purposefully</li>
+              <li>• Start bar charts at zero</li>
+              <li>• Highlight the key insight</li>
+              <li>• Keep it simple</li>
+            </ul>
+          </div>
+          <div class="bg-red-50 rounded p-2">
+            <div class="font-medium text-red-700 text-sm mb-1">✗ Don't</div>
+            <ul class="text-xs space-y-1">
+              <li>• Use 3D charts</li>
+              <li>• Truncate Y-axis to exaggerate</li>
+              <li>• Use pie charts for >5 categories</li>
+              <li>• Add chart junk (unnecessary decoration)</li>
+              <li>• Use too many colors</li>
+              <li>• Make people read a legend if you can label directly</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Make Recommendations Actionable</div>
+        <div class="grid grid-cols-2 gap-4 mt-2 text-sm">
+          <div class="bg-red-50 rounded p-2">
+            <div class="font-medium text-red-700 mb-1">❌ Vague</div>
+            <p class="text-xs">"We should improve customer retention"</p>
+          </div>
+          <div class="bg-green-50 rounded p-2">
+            <div class="font-medium text-green-700 mb-1">✓ Specific</div>
+            <p class="text-xs">"Implement a day-7 onboarding email targeting users who haven't activated, expected to improve 30-day retention by 5%"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Documentation and Reproducibility</h2>
+    
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">Document Your Analysis</div>
+        <ul class="text-sm space-y-1">
+          <li>• <strong>What question you answered</strong> - The original ask</li>
+          <li>• <strong>Data sources used</strong> - Where did data come from</li>
+          <li>• <strong>Assumptions made</strong> - What you decided and why</li>
+          <li>• <strong>Methodology</strong> - How you approached it</li>
+          <li>• <strong>Limitations</strong> - What could affect the results</li>
+          <li>• <strong>Code/queries</strong> - So others can reproduce</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-blue-700">SQL Query Organization</div>
+        <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-gray-400">/*
+Analysis: Q3 Revenue by Region
+Author: Your Name
+Date: 2024-10-15
+Request: Ticket #1234 from Sarah (Sales)
+Data Source: orders table (updated daily)
+Notes: Excludes refunded orders, uses ship_date not order_date
+*/</span>
+
+<span class="text-blue-400">WITH</span> filtered_orders <span class="text-blue-400">AS</span> (
+    <span class="text-gray-400">-- Get Q3 orders only</span>
+    <span class="text-blue-400">SELECT</span> * 
+    <span class="text-blue-400">FROM</span> orders
+    <span class="text-blue-400">WHERE</span> ship_date <span class="text-blue-400">BETWEEN</span> <span class="text-green-400">'2024-07-01'</span> <span class="text-blue-400">AND</span> <span class="text-green-400">'2024-09-30'</span>
+      <span class="text-blue-400">AND</span> status != <span class="text-green-400">'refunded'</span>
+)
+<span class="text-gray-400">-- Main analysis</span>
+<span class="text-blue-400">SELECT</span> region, <span class="text-purple-400">SUM</span>(revenue)
+<span class="text-blue-400">FROM</span> filtered_orders
+<span class="text-blue-400">GROUP BY</span> region</pre>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Common Pitfalls to Avoid</h2>
+    
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Confirmation Bias</div>
+        <p class="text-xs">Looking for data that supports what you already believe. Always try to disprove your hypothesis.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Correlation ≠ Causation</div>
+        <p class="text-xs">Two things changing together doesn't mean one causes the other. Ice cream sales and drownings both rise in summer.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Simpson's Paradox</div>
+        <p class="text-xs">A trend can reverse when you segment the data. Always check if patterns hold within subgroups.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Cherry-Picking</div>
+        <p class="text-xs">Selecting only time periods or segments that support your story. Show the full picture.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Sample Size Issues</div>
+        <p class="text-xs">"Conversion doubled from 1 to 2 users" isn't meaningful. Consider statistical significance.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="font-semibold text-red-700 text-sm">Averages Hiding Information</div>
+        <p class="text-xs">Average of 100 and 0 is 50, same as two 50s. Look at distributions, not just averages.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Metrics That Matter</h2>
+    <p class="text-sm text-gray-600 mb-3">Common business metrics you should know:</p>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Category</th>
+            <th class="border px-3 py-2 text-left">Metric</th>
+            <th class="border px-3 py-2 text-left">What It Measures</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="border px-3 py-1 font-medium" rowspan="3">Revenue</td><td class="border px-3 py-1">MRR/ARR</td><td class="border px-3 py-1">Monthly/Annual Recurring Revenue</td></tr>
+          <tr><td class="border px-3 py-1">ARPU</td><td class="border px-3 py-1">Average Revenue Per User</td></tr>
+          <tr><td class="border px-3 py-1">AOV</td><td class="border px-3 py-1">Average Order Value</td></tr>
+          <tr><td class="border px-3 py-1 font-medium" rowspan="3">Growth</td><td class="border px-3 py-1">MoM / YoY</td><td class="border px-3 py-1">Month-over-Month / Year-over-Year growth</td></tr>
+          <tr><td class="border px-3 py-1">CAC</td><td class="border px-3 py-1">Customer Acquisition Cost</td></tr>
+          <tr><td class="border px-3 py-1">LTV</td><td class="border px-3 py-1">Customer Lifetime Value</td></tr>
+          <tr><td class="border px-3 py-1 font-medium" rowspan="3">Retention</td><td class="border px-3 py-1">Churn Rate</td><td class="border px-3 py-1">% of customers who leave</td></tr>
+          <tr><td class="border px-3 py-1">Retention Rate</td><td class="border px-3 py-1">% of customers who stay</td></tr>
+          <tr><td class="border px-3 py-1">DAU/MAU</td><td class="border px-3 py-1">Daily/Monthly Active Users</td></tr>
+          <tr><td class="border px-3 py-1 font-medium" rowspan="2">Conversion</td><td class="border px-3 py-1">Conversion Rate</td><td class="border px-3 py-1">% who complete desired action</td></tr>
+          <tr><td class="border px-3 py-1">NPS</td><td class="border px-3 py-1">Net Promoter Score (satisfaction)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">The Data Analyst's Mindset</h2>
+    
+    <div class="space-y-2">
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">🔍</span>
+        <div>
+          <p class="font-medium">Be Curious</p>
+          <p class="text-sm text-gray-600">Ask "why?" repeatedly. Dig deeper when something seems off.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">⚖️</span>
+        <div>
+          <p class="font-medium">Be Skeptical</p>
+          <p class="text-sm text-gray-600">Question data sources, assumptions, and your own conclusions.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">🎯</span>
+        <div>
+          <p class="font-medium">Stay Focused</p>
+          <p class="text-sm text-gray-600">It's easy to go down rabbit holes. Remember the original question.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">📊</span>
+        <div>
+          <p class="font-medium">Let Data Speak</p>
+          <p class="text-sm text-gray-600">Be willing to find unexpected answers. Don't force a narrative.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">💬</span>
+        <div>
+          <p class="font-medium">Communicate Proactively</p>
+          <p class="text-sm text-gray-600">Share early findings, ask for feedback, manage expectations.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 bg-gray-50 rounded p-3">
+        <span class="text-xl">🔄</span>
+        <div>
+          <p class="font-medium">Iterate and Improve</p>
+          <p class="text-sm text-gray-600">First pass is rarely perfect. Refine based on feedback.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="font-bold text-lg">Quick Reference Checklist</h2>
+    <div class="bg-gray-50 rounded-lg p-4">
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <p class="font-semibold mb-2">Before Starting:</p>
+          <ul class="space-y-1">
+            <li>☐ Understand the business question</li>
+            <li>☐ Know who the audience is</li>
+            <li>☐ Confirm timeline and scope</li>
+            <li>☐ Identify data sources needed</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-2">During Analysis:</p>
+          <ul class="space-y-1">
+            <li>☐ Validate data quality</li>
+            <li>☐ Document assumptions</li>
+            <li>☐ Check for edge cases</li>
+            <li>☐ Sanity check results</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-2">Before Presenting:</p>
+          <ul class="space-y-1">
+            <li>☐ Lead with the answer</li>
+            <li>☐ Prepare for "so what?"</li>
+            <li>☐ Have supporting details ready</li>
+            <li>☐ Know limitations</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-2">After Delivery:</p>
+          <ul class="space-y-1">
+            <li>☐ Save queries and code</li>
+            <li>☐ Document methodology</li>
+            <li>☐ Get feedback</li>
+            <li>☐ Track if action was taken</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

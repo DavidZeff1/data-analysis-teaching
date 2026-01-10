@@ -1,0 +1,1819 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Statistics for Data Analysis</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Why Statistics Matters</h2>
+    <p>Statistics helps you make confident decisions from data. As a data analyst, you'll use statistics daily to summarize data, compare groups, detect patterns, and determine if your findings are real or just random noise.</p>
+    
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+      <p class="text-sm"><strong>This section covers:</strong> The practical statistics you'll actually use on the job - not academic theory, but tools for real analysis. Every concept includes real examples and exercises using sample datasets.</p>
+    </div>
+    
+    <div class="bg-gray-50 rounded-lg p-3 mt-3">
+      <p class="text-sm font-semibold">Sample Datasets Used in This Section:</p>
+      <ul class="text-sm mt-1 space-y-1">
+        <li>• <strong>E-commerce Orders:</strong> 10,000 orders with revenue, quantity, customer info</li>
+        <li>• <strong>Website Analytics:</strong> Daily visitors, conversions, bounce rates</li>
+        <li>• <strong>Employee Data:</strong> Salaries, departments, tenure, performance</li>
+        <li>• <strong>A/B Test Results:</strong> Control vs treatment conversion data</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DESCRIPTIVE STATISTICS -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">1. Descriptive Statistics</h2>
+    <p class="text-sm text-gray-600 mb-3">Summarize and describe your data. This is where every analysis starts. Before building models or running tests, you need to understand what your data looks like.</p>
+    
+    <div class="space-y-4">
+      <!-- MEAN, MEDIAN, MODE -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700 text-lg">Measures of Central Tendency</div>
+        <p class="text-sm text-gray-600 mb-3">The "center" of your data - what's typical or expected.</p>
+        
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Mean (Average)</div>
+            <p class="text-xs text-gray-600 mt-1">Sum of all values divided by count</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              (10 + 20 + 30 + 40 + 50) / 5 = 30
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Best for: Symmetric data without extreme values</p>
+            <p class="text-xs text-red-600">✗ Problem: One billionaire in a room of teachers makes the "average" salary misleading</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Median (Middle Value)</div>
+            <p class="text-xs text-gray-600 mt-1">The value that splits data in half when sorted</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              10, 20, <strong>30</strong>, 40, 50 → Median = 30<br/>
+              10, 20, <strong>30, 40</strong>, 50, 60 → Median = 35
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Best for: Skewed data, income, home prices, anything with outliers</p>
+            <p class="text-xs text-green-600">✓ Robust: Not affected by extreme values</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Mode (Most Frequent)</div>
+            <p class="text-xs text-gray-600 mt-1">The value that appears most often</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              Red, Blue, <strong>Red</strong>, Green, <strong>Red</strong> → Mode = Red
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Best for: Categorical data</p>
+            <p class="text-xs text-gray-500">Less common for continuous data</p>
+          </div>
+        </div>
+        
+        <!-- Real Example -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-yellow-800 text-sm">🏠 Real Example: Home Prices in a Neighborhood</div>
+          <div class="grid grid-cols-2 gap-4 mt-2">
+            <div>
+              <p class="text-sm">Home prices (in thousands): $250, $280, $295, $310, $320, $340, $365, $380, $2,500 (mansion)</p>
+              <ul class="text-sm mt-2 space-y-1">
+                <li><strong>Mean:</strong> $560K ← Misleading! Pulled up by mansion</li>
+                <li><strong>Median:</strong> $320K ← Better representation of "typical"</li>
+              </ul>
+            </div>
+            <div class="text-sm">
+              <p class="font-medium">When to report which:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>• Real estate listing: Median (standard practice)</li>
+                <li>• Total tax revenue estimate: Mean × Count</li>
+                <li>• "Is this price normal?": Compare to median</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- When Mean ≠ Median -->
+        <div class="bg-white border border-gray-300 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-sm">💡 The Mean vs Median Test for Skewness</div>
+          <p class="text-sm text-gray-600 mt-1">Comparing mean and median tells you about your data's shape:</p>
+          <div class="grid grid-cols-3 gap-3 mt-2 text-xs">
+            <div class="bg-gray-50 rounded p-2 text-center">
+              <div class="font-medium">Mean ≈ Median</div>
+              <p>Data is symmetric</p>
+              <p class="text-gray-500">Heights, test scores</p>
+            </div>
+            <div class="bg-orange-50 rounded p-2 text-center">
+              <div class="font-medium">Mean > Median</div>
+              <p>Right-skewed (long tail to right)</p>
+              <p class="text-gray-500">Income, home prices, sales</p>
+            </div>
+            <div class="bg-purple-50 rounded p-2 text-center">
+              <div class="font-medium">Mean < Median</div>
+              <p>Left-skewed (long tail to left)</p>
+              <p class="text-gray-500">Age at death, easy test scores</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- SQL Implementation -->
+        <div class="mt-4">
+          <div class="font-semibold text-sm">SQL Implementation</div>
+          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Calculate mean, median, and mode for order values</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-gray-400">-- Mean</span>
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_order_value,
+    
+    <span class="text-gray-400">-- Median (PostgreSQL/BigQuery syntax)</span>
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_order_value,
+    
+    <span class="text-gray-400">-- Check for skewness</span>
+    <span class="text-blue-400">CASE</span> 
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 1.05
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed (use median)'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) < <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 0.95
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Left-skewed (use median)'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Approximately symmetric (mean is fine)'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> distribution_shape
+<span class="text-blue-400">FROM</span> orders;
+
+<span class="text-gray-400">-- Mode (most common value) - useful for categorical</span>
+<span class="text-blue-400">SELECT</span> product_category, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> frequency
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> product_category
+<span class="text-blue-400">ORDER BY</span> frequency <span class="text-blue-400">DESC</span>
+<span class="text-blue-400">LIMIT</span> 1;</pre>
+        </div>
+      </div>
+      
+      <!-- MEASURES OF SPREAD -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700 text-lg">Measures of Spread (Dispersion)</div>
+        <p class="text-sm text-gray-600 mb-3">How spread out is the data? Two datasets can have the same mean but completely different spreads.</p>
+        
+        <!-- Visual Example -->
+        <div class="bg-gray-50 rounded-lg p-3 mb-4">
+          <p class="text-sm font-medium mb-2">Same Mean, Different Spread:</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="text-center">
+              <p class="text-xs mb-1">Dataset A: Low Spread</p>
+              <div class="flex justify-center items-end h-16 gap-1">
+                <div class="w-4 bg-blue-200 h-4"></div>
+                <div class="w-4 bg-blue-300 h-8"></div>
+                <div class="w-4 bg-blue-500 h-16"></div>
+                <div class="w-4 bg-blue-300 h-8"></div>
+                <div class="w-4 bg-blue-200 h-4"></div>
+              </div>
+              <p class="text-xs mt-1">Values: 48, 49, 50, 51, 52 (Mean=50)</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs mb-1">Dataset B: High Spread</p>
+              <div class="flex justify-center items-end h-16 gap-1">
+                <div class="w-4 bg-orange-300 h-8"></div>
+                <div class="w-4 bg-orange-200 h-4"></div>
+                <div class="w-4 bg-orange-500 h-12"></div>
+                <div class="w-4 bg-orange-200 h-4"></div>
+                <div class="w-4 bg-orange-300 h-8"></div>
+              </div>
+              <p class="text-xs mt-1">Values: 10, 30, 50, 70, 90 (Mean=50)</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Range</div>
+            <p class="text-xs text-gray-600">Maximum - Minimum</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              Range of [10, 30, 50, 70, 90] = 90 - 10 = 80
+            </div>
+            <p class="text-xs text-orange-600 mt-2">⚠️ Very sensitive to outliers - one extreme value changes everything</p>
+            <p class="text-xs text-gray-500">Use for: Quick sanity check, data validation</p>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Interquartile Range (IQR)</div>
+            <p class="text-xs text-gray-600">Q3 - Q1 (the middle 50% of data)</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              If Q1=25, Q3=75 → IQR = 75 - 25 = 50
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Robust to outliers</p>
+            <p class="text-xs text-gray-500">Use for: Box plots, outlier detection</p>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm">Variance (σ²)</div>
+            <p class="text-xs text-gray-600">Average of squared deviations from mean</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs">
+              <p>For each value: (value - mean)²</p>
+              <p>Then average all those squared differences</p>
+            </div>
+            <p class="text-xs text-orange-600 mt-2">⚠️ Units are squared (dollars² doesn't make sense)</p>
+            <p class="text-xs text-gray-500">Mostly used in calculations, not reporting</p>
+          </div>
+          
+          <div class="bg-blue-50 rounded p-3 border border-blue-200">
+            <div class="font-medium text-sm">Standard Deviation (σ) ⭐</div>
+            <p class="text-xs text-gray-600">Square root of variance - same units as data</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs font-mono">
+              If mean = $50, std dev = $10<br/>
+              → Most values are within $10 of $50
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Most commonly used measure of spread</p>
+            <p class="text-xs text-gray-500">Use for: Everything - reporting, comparisons, outlier detection</p>
+          </div>
+        </div>
+        
+        <!-- Real Example -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-yellow-800 text-sm">📊 Real Example: Comparing Two Sales Teams</div>
+          <div class="grid grid-cols-2 gap-4 mt-2">
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Team A (Consistent)</p>
+              <p class="text-xs">Daily sales: $4,800, $5,100, $4,900, $5,200, $5,000</p>
+              <ul class="text-xs mt-1">
+                <li>Mean: $5,000</li>
+                <li>Std Dev: $158</li>
+              </ul>
+              <p class="text-xs text-green-600 mt-1">Predictable, reliable</p>
+            </div>
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Team B (Volatile)</p>
+              <p class="text-xs">Daily sales: $2,000, $8,000, $3,000, $9,000, $3,000</p>
+              <ul class="text-xs mt-1">
+                <li>Mean: $5,000</li>
+                <li>Std Dev: $3,162</li>
+              </ul>
+              <p class="text-xs text-orange-600 mt-1">Same average, but wildly inconsistent</p>
+            </div>
+          </div>
+          <p class="text-sm mt-2"><strong>Business insight:</strong> Both teams average $5K/day, but Team A is much more consistent. For forecasting and planning, Team A is more reliable.</p>
+        </div>
+        
+        <!-- Coefficient of Variation -->
+        <div class="bg-white border border-gray-300 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-sm">💡 Coefficient of Variation (CV): Comparing Apples to Oranges</div>
+          <p class="text-sm text-gray-600 mt-1">When comparing spread across different scales, use CV = (Std Dev / Mean) × 100%</p>
+          <div class="grid grid-cols-2 gap-3 mt-2 text-xs">
+            <div class="bg-gray-50 rounded p-2">
+              <p class="font-medium">Revenue: Mean=$1M, StdDev=$200K</p>
+              <p>CV = 200K / 1M = 20%</p>
+            </div>
+            <div class="bg-gray-50 rounded p-2">
+              <p class="font-medium">Units Sold: Mean=500, StdDev=150</p>
+              <p>CV = 150 / 500 = 30%</p>
+            </div>
+          </div>
+          <p class="text-sm mt-2">Units sold is relatively MORE variable (30% vs 20%), even though the absolute numbers are smaller.</p>
+        </div>
+        
+        <!-- SQL Implementation -->
+        <div class="mt-4">
+          <div class="font-semibold text-sm">SQL Implementation</div>
+          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Complete spread analysis</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+    <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> min_value,
+    <span class="text-purple-400">MAX</span>(order_value) <span class="text-blue-400">AS</span> max_value,
+    <span class="text-purple-400">MAX</span>(order_value) - <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> range_value,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">VARIANCE</span>(order_value), 2) <span class="text-blue-400">AS</span> variance,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
+<span class="text-blue-400">FROM</span> orders;
+
+<span class="text-gray-400">-- Compare spread across segments</span>
+<span class="text-blue-400">SELECT</span>
+    customer_segment,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> customer_segment
+<span class="text-blue-400">ORDER BY</span> cv_percent <span class="text-blue-400">DESC</span>;</pre>
+        </div>
+      </div>
+      
+      <!-- PERCENTILES AND QUARTILES -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700 text-lg">Percentiles and Quartiles</div>
+        <p class="text-sm text-gray-600 mb-3">Divide your data into equal parts to understand the full distribution, not just the center.</p>
+        
+        <!-- Visual Explanation -->
+        <div class="bg-gray-50 rounded-lg p-3 mb-4">
+          <p class="text-sm font-medium mb-2">Quartiles divide data into 4 equal parts:</p>
+          <div class="flex items-center gap-1 text-xs font-mono">
+            <div class="text-center">
+              <div class="h-8 w-1 bg-gray-400 mx-auto"></div>
+              <div>Min</div>
+              <div class="text-gray-500">0%</div>
+            </div>
+            <div class="flex-1 h-8 bg-blue-200 rounded-l flex items-center justify-center">
+              <span class="bg-white px-1 rounded text-xs">25% of data</span>
+            </div>
+            <div class="text-center">
+              <div class="h-12 w-1 bg-blue-600 mx-auto"></div>
+              <div class="font-bold">Q1</div>
+              <div class="text-gray-500">25th</div>
+            </div>
+            <div class="flex-1 h-8 bg-blue-300 flex items-center justify-center">
+              <span class="bg-white px-1 rounded text-xs">25% of data</span>
+            </div>
+            <div class="text-center">
+              <div class="h-12 w-1 bg-blue-600 mx-auto"></div>
+              <div class="font-bold">Q2</div>
+              <div class="text-gray-500">Median</div>
+            </div>
+            <div class="flex-1 h-8 bg-blue-300 flex items-center justify-center">
+              <span class="bg-white px-1 rounded text-xs">25% of data</span>
+            </div>
+            <div class="text-center">
+              <div class="h-12 w-1 bg-blue-600 mx-auto"></div>
+              <div class="font-bold">Q3</div>
+              <div class="text-gray-500">75th</div>
+            </div>
+            <div class="flex-1 h-8 bg-blue-200 rounded-r flex items-center justify-center">
+              <span class="bg-white px-1 rounded text-xs">25% of data</span>
+            </div>
+            <div class="text-center">
+              <div class="h-8 w-1 bg-gray-400 mx-auto"></div>
+              <div>Max</div>
+              <div class="text-gray-500">100%</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Common Percentiles Used -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="font-medium text-sm mb-2">Key Percentiles and Their Uses:</p>
+            <table class="text-xs border border-gray-300 w-full">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="border px-2 py-1">Percentile</th>
+                  <th class="border px-2 py-1">Meaning</th>
+                  <th class="border px-2 py-1">Common Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="border px-2 py-1">P10</td><td class="border px-2 py-1">10% below this</td><td class="border px-2 py-1">Low performers</td></tr>
+                <tr><td class="border px-2 py-1">P25 (Q1)</td><td class="border px-2 py-1">25% below this</td><td class="border px-2 py-1">Box plot, IQR</td></tr>
+                <tr><td class="border px-2 py-1">P50 (Median)</td><td class="border px-2 py-1">50% below this</td><td class="border px-2 py-1">Typical value</td></tr>
+                <tr><td class="border px-2 py-1">P75 (Q3)</td><td class="border px-2 py-1">75% below this</td><td class="border px-2 py-1">Box plot, IQR</td></tr>
+                <tr><td class="border px-2 py-1">P90</td><td class="border px-2 py-1">90% below this</td><td class="border px-2 py-1">Performance SLAs</td></tr>
+                <tr><td class="border px-2 py-1">P95</td><td class="border px-2 py-1">95% below this</td><td class="border px-2 py-1">Latency targets</td></tr>
+                <tr><td class="border px-2 py-1">P99</td><td class="border px-2 py-1">99% below this</td><td class="border px-2 py-1">Extreme cases</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <p class="font-medium text-sm mb-2">Interpreting Percentiles:</p>
+            <div class="bg-gray-50 rounded p-2 text-sm">
+              <p><strong>"Your salary is at the 75th percentile"</strong></p>
+              <p class="text-xs text-gray-600 mt-1">= You earn more than 75% of people</p>
+              <p class="text-xs text-gray-600">= Only 25% earn more than you</p>
+            </div>
+            <div class="bg-gray-50 rounded p-2 text-sm mt-2">
+              <p><strong>"P95 response time is 200ms"</strong></p>
+              <p class="text-xs text-gray-600 mt-1">= 95% of requests complete in ≤200ms</p>
+              <p class="text-xs text-gray-600">= Only 5% take longer than 200ms</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Real Example: API Performance -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-yellow-800 text-sm">⚡ Real Example: API Response Time Analysis</div>
+          <p class="text-sm mt-1">Your API team reports "average response time is 50ms." But is that the full picture?</p>
+          
+          <table class="text-xs border border-gray-300 mt-2 w-full bg-white">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1">Metric</th>
+                <th class="border px-2 py-1">Value</th>
+                <th class="border px-2 py-1">Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="border px-2 py-1">Mean</td><td class="border px-2 py-1">50ms</td><td class="border px-2 py-1">Average (but skewed by slow requests)</td></tr>
+              <tr><td class="border px-2 py-1">Median (P50)</td><td class="border px-2 py-1">25ms</td><td class="border px-2 py-1">Half of requests are faster than this</td></tr>
+              <tr><td class="border px-2 py-1">P90</td><td class="border px-2 py-1">80ms</td><td class="border px-2 py-1">90% of users experience ≤80ms</td></tr>
+              <tr><td class="border px-2 py-1">P95</td><td class="border px-2 py-1">150ms</td><td class="border px-2 py-1">5% experience >150ms (getting slow)</td></tr>
+              <tr class="bg-red-50"><td class="border px-2 py-1">P99</td><td class="border px-2 py-1">500ms</td><td class="border px-2 py-1">1% experience >500ms (unacceptable!)</td></tr>
+            </tbody>
+          </table>
+          
+          <p class="text-sm mt-2"><strong>Business insight:</strong> The mean hides the problem! While most requests are fast, 1% of users (could be thousands daily) have a terrible experience. Focus on P99 for reliability.</p>
+        </div>
+        
+        <!-- SQL Implementation -->
+        <div class="mt-4">
+          <div class="font-semibold text-sm">SQL Implementation</div>
+          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Complete percentile analysis</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.10) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p10,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p25_q1,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.50) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p50_median,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p75_q3,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.90) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p90,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.95) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p95,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p99,
+    <span class="text-gray-400">-- IQR for outlier detection</span>
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) -
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> iqr
+<span class="text-blue-400">FROM</span> api_logs
+<span class="text-blue-400">WHERE</span> date = <span class="text-green-400">'2024-01-15'</span>;
+
+<span class="text-gray-400">-- Which percentile is a specific value?</span>
+<span class="text-blue-400">SELECT</span>
+    employee_name,
+    salary,
+    <span class="text-purple-400">PERCENT_RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> salary) * 100 <span class="text-blue-400">AS</span> salary_percentile
+<span class="text-blue-400">FROM</span> employees;</pre>
+        </div>
+      </div>
+      
+      <!-- EXERCISES FOR DESCRIPTIVE STATS -->
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div class="font-semibold text-green-800 text-lg">📝 Exercises: Descriptive Statistics</div>
+        <p class="text-sm text-gray-600 mb-3">Using an e-commerce orders table with columns: order_id, customer_id, order_date, order_value, quantity, product_category, region</p>
+        
+        <div class="space-y-4">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 1: Basic Summary Statistics</p>
+            <p class="text-sm text-gray-600">Calculate the mean, median, standard deviation, min, and max of order_value. Is the distribution skewed?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_value,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
+    <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> min_value,
+    <span class="text-purple-400">MAX</span>(order_value) <span class="text-blue-400">AS</span> max_value,
+    <span class="text-blue-400">CASE</span> <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value)
+         <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed'</span> <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Symmetric or left-skewed'</span> <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> skewness
+<span class="text-blue-400">FROM</span> orders;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 2: Compare Regions</p>
+            <p class="text-sm text-gray-600">Which region has the highest average order value? Which has the most consistent orders (lowest CV)?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    region,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> order_count,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> avg_order_value,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> region
+<span class="text-blue-400">ORDER BY</span> avg_order_value <span class="text-blue-400">DESC</span>;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 3: Percentile Analysis</p>
+            <p class="text-sm text-gray-600">Find the P10, P50, P90, and P99 of order values. How much do the top 1% of orders spend?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.10) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p10,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.50) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p50_median,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.90) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p90,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p99_top_1_pct
+<span class="text-blue-400">FROM</span> orders;
+
+<span class="text-gray-400">-- Top 1% orders (what's their total contribution?)</span>
+<span class="text-blue-400">WITH</span> percentiles <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p99 <span class="text-blue-400">FROM</span> orders
+)
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> top_1_pct_orders,
+    <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">AS</span> top_1_pct_revenue,
+    <span class="text-purple-400">SUM</span>(order_value) / (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">FROM</span> orders) * 100 <span class="text-blue-400">AS</span> pct_of_total_revenue
+<span class="text-blue-400">FROM</span> orders, percentiles
+<span class="text-blue-400">WHERE</span> order_value >= p99;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 4: Daily Sales Variability</p>
+            <p class="text-sm text-gray-600">Calculate daily total sales, then find the mean and std dev of daily sales. On how many days were sales more than 2 std devs above average?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">WITH</span> daily_sales <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> order_date, <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">AS</span> daily_total
+    <span class="text-blue-400">FROM</span> orders <span class="text-blue-400">GROUP BY</span> order_date
+),
+stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(daily_total) <span class="text-blue-400">AS</span> mean_daily, <span class="text-purple-400">STDDEV</span>(daily_total) <span class="text-blue-400">AS</span> std_daily
+    <span class="text-blue-400">FROM</span> daily_sales
+)
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> exceptional_days,
+    <span class="text-purple-400">AVG</span>(daily_total) <span class="text-blue-400">AS</span> avg_exceptional_sales
+<span class="text-blue-400">FROM</span> daily_sales, stats
+<span class="text-blue-400">WHERE</span> daily_total > mean_daily + 2 * std_daily;</pre>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTIONS -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">2. Understanding Distributions</h2>
+    <p class="text-sm text-gray-600 mb-3">The shape of your data determines which statistics and tests are appropriate.</p>
+    
+    <div class="space-y-4">
+      <!-- Distribution Shapes -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700 text-lg">Common Distribution Shapes</div>
+        
+        <div class="grid grid-cols-3 gap-4 mt-3">
+          <div class="text-center bg-gray-50 rounded-lg p-3">
+            <svg class="w-full h-24" viewBox="0 0 100 60">
+              <path d="M 5 55 Q 20 55 30 40 Q 50 5 70 40 Q 80 55 95 55" fill="none" stroke="#22c55e" stroke-width="3"/>
+              <line x1="50" y1="5" x2="50" y2="58" stroke="#666" stroke-dasharray="3"/>
+              <text x="50" y="58" font-size="8" fill="#666" text-anchor="middle">mean=median</text>
+            </svg>
+            <div class="font-medium text-sm mt-1">Normal (Bell Curve)</div>
+            <p class="text-xs text-gray-600">Symmetric around the mean</p>
+            <p class="text-xs text-green-600 mt-1">Examples: Heights, IQ scores, measurement errors</p>
+          </div>
+          <div class="text-center bg-gray-50 rounded-lg p-3">
+            <svg class="w-full h-24" viewBox="0 0 100 60">
+              <path d="M 5 55 Q 10 55 15 30 Q 25 5 35 20 Q 55 45 95 55" fill="none" stroke="#f59e0b" stroke-width="3"/>
+              <line x1="20" y1="5" x2="20" y2="58" stroke="#22c55e" stroke-dasharray="3"/>
+              <line x1="40" y1="20" x2="40" y2="58" stroke="#ef4444" stroke-dasharray="3"/>
+              <text x="20" y="58" font-size="6" fill="#22c55e" text-anchor="middle">median</text>
+              <text x="40" y="58" font-size="6" fill="#ef4444" text-anchor="middle">mean</text>
+            </svg>
+            <div class="font-medium text-sm mt-1">Right Skewed (Positive)</div>
+            <p class="text-xs text-gray-600">Long tail to the right, mean > median</p>
+            <p class="text-xs text-orange-600 mt-1">Examples: Income, home prices, website visits, sales</p>
+          </div>
+          <div class="text-center bg-gray-50 rounded-lg p-3">
+            <svg class="w-full h-24" viewBox="0 0 100 60">
+              <path d="M 5 55 Q 45 45 65 20 Q 75 5 85 30 Q 90 55 95 55" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+              <line x1="60" y1="20" x2="60" y2="58" stroke="#ef4444" stroke-dasharray="3"/>
+              <line x1="80" y1="5" x2="80" y2="58" stroke="#22c55e" stroke-dasharray="3"/>
+              <text x="60" y="58" font-size="6" fill="#ef4444" text-anchor="middle">mean</text>
+              <text x="80" y="58" font-size="6" fill="#22c55e" text-anchor="middle">median</text>
+            </svg>
+            <div class="font-medium text-sm mt-1">Left Skewed (Negative)</div>
+            <p class="text-xs text-gray-600">Long tail to the left, mean < median</p>
+            <p class="text-xs text-purple-600 mt-1">Examples: Age at death, easy test scores, time to failure</p>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="text-center bg-gray-50 rounded-lg p-3">
+            <svg class="w-full h-20" viewBox="0 0 100 50">
+              <rect x="10" y="35" width="80" height="10" fill="#3b82f6"/>
+            </svg>
+            <div class="font-medium text-sm mt-1">Uniform</div>
+            <p class="text-xs text-gray-600">All values equally likely</p>
+            <p class="text-xs text-blue-600 mt-1">Examples: Dice rolls, random number generators</p>
+          </div>
+          <div class="text-center bg-gray-50 rounded-lg p-3">
+            <svg class="w-full h-20" viewBox="0 0 100 50">
+              <path d="M 5 45 L 5 10 Q 30 45 95 45" fill="none" stroke="#ef4444" stroke-width="3"/>
+            </svg>
+            <div class="font-medium text-sm mt-1">Exponential</div>
+            <p class="text-xs text-gray-600">Many small values, few large</p>
+            <p class="text-xs text-red-600 mt-1">Examples: Time between events, customer lifetime</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- The Normal Distribution Deep Dive -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700 text-lg">The Normal Distribution (Deep Dive)</div>
+        <p class="text-sm text-gray-600 mb-3">The most important distribution in statistics. Many natural phenomena follow it, and many statistical tests assume it.</p>
+        
+        <!-- 68-95-99.7 Rule -->
+        <div class="bg-green-50 rounded-lg p-3">
+          <div class="font-medium text-sm mb-2">The 68-95-99.7 Rule (Empirical Rule)</div>
+          <div class="flex items-end justify-center gap-0 text-xs h-32">
+            <div class="text-center">
+              <div class="w-6 h-4 bg-gray-300 rounded-t"></div>
+              <div class="text-gray-500">-3σ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-8 h-8 bg-blue-200 rounded-t"></div>
+              <div class="text-gray-500">-2σ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-10 h-16 bg-blue-300 rounded-t"></div>
+              <div class="text-gray-500">-1σ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-28 bg-blue-500 rounded-t"></div>
+              <div class="font-bold">μ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-10 h-16 bg-blue-300 rounded-t"></div>
+              <div class="text-gray-500">+1σ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-8 h-8 bg-blue-200 rounded-t"></div>
+              <div class="text-gray-500">+2σ</div>
+            </div>
+            <div class="text-center">
+              <div class="w-6 h-4 bg-gray-300 rounded-t"></div>
+              <div class="text-gray-500">+3σ</div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-2 mt-3 text-sm">
+            <div class="bg-white rounded p-2 text-center">
+              <div class="font-bold text-blue-600">68%</div>
+              <p class="text-xs">within 1 std dev</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center">
+              <div class="font-bold text-blue-600">95%</div>
+              <p class="text-xs">within 2 std devs</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center">
+              <div class="font-bold text-blue-600">99.7%</div>
+              <p class="text-xs">within 3 std devs</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Real Example -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-yellow-800 text-sm">📊 Real Example: Employee Performance Scores</div>
+          <p class="text-sm mt-1">Your company's performance scores follow a normal distribution with mean = 75 and std dev = 10.</p>
+          
+          <div class="grid grid-cols-2 gap-4 mt-2">
+            <div class="bg-white rounded p-2 text-sm">
+              <p class="font-medium">Using the 68-95-99.7 rule:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>• 68% score between 65-85</li>
+                <li>• 95% score between 55-95</li>
+                <li>• 99.7% score between 45-105</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded p-2 text-sm">
+              <p class="font-medium">Practical applications:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>• Score of 95+ is top ~2.5% (exceptional)</li>
+                <li>• Score below 55 is bottom ~2.5% (concern)</li>
+                <li>• Score of 100 is ~2.5 std devs above mean (rare)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Z-Scores -->
+        <div class="bg-white border border-gray-300 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-sm">Z-Score: Standardizing Values</div>
+          <p class="text-sm text-gray-600 mt-1">A Z-score tells you how many standard deviations a value is from the mean.</p>
+          
+          <div class="bg-gray-50 rounded p-3 mt-2 text-center">
+            <p class="font-mono text-lg">Z = (Value - Mean) / Std Dev</p>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-3 mt-3 text-sm">
+            <div class="bg-gray-50 rounded p-2">
+              <p class="font-medium">Example: Is a $150 order unusual?</p>
+              <p class="text-xs mt-1">If mean = $100, std dev = $25:</p>
+              <p class="text-xs font-mono mt-1">Z = (150 - 100) / 25 = 2.0</p>
+              <p class="text-xs text-green-600 mt-1">2 std devs above mean → top ~2.5%</p>
+            </div>
+            <div class="bg-gray-50 rounded p-2">
+              <p class="font-medium">Interpreting Z-scores:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>|Z| < 1: Common (68% of data)</li>
+                <li>|Z| 1-2: Somewhat unusual</li>
+                <li>|Z| 2-3: Unusual (~5% of data)</li>
+                <li>|Z| > 3: Very rare, possible outlier</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Why Distributions Matter -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700 text-lg">Why Distribution Shape Matters</div>
+        
+        <div class="overflow-x-auto mt-3">
+          <table class="text-sm border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-3 py-2 text-left">If your data is...</th>
+                <th class="border px-3 py-2 text-left">Use this for center</th>
+                <th class="border px-3 py-2 text-left">Use this for spread</th>
+                <th class="border px-3 py-2 text-left">Statistical tests</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border px-3 py-1">Normal (symmetric)</td>
+                <td class="border px-3 py-1">Mean</td>
+                <td class="border px-3 py-1">Standard deviation</td>
+                <td class="border px-3 py-1">t-test, ANOVA, Pearson correlation</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1">Skewed</td>
+                <td class="border px-3 py-1">Median</td>
+                <td class="border px-3 py-1">IQR, percentiles</td>
+                <td class="border px-3 py-1">Mann-Whitney, Kruskal-Wallis, Spearman</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1">Has outliers</td>
+                <td class="border px-3 py-1">Median or trimmed mean</td>
+                <td class="border px-3 py-1">IQR</td>
+                <td class="border px-3 py-1">Non-parametric tests</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Exercises -->
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div class="font-semibold text-green-800 text-lg">📝 Exercises: Distributions</div>
+        
+        <div class="space-y-4 mt-3">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 5: Identify the Distribution</p>
+            <p class="text-sm text-gray-600">Calculate mean and median for order_value. Based on the comparison, what's the likely distribution shape?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val,
+    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_val,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 1.1
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed: A few large orders pull up the mean'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) < <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 0.9
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Left-skewed: A few small orders pull down the mean'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Approximately normal/symmetric'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> distribution_interpretation
+<span class="text-blue-400">FROM</span> orders;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 6: Z-Score Analysis</p>
+            <p class="text-sm text-gray-600">Calculate the Z-score for each order. Flag orders with |Z| > 2 as "unusual" and |Z| > 3 as "extreme".</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">WITH</span> stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val, <span class="text-purple-400">STDDEV</span>(order_value) <span class="text-blue-400">AS</span> std_val
+    <span class="text-blue-400">FROM</span> orders
+)
+<span class="text-blue-400">SELECT</span>
+    order_id,
+    order_value,
+    <span class="text-purple-400">ROUND</span>((order_value - mean_val) / std_val, 2) <span class="text-blue-400">AS</span> z_score,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 3 <span class="text-blue-400">THEN</span> <span class="text-green-400">'EXTREME'</span>
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 2 <span class="text-blue-400">THEN</span> <span class="text-green-400">'UNUSUAL'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'NORMAL'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> flag
+<span class="text-blue-400">FROM</span> orders, stats
+<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) <span class="text-blue-400">DESC</span>
+<span class="text-blue-400">LIMIT</span> 20;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 7: Distribution by Segment</p>
+            <p class="text-sm text-gray-600">Compare the distribution shape (mean vs median) across different customer segments. Which segment has the most skewed distribution?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    customer_segment,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_val,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value), 2) <span class="text-blue-400">AS</span> median_val,
+    <span class="text-purple-400">ROUND</span>((<span class="text-purple-400">AVG</span>(order_value) - <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value)) / 
+          <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 100, 2) <span class="text-blue-400">AS</span> skew_indicator_pct
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> customer_segment
+<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">ABS</span>((<span class="text-purple-400">AVG</span>(order_value) - <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value))) <span class="text-blue-400">DESC</span>;</pre>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORRELATION -->
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">3. Correlation</h2>
+    <p class="text-sm text-gray-600 mb-3">Measure how strongly two variables are related. Essential for finding patterns and building predictive models.</p>
+    
+    <div class="space-y-4">
+      <!-- What is Correlation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700 text-lg">Understanding Correlation</div>
+        <p class="text-sm text-gray-600 mb-3">Correlation measures the strength and direction of a LINEAR relationship between two variables.</p>
+        
+        <!-- Visual Examples -->
+        <div class="grid grid-cols-5 gap-2 text-xs text-center">
+          <div>
+            <div class="w-full h-20 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+              <svg viewBox="0 0 50 50" class="w-16 h-16">
+                <circle cx="10" cy="40" r="2" fill="#ef4444"/>
+                <circle cx="15" cy="35" r="2" fill="#ef4444"/>
+                <circle cx="22" cy="28" r="2" fill="#ef4444"/>
+                <circle cx="30" cy="22" r="2" fill="#ef4444"/>
+                <circle cx="38" cy="15" r="2" fill="#ef4444"/>
+                <circle cx="45" cy="8" r="2" fill="#ef4444"/>
+              </svg>
+            </div>
+            <div class="font-bold text-red-600 mt-1">r = -1</div>
+            <div>Perfect negative</div>
+          </div>
+          <div>
+            <div class="w-full h-20 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+              <svg viewBox="0 0 50 50" class="w-16 h-16">
+                <circle cx="8" cy="38" r="2" fill="#f97316"/>
+                <circle cx="18" cy="28" r="2" fill="#f97316"/>
+                <circle cx="15" cy="35" r="2" fill="#f97316"/>
+                <circle cx="28" cy="22" r="2" fill="#f97316"/>
+                <circle cx="35" cy="18" r="2" fill="#f97316"/>
+                <circle cx="42" cy="12" r="2" fill="#f97316"/>
+              </svg>
+            </div>
+            <div class="font-bold text-orange-600 mt-1">r ≈ -0.7</div>
+            <div>Strong negative</div>
+          </div>
+          <div>
+            <div class="w-full h-20 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+              <svg viewBox="0 0 50 50" class="w-16 h-16">
+                <circle cx="10" cy="15" r="2" fill="#666"/>
+                <circle cx="15" cy="38" r="2" fill="#666"/>
+                <circle cx="25" cy="25" r="2" fill="#666"/>
+                <circle cx="30" cy="10" r="2" fill="#666"/>
+                <circle cx="38" cy="42" r="2" fill="#666"/>
+                <circle cx="45" cy="20" r="2" fill="#666"/>
+              </svg>
+            </div>
+            <div class="font-bold text-gray-600 mt-1">r ≈ 0</div>
+            <div>No correlation</div>
+          </div>
+          <div>
+            <div class="w-full h-20 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+              <svg viewBox="0 0 50 50" class="w-16 h-16">
+                <circle cx="8" cy="42" r="2" fill="#3b82f6"/>
+                <circle cx="15" cy="38" r="2" fill="#3b82f6"/>
+                <circle cx="22" cy="28" r="2" fill="#3b82f6"/>
+                <circle cx="30" cy="25" r="2" fill="#3b82f6"/>
+                <circle cx="38" cy="15" r="2" fill="#3b82f6"/>
+                <circle cx="45" cy="10" r="2" fill="#3b82f6"/>
+              </svg>
+            </div>
+            <div class="font-bold text-blue-600 mt-1">r ≈ +0.7</div>
+            <div>Strong positive</div>
+          </div>
+          <div>
+            <div class="w-full h-20 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+              <svg viewBox="0 0 50 50" class="w-16 h-16">
+                <circle cx="8" cy="42" r="2" fill="#22c55e"/>
+                <circle cx="15" cy="35" r="2" fill="#22c55e"/>
+                <circle cx="22" cy="28" r="2" fill="#22c55e"/>
+                <circle cx="30" cy="22" r="2" fill="#22c55e"/>
+                <circle cx="38" cy="15" r="2" fill="#22c55e"/>
+                <circle cx="45" cy="8" r="2" fill="#22c55e"/>
+              </svg>
+            </div>
+            <div class="font-bold text-green-600 mt-1">r = +1</div>
+            <div>Perfect positive</div>
+          </div>
+        </div>
+        
+        <!-- Interpretation Guide -->
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm mb-2">Interpreting Correlation Strength:</p>
+            <table class="text-xs w-full">
+              <tr><td class="py-1">|r| < 0.3</td><td>Weak</td><td class="text-gray-500">Barely related</td></tr>
+              <tr><td class="py-1">|r| 0.3 - 0.5</td><td>Moderate</td><td class="text-gray-500">Some relationship</td></tr>
+              <tr><td class="py-1">|r| 0.5 - 0.7</td><td>Strong</td><td class="text-gray-500">Clear relationship</td></tr>
+              <tr><td class="py-1">|r| > 0.7</td><td>Very strong</td><td class="text-gray-500">Tight relationship</td></tr>
+            </table>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm mb-2">Real-World Correlation Examples:</p>
+            <ul class="text-xs space-y-1">
+              <li><strong>+0.9:</strong> Height & Weight</li>
+              <li><strong>+0.7:</strong> Ad spend & Revenue</li>
+              <li><strong>+0.5:</strong> Education & Income</li>
+              <li><strong>-0.6:</strong> Price & Quantity demanded</li>
+              <li><strong>-0.3:</strong> Age & Technology adoption</li>
+              <li><strong>0:</strong> Shoe size & Intelligence</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CRITICAL: Correlation ≠ Causation -->
+      <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4">
+        <div class="font-semibold text-red-700 text-lg">⚠️ CRITICAL: Correlation Does NOT Mean Causation</div>
+        <p class="text-sm mt-2">This is the single most important concept in statistics. Just because two things are correlated doesn't mean one causes the other.</p>
+        
+        <div class="grid grid-cols-3 gap-3 mt-3">
+          <div class="bg-white rounded p-2">
+            <p class="font-medium text-sm text-red-700">Spurious Correlation</p>
+            <p class="text-xs mt-1">"Ice cream sales" correlates with "Drowning deaths"</p>
+            <p class="text-xs text-gray-500 mt-1">Both caused by a third factor: Hot weather</p>
+          </div>
+          <div class="bg-white rounded p-2">
+            <p class="font-medium text-sm text-red-700">Confounding Variable</p>
+            <p class="text-xs mt-1">"Shoe size" correlates with "Reading ability" in children</p>
+            <p class="text-xs text-gray-500 mt-1">Both caused by age - older kids have bigger feet AND read better</p>
+          </div>
+          <div class="bg-white rounded p-2">
+            <p class="font-medium text-sm text-red-700">Reverse Causation</p>
+            <p class="text-xs mt-1">"Hospital visits" correlates with "Deaths"</p>
+            <p class="text-xs text-gray-500 mt-1">Sick people go to hospitals, not hospitals making people sick</p>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded p-3 mt-3">
+          <p class="font-medium text-sm">How to establish causation:</p>
+          <ul class="text-sm mt-1 space-y-1">
+            <li>• <strong>Randomized controlled experiment (A/B test)</strong> - Gold standard</li>
+            <li>• <strong>Natural experiment</strong> - External event creates random groups</li>
+            <li>• <strong>Instrumental variables</strong> - Advanced econometric technique</li>
+            <li>• <strong>Time ordering + theory</strong> - Cause must precede effect, plus logical explanation</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- R-Squared -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700 text-lg">R-Squared (R²): Explained Variance</div>
+        <p class="text-sm text-gray-600 mb-3">R² is the square of correlation. It tells you what percentage of variance in Y is "explained" by X.</p>
+        
+        <div class="bg-gray-50 rounded p-3">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="font-medium text-sm">If r = 0.7:</p>
+              <p class="text-sm">R² = 0.7² = 0.49 = 49%</p>
+              <p class="text-xs text-gray-600 mt-1">"49% of the variance in Y can be explained by X"</p>
+            </div>
+            <div>
+              <p class="font-medium text-sm">If r = 0.5:</p>
+              <p class="text-sm">R² = 0.5² = 0.25 = 25%</p>
+              <p class="text-xs text-gray-600 mt-1">"Only 25% explained - other factors matter more"</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Business interpretation:</strong> If ad spend and revenue have r = 0.6 (R² = 36%), that means:</p>
+          <ul class="text-xs mt-1">
+            <li>• Ad spend explains 36% of revenue variation</li>
+            <li>• 64% of revenue variation comes from OTHER factors (product quality, seasonality, economy, etc.)</li>
+            <li>• Don't rely solely on ad spend for revenue predictions!</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- SQL Implementation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700 text-lg">SQL Implementation</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Simple correlation between two columns</span>
+<span class="text-blue-400">SELECT</span> 
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> qty_value_corr,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">POWER</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 2), 3) <span class="text-blue-400">AS</span> r_squared
+<span class="text-blue-400">FROM</span> orders;
+
+<span class="text-gray-400">-- Correlation matrix for multiple variables</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(price, quantity), 3) <span class="text-blue-400">AS</span> price_qty,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(price, revenue), 3) <span class="text-blue-400">AS</span> price_rev,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, revenue), 3) <span class="text-blue-400">AS</span> qty_rev,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(discount_pct, revenue), 3) <span class="text-blue-400">AS</span> discount_rev
+<span class="text-blue-400">FROM</span> orders;
+
+<span class="text-gray-400">-- Correlation by segment (does relationship vary?)</span>
+<span class="text-blue-400">SELECT</span>
+    customer_segment,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> correlation
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> customer_segment
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 100  <span class="text-gray-400">-- Need enough data for reliable correlation</span>
+<span class="text-blue-400">ORDER BY</span> correlation <span class="text-blue-400">DESC</span>;</pre>
+      </div>
+      
+      <!-- Exercises -->
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-800 text-lg">📝 Exercises: Correlation</div>
+        
+        <div class="space-y-4 mt-3">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 8: Find Strong Correlations</p>
+            <p class="text-sm text-gray-600">Calculate correlation between order_value and: quantity, discount_percent. Which has the strongest relationship?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(order_value, quantity), 3) <span class="text-blue-400">AS</span> value_qty_corr,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(order_value, discount_percent), 3) <span class="text-blue-400">AS</span> value_discount_corr,
+    <span class="text-blue-400">CASE</span> 
+        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>(<span class="text-purple-400">CORR</span>(order_value, quantity)) > <span class="text-purple-400">ABS</span>(<span class="text-purple-400">CORR</span>(order_value, discount_percent))
+        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Quantity has stronger relationship with order value'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Discount has stronger relationship with order value'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> interpretation
+<span class="text-blue-400">FROM</span> orders;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 9: Correlation by Time</p>
+            <p class="text-sm text-gray-600">Has the correlation between quantity and order_value changed over time? Calculate it by month.</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">DATE_TRUNC</span>(<span class="text-green-400">'month'</span>, order_date) <span class="text-blue-400">AS</span> month,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> orders,
+    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> correlation
+<span class="text-blue-400">FROM</span> orders
+<span class="text-blue-400">GROUP BY</span> <span class="text-purple-400">DATE_TRUNC</span>(<span class="text-green-400">'month'</span>, order_date)
+<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 50
+<span class="text-blue-400">ORDER BY</span> month;</pre>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 10: Interpret R-Squared</p>
+            <p class="text-sm text-gray-600">If the correlation between marketing_spend and revenue is 0.65, what percentage of revenue variance is explained by marketing spend? What does this mean for business decisions?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Answer</summary>
+              <div class="bg-gray-100 p-2 rounded text-sm mt-2">
+                <p><strong>R² = 0.65² = 0.42 = 42%</strong></p>
+                <p class="mt-2"><strong>Interpretation:</strong></p>
+                <ul class="text-xs space-y-1 mt-1">
+                  <li>• 42% of revenue variation can be explained by marketing spend</li>
+                  <li>• 58% is explained by other factors</li>
+                  <li>• <strong>Business implication:</strong> Marketing spend matters, but isn't everything. Increasing marketing budget will help, but don't ignore product quality, pricing, customer service, and market conditions.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A/B TESTING -->
+  <div class="border-t-4 border-orange-500 pt-4">
+    <h2 class="font-bold text-xl text-orange-700">4. A/B Testing & Statistical Significance</h2>
+    <p class="text-sm text-gray-600 mb-3">The most important practical skill for data analysts. Determine if observed differences are real or just random chance.</p>
+    
+    <div class="space-y-4">
+      <!-- What is A/B Testing -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700 text-lg">What is A/B Testing?</div>
+        <p class="text-sm text-gray-600 mb-3">Compare two versions of something to see which performs better, using randomization to establish causation.</p>
+        
+        <div class="bg-gray-50 rounded-lg p-3">
+          <div class="flex items-center gap-4">
+            <div class="flex-1 text-center">
+              <div class="bg-blue-100 rounded-lg p-3">
+                <div class="font-bold text-blue-700">Control (A)</div>
+                <p class="text-sm">Current version</p>
+                <p class="text-xs text-gray-500 mt-1">50% of users randomly assigned</p>
+                <div class="text-3xl font-bold text-blue-700 mt-2">3.2%</div>
+                <p class="text-xs">conversion rate</p>
+                <p class="text-xs text-gray-500">n = 10,000 users</p>
+              </div>
+            </div>
+            <div class="text-4xl font-bold text-gray-400">VS</div>
+            <div class="flex-1 text-center">
+              <div class="bg-green-100 rounded-lg p-3">
+                <div class="font-bold text-green-700">Treatment (B)</div>
+                <p class="text-sm">New version</p>
+                <p class="text-xs text-gray-500 mt-1">50% of users randomly assigned</p>
+                <div class="text-3xl font-bold text-green-700 mt-2">3.5%</div>
+                <p class="text-xs">conversion rate</p>
+                <p class="text-xs text-gray-500">n = 10,000 users</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-3 p-2 bg-yellow-100 rounded">
+            <p class="font-medium">The Question: Is the 0.3 percentage point difference REAL, or just random chance?</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- The Logic of Hypothesis Testing -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700 text-lg">The Logic of Hypothesis Testing</div>
+        <p class="text-sm text-gray-600 mb-3">We can't prove B is better. Instead, we try to rule out that the difference is due to chance.</p>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm mb-2">Step 1: State the Hypotheses</div>
+            <div class="space-y-2">
+              <div class="bg-white rounded p-2">
+                <p class="font-mono text-sm">H₀ (Null): "No real difference"</p>
+                <p class="text-xs text-gray-500">The default assumption we try to disprove</p>
+              </div>
+              <div class="bg-white rounded p-2">
+                <p class="font-mono text-sm">H₁ (Alternative): "There IS a difference"</p>
+                <p class="text-xs text-gray-500">What we're trying to prove</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="font-medium text-sm mb-2">Step 2: Calculate the p-value</div>
+            <div class="bg-white rounded p-2">
+              <p class="text-sm">"If there were truly no difference, what's the probability of seeing results this extreme by random chance?"</p>
+              <p class="text-xs text-gray-500 mt-2">Small p-value = unlikely to be chance = evidence against H₀</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- P-Value Deep Dive -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+          <div class="font-semibold text-yellow-800 text-sm">💡 Understanding p-values (This is crucial!)</div>
+          
+          <div class="mt-2 text-sm">
+            <p><strong>What p-value IS:</strong></p>
+            <p class="bg-white rounded p-2 mt-1">"Assuming the null hypothesis is true (no real difference), the probability of observing a result at least as extreme as what we got."</p>
+            
+            <p class="mt-3"><strong>Example: p = 0.03</strong></p>
+            <p class="bg-white rounded p-2 mt-1">"If A and B were truly identical, there's only a 3% chance we'd see a difference this large by random luck."</p>
+            <p class="text-xs text-gray-600 mt-1">Since 3% is pretty unlikely, we conclude the difference is probably real.</p>
+          </div>
+          
+          <div class="bg-red-100 rounded p-2 mt-3 text-sm">
+            <p><strong>What p-value is NOT:</strong></p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>❌ NOT "the probability B is better than A"</li>
+              <li>❌ NOT "the probability the null hypothesis is true"</li>
+              <li>❌ NOT a measure of how BIG the effect is</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Type I and Type II Errors -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700 text-lg">Type I and Type II Errors</div>
+        <p class="text-sm text-gray-600 mb-3">Every test can make two kinds of mistakes:</p>
+        
+        <table class="text-sm border border-gray-300 w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-3 py-2"></th>
+              <th class="border px-3 py-2 text-center" colspan="2">Reality</th>
+            </tr>
+            <tr>
+              <th class="border px-3 py-2">Your Conclusion</th>
+              <th class="border px-3 py-2">H₀ True (No difference)</th>
+              <th class="border px-3 py-2">H₀ False (Real difference)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-3 py-2 font-medium">Reject H₀<br/><span class="text-xs text-gray-500">("Significant!")</span></td>
+              <td class="border px-3 py-2 bg-red-100 text-center">
+                <strong>Type I Error</strong><br/>
+                <span class="text-xs">False Positive</span><br/>
+                <span class="text-xs text-gray-500">"Found" a difference that doesn't exist</span>
+              </td>
+              <td class="border px-3 py-2 bg-green-100 text-center">
+                <strong>✓ Correct!</strong><br/>
+                <span class="text-xs">True Positive</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="border px-3 py-2 font-medium">Don't Reject H₀<br/><span class="text-xs text-gray-500">("Not significant")</span></td>
+              <td class="border px-3 py-2 bg-green-100 text-center">
+                <strong>✓ Correct!</strong><br/>
+                <span class="text-xs">True Negative</span>
+              </td>
+              <td class="border px-3 py-2 bg-orange-100 text-center">
+                <strong>Type II Error</strong><br/>
+                <span class="text-xs">False Negative</span><br/>
+                <span class="text-xs text-gray-500">Missed a real difference</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="grid grid-cols-2 gap-3 mt-3">
+          <div class="bg-red-50 rounded p-2">
+            <p class="font-medium text-sm">Type I Error (α = 5% typically)</p>
+            <p class="text-xs">Like a false alarm - you ship a change that doesn't actually help</p>
+            <p class="text-xs text-gray-500 mt-1">Cost: Wasted resources, possible harm from unnecessary change</p>
+          </div>
+          <div class="bg-orange-50 rounded p-2">
+            <p class="font-medium text-sm">Type II Error (β, Power = 1-β)</p>
+            <p class="text-xs">Like missing a real opportunity - you don't ship a change that would have helped</p>
+            <p class="text-xs text-gray-500 mt-1">Cost: Missed improvement, staying with inferior version</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Real A/B Test Example -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-800 text-lg">🧪 Real Example: Checkout Button Test</div>
+        <p class="text-sm mt-2">Your e-commerce site wants to test if changing the checkout button from "Buy Now" to "Complete Purchase" increases conversions.</p>
+        
+        <div class="bg-white rounded-lg p-3 mt-3">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="font-medium text-sm">Test Setup:</p>
+              <ul class="text-xs space-y-1 mt-1">
+                <li>• <strong>Control (A):</strong> "Buy Now" button</li>
+                <li>• <strong>Treatment (B):</strong> "Complete Purchase" button</li>
+                <li>• <strong>Sample size:</strong> 15,000 users per group</li>
+                <li>• <strong>Duration:</strong> 2 weeks</li>
+                <li>• <strong>Primary metric:</strong> Checkout conversion rate</li>
+              </ul>
+            </div>
+            <div>
+              <p class="font-medium text-sm">Results:</p>
+              <table class="text-xs border border-gray-300 w-full mt-1">
+                <tr class="bg-gray-100"><th class="border px-2 py-1"></th><th class="border px-2 py-1">Control</th><th class="border px-2 py-1">Treatment</th></tr>
+                <tr><td class="border px-2 py-1">Users</td><td class="border px-2 py-1">15,000</td><td class="border px-2 py-1">15,000</td></tr>
+                <tr><td class="border px-2 py-1">Conversions</td><td class="border px-2 py-1">450</td><td class="border px-2 py-1">510</td></tr>
+                <tr><td class="border px-2 py-1">Rate</td><td class="border px-2 py-1">3.00%</td><td class="border px-2 py-1">3.40%</td></tr>
+              </table>
+            </div>
+          </div>
+          
+          <div class="mt-3 p-2 bg-gray-50 rounded">
+            <p class="font-medium text-sm">Statistical Analysis:</p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>• <strong>Absolute lift:</strong> 3.40% - 3.00% = +0.40 percentage points</li>
+              <li>• <strong>Relative lift:</strong> (3.40 - 3.00) / 3.00 = +13.3%</li>
+              <li>• <strong>p-value:</strong> 0.018</li>
+              <li>• <strong>Conclusion:</strong> p < 0.05, so the result is statistically significant</li>
+            </ul>
+          </div>
+          
+          <div class="mt-3 p-2 bg-green-100 rounded">
+            <p class="font-medium text-sm text-green-800">Business Decision:</p>
+            <p class="text-xs">Ship the "Complete Purchase" button. The 0.4 percentage point increase is unlikely due to chance (only 1.8% probability if there were no real difference). At 100,000 monthly users, this could mean ~400 more conversions per month.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sample Size and Power -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700 text-lg">Sample Size and Statistical Power</div>
+        <p class="text-sm text-gray-600 mb-3">How many users do you need? It depends on how small an effect you want to detect.</p>
+        
+        <div class="bg-gray-50 rounded p-3">
+          <p class="font-medium text-sm mb-2">Factors that determine required sample size:</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Baseline conversion rate</p>
+              <p class="text-xs text-gray-600">Lower rates need more samples</p>
+              <p class="text-xs text-gray-500">1% baseline needs WAY more than 20% baseline</p>
+            </div>
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Minimum detectable effect (MDE)</p>
+              <p class="text-xs text-gray-600">Smaller effects need more samples</p>
+              <p class="text-xs text-gray-500">Detecting 1% lift needs more than 20% lift</p>
+            </div>
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Statistical power (1-β)</p>
+              <p class="text-xs text-gray-600">Usually set to 80%</p>
+              <p class="text-xs text-gray-500">Probability of detecting a real effect</p>
+            </div>
+            <div class="bg-white rounded p-2">
+              <p class="font-medium text-sm">Significance level (α)</p>
+              <p class="text-xs text-gray-600">Usually set to 5%</p>
+              <p class="text-xs text-gray-500">False positive rate you'll accept</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <p class="font-medium text-sm mb-2">Sample Size Quick Reference (per group, 80% power, α=5%)</p>
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1">Baseline Rate</th>
+                <th class="border px-2 py-1">5% Relative Lift</th>
+                <th class="border px-2 py-1">10% Relative Lift</th>
+                <th class="border px-2 py-1">20% Relative Lift</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="border px-2 py-1">1%</td><td class="border px-2 py-1">~310,000</td><td class="border px-2 py-1">~78,000</td><td class="border px-2 py-1">~20,000</td></tr>
+              <tr><td class="border px-2 py-1">3%</td><td class="border px-2 py-1">~100,000</td><td class="border px-2 py-1">~25,000</td><td class="border px-2 py-1">~6,500</td></tr>
+              <tr><td class="border px-2 py-1">5%</td><td class="border px-2 py-1">~60,000</td><td class="border px-2 py-1">~15,000</td><td class="border px-2 py-1">~4,000</td></tr>
+              <tr><td class="border px-2 py-1">10%</td><td class="border px-2 py-1">~28,000</td><td class="border px-2 py-1">~7,000</td><td class="border px-2 py-1">~1,800</td></tr>
+              <tr><td class="border px-2 py-1">20%</td><td class="border px-2 py-1">~13,000</td><td class="border px-2 py-1">~3,300</td><td class="border px-2 py-1">~850</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-gray-500 mt-1">Use calculators like Evan Miller's or Optimizely's for exact numbers</p>
+        </div>
+      </div>
+      
+      <!-- Common Mistakes -->
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700 text-lg">⚠️ Common A/B Testing Mistakes</div>
+        
+        <div class="grid grid-cols-2 gap-3 mt-3">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm text-red-700">1. Peeking at Results</p>
+            <p class="text-xs text-gray-600 mt-1">Checking p-values repeatedly and stopping when you see significance inflates false positive rate.</p>
+            <p class="text-xs text-green-600 mt-1">✓ Fix: Decide sample size upfront, don't stop early</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm text-red-700">2. Underpowered Tests</p>
+            <p class="text-xs text-gray-600 mt-1">Not enough users to detect the effect size you care about.</p>
+            <p class="text-xs text-green-600 mt-1">✓ Fix: Calculate required sample size before starting</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm text-red-700">3. Multiple Testing Without Correction</p>
+            <p class="text-xs text-gray-600 mt-1">Testing 20 metrics? One will be "significant" by chance alone.</p>
+            <p class="text-xs text-green-600 mt-1">✓ Fix: Pre-specify primary metric, use Bonferroni correction for multiple comparisons</p>
+          </div>
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm text-red-700">4. Ignoring Practical Significance</p>
+            <p class="text-xs text-gray-600 mt-1">A 0.01% lift can be "statistically significant" with enough data, but meaningless for business.</p>
+            <p class="text-xs text-green-600 mt-1">✓ Fix: Ask "Is this effect size worth acting on?"</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SQL for A/B Test Analysis -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700 text-lg">SQL for A/B Test Analysis</div>
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Basic A/B test results</span>
+<span class="text-blue-400">SELECT</span>
+    variant,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
+    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conversions,
+    <span class="text-purple-400">ROUND</span>(100.0 * <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) / <span class="text-purple-400">COUNT</span>(*), 2) <span class="text-blue-400">AS</span> conversion_rate_pct
+<span class="text-blue-400">FROM</span> ab_test_results
+<span class="text-blue-400">WHERE</span> experiment_name = <span class="text-green-400">'checkout_button_test'</span>
+<span class="text-blue-400">GROUP BY</span> variant;
+
+<span class="text-gray-400">-- Calculate lift</span>
+<span class="text-blue-400">WITH</span> variant_stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        variant,
+        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
+        <span class="text-purple-400">AVG</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1.0 <span class="text-blue-400">ELSE</span> 0.0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conv_rate
+    <span class="text-blue-400">FROM</span> ab_test_results
+    <span class="text-blue-400">WHERE</span> experiment_name = <span class="text-green-400">'checkout_button_test'</span>
+    <span class="text-blue-400">GROUP BY</span> variant
+)
+<span class="text-blue-400">SELECT</span>
+    control.conv_rate <span class="text-blue-400">AS</span> control_rate,
+    treatment.conv_rate <span class="text-blue-400">AS</span> treatment_rate,
+    treatment.conv_rate - control.conv_rate <span class="text-blue-400">AS</span> absolute_lift,
+    (treatment.conv_rate - control.conv_rate) / control.conv_rate * 100 <span class="text-blue-400">AS</span> relative_lift_pct
+<span class="text-blue-400">FROM</span> variant_stats control, variant_stats treatment
+<span class="text-blue-400">WHERE</span> control.variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">AND</span> treatment.variant = <span class="text-green-400">'treatment'</span>;
+
+<span class="text-gray-400">-- Daily monitoring (for validity check, not peeking!)</span>
+<span class="text-blue-400">SELECT</span>
+    <span class="text-purple-400">DATE</span>(timestamp) <span class="text-blue-400">AS</span> date,
+    variant,
+    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
+    <span class="text-purple-400">ROUND</span>(100.0 * <span class="text-purple-400">AVG</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1.0 <span class="text-blue-400">ELSE</span> 0.0 <span class="text-blue-400">END</span>), 2) <span class="text-blue-400">AS</span> daily_conv_rate
+<span class="text-blue-400">FROM</span> ab_test_results
+<span class="text-blue-400">GROUP BY</span> <span class="text-purple-400">DATE</span>(timestamp), variant
+<span class="text-blue-400">ORDER BY</span> date, variant;</pre>
+      </div>
+      
+      <!-- Exercises -->
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-800 text-lg">📝 Exercises: A/B Testing</div>
+        
+        <div class="space-y-4 mt-3">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 11: Analyze A/B Test Results</p>
+            <p class="text-sm text-gray-600">Given: Control had 5,000 users with 150 conversions. Treatment had 5,000 users with 180 conversions. Calculate conversion rates and relative lift.</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
+              <div class="bg-gray-100 p-2 rounded text-sm mt-2">
+                <ul class="text-xs space-y-1">
+                  <li>Control rate: 150/5000 = 3.0%</li>
+                  <li>Treatment rate: 180/5000 = 3.6%</li>
+                  <li>Absolute lift: 3.6% - 3.0% = 0.6 percentage points</li>
+                  <li>Relative lift: (3.6 - 3.0) / 3.0 = 20% improvement</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 12: Interpret p-value</p>
+            <p class="text-sm text-gray-600">You run an A/B test and get p = 0.08. What does this mean? Should you ship the change?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Answer</summary>
+              <div class="bg-gray-100 p-2 rounded text-sm mt-2">
+                <p class="font-medium">p = 0.08 means:</p>
+                <ul class="text-xs space-y-1 mt-1">
+                  <li>• If there were no real difference, there's an 8% chance of seeing results this extreme</li>
+                  <li>• Since 8% > 5% (our typical threshold), this is NOT statistically significant</li>
+                  <li>• <strong>Decision:</strong> Don't ship the change. The observed difference might just be noise.</li>
+                  <li>• <strong>Alternative:</strong> Run the test longer to get more data, or accept higher risk if business urgency demands it</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 13: Sample Size Planning</p>
+            <p class="text-sm text-gray-600">Your current checkout conversion rate is 4%. You want to detect a 10% relative improvement (to 4.4%). Using the table above, approximately how many users per variant do you need?</p>
+            <details class="mt-2">
+              <summary class="text-sm text-blue-600 cursor-pointer">Show Answer</summary>
+              <div class="bg-gray-100 p-2 rounded text-sm mt-2">
+                <p>Looking at the table:</p>
+                <ul class="text-xs space-y-1 mt-1">
+                  <li>• Baseline rate ~5% (closest to 4%)</li>
+                  <li>• 10% relative lift</li>
+                  <li>• Required: ~15,000 users per variant</li>
+                  <li>• Total: ~30,000 users for the entire test</li>
+                  <li>• If you get 1,000 users/day, run for ~30 days</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIDENCE INTERVALS -->
+  <div class="border-t-4 border-teal-500 pt-4">
+    <h2 class="font-bold text-xl text-teal-700">5. Confidence Intervals</h2>
+    <p class="text-sm text-gray-600 mb-3">Instead of a single estimate, give a range that likely contains the true value. Essential for communicating uncertainty.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-teal-700 text-lg">What is a Confidence Interval?</div>
+        
+        <div class="bg-gray-50 rounded-lg p-3 mt-3">
+          <div class="text-center">
+            <p class="text-sm font-medium">Average Order Value Estimate</p>
+            <div class="flex items-center justify-center gap-2 mt-3">
+              <span class="text-gray-500 font-mono">$82</span>
+              <div class="w-40 h-4 bg-teal-200 rounded relative">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-teal-600 rounded-full"></div>
+              </div>
+              <span class="text-gray-500 font-mono">$94</span>
+            </div>
+            <p class="font-bold text-xl mt-2">$88 (95% CI: $82 - $94)</p>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-3 mt-3">
+          <p class="font-medium text-sm">Correct interpretation:</p>
+          <p class="text-sm mt-1">"We are 95% confident that the true population average order value is between $82 and $94."</p>
+          
+          <p class="font-medium text-sm mt-3">What this means technically:</p>
+          <p class="text-xs text-gray-600 mt-1">If we repeated this sampling process 100 times, about 95 of those intervals would contain the true population value. We don't know if THIS particular interval contains the truth, but the method works 95% of the time.</p>
+        </div>
+      </div>
+      
+      <!-- Using CIs in Practice -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-teal-700 text-lg">Using Confidence Intervals in Practice</div>
+        
+        <div class="space-y-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">1. Reporting Estimates with Uncertainty</p>
+            <div class="grid grid-cols-2 gap-3 mt-2 text-sm">
+              <div class="bg-red-50 rounded p-2">
+                <p class="text-red-700 font-medium">❌ Without CI:</p>
+                <p class="text-xs">"Next quarter revenue will be $2.3M"</p>
+                <p class="text-xs text-gray-500 mt-1">Implies false precision</p>
+              </div>
+              <div class="bg-green-50 rounded p-2">
+                <p class="text-green-700 font-medium">✓ With CI:</p>
+                <p class="text-xs">"Revenue forecast: $2.3M (95% CI: $2.0M - $2.6M)"</p>
+                <p class="text-xs text-gray-500 mt-1">Honest about uncertainty</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">2. Comparing Groups (Overlap Test)</p>
+            <p class="text-xs text-gray-600">Quick rule: If CIs don't overlap, the difference is likely significant</p>
+            
+            <div class="grid grid-cols-2 gap-3 mt-2">
+              <div class="bg-white rounded p-2">
+                <p class="text-sm font-medium text-green-700">No overlap = Significant</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs">A:</span>
+                  <div class="w-16 h-2 bg-blue-400 rounded"></div>
+                </div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs">B:</span>
+                  <div class="w-16 h-2 bg-green-400 rounded ml-12"></div>
+                </div>
+              </div>
+              <div class="bg-white rounded p-2">
+                <p class="text-sm font-medium text-red-700">Overlap = May not be significant</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs">A:</span>
+                  <div class="w-20 h-2 bg-blue-400 rounded"></div>
+                </div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs">B:</span>
+                  <div class="w-20 h-2 bg-green-400 rounded ml-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">3. Detecting Real Change</p>
+            <p class="text-xs text-gray-600">If CI for the difference includes zero, the change might not be real</p>
+            <div class="grid grid-cols-2 gap-3 mt-2 text-xs">
+              <div class="bg-green-50 rounded p-2">
+                <p class="font-medium">Difference: +5% (CI: +2% to +8%)</p>
+                <p>Zero NOT in CI → Real improvement</p>
+              </div>
+              <div class="bg-red-50 rounded p-2">
+                <p class="font-medium">Difference: +2% (CI: -1% to +5%)</p>
+                <p>Zero IS in CI → Might be no change</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Factors Affecting CI Width -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-teal-700 text-lg">What Makes CIs Wider or Narrower?</div>
+        
+        <div class="grid grid-cols-3 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3 text-center">
+            <div class="text-2xl mb-2">📊</div>
+            <p class="font-medium text-sm">Sample Size</p>
+            <p class="text-xs text-gray-600">More data → Narrower CI</p>
+            <p class="text-xs text-green-600 mt-1">The more data, the more precise</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3 text-center">
+            <div class="text-2xl mb-2">📈</div>
+            <p class="font-medium text-sm">Variability (σ)</p>
+            <p class="text-xs text-gray-600">Higher std dev → Wider CI</p>
+            <p class="text-xs text-orange-600 mt-1">More spread = less certainty</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3 text-center">
+            <div class="text-2xl mb-2">🎯</div>
+            <p class="font-medium text-sm">Confidence Level</p>
+            <p class="text-xs text-gray-600">Higher confidence → Wider CI</p>
+            <p class="text-xs text-blue-600 mt-1">99% CI is wider than 95% CI</p>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-2 mt-3">
+          <p class="text-sm"><strong>💡 Practical tip:</strong> If your CI is too wide to be useful, get more data. If you can't, be honest about the uncertainty.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTLIERS -->
+  <div class="border-t-4 border-red-500 pt-4">
+    <h2 class="font-bold text-xl text-red-700">6. Outlier Detection</h2>
+    <p class="text-sm text-gray-600 mb-3">Find unusual values that may be errors, fraud, or genuinely interesting cases.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700 text-lg">Methods for Detecting Outliers</div>
+        
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">Z-Score Method</p>
+            <p class="text-xs text-gray-600">How many std devs from the mean?</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs">
+              <p class="font-mono">Z = (value - mean) / std_dev</p>
+              <p class="mt-1">Common threshold: |Z| > 3</p>
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Good for: Normal distributions</p>
+            <p class="text-xs text-red-600">✗ Affected by outliers themselves</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <p class="font-medium text-sm">IQR Method (Tukey's Fences)</p>
+            <p class="text-xs text-gray-600">Based on quartiles - robust to skew</p>
+            <div class="bg-white rounded p-2 mt-2 text-xs">
+              <p>Lower fence: Q1 - 1.5 × IQR</p>
+              <p>Upper fence: Q3 + 1.5 × IQR</p>
+              <p class="mt-1">Outside fences = outlier</p>
+            </div>
+            <p class="text-xs text-green-600 mt-2">✓ Good for: Skewed data, robust to extremes</p>
+            <p class="text-xs text-green-600">✓ Used in box plots</p>
+          </div>
+        </div>
+        
+        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-4"><span class="text-gray-400">-- Z-Score method</span>
+<span class="text-blue-400">WITH</span> stats <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val, <span class="text-purple-400">STDDEV</span>(order_value) <span class="text-blue-400">AS</span> std_val
+    <span class="text-blue-400">FROM</span> orders
+)
+<span class="text-blue-400">SELECT</span> order_id, order_value,
+    <span class="text-purple-400">ROUND</span>((order_value - mean_val) / std_val, 2) <span class="text-blue-400">AS</span> z_score
+<span class="text-blue-400">FROM</span> orders, stats
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 3;
+
+<span class="text-gray-400">-- IQR method</span>
+<span class="text-blue-400">WITH</span> quartiles <span class="text-blue-400">AS</span> (
+    <span class="text-blue-400">SELECT</span>
+        <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> q1,
+        <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> q3
+    <span class="text-blue-400">FROM</span> orders
+)
+<span class="text-blue-400">SELECT</span> o.order_id, o.order_value,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> order_value < q1 - 1.5 * (q3 - q1) <span class="text-blue-400">THEN</span> <span class="text-green-400">'Low outlier'</span>
+        <span class="text-blue-400">WHEN</span> order_value > q3 + 1.5 * (q3 - q1) <span class="text-blue-400">THEN</span> <span class="text-green-400">'High outlier'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> outlier_type
+<span class="text-blue-400">FROM</span> orders o, quartiles
+<span class="text-blue-400">WHERE</span> order_value < q1 - 1.5 * (q3 - q1) <span class="text-blue-400">OR</span> order_value > q3 + 1.5 * (q3 - q1);</pre>
+      </div>
+      
+      <!-- What to Do With Outliers -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-red-700 text-lg">What To Do With Outliers</div>
+        
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <div class="bg-green-50 rounded p-3">
+            <p class="font-medium text-sm text-green-700">Keep them if:</p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>• It's a valid data point (big customer, holiday spike)</li>
+              <li>• It represents important edge cases</li>
+              <li>• You're analyzing the full distribution</li>
+              <li>• The outlier IS the insight (fraud, errors to fix)</li>
+            </ul>
+          </div>
+          <div class="bg-red-50 rounded p-3">
+            <p class="font-medium text-sm text-red-700">Remove/investigate if:</p>
+            <ul class="text-xs space-y-1 mt-1">
+              <li>• It's likely a data entry error</li>
+              <li>• It's a test transaction</li>
+              <li>• It would distort your analysis</li>
+              <li>• You can verify it's invalid</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Best practice:</strong> Always document what you did with outliers and why. "Removed 12 orders over $10,000 as they were identified as wholesale bulk orders, not individual customer purchases."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRACTICAL TIPS -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">7. Communicating Statistics</h2>
+    <p class="text-sm text-gray-600 mb-3">Your analysis is only valuable if others understand it.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-gray-700 text-lg">Translating Statistics for Business Audiences</div>
+        
+        <div class="overflow-x-auto mt-3">
+          <table class="text-sm border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-3 py-2 text-left">Technical Language</th>
+                <th class="border px-3 py-2 text-left">Business Translation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"p-value is 0.02"</td>
+                <td class="border px-3 py-1 text-green-600">"We're confident this improvement is real, not random chance"</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"Correlation is 0.7"</td>
+                <td class="border px-3 py-1 text-green-600">"These two things are strongly related - when one goes up, the other usually does too"</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"95% confidence interval"</td>
+                <td class="border px-3 py-1 text-green-600">"The true value is most likely between X and Y"</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"Standard deviation is high"</td>
+                <td class="border px-3 py-1 text-green-600">"Results vary a lot - some days are much higher or lower than average"</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"Right-skewed distribution"</td>
+                <td class="border px-3 py-1 text-green-600">"Most orders are small, but a few large orders pull up the average"</td>
+              </tr>
+              <tr>
+                <td class="border px-3 py-1 text-red-600">"Not statistically significant"</td>
+                <td class="border px-3 py-1 text-green-600">"We can't be sure this difference is real - it might just be noise"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPREHENSIVE EXERCISES -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">8. Comprehensive Exercises</h2>
+    <p class="text-sm text-gray-600 mb-3">Apply everything you've learned to realistic scenarios.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-800">Scenario: E-Commerce Performance Analysis</div>
+        <p class="text-sm mt-2">You're a data analyst at an e-commerce company. Use the orders table (order_id, customer_id, order_date, order_value, quantity, category, region, is_returned) to answer these business questions:</p>
+        
+        <div class="space-y-4 mt-4">
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 14: Executive Summary Stats</p>
+            <p class="text-sm text-gray-600">Create a summary showing: total orders, total revenue, average order value (both mean and median), and the coefficient of variation. Comment on what the mean vs median tells you.</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 15: Regional Performance</p>
+            <p class="text-sm text-gray-600">Compare regions by: average order value, order count, total revenue, and revenue per order variability (CV). Which region is most valuable? Which is most consistent?</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 16: Customer Segmentation</p>
+            <p class="text-sm text-gray-600">Segment customers into quartiles by total spending. What percentage of revenue comes from the top 25% of customers? (Pareto analysis)</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 17: Outlier Investigation</p>
+            <p class="text-sm text-gray-600">Find orders that are outliers using the IQR method. What percentage of orders are outliers? What's their average value? Should they be included in typical customer analysis?</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 18: Return Rate Analysis</p>
+            <p class="text-sm text-gray-600">Calculate return rate by category. Is there a correlation between average order value and return rate across categories? What might this suggest?</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 19: Trend Analysis</p>
+            <p class="text-sm text-gray-600">Calculate monthly average order value with 95% confidence intervals. Are there months where the CI doesn't overlap with adjacent months? What might have caused those changes?</p>
+          </div>
+          
+          <div class="bg-white rounded p-3">
+            <p class="font-medium text-sm">Exercise 20: A/B Test Design</p>
+            <p class="text-sm text-gray-600">You want to test a new checkout flow. Current conversion rate is 3.5%. You want to detect a 10% relative improvement. How many users per variant do you need? How long will the test run if you have 2,000 visitors/day?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="bg-gray-100 rounded-lg p-4 mt-6">
+    <h2 class="font-bold text-lg mb-3">📋 Statistics Quick Reference Card</h2>
+    <div class="grid grid-cols-3 gap-4 text-xs">
+      <div>
+        <p class="font-semibold mb-1">Central Tendency</p>
+        <ul class="space-y-1">
+          <li>Mean: Use for symmetric data</li>
+          <li>Median: Use for skewed data</li>
+          <li>If mean > median: Right-skewed</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Spread</p>
+        <ul class="space-y-1">
+          <li>Std Dev: Most common measure</li>
+          <li>CV: Compare across scales</li>
+          <li>IQR: Robust to outliers</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Correlation</p>
+        <ul class="space-y-1">
+          <li>r: -1 to +1</li>
+          <li>|r| > 0.7: Strong</li>
+          <li>Correlation ≠ Causation!</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">A/B Testing</p>
+        <ul class="space-y-1">
+          <li>p < 0.05: Significant</li>
+          <li>Don't peek at results</li>
+          <li>Plan sample size first</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Confidence Intervals</p>
+        <ul class="space-y-1">
+          <li>95% CI most common</li>
+          <li>No overlap = significant</li>
+          <li>More data = narrower CI</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Outliers</p>
+        <ul class="space-y-1">
+          <li>Z-score: |Z| > 3</li>
+          <li>IQR: Outside 1.5×IQR fences</li>
+          <li>Always investigate before removing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
