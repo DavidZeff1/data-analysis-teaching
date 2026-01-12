@@ -298,7 +298,8 @@
         <!-- Coefficient of Variation -->
         <div class="bg-white border border-gray-300 rounded-lg p-3 mt-4">
           <div class="font-semibold text-sm">💡 Coefficient of Variation (CV): Comparing Apples to Oranges</div>
-          <p class="text-sm text-gray-600 mt-1">When comparing spread across different scales, use CV = (Std Dev / Mean) × 100%</p>
+          <p class="text-sm text-gray-600 mt-1">When comparing spread across different scales, use:</p>
+          <div class="font-mono text-xs my-2">$$ CV = \frac{\text{Std Dev}}{\text{Mean}} \times 100\% $$</div>
           <div class="grid grid-cols-2 gap-3 mt-2 text-xs">
             <div class="bg-gray-50 rounded p-2">
               <p class="font-medium">Revenue: Mean=$1M, StdDev=$200K</p>
@@ -877,12 +878,19 @@
             <li>• Don't rely solely on ad spend for revenue predictions!</li>
           </ul>
         </div>
+        
+        <!-- MAD LIBS: CORRELATION -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+            <div class="font-semibold text-blue-800 text-sm">📋 Reporting "Mad Libs" (Copy-Paste)</div>
+            <p class="text-xs text-blue-900 mt-1 italic">"We found a <strong>[strong/moderate/weak]</strong> <strong>[positive/negative]</strong> correlation (r = <strong>[0.xx]</strong>) between <strong>[Variable A]</strong> and <strong>[Variable B]</strong>. This suggests that as <strong>[A increases]</strong>, <strong>[B tend to increase/decrease]</strong>."</p>
+        </div>
       </div>
 
-      <!-- MATH FROM SCRATCH: CORRELATION -->
       <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
           <div class="font-semibold text-purple-800 text-sm">🧮 How to Calculate Correlation (Pearson r) from Scratch</div>
-          <p class="text-sm text-gray-700 mt-1">The formula looks scary: <span class="font-mono text-xs">r = Σ((x - x̄)(y - ȳ)) / √[Σ(x - x̄)² * Σ(y - ȳ)²]</span>. But it's just a table.</p>
+          <p class="text-sm text-gray-700 mt-1">The formula looks scary, but it's just a calculation:</p>
+          <div class="my-2">$$ r = \frac{\sum((x - \bar{x})(y - \bar{y}))}{\sqrt{\sum(x - \bar{x})^2 \cdot \sum(y - \bar{y})^2}} $$</div>
+          <p class="text-sm text-gray-700">Don't panic! It's just a table.</p>
           
           <p class="text-xs font-semibold mt-3">Example: Ad Spend (X) vs Revenue (Y)</p>
           <div class="overflow-x-auto mt-2">
@@ -913,13 +921,13 @@
           
           <div class="mt-3 text-sm space-y-2">
             <p><strong>Step 1: Numerator (Covariance part)</strong><br/>
-            Sum of products = 20,000</p>
+            Sum of products: $ \sum(A \cdot B) = 20,000 $</p>
             
             <p><strong>Step 2: Denominator (Normalization)</strong><br/>
-            √(Sum Xsq * Sum Ysq) = √(20,000 * 33,000) = √660,000,000 ≈ 25,690</p>
+            $ \sqrt{\sum A^2 \cdot \sum B^2} = \sqrt{20,000 \cdot 33,000} = \sqrt{660,000,000} \approx 25,690 $</p>
             
             <p><strong>Step 3: Divide</strong><br/>
-            r = 20,000 / 25,690 = <span class="font-bold text-purple-700">0.778</span> (Strong positive correlation)</p>
+            $ r = \frac{20,000}{25,690} = $ <span class="font-bold text-purple-700">0.778</span> (Strong positive correlation)</p>
           </div>
       </div>
       
@@ -1231,6 +1239,12 @@
              </div>
           </div>
         </div>
+        
+        <!-- MAD LIBS: A/B TESTING -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+            <div class="font-semibold text-blue-800 text-sm">📋 Reporting "Mad Libs" (Copy-Paste)</div>
+            <p class="text-xs text-blue-900 mt-1 italic">"The test variant resulted in a <strong>[X.X]%</strong> conversion rate compared to <strong>[Y.Y]%</strong> for control, representing a relative lift of <strong>[Z]%</strong>. This result <strong>[is/is not]</strong> statistically significant (p = <strong>[0.xx]</strong>), so we recommend <strong>[shipping/discarding]</strong> the change."</p>
+        </div>
       </div>
       
       <!-- Sample Size and Power -->
@@ -1284,6 +1298,63 @@
             </tbody>
           </table>
           <p class="text-xs text-gray-500 mt-1">Use calculators like Evan Miller's or Optimizely's for exact numbers</p>
+        </div>
+        
+        <!-- INTERACTIVE: SAMPLE SIZE ESTIMATOR -->
+        <div class="bg-white border-2 border-orange-100 rounded-lg p-4 mt-4 relative overflow-hidden">
+             <div class="absolute top-0 right-0 bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-1 rounded-bl">INTERACTIVE</div>
+             <div class="font-semibold text-orange-700 text-sm mb-3">🎛️ Sample Size Estimator</div>
+             
+             <div class="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                   <label class="block text-gray-600 mb-1">Baseline Rate (%)</label>
+                   <input type="range" id="baselineSlider" min="1" max="50" value="5" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                   <p class="text-right font-mono" id="baselineValue">5%</p>
+                </div>
+                <div>
+                   <label class="block text-gray-600 mb-1">Detectable Lift (%)</label>
+                   <input type="range" id="liftSlider" min="5" max="50" value="10" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                   <p class="text-right font-mono" id="liftValue">10%</p>
+                </div>
+             </div>
+             
+             <div class="mt-4 bg-orange-50 rounded p-3 text-center">
+                <p class="text-sm text-gray-600">You need approximately:</p>
+                <p class="text-2xl font-bold text-orange-600" id="sampleSizeResult">~15,000</p>
+                <p class="text-xs text-gray-500">users per variant</p>
+             </div>
+             
+             <script>
+                 const baselineSlider = document.getElementById('baselineSlider');
+                 const liftSlider = document.getElementById('liftSlider');
+                 const baselineValue = document.getElementById('baselineValue');
+                 const liftValue = document.getElementById('liftValue');
+                 const sampleSizeResult = document.getElementById('sampleSizeResult');
+                 
+                 function updateSampleSize() {
+                     const p = parseInt(baselineSlider.value) / 100;
+                     const lift = parseInt(liftSlider.value) / 100;
+                     const delta = p * lift;
+                     const p1 = p;
+                     const p2 = p + delta;
+                     const avgP = (p1 + p2) / 2;
+                     
+                     // Roughly: 16 * p(1-p) / delta^2 (for 80% power, 5% alpha)
+                     const n = 16 * avgP * (1 - avgP) / (delta * delta);
+                     
+                     baselineValue.innerText = baselineSlider.value + "%";
+                     liftValue.innerText = liftSlider.value + "%";
+                     
+                     if (n > 1000000) {
+                        sampleSizeResult.innerText = "> 1,000,000";
+                     } else {
+                        sampleSizeResult.innerText = "~" + Math.round(n).toLocaleString();
+                     }
+                 }
+                 
+                 baselineSlider.addEventListener('input', updateSampleSize);
+                 liftSlider.addEventListener('input', updateSampleSize);
+             </script>
         </div>
       </div>
       
@@ -1407,6 +1478,78 @@
           <p class="font-medium text-sm mt-3">What this means technically:</p>
           <p class="text-xs text-gray-600 mt-1">If we repeated this sampling process 100 times, about 95 of those intervals would contain the true population value. We don't know if THIS particular interval contains the truth, but the method works 95% of the time.</p>
         </div>
+        
+        <!-- INTERACTIVE: CI VISUALIZER -->
+        <div class="bg-white border-2 border-teal-100 rounded-lg p-4 mt-4 relative overflow-hidden">
+             <div class="absolute top-0 right-0 bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-1 rounded-bl">INTERACTIVE</div>
+             <div class="font-semibold text-teal-700 text-sm mb-3">🎛️ Confidence Interval Simulator</div>
+             <p class="text-xs text-gray-600 mb-2">See how adding data shrinks the error bars.</p>
+
+             <div class="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                   <label class="block text-gray-600 mb-1">Sample Size (n)</label>
+                   <input type="range" id="nSlider" min="10" max="1000" value="50" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                   <p class="text-right font-mono" id="nValue">50</p>
+                </div>
+                <div>
+                   <label class="block text-gray-600 mb-1">Standard Dev (s)</label>
+                   <input type="range" id="sSlider" min="5" max="50" value="20" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                   <p class="text-right font-mono" id="sValue">20</p>
+                </div>
+             </div>
+             
+             <div class="mt-6 flex flex-col items-center">
+                 <div class="w-full relative h-12 bg-gray-50 rounded border border-gray-100">
+                     <!-- Center Mean Line -->
+                     <div class="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-400 z-10"></div>
+                     <!-- CI Bar -->
+                     <div id="ciBar" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4 bg-teal-300 rounded transition-all duration-300" style="width: 100px;"></div>
+                     <!-- Whiskers -->
+                     <div id="ciWhiskerLeft" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-6 border-l-2 border-teal-600 transition-all duration-300" style="margin-left: -50px;"></div>
+                     <div id="ciWhiskerRight" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-6 border-l-2 border-teal-600 transition-all duration-300" style="margin-left: 50px;"></div>
+                 </div>
+                 <p class="text-xs font-mono mt-2 text-teal-800">Margin of Error: ±<span id="meValue">5.54</span></p>
+             </div>
+             
+             <script>
+                 const nSlider = document.getElementById('nSlider');
+                 const sSlider = document.getElementById('sSlider');
+                 const nValue = document.getElementById('nValue');
+                 const sValue = document.getElementById('sValue');
+                 const meValue = document.getElementById('meValue');
+                 const ciBar = document.getElementById('ciBar');
+                 const ciWhiskerLeft = document.getElementById('ciWhiskerLeft');
+                 const ciWhiskerRight = document.getElementById('ciWhiskerRight');
+                 
+                 function updateCI() {
+                     const n = parseInt(nSlider.value);
+                     const s = parseInt(sSlider.value);
+                     const z = 1.96; // 95% CI
+                     
+                     const se = s / Math.sqrt(n);
+                     const me = z * se;
+                     
+                     nValue.innerText = n;
+                     sValue.innerText = s;
+                     meValue.innerText = me.toFixed(2);
+                     
+                     // Scale ME to pixels (arbitrary scale factor for visualization)
+                     // Let's say max displayable ME is about 30 pixels wide on each side = 60px total
+                     // At min n=10, s=50 -> me = 1.96 * 50 / 3.16 = 31.
+                     // Scale factor: 5 pixels per unit of ME
+                     const pixels = me * 4; 
+                     const width = Math.min(pixels * 2, 280); // cap max width
+                     
+                     ciBar.style.width = width + "px";
+                     ciWhiskerLeft.style.marginLeft = "-" + (width/2) + "px";
+                     ciWhiskerRight.style.marginLeft = (width/2) + "px";
+                 }
+                 
+                 nSlider.addEventListener('input', updateCI);
+                 sSlider.addEventListener('input', updateCI);
+                 updateCI(); // init
+             </script>
+        </div>
       </div>
 
       <!-- MATH FROM SCRATCH: CONFIDENCE INTERVALS -->
@@ -1519,6 +1662,13 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+        
+        <!-- MAD LIBS: CONFIDENCE INTERVAL -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+            <div class="font-semibold text-blue-800 text-sm">📋 Reporting "Mad Libs" (Copy-Paste)</div>
+            <p class="text-xs text-blue-900 mt-1 italic">"We estimate the true average to be <strong>[Mean]</strong>, with a margin of error of <strong>[±ME]</strong> (95% CI: <strong>[Lower]</strong> to <strong>[Upper]</strong>)."</p>
         </div>
       </div>
       
@@ -1720,6 +1870,1061 @@
       </div>
     </div>
   </div>
+
+  <!-- DECISION TREE -->
+  <div class="border-t-4 border-emerald-500 pt-4">
+    <h2 class="font-bold text-xl text-emerald-700">9. The Analyst's Complete Decision Guide</h2>
+    <p class="text-sm text-gray-600 mb-3">Not sure which statistical test to run? This guide walks you through every step, from framing the question to interpreting the result.</p>
+    
+    <!-- STEP 1: QUESTION FRAMING -->
+    <div class="bg-gray-800 text-white rounded-lg p-4 mb-4">
+       <div class="font-bold text-lg mb-2">🎯 Step 1: What is Your Question?</div>
+       <p class="text-sm text-gray-300">Before touching any data, write down your question in plain English. This will guide everything.</p>
+       <div class="grid grid-cols-2 gap-4 mt-3">
+         <div class="bg-gray-700 rounded p-3">
+            <p class="font-semibold text-blue-300">Compare Groups</p>
+            <ul class="text-xs text-gray-300 mt-1 space-y-1">
+               <li>• "Is A different from B?"</li>
+               <li>• "Did our change have an effect?"</li>
+               <li>• "Which region performs best?"</li>
+            </ul>
+         </div>
+         <div class="bg-gray-700 rounded p-3">
+            <p class="font-semibold text-purple-300">Find Relationships</p>
+            <ul class="text-xs text-gray-300 mt-1 space-y-1">
+               <li>• "Does X affect Y?"</li>
+               <li>• "Are these two things related?"</li>
+               <li>• "Can I predict one from the other?"</li>
+            </ul>
+         </div>
+       </div>
+    </div>
+
+    <!-- FLOWCHART -->
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 overflow-x-auto mb-4">
+      <div class="font-semibold text-center text-gray-800 mb-4">🗺️ The Decision Flowchart</div>
+      <div class="flex flex-col items-center space-y-4 min-w-[600px]">
+        
+        <!-- Root -->
+        <div class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow">What is your goal?</div>
+        
+        <!-- Branches -->
+        <div class="flex w-full justify-between px-8 relative">
+           <div class="absolute top-0 left-1/4 right-1/4 h-4 border-t-2 border-l-2 border-r-2 border-emerald-400 rounded-t-lg"></div>
+        </div>
+        
+        <div class="flex w-full justify-around">
+           <!-- Left: Compare Groups -->
+           <div class="flex flex-col items-center w-1/2 px-2">
+              <div class="bg-blue-500 text-white px-4 py-2 rounded shadow-sm text-sm font-bold">Compare Groups</div>
+              <div class="h-4 w-px bg-blue-400 my-1"></div>
+              
+              <!-- Sub-branch -->
+              <div class="flex w-full justify-around relative">
+                 <div class="absolute top-0 left-4 right-4 h-2 border-t-2 border-l-2 border-r-2 border-blue-300 rounded-t"></div>
+              </div>
+              
+              <div class="flex w-full justify-between mt-2 gap-2">
+                 <div class="flex flex-col items-center text-center">
+                    <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded border border-blue-200 font-medium">2 Groups</div>
+                    <div class="h-2 w-px bg-blue-300 my-1"></div>
+                    <div class="bg-green-500 text-white px-3 py-2 rounded font-bold text-xs shadow">Z-Test / T-Test</div>
+                    <p class="text-[10px] text-gray-500 mt-1">A/B Tests, Before/After</p>
+                 </div>
+                 <div class="flex flex-col items-center text-center">
+                    <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded border border-blue-200 font-medium">3+ Groups</div>
+                    <div class="h-2 w-px bg-blue-300 my-1"></div>
+                    <div class="bg-green-500 text-white px-3 py-2 rounded font-bold text-xs shadow">ANOVA</div>
+                    <p class="text-[10px] text-gray-500 mt-1">Regional, Multi-Variant</p>
+                 </div>
+              </div>
+           </div>
+           
+           <!-- Right: Find Relationships -->
+           <div class="flex flex-col items-center w-1/2 px-2">
+              <div class="bg-purple-500 text-white px-4 py-2 rounded shadow-sm text-sm font-bold">Find Relationships</div>
+              <div class="h-4 w-px bg-purple-400 my-1"></div>
+              
+               <!-- Sub-branch -->
+              <div class="flex w-full justify-around relative">
+                 <div class="absolute top-0 left-4 right-4 h-2 border-t-2 border-l-2 border-r-2 border-purple-300 rounded-t"></div>
+              </div>
+              
+              <div class="flex w-full justify-between mt-2 gap-2">
+                 <div class="flex flex-col items-center text-center">
+                    <div class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded border border-purple-200 font-medium">Both Numeric</div>
+                    <div class="h-2 w-px bg-purple-300 my-1"></div>
+                    <div class="bg-green-500 text-white px-3 py-2 rounded font-bold text-xs shadow">Correlation / Regression</div>
+                    <p class="text-[10px] text-gray-500 mt-1">Spend vs Revenue</p>
+                 </div>
+                 <div class="flex flex-col items-center text-center">
+                    <div class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded border border-purple-200 font-medium">Categorical</div>
+                    <div class="h-2 w-px bg-purple-300 my-1"></div>
+                    <div class="bg-green-500 text-white px-3 py-2 rounded font-bold text-xs shadow">Chi-Square</div>
+                    <p class="text-[10px] text-gray-500 mt-1">Gender vs Product Choice</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- Z-TEST / T-TEST COMPREHENSIVE GUIDE -->
+    <!-- ============================================================== -->
+    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-5 mb-6">
+       <div class="flex items-center gap-3 mb-4 pb-3 border-b border-blue-200">
+          <span class="bg-blue-600 text-white text-sm font-bold px-3 py-1.5 rounded">Z-TEST / T-TEST</span>
+          <span class="text-base text-gray-700 font-medium">Comparing 2 Groups — Complete Mathematical Guide</span>
+       </div>
+       
+       <!-- What's the Big Idea -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-blue-100">
+          <p class="font-bold text-blue-800 mb-2">🧠 What's the Big Idea?</p>
+          <p class="text-sm text-gray-700 mb-2">When you have two groups and want to know if they're <em>truly</em> different (not just randomly different), you're asking: <strong>"Could this difference have happened by pure chance?"</strong></p>
+          <p class="text-sm text-gray-700">The Z-test and T-test answer this by calculating how "surprising" your observed difference is. If it's very surprising (unlikely to happen by chance), we say the difference is <strong>statistically significant</strong>.</p>
+       </div>
+
+       <!-- When to Use What -->
+       <div class="bg-yellow-50 rounded-lg p-4 mb-4 border border-yellow-200">
+          <p class="font-bold text-yellow-800 mb-2">⚖️ Z-Test vs T-Test: Which One?</p>
+          <div class="grid md:grid-cols-2 gap-3 text-sm">
+             <div class="bg-white p-3 rounded border border-yellow-100">
+                <p class="font-semibold text-blue-700">Use Z-Test when:</p>
+                <ul class="text-xs text-gray-600 mt-1 space-y-1">
+                   <li>• Sample size is large (n > 30)</li>
+                   <li>• You know the population standard deviation</li>
+                   <li>• Comparing proportions (conversion rates)</li>
+                </ul>
+             </div>
+             <div class="bg-white p-3 rounded border border-yellow-100">
+                <p class="font-semibold text-purple-700">Use T-Test when:</p>
+                <ul class="text-xs text-gray-600 mt-1 space-y-1">
+                   <li>• Sample size is small (n ≤ 30)</li>
+                   <li>• You DON'T know population std dev</li>
+                   <li>• Comparing means (averages)</li>
+                </ul>
+             </div>
+          </div>
+       </div>
+
+       <!-- PART A: Z-TEST FOR PROPORTIONS -->
+       <div class="bg-gradient-to-r from-blue-100 to-blue-50 rounded-lg p-4 mb-4">
+          <p class="font-bold text-blue-900 text-base mb-3">📊 PART A: Two-Sample Z-Test for Proportions (Conversion Rates)</p>
+          <p class="text-sm text-gray-700 mb-3">Use this when comparing percentages between two groups, like "Did the new button increase click rate?"</p>
+          
+          <!-- The Data You Need -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">📋 The Data You Need:</p>
+             <table class="w-full text-xs">
+                <thead class="bg-gray-100">
+                   <tr>
+                      <th class="p-2 text-left border">Symbol</th>
+                      <th class="p-2 text-left border">What It Means</th>
+                      <th class="p-2 text-left border">Example</th>
+                   </tr>
+                </thead>
+                  <tbody>
+                    <tr><td class="p-2 border font-mono">$n_1$</td><td class="p-2 border">Sample size of Group 1 (Control)</td><td class="p-2 border">1,000 users saw old button</td></tr>
+                    <tr><td class="p-2 border font-mono">$n_2$</td><td class="p-2 border">Sample size of Group 2 (Treatment)</td><td class="p-2 border">1,000 users saw new button</td></tr>
+                    <tr><td class="p-2 border font-mono">$x_1$</td><td class="p-2 border">Number of "successes" in Group 1</td><td class="p-2 border">30 clicked</td></tr>
+                    <tr><td class="p-2 border font-mono">$x_2$</td><td class="p-2 border">Number of "successes" in Group 2</td><td class="p-2 border">45 clicked</td></tr>
+                    <tr><td class="p-2 border font-mono">$\hat{p}_1$</td><td class="p-2 border">Proportion for Group 1 = $x_1 / n_1$</td><td class="p-2 border">$30 / 1000 = 0.030$ (3.0%)</td></tr>
+                    <tr><td class="p-2 border font-mono">$\hat{p}_2$</td><td class="p-2 border">Proportion for Group 2 = $x_2 / n_2$</td><td class="p-2 border">$45 / 1000 = 0.045$ (4.5%)</td></tr>
+                  </tbody>
+             </table>
+          </div>
+
+          <!-- Step by Step -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-3">🔢 Step-by-Step Calculation:</p>
+             
+             <!-- Step 1 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 1: State Your Hypotheses</p>
+                <p class="text-xs text-gray-600 mt-1"><strong>Null Hypothesis ($H_0$):</strong> "There is NO real difference. $p_1 = p_2$"</p>
+                <p class="text-xs text-gray-600"><strong>Alternative Hypothesis ($H_1$):</strong> "There IS a real difference. $p_1 \neq p_2$"</p>
+                <p class="text-xs text-gray-500 mt-2 italic">Think of H₀ as the "boring" hypothesis — nothing interesting happened.</p>
+             </div>
+
+             <!-- Step 2 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 2: Calculate the Pooled Proportion ($\hat{p}$)</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">This is the overall conversion rate if we combined both groups. We use this because under $H_0$, we assume both groups have the same true rate.</p>
+                <div class="bg-blue-900 text-white p-3 rounded text-sm text-center">
+                  $$ \hat{p} = \frac{x_1 + x_2}{n_1 + n_2} $$
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong> p̂ = (30 + 45) ÷ (1000 + 1000) = 75 ÷ 2000 = <strong>0.0375</strong>
+                </div>
+             </div>
+
+             <!-- Step 3 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 3: Calculate Standard Error (SE)</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">Standard Error measures how much random variation we'd expect in the difference between proportions. Bigger samples = smaller SE = more precise.</p>
+                <div class="bg-blue-900 text-white p-3 rounded text-sm text-center">
+                   $$ SE = \sqrt{\hat{p}(1 - \hat{p}) \left(\frac{1}{n_1} + \frac{1}{n_2}\right)} $$
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example — Let's break it down:</strong>
+                   <ol class="mt-1 space-y-1 list-decimal list-inside">
+                      <li>p̂ × (1 - p̂) = 0.0375 × 0.9625 = 0.0361</li>
+                      <li>1/n₁ + 1/n₂ = 1/1000 + 1/1000 = 0.002</li>
+                      <li>Multiply: 0.0361 × 0.002 = 0.0000722</li>
+                      <li>Square root: √0.0000722 = <strong>0.0085</strong></li>
+                   </ol>
+                </div>
+             </div>
+
+             <!-- Step 4 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 4: Calculate the Z-Score</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">The Z-score tells you how many standard errors away from zero your observed difference is. Higher |Z| = more surprising = less likely due to chance.</p>
+                <div class="bg-blue-900 text-white p-3 rounded text-sm text-center">
+                   $$ Z = \frac{\hat{p}_2 - \hat{p}_1}{SE} $$
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong>
+                   <ol class="mt-1 space-y-1 list-decimal list-inside">
+                      <li>Difference: p̂₂ - p̂₁ = 0.045 - 0.030 = 0.015</li>
+                      <li>Z = 0.015 ÷ 0.0085 = <strong>1.76</strong></li>
+                   </ol>
+                </div>
+             </div>
+
+             <!-- Step 5 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 5: Find the P-Value</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">The p-value answers: "If there's truly no difference (H₀ is true), what's the probability of seeing a Z-score this extreme or more extreme?"</p>
+                <div class="bg-white border rounded p-2 mb-2">
+                   <p class="text-xs font-semibold">Common Z-scores and their two-tailed p-values:</p>
+                   <table class="w-full text-xs mt-1">
+                      <tr class="bg-gray-100"><td class="p-1 border">|Z| = 1.65</td><td class="p-1 border">p ≈ 0.10</td><td class="p-1 border text-gray-500">Not significant</td></tr>
+                      <tr><td class="p-1 border">|Z| = 1.96</td><td class="p-1 border">p ≈ 0.05</td><td class="p-1 border text-orange-600">Borderline ⚠️</td></tr>
+                      <tr class="bg-gray-100"><td class="p-1 border">|Z| = 2.58</td><td class="p-1 border">p ≈ 0.01</td><td class="p-1 border text-green-600">Significant ✓</td></tr>
+                      <tr><td class="p-1 border">|Z| = 3.29</td><td class="p-1 border">p ≈ 0.001</td><td class="p-1 border text-green-700">Highly significant ✓✓</td></tr>
+                   </table>
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong> Our Z = 1.76, so p ≈ 0.078. This is > 0.05, so <strong>NOT statistically significant</strong>.
+                </div>
+             </div>
+
+             <!-- Step 6 -->
+             <div class="p-3 bg-gray-50 rounded border-l-4 border-blue-400">
+                <p class="font-bold text-sm text-blue-800">Step 6: Make Your Decision</p>
+                <div class="grid grid-cols-2 gap-2 mt-2 text-xs">
+                   <div class="bg-red-50 p-2 rounded border border-red-200">
+                      <p class="font-semibold text-red-700">If p ≥ 0.05:</p>
+                      <p class="text-gray-600">Fail to reject H₀. The difference could be due to random chance. "Not enough evidence."</p>
+                   </div>
+                   <div class="bg-green-50 p-2 rounded border border-green-200">
+                      <p class="font-semibold text-green-700">If p < 0.05:</p>
+                      <p class="text-gray-600">Reject H₀. The difference is statistically significant. "Unlikely to be chance."</p>
+                   </div>
+                </div>
+                <div class="mt-2 p-2 bg-yellow-50 rounded text-xs">
+                   <strong>Our Example Conclusion:</strong> p = 0.078 > 0.05, so we <strong>cannot conclude</strong> the new button is better. The 1.5% difference <em>might</em> just be random noise.
+                </div>
+             </div>
+          </div>
+       </div>
+
+       <!-- PART B: T-TEST FOR MEANS -->
+       <div class="bg-gradient-to-r from-indigo-100 to-indigo-50 rounded-lg p-4 mb-4">
+          <p class="font-bold text-indigo-900 text-base mb-3">📊 PART B: Two-Sample T-Test for Means (Averages)</p>
+          <p class="text-sm text-gray-700 mb-3">Use this when comparing averages between two groups, like "Do premium users spend more than free users?"</p>
+          
+          <!-- The Data You Need -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">📋 The Data You Need:</p>
+             <table class="w-full text-xs">
+                <thead class="bg-gray-100">
+                   <tr>
+                      <th class="p-2 text-left border">Symbol</th>
+                      <th class="p-2 text-left border">What It Means</th>
+                      <th class="p-2 text-left border">Example</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr><td class="p-2 border font-mono">n₁, n₂</td><td class="p-2 border">Sample sizes</td><td class="p-2 border">25 free users, 25 premium users</td></tr>
+                   <tr><td class="p-2 border font-mono">x̄₁, x̄₂</td><td class="p-2 border">Sample means (averages)</td><td class="p-2 border">$45 avg spend, $62 avg spend</td></tr>
+                   <tr><td class="p-2 border font-mono">s₁, s₂</td><td class="p-2 border">Sample standard deviations</td><td class="p-2 border">$12 std dev, $18 std dev</td></tr>
+                </tbody>
+             </table>
+          </div>
+
+          <!-- Step by Step -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-3">🔢 Step-by-Step Calculation:</p>
+             
+             <!-- Step 1 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+                <p class="font-bold text-sm text-indigo-800">Step 1: Calculate Pooled Standard Error</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">This combines the variability from both groups.</p>
+                <div class="bg-indigo-900 text-white p-3 rounded text-sm text-center">
+                   $$ SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} $$
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong>
+                   <ol class="mt-1 space-y-1 list-decimal list-inside">
+                      <li>s₁²/n₁ = 12²/25 = 144/25 = 5.76</li>
+                      <li>s₂²/n₂ = 18²/25 = 324/25 = 12.96</li>
+                      <li>Sum: 5.76 + 12.96 = 18.72</li>
+                      <li>SE = √18.72 = <strong>4.33</strong></li>
+                   </ol>
+                </div>
+             </div>
+
+             <!-- Step 2 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+                <p class="font-bold text-sm text-indigo-800">Step 2: Calculate the T-Statistic</p>
+                <div class="bg-indigo-900 text-white p-3 rounded text-sm text-center">
+                   $$ t = \frac{\bar{x}_2 - \bar{x}_1}{SE} $$
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong> t = (62 - 45) ÷ 4.33 = 17 ÷ 4.33 = <strong>3.93</strong>
+                </div>
+             </div>
+
+             <!-- Step 3 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+                <p class="font-bold text-sm text-indigo-800">Step 3: Calculate Degrees of Freedom (df)</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">Degrees of freedom adjusts for sample size. For a simple approximation:</p>
+                <div class="bg-indigo-900 text-indigo-100 p-3 rounded font-mono text-sm text-center">
+                   df ≈ n₁ + n₂ - 2
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Example:</strong> df = 25 + 25 - 2 = <strong>48</strong>
+                </div>
+             </div>
+
+             <!-- Step 4 -->
+             <div class="p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+                <p class="font-bold text-sm text-indigo-800">Step 4: Find P-Value and Decide</p>
+                <p class="text-xs text-gray-600 mt-1 mb-2">Look up t in a t-table with your df, or use a calculator. For df ≥ 30, t behaves like Z.</p>
+                <div class="bg-white border rounded p-2 mb-2">
+                   <p class="text-xs font-semibold">Critical t-values (two-tailed, df=48):</p>
+                   <table class="w-full text-xs mt-1">
+                      <tr class="bg-gray-100"><td class="p-1 border">|t| > 2.01</td><td class="p-1 border">p < 0.05</td><td class="p-1 border text-green-600">Significant ✓</td></tr>
+                      <tr><td class="p-1 border">|t| > 2.68</td><td class="p-1 border">p < 0.01</td><td class="p-1 border text-green-700">Highly significant ✓✓</td></tr>
+                   </table>
+                </div>
+                <div class="mt-2 p-2 bg-green-50 rounded text-xs">
+                   <strong>Our Example:</strong> t = 3.93 > 2.68, so p < 0.01. <strong>Premium users spend significantly more!</strong>
+                </div>
+             </div>
+          </div>
+       </div>
+
+       <!-- How to Report -->
+       <div class="bg-white rounded-lg p-4 border border-blue-200">
+          <p class="font-bold text-blue-800 mb-2">📣 How to Report Your Results</p>
+          <div class="space-y-2 text-sm">
+             <div class="p-2 bg-gray-50 rounded">
+                <p class="font-semibold text-xs text-gray-500">For Proportions (Z-test):</p>
+                <p class="text-xs text-gray-700 italic">"The treatment group had a 4.5% conversion rate vs 3.0% for control, a +50% relative lift. However, this difference was not statistically significant (Z = 1.76, p = 0.078)."</p>
+             </div>
+             <div class="p-2 bg-gray-50 rounded">
+                <p class="font-semibold text-xs text-gray-500">For Means (T-test):</p>
+                <p class="text-xs text-gray-700 italic">"Premium users spent an average of $62 compared to $45 for free users, a difference of $17. This difference was statistically significant (t(48) = 3.93, p < 0.01)."</p>
+             </div>
+          </div>
+       </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- ANOVA COMPREHENSIVE GUIDE -->
+    <!-- ============================================================== -->
+    <div class="bg-indigo-50 border-2 border-indigo-300 rounded-lg p-5 mb-6">
+       <div class="flex items-center gap-3 mb-4 pb-3 border-b border-indigo-200">
+          <span class="bg-indigo-600 text-white text-sm font-bold px-3 py-1.5 rounded">ANOVA</span>
+          <span class="text-base text-gray-700 font-medium">Comparing 3+ Groups — Complete Mathematical Guide</span>
+       </div>
+       
+       <!-- What's the Big Idea -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-indigo-100">
+          <p class="font-bold text-indigo-800 mb-2">🧠 What's the Big Idea?</p>
+          <p class="text-sm text-gray-700 mb-2">ANOVA stands for <strong>AN</strong>alysis <strong>O</strong>f <strong>VA</strong>riance. It compares the means of 3 or more groups simultaneously.</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Why not just run multiple t-tests?</strong> If you compare Group A vs B, then B vs C, then A vs C, you inflate your chance of a false positive. With 3 comparisons at α=0.05, your real error rate is ~14%, not 5%!</p>
+          <p class="text-sm text-gray-700">ANOVA controls this by asking one question: <strong>"Is there ANY difference among these groups?"</strong></p>
+       </div>
+
+       <!-- Core Concept -->
+       <div class="bg-yellow-50 rounded-lg p-4 mb-4 border border-yellow-200">
+          <p class="font-bold text-yellow-800 mb-2">💡 The Core Concept: Comparing Two Types of Variance</p>
+          <div class="grid md:grid-cols-2 gap-3 text-sm">
+             <div class="bg-white p-3 rounded border border-yellow-100">
+                <p class="font-semibold text-indigo-700">Between-Group Variance (SSB)</p>
+                <p class="text-xs text-gray-600 mt-1">How much do the group means differ from each other? If groups are truly different, this should be LARGE.</p>
+             </div>
+             <div class="bg-white p-3 rounded border border-yellow-100">
+                <p class="font-semibold text-purple-700">Within-Group Variance (SSW)</p>
+                <p class="text-xs text-gray-600 mt-1">How much do individuals vary within their own groups? This is the "noise" or natural variation.</p>
+             </div>
+          </div>
+          <div class="mt-3 p-2 bg-white rounded text-center">
+             <p class="text-sm font-semibold">F = Between-Group Variance ÷ Within-Group Variance</p>
+             <p class="text-xs text-gray-500 mt-1">If F is large → Groups are more different from each other than expected by random noise</p>
+          </div>
+       </div>
+
+       <!-- Worked Example -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-indigo-100">
+          <p class="font-bold text-indigo-800 mb-3">📊 Complete Worked Example</p>
+          <p class="text-sm text-gray-700 mb-3"><strong>Scenario:</strong> You want to compare average sales across 3 regions: North, South, and West.</p>
+          
+          <!-- Raw Data -->
+          <div class="bg-gray-50 rounded p-3 mb-4">
+             <p class="font-semibold text-sm text-gray-700 mb-2">Raw Data (Sales in $1000s):</p>
+             <div class="grid grid-cols-3 gap-2 text-xs">
+                <div class="bg-blue-50 p-2 rounded text-center">
+                   <p class="font-bold text-blue-700">North</p>
+                   <p>23, 25, 27, 22, 23</p>
+                   <p class="text-gray-500 mt-1">n₁ = 5</p>
+                </div>
+                <div class="bg-green-50 p-2 rounded text-center">
+                   <p class="font-bold text-green-700">South</p>
+                   <p>30, 32, 28, 31, 29</p>
+                   <p class="text-gray-500 mt-1">n₂ = 5</p>
+                </div>
+                <div class="bg-orange-50 p-2 rounded text-center">
+                   <p class="font-bold text-orange-700">West</p>
+                   <p>25, 26, 28, 24, 27</p>
+                   <p class="text-gray-500 mt-1">n₃ = 5</p>
+                </div>
+             </div>
+          </div>
+
+          <!-- Step 1 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 1: Calculate Group Means (x̄ᵢ) and Grand Mean (x̄)</p>
+             <div class="mt-2 text-xs space-y-1">
+                <p><strong>North:</strong> x̄₁ = (23+25+27+22+23) ÷ 5 = 120 ÷ 5 = <strong>24</strong></p>
+                <p><strong>South:</strong> x̄₂ = (30+32+28+31+29) ÷ 5 = 150 ÷ 5 = <strong>30</strong></p>
+                <p><strong>West:</strong> x̄₃ = (25+26+28+24+27) ÷ 5 = 130 ÷ 5 = <strong>26</strong></p>
+                <p class="mt-2 p-2 bg-indigo-100 rounded"><strong>Grand Mean (x̄):</strong> (120+150+130) ÷ 15 = 400 ÷ 15 = <strong>26.67</strong></p>
+             </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 2: Calculate Sum of Squares Between Groups (SSB)</p>
+             <p class="text-xs text-gray-600 mt-1 mb-2">This measures how far each group mean is from the grand mean.</p>
+             <div class="bg-indigo-900 text-white p-3 rounded text-sm text-center mb-2">
+                $$ SSB = \sum n_i (\bar{x}_i - \bar{x})^2 $$
+             </div>
+             <div class="text-xs space-y-1">
+                <p><strong>North:</strong> 5 × (24 - 26.67)² = 5 × (-2.67)² = 5 × 7.13 = 35.65</p>
+                <p><strong>South:</strong> 5 × (30 - 26.67)² = 5 × (3.33)² = 5 × 11.09 = 55.45</p>
+                <p><strong>West:</strong> 5 × (26 - 26.67)² = 5 × (-0.67)² = 5 × 0.45 = 2.25</p>
+                <p class="mt-2 p-2 bg-indigo-100 rounded"><strong>SSB = 35.65 + 55.45 + 2.25 = 93.35</strong></p>
+             </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 3: Calculate Sum of Squares Within Groups (SSW)</p>
+             <p class="text-xs text-gray-600 mt-1 mb-2">This measures how far each individual data point is from its own group mean.</p>
+             <div class="bg-indigo-900 text-white p-3 rounded text-sm text-center mb-2">
+                $$ SSW = \sum (x_{ij} - \bar{x}_i)^2 $$
+             </div>
+             <div class="text-xs space-y-2">
+                <div class="p-2 bg-blue-50 rounded">
+                   <p><strong>North (mean=24):</strong></p>
+                   <p>(23-24)² + (25-24)² + (27-24)² + (22-24)² + (23-24)² = 1 + 1 + 9 + 4 + 1 = <strong>16</strong></p>
+                </div>
+                <div class="p-2 bg-green-50 rounded">
+                   <p><strong>South (mean=30):</strong></p>
+                   <p>(30-30)² + (32-30)² + (28-30)² + (31-30)² + (29-30)² = 0 + 4 + 4 + 1 + 1 = <strong>10</strong></p>
+                </div>
+                <div class="p-2 bg-orange-50 rounded">
+                   <p><strong>West (mean=26):</strong></p>
+                   <p>(25-26)² + (26-26)² + (28-26)² + (24-26)² + (27-26)² = 1 + 0 + 4 + 4 + 1 = <strong>10</strong></p>
+                </div>
+                <p class="p-2 bg-indigo-100 rounded"><strong>SSW = 16 + 10 + 10 = 36</strong></p>
+             </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 4: Calculate Degrees of Freedom</p>
+             <div class="grid grid-cols-2 gap-2 mt-2 text-xs">
+                <div class="p-2 bg-white rounded border">
+                   <p><strong>df Between (dfB):</strong></p>
+                   <p>k - 1 = 3 - 1 = <strong>2</strong></p>
+                   <p class="text-gray-500">(k = number of groups)</p>
+                </div>
+                <div class="p-2 bg-white rounded border">
+                   <p><strong>df Within (dfW):</strong></p>
+                   <p>N - k = 15 - 3 = <strong>12</strong></p>
+                   <p class="text-gray-500">(N = total sample size)</p>
+                </div>
+             </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 5: Calculate Mean Squares</p>
+             <div class="grid grid-cols-2 gap-2 mt-2 text-xs">
+                <div class="p-2 bg-white rounded border">
+                   <p><strong>MSB (Mean Square Between):</strong></p>
+                   <p>SSB ÷ dfB = 93.35 ÷ 2 = <strong>46.68</strong></p>
+                </div>
+                <div class="p-2 bg-white rounded border">
+                   <p><strong>MSW (Mean Square Within):</strong></p>
+                   <p>SSW ÷ dfW = 36 ÷ 12 = <strong>3.00</strong></p>
+                </div>
+             </div>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 6: Calculate the F-Statistic</p>
+             <div class="bg-indigo-900 text-white p-3 rounded text-sm text-center mb-2">
+                $$ F = \frac{MSB}{MSW} = \frac{46.68}{3.00} = \mathbf{15.56} $$
+             </div>
+          </div>
+
+          <!-- Step 7 -->
+          <div class="p-3 bg-gray-50 rounded border-l-4 border-indigo-400">
+             <p class="font-bold text-sm text-indigo-800">Step 7: Find P-Value and Decide</p>
+             <p class="text-xs text-gray-600 mt-1 mb-2">Look up F with dfB=2 and dfW=12 in an F-table.</p>
+             <div class="bg-white border rounded p-2 mb-2">
+                <p class="text-xs font-semibold">Critical F-values (dfB=2, dfW=12):</p>
+                <table class="w-full text-xs mt-1">
+                   <tr class="bg-gray-100"><td class="p-1 border">F > 3.89</td><td class="p-1 border">p < 0.05</td></tr>
+                   <tr><td class="p-1 border">F > 6.93</td><td class="p-1 border">p < 0.01</td></tr>
+                </table>
+             </div>
+             <div class="mt-2 p-2 bg-green-100 rounded text-xs">
+                <strong>Our F = 15.56 > 6.93</strong>, so p < 0.01. <strong>At least one region is significantly different!</strong>
+             </div>
+          </div>
+       </div>
+
+       <!-- ANOVA Table Summary -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-indigo-100">
+          <p class="font-bold text-indigo-800 mb-2">📋 The ANOVA Table (What You'll See in Software)</p>
+          <table class="w-full text-xs">
+             <thead class="bg-indigo-100">
+                <tr>
+                   <th class="p-2 text-left border">Source</th>
+                   <th class="p-2 text-left border">SS</th>
+                   <th class="p-2 text-left border">df</th>
+                   <th class="p-2 text-left border">MS</th>
+                   <th class="p-2 text-left border">F</th>
+                   <th class="p-2 text-left border">p-value</th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr><td class="p-2 border">Between Groups</td><td class="p-2 border">93.35</td><td class="p-2 border">2</td><td class="p-2 border">46.68</td><td class="p-2 border">15.56</td><td class="p-2 border text-green-600 font-bold">&lt;0.01</td></tr>
+                <tr><td class="p-2 border">Within Groups</td><td class="p-2 border">36.00</td><td class="p-2 border">12</td><td class="p-2 border">3.00</td><td class="p-2 border">-</td><td class="p-2 border">-</td></tr>
+                <tr class="bg-gray-50"><td class="p-2 border font-bold">Total</td><td class="p-2 border">129.35</td><td class="p-2 border">14</td><td class="p-2 border">-</td><td class="p-2 border">-</td><td class="p-2 border">-</td></tr>
+             </tbody>
+          </table>
+       </div>
+
+       <!-- Post-Hoc Tests -->
+       <div class="bg-orange-50 rounded-lg p-4 border border-orange-200">
+          <p class="font-bold text-orange-800 mb-2">⚠️ Important: ANOVA Only Tells You IF There's a Difference, Not WHERE</p>
+          <p class="text-sm text-gray-700 mb-2">If ANOVA is significant, you need <strong>post-hoc tests</strong> to find which specific groups differ.</p>
+          <div class="bg-white p-3 rounded text-sm">
+             <p class="font-semibold text-xs text-gray-600 mb-1">Common Post-Hoc Tests:</p>
+             <ul class="text-xs text-gray-700 space-y-1">
+                <li><strong>Tukey's HSD:</strong> Best when you want to compare all pairs of groups</li>
+                <li><strong>Bonferroni:</strong> More conservative, good for specific planned comparisons</li>
+                <li><strong>Dunnett's:</strong> When comparing all groups to a single control group</li>
+             </ul>
+          </div>
+       </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- CORRELATION & REGRESSION COMPREHENSIVE GUIDE -->
+    <!-- ============================================================== -->
+    <div class="bg-purple-50 border-2 border-purple-300 rounded-lg p-5 mb-6">
+       <div class="flex items-center gap-3 mb-4 pb-3 border-b border-purple-200">
+          <span class="bg-purple-600 text-white text-sm font-bold px-3 py-1.5 rounded">CORRELATION & REGRESSION</span>
+          <span class="text-base text-gray-700 font-medium">Finding Relationships — Complete Mathematical Guide</span>
+       </div>
+       
+       <!-- What's the Big Idea -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-purple-100">
+          <p class="font-bold text-purple-800 mb-2">🧠 What's the Big Idea?</p>
+          <p class="text-sm text-gray-700 mb-2"><strong>Correlation</strong> measures the strength and direction of a relationship between two numeric variables. It answers: "When X goes up, does Y tend to go up (positive), down (negative), or show no pattern (zero)?"</p>
+          <p class="text-sm text-gray-700"><strong>Regression</strong> goes further — it finds the best-fit line so you can predict Y from X. It answers: "By how much does Y change for each unit change in X?"</p>
+       </div>
+
+       <!-- Key Difference -->
+       <div class="bg-yellow-50 rounded-lg p-4 mb-4 border border-yellow-200">
+          <p class="font-bold text-yellow-800 mb-2">⚠️ CRITICAL: Correlation ≠ Causation</p>
+          <div class="text-sm text-gray-700 space-y-2">
+             <p><strong>Example:</strong> Ice cream sales and drowning deaths are highly correlated. Does ice cream cause drowning? NO!</p>
+             <p><strong>The truth:</strong> Both are caused by a third variable — hot weather (a <em>confounding variable</em>).</p>
+             <p class="p-2 bg-white rounded border"><strong>Rule:</strong> Correlation shows association, not causation. Only controlled experiments can prove causation.</p>
+          </div>
+       </div>
+
+       <!-- CORRELATION -->
+       <div class="bg-gradient-to-r from-purple-100 to-purple-50 rounded-lg p-4 mb-4">
+          <p class="font-bold text-purple-900 text-base mb-3">📊 PART A: Pearson Correlation Coefficient (r)</p>
+          
+          <!-- What r tells you -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">📏 What Does r Mean?</p>
+             <div class="grid grid-cols-3 gap-2 text-xs text-center">
+                <div class="p-2 bg-green-100 rounded">
+                   <p class="font-bold text-green-700">r = +1</p>
+                   <p>Perfect positive</p>
+                   <p class="text-gray-500">X↑ → Y↑ exactly</p>
+                </div>
+                <div class="p-2 bg-gray-100 rounded">
+                   <p class="font-bold text-gray-700">r = 0</p>
+                   <p>No relationship</p>
+                   <p class="text-gray-500">Random scatter</p>
+                </div>
+                <div class="p-2 bg-red-100 rounded">
+                   <p class="font-bold text-red-700">r = -1</p>
+                   <p>Perfect negative</p>
+                   <p class="text-gray-500">X↑ → Y↓ exactly</p>
+                </div>
+             </div>
+             <div class="mt-3 p-2 bg-gray-50 rounded text-xs">
+                <strong>Strength Guide:</strong> |r| < 0.3 = Weak | 0.3 ≤ |r| < 0.7 = Moderate | |r| ≥ 0.7 = Strong
+             </div>
+          </div>
+
+          <!-- Worked Example -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-3">🔢 Complete Worked Example</p>
+             <p class="text-xs text-gray-600 mb-3"><strong>Scenario:</strong> Does ad spend (X) predict revenue (Y)?</p>
+             
+             <table class="w-full text-xs mb-3">
+                <thead class="bg-purple-100">
+                   <tr>
+                      <th class="p-2 border">Month</th>
+                      <th class="p-2 border">Ad Spend (X) $K</th>
+                      <th class="p-2 border">Revenue (Y) $K</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr><td class="p-2 border text-center">1</td><td class="p-2 border text-center">10</td><td class="p-2 border text-center">50</td></tr>
+                   <tr><td class="p-2 border text-center">2</td><td class="p-2 border text-center">20</td><td class="p-2 border text-center">70</td></tr>
+                   <tr><td class="p-2 border text-center">3</td><td class="p-2 border text-center">30</td><td class="p-2 border text-center">85</td></tr>
+                   <tr><td class="p-2 border text-center">4</td><td class="p-2 border text-center">40</td><td class="p-2 border text-center">100</td></tr>
+                   <tr><td class="p-2 border text-center">5</td><td class="p-2 border text-center">50</td><td class="p-2 border text-center">120</td></tr>
+                </tbody>
+             </table>
+
+             <!-- Step 1 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-purple-400">
+                <p class="font-bold text-sm text-purple-800">Step 1: Calculate Means</p>
+                <div class="mt-2 text-xs space-y-1">
+                   <p>$\bar{x} = (10+20+30+40+50) / 5 = 150 / 5 = \mathbf{30}$</p>
+                   <p>$\bar{y} = (50+70+85+100+120) / 5 = 425 / 5 = \mathbf{85}$</p>
+                </div>
+             </div>
+
+             <!-- Step 2 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-purple-400">
+                <p class="font-bold text-sm text-purple-800">Step 2: Calculate Deviations from Mean</p>
+                <table class="w-full text-xs mt-2">
+                   <thead class="bg-gray-100">
+                      <tr>
+                         <th class="p-1 border">X</th>
+                         <th class="p-1 border">Y</th>
+                         <th class="p-1 border">$(X - \bar{x})$</th>
+                         <th class="p-1 border">$(Y - \bar{y})$</th>
+                         <th class="p-1 border">$(X-\bar{x})(Y-\bar{y})$</th>
+                         <th class="p-1 border">$(X-\bar{x})^2$</th>
+                         <th class="p-1 border">$(Y-\bar{y})^2$</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr><td class="p-1 border">10</td><td class="p-1 border">50</td><td class="p-1 border">-20</td><td class="p-1 border">-35</td><td class="p-1 border">700</td><td class="p-1 border">400</td><td class="p-1 border">1225</td></tr>
+                      <tr><td class="p-1 border">20</td><td class="p-1 border">70</td><td class="p-1 border">-10</td><td class="p-1 border">-15</td><td class="p-1 border">150</td><td class="p-1 border">100</td><td class="p-1 border">225</td></tr>
+                      <tr><td class="p-1 border">30</td><td class="p-1 border">85</td><td class="p-1 border">0</td><td class="p-1 border">0</td><td class="p-1 border">0</td><td class="p-1 border">0</td><td class="p-1 border">0</td></tr>
+                      <tr><td class="p-1 border">40</td><td class="p-1 border">100</td><td class="p-1 border">10</td><td class="p-1 border">15</td><td class="p-1 border">150</td><td class="p-1 border">100</td><td class="p-1 border">225</td></tr>
+                      <tr><td class="p-1 border">50</td><td class="p-1 border">120</td><td class="p-1 border">20</td><td class="p-1 border">35</td><td class="p-1 border">700</td><td class="p-1 border">400</td><td class="p-1 border">1225</td></tr>
+                      <tr class="bg-purple-100 font-bold"><td class="p-1 border" colspan="4">SUMS →</td><td class="p-1 border">1700</td><td class="p-1 border">1000</td><td class="p-1 border">2900</td></tr>
+                   </tbody>
+                </table>
+             </div>
+
+             <!-- Step 3 -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-purple-400">
+                <p class="font-bold text-sm text-purple-800">Step 3: Apply the Formula</p>
+                <div class="bg-purple-900 text-white p-3 rounded text-sm text-center mb-2">
+                   $$ r = \frac{\sum((X-\bar{x})(Y-\bar{y}))}{\sqrt{\sum(X-\bar{x})^2 \cdot \sum(Y-\bar{y})^2}} $$
+                </div>
+                <div class="text-xs space-y-1">
+                   <p>r = 1700 ÷ √(1000 × 2900)</p>
+                   <p>r = 1700 ÷ √2,900,000</p>
+                   <p>r = 1700 ÷ 1702.9</p>
+                   <p class="p-2 bg-green-100 rounded mt-2"><strong>r = 0.998</strong> — This is an extremely strong positive correlation!</p>
+                </div>
+             </div>
+
+             <!-- Step 4 -->
+             <div class="p-3 bg-gray-50 rounded border-l-4 border-purple-400">
+                <p class="font-bold text-sm text-purple-800">Step 4: Calculate R² (Coefficient of Determination)</p>
+                <div class="bg-purple-900 text-white p-3 rounded text-sm text-center mb-2">
+                   $$ R^2 = r^2 = 0.998^2 = \mathbf{0.996} $$
+                </div>
+                <p class="text-xs text-gray-700"><strong>Interpretation:</strong> R² = 0.996 means <strong>99.6% of the variance in Revenue can be explained by Ad Spend</strong>. Only 0.4% is due to other factors.</p>
+             </div>
+          </div>
+       </div>
+
+       <!-- REGRESSION -->
+       <div class="bg-gradient-to-r from-violet-100 to-violet-50 rounded-lg p-4 mb-4">
+          <p class="font-bold text-violet-900 text-base mb-3">📊 PART B: Linear Regression (Y = a + bX)</p>
+          <p class="text-sm text-gray-700 mb-3">Regression finds the "best fit" line through your data points, letting you predict Y for any value of X.</p>
+          
+          <!-- The Equation -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">📐 The Regression Equation</p>
+             <div class="bg-violet-900 text-violet-100 p-3 rounded font-mono text-base text-center mb-2">
+                $$ Y = a + bX $$
+             </div>
+             <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="p-2 bg-gray-50 rounded">
+                   <p><strong>b (slope):</strong> How much Y changes for each 1-unit increase in X</p>
+                </div>
+                <div class="p-2 bg-gray-50 rounded">
+                   <p><strong>a (intercept):</strong> The value of Y when X = 0</p>
+                </div>
+             </div>
+          </div>
+
+          <!-- Calculating b and a -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-3">🔢 Calculating b and a (Using our Ad Spend example)</p>
+             
+             <!-- Calculate b -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-violet-400">
+                <p class="font-bold text-sm text-violet-800">Step 1: Calculate the Slope (b)</p>
+                <div class="bg-violet-900 text-white p-3 rounded text-sm text-center mb-2">
+                   $$ b = \frac{\sum((X - \bar{x})(Y - \bar{y}))}{\sum(X - \bar{x})^2} $$
+                </div>
+                <div class="text-xs">
+                   <p>b = 1700 ÷ 1000 = <strong>1.7</strong></p>
+                   <p class="mt-2 p-2 bg-green-50 rounded"><strong>Meaning:</strong> For every $1K increase in ad spend, revenue increases by $1.7K</p>
+                </div>
+             </div>
+
+             <!-- Calculate a -->
+             <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-violet-400">
+                <p class="font-bold text-sm text-violet-800">Step 2: Calculate the Intercept (a)</p>
+                <div class="bg-violet-900 text-white p-3 rounded text-sm text-center mb-2">
+                   $$ a = \bar{y} - b \bar{x} $$
+                </div>
+                <div class="text-xs">
+                   <p>a = 85 - (1.7 × 30) = 85 - 51 = <strong>34</strong></p>
+                   <p class="mt-2 p-2 bg-green-50 rounded"><strong>Meaning:</strong> With $0 ad spend, we'd expect ~$34K revenue (baseline)</p>
+                </div>
+             </div>
+
+             <!-- Final Equation -->
+             <div class="p-3 bg-violet-100 rounded">
+                <p class="font-bold text-sm text-violet-800">The Final Regression Equation:</p>
+                <div class="bg-violet-900 text-white p-4 rounded text-lg text-center mt-2">
+                   $$ \text{Revenue} = 34 + 1.7(\text{Ad Spend}) $$
+                </div>
+             </div>
+          </div>
+
+          <!-- Making Predictions -->
+          <div class="bg-white rounded p-3 mb-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">🔮 Making Predictions</p>
+             <p class="text-xs text-gray-600 mb-2"><strong>Question:</strong> If we spend $35K on ads, what revenue do we expect?</p>
+             <div class="p-2 bg-gray-50 rounded text-xs">
+                <p>Revenue = 34 + 1.7 × 35</p>
+                <p>Revenue = 34 + 59.5</p>
+                <p class="font-bold text-green-700">Revenue = $93.5K</p>
+             </div>
+          </div>
+
+          <!-- Testing Significance -->
+          <div class="bg-white rounded p-3">
+             <p class="font-semibold text-sm text-gray-800 mb-2">📊 Is the Relationship Statistically Significant?</p>
+             <p class="text-xs text-gray-600 mb-2">We need to test if b is significantly different from 0.</p>
+             
+             <div class="mb-3 p-3 bg-gray-50 rounded border-l-4 border-violet-400">
+                <p class="font-bold text-sm text-violet-800">Calculate t-statistic for the slope</p>
+                <div class="bg-violet-900 text-white p-2 rounded text-sm text-center mb-2">
+                   $$ t = \frac{b}{SE_b} $$
+                </div>
+                <p class="text-xs text-gray-600">Where $ SE_b = \sqrt{\frac{\sum(Y-\hat{Y})^2}{(n-2) \sum(X-\bar{x})^2}} $</p>
+                <p class="text-xs text-gray-500 mt-2">For our example: t ≈ 19.4, df = 3, p < 0.001</p>
+                <p class="text-xs p-2 bg-green-50 rounded mt-2"><strong>Conclusion:</strong> The relationship is highly significant!</p>
+             </div>
+          </div>
+       </div>
+
+       <!-- How to Report -->
+       <div class="bg-white rounded-lg p-4 border border-purple-200">
+          <p class="font-bold text-purple-800 mb-2">📣 How to Report Your Results</p>
+          <div class="space-y-2 text-sm">
+             <div class="p-2 bg-gray-50 rounded">
+                <p class="font-semibold text-xs text-gray-500">For Correlation:</p>
+                <p class="text-xs text-gray-700 italic">"There was a strong positive correlation between ad spend and revenue (r = 0.998, p < 0.001). Ad spend explained 99.6% of the variance in revenue (R² = 0.996)."</p>
+             </div>
+             <div class="p-2 bg-gray-50 rounded">
+                <p class="font-semibold text-xs text-gray-500">For Regression:</p>
+                <p class="text-xs text-gray-700 italic">"Revenue = 34 + 1.7 × Ad Spend. For every $1K increase in ad spend, revenue increased by $1.7K (b = 1.7, t(3) = 19.4, p < 0.001)."</p>
+             </div>
+          </div>
+       </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- CHI-SQUARE COMPREHENSIVE GUIDE -->
+    <!-- ============================================================== -->
+    <div class="bg-pink-50 border-2 border-pink-300 rounded-lg p-5 mb-6">
+       <div class="flex items-center gap-3 mb-4 pb-3 border-b border-pink-200">
+          <span class="bg-pink-600 text-white text-sm font-bold px-3 py-1.5 rounded">CHI-SQUARE (χ²)</span>
+          <span class="text-base text-gray-700 font-medium">Testing Relationships Between Categories — Complete Guide</span>
+       </div>
+       
+       <!-- What's the Big Idea -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-pink-100">
+          <p class="font-bold text-pink-800 mb-2">🧠 What's the Big Idea?</p>
+          <p class="text-sm text-gray-700 mb-2">Chi-Square tests whether two <strong>categorical</strong> variables are related. It compares what you <em>observed</em> to what you'd <em>expect</em> if there was no relationship.</p>
+          <p class="text-sm text-gray-700"><strong>Key Question:</strong> "Are these categories distributed the way we'd expect by chance, or is there a pattern?"</p>
+       </div>
+
+       <!-- When to Use -->
+       <div class="bg-yellow-50 rounded-lg p-4 mb-4 border border-yellow-200">
+          <p class="font-bold text-yellow-800 mb-2">✅ When to Use Chi-Square</p>
+          <ul class="text-sm text-gray-700 space-y-1">
+             <li>• <strong>Both variables are categorical</strong> (not numbers you can average)</li>
+             <li>• Is Gender related to Product Preference? (Male/Female vs Product A/B/C)</li>
+             <li>• Does Browser Type affect conversion? (Chrome/Safari/Firefox vs Converted/Not Converted)</li>
+             <li>• Is Churn related to Plan Type? (Free/Pro/Enterprise vs Churned/Retained)</li>
+          </ul>
+       </div>
+
+       <!-- Complete Worked Example -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-pink-100">
+          <p class="font-bold text-pink-800 mb-3">📊 Complete Worked Example</p>
+          <p class="text-sm text-gray-700 mb-3"><strong>Scenario:</strong> Is there a relationship between Gender and Product Preference?</p>
+          
+          <!-- Observed Data -->
+          <div class="bg-gray-50 rounded p-3 mb-4">
+             <p class="font-semibold text-sm text-gray-700 mb-2">📋 Step 1: Create the Contingency Table (Observed Counts)</p>
+             <p class="text-xs text-gray-600 mb-2">We surveyed 200 customers about their product preference:</p>
+             <table class="w-full text-xs">
+                <thead class="bg-pink-100">
+                   <tr>
+                      <th class="p-2 border"></th>
+                      <th class="p-2 border text-center">Product A</th>
+                      <th class="p-2 border text-center">Product B</th>
+                      <th class="p-2 border text-center">Product C</th>
+                      <th class="p-2 border text-center bg-pink-200">Row Total</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                      <td class="p-2 border font-bold">Male</td>
+                      <td class="p-2 border text-center">30</td>
+                      <td class="p-2 border text-center">45</td>
+                      <td class="p-2 border text-center">25</td>
+                      <td class="p-2 border text-center bg-pink-50 font-bold">100</td>
+                   </tr>
+                   <tr>
+                      <td class="p-2 border font-bold">Female</td>
+                      <td class="p-2 border text-center">50</td>
+                      <td class="p-2 border text-center">35</td>
+                      <td class="p-2 border text-center">15</td>
+                      <td class="p-2 border text-center bg-pink-50 font-bold">100</td>
+                   </tr>
+                   <tr class="bg-pink-100">
+                      <td class="p-2 border font-bold">Column Total</td>
+                      <td class="p-2 border text-center font-bold">80</td>
+                      <td class="p-2 border text-center font-bold">80</td>
+                      <td class="p-2 border text-center font-bold">40</td>
+                      <td class="p-2 border text-center font-bold bg-pink-200">200</td>
+                   </tr>
+                </tbody>
+             </table>
+          </div>
+
+          <!-- Calculate Expected -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-pink-400">
+             <p class="font-bold text-sm text-pink-800">Step 2: Calculate Expected Counts</p>
+             <p class="text-xs text-gray-600 mt-1 mb-2">Expected count = (Row Total × Column Total) ÷ Grand Total</p>
+             <p class="text-xs text-gray-600 mb-2">This is what we'd expect if gender had NO effect on preference.</p>
+             
+             <div class="bg-pink-900 text-white p-2 rounded text-sm text-center mb-3">
+                $$ E_{ij} = \frac{\text{Row Total} \times \text{Col Total}}{\text{Grand Total}} $$
+             </div>
+             
+             <table class="w-full text-xs mb-2">
+                <thead class="bg-gray-100">
+                   <tr>
+                      <th class="p-2 border">Cell</th>
+                      <th class="p-2 border">Calculation</th>
+                      <th class="p-2 border">Expected</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr><td class="p-2 border">Male + A</td><td class="p-2 border">(100 × 80) ÷ 200</td><td class="p-2 border font-bold">40</td></tr>
+                   <tr><td class="p-2 border">Male + B</td><td class="p-2 border">(100 × 80) ÷ 200</td><td class="p-2 border font-bold">40</td></tr>
+                   <tr><td class="p-2 border">Male + C</td><td class="p-2 border">(100 × 40) ÷ 200</td><td class="p-2 border font-bold">20</td></tr>
+                   <tr><td class="p-2 border">Female + A</td><td class="p-2 border">(100 × 80) ÷ 200</td><td class="p-2 border font-bold">40</td></tr>
+                   <tr><td class="p-2 border">Female + B</td><td class="p-2 border">(100 × 80) ÷ 200</td><td class="p-2 border font-bold">40</td></tr>
+                   <tr><td class="p-2 border">Female + C</td><td class="p-2 border">(100 × 40) ÷ 200</td><td class="p-2 border font-bold">20</td></tr>
+                </tbody>
+             </table>
+          </div>
+
+          <!-- Calculate Chi-Square -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-pink-400">
+             <p class="font-bold text-sm text-pink-800">Step 3: Calculate the Chi-Square Statistic</p>
+             <div class="bg-pink-900 text-white p-3 rounded text-sm text-center mb-3">
+                $$ \chi^2 = \sum \frac{(O - E)^2}{E} $$
+             </div>
+             
+             <table class="w-full text-xs">
+                <thead class="bg-gray-100">
+                   <tr>
+                      <th class="p-2 border">Cell</th>
+                      <th class="p-2 border">O</th>
+                      <th class="p-2 border">E</th>
+                      <th class="p-2 border">O - E</th>
+                      <th class="p-2 border">(O-E)²</th>
+                      <th class="p-2 border">(O-E)²/E</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr><td class="p-2 border">Male + A</td><td class="p-2 border">30</td><td class="p-2 border">40</td><td class="p-2 border">-10</td><td class="p-2 border">100</td><td class="p-2 border">2.50</td></tr>
+                   <tr><td class="p-2 border">Male + B</td><td class="p-2 border">45</td><td class="p-2 border">40</td><td class="p-2 border">+5</td><td class="p-2 border">25</td><td class="p-2 border">0.625</td></tr>
+                   <tr><td class="p-2 border">Male + C</td><td class="p-2 border">25</td><td class="p-2 border">20</td><td class="p-2 border">+5</td><td class="p-2 border">25</td><td class="p-2 border">1.25</td></tr>
+                   <tr><td class="p-2 border">Female + A</td><td class="p-2 border">50</td><td class="p-2 border">40</td><td class="p-2 border">+10</td><td class="p-2 border">100</td><td class="p-2 border">2.50</td></tr>
+                   <tr><td class="p-2 border">Female + B</td><td class="p-2 border">35</td><td class="p-2 border">40</td><td class="p-2 border">-5</td><td class="p-2 border">25</td><td class="p-2 border">0.625</td></tr>
+                   <tr><td class="p-2 border">Female + C</td><td class="p-2 border">15</td><td class="p-2 border">20</td><td class="p-2 border">-5</td><td class="p-2 border">25</td><td class="p-2 border">1.25</td></tr>
+                   <tr class="bg-pink-100 font-bold"><td class="p-2 border" colspan="5">SUM ($\chi^2$) →</td><td class="p-2 border">8.75</td></tr>
+                </tbody>
+             </table>
+          </div>
+
+          <!-- Degrees of Freedom -->
+          <div class="mb-4 p-3 bg-gray-50 rounded border-l-4 border-pink-400">
+             <p class="font-bold text-sm text-pink-800">Step 4: Calculate Degrees of Freedom</p>
+             <div class="bg-pink-900 text-white p-2 rounded text-sm text-center mb-2">
+                $$ df = (R - 1)(C - 1) $$
+             </div>
+             <p class="text-xs">df = (2 - 1) × (3 - 1) = 1 × 2 = <strong>2</strong></p>
+          </div>
+
+          <!-- Find P-Value -->
+          <div class="p-3 bg-gray-50 rounded border-l-4 border-pink-400">
+             <p class="font-bold text-sm text-pink-800">Step 5: Find P-Value and Decide</p>
+             <div class="bg-white border rounded p-2 mb-2">
+                <p class="text-xs font-semibold">Critical χ² values (df = 2):</p>
+                <table class="w-full text-xs mt-1">
+                   <tr class="bg-gray-100"><td class="p-1 border">χ² > 5.99</td><td class="p-1 border">p < 0.05</td><td class="p-1 border text-green-600">Significant ✓</td></tr>
+                   <tr><td class="p-1 border">χ² > 9.21</td><td class="p-1 border">p < 0.01</td><td class="p-1 border text-green-700">Highly significant ✓✓</td></tr>
+                </table>
+             </div>
+             <div class="mt-2 p-2 bg-green-100 rounded text-xs">
+                <strong>Our χ² = 8.75 > 5.99</strong>, so p < 0.05. <strong>Gender and Product Preference ARE related!</strong>
+             </div>
+          </div>
+       </div>
+
+       <!-- Interpreting Results -->
+       <div class="bg-white rounded-lg p-4 mb-4 border border-pink-100">
+          <p class="font-bold text-pink-800 mb-2">🔍 Interpreting the Results: What's the Pattern?</p>
+          <p class="text-xs text-gray-700 mb-2">Chi-square tells us there's a relationship, but we need to look at the data to understand <em>what</em> that relationship is:</p>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+             <div class="p-2 bg-blue-50 rounded">
+                <p class="font-bold text-blue-700">Males:</p>
+                <ul class="text-gray-600 mt-1">
+                   <li>• Product A: 30% (expected 40%)</li>
+                   <li>• Product B: 45% (expected 40%)</li>
+                   <li>• Product C: 25% (expected 20%)</li>
+                </ul>
+                <p class="mt-1 text-blue-600">→ Males prefer B and C</p>
+             </div>
+             <div class="p-2 bg-pink-50 rounded">
+                <p class="font-bold text-pink-700">Females:</p>
+                <ul class="text-gray-600 mt-1">
+                   <li>• Product A: 50% (expected 40%)</li>
+                   <li>• Product B: 35% (expected 40%)</li>
+                   <li>• Product C: 15% (expected 20%)</li>
+                </ul>
+                <p class="mt-1 text-pink-600">→ Females prefer A</p>
+             </div>
+          </div>
+       </div>
+
+       <!-- Assumptions -->
+       <div class="bg-orange-50 rounded-lg p-4 mb-4 border border-orange-200">
+          <p class="font-bold text-orange-800 mb-2">⚠️ Important Assumptions</p>
+          <ul class="text-sm text-gray-700 space-y-1">
+             <li>• <strong>Expected counts should be ≥ 5</strong> in each cell (if not, use Fisher's Exact Test)</li>
+             <li>• Observations must be independent (each person counted once)</li>
+             <li>• Data must be frequencies/counts, not percentages</li>
+          </ul>
+       </div>
+
+       <!-- How to Report -->
+       <div class="bg-white rounded-lg p-4 border border-pink-200">
+          <p class="font-bold text-pink-800 mb-2">📣 How to Report Your Results</p>
+          <div class="p-2 bg-gray-50 rounded">
+             <p class="text-xs text-gray-700 italic">"There was a significant association between gender and product preference, χ²(2, N = 200) = 8.75, p < 0.05. Females showed a stronger preference for Product A (50% vs 30%), while males preferred Product B (45% vs 35%) and Product C (25% vs 15%)."</p>
+          </div>
+       </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- FINAL CHECKLIST -->
+    <!-- ============================================================== -->
+    <div class="bg-emerald-100 border-2 border-emerald-400 rounded-lg p-5">
+       <div class="font-bold text-emerald-800 text-lg mb-3">✅ Your Pre-Analysis Checklist</div>
+       <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-white rounded p-3">
+             <p class="font-semibold text-emerald-700 mb-2">Before You Start:</p>
+             <ul class="text-sm space-y-2">
+                <li>☐ <strong>1. Question:</strong> Can I state my question in one sentence?</li>
+                <li>☐ <strong>2. Data Type:</strong> Are my variables numeric or categorical?</li>
+                <li>☐ <strong>3. Groups:</strong> How many groups am I comparing?</li>
+                <li>☐ <strong>4. Test Selection:</strong> Have I picked the correct test?
+                   <ul class="text-xs text-gray-500 ml-4 mt-1">
+                      <li>• 2 groups, proportions → Z-Test</li>
+                      <li>• 2 groups, means → T-Test</li>
+                      <li>• 3+ groups, means → ANOVA</li>
+                      <li>• 2 numeric variables → Correlation/Regression</li>
+                      <li>• 2 categorical variables → Chi-Square</li>
+                   </ul>
+                </li>
+             </ul>
+          </div>
+          <div class="bg-white rounded p-3">
+             <p class="font-semibold text-emerald-700 mb-2">During Analysis:</p>
+             <ul class="text-sm space-y-2">
+                <li>☐ <strong>5. Sample Size:</strong> Is n large enough for the test?</li>
+                <li>☐ <strong>6. Assumptions:</strong> Are the test's assumptions met?</li>
+                <li>☐ <strong>7. Calculation:</strong> Have I double-checked my math?</li>
+             </ul>
+             <p class="font-semibold text-emerald-700 mb-2 mt-4">After Analysis:</p>
+             <ul class="text-sm space-y-2">
+                <li>☐ <strong>8. P-Value:</strong> Is p < 0.05? What does this mean?</li>
+                <li>☐ <strong>9. Effect Size:</strong> Is the difference practically meaningful?</li>
+                <li>☐ <strong>10. Report:</strong> Have I stated results clearly?</li>
+             </ul>
+          </div>
+       </div>
+       
+       <div class="mt-4 p-3 bg-emerald-200 rounded">
+          <p class="text-sm text-emerald-900"><strong>Remember:</strong> Statistical significance (p < 0.05) tells you the result is unlikely due to chance. It does NOT tell you if the difference is large enough to matter in practice. Always report both!</p>
+       </div>
+    </div>
+</div>
 
   <!-- QUICK REFERENCE -->
   <div class="bg-gray-100 rounded-lg p-4 mt-6">

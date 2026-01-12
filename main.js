@@ -1,5 +1,21 @@
 import "./style.css";
 
+// Helper function to render math - waits for KaTeX to be ready
+function renderMath(element) {
+  if (window.renderMathInElement) {
+    window.renderMathInElement(element, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });
+  } else {
+    // KaTeX not ready yet, retry after a short delay
+    setTimeout(() => renderMath(element), 100);
+  }
+}
+
 const content = {
   sql: {
     setup: () => fetch("/sql/setup.html").then((r) => r.text()),
@@ -68,7 +84,9 @@ document.querySelectorAll(".tab").forEach((btn) => {
     if (content[tabId]) {
       const firstSub = Object.keys(content[tabId])[0];
       content[tabId][firstSub]().then((html) => {
-        document.getElementById(`${tabId}-${firstSub}`).innerHTML = html;
+        const el = document.getElementById(`${tabId}-${firstSub}`);
+        el.innerHTML = html;
+        renderMath(el);
       });
     }
   };
@@ -91,6 +109,7 @@ document.querySelectorAll(".subtab").forEach((btn) => {
       .forEach((c) => c.classList.add("hidden"));
     const el = document.getElementById(`${tab}-${sub}`);
     el.innerHTML = await content[tab][sub]();
+    renderMath(el);
     el.classList.remove("hidden");
   };
 });
