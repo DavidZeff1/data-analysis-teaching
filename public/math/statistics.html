@@ -20,6 +20,48 @@
     </div>
   </div>
 
+  <!-- REAL WORLD WORKFLOW -->
+  <div class="bg-white border-2 border-indigo-100 rounded-lg p-5 shadow-sm">
+    <h2 class="font-bold text-xl text-indigo-700 mb-3">🚀 The Analyst's Real-World Workflow</h2>
+    <p class="text-sm text-gray-600 mb-4">In the real world, nobody hands you a dataset and says "calculate the standard deviation." They ask vague questions. Here is how you actually use these tools:</p>
+    
+    <div class="space-y-4">
+      <div class="flex gap-3">
+        <div class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">1</div>
+        <div>
+          <h3 class="font-semibold text-sm">The Question</h3>
+          <p class="text-xs text-gray-600">"Why are sales down this week?" <span class="italic text-gray-500">(The boss never asks about p-values)</span></p>
+        </div>
+      </div>
+      
+      <div class="flex gap-3">
+        <div class="flex-none w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">2</div>
+        <div>
+          <h3 class="font-semibold text-sm">Descriptive Check (The "Gut Check")</h3>
+          <p class="text-xs text-gray-600">Use <strong>Mean/Median</strong> to see the trend. Use <strong>Standard Deviation</strong> to see if it's just normal noise.</p>
+          <p class="text-xs bg-gray-50 p-1 mt-1 rounded border border-gray-200">"Average daily sales are $9k, down from $10k. But standard deviation is $2k, so a $1k drop might be random."</p>
+        </div>
+      </div>
+      
+      <div class="flex gap-3">
+        <div class="flex-none w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-sm">3</div>
+        <div>
+          <h3 class="font-semibold text-sm">Exploration (The "Why")</h3>
+          <p class="text-xs text-gray-600">Use <strong>Distributions</strong> and <strong>Correlation</strong>. Is it just one region? Is it correlated with a holiday?</p>
+          <p class="text-xs bg-gray-50 p-1 mt-1 rounded border border-gray-200">"I found a strong negative correlation between 'Rain' and 'Sales'. It rained all week."</p>
+        </div>
+      </div>
+      
+      <div class="flex gap-3">
+        <div class="flex-none w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">4</div>
+        <div>
+          <h3 class="font-semibold text-sm">Confirmation (The "Proof")</h3>
+          <p class="text-xs text-gray-600">If you make a change to fix it, use <strong>A/B Testing</strong> to prove it worked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- DESCRIPTIVE STATISTICS -->
   <div class="border-t-4 border-blue-500 pt-4">
     <h2 class="font-bold text-xl text-blue-700">1. Descriptive Statistics</h2>
@@ -107,34 +149,7 @@
           </div>
         </div>
         
-        <!-- SQL Implementation -->
-        <div class="mt-4">
-          <div class="font-semibold text-sm">SQL Implementation</div>
-          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Calculate mean, median, and mode for order values</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-gray-400">-- Mean</span>
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_order_value,
-    
-    <span class="text-gray-400">-- Median (PostgreSQL/BigQuery syntax)</span>
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_order_value,
-    
-    <span class="text-gray-400">-- Check for skewness</span>
-    <span class="text-blue-400">CASE</span> 
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 1.05
-        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed (use median)'</span>
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) < <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 0.95
-        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Left-skewed (use median)'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Approximately symmetric (mean is fine)'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> distribution_shape
-<span class="text-blue-400">FROM</span> orders;
 
-<span class="text-gray-400">-- Mode (most common value) - useful for categorical</span>
-<span class="text-blue-400">SELECT</span> product_category, <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> frequency
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> product_category
-<span class="text-blue-400">ORDER BY</span> frequency <span class="text-blue-400">DESC</span>
-<span class="text-blue-400">LIMIT</span> 1;</pre>
-        </div>
       </div>
       
       <!-- MEASURES OF SPREAD -->
@@ -241,6 +256,45 @@
           <p class="text-sm mt-2"><strong>Business insight:</strong> Both teams average $5K/day, but Team A is much more consistent. For forecasting and planning, Team A is more reliable.</p>
         </div>
         
+        <!-- HOW TO CALCULATE LINE BY LINE -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+          <div class="font-semibold text-blue-800 text-sm">🧮 How to Actually Calculate This (The "Math" Part)</div>
+          <p class="text-sm text-gray-700 mt-1">If you had to do this manually, here is the exact process. Most software does this for you, but understanding it helps.</p>
+          
+          <p class="text-xs font-semibold mt-3">Example: Team A's Sales [$4800, $5100, $4900, $5200, $5000]</p>
+          
+          <div class="overflow-x-auto mt-2">
+            <table class="w-full text-xs text-left bg-white border border-gray-300">
+              <thead class="bg-gray-100 font-semibold text-gray-700">
+                <tr>
+                  <th class="px-2 py-1 border-b">1. Value (x)</th>
+                  <th class="px-2 py-1 border-b">2. Mean (μ)</th>
+                  <th class="px-2 py-1 border-b">3. Difference (x - μ)</th>
+                  <th class="px-2 py-1 border-b">4. Squared Diff (x - μ)²</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600">
+                <tr><td class="px-2 py-1 border-b">4800</td><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b text-red-500">-200</td><td class="px-2 py-1 border-b">40,000</td></tr>
+                <tr><td class="px-2 py-1 border-b">5100</td><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b text-green-500">+100</td><td class="px-2 py-1 border-b">10,000</td></tr>
+                <tr><td class="px-2 py-1 border-b">4900</td><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b text-red-500">-100</td><td class="px-2 py-1 border-b">10,000</td></tr>
+                <tr><td class="px-2 py-1 border-b">5200</td><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b text-green-500">+200</td><td class="px-2 py-1 border-b">40,000</td></tr>
+                <tr><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b">5000</td><td class="px-2 py-1 border-b">0</td><td class="px-2 py-1 border-b">0</td></tr>
+                <tr class="bg-gray-50 font-semibold"><td class="px-2 py-1">Sum: 25,000</td><td class="px-2 py-1">Avg: 5,000</td><td class="px-2 py-1">Sum: 0</td><td class="px-2 py-1">Sum: 100,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="mt-3 text-sm space-y-2">
+            <p><strong>Step 5: Average the Squared Diff (Variance)</strong><br/>
+            <span class="font-mono bg-white px-1 py-0.5 rounded">100,000 / 5 = 20,000</span> <span class="text-gray-500 text-xs">(Note: Use N-1 for samples, but let's keep it simple)</span></p>
+            
+            <p><strong>Step 6: Square Root (Standard Deviation)</strong><br/>
+            <span class="font-mono bg-white px-1 py-0.5 rounded">√20,000 = 141.4</span></p>
+            
+            <p class="text-xs text-blue-800 bg-blue-100 p-2 rounded"><strong>Why square it?</strong> To get rid of negatives! If we just averaged step 3, we'd get zero. Squaring makes everything positive, then root brings it back to dollar units.</p>
+          </div>
+        </div>
+        
         <!-- Coefficient of Variation -->
         <div class="bg-white border border-gray-300 rounded-lg p-3 mt-4">
           <div class="font-semibold text-sm">💡 Coefficient of Variation (CV): Comparing Apples to Oranges</div>
@@ -258,31 +312,7 @@
           <p class="text-sm mt-2">Units sold is relatively MORE variable (30% vs 20%), even though the absolute numbers are smaller.</p>
         </div>
         
-        <!-- SQL Implementation -->
-        <div class="mt-4">
-          <div class="font-semibold text-sm">SQL Implementation</div>
-          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Complete spread analysis</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
-    <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> min_value,
-    <span class="text-purple-400">MAX</span>(order_value) <span class="text-blue-400">AS</span> max_value,
-    <span class="text-purple-400">MAX</span>(order_value) - <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> range_value,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">VARIANCE</span>(order_value), 2) <span class="text-blue-400">AS</span> variance,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
-<span class="text-blue-400">FROM</span> orders;
 
-<span class="text-gray-400">-- Compare spread across segments</span>
-<span class="text-blue-400">SELECT</span>
-    customer_segment,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> customer_segment
-<span class="text-blue-400">ORDER BY</span> cv_percent <span class="text-blue-400">DESC</span>;</pre>
-        </div>
       </div>
       
       <!-- PERCENTILES AND QUARTILES -->
@@ -397,31 +427,7 @@
           <p class="text-sm mt-2"><strong>Business insight:</strong> The mean hides the problem! While most requests are fast, 1% of users (could be thousands daily) have a terrible experience. Focus on P99 for reliability.</p>
         </div>
         
-        <!-- SQL Implementation -->
-        <div class="mt-4">
-          <div class="font-semibold text-sm">SQL Implementation</div>
-          <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Complete percentile analysis</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.10) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p10,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p25_q1,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.50) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p50_median,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p75_q3,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.90) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p90,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.95) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p95,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> p99,
-    <span class="text-gray-400">-- IQR for outlier detection</span>
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) -
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> response_time) <span class="text-blue-400">AS</span> iqr
-<span class="text-blue-400">FROM</span> api_logs
-<span class="text-blue-400">WHERE</span> date = <span class="text-green-400">'2024-01-15'</span>;
 
-<span class="text-gray-400">-- Which percentile is a specific value?</span>
-<span class="text-blue-400">SELECT</span>
-    employee_name,
-    salary,
-    <span class="text-purple-400">PERCENT_RANK</span>() <span class="text-blue-400">OVER</span> (<span class="text-blue-400">ORDER BY</span> salary) * 100 <span class="text-blue-400">AS</span> salary_percentile
-<span class="text-blue-400">FROM</span> employees;</pre>
-        </div>
       </div>
       
       <!-- EXERCISES FOR DESCRIPTIVE STATS -->
@@ -433,81 +439,25 @@
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 1: Basic Summary Statistics</p>
             <p class="text-sm text-gray-600">Calculate the mean, median, standard deviation, min, and max of order_value. Is the distribution skewed?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_value,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_value,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
-    <span class="text-purple-400">MIN</span>(order_value) <span class="text-blue-400">AS</span> min_value,
-    <span class="text-purple-400">MAX</span>(order_value) <span class="text-blue-400">AS</span> max_value,
-    <span class="text-blue-400">CASE</span> <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value)
-         <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed'</span> <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Symmetric or left-skewed'</span> <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> skewness
-<span class="text-blue-400">FROM</span> orders;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 2: Compare Regions</p>
             <p class="text-sm text-gray-600">Which region has the highest average order value? Which has the most consistent orders (lowest CV)?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    region,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> order_count,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> avg_order_value,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value), 2) <span class="text-blue-400">AS</span> std_dev,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">STDDEV</span>(order_value) / <span class="text-purple-400">AVG</span>(order_value) * 100, 2) <span class="text-blue-400">AS</span> cv_percent
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> region
-<span class="text-blue-400">ORDER BY</span> avg_order_value <span class="text-blue-400">DESC</span>;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 3: Percentile Analysis</p>
             <p class="text-sm text-gray-600">Find the P10, P50, P90, and P99 of order values. How much do the top 1% of orders spend?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.10) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p10,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.50) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p50_median,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.90) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p90,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p99_top_1_pct
-<span class="text-blue-400">FROM</span> orders;
 
-<span class="text-gray-400">-- Top 1% orders (what's their total contribution?)</span>
-<span class="text-blue-400">WITH</span> percentiles <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">PERCENTILE_CONT</span>(0.99) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> p99 <span class="text-blue-400">FROM</span> orders
-)
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> top_1_pct_orders,
-    <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">AS</span> top_1_pct_revenue,
-    <span class="text-purple-400">SUM</span>(order_value) / (<span class="text-blue-400">SELECT</span> <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">FROM</span> orders) * 100 <span class="text-blue-400">AS</span> pct_of_total_revenue
-<span class="text-blue-400">FROM</span> orders, percentiles
-<span class="text-blue-400">WHERE</span> order_value >= p99;</pre>
-            </details>
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 4: Daily Sales Variability</p>
             <p class="text-sm text-gray-600">Calculate daily total sales, then find the mean and std dev of daily sales. On how many days were sales more than 2 std devs above average?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">WITH</span> daily_sales <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> order_date, <span class="text-purple-400">SUM</span>(order_value) <span class="text-blue-400">AS</span> daily_total
-    <span class="text-blue-400">FROM</span> orders <span class="text-blue-400">GROUP BY</span> order_date
-),
-stats <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(daily_total) <span class="text-blue-400">AS</span> mean_daily, <span class="text-purple-400">STDDEV</span>(daily_total) <span class="text-blue-400">AS</span> std_daily
-    <span class="text-blue-400">FROM</span> daily_sales
-)
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> exceptional_days,
-    <span class="text-purple-400">AVG</span>(daily_total) <span class="text-blue-400">AS</span> avg_exceptional_sales
-<span class="text-blue-400">FROM</span> daily_sales, stats
-<span class="text-blue-400">WHERE</span> daily_total > mean_daily + 2 * std_daily;</pre>
-            </details>
+
           </div>
         </div>
       </div>
@@ -736,62 +686,19 @@ stats <span class="text-blue-400">AS</span> (
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 5: Identify the Distribution</p>
             <p class="text-sm text-gray-600">Calculate mean and median for order_value. Based on the comparison, what's the likely distribution shape?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val,
-    <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> median_val,
-    <span class="text-blue-400">CASE</span>
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) > <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 1.1
-        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Right-skewed: A few large orders pull up the mean'</span>
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">AVG</span>(order_value) < <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 0.9
-        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Left-skewed: A few small orders pull down the mean'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Approximately normal/symmetric'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> distribution_interpretation
-<span class="text-blue-400">FROM</span> orders;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 6: Z-Score Analysis</p>
             <p class="text-sm text-gray-600">Calculate the Z-score for each order. Flag orders with |Z| > 2 as "unusual" and |Z| > 3 as "extreme".</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">WITH</span> stats <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val, <span class="text-purple-400">STDDEV</span>(order_value) <span class="text-blue-400">AS</span> std_val
-    <span class="text-blue-400">FROM</span> orders
-)
-<span class="text-blue-400">SELECT</span>
-    order_id,
-    order_value,
-    <span class="text-purple-400">ROUND</span>((order_value - mean_val) / std_val, 2) <span class="text-blue-400">AS</span> z_score,
-    <span class="text-blue-400">CASE</span>
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 3 <span class="text-blue-400">THEN</span> <span class="text-green-400">'EXTREME'</span>
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 2 <span class="text-blue-400">THEN</span> <span class="text-green-400">'UNUSUAL'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'NORMAL'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> flag
-<span class="text-blue-400">FROM</span> orders, stats
-<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) <span class="text-blue-400">DESC</span>
-<span class="text-blue-400">LIMIT</span> 20;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 7: Distribution by Segment</p>
             <p class="text-sm text-gray-600">Compare the distribution shape (mean vs median) across different customer segments. Which segment has the most skewed distribution?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    customer_segment,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">AVG</span>(order_value), 2) <span class="text-blue-400">AS</span> mean_val,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value), 2) <span class="text-blue-400">AS</span> median_val,
-    <span class="text-purple-400">ROUND</span>((<span class="text-purple-400">AVG</span>(order_value) - <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value)) / 
-          <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) * 100, 2) <span class="text-blue-400">AS</span> skew_indicator_pct
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> customer_segment
-<span class="text-blue-400">ORDER BY</span> <span class="text-purple-400">ABS</span>((<span class="text-purple-400">AVG</span>(order_value) - <span class="text-purple-400">PERCENTILE_CONT</span>(0.5) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value))) <span class="text-blue-400">DESC</span>;</pre>
-            </details>
+
           </div>
         </div>
       </div>
@@ -971,34 +878,52 @@ stats <span class="text-blue-400">AS</span> (
           </ul>
         </div>
       </div>
-      
-      <!-- SQL Implementation -->
-      <div class="bg-white border border-gray-200 rounded-lg p-4">
-        <div class="font-semibold text-purple-700 text-lg">SQL Implementation</div>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Simple correlation between two columns</span>
-<span class="text-blue-400">SELECT</span> 
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> qty_value_corr,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">POWER</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 2), 3) <span class="text-blue-400">AS</span> r_squared
-<span class="text-blue-400">FROM</span> orders;
 
-<span class="text-gray-400">-- Correlation matrix for multiple variables</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(price, quantity), 3) <span class="text-blue-400">AS</span> price_qty,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(price, revenue), 3) <span class="text-blue-400">AS</span> price_rev,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, revenue), 3) <span class="text-blue-400">AS</span> qty_rev,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(discount_pct, revenue), 3) <span class="text-blue-400">AS</span> discount_rev
-<span class="text-blue-400">FROM</span> orders;
-
-<span class="text-gray-400">-- Correlation by segment (does relationship vary?)</span>
-<span class="text-blue-400">SELECT</span>
-    customer_segment,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> n,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> correlation
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> customer_segment
-<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 100  <span class="text-gray-400">-- Need enough data for reliable correlation</span>
-<span class="text-blue-400">ORDER BY</span> correlation <span class="text-blue-400">DESC</span>;</pre>
+      <!-- MATH FROM SCRATCH: CORRELATION -->
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+          <div class="font-semibold text-purple-800 text-sm">🧮 How to Calculate Correlation (Pearson r) from Scratch</div>
+          <p class="text-sm text-gray-700 mt-1">The formula looks scary: <span class="font-mono text-xs">r = Σ((x - x̄)(y - ȳ)) / √[Σ(x - x̄)² * Σ(y - ȳ)²]</span>. But it's just a table.</p>
+          
+          <p class="text-xs font-semibold mt-3">Example: Ad Spend (X) vs Revenue (Y)</p>
+          <div class="overflow-x-auto mt-2">
+            <table class="w-full text-xs text-left bg-white border border-gray-300">
+              <thead class="bg-gray-100 font-semibold text-gray-700">
+                <tr>
+                  <th class="px-1 py-1 border-b">X ($)</th>
+                  <th class="px-1 py-1 border-b">Y ($)</th>
+                  <th class="px-1 py-1 border-b bg-purple-100">A. (x-x̄)</th>
+                  <th class="px-1 py-1 border-b bg-blue-100">B. (y-ȳ)</th>
+                  <th class="px-1 py-1 border-b bg-green-100">product (A*B)</th>
+                  <th class="px-1 py-1 border-b">A²</th>
+                  <th class="px-1 py-1 border-b">B²</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600">
+                <tr><td>100</td><td>200</td><td>-100</td><td>-120</td><td>+12,000</td><td>10,000</td><td>14,400</td></tr>
+                <tr><td>200</td><td>250</td><td>0</td><td>-70</td><td>0</td><td>0</td><td>4,900</td></tr>
+                <tr><td>200</td><td>350</td><td>0</td><td>+30</td><td>0</td><td>0</td><td>900</td></tr>
+                <tr><td>300</td><td>400</td><td>+100</td><td>+80</td><td>+8,000</td><td>10,000</td><td>6,400</td></tr>
+                <tr><td>200</td><td>400</td><td>0</td><td>+80</td><td>0</td><td>0</td><td>6,400</td></tr>
+                <tr class="font-bold bg-gray-50 border-t">
+                  <td>Avg: 200</td><td>Avg: 320</td><td>Sum: 0</td><td>Sum: 0</td><td class="text-green-700">Sum: 20,000</td><td class="text-purple-700">Sum: 20,000</td><td class="text-blue-700">Sum: 33,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="mt-3 text-sm space-y-2">
+            <p><strong>Step 1: Numerator (Covariance part)</strong><br/>
+            Sum of products = 20,000</p>
+            
+            <p><strong>Step 2: Denominator (Normalization)</strong><br/>
+            √(Sum Xsq * Sum Ysq) = √(20,000 * 33,000) = √660,000,000 ≈ 25,690</p>
+            
+            <p><strong>Step 3: Divide</strong><br/>
+            r = 20,000 / 25,690 = <span class="font-bold text-purple-700">0.778</span> (Strong positive correlation)</p>
+          </div>
       </div>
+      
+
       
       <!-- Exercises -->
       <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
@@ -1008,34 +933,13 @@ stats <span class="text-blue-400">AS</span> (
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 8: Find Strong Correlations</p>
             <p class="text-sm text-gray-600">Calculate correlation between order_value and: quantity, discount_percent. Which has the strongest relationship?</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(order_value, quantity), 3) <span class="text-blue-400">AS</span> value_qty_corr,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(order_value, discount_percent), 3) <span class="text-blue-400">AS</span> value_discount_corr,
-    <span class="text-blue-400">CASE</span> 
-        <span class="text-blue-400">WHEN</span> <span class="text-purple-400">ABS</span>(<span class="text-purple-400">CORR</span>(order_value, quantity)) > <span class="text-purple-400">ABS</span>(<span class="text-purple-400">CORR</span>(order_value, discount_percent))
-        <span class="text-blue-400">THEN</span> <span class="text-green-400">'Quantity has stronger relationship with order value'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Discount has stronger relationship with order value'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> interpretation
-<span class="text-blue-400">FROM</span> orders;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
             <p class="font-medium text-sm">Exercise 9: Correlation by Time</p>
             <p class="text-sm text-gray-600">Has the correlation between quantity and order_value changed over time? Calculate it by month.</p>
-            <details class="mt-2">
-              <summary class="text-sm text-blue-600 cursor-pointer">Show Solution</summary>
-              <pre class="bg-gray-800 text-white p-2 rounded text-xs mt-2"><span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">DATE_TRUNC</span>(<span class="text-green-400">'month'</span>, order_date) <span class="text-blue-400">AS</span> month,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> orders,
-    <span class="text-purple-400">ROUND</span>(<span class="text-purple-400">CORR</span>(quantity, order_value), 3) <span class="text-blue-400">AS</span> correlation
-<span class="text-blue-400">FROM</span> orders
-<span class="text-blue-400">GROUP BY</span> <span class="text-purple-400">DATE_TRUNC</span>(<span class="text-green-400">'month'</span>, order_date)
-<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 50
-<span class="text-blue-400">ORDER BY</span> month;</pre>
-            </details>
+
           </div>
           
           <div class="bg-white rounded p-3">
@@ -1253,6 +1157,79 @@ stats <span class="text-blue-400">AS</span> (
             <p class="font-medium text-sm text-green-800">Business Decision:</p>
             <p class="text-xs">Ship the "Complete Purchase" button. The 0.4 percentage point increase is unlikely due to chance (only 1.8% probability if there were no real difference). At 100,000 monthly users, this could mean ~400 more conversions per month.</p>
           </div>
+          
+           <!-- MANUAL MATH FOR A/B TEST -->
+          <div class="bg-white border text-gray-700 border-gray-300 rounded p-3 mt-3">
+             <div class="font-semibold text-sm mb-2">🧮 Back-of-the-Napkin Math (The "Signal vs Noise" Check)</div>
+             <p class="text-xs mb-2">You don't always need a complex tool. The logic of a Z-test is basically a Signal-to-Noise ratio.</p>
+             
+             <div class="grid grid-cols-2 gap-4 text-xs">
+               <div>
+                  <div class="font-bold">1. The Signal (Difference)</div>
+                  <p>How big is the gap?</p>
+                  <p class="font-mono mt-1 bg-gray-100 p-1">3.4% - 3.0% = 0.4%</p>
+               </div>
+               <div>
+                  <div class="font-bold">2. The Noise (Standard Error)</div>
+                  <p>How uncertain are we? (Simplistic approximation: 1/√N)</p>
+                  <p class="font-mono mt-1 bg-gray-100 p-1">1/√30,000 ≈ 0.6% (very rough)</p>
+                  <p class="text-[10px] text-gray-500">*Real formula is √(p(1-p)/n)</p>
+               </div>
+             </div>
+             
+             <div class="mt-2 text-xs bg-gray-50 p-2 rounded border border-gray-200">
+                <p class="font-bold">The Rule of Thumb:</p>
+                <p>If <strong>Signal > 2 × Noise</strong>, it's likely real (Significant).</p>
+                <p>If <strong>Signal < 2 × Noise</strong>, it's probably just luck.</p>
+             </div>
+          </div>
+        </div>
+
+        <!-- MATH FROM SCRATCH: A/B TESTING -->
+        <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+          <div class="font-semibold text-orange-800 text-sm">🧮 How to Calculate Significance (Z-Test) from Scratch</div>
+          <p class="text-sm text-gray-700 mt-1">Going beyond the napkin math. This is how we get the exact p-value.</p>
+          
+          <div class="space-y-3 mt-3">
+             <div class="bg-white rounded p-3 text-sm">
+                <p class="font-semibold border-b pb-1 mb-2">1. The Inputs</p>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <p class="text-gray-500 text-xs">Control (A)</p>
+                    <p>Users ($n_1$): 10,000</p>
+                    <p>Conv ($x_1$): 320</p>
+                    <p>Rate ($p_1$): 0.032</p>
+                  </div>
+                  <div>
+                    <p class="text-gray-500 text-xs">Treatment (B)</p>
+                    <p>Users ($n_2$): 10,000</p>
+                    <p>Conv ($x_2$): 350</p>
+                    <p>Rate ($p_2$): 0.035</p>
+                  </div>
+                </div>
+             </div>
+
+             <div class="bg-white rounded p-3 text-sm">
+                <p class="font-semibold border-b pb-1 mb-2">2. Pooled Probability ($\hat{p}$)</p>
+                <p class="text-xs text-gray-600">If H₀ were true, both groups are the same. What's the overall rate?</p>
+                <p class="font-mono mt-1 text-xs">$\hat{p} = \frac{x_1 + x_2}{n_1 + n_2} = \frac{320 + 350}{20,000} = \frac{670}{20,000} = 0.0335$</p>
+             </div>
+
+             <div class="bg-white rounded p-3 text-sm">
+                <p class="font-semibold border-b pb-1 mb-2">3. Standard Error (SE)</p>
+                <p class="text-xs text-gray-600">How much do we expect the difference to vary by chance?</p>
+                <p class="font-mono mt-1 text-xs">$SE = \sqrt{\hat{p}(1-\hat{p})(\frac{1}{n_1} + \frac{1}{n_2})}$</p>
+                <p class="font-mono mt-1 text-xs">$SE = \sqrt{0.0335(0.9665)(\frac{2}{10,000})} = \sqrt{0.0323(0.0002)} \approx 0.00254$</p>
+             </div>
+
+             <div class="bg-white rounded p-3 text-sm">
+                <p class="font-semibold border-b pb-1 mb-2">4. Significance Calculation</p>
+                <p class="text-xs text-gray-600">How many standard errors apart are they?</p>
+                <p class="font-mono mt-1 text-xs">$Z = \frac{p_2 - p_1}{SE} = \frac{0.035 - 0.032}{0.00254} = \frac{0.003}{0.00254} = 1.18$</p>
+                <p class="mt-2 text-xs"><strong>Lookup Z=1.18:</strong> p-value ≈ 0.238 (or 23.8%)</p>
+                <p class="text-red-600 font-bold mt-1">Not Significant (p > 0.05)</p>
+             </div>
+          </div>
         </div>
       </div>
       
@@ -1338,47 +1315,7 @@ stats <span class="text-blue-400">AS</span> (
         </div>
       </div>
       
-      <!-- SQL for A/B Test Analysis -->
-      <div class="bg-white border border-gray-200 rounded-lg p-4">
-        <div class="font-semibold text-orange-700 text-lg">SQL for A/B Test Analysis</div>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-2"><span class="text-gray-400">-- Basic A/B test results</span>
-<span class="text-blue-400">SELECT</span>
-    variant,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
-    <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conversions,
-    <span class="text-purple-400">ROUND</span>(100.0 * <span class="text-purple-400">SUM</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1 <span class="text-blue-400">ELSE</span> 0 <span class="text-blue-400">END</span>) / <span class="text-purple-400">COUNT</span>(*), 2) <span class="text-blue-400">AS</span> conversion_rate_pct
-<span class="text-blue-400">FROM</span> ab_test_results
-<span class="text-blue-400">WHERE</span> experiment_name = <span class="text-green-400">'checkout_button_test'</span>
-<span class="text-blue-400">GROUP BY</span> variant;
 
-<span class="text-gray-400">-- Calculate lift</span>
-<span class="text-blue-400">WITH</span> variant_stats <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span>
-        variant,
-        <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
-        <span class="text-purple-400">AVG</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1.0 <span class="text-blue-400">ELSE</span> 0.0 <span class="text-blue-400">END</span>) <span class="text-blue-400">AS</span> conv_rate
-    <span class="text-blue-400">FROM</span> ab_test_results
-    <span class="text-blue-400">WHERE</span> experiment_name = <span class="text-green-400">'checkout_button_test'</span>
-    <span class="text-blue-400">GROUP BY</span> variant
-)
-<span class="text-blue-400">SELECT</span>
-    control.conv_rate <span class="text-blue-400">AS</span> control_rate,
-    treatment.conv_rate <span class="text-blue-400">AS</span> treatment_rate,
-    treatment.conv_rate - control.conv_rate <span class="text-blue-400">AS</span> absolute_lift,
-    (treatment.conv_rate - control.conv_rate) / control.conv_rate * 100 <span class="text-blue-400">AS</span> relative_lift_pct
-<span class="text-blue-400">FROM</span> variant_stats control, variant_stats treatment
-<span class="text-blue-400">WHERE</span> control.variant = <span class="text-green-400">'control'</span> <span class="text-blue-400">AND</span> treatment.variant = <span class="text-green-400">'treatment'</span>;
-
-<span class="text-gray-400">-- Daily monitoring (for validity check, not peeking!)</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">DATE</span>(timestamp) <span class="text-blue-400">AS</span> date,
-    variant,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> users,
-    <span class="text-purple-400">ROUND</span>(100.0 * <span class="text-purple-400">AVG</span>(<span class="text-blue-400">CASE WHEN</span> converted = 1 <span class="text-blue-400">THEN</span> 1.0 <span class="text-blue-400">ELSE</span> 0.0 <span class="text-blue-400">END</span>), 2) <span class="text-blue-400">AS</span> daily_conv_rate
-<span class="text-blue-400">FROM</span> ab_test_results
-<span class="text-blue-400">GROUP BY</span> <span class="text-purple-400">DATE</span>(timestamp), variant
-<span class="text-blue-400">ORDER BY</span> date, variant;</pre>
-      </div>
       
       <!-- Exercises -->
       <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
@@ -1469,6 +1406,51 @@ stats <span class="text-blue-400">AS</span> (
           
           <p class="font-medium text-sm mt-3">What this means technically:</p>
           <p class="text-xs text-gray-600 mt-1">If we repeated this sampling process 100 times, about 95 of those intervals would contain the true population value. We don't know if THIS particular interval contains the truth, but the method works 95% of the time.</p>
+        </div>
+      </div>
+
+      <!-- MATH FROM SCRATCH: CONFIDENCE INTERVALS -->
+      <div class="bg-teal-50 border border-teal-200 rounded-lg p-4">
+        <div class="font-semibold text-teal-800 text-sm">🧮 How to Calculate a Confidence Interval from Scratch</div>
+        <p class="text-sm text-gray-700 mt-1">Want to put a range on your estimate? Here is the recipe.</p>
+        
+        <div class="space-y-3 mt-3">
+           <div class="bg-white rounded p-3 text-sm">
+              <p class="font-semibold border-b pb-1 mb-2">1. Get Sample Stats</p>
+              <ul class="text-xs space-y-1">
+                <li>Sample Mean ($\bar{x}$) = $100</li>
+                <li>Std Dev ($s$) = $20</li>
+                <li>Sample Size ($n$) = 64</li>
+              </ul>
+           </div>
+
+           <div class="bg-white rounded p-3 text-sm">
+              <p class="font-semibold border-b pb-1 mb-2">2. Calculate Standard Error (SE)</p>
+              <p class="text-xs text-gray-600">The uncertainty of the mean decreases as square root of n.</p>
+              <p class="font-mono mt-1 text-xs">$SE = \frac{s}{\sqrt{n}} = \frac{20}{\sqrt{64}} = \frac{20}{8} = 2.5$</p>
+           </div>
+           
+           <div class="bg-white rounded p-3 text-sm">
+              <p class="font-semibold border-b pb-1 mb-2">3. Choose Confidence Level (Z)</p>
+              <p class="text-xs text-gray-600">How sure do you want to be?</p>
+              <ul class="text-xs mt-1 space-y-1">
+                <li>90% Confidence → Z = 1.645</li>
+                <li><strong>95% Confidence → Z = 1.96</strong> (Standard)</li>
+                <li>99% Confidence → Z = 2.576</li>
+              </ul>
+           </div>
+
+           <div class="bg-white rounded p-3 text-sm">
+              <p class="font-semibold border-b pb-1 mb-2">4. Margin of Error ($ME$)</p>
+              <p class="font-mono mt-1 text-xs">$ME = Z \times SE = 1.96 \times 2.5 = 4.9$</p>
+           </div>
+           
+           <div class="bg-white rounded p-3 text-sm border-l-4 border-teal-500">
+              <p class="font-semibold border-b pb-1 mb-2">5. The Result</p>
+              <p class="font-mono mt-1 text-xs">Interval = [Mean - ME, Mean + ME]</p>
+              <p class="font-mono mt-1 text-xs">Interval = [100 - 4.9, 100 + 4.9]</p>
+              <p class="font-bold text-lg text-teal-700 mt-2">[ $95.10, $104.90 ]</p>
+           </div>
         </div>
       </div>
       
@@ -1605,30 +1587,7 @@ stats <span class="text-blue-400">AS</span> (
           </div>
         </div>
         
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm mt-4"><span class="text-gray-400">-- Z-Score method</span>
-<span class="text-blue-400">WITH</span> stats <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(order_value) <span class="text-blue-400">AS</span> mean_val, <span class="text-purple-400">STDDEV</span>(order_value) <span class="text-blue-400">AS</span> std_val
-    <span class="text-blue-400">FROM</span> orders
-)
-<span class="text-blue-400">SELECT</span> order_id, order_value,
-    <span class="text-purple-400">ROUND</span>((order_value - mean_val) / std_val, 2) <span class="text-blue-400">AS</span> z_score
-<span class="text-blue-400">FROM</span> orders, stats
-<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ABS</span>((order_value - mean_val) / std_val) > 3;
 
-<span class="text-gray-400">-- IQR method</span>
-<span class="text-blue-400">WITH</span> quartiles <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span>
-        <span class="text-purple-400">PERCENTILE_CONT</span>(0.25) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> q1,
-        <span class="text-purple-400">PERCENTILE_CONT</span>(0.75) <span class="text-blue-400">WITHIN GROUP</span> (<span class="text-blue-400">ORDER BY</span> order_value) <span class="text-blue-400">AS</span> q3
-    <span class="text-blue-400">FROM</span> orders
-)
-<span class="text-blue-400">SELECT</span> o.order_id, o.order_value,
-    <span class="text-blue-400">CASE</span>
-        <span class="text-blue-400">WHEN</span> order_value < q1 - 1.5 * (q3 - q1) <span class="text-blue-400">THEN</span> <span class="text-green-400">'Low outlier'</span>
-        <span class="text-blue-400">WHEN</span> order_value > q3 + 1.5 * (q3 - q1) <span class="text-blue-400">THEN</span> <span class="text-green-400">'High outlier'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> outlier_type
-<span class="text-blue-400">FROM</span> orders o, quartiles
-<span class="text-blue-400">WHERE</span> order_value < q1 - 1.5 * (q3 - q1) <span class="text-blue-400">OR</span> order_value > q3 + 1.5 * (q3 - q1);</pre>
       </div>
       
       <!-- What to Do With Outliers -->

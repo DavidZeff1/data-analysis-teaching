@@ -16,7 +16,6 @@ const content = {
     questions: () => fetch("/sql/questions.html").then((r) => r.text()),
     pandas: () => fetch("/sql/pandas.html").then((r) => r.text()),
     analysis: () => fetch("/sql/analysis.html").then((r) => r.text()),
-    statistics: () => fetch("/sql/statistics.html").then((r) => r.text()),
     abtesting: () => fetch("/sql/abtesting.html").then((r) => r.text()),
   },
   excel: {
@@ -48,6 +47,9 @@ const content = {
     dax: () => fetch("/powerbi/dax.html").then((r) => r.text()),
     modeling: () => fetch("/powerbi/modeling.html").then((r) => r.text()),
     reports: () => fetch("/powerbi/reports.html").then((r) => r.text()),
+  },
+  math: {
+    statistics: () => fetch("/math/statistics.html").then((r) => r.text()),
   },
 };
 
