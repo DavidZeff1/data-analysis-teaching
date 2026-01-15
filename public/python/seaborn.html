@@ -1,0 +1,1270 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Seaborn: Statistical Data Visualization</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is Seaborn?</h2>
+    <p>Seaborn is a Python visualization library built on top of Matplotlib. It provides a high-level interface for creating attractive, informative statistical graphics with minimal code. Think of it as "Matplotlib made easy and beautiful."</p>
+    
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🎨</div>
+        <div class="font-semibold text-blue-700">Beautiful Defaults</div>
+        <p class="text-xs text-gray-600">Attractive color palettes and styles out of the box</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">📊</div>
+        <div class="font-semibold text-green-700">Statistical Focus</div>
+        <p class="text-xs text-gray-600">Built-in statistical aggregations and confidence intervals</p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🐼</div>
+        <div class="font-semibold text-purple-700">Pandas Integration</div>
+        <p class="text-xs text-gray-600">Works seamlessly with DataFrames</p>
+      </div>
+    </div>
+    
+    <div class="bg-gray-800 text-white p-3 rounded mt-4">
+      <pre class="text-sm"><span class="text-gray-400"># Standard imports</span>
+<span class="text-blue-400">import</span> seaborn <span class="text-blue-400">as</span> sns
+<span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
+<span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+<span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
+
+<span class="text-gray-400"># Set the style (optional but recommended)</span>
+sns.set_theme(style=<span class="text-green-400">"whitegrid"</span>)
+
+<span class="text-gray-400"># Load sample datasets</span>
+tips = sns.load_dataset(<span class="text-green-400">"tips"</span>)
+iris = sns.load_dataset(<span class="text-green-400">"iris"</span>)
+titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
+    </div>
+  </div>
+
+  <!-- SEABORN HIERARCHY -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">Seaborn Plot Hierarchy</h2>
+    <p class="text-sm text-gray-600 mb-3">Seaborn organizes plots into three main figure-level functions, each containing multiple axes-level functions.</p>
+    
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-gray-800 text-white px-4 py-2 rounded-lg font-bold text-lg">
+          Seaborn Plot Types
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-4">
+        <!-- Relational Plots -->
+        <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-3">
+          <div class="text-center">
+            <div class="bg-blue-500 text-white px-3 py-2 rounded-lg font-bold">relplot()</div>
+            <p class="text-xs text-gray-600 mt-1">Relational Plots</p>
+            <p class="text-xs text-blue-600">Relationships between variables</p>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div class="bg-white rounded p-2 text-center border border-blue-200">
+              <code class="text-sm text-blue-700">scatterplot()</code>
+              <p class="text-xs text-gray-500">Points showing x-y relationship</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-blue-200">
+              <code class="text-sm text-blue-700">lineplot()</code>
+              <p class="text-xs text-gray-500">Lines connecting data points</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Distribution Plots -->
+        <div class="bg-green-50 border-2 border-green-300 rounded-lg p-3">
+          <div class="text-center">
+            <div class="bg-green-500 text-white px-3 py-2 rounded-lg font-bold">displot()</div>
+            <p class="text-xs text-gray-600 mt-1">Distribution Plots</p>
+            <p class="text-xs text-green-600">Distribution of one variable</p>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div class="bg-white rounded p-2 text-center border border-green-200">
+              <code class="text-sm text-green-700">histplot()</code>
+              <p class="text-xs text-gray-500">Histogram with bins</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-green-200">
+              <code class="text-sm text-green-700">kdeplot()</code>
+              <p class="text-xs text-gray-500">Kernel density estimate</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-green-200">
+              <code class="text-sm text-green-700">ecdfplot()</code>
+              <p class="text-xs text-gray-500">Empirical cumulative distribution</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Categorical Plots -->
+        <div class="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
+          <div class="text-center">
+            <div class="bg-purple-500 text-white px-3 py-2 rounded-lg font-bold">catplot()</div>
+            <p class="text-xs text-gray-600 mt-1">Categorical Plots</p>
+            <p class="text-xs text-purple-600">Categorical vs numeric</p>
+          </div>
+          <div class="mt-3 space-y-2">
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">stripplot()</code>
+              <p class="text-xs text-gray-500">Scattered points by category</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">swarmplot()</code>
+              <p class="text-xs text-gray-500">Non-overlapping points</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">boxplot()</code>
+              <p class="text-xs text-gray-500">Box and whisker</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">violinplot()</code>
+              <p class="text-xs text-gray-500">Distribution shape + box</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">barplot()</code>
+              <p class="text-xs text-gray-500">Bars with confidence intervals</p>
+            </div>
+            <div class="bg-white rounded p-2 text-center border border-purple-200">
+              <code class="text-sm text-purple-700">pointplot()</code>
+              <p class="text-xs text-gray-500">Point estimates with CI</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-yellow-50 rounded p-3 mt-4">
+        <p class="text-sm"><strong>💡 Figure-level vs Axes-level:</strong></p>
+        <ul class="text-xs mt-1 space-y-1">
+          <li><strong>Figure-level</strong> (relplot, displot, catplot): Create their own figure, support faceting with <code>col</code> and <code>row</code></li>
+          <li><strong>Axes-level</strong> (scatterplot, histplot, etc.): Draw on current axes, can be combined with matplotlib subplots</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATIONAL PLOTS -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">1. Relational Plots (relplot)</h2>
+    <p class="text-sm text-gray-600 mb-3">Visualize relationships between two numeric variables. Use when asking "How does X relate to Y?"</p>
+    
+    <div class="space-y-4">
+      <!-- scatterplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">scatterplot()</div>
+          <span class="text-gray-600 text-sm">Show individual data points</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Exploring relationship between two continuous variables</li>
+                <li>• Looking for correlations, clusters, or outliers</li>
+                <li>• Identifying patterns or trends</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Variables for axes</li>
+                <li><code>hue</code> - Color by category</li>
+                <li><code>size</code> - Size by numeric variable</li>
+                <li><code>style</code> - Marker style by category</li>
+                <li><code>alpha</code> - Transparency (0-1)</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic scatter plot</span>
+sns.scatterplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+
+<span class="text-gray-400"># With color by category</span>
+sns.scatterplot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>, 
+    y=<span class="text-green-400">"tip"</span>,
+    hue=<span class="text-green-400">"smoker"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/scatterplot.png" alt="Scatterplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-blue-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Is there a relationship between total bill and tip amount? Does it differ for smokers vs non-smokers?"</p>
+        </div>
+      </div>
+      
+      <!-- lineplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">lineplot()</div>
+          <span class="text-gray-600 text-sm">Connect points with lines (great for time series)</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Time series data</li>
+                <li>• Showing trends over continuous variable</li>
+                <li>• Comparing multiple groups over time</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Variables for axes</li>
+                <li><code>hue</code> - Separate lines by category</li>
+                <li><code>style</code> - Line style by category</li>
+                <li><code>markers</code> - Show data points</li>
+                <li><code>ci</code> - Confidence interval (default: 95)</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic line plot</span>
+sns.lineplot(data=df, x=<span class="text-green-400">"date"</span>, y=<span class="text-green-400">"value"</span>)
+
+<span class="text-gray-400"># Multiple lines by category</span>
+sns.lineplot(
+    data=df, 
+    x=<span class="text-green-400">"month"</span>, 
+    y=<span class="text-green-400">"sales"</span>,
+    hue=<span class="text-green-400">"region"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/lineplot.png" alt="Lineplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-blue-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "How have sales trended month-over-month for each product category?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTION PLOTS -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">2. Distribution Plots (displot)</h2>
+    <p class="text-sm text-gray-600 mb-3">Visualize the distribution of a single variable. Use when asking "What does the distribution of X look like?"</p>
+    
+    <div class="space-y-4">
+      <!-- histplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">histplot()</div>
+          <span class="text-gray-600 text-sm">Histogram - bars showing frequency in bins</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Understanding distribution shape</li>
+                <li>• Finding central tendency and spread</li>
+                <li>• Detecting skewness, outliers, multimodality</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x</code> (or <code>y</code>) - Variable to plot</li>
+                <li><code>bins</code> - Number of bins</li>
+                <li><code>hue</code> - Separate by category</li>
+                <li><code>kde</code> - Overlay KDE curve</li>
+                <li><code>multiple</code> - layer, dodge, stack, fill</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic histogram</span>
+sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># Grouped histogram</span>
+sns.histplot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"time"</span>,
+    multiple=<span class="text-green-400">"stack"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/histplot.png" alt="Histplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-green-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "What's the distribution of order values? Is it skewed? Are there any unusual patterns?"</p>
+        </div>
+      </div>
+      
+      <!-- kdeplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">kdeplot()</div>
+          <span class="text-gray-600 text-sm">Kernel Density Estimate - smooth distribution curve</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Smooth representation of distribution</li>
+                <li>• Comparing multiple distributions</li>
+                <li>• 2D density plots (contours)</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x</code> (and optionally <code>y</code>) - Variables</li>
+                <li><code>hue</code> - Separate by category</li>
+                <li><code>bw_adjust</code> - Bandwidth (smoothness)</li>
+                <li><code>fill</code> - Fill under curve</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic KDE</span>
+sns.kdeplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># Multiple distributions</span>
+sns.kdeplot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"time"</span>,
+    fill=<span class="text-purple-400">True</span>,
+    alpha=<span class="text-yellow-400">0.5</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/kdeplot.png" alt="KDE Plot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-green-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare the distribution of session duration between mobile and desktop users."</p>
+        </div>
+      </div>
+      
+      <!-- ecdfplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">ecdfplot()</div>
+          <span class="text-gray-600 text-sm">Empirical Cumulative Distribution Function</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Show what percentage of data falls below each value</li>
+                <li>• Compare percentiles across groups</li>
+                <li>• No binning decisions needed</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x</code> - Variable to plot</li>
+                <li><code>hue</code> - Separate by category</li>
+                <li><code>stat</code> - proportion (default) or count</li>
+                <li><code>complementary</code> - Show 1 - CDF</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic ECDF</span>
+sns.ecdfplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># Compare groups</span>
+sns.ecdfplot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"time"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/ecdfplot.png" alt="ECDF Plot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-green-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "What percentage of orders are under $30? How does this differ by day of week?"</p>
+          <p class="text-xs text-gray-600 mt-1">Read the y-value at x=30 to find: "75% of orders are under $30"</p>
+        </div>
+      </div>
+      
+      <!-- displot figure-level -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-green-600 text-white px-3 py-1 rounded font-mono text-sm">displot()</div>
+          <span class="text-gray-600 text-sm">Figure-level wrapper - supports faceting</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># displot with histogram (default)</span>
+sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, hue=<span class="text-green-400">"smoker"</span>)
+
+<span class="text-gray-400"># displot with KDE</span>
+sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"kde"</span>)
+
+<span class="text-gray-400"># displot with ECDF</span>
+sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"ecdf"</span>)
+
+<span class="text-gray-400"># Faceted by column</span>
+sns.displot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>,
+    col=<span class="text-green-400">"time"</span>,      <span class="text-gray-400"># Creates separate columns</span>
+    row=<span class="text-green-400">"smoker"</span>,   <span class="text-gray-400"># Creates separate rows</span>
+    kind=<span class="text-green-400">"hist"</span>,
+    kde=<span class="text-purple-400">True</span>
+)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/displot.png" alt="Displot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORICAL PLOTS -->
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">3. Categorical Plots (catplot)</h2>
+    <p class="text-sm text-gray-600 mb-3">Visualize relationships between categorical and numeric variables. Use when asking "How does metric Y vary across categories?"</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-3 mb-4">
+      <p class="font-medium text-sm">Categorical plot types by purpose:</p>
+      <div class="grid grid-cols-3 gap-3 mt-2 text-xs">
+        <div class="bg-purple-50 rounded p-2">
+          <p class="font-semibold text-purple-700">Show Individual Points</p>
+          <p>stripplot, swarmplot</p>
+          <p class="text-gray-500">See every data point</p>
+        </div>
+        <div class="bg-purple-50 rounded p-2">
+          <p class="font-semibold text-purple-700">Show Distribution</p>
+          <p>boxplot, violinplot</p>
+          <p class="text-gray-500">Quartiles, spread, shape</p>
+        </div>
+        <div class="bg-purple-50 rounded p-2">
+          <p class="font-semibold text-purple-700">Show Estimate</p>
+          <p>barplot, pointplot</p>
+          <p class="text-gray-500">Central tendency with CI</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="space-y-4">
+      <!-- stripplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">stripplot()</div>
+          <span class="text-gray-600 text-sm">Scatter points by category (with jitter)</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• See every individual data point</li>
+                <li>• Small to medium datasets</li>
+                <li>• Spot outliers</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Categorical and numeric</li>
+                <li><code>hue</code> - Sub-categories</li>
+                <li><code>jitter</code> - Spread (True/False or float)</li>
+                <li><code>dodge</code> - Separate hue groups</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic strip plot</span>
+sns.stripplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># With hue and dodge</span>
+sns.stripplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"smoker"</span>,
+    dodge=<span class="text-purple-400">True</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/stripplot.png" alt="Stripplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+      
+      <!-- swarmplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">swarmplot()</div>
+          <span class="text-gray-600 text-sm">Non-overlapping points (beeswarm)</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• See every point without overlap</li>
+                <li>• Small datasets only (slow for large n)</li>
+                <li>• Shows distribution shape through point density</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Categorical and numeric</li>
+                <li><code>hue</code> - Sub-categories</li>
+                <li><code>dodge</code> - Separate hue groups</li>
+                <li><code>size</code> - Point size</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic swarm plot</span>
+sns.swarmplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># With hue</span>
+sns.swarmplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    dodge=<span class="text-purple-400">True</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/swarmplot.png" alt="Swarmplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-2 mt-3">
+          <p class="text-xs"><strong>⚠️ Warning:</strong> swarmplot can be very slow with large datasets (>500 points). Use stripplot instead.</p>
+        </div>
+      </div>
+      
+      <!-- boxplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">boxplot()</div>
+          <span class="text-gray-600 text-sm">Box and whisker - shows quartiles</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">What it shows:</p>
+              <ul class="text-xs space-y-1">
+                <li>• <strong>Box:</strong> IQR (Q1 to Q3, middle 50%)</li>
+                <li>• <strong>Line in box:</strong> Median (Q2)</li>
+                <li>• <strong>Whiskers:</strong> Q1 - 1.5×IQR to Q3 + 1.5×IQR</li>
+                <li>• <strong>Diamonds:</strong> Outliers beyond whiskers</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Compare distributions across categories</li>
+                <li>• Quick summary of center and spread</li>
+                <li>• Identify outliers</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic boxplot</span>
+sns.boxplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># With hue</span>
+sns.boxplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"smoker"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/boxplot.png" alt="Boxplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-purple-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare order values by day of week. Which day has the highest median? Most variability?"</p>
+        </div>
+      </div>
+      
+      <!-- violinplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">violinplot()</div>
+          <span class="text-gray-600 text-sm">Distribution shape + boxplot combined</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• See full distribution shape (not just quartiles)</li>
+                <li>• Detect bimodality or skewness</li>
+                <li>• More informative than boxplot</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Categorical and numeric</li>
+                <li><code>hue</code> - Sub-categories</li>
+                <li><code>split</code> - Split violin by hue (great for comparison)</li>
+                <li><code>inner</code> - "box", "quartile", "point", "stick", None</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic violin plot</span>
+sns.violinplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># Split violin for comparison</span>
+sns.violinplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"smoker"</span>,
+    split=<span class="text-purple-400">True</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/violinplot.png" alt="Violinplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-purple-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare tip distributions between smokers and non-smokers. Is the shape different?"</p>
+        </div>
+      </div>
+      
+      <!-- barplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">barplot()</div>
+          <span class="text-gray-600 text-sm">Bar height = mean (or other stat) with confidence interval</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Compare averages across categories</li>
+                <li>• Show statistical uncertainty (error bars)</li>
+                <li>• Familiar format for business audiences</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Categorical and numeric</li>
+                <li><code>hue</code> - Sub-categories</li>
+                <li><code>estimator</code> - Function to aggregate (default: mean)</li>
+                <li><code>ci</code> - Confidence interval (default: 95)</li>
+                <li><code>order</code> - Category order</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic bar plot (shows mean + CI)</span>
+sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># With hue</span>
+sns.barplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"sex"</span>
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/barplot.png" alt="Barplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-yellow-50 rounded p-2 mt-3">
+          <p class="text-xs"><strong>⚠️ Note:</strong> seaborn barplot shows AGGREGATED values (mean by default), not raw counts. For counts, use <code>countplot()</code>.</p>
+        </div>
+      </div>
+      
+      <!-- pointplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">pointplot()</div>
+          <span class="text-gray-600 text-sm">Points + lines showing mean with CI - great for interactions</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div>
+              <p class="font-medium text-sm mb-2">When to use:</p>
+              <ul class="text-xs space-y-1">
+                <li>• Compare trends across categories</li>
+                <li>• Show interactions between variables</li>
+                <li>• Connect related categories visually</li>
+              </ul>
+              
+              <p class="font-medium text-sm mt-3 mb-2">Key parameters:</p>
+              <ul class="text-xs space-y-1">
+                <li><code>x, y</code> - Categorical and numeric</li>
+                <li><code>hue</code> - Separate lines</li>
+                <li><code>estimator</code> - Function to aggregate</li>
+                <li><code>ci</code> - Confidence interval</li>
+                <li><code>markers, linestyles</code> - Customize appearance</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded text-sm">
+              <pre><span class="text-gray-400"># Basic point plot</span>
+sns.pointplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+
+<span class="text-gray-400"># With hue - shows interaction</span>
+sns.pointplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"smoker"</span>
+)
+
+<span class="text-gray-400"># Custom markers and lines</span>
+sns.pointplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    markers=[<span class="text-green-400">"o"</span>, <span class="text-green-400">"s"</span>],
+    linestyles=[<span class="text-green-400">"-"</span>, <span class="text-green-400">"--"</span>]
+)</pre>
+            </div>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/pointplot.png" alt="Pointplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-purple-50 rounded p-3 mt-3">
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Does the day-of-week effect on tips differ for smokers vs non-smokers?" (If lines cross or have different slopes = interaction)</p>
+        </div>
+      </div>
+      
+      <!-- countplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">countplot()</div>
+          <span class="text-gray-600 text-sm">Bar chart of counts (like value_counts visualized)</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># Count occurrences of each category</span>
+sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>)
+
+<span class="text-gray-400"># With hue</span>
+sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>, hue=<span class="text-green-400">"smoker"</span>)
+
+<span class="text-gray-400"># Horizontal</span>
+sns.countplot(data=tips, y=<span class="text-green-400">"day"</span>)
+
+<span class="text-gray-400"># Custom order</span>
+sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>, order=tips[<span class="text-green-400">"day"</span>].value_counts().index)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/countplot.png" alt="Countplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+      
+      <!-- catplot figure-level -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-purple-600 text-white px-3 py-1 rounded font-mono text-sm">catplot()</div>
+          <span class="text-gray-600 text-sm">Figure-level wrapper - supports faceting</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># catplot with different kinds</span>
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"box"</span>)
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"violin"</span>)
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"bar"</span>)
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"strip"</span>)
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"swarm"</span>)
+sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"point"</span>)
+
+<span class="text-gray-400"># Faceted by column</span>
+sns.catplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    col=<span class="text-green-400">"time"</span>,      <span class="text-gray-400"># Separate plots for Lunch/Dinner</span>
+    kind=<span class="text-green-400">"box"</span>,
+    height=<span class="text-yellow-400">4</span>,
+    aspect=<span class="text-yellow-400">0.8</span>
+)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/catplot.png" alt="Catplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER USEFUL PLOTS -->
+  <div class="border-t-4 border-orange-500 pt-4">
+    <h2 class="font-bold text-xl text-orange-700">4. Other Useful Plots</h2>
+    
+    <div class="space-y-4">
+      <!-- heatmap -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-orange-500 text-white px-3 py-1 rounded font-mono text-sm">heatmap()</div>
+          <span class="text-gray-600 text-sm">Color-coded matrix - great for correlations</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># Correlation heatmap</span>
+corr = tips[[<span class="text-green-400">"total_bill"</span>, <span class="text-green-400">"tip"</span>, <span class="text-green-400">"size"</span>]].corr()
+sns.heatmap(corr, annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">"coolwarm"</span>, center=<span class="text-yellow-400">0</span>)
+
+<span class="text-gray-400"># Pivot table heatmap</span>
+pivot = tips.pivot_table(values=<span class="text-green-400">"tip"</span>, index=<span class="text-green-400">"day"</span>, columns=<span class="text-green-400">"time"</span>)
+sns.heatmap(pivot, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-green-400">".2f"</span>, cmap=<span class="text-green-400">"YlGnBu"</span>)
+
+<span class="text-gray-400"># Customize</span>
+sns.heatmap(
+    corr, 
+    annot=<span class="text-purple-400">True</span>,        <span class="text-gray-400"># Show values</span>
+    fmt=<span class="text-green-400">".2f"</span>,         <span class="text-gray-400"># Number format</span>
+    cmap=<span class="text-green-400">"RdBu_r"</span>,     <span class="text-gray-400"># Color palette</span>
+    center=<span class="text-yellow-400">0</span>,          <span class="text-gray-400"># Center color at 0</span>
+    vmin=-<span class="text-yellow-400">1</span>, vmax=<span class="text-yellow-400">1</span>,   <span class="text-gray-400"># Value range</span>
+    square=<span class="text-purple-400">True</span>,       <span class="text-gray-400"># Square cells</span>
+    linewidths=<span class="text-yellow-400">0.5</span>     <span class="text-gray-400"># Grid lines</span>
+)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/heatmap.png" alt="Heatmap Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+      
+      <!-- pairplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-orange-500 text-white px-3 py-1 rounded font-mono text-sm">pairplot()</div>
+          <span class="text-gray-600 text-sm">Matrix of scatter plots for all variable pairs</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># Basic pairplot</span>
+sns.pairplot(iris)
+
+<span class="text-gray-400"># With hue (color by species)</span>
+sns.pairplot(iris, hue=<span class="text-green-400">"species"</span>)
+
+<span class="text-gray-400"># Select columns</span>
+sns.pairplot(tips, vars=[<span class="text-green-400">"total_bill"</span>, <span class="text-green-400">"tip"</span>, <span class="text-green-400">"size"</span>], hue=<span class="text-green-400">"smoker"</span>)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/pairplot.png" alt="Pairplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+        
+        <div class="bg-orange-50 rounded p-2 mt-3">
+          <p class="text-xs"><strong>💡 Use case:</strong> Quick EDA to see relationships between all numeric variables at once. Great for finding correlations and clusters.</p>
+        </div>
+      </div>
+      
+      <!-- jointplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-orange-500 text-white px-3 py-1 rounded font-mono text-sm">jointplot()</div>
+          <span class="text-gray-600 text-sm">Bivariate plot with marginal distributions</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># Basic jointplot (scatter + histograms)</span>
+sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+
+<span class="text-gray-400"># Different kinds</span>
+sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, kind=<span class="text-green-400">"kde"</span>)
+
+<span class="text-gray-400"># With hue</span>
+sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/jointplot.png" alt="Jointplot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+      
+      <!-- regplot / lmplot -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="bg-orange-500 text-white px-3 py-1 rounded font-mono text-sm">regplot() / lmplot()</div>
+          <span class="text-gray-600 text-sm">Scatter with regression line</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
+            <pre><span class="text-gray-400"># Simple regression plot</span>
+sns.regplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+
+<span class="text-gray-400"># lmplot (figure-level, supports faceting)</span>
+sns.lmplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>)
+
+<span class="text-gray-400"># Faceted</span>
+sns.lmplot(
+    data=tips, 
+    x=<span class="text-green-400">"total_bill"</span>, 
+    y=<span class="text-green-400">"tip"</span>,
+    col=<span class="text-green-400">"time"</span>,
+    hue=<span class="text-green-400">"smoker"</span>
+)</pre>
+          </div>
+          <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <img src="/images/seaborn/lmplot.png" alt="Regression Plot Example" class="max-w-full h-auto rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZATION -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">5. Customization & Styling</h2>
+    
+    <div class="space-y-4">
+      <!-- Themes -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-gray-700">Built-in Themes</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Set theme globally</span>
+sns.set_theme()                        <span class="text-gray-400"># Default (darkgrid)</span>
+sns.set_theme(style=<span class="text-green-400">"whitegrid"</span>)      <span class="text-gray-400"># White background + grid</span>
+sns.set_theme(style=<span class="text-green-400">"darkgrid"</span>)       <span class="text-gray-400"># Gray background + grid</span>
+sns.set_theme(style=<span class="text-green-400">"white"</span>)          <span class="text-gray-400"># Plain white</span>
+sns.set_theme(style=<span class="text-green-400">"dark"</span>)           <span class="text-gray-400"># Plain gray</span>
+sns.set_theme(style=<span class="text-green-400">"ticks"</span>)          <span class="text-gray-400"># White with tick marks</span>
+
+<span class="text-gray-400"># Context (scales font/line sizes)</span>
+sns.set_theme(context=<span class="text-green-400">"paper"</span>)        <span class="text-gray-400"># Smallest</span>
+sns.set_theme(context=<span class="text-green-400">"notebook"</span>)     <span class="text-gray-400"># Default</span>
+sns.set_theme(context=<span class="text-green-400">"talk"</span>)         <span class="text-gray-400"># Larger (for presentations)</span>
+sns.set_theme(context=<span class="text-green-400">"poster"</span>)       <span class="text-gray-400"># Largest</span></pre>
+        </div>
+      </div>
+      
+      <!-- Color Palettes -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-gray-700">Color Palettes</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Set palette globally</span>
+sns.set_palette(<span class="text-green-400">"deep"</span>)      <span class="text-gray-400"># Default</span>
+sns.set_palette(<span class="text-green-400">"muted"</span>)
+sns.set_palette(<span class="text-green-400">"pastel"</span>)
+sns.set_palette(<span class="text-green-400">"bright"</span>)
+sns.set_palette(<span class="text-green-400">"dark"</span>)
+sns.set_palette(<span class="text-green-400">"colorblind"</span>)  <span class="text-gray-400"># Accessible</span>
+
+<span class="text-gray-400"># Use in specific plot</span>
+sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"Blues"</span>)
+sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"viridis"</span>)
+sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"husl"</span>)
+
+<span class="text-gray-400"># Custom colors</span>
+sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=[<span class="text-green-400">"#ff6b6b"</span>, <span class="text-green-400">"#4ecdc4"</span>, <span class="text-green-400">"#45b7d1"</span>, <span class="text-green-400">"#96ceb4"</span>])
+
+<span class="text-gray-400"># Preview palette</span>
+sns.palplot(sns.color_palette(<span class="text-green-400">"husl"</span>, <span class="text-yellow-400">8</span>))</pre>
+        </div>
+      </div>
+      
+      <!-- Figure Size and Titles -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-gray-700">Figure Size, Titles, Labels</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Set figure size (for axes-level functions)</span>
+plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">6</span>))
+sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+plt.title(<span class="text-green-400">"Distribution of Total Bills"</span>)
+plt.xlabel(<span class="text-green-400">"Total Bill ($)"</span>)
+plt.ylabel(<span class="text-green-400">"Count"</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># For figure-level functions (relplot, displot, catplot)</span>
+g = sns.catplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    kind=<span class="text-green-400">"box"</span>,
+    height=<span class="text-yellow-400">5</span>,      <span class="text-gray-400"># Height of each facet</span>
+    aspect=<span class="text-yellow-400">1.5</span>     <span class="text-gray-400"># Width = height * aspect</span>
+)
+g.fig.suptitle(<span class="text-green-400">"Bills by Day"</span>, y=<span class="text-yellow-400">1.02</span>)
+g.set_axis_labels(<span class="text-green-400">"Day of Week"</span>, <span class="text-green-400">"Total Bill ($)"</span>)
+
+<span class="text-gray-400"># Save figure</span>
+plt.savefig(<span class="text-green-400">"my_plot.png"</span>, dpi=<span class="text-yellow-400">150</span>, bbox_inches=<span class="text-green-400">"tight"</span>)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">📋 Seaborn Cheat Sheet</h2>
+    
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Quick Reference: Which Plot to Use?</div>
+      
+      <table class="text-sm border border-gray-300 w-full">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Question</th>
+            <th class="border px-3 py-2 text-left">Plot Type</th>
+            <th class="border px-3 py-2 text-left">Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-2" colspan="3"><strong>Relational (X vs Y)</strong></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">How does X relate to Y?</td>
+            <td class="border px-3 py-2">Scatter</td>
+            <td class="border px-3 py-2"><code>sns.scatterplot()</code> or <code>sns.relplot(kind="scatter")</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">How does Y change over time/X?</td>
+            <td class="border px-3 py-2">Line</td>
+            <td class="border px-3 py-2"><code>sns.lineplot()</code> or <code>sns.relplot(kind="line")</code></td>
+          </tr>
+          <tr class="bg-green-50">
+            <td class="border px-3 py-2" colspan="3"><strong>Distribution (Single Variable)</strong></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">What's the distribution shape?</td>
+            <td class="border px-3 py-2">Histogram</td>
+            <td class="border px-3 py-2"><code>sns.histplot()</code> or <code>sns.displot(kind="hist")</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Smooth distribution estimate?</td>
+            <td class="border px-3 py-2">KDE</td>
+            <td class="border px-3 py-2"><code>sns.kdeplot()</code> or <code>sns.displot(kind="kde")</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">What % is below value X?</td>
+            <td class="border px-3 py-2">ECDF</td>
+            <td class="border px-3 py-2"><code>sns.ecdfplot()</code> or <code>sns.displot(kind="ecdf")</code></td>
+          </tr>
+          <tr class="bg-purple-50">
+            <td class="border px-3 py-2" colspan="3"><strong>Categorical (Category vs Numeric)</strong></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">See all individual points?</td>
+            <td class="border px-3 py-2">Strip/Swarm</td>
+            <td class="border px-3 py-2"><code>sns.stripplot()</code> / <code>sns.swarmplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Compare quartiles/outliers?</td>
+            <td class="border px-3 py-2">Box</td>
+            <td class="border px-3 py-2"><code>sns.boxplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">See distribution shape?</td>
+            <td class="border px-3 py-2">Violin</td>
+            <td class="border px-3 py-2"><code>sns.violinplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Compare averages?</td>
+            <td class="border px-3 py-2">Bar</td>
+            <td class="border px-3 py-2"><code>sns.barplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Show trends/interactions?</td>
+            <td class="border px-3 py-2">Point</td>
+            <td class="border px-3 py-2"><code>sns.pointplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Count occurrences?</td>
+            <td class="border px-3 py-2">Count</td>
+            <td class="border px-3 py-2"><code>sns.countplot()</code></td>
+          </tr>
+          <tr class="bg-orange-50">
+            <td class="border px-3 py-2" colspan="3"><strong>Other</strong></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Show correlations?</td>
+            <td class="border px-3 py-2">Heatmap</td>
+            <td class="border px-3 py-2"><code>sns.heatmap(df.corr())</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Explore all pairs?</td>
+            <td class="border px-3 py-2">Pair Plot</td>
+            <td class="border px-3 py-2"><code>sns.pairplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">X-Y with marginals?</td>
+            <td class="border px-3 py-2">Joint</td>
+            <td class="border px-3 py-2"><code>sns.jointplot()</code></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-2">Add regression line?</td>
+            <td class="border px-3 py-2">Regression</td>
+            <td class="border px-3 py-2"><code>sns.regplot()</code> / <code>sns.lmplot()</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Figure-level vs Axes-level</div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-blue-50 rounded p-3">
+          <p class="font-semibold text-blue-700">Figure-level (creates own figure)</p>
+          <ul class="text-xs mt-2 space-y-1">
+            <li><code>relplot()</code> - relational</li>
+            <li><code>displot()</code> - distributions</li>
+            <li><code>catplot()</code> - categorical</li>
+            <li><code>lmplot()</code> - regression</li>
+            <li><code>pairplot()</code> - all pairs</li>
+            <li><code>jointplot()</code> - bivariate + marginals</li>
+          </ul>
+          <p class="text-xs text-gray-600 mt-2">✓ Support <code>col</code> and <code>row</code> for faceting</p>
+          <p class="text-xs text-gray-600">✓ Use <code>height</code> and <code>aspect</code> for size</p>
+        </div>
+        <div class="bg-green-50 rounded p-3">
+          <p class="font-semibold text-green-700">Axes-level (draws on current axes)</p>
+          <ul class="text-xs mt-2 space-y-1">
+            <li><code>scatterplot()</code>, <code>lineplot()</code></li>
+            <li><code>histplot()</code>, <code>kdeplot()</code>, <code>ecdfplot()</code></li>
+            <li><code>stripplot()</code>, <code>swarmplot()</code>, <code>boxplot()</code></li>
+            <li><code>violinplot()</code>, <code>barplot()</code>, <code>pointplot()</code></li>
+            <li><code>heatmap()</code>, <code>regplot()</code></li>
+          </ul>
+          <p class="text-xs text-gray-600 mt-2">✓ Can combine with matplotlib subplots</p>
+          <p class="text-xs text-gray-600">✓ Use <code>plt.figure(figsize=())</code> for size</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white border-2 border-gray-300 rounded-lg p-4 mt-4">
+      <div class="font-semibold text-lg mb-3">Common Parameters</div>
+      
+      <div class="grid grid-cols-2 gap-4 text-xs">
+        <div>
+          <p class="font-semibold mb-1">Data & Variables</p>
+          <ul class="space-y-1">
+            <li><code>data</code> - DataFrame</li>
+            <li><code>x, y</code> - Column names</li>
+            <li><code>hue</code> - Color by category</li>
+            <li><code>size</code> - Size by variable (scatter)</li>
+            <li><code>style</code> - Marker/line style by category</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-1">Faceting (figure-level only)</p>
+          <ul class="space-y-1">
+            <li><code>col</code> - Create columns of plots</li>
+            <li><code>row</code> - Create rows of plots</li>
+            <li><code>col_wrap</code> - Wrap columns after N</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-1">Sizing</p>
+          <ul class="space-y-1">
+            <li><code>height</code> - Figure height (figure-level)</li>
+            <li><code>aspect</code> - Width = height × aspect</li>
+            <li><code>plt.figure(figsize=(w,h))</code> - axes-level</li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold mb-1">Appearance</p>
+          <ul class="space-y-1">
+            <li><code>palette</code> - Color palette</li>
+            <li><code>alpha</code> - Transparency (0-1)</li>
+            <li><code>order</code> - Category order</li>
+            <li><code>hue_order</code> - Hue category order</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAMPLE WORKFLOW -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">Example EDA Workflow</h2>
+    
+    <div class="bg-gray-800 text-white p-4 rounded text-sm mt-3">
+      <pre><span class="text-blue-400">import</span> seaborn <span class="text-blue-400">as</span> sns
+<span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
+
+<span class="text-gray-400"># Load data</span>
+tips = sns.load_dataset(<span class="text-green-400">"tips"</span>)
+
+<span class="text-gray-400"># 1. Quick overview with pairplot</span>
+sns.pairplot(tips, hue=<span class="text-green-400">"smoker"</span>)
+plt.show()
+
+<span class="text-gray-400"># 2. Distribution of main metric</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
+sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kde=<span class="text-purple-400">True</span>, ax=axes[<span class="text-yellow-400">0</span>])
+sns.boxplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, ax=axes[<span class="text-yellow-400">1</span>])
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># 3. Compare across categories</span>
+sns.catplot(
+    data=tips, 
+    x=<span class="text-green-400">"day"</span>, 
+    y=<span class="text-green-400">"total_bill"</span>,
+    hue=<span class="text-green-400">"time"</span>,
+    kind=<span class="text-green-400">"violin"</span>,
+    split=<span class="text-purple-400">True</span>
+)
+plt.show()
+
+<span class="text-gray-400"># 4. Correlation heatmap</span>
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">6</span>))
+sns.heatmap(tips.select_dtypes(<span class="text-green-400">'number'</span>).corr(), annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">"coolwarm"</span>, center=<span class="text-yellow-400">0</span>)
+plt.title(<span class="text-green-400">"Correlation Matrix"</span>)
+plt.show()
+
+<span class="text-gray-400"># 5. Key relationship with regression</span>
+sns.lmplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>, col=<span class="text-green-400">"time"</span>)
+plt.show()</pre>
+    </div>
+  </div>
+</div>

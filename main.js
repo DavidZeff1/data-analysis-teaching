@@ -30,9 +30,13 @@ const content = {
     union: () => fetch("/sql/union.html").then((r) => r.text()),
     window: () => fetch("/sql/window.html").then((r) => r.text()),
     questions: () => fetch("/sql/questions.html").then((r) => r.text()),
-    pandas: () => fetch("/sql/pandas.html").then((r) => r.text()),
     analysis: () => fetch("/sql/analysis.html").then((r) => r.text()),
     abtesting: () => fetch("/sql/abtesting.html").then((r) => r.text()),
+  },
+  python: {
+    pandas: () => fetch("/python/pandas.html").then((r) => r.text()),
+    seaborn: () => fetch('/python/seaborn.html').then(r => r.text()),
+    basics: () => fetch('/python/basics.html').then(r => r.text()),
   },
   excel: {
     setup: () => fetch("/excel/setup.html").then((r) => r.text()),

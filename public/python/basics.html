@@ -1,0 +1,1110 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Python Basics: Data Types & Operations</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">Python's Core Data Types</h2>
+    <p>Understanding Python's built-in data types is fundamental. Each type has different characteristics that determine when and how to use them.</p>
+  </div>
+
+  <!-- TYPE COMPARISON TABLE -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">Data Type Comparison</h2>
+    
+    <div class="overflow-x-auto mt-3">
+      <table class="text-sm border border-gray-300 w-full">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Type</th>
+            <th class="border px-3 py-2 text-center">Ordered</th>
+            <th class="border px-3 py-2 text-center">Mutable</th>
+            <th class="border px-3 py-2 text-center">Duplicates</th>
+            <th class="border px-3 py-2 text-center">Hashable</th>
+            <th class="border px-3 py-2 text-left">Empty</th>
+            <th class="border px-3 py-2 text-left">Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-2 font-mono font-bold">list</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 font-mono">[]</td>
+            <td class="border px-3 py-2 text-xs">General-purpose, mutable sequence</td>
+          </tr>
+          <tr class="bg-green-50">
+            <td class="border px-3 py-2 font-mono font-bold">tuple</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓*</td>
+            <td class="border px-3 py-2 font-mono">()</td>
+            <td class="border px-3 py-2 text-xs">Fixed data, dict keys, function returns</td>
+          </tr>
+          <tr class="bg-purple-50">
+            <td class="border px-3 py-2 font-mono font-bold">dict</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓**</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-gray-500">Keys: ✗</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 font-mono">{}</td>
+            <td class="border px-3 py-2 text-xs">Key-value mapping, fast lookup</td>
+          </tr>
+          <tr class="bg-orange-50">
+            <td class="border px-3 py-2 font-mono font-bold">set</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 font-mono">set()</td>
+            <td class="border px-3 py-2 text-xs">Unique items, membership testing</td>
+          </tr>
+          <tr class="bg-yellow-50">
+            <td class="border px-3 py-2 font-mono font-bold">str</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-red-600">✗</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 text-center text-green-600">✓</td>
+            <td class="border px-3 py-2 font-mono">""</td>
+            <td class="border px-3 py-2 text-xs">Text data</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-gray-500 mt-1">* Tuple is hashable only if all its elements are hashable. ** Dict maintains insertion order (Python 3.7+)</p>
+    
+    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
+      <p class="text-sm"><strong>💡 Key Concepts:</strong></p>
+      <ul class="text-xs mt-1 space-y-1">
+        <li><strong>Ordered:</strong> Elements maintain their position/sequence</li>
+        <li><strong>Mutable:</strong> Can be changed after creation (add, remove, modify)</li>
+        <li><strong>Duplicates:</strong> Can contain the same value multiple times</li>
+        <li><strong>Hashable:</strong> Can be used as dictionary keys or in sets (requires immutability)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">1. List</h2>
+    <p class="text-sm text-gray-600 mb-3">Ordered, mutable sequence. The most versatile and commonly used data structure.</p>
+    
+    <div class="space-y-4">
+      <!-- Instantiation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">Creating Lists</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Empty list</span>
+empty = []
+empty = list()
+
+<span class="text-gray-400"># With values</span>
+nums = [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">5</span>]
+mixed = [<span class="text-yellow-400">1</span>, <span class="text-green-400">"hello"</span>, <span class="text-yellow-400">3.14</span>, <span class="text-purple-400">True</span>]
+nested = [[<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>], [<span class="text-yellow-400">3</span>, <span class="text-yellow-400">4</span>]]
+
+<span class="text-gray-400"># From other iterables</span>
+from_string = list(<span class="text-green-400">"hello"</span>)        <span class="text-gray-400"># ['h', 'e', 'l', 'l', 'o']</span>
+from_range = list(range(<span class="text-yellow-400">5</span>))        <span class="text-gray-400"># [0, 1, 2, 3, 4]</span>
+from_tuple = list((<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>))       <span class="text-gray-400"># [1, 2, 3]</span>
+
+<span class="text-gray-400"># List comprehension</span>
+squares = [x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">5</span>)]  <span class="text-gray-400"># [0, 1, 4, 9, 16]</span>
+
+<span class="text-gray-400"># Repeat elements</span>
+zeros = [<span class="text-yellow-400">0</span>] * <span class="text-yellow-400">5</span>                   <span class="text-gray-400"># [0, 0, 0, 0, 0]</span></pre>
+        </div>
+      </div>
+      
+      <!-- Methods Table -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">List Methods</div>
+        <div class="overflow-x-auto mt-2">
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">Method</th>
+                <th class="border px-2 py-1 text-left">Description</th>
+                <th class="border px-2 py-1 text-left">Returns</th>
+                <th class="border px-2 py-1 text-left">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-blue-50"><td class="border px-2 py-1" colspan="4"><strong>Adding Elements</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">append(x)</td>
+                <td class="border px-2 py-1">Add item to end</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.append(4) → [1,2,3,4]</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">insert(i, x)</td>
+                <td class="border px-2 py-1">Insert at index</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.insert(0, 'a') → ['a',1,2]</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">extend(iter)</td>
+                <td class="border px-2 py-1">Add all items from iterable</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.extend([4,5]) → [1,2,3,4,5]</td>
+              </tr>
+              <tr class="bg-blue-50"><td class="border px-2 py-1" colspan="4"><strong>Removing Elements</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">remove(x)</td>
+                <td class="border px-2 py-1">Remove first occurrence</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.remove(2) → [1,3]</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">pop([i])</td>
+                <td class="border px-2 py-1">Remove & return at index (default: last)</td>
+                <td class="border px-2 py-1">item</td>
+                <td class="border px-2 py-1 font-mono">lst.pop() → 3, lst.pop(0) → 1</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">clear()</td>
+                <td class="border px-2 py-1">Remove all items</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.clear() → []</td>
+              </tr>
+              <tr class="bg-blue-50"><td class="border px-2 py-1" colspan="4"><strong>Searching</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">index(x)</td>
+                <td class="border px-2 py-1">Find index of first x</td>
+                <td class="border px-2 py-1">int</td>
+                <td class="border px-2 py-1 font-mono">[1,2,3].index(2) → 1</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">count(x)</td>
+                <td class="border px-2 py-1">Count occurrences of x</td>
+                <td class="border px-2 py-1">int</td>
+                <td class="border px-2 py-1 font-mono">[1,2,2,3].count(2) → 2</td>
+              </tr>
+              <tr class="bg-blue-50"><td class="border px-2 py-1" colspan="4"><strong>Ordering</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">sort()</td>
+                <td class="border px-2 py-1">Sort in place</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">lst.sort(), lst.sort(reverse=True)</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">reverse()</td>
+                <td class="border px-2 py-1">Reverse in place</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">[1,2,3].reverse() → [3,2,1]</td>
+              </tr>
+              <tr class="bg-blue-50"><td class="border px-2 py-1" colspan="4"><strong>Copying</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">copy()</td>
+                <td class="border px-2 py-1">Shallow copy</td>
+                <td class="border px-2 py-1">list</td>
+                <td class="border px-2 py-1 font-mono">new = lst.copy()</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Common Operations -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-blue-700">Common Operations</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Membership</span>
+<span class="text-yellow-400">2</span> <span class="text-blue-400">in</span> [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>]       <span class="text-gray-400"># True</span>
+<span class="text-yellow-400">5</span> <span class="text-blue-400">not in</span> [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>]   <span class="text-gray-400"># True</span>
+
+<span class="text-gray-400"># Concatenation</span>
+[<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>] + [<span class="text-yellow-400">3</span>, <span class="text-yellow-400">4</span>]       <span class="text-gray-400"># [1, 2, 3, 4]</span>
+
+<span class="text-gray-400"># Length</span>
+len([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])        <span class="text-gray-400"># 3</span>
+
+<span class="text-gray-400"># Min, Max, Sum</span>
+min([<span class="text-yellow-400">3</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>])        <span class="text-gray-400"># 1</span>
+max([<span class="text-yellow-400">3</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>])        <span class="text-gray-400"># 3</span>
+sum([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])        <span class="text-gray-400"># 6</span>
+
+<span class="text-gray-400"># Sorted (returns new list, doesn't modify original)</span>
+sorted([<span class="text-yellow-400">3</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>])     <span class="text-gray-400"># [1, 2, 3]</span>
+sorted([<span class="text-yellow-400">3</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>], reverse=<span class="text-purple-400">True</span>)  <span class="text-gray-400"># [3, 2, 1]</span>
+
+<span class="text-gray-400"># Unpack</span>
+a, b, c = [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>]   <span class="text-gray-400"># a=1, b=2, c=3</span>
+first, *rest = [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">4</span>]  <span class="text-gray-400"># first=1, rest=[2,3,4]</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TUPLE -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">2. Tuple</h2>
+    <p class="text-sm text-gray-600 mb-3">Ordered, immutable sequence. Use for fixed collections, function returns, and dictionary keys.</p>
+    
+    <div class="space-y-4">
+      <!-- Instantiation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700">Creating Tuples</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Empty tuple</span>
+empty = ()
+empty = tuple()
+
+<span class="text-gray-400"># With values (parentheses optional)</span>
+point = (<span class="text-yellow-400">10</span>, <span class="text-yellow-400">20</span>)
+point = <span class="text-yellow-400">10</span>, <span class="text-yellow-400">20</span>           <span class="text-gray-400"># Same thing</span>
+rgb = (<span class="text-yellow-400">255</span>, <span class="text-yellow-400">128</span>, <span class="text-yellow-400">0</span>)
+
+<span class="text-gray-400"># Single element (need comma!)</span>
+single = (<span class="text-yellow-400">42</span>,)            <span class="text-gray-400"># tuple</span>
+not_tuple = (<span class="text-yellow-400">42</span>)          <span class="text-gray-400"># just int 42!</span>
+
+<span class="text-gray-400"># From other iterables</span>
+from_list = tuple([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])
+from_string = tuple(<span class="text-green-400">"abc"</span>)   <span class="text-gray-400"># ('a', 'b', 'c')</span>
+
+<span class="text-gray-400"># Tuple unpacking</span>
+x, y = (<span class="text-yellow-400">10</span>, <span class="text-yellow-400">20</span>)
+a, b, c = <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>
+
+<span class="text-gray-400"># Swap values</span>
+a, b = b, a</pre>
+        </div>
+      </div>
+      
+      <!-- Methods Table -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-green-700">Tuple Methods (only 2!)</div>
+        <div class="overflow-x-auto mt-2">
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">Method</th>
+                <th class="border px-2 py-1 text-left">Description</th>
+                <th class="border px-2 py-1 text-left">Returns</th>
+                <th class="border px-2 py-1 text-left">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border px-2 py-1 font-mono">count(x)</td>
+                <td class="border px-2 py-1">Count occurrences of x</td>
+                <td class="border px-2 py-1">int</td>
+                <td class="border px-2 py-1 font-mono">(1,2,2,3).count(2) → 2</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">index(x)</td>
+                <td class="border px-2 py-1">Find index of first x</td>
+                <td class="border px-2 py-1">int</td>
+                <td class="border px-2 py-1 font-mono">(1,2,3).index(2) → 1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">Tuples are immutable, so no methods for adding/removing elements. Use all the same operations as list (indexing, slicing, len, in, +, etc.)</p>
+      </div>
+      
+      <!-- When to use tuple -->
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+        <p class="font-semibold text-green-700 text-sm">When to use tuple instead of list:</p>
+        <ul class="text-xs mt-1 space-y-1">
+          <li>• <strong>Data shouldn't change:</strong> coordinates, RGB colors, database records</li>
+          <li>• <strong>Dictionary keys:</strong> tuples are hashable (if elements are)</li>
+          <li>• <strong>Function returns:</strong> return multiple values</li>
+          <li>• <strong>Slight performance:</strong> tuples are faster and use less memory</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DICT -->
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">3. Dictionary (dict)</h2>
+    <p class="text-sm text-gray-600 mb-3">Key-value pairs with O(1) lookup. The most important data structure for real-world programming.</p>
+    
+    <div class="space-y-4">
+      <!-- Instantiation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">Creating Dictionaries</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Empty dict</span>
+empty = {}
+empty = dict()
+
+<span class="text-gray-400"># With values</span>
+person = {<span class="text-green-400">"name"</span>: <span class="text-green-400">"Alice"</span>, <span class="text-green-400">"age"</span>: <span class="text-yellow-400">30</span>}
+scores = {<span class="text-green-400">"math"</span>: <span class="text-yellow-400">95</span>, <span class="text-green-400">"english"</span>: <span class="text-yellow-400">88</span>}
+
+<span class="text-gray-400"># From list of tuples</span>
+pairs = [(<span class="text-green-400">"a"</span>, <span class="text-yellow-400">1</span>), (<span class="text-green-400">"b"</span>, <span class="text-yellow-400">2</span>)]
+d = dict(pairs)              <span class="text-gray-400"># {'a': 1, 'b': 2}</span>
+
+<span class="text-gray-400"># From zip</span>
+keys = [<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>, <span class="text-green-400">"c"</span>]
+vals = [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>]
+d = dict(zip(keys, vals))    <span class="text-gray-400"># {'a': 1, 'b': 2, 'c': 3}</span>
+
+<span class="text-gray-400"># Dict comprehension</span>
+squares = {x: x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">5</span>)}  <span class="text-gray-400"># {0:0, 1:1, 2:4, 3:9, 4:16}</span>
+
+<span class="text-gray-400"># From keys with default value</span>
+d = dict.fromkeys([<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>], <span class="text-yellow-400">0</span>)  <span class="text-gray-400"># {'a': 0, 'b': 0}</span></pre>
+        </div>
+      </div>
+      
+      <!-- Accessing -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">Accessing Values</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre>d = {<span class="text-green-400">"name"</span>: <span class="text-green-400">"Alice"</span>, <span class="text-green-400">"age"</span>: <span class="text-yellow-400">30</span>}
+
+<span class="text-gray-400"># Direct access (raises KeyError if missing)</span>
+d[<span class="text-green-400">"name"</span>]             <span class="text-gray-400"># "Alice"</span>
+d[<span class="text-green-400">"city"</span>]             <span class="text-gray-400"># KeyError!</span>
+
+<span class="text-gray-400"># Safe access with .get() (returns None or default)</span>
+d.get(<span class="text-green-400">"name"</span>)          <span class="text-gray-400"># "Alice"</span>
+d.get(<span class="text-green-400">"city"</span>)          <span class="text-gray-400"># None</span>
+d.get(<span class="text-green-400">"city"</span>, <span class="text-green-400">"Unknown"</span>)  <span class="text-gray-400"># "Unknown"</span>
+
+<span class="text-gray-400"># Set value</span>
+d[<span class="text-green-400">"city"</span>] = <span class="text-green-400">"NYC"</span>     <span class="text-gray-400"># Add new key</span>
+d[<span class="text-green-400">"age"</span>] = <span class="text-yellow-400">31</span>         <span class="text-gray-400"># Update existing</span></pre>
+        </div>
+      </div>
+      
+      <!-- Methods Table -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">Dict Methods</div>
+        <div class="overflow-x-auto mt-2">
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">Method</th>
+                <th class="border px-2 py-1 text-left">Description</th>
+                <th class="border px-2 py-1 text-left">Returns</th>
+                <th class="border px-2 py-1 text-left">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-purple-50"><td class="border px-2 py-1" colspan="4"><strong>Accessing</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">get(k, [default])</td>
+                <td class="border px-2 py-1">Get value safely</td>
+                <td class="border px-2 py-1">value or default</td>
+                <td class="border px-2 py-1 font-mono">d.get("x", 0)</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">keys()</td>
+                <td class="border px-2 py-1">All keys</td>
+                <td class="border px-2 py-1">dict_keys</td>
+                <td class="border px-2 py-1 font-mono">list(d.keys())</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">values()</td>
+                <td class="border px-2 py-1">All values</td>
+                <td class="border px-2 py-1">dict_values</td>
+                <td class="border px-2 py-1 font-mono">list(d.values())</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">items()</td>
+                <td class="border px-2 py-1">All (key, value) pairs</td>
+                <td class="border px-2 py-1">dict_items</td>
+                <td class="border px-2 py-1 font-mono">for k, v in d.items():</td>
+              </tr>
+              <tr class="bg-purple-50"><td class="border px-2 py-1" colspan="4"><strong>Modifying</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">update(other)</td>
+                <td class="border px-2 py-1">Merge another dict</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">d.update({"x": 1})</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">setdefault(k, v)</td>
+                <td class="border px-2 py-1">Get or set if missing</td>
+                <td class="border px-2 py-1">value</td>
+                <td class="border px-2 py-1 font-mono">d.setdefault("x", [])</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">pop(k, [default])</td>
+                <td class="border px-2 py-1">Remove & return value</td>
+                <td class="border px-2 py-1">value</td>
+                <td class="border px-2 py-1 font-mono">d.pop("name")</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">popitem()</td>
+                <td class="border px-2 py-1">Remove & return last pair</td>
+                <td class="border px-2 py-1">(key, value)</td>
+                <td class="border px-2 py-1 font-mono">k, v = d.popitem()</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">clear()</td>
+                <td class="border px-2 py-1">Remove all items</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1 font-mono">d.clear()</td>
+              </tr>
+              <tr class="bg-purple-50"><td class="border px-2 py-1" colspan="4"><strong>Copying</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">copy()</td>
+                <td class="border px-2 py-1">Shallow copy</td>
+                <td class="border px-2 py-1">dict</td>
+                <td class="border px-2 py-1 font-mono">new = d.copy()</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Common Patterns -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-purple-700">Common Patterns</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Iterate</span>
+<span class="text-blue-400">for</span> key <span class="text-blue-400">in</span> d:              <span class="text-gray-400"># keys only</span>
+<span class="text-blue-400">for</span> key, val <span class="text-blue-400">in</span> d.items(): <span class="text-gray-400"># key-value pairs</span>
+
+<span class="text-gray-400"># Membership (checks keys)</span>
+<span class="text-green-400">"name"</span> <span class="text-blue-400">in</span> d               <span class="text-gray-400"># True</span>
+
+<span class="text-gray-400"># Merge dicts (Python 3.9+)</span>
+merged = d1 | d2            <span class="text-gray-400"># d2 values override d1</span>
+d1 |= d2                    <span class="text-gray-400"># update d1 in place</span>
+
+<span class="text-gray-400"># Merge dicts (Python 3.5+)</span>
+merged = {**d1, **d2}
+
+<span class="text-gray-400"># Count items</span>
+<span class="text-blue-400">from</span> collections <span class="text-blue-400">import</span> Counter
+counts = Counter([<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>, <span class="text-green-400">"a"</span>])  <span class="text-gray-400"># {'a': 2, 'b': 1}</span>
+
+<span class="text-gray-400"># Default values</span>
+<span class="text-blue-400">from</span> collections <span class="text-blue-400">import</span> defaultdict
+dd = defaultdict(list)
+dd[<span class="text-green-400">"key"</span>].append(<span class="text-yellow-400">1</span>)        <span class="text-gray-400"># No KeyError!</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SET -->
+  <div class="border-t-4 border-orange-500 pt-4">
+    <h2 class="font-bold text-xl text-orange-700">4. Set</h2>
+    <p class="text-sm text-gray-600 mb-3">Unordered collection of unique elements. Fast membership testing and set operations.</p>
+    
+    <div class="space-y-4">
+      <!-- Instantiation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700">Creating Sets</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Empty set (NOT {} - that's a dict!)</span>
+empty = set()
+
+<span class="text-gray-400"># With values</span>
+nums = {<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>}
+unique = {<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>}      <span class="text-gray-400"># {1, 2, 3} - duplicates removed</span>
+
+<span class="text-gray-400"># From other iterables</span>
+from_list = set([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])  <span class="text-gray-400"># {1, 2, 3}</span>
+from_string = set(<span class="text-green-400">"hello"</span>)     <span class="text-gray-400"># {'h', 'e', 'l', 'o'}</span>
+
+<span class="text-gray-400"># Set comprehension</span>
+evens = {x <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">10</span>) <span class="text-blue-400">if</span> x % <span class="text-yellow-400">2</span> == <span class="text-yellow-400">0</span>}
+
+<span class="text-gray-400"># Frozen set (immutable, hashable)</span>
+fs = frozenset([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])</pre>
+        </div>
+      </div>
+      
+      <!-- Methods Table -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-orange-700">Set Methods</div>
+        <div class="overflow-x-auto mt-2">
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">Method</th>
+                <th class="border px-2 py-1 text-left">Description</th>
+                <th class="border px-2 py-1 text-left">Returns</th>
+                <th class="border px-2 py-1 text-left">Operator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-orange-50"><td class="border px-2 py-1" colspan="4"><strong>Modifying</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">add(x)</td>
+                <td class="border px-2 py-1">Add element</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">remove(x)</td>
+                <td class="border px-2 py-1">Remove x (KeyError if missing)</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">discard(x)</td>
+                <td class="border px-2 py-1">Remove x (no error if missing)</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">pop()</td>
+                <td class="border px-2 py-1">Remove & return arbitrary element</td>
+                <td class="border px-2 py-1">element</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">clear()</td>
+                <td class="border px-2 py-1">Remove all</td>
+                <td class="border px-2 py-1">None</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+              <tr class="bg-orange-50"><td class="border px-2 py-1" colspan="4"><strong>Set Operations</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">union(other)</td>
+                <td class="border px-2 py-1">All elements in either</td>
+                <td class="border px-2 py-1">set</td>
+                <td class="border px-2 py-1 font-mono">a | b</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">intersection(other)</td>
+                <td class="border px-2 py-1">Elements in both</td>
+                <td class="border px-2 py-1">set</td>
+                <td class="border px-2 py-1 font-mono">a & b</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">difference(other)</td>
+                <td class="border px-2 py-1">In self but not other</td>
+                <td class="border px-2 py-1">set</td>
+                <td class="border px-2 py-1 font-mono">a - b</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">symmetric_difference()</td>
+                <td class="border px-2 py-1">In either but not both</td>
+                <td class="border px-2 py-1">set</td>
+                <td class="border px-2 py-1 font-mono">a ^ b</td>
+              </tr>
+              <tr class="bg-orange-50"><td class="border px-2 py-1" colspan="4"><strong>Comparisons</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">issubset(other)</td>
+                <td class="border px-2 py-1">All elements in other?</td>
+                <td class="border px-2 py-1">bool</td>
+                <td class="border px-2 py-1 font-mono">a <= b</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">issuperset(other)</td>
+                <td class="border px-2 py-1">Contains all of other?</td>
+                <td class="border px-2 py-1">bool</td>
+                <td class="border px-2 py-1 font-mono">a >= b</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">isdisjoint(other)</td>
+                <td class="border px-2 py-1">No common elements?</td>
+                <td class="border px-2 py-1">bool</td>
+                <td class="border px-2 py-1">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Common Uses -->
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-3">
+        <p class="font-semibold text-orange-700 text-sm">Common Use Cases:</p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs mt-2">
+          <pre><span class="text-gray-400"># Remove duplicates</span>
+unique = list(set([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>]))
+
+<span class="text-gray-400"># Fast membership testing</span>
+valid = {<span class="text-green-400">"admin"</span>, <span class="text-green-400">"user"</span>, <span class="text-green-400">"guest"</span>}
+<span class="text-blue-400">if</span> role <span class="text-blue-400">in</span> valid:  <span class="text-gray-400"># O(1) instead of O(n) for list</span>
+
+<span class="text-gray-400"># Find common/different items</span>
+users_a = {<span class="text-green-400">"alice"</span>, <span class="text-green-400">"bob"</span>}
+users_b = {<span class="text-green-400">"bob"</span>, <span class="text-green-400">"charlie"</span>}
+both = users_a & users_b       <span class="text-gray-400"># {'bob'}</span>
+only_a = users_a - users_b     <span class="text-gray-400"># {'alice'}</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRING -->
+  <div class="border-t-4 border-yellow-500 pt-4">
+    <h2 class="font-bold text-xl text-yellow-700">5. String (str)</h2>
+    <p class="text-sm text-gray-600 mb-3">Immutable sequence of characters. Rich set of methods for text processing.</p>
+    
+    <div class="space-y-4">
+      <!-- Instantiation -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-700">Creating Strings</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Various quotes</span>
+s1 = <span class="text-green-400">'single quotes'</span>
+s2 = <span class="text-green-400">"double quotes"</span>
+s3 = <span class="text-green-400">'''multi
+line'''</span>
+s4 = <span class="text-green-400">"""also
+multi-line"""</span>
+
+<span class="text-gray-400"># Raw string (ignores escapes)</span>
+path = r<span class="text-green-400">"C:\Users\name"</span>     <span class="text-gray-400"># backslashes preserved</span>
+
+<span class="text-gray-400"># F-strings (Python 3.6+)</span>
+name = <span class="text-green-400">"Alice"</span>
+age = <span class="text-yellow-400">30</span>
+msg = f<span class="text-green-400">"Name: {name}, Age: {age}"</span>
+calc = f<span class="text-green-400">"2 + 2 = {2 + 2}"</span>
+
+<span class="text-gray-400"># String from other types</span>
+str(<span class="text-yellow-400">123</span>)          <span class="text-gray-400"># "123"</span>
+str([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])    <span class="text-gray-400"># "[1, 2, 3]"</span></pre>
+        </div>
+      </div>
+      
+      <!-- Important Methods -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-700">Essential String Methods</div>
+        <div class="overflow-x-auto mt-2">
+          <table class="text-xs border border-gray-300 w-full">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">Method</th>
+                <th class="border px-2 py-1 text-left">Description</th>
+                <th class="border px-2 py-1 text-left">Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Case</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">upper()</td>
+                <td class="border px-2 py-1">Uppercase</td>
+                <td class="border px-2 py-1 font-mono">"hello".upper() → "HELLO"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">lower()</td>
+                <td class="border px-2 py-1">Lowercase</td>
+                <td class="border px-2 py-1 font-mono">"HELLO".lower() → "hello"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">title()</td>
+                <td class="border px-2 py-1">Title Case</td>
+                <td class="border px-2 py-1 font-mono">"hello world".title() → "Hello World"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">capitalize()</td>
+                <td class="border px-2 py-1">First letter upper</td>
+                <td class="border px-2 py-1 font-mono">"hello".capitalize() → "Hello"</td>
+              </tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Search & Replace</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">find(sub)</td>
+                <td class="border px-2 py-1">Index of sub (-1 if not found)</td>
+                <td class="border px-2 py-1 font-mono">"hello".find("l") → 2</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">index(sub)</td>
+                <td class="border px-2 py-1">Index of sub (error if not found)</td>
+                <td class="border px-2 py-1 font-mono">"hello".index("l") → 2</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">count(sub)</td>
+                <td class="border px-2 py-1">Count occurrences</td>
+                <td class="border px-2 py-1 font-mono">"hello".count("l") → 2</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">replace(old, new)</td>
+                <td class="border px-2 py-1">Replace all occurrences</td>
+                <td class="border px-2 py-1 font-mono">"hello".replace("l", "x") → "hexxo"</td>
+              </tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Split & Join ⭐</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">split(sep)</td>
+                <td class="border px-2 py-1">Split into list</td>
+                <td class="border px-2 py-1 font-mono">"a,b,c".split(",") → ["a","b","c"]</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">sep.join(list)</td>
+                <td class="border px-2 py-1">Join list into string</td>
+                <td class="border px-2 py-1 font-mono">",".join(["a","b"]) → "a,b"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">splitlines()</td>
+                <td class="border px-2 py-1">Split by newlines</td>
+                <td class="border px-2 py-1 font-mono">"a\nb".splitlines() → ["a","b"]</td>
+              </tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Strip (Whitespace)</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">strip()</td>
+                <td class="border px-2 py-1">Remove leading/trailing whitespace</td>
+                <td class="border px-2 py-1 font-mono">"  hi  ".strip() → "hi"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">lstrip() / rstrip()</td>
+                <td class="border px-2 py-1">Left/right only</td>
+                <td class="border px-2 py-1 font-mono">"  hi".lstrip() → "hi"</td>
+              </tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Testing</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">startswith(s)</td>
+                <td class="border px-2 py-1">Starts with s?</td>
+                <td class="border px-2 py-1 font-mono">"hello".startswith("he") → True</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">endswith(s)</td>
+                <td class="border px-2 py-1">Ends with s?</td>
+                <td class="border px-2 py-1 font-mono">"hello".endswith("lo") → True</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">isdigit()</td>
+                <td class="border px-2 py-1">All digits?</td>
+                <td class="border px-2 py-1 font-mono">"123".isdigit() → True</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">isalpha()</td>
+                <td class="border px-2 py-1">All letters?</td>
+                <td class="border px-2 py-1 font-mono">"abc".isalpha() → True</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">isalnum()</td>
+                <td class="border px-2 py-1">All letters or digits?</td>
+                <td class="border px-2 py-1 font-mono">"abc123".isalnum() → True</td>
+              </tr>
+              <tr class="bg-yellow-50"><td class="border px-2 py-1" colspan="3"><strong>Formatting</strong></td></tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">zfill(width)</td>
+                <td class="border px-2 py-1">Pad with zeros</td>
+                <td class="border px-2 py-1 font-mono">"42".zfill(5) → "00042"</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ljust/rjust/center(w)</td>
+                <td class="border px-2 py-1">Pad left/right/both</td>
+                <td class="border px-2 py-1 font-mono">"hi".center(6) → "  hi  "</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Split and Join Deep Dive -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-yellow-700">Split & Join (Most Important!)</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># SPLIT: String → List</span>
+<span class="text-green-400">"a,b,c"</span>.split(<span class="text-green-400">","</span>)           <span class="text-gray-400"># ['a', 'b', 'c']</span>
+<span class="text-green-400">"hello world"</span>.split()       <span class="text-gray-400"># ['hello', 'world'] - splits on whitespace</span>
+<span class="text-green-400">"a  b  c"</span>.split()           <span class="text-gray-400"># ['a', 'b', 'c'] - multiple spaces handled</span>
+<span class="text-green-400">"a::b::c"</span>.split(<span class="text-green-400">"::"</span>)       <span class="text-gray-400"># ['a', 'b', 'c']</span>
+<span class="text-green-400">"a,b,c"</span>.split(<span class="text-green-400">","</span>, <span class="text-yellow-400">1</span>)        <span class="text-gray-400"># ['a', 'b,c'] - max 1 split</span>
+
+<span class="text-gray-400"># JOIN: List → String (called on separator!)</span>
+<span class="text-green-400">","</span>.join([<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>, <span class="text-green-400">"c"</span>])    <span class="text-gray-400"># "a,b,c"</span>
+<span class="text-green-400">" "</span>.join([<span class="text-green-400">"hello"</span>, <span class="text-green-400">"world"</span>]) <span class="text-gray-400"># "hello world"</span>
+<span class="text-green-400">""</span>.join([<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>, <span class="text-green-400">"c"</span>])     <span class="text-gray-400"># "abc"</span>
+<span class="text-green-400">"\n"</span>.join(lines)             <span class="text-gray-400"># Join with newlines</span>
+
+<span class="text-gray-400"># Common pattern: process and rejoin</span>
+text = <span class="text-green-400">"  hello   world  "</span>
+words = text.split()         <span class="text-gray-400"># ['hello', 'world']</span>
+clean = <span class="text-green-400">" "</span>.join(words)       <span class="text-gray-400"># "hello world"</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDEXING AND SLICING -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">Indexing and Slicing</h2>
+    <p class="text-sm text-gray-600 mb-3">Works on list, tuple, and string. Powerful way to access elements.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Index Reference</div>
+        <div class="bg-gray-50 rounded p-3 mt-2 font-mono text-sm text-center">
+          <p class="mb-2">s = "Python"</p>
+          <table class="mx-auto border-collapse">
+            <tr>
+              <td class="border px-3 py-1 bg-indigo-100">P</td>
+              <td class="border px-3 py-1 bg-indigo-100">y</td>
+              <td class="border px-3 py-1 bg-indigo-100">t</td>
+              <td class="border px-3 py-1 bg-indigo-100">h</td>
+              <td class="border px-3 py-1 bg-indigo-100">o</td>
+              <td class="border px-3 py-1 bg-indigo-100">n</td>
+            </tr>
+            <tr class="text-xs">
+              <td class="px-3 py-1">0</td>
+              <td class="px-3 py-1">1</td>
+              <td class="px-3 py-1">2</td>
+              <td class="px-3 py-1">3</td>
+              <td class="px-3 py-1">4</td>
+              <td class="px-3 py-1">5</td>
+            </tr>
+            <tr class="text-xs text-gray-500">
+              <td class="px-3 py-1">-6</td>
+              <td class="px-3 py-1">-5</td>
+              <td class="px-3 py-1">-4</td>
+              <td class="px-3 py-1">-3</td>
+              <td class="px-3 py-1">-2</td>
+              <td class="px-3 py-1">-1</td>
+            </tr>
+          </table>
+        </div>
+        
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-3">
+          <pre>s = <span class="text-green-400">"Python"</span>
+lst = [<span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">5</span>]
+
+<span class="text-gray-400"># INDEXING: Get single element</span>
+s[<span class="text-yellow-400">0</span>]      <span class="text-gray-400"># 'P' - first</span>
+s[-<span class="text-yellow-400">1</span>]     <span class="text-gray-400"># 'n' - last</span>
+s[-<span class="text-yellow-400">2</span>]     <span class="text-gray-400"># 'o' - second to last</span>
+
+<span class="text-gray-400"># SLICING: [start:stop:step] - stop is exclusive!</span>
+s[<span class="text-yellow-400">0</span>:<span class="text-yellow-400">3</span>]    <span class="text-gray-400"># 'Pyt' - indices 0, 1, 2</span>
+s[:<span class="text-yellow-400">3</span>]     <span class="text-gray-400"># 'Pyt' - from start to 3</span>
+s[<span class="text-yellow-400">3</span>:]     <span class="text-gray-400"># 'hon' - from 3 to end</span>
+s[:]      <span class="text-gray-400"># 'Python' - copy entire</span>
+
+<span class="text-gray-400"># Negative indices in slicing</span>
+s[-<span class="text-yellow-400">3</span>:]    <span class="text-gray-400"># 'hon' - last 3</span>
+s[:-<span class="text-yellow-400">2</span>]    <span class="text-gray-400"># 'Pyth' - all except last 2</span>
+s[<span class="text-yellow-400">1</span>:-<span class="text-yellow-400">1</span>]   <span class="text-gray-400"># 'ytho' - exclude first and last</span>
+
+<span class="text-gray-400"># Step</span>
+s[::<span class="text-yellow-400">2</span>]    <span class="text-gray-400"># 'Pto' - every 2nd character</span>
+s[::-<span class="text-yellow-400">1</span>]   <span class="text-gray-400"># 'nohtyP' - REVERSE!</span>
+lst[::-<span class="text-yellow-400">1</span>] <span class="text-gray-400"># [5, 4, 3, 2, 1, 0]</span>
+
+<span class="text-gray-400"># Modify list via slicing (lists only, not strings)</span>
+lst[<span class="text-yellow-400">1</span>:<span class="text-yellow-400">3</span>] = [<span class="text-yellow-400">10</span>, <span class="text-yellow-400">20</span>]  <span class="text-gray-400"># [0, 10, 20, 3, 4, 5]</span>
+lst[<span class="text-yellow-400">1</span>:<span class="text-yellow-400">3</span>] = []        <span class="text-gray-400"># Delete: [0, 3, 4, 5]</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPREHENSIONS -->
+  <div class="border-t-4 border-pink-500 pt-4">
+    <h2 class="font-bold text-xl text-pink-700">Comprehensions</h2>
+    <p class="text-sm text-gray-600 mb-3">Concise way to create lists, dicts, and sets. More Pythonic than loops.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># LIST COMPREHENSION</span>
+[x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">5</span>)]              <span class="text-gray-400"># [0, 1, 4, 9, 16]</span>
+[x <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">10</span>) <span class="text-blue-400">if</span> x % <span class="text-yellow-400">2</span> == <span class="text-yellow-400">0</span>]  <span class="text-gray-400"># [0, 2, 4, 6, 8] - with filter</span>
+[x.upper() <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> [<span class="text-green-400">"a"</span>, <span class="text-green-400">"b"</span>]]      <span class="text-gray-400"># ['A', 'B']</span>
+
+<span class="text-gray-400"># Nested loops</span>
+[(x, y) <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> [<span class="text-yellow-400">1</span>,<span class="text-yellow-400">2</span>] <span class="text-blue-400">for</span> y <span class="text-blue-400">in</span> [<span class="text-yellow-400">3</span>,<span class="text-yellow-400">4</span>]]  <span class="text-gray-400"># [(1,3),(1,4),(2,3),(2,4)]</span>
+
+<span class="text-gray-400"># Flatten nested list</span>
+nested = [[<span class="text-yellow-400">1</span>,<span class="text-yellow-400">2</span>], [<span class="text-yellow-400">3</span>,<span class="text-yellow-400">4</span>]]
+[x <span class="text-blue-400">for</span> sublist <span class="text-blue-400">in</span> nested <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> sublist]  <span class="text-gray-400"># [1, 2, 3, 4]</span>
+
+<span class="text-gray-400"># If-else (ternary)</span>
+[<span class="text-green-400">"even"</span> <span class="text-blue-400">if</span> x%<span class="text-yellow-400">2</span>==<span class="text-yellow-400">0</span> <span class="text-blue-400">else</span> <span class="text-green-400">"odd"</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">4</span>)]
+
+<span class="text-gray-400"># DICT COMPREHENSION</span>
+{x: x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">5</span>)}          <span class="text-gray-400"># {0:0, 1:1, 2:4, 3:9, 4:16}</span>
+{k: v <span class="text-blue-400">for</span> k, v <span class="text-blue-400">in</span> zip(keys, vals)}  <span class="text-gray-400"># from two lists</span>
+{k: v <span class="text-blue-400">for</span> k, v <span class="text-blue-400">in</span> d.items() <span class="text-blue-400">if</span> v > <span class="text-yellow-400">0</span>} <span class="text-gray-400"># filter dict</span>
+
+<span class="text-gray-400"># SET COMPREHENSION</span>
+{x % <span class="text-yellow-400">3</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">10</span>)}           <span class="text-gray-400"># {0, 1, 2}</span>
+
+<span class="text-gray-400"># GENERATOR EXPRESSION (lazy, memory efficient)</span>
+gen = (x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">1000000</span>))  <span class="text-gray-400"># doesn't create list in memory</span>
+sum(x**<span class="text-yellow-400">2</span> <span class="text-blue-400">for</span> x <span class="text-blue-400">in</span> range(<span class="text-yellow-400">10</span>))         <span class="text-gray-400"># use directly in functions</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUILT-IN FUNCTIONS -->
+  <div class="border-t-4 border-teal-500 pt-4">
+    <h2 class="font-bold text-xl text-teal-700">Essential Built-in Functions</h2>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="overflow-x-auto">
+        <table class="text-xs border border-gray-300 w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-2 py-1 text-left">Function</th>
+              <th class="border px-2 py-1 text-left">Description</th>
+              <th class="border px-2 py-1 text-left">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Length & Type</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">len(x)</td>
+              <td class="border px-2 py-1">Length/count</td>
+              <td class="border px-2 py-1 font-mono">len([1,2,3]) → 3</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">type(x)</td>
+              <td class="border px-2 py-1">Type of object</td>
+              <td class="border px-2 py-1 font-mono">type([]) → list</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">isinstance(x, t)</td>
+              <td class="border px-2 py-1">Check type</td>
+              <td class="border px-2 py-1 font-mono">isinstance(1, int) → True</td>
+            </tr>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Math</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">sum(iter)</td>
+              <td class="border px-2 py-1">Sum of elements</td>
+              <td class="border px-2 py-1 font-mono">sum([1,2,3]) → 6</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">min(iter) / max(iter)</td>
+              <td class="border px-2 py-1">Min/max value</td>
+              <td class="border px-2 py-1 font-mono">min([3,1,2]) → 1</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">abs(x)</td>
+              <td class="border px-2 py-1">Absolute value</td>
+              <td class="border px-2 py-1 font-mono">abs(-5) → 5</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">round(x, n)</td>
+              <td class="border px-2 py-1">Round to n decimals</td>
+              <td class="border px-2 py-1 font-mono">round(3.14159, 2) → 3.14</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">pow(x, y)</td>
+              <td class="border px-2 py-1">x to power y</td>
+              <td class="border px-2 py-1 font-mono">pow(2, 3) → 8</td>
+            </tr>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Iteration</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">range(start, stop, step)</td>
+              <td class="border px-2 py-1">Number sequence</td>
+              <td class="border px-2 py-1 font-mono">list(range(0,5,2)) → [0,2,4]</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">enumerate(iter)</td>
+              <td class="border px-2 py-1">Index + value pairs</td>
+              <td class="border px-2 py-1 font-mono">for i, v in enumerate(lst):</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">zip(a, b)</td>
+              <td class="border px-2 py-1">Pair elements</td>
+              <td class="border px-2 py-1 font-mono">list(zip([1,2], ['a','b'])) → [(1,'a'),(2,'b')]</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">reversed(seq)</td>
+              <td class="border px-2 py-1">Reverse iterator</td>
+              <td class="border px-2 py-1 font-mono">list(reversed([1,2,3])) → [3,2,1]</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">sorted(iter)</td>
+              <td class="border px-2 py-1">New sorted list</td>
+              <td class="border px-2 py-1 font-mono">sorted([3,1,2]) → [1,2,3]</td>
+            </tr>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Boolean</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">all(iter)</td>
+              <td class="border px-2 py-1">All truthy?</td>
+              <td class="border px-2 py-1 font-mono">all([True, True]) → True</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">any(iter)</td>
+              <td class="border px-2 py-1">Any truthy?</td>
+              <td class="border px-2 py-1 font-mono">any([False, True]) → True</td>
+            </tr>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Conversion</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">int(), float(), str()</td>
+              <td class="border px-2 py-1">Type conversion</td>
+              <td class="border px-2 py-1 font-mono">int("42") → 42</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">list(), tuple(), set(), dict()</td>
+              <td class="border px-2 py-1">Collection conversion</td>
+              <td class="border px-2 py-1 font-mono">list("abc") → ['a','b','c']</td>
+            </tr>
+            <tr class="bg-teal-50"><td class="border px-2 py-1" colspan="3"><strong>Functional</strong></td></tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">map(func, iter)</td>
+              <td class="border px-2 py-1">Apply func to each</td>
+              <td class="border px-2 py-1 font-mono">list(map(str, [1,2])) → ['1','2']</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1 font-mono">filter(func, iter)</td>
+              <td class="border px-2 py-1">Keep if func returns True</td>
+              <td class="border px-2 py-1 font-mono">list(filter(lambda x: x>0, [-1,2])) → [2]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="bg-gray-100 rounded-lg p-4 mt-6">
+    <h2 class="font-bold text-lg mb-3">📋 Quick Reference Card</h2>
+    <div class="grid grid-cols-3 gap-4 text-xs">
+      <div>
+        <p class="font-semibold mb-1">Create Empty</p>
+        <ul class="space-y-1 font-mono">
+          <li>list: [] or list()</li>
+          <li>tuple: () or tuple()</li>
+          <li>dict: {} or dict()</li>
+          <li>set: set() <span class="text-red-500">(NOT {}!)</span></li>
+          <li>str: "" or str()</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Check Membership</p>
+        <ul class="space-y-1 font-mono">
+          <li>x in collection</li>
+          <li>x not in collection</li>
+          <li>key in dict <span class="text-gray-500">(checks keys)</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Length</p>
+        <ul class="space-y-1 font-mono">
+          <li>len(x) <span class="text-gray-500">- all types</span></li>
+        </ul>
+        <p class="font-semibold mb-1 mt-2">Reverse</p>
+        <ul class="space-y-1 font-mono">
+          <li>lst.reverse() <span class="text-gray-500">- in place</span></li>
+          <li>lst[::-1] <span class="text-gray-500">- new list</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Sort</p>
+        <ul class="space-y-1 font-mono">
+          <li>lst.sort() <span class="text-gray-500">- in place</span></li>
+          <li>sorted(lst) <span class="text-gray-500">- new list</span></li>
+          <li>sorted(lst, key=len)</li>
+          <li>sorted(lst, reverse=True)</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Iterate with Index</p>
+        <ul class="space-y-1 font-mono">
+          <li>for i, v in enumerate(lst):</li>
+        </ul>
+        <p class="font-semibold mb-1 mt-2">Iterate Pairs</p>
+        <ul class="space-y-1 font-mono">
+          <li>for a, b in zip(lst1, lst2):</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Dict Iteration</p>
+        <ul class="space-y-1 font-mono">
+          <li>for k in d:</li>
+          <li>for k, v in d.items():</li>
+          <li>for v in d.values():</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

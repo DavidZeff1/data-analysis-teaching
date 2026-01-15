@@ -43,6 +43,12 @@
         >
           Math
         </button>
+        <button
+          class="tab px-4 py-2 rounded hover:bg-gray-200"
+          data-tab="python"
+        >
+          Python
+        </button>
       </div>
     </nav>
     <main class="p-4">
@@ -132,13 +138,7 @@
           >
             Questions
           </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="pandas"
-          >
-            Pandas Cheatsheet
-          </button>
+
           <button
             class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
             data-tab="sql"
@@ -167,7 +167,7 @@
         <div id="sql-union" class="subcontent hidden">Loading...</div>
         <div id="sql-window" class="subcontent hidden">Loading...</div>
         <div id="sql-questions" class="subcontent hidden">Loading...</div>
-        <div id="sql-pandas" class="subcontent hidden">Loading...</div>
+
         <div id="sql-analysis" class="subcontent hidden">Loading...</div>
 
         <div id="sql-abtesting" class="subcontent hidden">Loading...</div>
@@ -387,6 +387,24 @@
           </button>
         </div>
         <div id="math-statistics" class="subcontent">Loading...</div>
+      </div>
+      <div id="python" class="content hidden">
+        <div class="flex flex-wrap gap-1 mb-4">
+          <button
+            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
+            data-tab="python"
+            data-sub="pandas"
+          >
+            Pandas
+          </button>
+          <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="python" data-sub="seaborn">
+            Seaborn
+          </button>
+          <button class="subtab px-3 py-1 rounded bg-gray-200 text-sm" data-tab="python" data-sub="basics">Python Basics</button>
+        </div>
+        <div id="python-pandas" class="subcontent">Loading...</div>
+        <div id="python-seaborn" class="subcontent hidden">Loading...</div>
+        <div id="python-basics" class="subcontent hidden">Loading...</div>
       </div>
     </main>
     <script type="module" src="main.js"></script>
