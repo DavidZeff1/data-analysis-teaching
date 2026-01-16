@@ -33,10 +33,8 @@
 <span class="text-gray-400"># Set the style (optional but recommended)</span>
 sns.set_theme(style=<span class="text-green-400">"whitegrid"</span>)
 
-<span class="text-gray-400"># Load sample datasets</span>
-tips = sns.load_dataset(<span class="text-green-400">"tips"</span>)
-iris = sns.load_dataset(<span class="text-green-400">"iris"</span>)
-titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
+<span class="text-gray-400"># Load sample dataset</span>
+penguins = sns.load_dataset(<span class="text-green-400">"penguins"</span>)</pre>
     </div>
   </div>
 
@@ -62,11 +60,11 @@ titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
           </div>
           <div class="mt-3 space-y-2">
             <div class="bg-white rounded p-2 text-center border border-blue-200">
-              <code class="text-sm text-blue-700">scatterplot()</code>
+              <code class="text-sm text-blue-700">kind="scatter"</code>
               <p class="text-xs text-gray-500">Points showing x-y relationship</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-blue-200">
-              <code class="text-sm text-blue-700">lineplot()</code>
+              <code class="text-sm text-blue-700">kind="line"</code>
               <p class="text-xs text-gray-500">Lines connecting data points</p>
             </div>
           </div>
@@ -81,15 +79,15 @@ titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
           </div>
           <div class="mt-3 space-y-2">
             <div class="bg-white rounded p-2 text-center border border-green-200">
-              <code class="text-sm text-green-700">histplot()</code>
+              <code class="text-sm text-green-700">kind="hist"</code>
               <p class="text-xs text-gray-500">Histogram with bins</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-green-200">
-              <code class="text-sm text-green-700">kdeplot()</code>
+              <code class="text-sm text-green-700">kind="kde"</code>
               <p class="text-xs text-gray-500">Kernel density estimate</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-green-200">
-              <code class="text-sm text-green-700">ecdfplot()</code>
+              <code class="text-sm text-green-700">kind="ecdf"</code>
               <p class="text-xs text-gray-500">Empirical cumulative distribution</p>
             </div>
           </div>
@@ -104,27 +102,27 @@ titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
           </div>
           <div class="mt-3 space-y-2">
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">stripplot()</code>
+              <code class="text-sm text-purple-700">kind="strip"</code>
               <p class="text-xs text-gray-500">Scattered points by category</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">swarmplot()</code>
+              <code class="text-sm text-purple-700">kind="swarm"</code>
               <p class="text-xs text-gray-500">Non-overlapping points</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">boxplot()</code>
+              <code class="text-sm text-purple-700">kind="box"</code>
               <p class="text-xs text-gray-500">Box and whisker</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">violinplot()</code>
+              <code class="text-sm text-purple-700">kind="violin"</code>
               <p class="text-xs text-gray-500">Distribution shape + box</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">barplot()</code>
+              <code class="text-sm text-purple-700">kind="bar"</code>
               <p class="text-xs text-gray-500">Bars with confidence intervals</p>
             </div>
             <div class="bg-white rounded p-2 text-center border border-purple-200">
-              <code class="text-sm text-purple-700">pointplot()</code>
+              <code class="text-sm text-purple-700">kind="point"</code>
               <p class="text-xs text-gray-500">Point estimates with CI</p>
             </div>
           </div>
@@ -150,7 +148,7 @@ titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
       <!-- scatterplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">scatterplot()</div>
+          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">relplot(kind="scatter")</div>
           <span class="text-gray-600 text-sm">Show individual data points</span>
         </div>
         
@@ -176,31 +174,33 @@ titanic = sns.load_dataset(<span class="text-green-400">"titanic"</span>)</pre>
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic scatter plot</span>
-sns.scatterplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+sns.relplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, kind=<span class="text-green-400">"scatter"</span>)
 
-<span class="text-gray-400"># With color by category</span>
-sns.scatterplot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>, 
-    y=<span class="text-green-400">"tip"</span>,
-    hue=<span class="text-green-400">"smoker"</span>
+<span class="text-gray-400"># With color by species and facet by island</span>
+sns.relplot(
+    data=penguins, 
+    x=<span class="text-green-400">"bill_length_mm"</span>, 
+    y=<span class="text-green-400">"bill_depth_mm"</span>,
+    hue=<span class="text-green-400">"species"</span>,
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"scatter"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/scatterplot.png" alt="Scatterplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/scatterplot.png" alt="Scatterplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-blue-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "Is there a relationship between total bill and tip amount? Does it differ for smokers vs non-smokers?"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Is there a relationship between bill length and depth? Does it differ by species or island?"</p>
         </div>
       </div>
       
       <!-- lineplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">lineplot()</div>
+          <div class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-sm">relplot(kind="line")</div>
           <span class="text-gray-600 text-sm">Connect points with lines (great for time series)</span>
         </div>
         
@@ -226,24 +226,26 @@ sns.scatterplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic line plot</span>
-sns.lineplot(data=df, x=<span class="text-green-400">"date"</span>, y=<span class="text-green-400">"value"</span>)
+sns.relplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"flipper_length_mm"</span>, kind=<span class="text-green-400">"line"</span>)
 
-<span class="text-gray-400"># Multiple lines by category</span>
-sns.lineplot(
-    data=df, 
-    x=<span class="text-green-400">"month"</span>, 
-    y=<span class="text-green-400">"sales"</span>,
-    hue=<span class="text-green-400">"region"</span>
+<span class="text-gray-400"># Multiple lines by species, faceted by sex</span>
+sns.relplot(
+    data=penguins, 
+    x=<span class="text-green-400">"bill_length_mm"</span>, 
+    y=<span class="text-green-400">"flipper_length_mm"</span>,
+    hue=<span class="text-green-400">"species"</span>,
+    col=<span class="text-green-400">"sex"</span>,
+    kind=<span class="text-green-400">"line"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/lineplot.png" alt="Lineplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/lineplot.png" alt="Lineplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-blue-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "How have sales trended month-over-month for each product category?"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "How does flipper length relate to bill length across species?"</p>
         </div>
       </div>
     </div>
@@ -258,8 +260,8 @@ sns.lineplot(
       <!-- histplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">histplot()</div>
-          <span class="text-gray-600 text-sm">Histogram - bars showing frequency in bins</span>
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">displot(kind="hist")</div>
+          <span class="text-gray-600 text-sm">Histogram - bars showing frequency in bins (default)</span>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -284,31 +286,33 @@ sns.lineplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic histogram</span>
-sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+sns.displot(data=penguins, x=<span class="text-green-400">"flipper_length_mm"</span>, kind=<span class="text-green-400">"hist"</span>)
 
-<span class="text-gray-400"># Grouped histogram</span>
-sns.histplot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"time"</span>,
-    multiple=<span class="text-green-400">"stack"</span>
+<span class="text-gray-400"># Grouped histogram, faceted by sex</span>
+sns.displot(
+    data=penguins, 
+    x=<span class="text-green-400">"flipper_length_mm"</span>,
+    hue=<span class="text-green-400">"species"</span>,
+    col=<span class="text-green-400">"sex"</span>,
+    multiple=<span class="text-green-400">"stack"</span>,
+    kind=<span class="text-green-400">"hist"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/histplot.png" alt="Histplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/histplot.png" alt="Histplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-green-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "What's the distribution of order values? Is it skewed? Are there any unusual patterns?"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "What's the distribution of flipper lengths? Does it differ by species or sex?"</p>
         </div>
       </div>
       
       <!-- kdeplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">kdeplot()</div>
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">displot(kind="kde")</div>
           <span class="text-gray-600 text-sm">Kernel Density Estimate - smooth distribution curve</span>
         </div>
         
@@ -333,32 +337,33 @@ sns.histplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic KDE</span>
-sns.kdeplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+sns.displot(data=penguins, x=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"kde"</span>)
 
-<span class="text-gray-400"># Multiple distributions</span>
-sns.kdeplot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"time"</span>,
+<span class="text-gray-400"># Multiple distributions, faceted by island</span>
+sns.displot(
+    data=penguins, 
+    x=<span class="text-green-400">"body_mass_g"</span>,
+    hue=<span class="text-green-400">"species"</span>,
+    col=<span class="text-green-400">"island"</span>,
     fill=<span class="text-purple-400">True</span>,
-    alpha=<span class="text-yellow-400">0.5</span>
+    kind=<span class="text-green-400">"kde"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/kdeplot.png" alt="KDE Plot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/kdeplot.png" alt="KDE Plot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-green-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare the distribution of session duration between mobile and desktop users."</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare the body mass distribution between species across different islands."</p>
         </div>
       </div>
       
       <!-- ecdfplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">ecdfplot()</div>
+          <div class="bg-green-500 text-white px-3 py-1 rounded font-mono text-sm">displot(kind="ecdf")</div>
           <span class="text-gray-600 text-sm">Empirical Cumulative Distribution Function</span>
         </div>
         
@@ -383,57 +388,56 @@ sns.kdeplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic ECDF</span>
-sns.ecdfplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
+sns.displot(data=penguins, x=<span class="text-green-400">"flipper_length_mm"</span>, kind=<span class="text-green-400">"ecdf"</span>)
 
-<span class="text-gray-400"># Compare groups</span>
-sns.ecdfplot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"time"</span>
+<span class="text-gray-400"># Compare groups, faceted by sex</span>
+sns.displot(
+    data=penguins, 
+    x=<span class="text-green-400">"flipper_length_mm"</span>,
+    hue=<span class="text-green-400">"species"</span>,
+    col=<span class="text-green-400">"sex"</span>,
+    kind=<span class="text-green-400">"ecdf"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/ecdfplot.png" alt="ECDF Plot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/ecdfplot.png" alt="ECDF Plot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-green-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "What percentage of orders are under $30? How does this differ by day of week?"</p>
-          <p class="text-xs text-gray-600 mt-1">Read the y-value at x=30 to find: "75% of orders are under $30"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "What percentage of penguins have flippers under 200mm? How does this differ by species?"</p>
+          <p class="text-xs text-gray-600 mt-1">Read the y-value at x=200 to find the answer.</p>
         </div>
       </div>
       
       <!-- displot figure-level -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-green-600 text-white px-3 py-1 rounded font-mono text-sm">displot()</div>
-          <span class="text-gray-600 text-sm">Figure-level wrapper - supports faceting</span>
+          <div class="bg-green-600 text-white px-3 py-1 rounded font-mono text-sm">displot() Faceting</div>
+          <span class="text-gray-600 text-sm">Creating multiple subplots with `col` and `row`</span>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># displot with histogram (default)</span>
-sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, hue=<span class="text-green-400">"smoker"</span>)
+sns.displot(data=penguins, x=<span class="text-green-400">"flipper_length_mm"</span>, hue=<span class="text-green-400">"species"</span>)
 
 <span class="text-gray-400"># displot with KDE</span>
-sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"kde"</span>)
+sns.displot(data=penguins, x=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"kde"</span>)
 
-<span class="text-gray-400"># displot with ECDF</span>
-sns.displot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"ecdf"</span>)
-
-<span class="text-gray-400"># Faceted by column</span>
+<span class="text-gray-400"># Faceted by column and row</span>
 sns.displot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>,
-    col=<span class="text-green-400">"time"</span>,      <span class="text-gray-400"># Creates separate columns</span>
-    row=<span class="text-green-400">"smoker"</span>,   <span class="text-gray-400"># Creates separate rows</span>
-    kind=<span class="text-green-400">"hist"</span>,
-    kde=<span class="text-purple-400">True</span>
+    data=penguins, 
+    x=<span class="text-green-400">"flipper_length_mm"</span>,
+    col=<span class="text-green-400">"island"</span>,      <span class="text-gray-400"># Creates separate columns</span>
+    hue=<span class="text-green-400">"species"</span>,
+    kind=<span class="text-green-400">"kde"</span>,
+    fill=<span class="text-purple-400">True</span>
 )</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/displot.png" alt="Displot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/displot.png" alt="Displot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
       </div>
@@ -470,8 +474,8 @@ sns.displot(
       <!-- stripplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">stripplot()</div>
-          <span class="text-gray-600 text-sm">Scatter points by category (with jitter)</span>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="strip")</div>
+          <span class="text-gray-600 text-sm">Scatter points by category (default)</span>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -495,20 +499,21 @@ sns.displot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic strip plot</span>
-sns.stripplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"strip"</span>)
 
-<span class="text-gray-400"># With hue and dodge</span>
-sns.stripplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"smoker"</span>,
-    dodge=<span class="text-purple-400">True</span>
+<span class="text-gray-400"># With hue and faceting</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"strip"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/stripplot.png" alt="Stripplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/stripplot.png" alt="Stripplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
       </div>
@@ -516,7 +521,7 @@ sns.stripplot(
       <!-- swarmplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">swarmplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="swarm")</div>
           <span class="text-gray-600 text-sm">Non-overlapping points (beeswarm)</span>
         </div>
         
@@ -541,20 +546,21 @@ sns.stripplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic swarm plot</span>
-sns.swarmplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, kind=<span class="text-green-400">"swarm"</span>)
 
-<span class="text-gray-400"># With hue</span>
-sns.swarmplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
+<span class="text-gray-400"># With hue and faceting</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"bill_depth_mm"</span>,
     hue=<span class="text-green-400">"sex"</span>,
-    dodge=<span class="text-purple-400">True</span>
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"swarm"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/swarmplot.png" alt="Swarmplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/swarmplot.png" alt="Swarmplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
@@ -566,7 +572,7 @@ sns.swarmplot(
       <!-- boxplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">boxplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="box")</div>
           <span class="text-gray-600 text-sm">Box and whisker - shows quartiles</span>
         </div>
         
@@ -591,31 +597,33 @@ sns.swarmplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic boxplot</span>
-sns.boxplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"bill_length_mm"</span>, kind=<span class="text-green-400">"box"</span>)
 
-<span class="text-gray-400"># With hue</span>
-sns.boxplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"smoker"</span>
+<span class="text-gray-400"># With hue and faceting</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"bill_length_mm"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"box"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/boxplot.png" alt="Boxplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/boxplot.png" alt="Boxplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-purple-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare order values by day of week. Which day has the highest median? Most variability?"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare bill lengths by species. Which species has the longest bills? Most variability?"</p>
         </div>
       </div>
       
       <!-- violinplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">violinplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="violin")</div>
           <span class="text-gray-600 text-sm">Distribution shape + boxplot combined</span>
         </div>
         
@@ -640,32 +648,34 @@ sns.boxplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic violin plot</span>
-sns.violinplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"flipper_length_mm"</span>, kind=<span class="text-green-400">"violin"</span>)
 
-<span class="text-gray-400"># Split violin for comparison</span>
-sns.violinplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"smoker"</span>,
-    split=<span class="text-purple-400">True</span>
+<span class="text-gray-400"># Split violin for comparison, faceted by island</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"flipper_length_mm"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    split=<span class="text-purple-400">True</span>,
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"violin"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/violinplot.png" alt="Violinplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/violinplot.png" alt="Violinplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-purple-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare tip distributions between smokers and non-smokers. Is the shape different?"</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Compare flipper length distributions between male and female penguins. Is the shape different?"</p>
         </div>
       </div>
       
       <!-- barplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">barplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="bar")</div>
           <span class="text-gray-600 text-sm">Bar height = mean (or other stat) with confidence interval</span>
         </div>
         
@@ -691,19 +701,21 @@ sns.violinplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic bar plot (shows mean + CI)</span>
-sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"bar"</span>)
 
-<span class="text-gray-400"># With hue</span>
-sns.barplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"sex"</span>
+<span class="text-gray-400"># With hue and faceting</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    col=<span class="text-green-400">"island"</span>,
+    kind=<span class="text-green-400">"bar"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/barplot.png" alt="Barplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/barplot.png" alt="Barplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
@@ -715,7 +727,7 @@ sns.barplot(
       <!-- pointplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">pointplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="point")</div>
           <span class="text-gray-600 text-sm">Points + lines showing mean with CI - great for interactions</span>
         </div>
         
@@ -741,60 +753,51 @@ sns.barplot(
             
             <div class="bg-gray-800 text-white p-3 rounded text-sm">
               <pre><span class="text-gray-400"># Basic point plot</span>
-sns.pointplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"point"</span>)
 
-<span class="text-gray-400"># With hue - shows interaction</span>
-sns.pointplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"smoker"</span>
-)
-
-<span class="text-gray-400"># Custom markers and lines</span>
-sns.pointplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
+<span class="text-gray-400"># With hue - shows interaction, faceted by island</span>
+sns.catplot(
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
     hue=<span class="text-green-400">"sex"</span>,
-    markers=[<span class="text-green-400">"o"</span>, <span class="text-green-400">"s"</span>],
-    linestyles=[<span class="text-green-400">"-"</span>, <span class="text-green-400">"--"</span>]
+    col=<span class="text-green-400">"island"</span>,
+    markers=[<span class="text-green-400">"^"</span>, <span class="text-green-400">"o"</span>],
+    linestyles=[<span class="text-green-400">"-"</span>, <span class="text-green-400">"--"</span>],
+    kind=<span class="text-green-400">"point"</span>
 )</pre>
             </div>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/pointplot.png" alt="Pointplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/pointplot.png" alt="Pointplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
         
         <div class="bg-purple-50 rounded p-3 mt-3">
-          <p class="text-sm"><strong>💡 Real-world example:</strong> "Does the day-of-week effect on tips differ for smokers vs non-smokers?" (If lines cross or have different slopes = interaction)</p>
+          <p class="text-sm"><strong>💡 Real-world example:</strong> "Does the species effect on body mass differ by sex?" (If lines cross or have different slopes = interaction)</p>
         </div>
       </div>
       
       <!-- countplot -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">countplot()</div>
+          <div class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-sm">catplot(kind="count")</div>
           <span class="text-gray-600 text-sm">Bar chart of counts (like value_counts visualized)</span>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># Count occurrences of each category</span>
-sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, kind=<span class="text-green-400">"count"</span>)
 
-<span class="text-gray-400"># With hue</span>
-sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>, hue=<span class="text-green-400">"smoker"</span>)
+<span class="text-gray-400"># With hue and faceting</span>
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, hue=<span class="text-green-400">"sex"</span>, col=<span class="text-green-400">"island"</span>, kind=<span class="text-green-400">"count"</span>)
 
 <span class="text-gray-400"># Horizontal</span>
-sns.countplot(data=tips, y=<span class="text-green-400">"day"</span>)
-
-<span class="text-gray-400"># Custom order</span>
-sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>, order=tips[<span class="text-green-400">"day"</span>].value_counts().index)</pre>
+sns.catplot(data=penguins, y=<span class="text-green-400">"island"</span>, kind=<span class="text-green-400">"count"</span>)</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/countplot.png" alt="Countplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/countplot.png" alt="Countplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
       </div>
@@ -802,33 +805,30 @@ sns.countplot(data=tips, x=<span class="text-green-400">"day"</span>, order=tips
       <!-- catplot figure-level -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
         <div class="flex items-center gap-2 mb-2">
-          <div class="bg-purple-600 text-white px-3 py-1 rounded font-mono text-sm">catplot()</div>
-          <span class="text-gray-600 text-sm">Figure-level wrapper - supports faceting</span>
+          <div class="bg-purple-600 text-white px-3 py-1 rounded font-mono text-sm">catplot() Faceting</div>
+          <span class="text-gray-600 text-sm">Creating multiple subplots with `col` and `row`</span>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># catplot with different kinds</span>
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"box"</span>)
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"violin"</span>)
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"bar"</span>)
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"strip"</span>)
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"swarm"</span>)
-sns.catplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"total_bill"</span>, kind=<span class="text-green-400">"point"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"box"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"violin"</span>)
+sns.catplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, kind=<span class="text-green-400">"bar"</span>)
 
-<span class="text-gray-400"># Faceted by column</span>
+<span class="text-gray-400"># Faceted by island</span>
 sns.catplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    col=<span class="text-green-400">"time"</span>,      <span class="text-gray-400"># Separate plots for Lunch/Dinner</span>
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    col=<span class="text-green-400">"island"</span>,      <span class="text-gray-400"># Separate plots for each island</span>
     kind=<span class="text-green-400">"box"</span>,
-    height=<span class="text-yellow-400">4</span>,
-    aspect=<span class="text-yellow-400">0.8</span>
+    height=<span class="text-yellow-400">4</span>
 )</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <img src="/images/seaborn/catplot.png" alt="Catplot Example" class="max-w-full h-auto rounded shadow-sm">
+            <img src="/images/python/catplot.png" alt="Catplot Example" class="max-w-full h-auto rounded shadow-sm">
           </div>
         </div>
       </div>
@@ -850,12 +850,12 @@ sns.catplot(
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># Correlation heatmap</span>
-corr = tips[[<span class="text-green-400">"total_bill"</span>, <span class="text-green-400">"tip"</span>, <span class="text-green-400">"size"</span>]].corr()
+corr = penguins[[<span class="text-green-400">"bill_length_mm"</span>, <span class="text-green-400">"bill_depth_mm"</span>, <span class="text-green-400">"flipper_length_mm"</span>, <span class="text-green-400">"body_mass_g"</span>]].corr()
 sns.heatmap(corr, annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">"coolwarm"</span>, center=<span class="text-yellow-400">0</span>)
 
 <span class="text-gray-400"># Pivot table heatmap</span>
-pivot = tips.pivot_table(values=<span class="text-green-400">"tip"</span>, index=<span class="text-green-400">"day"</span>, columns=<span class="text-green-400">"time"</span>)
-sns.heatmap(pivot, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-green-400">".2f"</span>, cmap=<span class="text-green-400">"YlGnBu"</span>)
+pivot = penguins.pivot_table(values=<span class="text-green-400">"body_mass_g"</span>, index=<span class="text-green-400">"species"</span>, columns=<span class="text-green-400">"island"</span>)
+sns.heatmap(pivot, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-green-400">".0f"</span>, cmap=<span class="text-green-400">"YlGnBu"</span>)
 
 <span class="text-gray-400"># Customize</span>
 sns.heatmap(
@@ -885,13 +885,13 @@ sns.heatmap(
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># Basic pairplot</span>
-sns.pairplot(iris)
+sns.pairplot(penguins)
 
 <span class="text-gray-400"># With hue (color by species)</span>
-sns.pairplot(iris, hue=<span class="text-green-400">"species"</span>)
+sns.pairplot(penguins, hue=<span class="text-green-400">"species"</span>)
 
 <span class="text-gray-400"># Select columns</span>
-sns.pairplot(tips, vars=[<span class="text-green-400">"total_bill"</span>, <span class="text-green-400">"tip"</span>, <span class="text-green-400">"size"</span>], hue=<span class="text-green-400">"smoker"</span>)</pre>
+sns.pairplot(penguins, vars=[<span class="text-green-400">"bill_length_mm"</span>, <span class="text-green-400">"bill_depth_mm"</span>, <span class="text-green-400">"flipper_length_mm"</span>], hue=<span class="text-green-400">"species"</span>)</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
             <img src="/images/seaborn/pairplot.png" alt="Pairplot Example" class="max-w-full h-auto rounded shadow-sm">
@@ -913,13 +913,13 @@ sns.pairplot(tips, vars=[<span class="text-green-400">"total_bill"</span>, <span
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># Basic jointplot (scatter + histograms)</span>
-sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+sns.jointplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>)
 
 <span class="text-gray-400"># Different kinds</span>
-sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, kind=<span class="text-green-400">"kde"</span>)
+sns.jointplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, kind=<span class="text-green-400">"kde"</span>)
 
 <span class="text-gray-400"># With hue</span>
-sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>)</pre>
+sns.jointplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, hue=<span class="text-green-400">"species"</span>)</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
             <img src="/images/seaborn/jointplot.png" alt="Jointplot Example" class="max-w-full h-auto rounded shadow-sm">
@@ -937,18 +937,18 @@ sns.jointplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-gray-800 text-white p-3 rounded text-sm h-fit">
             <pre><span class="text-gray-400"># Simple regression plot</span>
-sns.regplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>)
+sns.regplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>)
 
 <span class="text-gray-400"># lmplot (figure-level, supports faceting)</span>
-sns.lmplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>)
+sns.lmplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, hue=<span class="text-green-400">"species"</span>)
 
 <span class="text-gray-400"># Faceted</span>
 sns.lmplot(
-    data=tips, 
-    x=<span class="text-green-400">"total_bill"</span>, 
-    y=<span class="text-green-400">"tip"</span>,
-    col=<span class="text-green-400">"time"</span>,
-    hue=<span class="text-green-400">"smoker"</span>
+    data=penguins, 
+    x=<span class="text-green-400">"bill_length_mm"</span>, 
+    y=<span class="text-green-400">"bill_depth_mm"</span>,
+    col=<span class="text-green-400">"island"</span>,
+    hue=<span class="text-green-400">"species"</span>
 )</pre>
           </div>
           <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
@@ -997,12 +997,12 @@ sns.set_palette(<span class="text-green-400">"dark"</span>)
 sns.set_palette(<span class="text-green-400">"colorblind"</span>)  <span class="text-gray-400"># Accessible</span>
 
 <span class="text-gray-400"># Use in specific plot</span>
-sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"Blues"</span>)
-sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"viridis"</span>)
-sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=<span class="text-green-400">"husl"</span>)
+sns.barplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, palette=<span class="text-green-400">"Blues"</span>)
+sns.barplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, palette=<span class="text-green-400">"viridis"</span>)
+sns.barplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, palette=<span class="text-green-400">"husl"</span>)
 
 <span class="text-gray-400"># Custom colors</span>
-sns.barplot(data=tips, x=<span class="text-green-400">"day"</span>, y=<span class="text-green-400">"tip"</span>, palette=[<span class="text-green-400">"#ff6b6b"</span>, <span class="text-green-400">"#4ecdc4"</span>, <span class="text-green-400">"#45b7d1"</span>, <span class="text-green-400">"#96ceb4"</span>])
+sns.barplot(data=penguins, x=<span class="text-green-400">"species"</span>, y=<span class="text-green-400">"body_mass_g"</span>, palette=[<span class="text-green-400">"#ff6b6b"</span>, <span class="text-green-400">"#4ecdc4"</span>, <span class="text-green-400">"#45b7d1"</span>])
 
 <span class="text-gray-400"># Preview palette</span>
 sns.palplot(sns.color_palette(<span class="text-green-400">"husl"</span>, <span class="text-yellow-400">8</span>))</pre>
@@ -1015,24 +1015,24 @@ sns.palplot(sns.color_palette(<span class="text-green-400">"husl"</span>, <span 
         <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
           <pre><span class="text-gray-400"># Set figure size (for axes-level functions)</span>
 plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">6</span>))
-sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>)
-plt.title(<span class="text-green-400">"Distribution of Total Bills"</span>)
-plt.xlabel(<span class="text-green-400">"Total Bill ($)"</span>)
+sns.histplot(data=penguins, x=<span class="text-green-400">"flipper_length_mm"</span>)
+plt.title(<span class="text-green-400">"Distribution of Flipper Lengths"</span>)
+plt.xlabel(<span class="text-green-400">"Flipper Length (mm)"</span>)
 plt.ylabel(<span class="text-green-400">"Count"</span>)
 plt.tight_layout()
 plt.show()
 
 <span class="text-gray-400"># For figure-level functions (relplot, displot, catplot)</span>
 g = sns.catplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
     kind=<span class="text-green-400">"box"</span>,
     height=<span class="text-yellow-400">5</span>,      <span class="text-gray-400"># Height of each facet</span>
     aspect=<span class="text-yellow-400">1.5</span>     <span class="text-gray-400"># Width = height * aspect</span>
 )
-g.fig.suptitle(<span class="text-green-400">"Bills by Day"</span>, y=<span class="text-yellow-400">1.02</span>)
-g.set_axis_labels(<span class="text-green-400">"Day of Week"</span>, <span class="text-green-400">"Total Bill ($)"</span>)
+g.fig.suptitle(<span class="text-green-400">"Body Mass by Species"</span>, y=<span class="text-yellow-400">1.02</span>)
+g.set_axis_labels(<span class="text-green-400">"Species"</span>, <span class="text-green-400">"Body Mass (g)"</span>)
 
 <span class="text-gray-400"># Save figure</span>
 plt.savefig(<span class="text-green-400">"my_plot.png"</span>, dpi=<span class="text-yellow-400">150</span>, bbox_inches=<span class="text-green-400">"tight"</span>)</pre>
@@ -1232,25 +1232,26 @@ plt.savefig(<span class="text-green-400">"my_plot.png"</span>, dpi=<span class="
 <span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
 
 <span class="text-gray-400"># Load data</span>
-tips = sns.load_dataset(<span class="text-green-400">"tips"</span>)
+penguins = sns.load_dataset(<span class="text-green-400">"penguins"</span>)
 
 <span class="text-gray-400"># 1. Quick overview with pairplot</span>
-sns.pairplot(tips, hue=<span class="text-green-400">"smoker"</span>)
+sns.pairplot(penguins, hue=<span class="text-green-400">"species"</span>)
 plt.show()
 
 <span class="text-gray-400"># 2. Distribution of main metric</span>
 fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
-sns.histplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, kde=<span class="text-purple-400">True</span>, ax=axes[<span class="text-yellow-400">0</span>])
-sns.boxplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, ax=axes[<span class="text-yellow-400">1</span>])
+sns.histplot(data=penguins, x=<span class="text-green-400">"body_mass_g"</span>, kde=<span class="text-purple-400">True</span>, ax=axes[<span class="text-yellow-400">0</span>])
+sns.boxplot(data=penguins, x=<span class="text-green-400">"body_mass_g"</span>, ax=axes[<span class="text-yellow-400">1</span>])
 plt.tight_layout()
 plt.show()
 
 <span class="text-gray-400"># 3. Compare across categories</span>
 sns.catplot(
-    data=tips, 
-    x=<span class="text-green-400">"day"</span>, 
-    y=<span class="text-green-400">"total_bill"</span>,
-    hue=<span class="text-green-400">"time"</span>,
+    data=penguins, 
+    x=<span class="text-green-400">"species"</span>, 
+    y=<span class="text-green-400">"body_mass_g"</span>,
+    hue=<span class="text-green-400">"sex"</span>,
+    col=<span class="text-green-400">"island"</span>,
     kind=<span class="text-green-400">"violin"</span>,
     split=<span class="text-purple-400">True</span>
 )
@@ -1258,12 +1259,13 @@ plt.show()
 
 <span class="text-gray-400"># 4. Correlation heatmap</span>
 plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">6</span>))
-sns.heatmap(tips.select_dtypes(<span class="text-green-400">'number'</span>).corr(), annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">"coolwarm"</span>, center=<span class="text-yellow-400">0</span>)
+cols = [<span class="text-green-400">"bill_length_mm"</span>, <span class="text-green-400">"bill_depth_mm"</span>, <span class="text-green-400">"flipper_length_mm"</span>, <span class="text-green-400">"body_mass_g"</span>]
+sns.heatmap(penguins[cols].corr(), annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">"coolwarm"</span>, center=<span class="text-yellow-400">0</span>)
 plt.title(<span class="text-green-400">"Correlation Matrix"</span>)
 plt.show()
 
 <span class="text-gray-400"># 5. Key relationship with regression</span>
-sns.lmplot(data=tips, x=<span class="text-green-400">"total_bill"</span>, y=<span class="text-green-400">"tip"</span>, hue=<span class="text-green-400">"smoker"</span>, col=<span class="text-green-400">"time"</span>)
+sns.lmplot(data=penguins, x=<span class="text-green-400">"bill_length_mm"</span>, y=<span class="text-green-400">"bill_depth_mm"</span>, hue=<span class="text-green-400">"species"</span>, col=<span class="text-green-400">"island"</span>)
 plt.show()</pre>
     </div>
   </div>
