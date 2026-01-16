@@ -832,6 +832,236 @@ invoices[<span class="text-green-400">'Month'</span>] = invoices[<span class="te
       </div>
     </div>
   </div>
+  <!-- Accessors -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Pandas Accessors (.str, .dt, .cat)</h2>
+    <p class="text-sm text-gray-600 mb-3">
+      Accessors let you apply specialized methods to Series of a specific type. Access them via <code>.str</code> for strings, <code>.dt</code> for datetimes, and <code>.cat</code> for categoricals.
+    </p>
+
+    <!-- String Accessor -->
+    <div class="mb-4">
+      <h3 class="font-semibold text-green-700 mb-2">.str - String Methods</h3>
+      <p class="text-xs text-gray-600 mb-2">Works on Series containing string data. Vectorized string operations.</p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># Case conversion</span>
+df[<span class="text-green-400">'Name'</span>].str.lower()              <span class="text-gray-400"># lowercase</span>
+df[<span class="text-green-400">'Name'</span>].str.upper()              <span class="text-gray-400"># UPPERCASE</span>
+df[<span class="text-green-400">'Name'</span>].str.title()              <span class="text-gray-400"># Title Case</span>
+df[<span class="text-green-400">'Name'</span>].str.capitalize()          <span class="text-gray-400"># First letter only</span>
+
+<span class="text-gray-400"># Whitespace</span>
+df[<span class="text-green-400">'Name'</span>].str.strip()              <span class="text-gray-400"># trim both sides</span>
+df[<span class="text-green-400">'Name'</span>].str.lstrip()             <span class="text-gray-400"># trim left</span>
+df[<span class="text-green-400">'Name'</span>].str.rstrip()             <span class="text-gray-400"># trim right</span>
+
+<span class="text-gray-400"># Search & Match</span>
+df[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail'</span>)   <span class="text-gray-400"># True/False for each row</span>
+df[<span class="text-green-400">'Email'</span>].str.startswith(<span class="text-green-400">'a'</span>)    <span class="text-gray-400"># starts with 'a'</span>
+df[<span class="text-green-400">'Email'</span>].str.endswith(<span class="text-green-400">'.com'</span>)   <span class="text-gray-400"># ends with '.com'</span>
+df[<span class="text-green-400">'Email'</span>].str.match(<span class="text-green-400">r'^\w+@'</span>)    <span class="text-gray-400"># regex match from start</span>
+
+<span class="text-gray-400"># Extract & Replace</span>
+df[<span class="text-green-400">'Email'</span>].str.replace(<span class="text-green-400">'@'</span>, <span class="text-green-400">'[at]'</span>) <span class="text-gray-400"># replace substring</span>
+df[<span class="text-green-400">'Email'</span>].str.extract(<span class="text-green-400">r'@(\w+)\.'</span>) <span class="text-gray-400"># extract with regex group</span>
+df[<span class="text-green-400">'Phone'</span>].str.replace(<span class="text-green-400">r'\D'</span>, <span class="text-green-400">''</span>, regex=<span class="text-blue-400">True</span>)  <span class="text-gray-400"># remove non-digits</span>
+
+<span class="text-gray-400"># Split & Join</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>)            <span class="text-gray-400"># split into list</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>, expand=<span class="text-blue-400">True</span>)  <span class="text-gray-400"># split into columns</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>).str[<span class="text-yellow-400">0</span>]     <span class="text-gray-400"># get first part after split</span>
+df[<span class="text-green-400">'Tags'</span>].str.join(<span class="text-green-400">', '</span>)            <span class="text-gray-400"># join list elements</span>
+
+<span class="text-gray-400"># Length & Slicing</span>
+df[<span class="text-green-400">'Name'</span>].str.len()               <span class="text-gray-400"># character count</span>
+df[<span class="text-green-400">'Name'</span>].str[:<span class="text-yellow-400">3</span>]                  <span class="text-gray-400"># first 3 characters</span>
+df[<span class="text-green-400">'Name'</span>].str[-<span class="text-yellow-400">4</span>:]                 <span class="text-gray-400"># last 4 characters</span>
+df[<span class="text-green-400">'Name'</span>].str.slice(<span class="text-yellow-400">0</span>, <span class="text-yellow-400">5</span>)          <span class="text-gray-400"># substring [0:5]</span>
+
+<span class="text-gray-400"># Padding & Alignment</span>
+df[<span class="text-green-400">'ID'</span>].str.zfill(<span class="text-yellow-400">5</span>)              <span class="text-gray-400"># '42' → '00042'</span>
+df[<span class="text-green-400">'Name'</span>].str.pad(<span class="text-yellow-400">10</span>, side=<span class="text-green-400">'left'</span>) <span class="text-gray-400"># left pad to width 10</span>
+
+<span class="text-gray-400"># Find & Count</span>
+df[<span class="text-green-400">'Text'</span>].str.find(<span class="text-green-400">'word'</span>)         <span class="text-gray-400"># index of first occurrence (-1 if not found)</span>
+df[<span class="text-green-400">'Text'</span>].str.count(<span class="text-green-400">'a'</span>)           <span class="text-gray-400"># count occurrences</span>
+
+<span class="text-gray-400"># Boolean checks</span>
+df[<span class="text-green-400">'Code'</span>].str.isdigit()           <span class="text-gray-400"># all digits?</span>
+df[<span class="text-green-400">'Code'</span>].str.isalpha()           <span class="text-gray-400"># all letters?</span>
+df[<span class="text-green-400">'Code'</span>].str.isalnum()           <span class="text-gray-400"># alphanumeric?</span>
+df[<span class="text-green-400">'Name'</span>].str.isupper()           <span class="text-gray-400"># all uppercase?</span></pre>
+      </div>
+    </div>
+
+    <!-- Datetime Accessor -->
+    <div class="mb-4">
+      <h3 class="font-semibold text-purple-700 mb-2">.dt - Datetime Methods</h3>
+      <p class="text-xs text-gray-600 mb-2">Works on Series containing datetime data. First convert with <code>pd.to_datetime()</code> if needed.</p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># First, ensure datetime type</span>
+df[<span class="text-green-400">'Date'</span>] = pd.to_datetime(df[<span class="text-green-400">'Date'</span>])
+
+<span class="text-gray-400"># Extract components</span>
+df[<span class="text-green-400">'Date'</span>].dt.year                 <span class="text-gray-400"># 2024</span>
+df[<span class="text-green-400">'Date'</span>].dt.month                <span class="text-gray-400"># 1-12</span>
+df[<span class="text-green-400">'Date'</span>].dt.day                  <span class="text-gray-400"># 1-31</span>
+df[<span class="text-green-400">'Date'</span>].dt.hour                 <span class="text-gray-400"># 0-23</span>
+df[<span class="text-green-400">'Date'</span>].dt.minute               <span class="text-gray-400"># 0-59</span>
+df[<span class="text-green-400">'Date'</span>].dt.second               <span class="text-gray-400"># 0-59</span>
+
+<span class="text-gray-400"># Day info</span>
+df[<span class="text-green-400">'Date'</span>].dt.dayofweek            <span class="text-gray-400"># 0=Mon, 6=Sun</span>
+df[<span class="text-green-400">'Date'</span>].dt.day_name()           <span class="text-gray-400"># 'Monday', 'Tuesday'...</span>
+df[<span class="text-green-400">'Date'</span>].dt.dayofyear            <span class="text-gray-400"># 1-366</span>
+df[<span class="text-green-400">'Date'</span>].dt.days_in_month        <span class="text-gray-400"># 28, 29, 30, or 31</span>
+
+<span class="text-gray-400"># Week & Quarter</span>
+df[<span class="text-green-400">'Date'</span>].dt.isocalendar().week   <span class="text-gray-400"># ISO week number (1-53)</span>
+df[<span class="text-green-400">'Date'</span>].dt.quarter              <span class="text-gray-400"># 1-4</span>
+
+<span class="text-gray-400"># Month name</span>
+df[<span class="text-green-400">'Date'</span>].dt.month_name()         <span class="text-gray-400"># 'January', 'February'...</span>
+
+<span class="text-gray-400"># Boolean checks</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_month_start       <span class="text-gray-400"># True if 1st of month</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_month_end         <span class="text-gray-400"># True if last of month</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_quarter_start     <span class="text-gray-400"># True if quarter start</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_year_start        <span class="text-gray-400"># True if Jan 1</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_leap_year         <span class="text-gray-400"># True if leap year</span>
+
+<span class="text-gray-400"># Date only (remove time)</span>
+df[<span class="text-green-400">'Date'</span>].dt.date                 <span class="text-gray-400"># datetime.date objects</span>
+df[<span class="text-green-400">'Date'</span>].dt.normalize()          <span class="text-gray-400"># set time to 00:00:00</span>
+
+<span class="text-gray-400"># Time only</span>
+df[<span class="text-green-400">'Date'</span>].dt.time                 <span class="text-gray-400"># datetime.time objects</span>
+
+<span class="text-gray-400"># Period conversions (for grouping)</span>
+df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'M'</span>)       <span class="text-gray-400"># to monthly period</span>
+df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'Q'</span>)       <span class="text-gray-400"># to quarterly period</span>
+df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'Y'</span>)       <span class="text-gray-400"># to yearly period</span>
+
+<span class="text-gray-400"># Formatting</span>
+df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%Y-%m-%d'</span>) <span class="text-gray-400"># '2024-03-15'</span>
+df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%B %d, %Y'</span>) <span class="text-gray-400"># 'March 15, 2024'</span>
+
+<span class="text-gray-400"># Timezone</span>
+df[<span class="text-green-400">'Date'</span>].dt.tz_localize(<span class="text-green-400">'UTC'</span>)   <span class="text-gray-400"># set timezone</span>
+df[<span class="text-green-400">'Date'</span>].dt.tz_convert(<span class="text-green-400">'US/Eastern'</span>) <span class="text-gray-400"># convert timezone</span></pre>
+      </div>
+    </div>
+
+    <!-- Categorical Accessor -->
+    <div class="mb-4">
+      <h3 class="font-semibold text-orange-700 mb-2">.cat - Categorical Methods</h3>
+      <p class="text-xs text-gray-600 mb-2">Works on categorical dtype. Useful for memory efficiency and ordered data.</p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># Convert to categorical</span>
+df[<span class="text-green-400">'Size'</span>] = df[<span class="text-green-400">'Size'</span>].astype(<span class="text-green-400">'category'</span>)
+
+<span class="text-gray-400"># Or with pd.Categorical for ordered</span>
+df[<span class="text-green-400">'Size'</span>] = pd.Categorical(
+    df[<span class="text-green-400">'Size'</span>], 
+    categories=[<span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'XL'</span>], 
+    ordered=<span class="text-blue-400">True</span>
+)
+
+<span class="text-gray-400"># View categories</span>
+df[<span class="text-green-400">'Size'</span>].cat.categories          <span class="text-gray-400"># Index(['S', 'M', 'L', 'XL'])</span>
+df[<span class="text-green-400">'Size'</span>].cat.codes               <span class="text-gray-400"># numeric codes (0, 1, 2, 3)</span>
+df[<span class="text-green-400">'Size'</span>].cat.ordered             <span class="text-gray-400"># True if ordered</span>
+
+<span class="text-gray-400"># Modify categories</span>
+df[<span class="text-green-400">'Size'</span>].cat.add_categories([<span class="text-green-400">'XXL'</span>])
+df[<span class="text-green-400">'Size'</span>].cat.remove_categories([<span class="text-green-400">'S'</span>])
+df[<span class="text-green-400">'Size'</span>].cat.rename_categories({<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>})
+df[<span class="text-green-400">'Size'</span>].cat.reorder_categories([<span class="text-green-400">'XL'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'S'</span>])
+
+<span class="text-gray-400"># Set as ordered/unordered</span>
+df[<span class="text-green-400">'Size'</span>].cat.as_ordered()
+df[<span class="text-green-400">'Size'</span>].cat.as_unordered()
+
+<span class="text-gray-400"># With ordered categorical, comparisons work!</span>
+df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400">'M'</span>]                <span class="text-gray-400"># rows where Size is L or XL</span></pre>
+      </div>
+    </div>
+
+    <!-- Quick Reference Table -->
+    <div class="mt-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Accessor Quick Reference</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-2 py-1 text-left">Task</th>
+              <th class="border px-2 py-1 text-left">Accessor Method</th>
+              <th class="border px-2 py-1 text-left">Example Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-green-50"><td class="border px-2 py-1 font-semibold" colspan="3">.str (Strings)</td></tr>
+            <tr>
+              <td class="border px-2 py-1">Extract email domain</td>
+              <td class="border px-2 py-1 font-mono">.str.split('@').str[1]</td>
+              <td class="border px-2 py-1">'gmail.com'</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Clean whitespace</td>
+              <td class="border px-2 py-1 font-mono">.str.strip().str.lower()</td>
+              <td class="border px-2 py-1">'hello world'</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Check pattern</td>
+              <td class="border px-2 py-1 font-mono">.str.contains(r'^\d{3}-')</td>
+              <td class="border px-2 py-1">True/False</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Get initials</td>
+              <td class="border px-2 py-1 font-mono">.str.split().str[0].str[0]</td>
+              <td class="border px-2 py-1">'J' (from 'John')</td>
+            </tr>
+            <tr class="bg-purple-50"><td class="border px-2 py-1 font-semibold" colspan="3">.dt (Datetime)</td></tr>
+            <tr>
+              <td class="border px-2 py-1">Get year-month</td>
+              <td class="border px-2 py-1 font-mono">.dt.to_period('M')</td>
+              <td class="border px-2 py-1">2024-03</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Week of year</td>
+              <td class="border px-2 py-1 font-mono">.dt.isocalendar().week</td>
+              <td class="border px-2 py-1">11</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Is weekend?</td>
+              <td class="border px-2 py-1 font-mono">.dt.dayofweek >= 5</td>
+              <td class="border px-2 py-1">True/False</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Format date</td>
+              <td class="border px-2 py-1 font-mono">.dt.strftime('%b %Y')</td>
+              <td class="border px-2 py-1">'Mar 2024'</td>
+            </tr>
+            <tr class="bg-orange-50"><td class="border px-2 py-1 font-semibold" colspan="3">.cat (Categorical)</td></tr>
+            <tr>
+              <td class="border px-2 py-1">Get unique categories</td>
+              <td class="border px-2 py-1 font-mono">.cat.categories</td>
+              <td class="border px-2 py-1">['S', 'M', 'L']</td>
+            </tr>
+            <tr>
+              <td class="border px-2 py-1">Get numeric codes</td>
+              <td class="border px-2 py-1 font-mono">.cat.codes</td>
+              <td class="border px-2 py-1">0, 1, 2, ...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> Accessors are like "namespaces" for type-specific methods. They prevent polluting the main Series with hundreds of methods. Chain them for powerful one-liners: <code>df['Email'].str.lower().str.strip().str.split('@').str[1]</code>
+    </div>
+  </div>
 
   <!-- Quick Reference Table -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
