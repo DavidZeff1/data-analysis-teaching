@@ -372,6 +372,203 @@ invoices.groupby(<span class="text-green-400">'CustomerId'</span>).filter(
     </div>
   </div>
 
+  <!-- Transform -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">
+      TRANSFORM - Group Calculations Back to Rows
+    </h2>
+    <p class="text-sm text-gray-600 mb-3">
+      <code>transform()</code> applies a function to groups but returns results
+      aligned with the original DataFrame's index — same shape in, same shape
+      out.
+    </p>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre
+          class="bg-gray-800 text-white p-3 rounded text-sm"
+        ><span class="text-gray-400">-- Add group average to each row</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Country
+    ) <span class="text-blue-400">AS</span> CountryAvg
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Percent of group total</span>
+<span class="text-blue-400">SELECT</span> *,
+    Total / <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">PARTITION BY</span> Country
+    ) <span class="text-blue-400">AS</span> PctOfCountry
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Filter: groups with 5+ members</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
+<span class="text-blue-400">WHERE</span> Country <span class="text-blue-400">IN</span> (
+    <span class="text-blue-400">SELECT</span> Country <span class="text-blue-400">FROM</span> invoices
+    <span class="text-blue-400">GROUP BY</span> Country
+    <span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 5
+);</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre
+          class="bg-gray-800 text-white p-3 rounded text-sm"
+        ><span class="text-gray-400"># Add group average to each row</span>
+invoices[<span class="text-green-400">'CountryAvg'</span>] = invoices.groupby(
+    <span class="text-green-400">'Country'</span>
+)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'mean'</span>)
+
+<span class="text-gray-400"># Percent of group total</span>
+invoices[<span class="text-green-400">'PctOfCountry'</span>] = (
+    invoices[<span class="text-green-400">'Total'</span>] / 
+    invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'sum'</span>)
+)
+
+<span class="text-gray-400"># Filter: groups with 5+ members</span>
+invoices[
+    invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'count'</span>) >= 5
+]
+
+<span class="text-gray-400"># Normalize within groups (z-score)</span>
+invoices[<span class="text-green-400">'Normalized'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
+    <span class="text-blue-400">lambda</span> x: (x - x.mean()) / x.std()
+)
+
+<span class="text-gray-400"># Fill NaN with group mean</span>
+invoices[<span class="text-green-400">'Total'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
+    <span class="text-blue-400">lambda</span> x: x.fillna(x.mean())
+)</pre>
+      </div>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>agg()</code> collapses groups into
+      summary rows. <code>transform()</code> broadcasts group results back to
+      every original row. Use transform when you need group-level stats but want
+      to keep your row count.
+    </div>
+  </div>
+
+  <!-- Cut & Qcut - Binning -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">
+      CUT & QCUT - Binning Continuous Data
+    </h2>
+    <p class="text-sm text-gray-600 mb-3">
+      <code>pd.cut()</code> creates equal-width bins.
+      <code>pd.qcut()</code> creates equal-frequency bins (quantiles).
+    </p>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
+        <pre
+          class="bg-gray-800 text-white p-3 rounded text-sm"
+        ><span class="text-gray-400">-- Equal-width bins (like cut)</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-blue-400">CASE</span>
+        <span class="text-blue-400">WHEN</span> Total <span class="text-blue-400">BETWEEN</span> 0 <span class="text-blue-400">AND</span> 10 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Low'</span>
+        <span class="text-blue-400">WHEN</span> Total <span class="text-blue-400">BETWEEN</span> 10 <span class="text-blue-400">AND</span> 20 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
+        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'High'</span>
+    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> PriceTier
+<span class="text-blue-400">FROM</span> invoices;
+
+<span class="text-gray-400">-- Quantile bins (like qcut)</span>
+<span class="text-gray-400">-- Requires window functions</span>
+<span class="text-blue-400">SELECT</span> *,
+    <span class="text-purple-400">NTILE</span>(4) <span class="text-blue-400">OVER</span> (
+        <span class="text-blue-400">ORDER BY</span> Total
+    ) <span class="text-blue-400">AS</span> Quartile
+<span class="text-blue-400">FROM</span> invoices;</pre>
+      </div>
+      <div>
+        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
+        <pre
+          class="bg-gray-800 text-white p-3 rounded text-sm"
+        ><span class="text-gray-400"># cut: Equal-width bins (by value range)</span>
+invoices[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
+    invoices[<span class="text-green-400">'Total'</span>],
+    bins=[0, 10, 20, float(<span class="text-green-400">'inf'</span>)],
+    labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
+)
+
+<span class="text-gray-400"># cut: Auto-create n equal-width bins</span>
+invoices[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
+    invoices[<span class="text-green-400">'Total'</span>], 
+    bins=3,
+    labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
+)
+
+<span class="text-gray-400"># qcut: Equal-frequency bins (by count)</span>
+invoices[<span class="text-green-400">'Quartile'</span>] = pd.qcut(
+    invoices[<span class="text-green-400">'Total'</span>],
+    q=4,
+    labels=[<span class="text-green-400">'Q1'</span>, <span class="text-green-400">'Q2'</span>, <span class="text-green-400">'Q3'</span>, <span class="text-green-400">'Q4'</span>]
+)
+
+<span class="text-gray-400"># qcut: Custom percentiles</span>
+invoices[<span class="text-green-400">'Tier'</span>] = pd.qcut(
+    invoices[<span class="text-green-400">'Total'</span>],
+    q=[0, 0.25, 0.75, 1],
+    labels=[<span class="text-green-400">'Bottom 25%'</span>, <span class="text-green-400">'Middle'</span>, <span class="text-green-400">'Top 25%'</span>]
+)</pre>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Cut vs Qcut</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border border-gray-300">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border px-3 py-2 text-left"></th>
+              <th class="border px-3 py-2 text-left">pd.cut()</th>
+              <th class="border px-3 py-2 text-left">pd.qcut()</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-3 py-1 font-semibold">Bins by</td>
+              <td class="border px-3 py-1">Value range (equal width)</td>
+              <td class="border px-3 py-1">Data distribution (equal count)</td>
+            </tr>
+            <tr>
+              <td class="border px-3 py-1 font-semibold">Use when</td>
+              <td class="border px-3 py-1">
+                Boundaries matter (age groups, price ranges)
+              </td>
+              <td class="border px-3 py-1">
+                Even groups matter (percentiles, quartiles)
+              </td>
+            </tr>
+            <tr>
+              <td class="border px-3 py-1 font-semibold">Skewed data</td>
+              <td class="border px-3 py-1">Uneven group sizes</td>
+              <td class="border px-3 py-1">Even group sizes</td>
+            </tr>
+            <tr>
+              <td class="border px-3 py-1 font-semibold">Example</td>
+              <td class="border px-3 py-1 font-mono text-xs">
+                cut(ages, bins=[0,18,65,100])
+              </td>
+              <td class="border px-3 py-1 font-mono text-xs">
+                qcut(sales, q=4)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡 Intuition:</strong> <code>cut</code> asks "what range does this
+      value fall into?" <code>qcut</code> asks "what percentile is this value?"
+      Use <code>cut</code> for meaningful categories (Child/Adult/Senior),
+      <code>qcut</code> for statistical groupings (quartiles, deciles).
+    </div>
+  </div>
+
   <!-- JOIN -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">
@@ -834,15 +1031,21 @@ invoices[<span class="text-green-400">'Month'</span>] = invoices[<span class="te
   </div>
   <!-- Accessors -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">Pandas Accessors (.str, .dt, .cat)</h2>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">
+      Pandas Accessors (.str, .dt, .cat)
+    </h2>
     <p class="text-sm text-gray-600 mb-3">
-      Accessors let you apply specialized methods to Series of a specific type. Access them via <code>.str</code> for strings, <code>.dt</code> for datetimes, and <code>.cat</code> for categoricals.
+      Accessors let you apply specialized methods to Series of a specific type.
+      Access them via <code>.str</code> for strings, <code>.dt</code> for
+      datetimes, and <code>.cat</code> for categoricals.
     </p>
 
     <!-- String Accessor -->
     <div class="mb-4">
       <h3 class="font-semibold text-green-700 mb-2">.str - String Methods</h3>
-      <p class="text-xs text-gray-600 mb-2">Works on Series containing string data. Vectorized string operations.</p>
+      <p class="text-xs text-gray-600 mb-2">
+        Works on Series containing string data. Vectorized string operations.
+      </p>
       <div class="bg-gray-800 text-white p-3 rounded text-sm">
         <pre><span class="text-gray-400"># Case conversion</span>
 df[<span class="text-green-400">'Name'</span>].str.lower()              <span class="text-gray-400"># lowercase</span>
@@ -897,7 +1100,10 @@ df[<span class="text-green-400">'Name'</span>].str.isupper()           <span cla
     <!-- Datetime Accessor -->
     <div class="mb-4">
       <h3 class="font-semibold text-purple-700 mb-2">.dt - Datetime Methods</h3>
-      <p class="text-xs text-gray-600 mb-2">Works on Series containing datetime data. First convert with <code>pd.to_datetime()</code> if needed.</p>
+      <p class="text-xs text-gray-600 mb-2">
+        Works on Series containing datetime data. First convert with
+        <code>pd.to_datetime()</code> if needed.
+      </p>
       <div class="bg-gray-800 text-white p-3 rounded text-sm">
         <pre><span class="text-gray-400"># First, ensure datetime type</span>
 df[<span class="text-green-400">'Date'</span>] = pd.to_datetime(df[<span class="text-green-400">'Date'</span>])
@@ -954,8 +1160,13 @@ df[<span class="text-green-400">'Date'</span>].dt.tz_convert(<span class="text-g
 
     <!-- Categorical Accessor -->
     <div class="mb-4">
-      <h3 class="font-semibold text-orange-700 mb-2">.cat - Categorical Methods</h3>
-      <p class="text-xs text-gray-600 mb-2">Works on categorical dtype. Useful for memory efficiency and ordered data.</p>
+      <h3 class="font-semibold text-orange-700 mb-2">
+        .cat - Categorical Methods
+      </h3>
+      <p class="text-xs text-gray-600 mb-2">
+        Works on categorical dtype. Useful for memory efficiency and ordered
+        data.
+      </p>
       <div class="bg-gray-800 text-white p-3 rounded text-sm">
         <pre><span class="text-gray-400"># Convert to categorical</span>
 df[<span class="text-green-400">'Size'</span>] = df[<span class="text-green-400">'Size'</span>].astype(<span class="text-green-400">'category'</span>)
@@ -1000,7 +1211,11 @@ df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400"
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-green-50"><td class="border px-2 py-1 font-semibold" colspan="3">.str (Strings)</td></tr>
+            <tr class="bg-green-50">
+              <td class="border px-2 py-1 font-semibold" colspan="3">
+                .str (Strings)
+              </td>
+            </tr>
             <tr>
               <td class="border px-2 py-1">Extract email domain</td>
               <td class="border px-2 py-1 font-mono">.str.split('@').str[1]</td>
@@ -1008,20 +1223,30 @@ df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400"
             </tr>
             <tr>
               <td class="border px-2 py-1">Clean whitespace</td>
-              <td class="border px-2 py-1 font-mono">.str.strip().str.lower()</td>
+              <td class="border px-2 py-1 font-mono">
+                .str.strip().str.lower()
+              </td>
               <td class="border px-2 py-1">'hello world'</td>
             </tr>
             <tr>
               <td class="border px-2 py-1">Check pattern</td>
-              <td class="border px-2 py-1 font-mono">.str.contains(r'^\d{3}-')</td>
+              <td class="border px-2 py-1 font-mono">
+                .str.contains(r'^\d{3}-')
+              </td>
               <td class="border px-2 py-1">True/False</td>
             </tr>
             <tr>
               <td class="border px-2 py-1">Get initials</td>
-              <td class="border px-2 py-1 font-mono">.str.split().str[0].str[0]</td>
+              <td class="border px-2 py-1 font-mono">
+                .str.split().str[0].str[0]
+              </td>
               <td class="border px-2 py-1">'J' (from 'John')</td>
             </tr>
-            <tr class="bg-purple-50"><td class="border px-2 py-1 font-semibold" colspan="3">.dt (Datetime)</td></tr>
+            <tr class="bg-purple-50">
+              <td class="border px-2 py-1 font-semibold" colspan="3">
+                .dt (Datetime)
+              </td>
+            </tr>
             <tr>
               <td class="border px-2 py-1">Get year-month</td>
               <td class="border px-2 py-1 font-mono">.dt.to_period('M')</td>
@@ -1042,7 +1267,11 @@ df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400"
               <td class="border px-2 py-1 font-mono">.dt.strftime('%b %Y')</td>
               <td class="border px-2 py-1">'Mar 2024'</td>
             </tr>
-            <tr class="bg-orange-50"><td class="border px-2 py-1 font-semibold" colspan="3">.cat (Categorical)</td></tr>
+            <tr class="bg-orange-50">
+              <td class="border px-2 py-1 font-semibold" colspan="3">
+                .cat (Categorical)
+              </td>
+            </tr>
             <tr>
               <td class="border px-2 py-1">Get unique categories</td>
               <td class="border px-2 py-1 font-mono">.cat.categories</td>
@@ -1059,7 +1288,10 @@ df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400"
     </div>
 
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Accessors are like "namespaces" for type-specific methods. They prevent polluting the main Series with hundreds of methods. Chain them for powerful one-liners: <code>df['Email'].str.lower().str.strip().str.split('@').str[1]</code>
+      <strong>💡 Intuition:</strong> Accessors are like "namespaces" for
+      type-specific methods. They prevent polluting the main Series with
+      hundreds of methods. Chain them for powerful one-liners:
+      <code>df['Email'].str.lower().str.strip().str.split('@').str[1]</code>
     </div>
   </div>
 
