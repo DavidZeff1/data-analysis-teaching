@@ -50,6 +50,10 @@ streamlit run app.py
         <strong>💡 How Streamlit Works:</strong> Every time a user interacts with a widget, Streamlit reruns the entire script from top to bottom. This is different from traditional frameworks but makes the code simple and linear.
       </div>
     </div>
+    <div class="mt-4">
+      <img src="../../images/streamlit/hello_world.png" alt="Streamlit Hello World Example" class="w-full rounded-lg shadow-sm border border-gray-100">
+      <p class="text-xs text-gray-500 mt-2 text-center">Resulting App</p>
+    </div>
   </div>
 
   <!-- TEXT ELEMENTS -->
@@ -88,6 +92,10 @@ st.write(fig)                    <span class="text-gray-400"># Matplotlib/Plotly
 st.write({<span class="text-green-400">"a"</span>: <span class="text-yellow-400">1</span>})               <span class="text-gray-400"># Dicts as JSON</span></pre>
       </div>
     </div>
+      <div class="mt-4">
+        <img src="../../images/streamlit/text_elements.png" alt="Streamlit Text Elements" class="w-full rounded-lg shadow-sm border border-gray-100">
+        <p class="text-xs text-gray-500 mt-2 text-center">Text Elements Demo</p>
+      </div>
     
     <!-- Status Elements -->
     <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
@@ -115,6 +123,10 @@ st.balloons()                    <span class="text-gray-400"># 🎈</span>
 st.snow()                        <span class="text-gray-400"># ❄️</span></pre>
       </div>
     </div>
+      <div class="mt-4">
+        <img src="../../images/streamlit/status_alerts.png" alt="Streamlit Status Alerts" class="w-full rounded-lg shadow-sm border border-gray-100">
+        <p class="text-xs text-gray-500 mt-2 text-center">Status & Alerts Demo</p>
+      </div>
   </div>
 
   <!-- INPUT WIDGETS -->
@@ -199,6 +211,10 @@ uploaded_file = st.file_uploader(<span class="text-green-400">"Upload CSV"</span
     st.text_input(f<span class="text-green-400">"Input {i}"</span>, key=f<span class="text-green-400">"input_{i}"</span>)</pre>
       </div>
     </div>
+      <div class="mt-4">
+        <img src="../../images/streamlit/input_widgets.png" alt="Streamlit Input Widgets" class="w-full rounded-lg shadow-sm border border-gray-100">
+        <p class="text-xs text-gray-500 mt-2 text-center">Input Widgets Demo</p>
+      </div>
   </div>
 
   <!-- DATA DISPLAY -->
@@ -246,6 +262,10 @@ col3.metric(<span class="text-green-400">"Rating"</span>, <span class="text-gree
 <span class="text-gray-400"># JSON</span>
 st.json({<span class="text-green-400">"name"</span>: <span class="text-green-400">"Alice"</span>, <span class="text-green-400">"age"</span>: <span class="text-yellow-400">25</span>})</pre>
       </div>
+    </div>
+    <div class="mt-4">
+      <img src="../../images/streamlit/data_display.png" alt="Streamlit Data Display" class="w-full rounded-lg shadow-sm border border-gray-100">
+      <p class="text-xs text-gray-500 mt-2 text-center">Data Display Demo</p>
     </div>
   </div>
 
@@ -310,6 +330,10 @@ fig, ax = plt.subplots()
 sns.histplot(data=df, x=<span class="text-green-400">"Score"</span>, ax=ax)
 st.pyplot(fig)</pre>
       </div>
+    </div>
+    <div class="mt-4">
+      <img src="../../images/streamlit/charts.png" alt="Streamlit Charts" class="w-full rounded-lg shadow-sm border border-gray-100">
+      <p class="text-xs text-gray-500 mt-2 text-center">Charts Visualization Demo</p>
     </div>
   </div>
 
