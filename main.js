@@ -5,10 +5,10 @@ function renderMath(element) {
   if (window.renderMathInElement) {
     window.renderMathInElement(element, {
       delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false}
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
       ],
-      throwOnError: false
+      throwOnError: false,
     });
   } else {
     // KaTeX not ready yet, retry after a short delay
@@ -35,8 +35,9 @@ const content = {
   },
   python: {
     pandas: () => fetch("/python/pandas.html").then((r) => r.text()),
-    seaborn: () => fetch('/python/seaborn.html').then(r => r.text()),
-    basics: () => fetch('/python/basics.html').then(r => r.text()),
+    seaborn: () => fetch("/python/seaborn.html").then((r) => r.text()),
+    basics: () => fetch("/python/basics.html").then((r) => r.text()),
+    streamlit: () => fetch("/python/streamlit.html").then((r) => r.text()),
   },
   excel: {
     setup: () => fetch("/excel/setup.html").then((r) => r.text()),

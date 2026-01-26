@@ -1,0 +1,796 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Streamlit: Build Data Apps Fast</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is Streamlit?</h2>
+    <p>Streamlit is a Python library that turns scripts into interactive web apps in minutes. No frontend experience needed - just write Python and Streamlit handles the UI.</p>
+    
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🚀</div>
+        <div class="font-semibold text-red-700">Fast Prototyping</div>
+        <p class="text-xs text-gray-600">Go from script to app in minutes</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🐍</div>
+        <div class="font-semibold text-green-700">Pure Python</div>
+        <p class="text-xs text-gray-600">No HTML, CSS, or JS required</p>
+      </div>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🔄</div>
+        <div class="font-semibold text-blue-700">Auto Reload</div>
+        <p class="text-xs text-gray-600">App updates as you save code</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GETTING STARTED -->
+  <div class="border-t-4 border-red-500 pt-4">
+    <h2 class="font-bold text-xl text-red-700">Getting Started</h2>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="font-semibold text-red-700">Installation & Running</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-gray-400"># Install</span>
+pip install streamlit
+
+<span class="text-gray-400"># Create your app (app.py)</span>
+<span class="text-blue-400">import</span> streamlit <span class="text-blue-400">as</span> st
+
+st.title(<span class="text-green-400">"My First App"</span>)
+st.write(<span class="text-green-400">"Hello, world!"</span>)
+
+<span class="text-gray-400"># Run it</span>
+streamlit run app.py
+
+<span class="text-gray-400"># Opens browser at http://localhost:8501</span></pre>
+      </div>
+      
+      <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+        <strong>💡 How Streamlit Works:</strong> Every time a user interacts with a widget, Streamlit reruns the entire script from top to bottom. This is different from traditional frameworks but makes the code simple and linear.
+      </div>
+    </div>
+  </div>
+
+  <!-- TEXT ELEMENTS -->
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">Text & Display Elements</h2>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-blue-400">import</span> streamlit <span class="text-blue-400">as</span> st
+
+<span class="text-gray-400"># Titles and Headers</span>
+st.title(<span class="text-green-400">"Main Title"</span>)           <span class="text-gray-400"># Largest</span>
+st.header(<span class="text-green-400">"Header"</span>)              <span class="text-gray-400"># Large</span>
+st.subheader(<span class="text-green-400">"Subheader"</span>)        <span class="text-gray-400"># Medium</span>
+
+<span class="text-gray-400"># Text</span>
+st.text(<span class="text-green-400">"Fixed-width text"</span>)      <span class="text-gray-400"># Monospace</span>
+st.write(<span class="text-green-400">"Regular text"</span>)         <span class="text-gray-400"># Smart - handles many types</span>
+st.markdown(<span class="text-green-400">"**Bold** and *italic*"</span>) <span class="text-gray-400"># Markdown support</span>
+st.caption(<span class="text-green-400">"Small gray text"</span>)     <span class="text-gray-400"># Caption/footnote</span>
+
+<span class="text-gray-400"># Code</span>
+st.code(<span class="text-green-400">"print('hello')"</span>, language=<span class="text-green-400">"python"</span>)
+
+<span class="text-gray-400"># LaTeX</span>
+st.latex(<span class="text-green-400">r"E = mc^2"</span>)
+
+<span class="text-gray-400"># Divider</span>
+st.divider()                     <span class="text-gray-400"># Horizontal line</span>
+
+<span class="text-gray-400"># The magic of st.write() - handles almost anything</span>
+st.write(<span class="text-green-400">"Text"</span>)                  <span class="text-gray-400"># String</span>
+st.write(<span class="text-yellow-400">123</span>)                     <span class="text-gray-400"># Numbers</span>
+st.write(df)                     <span class="text-gray-400"># DataFrames</span>
+st.write(fig)                    <span class="text-gray-400"># Matplotlib/Plotly figures</span>
+st.write({<span class="text-green-400">"a"</span>: <span class="text-yellow-400">1</span>})               <span class="text-gray-400"># Dicts as JSON</span></pre>
+      </div>
+    </div>
+    
+    <!-- Status Elements -->
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="font-semibold text-blue-700">Status & Alerts</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-gray-400"># Alert boxes</span>
+st.success(<span class="text-green-400">"Success message"</span>)     <span class="text-gray-400"># Green</span>
+st.info(<span class="text-green-400">"Info message"</span>)          <span class="text-gray-400"># Blue</span>
+st.warning(<span class="text-green-400">"Warning message"</span>)     <span class="text-gray-400"># Yellow</span>
+st.error(<span class="text-green-400">"Error message"</span>)        <span class="text-gray-400"># Red</span>
+
+<span class="text-gray-400"># Exception display</span>
+st.exception(e)                  <span class="text-gray-400"># Show exception traceback</span>
+
+<span class="text-gray-400"># Progress</span>
+st.progress(<span class="text-yellow-400">0.5</span>)                  <span class="text-gray-400"># Progress bar (0.0 to 1.0)</span>
+st.spinner(<span class="text-green-400">"Loading..."</span>)         <span class="text-gray-400"># Spinner while processing</span>
+
+<span class="text-blue-400">with</span> st.spinner(<span class="text-green-400">"Processing..."</span>):
+    time.sleep(<span class="text-yellow-400">2</span>)  <span class="text-gray-400"># Long operation</span>
+st.success(<span class="text-green-400">"Done!"</span>)
+
+<span class="text-gray-400"># Balloons and snow (fun!)</span>
+st.balloons()                    <span class="text-gray-400"># 🎈</span>
+st.snow()                        <span class="text-gray-400"># ❄️</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT WIDGETS -->
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">Input Widgets</h2>
+    <p class="text-sm text-gray-600 mb-3">Widgets return their current value. When a user interacts, the script reruns and the widget returns the new value.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># Button - returns True when clicked (only during that rerun)</span>
+<span class="text-blue-400">if</span> st.button(<span class="text-green-400">"Click me"</span>):
+    st.write(<span class="text-green-400">"Button was clicked!"</span>)
+
+<span class="text-gray-400"># Checkbox - returns True/False</span>
+show_data = st.checkbox(<span class="text-green-400">"Show raw data"</span>)
+<span class="text-blue-400">if</span> show_data:
+    st.write(df)
+
+<span class="text-gray-400"># Radio buttons - returns selected option</span>
+choice = st.radio(
+    <span class="text-green-400">"Choose one:"</span>,
+    [<span class="text-green-400">"Option A"</span>, <span class="text-green-400">"Option B"</span>, <span class="text-green-400">"Option C"</span>]
+)
+
+<span class="text-gray-400"># Selectbox (dropdown) - returns selected option</span>
+option = st.selectbox(
+    <span class="text-green-400">"Select a country:"</span>,
+    [<span class="text-green-400">"USA"</span>, <span class="text-green-400">"Canada"</span>, <span class="text-green-400">"Mexico"</span>]
+)
+
+<span class="text-gray-400"># Multiselect - returns list of selected options</span>
+options = st.multiselect(
+    <span class="text-green-400">"Select colors:"</span>,
+    [<span class="text-green-400">"Red"</span>, <span class="text-green-400">"Green"</span>, <span class="text-green-400">"Blue"</span>],
+    default=[<span class="text-green-400">"Red"</span>]  <span class="text-gray-400"># optional default</span>
+)
+
+<span class="text-gray-400"># Slider - returns number</span>
+age = st.slider(<span class="text-green-400">"Select age:"</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">100</span>, <span class="text-yellow-400">25</span>)  <span class="text-gray-400"># min, max, default</span>
+
+<span class="text-gray-400"># Range slider - returns tuple</span>
+values = st.slider(<span class="text-green-400">"Select range:"</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">100</span>, (<span class="text-yellow-400">20</span>, <span class="text-yellow-400">80</span>))
+
+<span class="text-gray-400"># Select slider (discrete values)</span>
+size = st.select_slider(
+    <span class="text-green-400">"Select size:"</span>,
+    options=[<span class="text-green-400">"S"</span>, <span class="text-green-400">"M"</span>, <span class="text-green-400">"L"</span>, <span class="text-green-400">"XL"</span>]
+)
+
+<span class="text-gray-400"># Text input - returns string</span>
+name = st.text_input(<span class="text-green-400">"Enter your name:"</span>, <span class="text-green-400">"Default"</span>)
+
+<span class="text-gray-400"># Text area (multiline) - returns string</span>
+bio = st.text_area(<span class="text-green-400">"Enter bio:"</span>, height=<span class="text-yellow-400">100</span>)
+
+<span class="text-gray-400"># Number input - returns number</span>
+quantity = st.number_input(<span class="text-green-400">"Quantity:"</span>, min_value=<span class="text-yellow-400">0</span>, max_value=<span class="text-yellow-400">100</span>, value=<span class="text-yellow-400">1</span>)
+
+<span class="text-gray-400"># Date input - returns datetime.date</span>
+date = st.date_input(<span class="text-green-400">"Select date:"</span>)
+
+<span class="text-gray-400"># Time input - returns datetime.time</span>
+time = st.time_input(<span class="text-green-400">"Select time:"</span>)
+
+<span class="text-gray-400"># Color picker - returns hex color string</span>
+color = st.color_picker(<span class="text-green-400">"Pick a color:"</span>, <span class="text-green-400">"#00ff00"</span>)
+
+<span class="text-gray-400"># File uploader</span>
+uploaded_file = st.file_uploader(<span class="text-green-400">"Upload CSV"</span>, type=[<span class="text-green-400">"csv"</span>])
+<span class="text-blue-400">if</span> uploaded_file <span class="text-blue-400">is not</span> <span class="text-purple-400">None</span>:
+    df = pd.read_csv(uploaded_file)
+    st.write(df)</pre>
+      </div>
+    </div>
+    
+    <!-- Widget Keys -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+      <p class="font-semibold text-yellow-800 text-sm">💡 Widget Keys</p>
+      <p class="text-xs mt-1">Every widget can have a unique <code>key</code> parameter. This is required when you have multiple widgets of the same type, or when using widgets in loops.</p>
+      <div class="bg-gray-800 text-white p-2 rounded text-xs mt-2">
+        <pre><span class="text-blue-400">for</span> i <span class="text-blue-400">in</span> range(<span class="text-yellow-400">3</span>):
+    st.text_input(f<span class="text-green-400">"Input {i}"</span>, key=f<span class="text-green-400">"input_{i}"</span>)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA DISPLAY -->
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">Data Display</h2>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+
+df = pd.DataFrame({
+    <span class="text-green-400">"Name"</span>: [<span class="text-green-400">"Alice"</span>, <span class="text-green-400">"Bob"</span>, <span class="text-green-400">"Charlie"</span>],
+    <span class="text-green-400">"Age"</span>: [<span class="text-yellow-400">25</span>, <span class="text-yellow-400">30</span>, <span class="text-yellow-400">35</span>],
+    <span class="text-green-400">"Score"</span>: [<span class="text-yellow-400">85.5</span>, <span class="text-yellow-400">92.3</span>, <span class="text-yellow-400">78.9</span>]
+})
+
+<span class="text-gray-400"># DataFrame - interactive table with sorting/searching</span>
+st.dataframe(df)
+
+<span class="text-gray-400"># DataFrame with styling</span>
+st.dataframe(
+    df,
+    column_config={
+        <span class="text-green-400">"Score"</span>: st.column_config.ProgressColumn(
+            <span class="text-green-400">"Score"</span>,
+            min_value=<span class="text-yellow-400">0</span>,
+            max_value=<span class="text-yellow-400">100</span>,
+        ),
+    },
+    hide_index=<span class="text-purple-400">True</span>,
+)
+
+<span class="text-gray-400"># Editable dataframe</span>
+edited_df = st.data_editor(df)
+
+<span class="text-gray-400"># Static table (non-interactive)</span>
+st.table(df)
+
+<span class="text-gray-400"># Metrics (KPI cards)</span>
+col1, col2, col3 = st.columns(<span class="text-yellow-400">3</span>)
+col1.metric(<span class="text-green-400">"Revenue"</span>, <span class="text-green-400">"$10,000"</span>, <span class="text-green-400">"+5%"</span>)
+col2.metric(<span class="text-green-400">"Users"</span>, <span class="text-green-400">"1,234"</span>, <span class="text-green-400">"-2%"</span>)
+col3.metric(<span class="text-green-400">"Rating"</span>, <span class="text-green-400">"4.5"</span>, <span class="text-green-400">"+0.2"</span>)
+
+<span class="text-gray-400"># JSON</span>
+st.json({<span class="text-green-400">"name"</span>: <span class="text-green-400">"Alice"</span>, <span class="text-green-400">"age"</span>: <span class="text-yellow-400">25</span>})</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="border-t-4 border-orange-500 pt-4">
+    <h2 class="font-bold text-xl text-orange-700">Charts & Visualizations</h2>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="font-semibold text-orange-700">Built-in Charts</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
+
+<span class="text-gray-400"># Simple charts (quick and easy)</span>
+chart_data = pd.DataFrame(
+    np.random.randn(<span class="text-yellow-400">20</span>, <span class="text-yellow-400">3</span>),
+    columns=[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</span>, <span class="text-green-400">'C'</span>]
+)
+
+st.line_chart(chart_data)        <span class="text-gray-400"># Line chart</span>
+st.area_chart(chart_data)        <span class="text-gray-400"># Area chart</span>
+st.bar_chart(chart_data)         <span class="text-gray-400"># Bar chart</span>
+st.scatter_chart(chart_data, x=<span class="text-green-400">'A'</span>, y=<span class="text-green-400">'B'</span>)  <span class="text-gray-400"># Scatter</span>
+
+<span class="text-gray-400"># Map (requires lat/lon columns)</span>
+map_data = pd.DataFrame({
+    <span class="text-green-400">'lat'</span>: [<span class="text-yellow-400">37.76</span>, <span class="text-yellow-400">37.77</span>, <span class="text-yellow-400">37.78</span>],
+    <span class="text-green-400">'lon'</span>: [-<span class="text-yellow-400">122.4</span>, -<span class="text-yellow-400">122.41</span>, -<span class="text-yellow-400">122.42</span>]
+})
+st.map(map_data)</pre>
+      </div>
+    </div>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="font-semibold text-orange-700">External Libraries</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-gray-400"># Matplotlib</span>
+<span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
+
+fig, ax = plt.subplots()
+ax.plot([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>], [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">9</span>])
+st.pyplot(fig)
+
+<span class="text-gray-400"># Plotly (interactive!)</span>
+<span class="text-blue-400">import</span> plotly.express <span class="text-blue-400">as</span> px
+
+fig = px.scatter(df, x=<span class="text-green-400">"Age"</span>, y=<span class="text-green-400">"Score"</span>, color=<span class="text-green-400">"Name"</span>)
+st.plotly_chart(fig, use_container_width=<span class="text-purple-400">True</span>)
+
+<span class="text-gray-400"># Altair</span>
+<span class="text-blue-400">import</span> altair <span class="text-blue-400">as</span> alt
+
+chart = alt.Chart(df).mark_bar().encode(
+    x=<span class="text-green-400">'Name'</span>,
+    y=<span class="text-green-400">'Score'</span>
+)
+st.altair_chart(chart, use_container_width=<span class="text-purple-400">True</span>)
+
+<span class="text-gray-400"># Seaborn (via matplotlib)</span>
+<span class="text-blue-400">import</span> seaborn <span class="text-blue-400">as</span> sns
+
+fig, ax = plt.subplots()
+sns.histplot(data=df, x=<span class="text-green-400">"Score"</span>, ax=ax)
+st.pyplot(fig)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="border-t-4 border-indigo-500 pt-4">
+    <h2 class="font-bold text-xl text-indigo-700">Layout & Containers</h2>
+    
+    <div class="space-y-4">
+      <!-- Columns -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Columns</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Equal columns</span>
+col1, col2, col3 = st.columns(<span class="text-yellow-400">3</span>)
+col1.write(<span class="text-green-400">"Column 1"</span>)
+col2.write(<span class="text-green-400">"Column 2"</span>)
+col3.write(<span class="text-green-400">"Column 3"</span>)
+
+<span class="text-gray-400"># Custom width ratios</span>
+col1, col2 = st.columns([<span class="text-yellow-400">2</span>, <span class="text-yellow-400">1</span>])  <span class="text-gray-400"># col1 is 2x wider</span>
+<span class="text-blue-400">with</span> col1:
+    st.write(<span class="text-green-400">"Wider column"</span>)
+<span class="text-blue-400">with</span> col2:
+    st.write(<span class="text-green-400">"Narrower"</span>)
+
+<span class="text-gray-400"># Gap between columns</span>
+col1, col2 = st.columns(<span class="text-yellow-400">2</span>, gap=<span class="text-green-400">"large"</span>)  <span class="text-gray-400"># "small", "medium", "large"</span></pre>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Sidebar</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Add elements to sidebar</span>
+st.sidebar.title(<span class="text-green-400">"Settings"</span>)
+st.sidebar.selectbox(<span class="text-green-400">"Choose:"</span>, [<span class="text-green-400">"A"</span>, <span class="text-green-400">"B"</span>])
+
+<span class="text-gray-400"># Or use with statement</span>
+<span class="text-blue-400">with</span> st.sidebar:
+    st.header(<span class="text-green-400">"Filters"</span>)
+    date = st.date_input(<span class="text-green-400">"Date"</span>)
+    category = st.multiselect(<span class="text-green-400">"Category"</span>, [<span class="text-green-400">"A"</span>, <span class="text-green-400">"B"</span>, <span class="text-green-400">"C"</span>])</pre>
+        </div>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Tabs</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre>tab1, tab2, tab3 = st.tabs([<span class="text-green-400">"📈 Chart"</span>, <span class="text-green-400">"📋 Data"</span>, <span class="text-green-400">"ℹ️ About"</span>])
+
+<span class="text-blue-400">with</span> tab1:
+    st.line_chart(data)
+    
+<span class="text-blue-400">with</span> tab2:
+    st.dataframe(df)
+    
+<span class="text-blue-400">with</span> tab3:
+    st.write(<span class="text-green-400">"About this app..."</span>)</pre>
+        </div>
+      </div>
+      
+      <!-- Expander -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Expander (Collapsible)</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-blue-400">with</span> st.expander(<span class="text-green-400">"Click to expand"</span>):
+    st.write(<span class="text-green-400">"Hidden content here"</span>)
+    st.image(<span class="text-green-400">"image.png"</span>)
+
+<span class="text-gray-400"># Start expanded</span>
+<span class="text-blue-400">with</span> st.expander(<span class="text-green-400">"Details"</span>, expanded=<span class="text-purple-400">True</span>):
+    st.write(<span class="text-green-400">"Visible by default"</span>)</pre>
+        </div>
+      </div>
+      
+      <!-- Container & Empty -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-indigo-700">Container & Empty (Dynamic Updates)</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-gray-400"># Container - group elements</span>
+<span class="text-blue-400">with</span> st.container():
+    st.write(<span class="text-green-400">"Inside container"</span>)
+
+<span class="text-gray-400"># Container with border</span>
+<span class="text-blue-400">with</span> st.container(border=<span class="text-purple-400">True</span>):
+    st.write(<span class="text-green-400">"Bordered box"</span>)
+
+<span class="text-gray-400"># Empty - placeholder for later updates</span>
+placeholder = st.empty()
+
+<span class="text-gray-400"># Update the placeholder</span>
+placeholder.text(<span class="text-green-400">"Loading..."</span>)
+<span class="text-gray-400"># ... do something ...</span>
+placeholder.text(<span class="text-green-400">"Done!"</span>)
+
+<span class="text-gray-400"># Or replace with different element</span>
+placeholder.dataframe(df)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CACHING -->
+  <div class="border-t-4 border-teal-500 pt-4">
+    <h2 class="font-bold text-xl text-teal-700">Caching (Performance)</h2>
+    <p class="text-sm text-gray-600 mb-3">Since Streamlit reruns the script on every interaction, caching prevents expensive operations from running repeatedly.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># @st.cache_data - for data (DataFrames, lists, dicts)</span>
+<span class="text-purple-400">@st.cache_data</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-400">load_data</span>(path):
+    <span class="text-gray-400"># This only runs once, result is cached</span>
+    <span class="text-blue-400">return</span> pd.read_csv(path)
+
+df = load_data(<span class="text-green-400">"large_file.csv"</span>)  <span class="text-gray-400"># Fast after first load!</span>
+
+<span class="text-gray-400"># @st.cache_resource - for models, connections, etc.</span>
+<span class="text-purple-400">@st.cache_resource</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-400">load_model</span>():
+    <span class="text-gray-400"># ML models, database connections, etc.</span>
+    <span class="text-blue-400">return</span> load_my_expensive_model()
+
+model = load_model()
+
+<span class="text-gray-400"># Cache with TTL (time to live)</span>
+<span class="text-purple-400">@st.cache_data</span>(ttl=<span class="text-yellow-400">3600</span>)  <span class="text-gray-400"># Cache for 1 hour</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-400">fetch_api_data</span>():
+    <span class="text-blue-400">return</span> requests.get(<span class="text-green-400">"https://api.example.com"</span>).json()
+
+<span class="text-gray-400"># Clear cache</span>
+st.cache_data.clear()  <span class="text-gray-400"># Clear all cached data</span></pre>
+      </div>
+      
+      <div class="bg-teal-50 rounded p-2 mt-3 text-sm">
+        <strong>💡 When to use which:</strong>
+        <ul class="text-xs mt-1 space-y-1">
+          <li><code>@st.cache_data</code> → DataFrames, API responses, computed results (things you serialize)</li>
+          <li><code>@st.cache_resource</code> → ML models, DB connections, file handles (things you DON'T serialize)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION STATE -->
+  <div class="border-t-4 border-pink-500 pt-4">
+    <h2 class="font-bold text-xl text-pink-700">Session State (Persistence)</h2>
+    <p class="text-sm text-gray-600 mb-3">Variables normally reset on every rerun. Session state persists data across reruns for a user session.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-gray-400"># Initialize state (only runs if key doesn't exist)</span>
+<span class="text-blue-400">if</span> <span class="text-green-400">'counter'</span> <span class="text-blue-400">not in</span> st.session_state:
+    st.session_state.counter = <span class="text-yellow-400">0</span>
+
+<span class="text-gray-400"># Or use .get() with default</span>
+st.session_state.setdefault(<span class="text-green-400">'counter'</span>, <span class="text-yellow-400">0</span>)
+
+<span class="text-gray-400"># Read and write</span>
+st.write(f<span class="text-green-400">"Count: {st.session_state.counter}"</span>)
+
+<span class="text-blue-400">if</span> st.button(<span class="text-green-400">"Increment"</span>):
+    st.session_state.counter += <span class="text-yellow-400">1</span>
+    st.rerun()  <span class="text-gray-400"># Optional: force rerun to show update</span>
+
+<span class="text-gray-400"># Delete from state</span>
+<span class="text-blue-400">del</span> st.session_state.counter
+
+<span class="text-gray-400"># Check all session state</span>
+st.write(st.session_state)
+
+<span class="text-gray-400"># Widget state - widgets auto-save to session_state with key</span>
+name = st.text_input(<span class="text-green-400">"Name"</span>, key=<span class="text-green-400">"user_name"</span>)
+<span class="text-gray-400"># st.session_state.user_name now holds the value</span></pre>
+      </div>
+    </div>
+    
+    <!-- Common Pattern: Multi-page form -->
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="font-semibold text-pink-700">Common Pattern: Multi-step Form</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-gray-400"># Initialize step</span>
+<span class="text-blue-400">if</span> <span class="text-green-400">'step'</span> <span class="text-blue-400">not in</span> st.session_state:
+    st.session_state.step = <span class="text-yellow-400">1</span>
+
+<span class="text-blue-400">if</span> st.session_state.step == <span class="text-yellow-400">1</span>:
+    st.header(<span class="text-green-400">"Step 1: Basic Info"</span>)
+    name = st.text_input(<span class="text-green-400">"Name"</span>, key=<span class="text-green-400">"name"</span>)
+    <span class="text-blue-400">if</span> st.button(<span class="text-green-400">"Next"</span>):
+        st.session_state.step = <span class="text-yellow-400">2</span>
+        st.rerun()
+
+<span class="text-blue-400">elif</span> st.session_state.step == <span class="text-yellow-400">2</span>:
+    st.header(<span class="text-green-400">"Step 2: Details"</span>)
+    st.write(f<span class="text-green-400">"Hello, {st.session_state.name}!"</span>)
+    age = st.number_input(<span class="text-green-400">"Age"</span>, key=<span class="text-green-400">"age"</span>)
+    <span class="text-blue-400">if</span> st.button(<span class="text-green-400">"Submit"</span>):
+        st.session_state.step = <span class="text-yellow-400">3</span>
+        st.rerun()
+
+<span class="text-blue-400">elif</span> st.session_state.step == <span class="text-yellow-400">3</span>:
+    st.success(<span class="text-green-400">"Form submitted!"</span>)
+    st.write(st.session_state)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMS -->
+  <div class="border-t-4 border-yellow-500 pt-4">
+    <h2 class="font-bold text-xl text-yellow-700">Forms (Batch Submit)</h2>
+    <p class="text-sm text-gray-600 mb-3">Forms group widgets and only trigger a rerun when the submit button is pressed (not on every widget change).</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm">
+        <pre><span class="text-blue-400">with</span> st.form(<span class="text-green-400">"my_form"</span>):
+    st.write(<span class="text-green-400">"Enter your details:"</span>)
+    name = st.text_input(<span class="text-green-400">"Name"</span>)
+    age = st.slider(<span class="text-green-400">"Age"</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">100</span>)
+    color = st.selectbox(<span class="text-green-400">"Favorite color"</span>, [<span class="text-green-400">"Red"</span>, <span class="text-green-400">"Green"</span>, <span class="text-green-400">"Blue"</span>])
+    
+    <span class="text-gray-400"># Every form needs a submit button</span>
+    submitted = st.form_submit_button(<span class="text-green-400">"Submit"</span>)
+    
+<span class="text-blue-400">if</span> submitted:
+    st.success(f<span class="text-green-400">"Submitted: {name}, {age}, {color}"</span>)
+
+<span class="text-gray-400"># Form with clear button</span>
+<span class="text-blue-400">with</span> st.form(<span class="text-green-400">"form_with_clear"</span>, clear_on_submit=<span class="text-purple-400">True</span>):
+    text = st.text_input(<span class="text-green-400">"Message"</span>)
+    st.form_submit_button(<span class="text-green-400">"Send"</span>)  <span class="text-gray-400"># Clears after submit</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- MULTIPAGE -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">Multi-Page Apps</h2>
+    <p class="text-sm text-gray-600 mb-3">Create a <code>pages/</code> folder next to your main script. Each .py file becomes a page.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="font-semibold text-gray-700">Folder Structure</div>
+      <div class="bg-gray-100 p-3 rounded text-sm mt-2 font-mono">
+        <pre>my_app/
+├── app.py              <span class="text-gray-400"># Main page (Home)</span>
+└── pages/
+    ├── 1_📊_Dashboard.py
+    ├── 2_📈_Charts.py
+    └── 3_⚙️_Settings.py</pre>
+      </div>
+      <p class="text-xs text-gray-500 mt-2">Files are sorted alphabetically. Use number prefixes and emojis for ordering and icons.</p>
+    </div>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
+      <div class="font-semibold text-gray-700">Page Configuration</div>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+        <pre><span class="text-gray-400"># Must be first Streamlit command in script</span>
+st.set_page_config(
+    page_title=<span class="text-green-400">"My App"</span>,
+    page_icon=<span class="text-green-400">"🚀"</span>,
+    layout=<span class="text-green-400">"wide"</span>,           <span class="text-gray-400"># or "centered"</span>
+    initial_sidebar_state=<span class="text-green-400">"expanded"</span>  <span class="text-gray-400"># or "collapsed"</span>
+)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMON PATTERNS -->
+  <div class="border-t-4 border-cyan-500 pt-4">
+    <h2 class="font-bold text-xl text-cyan-700">Common Patterns & Examples</h2>
+    
+    <div class="space-y-4">
+      <!-- Data Explorer -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-cyan-700">Pattern: Data Explorer</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-blue-400">import</span> streamlit <span class="text-blue-400">as</span> st
+<span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+
+st.title(<span class="text-green-400">"Data Explorer"</span>)
+
+<span class="text-gray-400"># File upload</span>
+uploaded_file = st.file_uploader(<span class="text-green-400">"Upload CSV"</span>, type=<span class="text-green-400">"csv"</span>)
+
+<span class="text-blue-400">if</span> uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    
+    <span class="text-gray-400"># Filters in sidebar</span>
+    <span class="text-blue-400">with</span> st.sidebar:
+        st.header(<span class="text-green-400">"Filters"</span>)
+        columns = st.multiselect(<span class="text-green-400">"Columns"</span>, df.columns, default=list(df.columns))
+        
+        <span class="text-blue-400">if</span> st.checkbox(<span class="text-green-400">"Filter rows"</span>):
+            col = st.selectbox(<span class="text-green-400">"Column"</span>, df.columns)
+            val = st.text_input(<span class="text-green-400">"Contains"</span>)
+            <span class="text-blue-400">if</span> val:
+                df = df[df[col].astype(str).str.contains(val, case=<span class="text-purple-400">False</span>)]
+    
+    <span class="text-gray-400"># Display</span>
+    st.dataframe(df[columns])
+    st.download_button(<span class="text-green-400">"Download CSV"</span>, df.to_csv(), <span class="text-green-400">"data.csv"</span>)</pre>
+        </div>
+      </div>
+      
+      <!-- Dashboard -->
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <div class="font-semibold text-cyan-700">Pattern: Dashboard with Metrics</div>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm mt-2">
+          <pre><span class="text-blue-400">import</span> streamlit <span class="text-blue-400">as</span> st
+<span class="text-blue-400">import</span> plotly.express <span class="text-blue-400">as</span> px
+
+st.set_page_config(layout=<span class="text-green-400">"wide"</span>)
+st.title(<span class="text-green-400">"📊 Sales Dashboard"</span>)
+
+<span class="text-gray-400"># KPI Row</span>
+col1, col2, col3, col4 = st.columns(<span class="text-yellow-400">4</span>)
+col1.metric(<span class="text-green-400">"Total Revenue"</span>, <span class="text-green-400">"$45,231"</span>, <span class="text-green-400">"+12.5%"</span>)
+col2.metric(<span class="text-green-400">"Orders"</span>, <span class="text-green-400">"1,234"</span>, <span class="text-green-400">"+8.2%"</span>)
+col3.metric(<span class="text-green-400">"Customers"</span>, <span class="text-green-400">"892"</span>, <span class="text-green-400">"+3.1%"</span>)
+col4.metric(<span class="text-green-400">"Avg Order"</span>, <span class="text-green-400">"$36.67"</span>, <span class="text-green-400">"-2.4%"</span>)
+
+st.divider()
+
+<span class="text-gray-400"># Charts Row</span>
+col1, col2 = st.columns(<span class="text-yellow-400">2</span>)
+
+<span class="text-blue-400">with</span> col1:
+    st.subheader(<span class="text-green-400">"Revenue Over Time"</span>)
+    fig = px.line(df, x=<span class="text-green-400">"date"</span>, y=<span class="text-green-400">"revenue"</span>)
+    st.plotly_chart(fig, use_container_width=<span class="text-purple-400">True</span>)
+
+<span class="text-blue-400">with</span> col2:
+    st.subheader(<span class="text-green-400">"Sales by Category"</span>)
+    fig = px.pie(df, values=<span class="text-green-400">"sales"</span>, names=<span class="text-green-400">"category"</span>)
+    st.plotly_chart(fig, use_container_width=<span class="text-purple-400">True</span>)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="border-t-4 border-gray-500 pt-4">
+    <h2 class="font-bold text-xl text-gray-700">📋 Streamlit Cheat Sheet</h2>
+    
+    <div class="grid grid-cols-2 gap-4 mt-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Text Elements</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.title("...")</p>
+          <p>st.header("...") / st.subheader("...")</p>
+          <p>st.write("...") <span class="text-gray-400"># smart display</span></p>
+          <p>st.markdown("**bold** *italic*")</p>
+          <p>st.code("...", language="python")</p>
+          <p>st.latex(r"E=mc^2")</p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Input Widgets</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.button("Click")</p>
+          <p>st.checkbox("Check")</p>
+          <p>st.radio("Pick", ["A", "B"])</p>
+          <p>st.selectbox("Choose", [...])</p>
+          <p>st.multiselect("Select", [...])</p>
+          <p>st.slider("Slide", 0, 100)</p>
+          <p>st.text_input("Enter")</p>
+          <p>st.number_input("Number")</p>
+          <p>st.date_input("Date")</p>
+          <p>st.file_uploader("Upload")</p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Data Display</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.dataframe(df) <span class="text-gray-400"># interactive</span></p>
+          <p>st.data_editor(df) <span class="text-gray-400"># editable</span></p>
+          <p>st.table(df) <span class="text-gray-400"># static</span></p>
+          <p>st.metric("Label", value, delta)</p>
+          <p>st.json({...})</p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Charts</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.line_chart(data)</p>
+          <p>st.bar_chart(data)</p>
+          <p>st.area_chart(data)</p>
+          <p>st.scatter_chart(data)</p>
+          <p>st.map(data) <span class="text-gray-400"># needs lat/lon</span></p>
+          <p>st.pyplot(fig) <span class="text-gray-400"># matplotlib</span></p>
+          <p>st.plotly_chart(fig) <span class="text-gray-400"># plotly</span></p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Layout</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>col1, col2 = st.columns(2)</p>
+          <p>with st.sidebar:</p>
+          <p>tab1, tab2 = st.tabs(["A", "B"])</p>
+          <p>with st.expander("More"):</p>
+          <p>with st.container():</p>
+          <p>placeholder = st.empty()</p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">State & Caching</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.session_state.key = value</p>
+          <p>@st.cache_data <span class="text-gray-400"># for data</span></p>
+          <p>@st.cache_resource <span class="text-gray-400"># for models</span></p>
+          <p>with st.form("name"):</p>
+          <p>st.rerun() <span class="text-gray-400"># force refresh</span></p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Status</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.success("...")</p>
+          <p>st.info("...")</p>
+          <p>st.warning("...")</p>
+          <p>st.error("...")</p>
+          <p>with st.spinner("Loading..."):</p>
+          <p>st.progress(0.5)</p>
+        </div>
+      </div>
+      
+      <div class="bg-white border border-gray-200 rounded-lg p-3">
+        <div class="font-semibold text-sm mb-2">Media</div>
+        <div class="text-xs font-mono space-y-1">
+          <p>st.image("path.png")</p>
+          <p>st.audio("path.mp3")</p>
+          <p>st.video("path.mp4")</p>
+          <p>st.download_button("DL", data, "file.csv")</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY CONCEPTS -->
+  <div class="bg-gray-100 rounded-lg p-4 mt-6">
+    <h2 class="font-bold text-lg mb-3">🎯 Key Concepts to Remember</h2>
+    <div class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="font-semibold mb-1">Execution Model</p>
+        <ul class="text-xs space-y-1">
+          <li>• Script runs top-to-bottom on every interaction</li>
+          <li>• Use <code>@st.cache_data</code> to avoid re-running expensive code</li>
+          <li>• Use <code>st.session_state</code> to persist data across reruns</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Widget Values</p>
+        <ul class="text-xs space-y-1">
+          <li>• Widgets return their current value</li>
+          <li>• Use <code>key=</code> parameter for unique identification</li>
+          <li>• Widget values auto-save to <code>st.session_state[key]</code></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Forms</p>
+        <ul class="text-xs space-y-1">
+          <li>• Use forms to batch multiple inputs</li>
+          <li>• Script only reruns on form submit, not every widget change</li>
+          <li>• Great for search/filter interfaces</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold mb-1">Layout</p>
+        <ul class="text-xs space-y-1">
+          <li>• Use <code>st.columns()</code> for horizontal layout</li>
+          <li>• Use <code>st.sidebar</code> for filters/settings</li>
+          <li>• Use <code>st.tabs()</code> to organize content</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
