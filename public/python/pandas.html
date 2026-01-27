@@ -1313,6 +1313,591 @@ df[<span class="text-green-400">'Size'</span>].cat.as_unordered()
 df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400">'M'</span>]                <span class="text-gray-400"># rows where Size is L or XL</span></pre>
       </div>
     </div>
+    <!-- GeoPandas -->
+    <div class="bg-white rounded-lg border border-gray-200 p-4">
+      <h2 class="font-bold text-lg mb-3 text-blue-700">
+        GeoPandas - Spatial Data Operations
+      </h2>
+      <p class="text-sm text-gray-600 mb-3">
+        GeoPandas extends Pandas to handle geospatial data. If you know PostGIS
+        or spatial SQL, these concepts will be familiar.
+      </p>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+        <p class="text-sm">
+          <strong>Setup:</strong> GeoPandas uses a
+          <code class="bg-gray-200 px-1 rounded">GeoDataFrame</code> which is a
+          DataFrame with a special <code>geometry</code> column.
+        </p>
+        <pre
+          class="bg-gray-800 text-white p-2 rounded text-sm mt-2"
+        ><span class="text-blue-400">import</span> geopandas <span class="text-blue-400">as</span> gpd
+<span class="text-blue-400">from</span> shapely.geometry <span class="text-blue-400">import</span> Point, Polygon
+
+<span class="text-gray-400"># Load spatial data</span>
+gdf = gpd.read_file(<span class="text-green-400">'neighborhoods.geojson'</span>)
+points = gpd.read_file(<span class="text-green-400">'locations.shp'</span>)
+
+<span class="text-gray-400"># Create from regular DataFrame</span>
+gdf = gpd.GeoDataFrame(
+    df, 
+    geometry=gpd.points_from_xy(df[<span class="text-green-400">'longitude'</span>], df[<span class="text-green-400">'latitude'</span>]),
+    crs=<span class="text-green-400">'EPSG:4326'</span>  <span class="text-gray-400"># WGS84</span>
+)</pre>
+      </div>
+
+      <!-- Reading & Writing Spatial Data -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">
+          Reading & Writing Spatial Data
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Load from spatial table</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> neighborhoods;
+
+<span class="text-gray-400">-- Create point from coords</span>
+<span class="text-blue-400">SELECT</span> 
+    name,
+    <span class="text-purple-400">ST_SetSRID</span>(
+        <span class="text-purple-400">ST_MakePoint</span>(lon, lat), 
+        4326
+    ) <span class="text-blue-400">AS</span> geom
+<span class="text-blue-400">FROM</span> locations;</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Read various formats</span>
+gdf = gpd.read_file(<span class="text-green-400">'data.geojson'</span>)
+gdf = gpd.read_file(<span class="text-green-400">'data.shp'</span>)
+gdf = gpd.read_file(<span class="text-green-400">'data.gpkg'</span>)
+
+<span class="text-gray-400"># Create geometry from coordinates</span>
+gdf = gpd.GeoDataFrame(
+    df,
+    geometry=gpd.points_from_xy(
+        df[<span class="text-green-400">'lon'</span>], df[<span class="text-green-400">'lat'</span>]
+    ),
+    crs=<span class="text-green-400">'EPSG:4326'</span>
+)
+
+<span class="text-gray-400"># Write to file</span>
+gdf.to_file(<span class="text-green-400">'output.geojson'</span>, driver=<span class="text-green-400">'GeoJSON'</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spatial Predicates -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">
+          Spatial Predicates (Filtering)
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Points within polygon</span>
+<span class="text-blue-400">SELECT</span> p.* 
+<span class="text-blue-400">FROM</span> points p, neighborhoods n
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Within</span>(p.geom, n.geom)
+  <span class="text-blue-400">AND</span> n.name = <span class="text-green-400">'Downtown'</span>;
+
+<span class="text-gray-400">-- Intersects</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> parcels
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Intersects</span>(
+    geom, 
+    <span class="text-purple-400">ST_Buffer</span>(
+        <span class="text-purple-400">ST_MakePoint</span>(-87.6, 41.8), 
+        0.01
+    )
+);
+
+<span class="text-gray-400">-- Contains</span>
+<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> neighborhoods
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Contains</span>(
+    geom, 
+    <span class="text-purple-400">ST_MakePoint</span>(-87.6, 41.8)
+);</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Points within polygon</span>
+downtown = neighborhoods[
+    neighborhoods[<span class="text-green-400">'name'</span>] == <span class="text-green-400">'Downtown'</span>
+].geometry.iloc[<span class="text-yellow-400">0</span>]
+points[points.within(downtown)]
+
+<span class="text-gray-400"># Intersects (with buffer)</span>
+center = Point(-87.6, 41.8)
+buffer = center.buffer(0.01)
+parcels[parcels.intersects(buffer)]
+
+<span class="text-gray-400"># Contains</span>
+point = Point(-87.6, 41.8)
+neighborhoods[neighborhoods.contains(point)]
+
+<span class="text-gray-400"># Other predicates</span>
+gdf[gdf.touches(other_geom)]
+gdf[gdf.crosses(line_geom)]
+gdf[gdf.overlaps(polygon)]
+gdf[gdf.disjoint(other_geom)]  <span class="text-gray-400"># NOT intersects</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spatial Joins -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">Spatial Joins</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Point in polygon join</span>
+<span class="text-blue-400">SELECT</span> 
+    p.name <span class="text-blue-400">AS</span> point_name,
+    n.name <span class="text-blue-400">AS</span> neighborhood
+<span class="text-blue-400">FROM</span> points p
+<span class="text-blue-400">JOIN</span> neighborhoods n
+  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Within</span>(p.geom, n.geom);
+
+<span class="text-gray-400">-- Nearest neighbor join</span>
+<span class="text-blue-400">SELECT DISTINCT ON</span> (p.id)
+    p.name,
+    s.name <span class="text-blue-400">AS</span> nearest_station
+<span class="text-blue-400">FROM</span> points p
+<span class="text-blue-400">CROSS JOIN LATERAL</span> (
+    <span class="text-blue-400">SELECT</span> name 
+    <span class="text-blue-400">FROM</span> stations
+    <span class="text-blue-400">ORDER BY</span> geom <-> p.geom
+    <span class="text-blue-400">LIMIT</span> 1
+) s;</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Point in polygon join</span>
+joined = gpd.sjoin(
+    points, 
+    neighborhoods,
+    how=<span class="text-green-400">'inner'</span>,
+    predicate=<span class="text-green-400">'within'</span>
+)
+
+<span class="text-gray-400"># Other predicates: 'intersects', 'contains'</span>
+joined = gpd.sjoin(
+    parcels, 
+    flood_zones,
+    predicate=<span class="text-green-400">'intersects'</span>
+)
+
+<span class="text-gray-400"># Nearest neighbor join</span>
+joined = gpd.sjoin_nearest(
+    points,
+    stations,
+    how=<span class="text-green-400">'left'</span>,
+    distance_col=<span class="text-green-400">'dist_to_station'</span>
+)
+
+<span class="text-gray-400"># Left join (keep all left geometries)</span>
+joined = gpd.sjoin(
+    points, neighborhoods,
+    how=<span class="text-green-400">'left'</span>,
+    predicate=<span class="text-green-400">'within'</span>
+)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Geometric Operations -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">Geometric Operations</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Buffer</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Buffer</span>(geom, 100) 
+<span class="text-blue-400">FROM</span> points;
+
+<span class="text-gray-400">-- Centroid</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Centroid</span>(geom) 
+<span class="text-blue-400">FROM</span> neighborhoods;
+
+<span class="text-gray-400">-- Area & Length</span>
+<span class="text-blue-400">SELECT</span> 
+    name,
+    <span class="text-purple-400">ST_Area</span>(geom) <span class="text-blue-400">AS</span> area,
+    <span class="text-purple-400">ST_Perimeter</span>(geom) <span class="text-blue-400">AS</span> perimeter
+<span class="text-blue-400">FROM</span> neighborhoods;
+
+<span class="text-gray-400">-- Distance between geometries</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Distance</span>(
+    a.geom, b.geom
+) <span class="text-blue-400">AS</span> distance
+<span class="text-blue-400">FROM</span> point_a a, point_b b;
+
+<span class="text-gray-400">-- Union / Dissolve</span>
+<span class="text-blue-400">SELECT</span> 
+    region,
+    <span class="text-purple-400">ST_Union</span>(geom) <span class="text-blue-400">AS</span> geom
+<span class="text-blue-400">FROM</span> neighborhoods
+<span class="text-blue-400">GROUP BY</span> region;</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Buffer</span>
+gdf[<span class="text-green-400">'buffered'</span>] = gdf.geometry.buffer(100)
+
+<span class="text-gray-400"># Centroid</span>
+gdf[<span class="text-green-400">'centroid'</span>] = gdf.geometry.centroid
+
+<span class="text-gray-400"># Area & Length (use projected CRS!)</span>
+gdf_projected = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)
+gdf[<span class="text-green-400">'area_m2'</span>] = gdf_projected.geometry.area
+gdf[<span class="text-green-400">'perimeter_m'</span>] = gdf_projected.geometry.length
+
+<span class="text-gray-400"># Distance (between each row and a point)</span>
+target = Point(-87.6, 41.8)
+gdf[<span class="text-green-400">'distance'</span>] = gdf.geometry.distance(target)
+
+<span class="text-gray-400"># Union / Dissolve (like GROUP BY)</span>
+dissolved = gdf.dissolve(by=<span class="text-green-400">'region'</span>)
+
+<span class="text-gray-400"># Dissolve with aggregation</span>
+dissolved = gdf.dissolve(
+    by=<span class="text-green-400">'region'</span>,
+    aggfunc={<span class="text-green-400">'population'</span>: <span class="text-green-400">'sum'</span>}
+)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Set Operations -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">
+          Set Operations (Overlay)
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Intersection</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Intersection</span>(
+    a.geom, b.geom
+)
+<span class="text-blue-400">FROM</span> layer_a a, layer_b b
+<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Intersects</span>(a.geom, b.geom);
+
+<span class="text-gray-400">-- Difference (A minus B)</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Difference</span>(
+    a.geom, b.geom
+)
+<span class="text-blue-400">FROM</span> layer_a a, layer_b b;
+
+<span class="text-gray-400">-- Union of two layers</span>
+<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Union</span>(a.geom, b.geom)
+<span class="text-blue-400">FROM</span> layer_a a, layer_b b;</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Intersection</span>
+intersection = gpd.overlay(
+    gdf1, gdf2, 
+    how=<span class="text-green-400">'intersection'</span>
+)
+
+<span class="text-gray-400"># Difference (A minus B)</span>
+difference = gpd.overlay(
+    gdf1, gdf2, 
+    how=<span class="text-green-400">'difference'</span>
+)
+
+<span class="text-gray-400"># Union of two layers</span>
+union = gpd.overlay(
+    gdf1, gdf2, 
+    how=<span class="text-green-400">'union'</span>
+)
+
+<span class="text-gray-400"># Symmetric difference (XOR)</span>
+sym_diff = gpd.overlay(
+    gdf1, gdf2,
+    how=<span class="text-green-400">'symmetric_difference'</span>
+)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRS & Projections -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">CRS & Projections</h3>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm">
+          <pre><span class="text-gray-400"># Check current CRS</span>
+gdf.crs                              <span class="text-gray-400"># EPSG:4326</span>
+
+<span class="text-gray-400"># Set CRS (if missing)</span>
+gdf = gdf.set_crs(<span class="text-green-400">'EPSG:4326'</span>)
+
+<span class="text-gray-400"># Reproject to different CRS</span>
+gdf_meters = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)  <span class="text-gray-400"># Web Mercator (meters)</span>
+gdf_utm = gdf.to_crs(<span class="text-green-400">'EPSG:32616'</span>)    <span class="text-gray-400"># UTM Zone 16N (for Chicago)</span>
+
+<span class="text-gray-400"># Common CRS codes:</span>
+<span class="text-gray-400"># EPSG:4326  - WGS84 (lat/lon, degrees) - GPS coordinates</span>
+<span class="text-gray-400"># EPSG:3857  - Web Mercator (meters) - Google Maps, etc.</span>
+<span class="text-gray-400"># EPSG:2154  - Lambert 93 (France)</span>
+<span class="text-gray-400"># EPSG:32616 - UTM Zone 16N (meters) - Great Lakes region</span>
+
+<span class="text-gray-400"># ⚠️ IMPORTANT: Always project to meters before calculating area/distance!</span>
+gdf_projected = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)
+gdf[<span class="text-green-400">'area_m2'</span>] = gdf_projected.geometry.area</pre>
+        </div>
+      </div>
+
+      <!-- Geometry Accessor -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">.geometry Accessor</h3>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm">
+          <pre><span class="text-gray-400"># Access geometry properties (like .str and .dt accessors)</span>
+gdf.geometry.area                    <span class="text-gray-400"># area of each geometry</span>
+gdf.geometry.length                  <span class="text-gray-400"># perimeter/length</span>
+gdf.geometry.centroid                <span class="text-gray-400"># centroid point</span>
+gdf.geometry.bounds                  <span class="text-gray-400"># bounding box (minx, miny, maxx, maxy)</span>
+gdf.geometry.total_bounds            <span class="text-gray-400"># bounds of entire GeoDataFrame</span>
+
+<span class="text-gray-400"># Geometry type checks</span>
+gdf.geometry.geom_type               <span class="text-gray-400"># 'Point', 'Polygon', etc.</span>
+gdf.geometry.is_valid                <span class="text-gray-400"># True/False for each geometry</span>
+gdf.geometry.is_empty                <span class="text-gray-400"># True if empty geometry</span>
+
+<span class="text-gray-400"># Extract coordinates</span>
+gdf.geometry.x                       <span class="text-gray-400"># x coordinate (points only)</span>
+gdf.geometry.y                       <span class="text-gray-400"># y coordinate (points only)</span>
+
+<span class="text-gray-400"># Simplify (reduce vertices)</span>
+gdf.geometry.simplify(tolerance=0.001)
+
+<span class="text-gray-400"># Convex hull</span>
+gdf.geometry.convex_hull
+
+<span class="text-gray-400"># Envelope (bounding box as polygon)</span>
+gdf.geometry.envelope</pre>
+        </div>
+      </div>
+
+      <!-- Aggregations with Geometry -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">Spatial Aggregations</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              SQL (PostGIS)
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400">-- Count points in each polygon</span>
+<span class="text-blue-400">SELECT</span> 
+    n.name,
+    <span class="text-purple-400">COUNT</span>(p.id) <span class="text-blue-400">AS</span> point_count
+<span class="text-blue-400">FROM</span> neighborhoods n
+<span class="text-blue-400">LEFT JOIN</span> points p
+  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Contains</span>(n.geom, p.geom)
+<span class="text-blue-400">GROUP BY</span> n.name;
+
+<span class="text-gray-400">-- Sum values within polygons</span>
+<span class="text-blue-400">SELECT</span>
+    n.name,
+    <span class="text-purple-400">SUM</span>(p.value) <span class="text-blue-400">AS</span> total_value
+<span class="text-blue-400">FROM</span> neighborhoods n
+<span class="text-blue-400">JOIN</span> points p
+  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Contains</span>(n.geom, p.geom)
+<span class="text-blue-400">GROUP BY</span> n.name;</pre>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-gray-500 mb-1">
+              GeoPandas
+            </div>
+            <pre
+              class="bg-gray-800 text-white p-3 rounded text-sm"
+            ><span class="text-gray-400"># Count points in each polygon</span>
+joined = gpd.sjoin(
+    points, neighborhoods,
+    how=<span class="text-green-400">'right'</span>,
+    predicate=<span class="text-green-400">'within'</span>
+)
+counts = joined.groupby(<span class="text-green-400">'name'</span>).size()
+
+<span class="text-gray-400"># Sum values within polygons</span>
+joined = gpd.sjoin(
+    points, neighborhoods,
+    predicate=<span class="text-green-400">'within'</span>
+)
+totals = joined.groupby(<span class="text-green-400">'name'</span>)[<span class="text-green-400">'value'</span>].sum()
+
+<span class="text-gray-400"># Merge back to keep geometry</span>
+neighborhoods = neighborhoods.merge(
+    totals.reset_index(),
+    on=<span class="text-green-400">'name'</span>,
+    how=<span class="text-green-400">'left'</span>
+)</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Plotting -->
+      <div class="mb-4">
+        <h3 class="font-semibold text-green-700 mb-2">Quick Visualization</h3>
+        <div class="bg-gray-800 text-white p-3 rounded text-sm">
+          <pre><span class="text-gray-400"># Basic plot</span>
+gdf.plot()
+
+<span class="text-gray-400"># Choropleth (colored by column)</span>
+gdf.plot(column=<span class="text-green-400">'population'</span>, cmap=<span class="text-green-400">'viridis'</span>, legend=<span class="text-blue-400">True</span>)
+
+<span class="text-gray-400"># Layer multiple GeoDataFrames</span>
+<span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
+fig, ax = plt.subplots(figsize=(10, 10))
+neighborhoods.plot(ax=ax, color=<span class="text-green-400">'lightgray'</span>, edgecolor=<span class="text-green-400">'black'</span>)
+points.plot(ax=ax, color=<span class="text-green-400">'red'</span>, markersize=5)
+plt.show()
+
+<span class="text-gray-400"># Interactive map (requires folium)</span>
+gdf.explore(column=<span class="text-green-400">'population'</span>, cmap=<span class="text-green-400">'viridis'</span>)</pre>
+        </div>
+      </div>
+
+      <!-- Reference Table -->
+      <div class="mt-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          GeoPandas Quick Reference
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs border border-gray-300">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 py-1 text-left">PostGIS</th>
+                <th class="border px-2 py-1 text-left">GeoPandas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Within(a, b)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf[gdf.within(geom)]
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Contains(a, b)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf[gdf.contains(geom)]
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Intersects(a, b)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf[gdf.intersects(geom)]
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">
+                  ST_Buffer(geom, dist)
+                </td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf.geometry.buffer(dist)
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Centroid(geom)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf.geometry.centroid
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Area(geom)</td>
+                <td class="border px-2 py-1 font-mono">gdf.geometry.area</td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Distance(a, b)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf.geometry.distance(geom)
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">ST_Union (GROUP BY)</td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf.dissolve(by='col')
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">
+                  ST_Intersection(a, b)
+                </td>
+                <td class="border px-2 py-1 font-mono">
+                  gpd.overlay(how='intersection')
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">Spatial JOIN</td>
+                <td class="border px-2 py-1 font-mono">
+                  gpd.sjoin(gdf1, gdf2)
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-1 font-mono">
+                  ST_Transform(geom, srid)
+                </td>
+                <td class="border px-2 py-1 font-mono">
+                  gdf.to_crs('EPSG:xxxx')
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+        <strong>💡 Intuition:</strong> GeoPandas = Pandas + Shapely. The
+        <code>geometry</code> column holds Shapely objects, so you can use any
+        Shapely method. Always check your CRS before spatial operations, and
+        project to meters (like EPSG:3857) before calculating distances or
+        areas.
+      </div>
+    </div>
 
     <!-- Quick Reference Table -->
     <div class="mt-4">
