@@ -1,231 +1,1351 @@
+```html
 <div class="space-y-6">
   <div class="border-b pb-4">
-    <h1 class="text-3xl font-bold text-gray-800">The Complete Paradigm: Geospatial Data Science</h1>
-    <p class="text-gray-600 mt-2 text-lg">Understanding the "WHERE" in data science.</p>
+    <h1 class="text-3xl font-bold text-gray-800">
+      The Complete Paradigm: Geospatial Data Science
+    </h1>
+    <p class="text-gray-600 mt-2 text-lg">
+      Understanding the "WHERE" in data science with Pandas, GeoPandas, and
+      Maps.
+    </p>
   </div>
 
   <!-- Part 1: The Mental Model -->
   <div class="border-l-4 border-indigo-500 pl-4">
-    <h2 class="font-bold text-xl text-indigo-700">1. The Mental Model</h2>
-    <p class="mt-2 text-gray-700">Regular data science deals with attributes. Geospatial data adds <strong>location</strong>.</p>
-    
-    <div class="bg-gray-100 p-4 rounded-lg mt-3 font-mono text-sm border border-gray-200">
+    <h2 class="font-bold text-xl text-indigo-700">
+      1. The Mental Model — What Makes Geospatial Data Special?
+    </h2>
+    <p class="mt-2 text-gray-700">
+      Regular data science deals with <strong>attributes</strong> — numbers,
+      categories, text. Geospatial data adds one critical dimension:
+      <strong>location</strong>.
+    </p>
+
+    <div
+      class="bg-gray-100 p-4 rounded-lg mt-3 font-mono text-sm border border-gray-200"
+    >
       <div class="text-gray-500"># Regular Data</div>
       <div>[Name, Age, Income, Category]</div>
       <div class="text-gray-500 mt-2"># Geospatial Data</div>
-      <div class="font-semibold text-indigo-600">[Name, Age, Income, Category, WHERE]</div>
+      <div class="font-semibold text-indigo-600">
+        [Name, Age, Income, Category, WHERE]
+      </div>
     </div>
+
+    <p class="mt-3 text-gray-700">That "WHERE" unlocks new questions:</p>
+    <ul class="list-disc list-inside text-gray-600 text-sm mt-2 space-y-1">
+      <li>What's <strong>near</strong> this point?</li>
+      <li>What <strong>contains</strong> this location?</li>
+      <li>How far is A from B?</li>
+      <li>What spatial patterns exist across a region?</li>
+    </ul>
 
     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-indigo-50 p-3 rounded-lg">
         <h3 class="font-bold text-indigo-800 mb-1">Geometry</h3>
-        <p class="text-sm text-indigo-700">The shape (math). Points, lines, polygons in abstract space.</p>
+        <p class="text-sm text-indigo-700">
+          The shape (the math). Points, lines, polygons in abstract coordinate
+          space. "A triangle with vertices at (0,0), (1,0), (0,1)"
+        </p>
       </div>
       <div class="bg-green-50 p-3 rounded-lg">
         <h3 class="font-bold text-green-800 mb-1">Geography</h3>
-        <p class="text-sm text-green-700">The shape on Earth. Requires understanding Earth is a 3D ellipsoid.</p>
+        <p class="text-sm text-green-700">
+          The shape on Earth (the real world). Requires understanding that Earth
+          is a 3D ellipsoid projected onto 2D maps. "A neighborhood boundary in
+          Chicago"
+        </p>
       </div>
     </div>
   </div>
 
   <!-- Part 2: Geometry Types -->
   <div class="border-l-4 border-blue-500 pl-4">
-    <h2 class="font-bold text-xl text-blue-700">2. Geometry Types</h2>
-    
-    <div class="grid grid-cols-3 gap-3 mt-3">
-      <div class="bg-white border border-gray-200 p-3 rounded-lg text-center shadow-sm">
-        <div class="text-2xl mb-1">📍</div>
-        <div class="font-bold text-gray-800">Point</div>
-        <div class="text-xs text-gray-500">(x, y)</div>
-        <div class="text-xs text-blue-600 mt-1">Single location</div>
+    <h2 class="font-bold text-xl text-blue-700">
+      2. Geometry Types — The Building Blocks
+    </h2>
+    <p class="text-gray-600 mt-2">
+      Everything in geospatial data comes down to three primitive types:
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+      <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+        <div class="text-3xl mb-2">📍</div>
+        <div class="font-bold text-gray-800 text-lg">Point</div>
+        <div class="text-xs text-gray-500 font-mono mt-1">
+          (longitude, latitude)
+        </div>
+        <div class="text-xs text-gray-500 font-mono">(-87.6298, 41.8781)</div>
+        <div class="text-sm text-blue-600 mt-2">
+          Single location. Zero dimensions.
+        </div>
+        <div class="text-xs text-gray-500 mt-2">
+          <strong>Use cases:</strong> Store locations, crime incidents, sensors,
+          addresses
+        </div>
       </div>
-      <div class="bg-white border border-gray-200 p-3 rounded-lg text-center shadow-sm">
-        <div class="text-2xl mb-1">〰️</div>
-        <div class="font-bold text-gray-800">LineString</div>
-        <div class="text-xs text-gray-500">[(x1,y1), (x2,y2)...]</div>
-        <div class="text-xs text-blue-600 mt-1">Roads, paths</div>
+      <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+        <div class="text-3xl mb-2">〰️</div>
+        <div class="font-bold text-gray-800 text-lg">LineString</div>
+        <div class="text-xs text-gray-500 font-mono mt-1">
+          [(x1,y1), (x2,y2), ...]
+        </div>
+        <div class="text-sm text-blue-600 mt-2">
+          Sequence of connected points. One dimension.
+        </div>
+        <div class="text-xs text-gray-500 mt-2">
+          <strong>Use cases:</strong> Roads, rivers, transit routes, paths
+        </div>
       </div>
-      <div class="bg-white border border-gray-200 p-3 rounded-lg text-center shadow-sm">
-        <div class="text-2xl mb-1">🛑</div>
-        <div class="font-bold text-gray-800">Polygon</div>
-        <div class="text-xs text-gray-500">[(x1,y1)...(x1,y1)]</div>
-        <div class="text-xs text-blue-600 mt-1">Areas, regions</div>
+      <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+        <div class="text-3xl mb-2">🔷</div>
+        <div class="font-bold text-gray-800 text-lg">Polygon</div>
+        <div class="text-xs text-gray-500 font-mono mt-1">
+          [(x1,y1)...(x1,y1)]
+        </div>
+        <div class="text-sm text-blue-600 mt-2">
+          Closed shape with interior. Two dimensions.
+        </div>
+        <div class="text-xs text-gray-500 mt-2">
+          <strong>Use cases:</strong> Neighborhoods, countries, parcels, lakes
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 bg-gray-50 p-3 rounded-lg">
+      <h3 class="font-semibold text-gray-700 mb-2">Multi-Geometries</h3>
+      <div class="grid grid-cols-3 gap-2 text-sm">
+        <div class="bg-white p-2 rounded border">
+          <span class="font-mono text-blue-600">MultiPoint</span>
+          <div class="text-xs text-gray-500">Chain of stores</div>
+        </div>
+        <div class="bg-white p-2 rounded border">
+          <span class="font-mono text-blue-600">MultiLineString</span>
+          <div class="text-xs text-gray-500">Highway with gaps</div>
+        </div>
+        <div class="bg-white p-2 rounded border">
+          <span class="font-mono text-blue-600">MultiPolygon</span>
+          <div class="text-xs text-gray-500">Hawaii, exclaves</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Part 3: CRS -->
   <div class="border-l-4 border-red-500 pl-4">
-    <h2 class="font-bold text-xl text-red-700">3. Coordinate Reference Systems (CRS)</h2>
-    <p class="text-sm text-gray-600 mt-2 mb-3">Earth is round, maps are flat. Every projection is a compromise.</p>
+    <h2 class="font-bold text-xl text-red-700">
+      3. Coordinate Reference Systems (CRS) — The Most Confusing Part
+    </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white border border-red-100 rounded-lg p-3">
-        <h3 class="font-semibold text-red-700">Geographic (Unprojected)</h3>
-        <code class="block bg-gray-100 p-1 rounded mt-1 text-xs">EPSG:4326 (WGS84)</code>
-        <ul class="text-sm text-gray-600 mt-2 list-disc list-inside">
-          <li><strong>Units:</strong> Degrees (lat/lon)</li>
-          <li><strong>Good for:</strong> Storage, Web Maps</li>
-          <li><strong>Bad for:</strong> Measuring distance/area</li>
+    <div class="bg-red-50 p-3 rounded-lg mt-3">
+      <p class="text-red-800 font-medium">The Problem</p>
+      <p class="text-sm text-red-700 mt-1">
+        Earth is a 3D ellipsoid. Maps are 2D flat surfaces. You can't perfectly
+        flatten a sphere without distortion. Every map projection is a
+        <strong>compromise</strong>.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div class="bg-white border border-red-200 rounded-lg p-4">
+        <h3 class="font-semibold text-red-700 text-lg">
+          Geographic CRS (Unprojected)
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Uses latitude and longitude — angular measurements on the 3D Earth.
+        </p>
+        <code class="block bg-gray-100 p-2 rounded mt-2 text-xs"
+          >EPSG:4326 (WGS84) — The GPS standard</code
+        >
+        <code class="block bg-gray-100 p-2 rounded mt-1 text-xs"
+          >Coordinates: (-87.6298, 41.8781)</code
+        >
+        <ul class="text-sm text-gray-600 mt-3 space-y-1">
+          <li>
+            ✅ <strong>Good for:</strong> Storage, global datasets, GPS, web
+            maps
+          </li>
+          <li>
+            ❌ <strong>Bad for:</strong> Measuring distance/area (1° ≠ same
+            distance everywhere)
+          </li>
         </ul>
       </div>
-      <div class="bg-white border border-red-100 rounded-lg p-3">
-        <h3 class="font-semibold text-red-700">Projected</h3>
-        <code class="block bg-gray-100 p-1 rounded mt-1 text-xs">EPSG:3857, UTM, State Plane</code>
-        <ul class="text-sm text-gray-600 mt-2 list-disc list-inside">
-          <li><strong>Units:</strong> Meters/Feet</li>
-          <li><strong>Good for:</strong> Analysis, Distance, Area</li>
-          <li><strong>Bad for:</strong> Global storage</li>
+      <div class="bg-white border border-red-200 rounded-lg p-4">
+        <h3 class="font-semibold text-red-700 text-lg">Projected CRS</h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Flattens Earth onto 2D plane. Coordinates are in
+          <strong>meters or feet</strong>.
+        </p>
+        <code class="block bg-gray-100 p-2 rounded mt-2 text-xs"
+          >EPSG:3857 (Web Mercator) — Google Maps</code
+        >
+        <code class="block bg-gray-100 p-2 rounded mt-1 text-xs"
+          >EPSG:32616 (UTM Zone 16N) — Chicago area</code
+        >
+        <ul class="text-sm text-gray-600 mt-3 space-y-1">
+          <li>
+            ✅ <strong>Good for:</strong> Measuring distances, areas, spatial
+            analysis
+          </li>
+          <li>
+            ❌ <strong>Bad for:</strong> Global datasets (optimized for regions)
+          </li>
         </ul>
       </div>
     </div>
 
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-4 text-sm">
-      <strong>⚠️ The Golden Rule:</strong> Always match CRS before spatial operations.
-      <pre class="bg-white p-2 rounded mt-2 border border-yellow-200 text-xs overflow-x-auto"><span class="text-blue-500">if</span> gdf1.crs != gdf2.crs:
-    gdf1 = gdf1.to_crs(gdf2.crs)</pre>
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+      <strong class="text-yellow-800">⚠️ The Golden Rules:</strong>
+      <div
+        class="bg-gray-800 text-white p-3 rounded mt-2 text-sm overflow-x-auto"
+      >
+        <pre><span class="text-gray-500"># ALWAYS check your CRS</span>
+<span class="text-blue-300">print</span>(gdf.crs)
+
+<span class="text-gray-500"># ALWAYS ensure matching CRS before spatial operations</span>
+gdf1 = gdf1.to_crs(gdf2.crs)
+
+<span class="text-gray-500"># Use EPSG:4326 for storage/display</span>
+<span class="text-gray-500"># Use a projected CRS (meters) for analysis</span></pre>
+      </div>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">When to Use What</h3>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="text-left p-2 border-b">Task</th>
+            <th class="text-left p-2 border-b">Use This</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border-b">Storing data</td>
+            <td class="p-2 border-b font-mono text-xs">EPSG:4326</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">Web maps (Folium, Leaflet)</td>
+            <td class="p-2 border-b font-mono text-xs">EPSG:4326</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">Calculating distances</td>
+            <td class="p-2 border-b font-mono text-xs">Projected (UTM)</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">Calculating areas</td>
+            <td class="p-2 border-b font-mono text-xs">Projected</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">Buffers in meters</td>
+            <td class="p-2 border-b font-mono text-xs">Projected</td>
+          </tr>
+          <tr>
+            <td class="p-2">Joins, intersections</td>
+            <td class="p-2 font-mono text-xs">Either (must match!)</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <!-- Part 4: Pandas to GeoPandas -->
   <div class="border-l-4 border-green-500 pl-4">
-    <h2 class="font-bold text-xl text-green-700">4. Pandas to GeoPandas</h2>
-    <div class="bg-gray-800 text-white p-4 rounded-lg mt-3 text-sm overflow-x-auto">
-<pre><span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
+    <h2 class="font-bold text-xl text-green-700">
+      4. From Pandas to GeoPandas
+    </h2>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Pandas: The Foundation</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+df = pd.DataFrame({
+    <span class="text-green-300">'name'</span>: [<span class="text-green-300">'Lincoln Park'</span>, <span class="text-green-300">'Loop'</span>, <span class="text-green-300">'Hyde Park'</span>],
+    <span class="text-green-300">'population'</span>: [<span class="text-yellow-400">65000</span>, <span class="text-yellow-400">30000</span>, <span class="text-yellow-400">25000</span>],
+    <span class="text-green-300">'lat'</span>: [<span class="text-yellow-400">41.92</span>, <span class="text-yellow-400">41.88</span>, <span class="text-yellow-400">41.79</span>],
+    <span class="text-green-300">'lon'</span>: [<span class="text-yellow-400">-87.65</span>, <span class="text-yellow-400">-87.63</span>, <span class="text-yellow-400">-87.59</span>]
+})
+
+<span class="text-gray-500"># Just regular data — pandas doesn't know lat/lon are locations</span></pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">
+        GeoPandas: Pandas + Spatial Awareness
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
 <span class="text-purple-400">from</span> shapely.geometry <span class="text-purple-400">import</span> Point
 
-<span class="text-gray-500"># 1. Start with DataFrame with lat/lon</span>
-df = pd.read_csv(<span class="text-green-300">"data.csv"</span>)
+<span class="text-gray-500"># Convert to GeoDataFrame</span>
+geometry = [Point(lon, lat) <span class="text-purple-400">for</span> lon, lat <span class="text-purple-400">in</span> <span class="text-blue-300">zip</span>(df[<span class="text-green-300">'lon'</span>], df[<span class="text-green-300">'lat'</span>])]
+gdf = gpd.GeoDataFrame(df, geometry=geometry, crs=<span class="text-green-300">"EPSG:4326"</span>)
 
-<span class="text-gray-500"># 2. Convert to GeoDataFrame</span>
+<span class="text-gray-500"># Or more simply:</span>
 gdf = gpd.GeoDataFrame(
     df,
     geometry=gpd.points_from_xy(df.lon, df.lat),
     crs=<span class="text-green-300">"EPSG:4326"</span>
+)</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-green-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-green-800 mb-2">
+        What You Get: GeoDataFrame
+      </h3>
+      <p class="text-sm text-green-700">A pandas DataFrame with:</p>
+      <ul class="list-disc list-inside text-sm text-green-700 mt-2 space-y-1">
+        <li>
+          A special <code class="bg-white px-1 rounded">geometry</code> column
+          containing Shapely geometry objects
+        </li>
+        <li>
+          A <code class="bg-white px-1 rounded">crs</code> attribute defining
+          the coordinate system
+        </li>
+        <li>Access to all spatial methods</li>
+      </ul>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">
+        Shapely: The Geometry Engine
+      </h3>
+      <p class="text-sm text-gray-600 mb-2">
+        GeoPandas uses Shapely under the hood:
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">from</span> shapely.geometry <span class="text-purple-400">import</span> Point, Polygon, LineString
+
+<span class="text-gray-500"># Create geometries</span>
+point = Point(<span class="text-yellow-400">-87.63</span>, <span class="text-yellow-400">41.88</span>)
+polygon = Polygon([(<span class="text-yellow-400">-87.7</span>, <span class="text-yellow-400">41.8</span>), (<span class="text-yellow-400">-87.6</span>, <span class="text-yellow-400">41.8</span>), 
+                   (<span class="text-yellow-400">-87.6</span>, <span class="text-yellow-400">41.9</span>), (<span class="text-yellow-400">-87.7</span>, <span class="text-yellow-400">41.9</span>)])
+line = LineString([(<span class="text-yellow-400">-87.7</span>, <span class="text-yellow-400">41.85</span>), (<span class="text-yellow-400">-87.6</span>, <span class="text-yellow-400">41.85</span>)])
+
+<span class="text-gray-500"># Geometry properties</span>
+point.x, point.y          <span class="text-gray-500"># Coordinates</span>
+polygon.area              <span class="text-gray-500"># Area (in CRS units!)</span>
+polygon.centroid          <span class="text-gray-500"># Center point</span>
+line.length               <span class="text-gray-500"># Length</span>
+polygon.bounds            <span class="text-gray-500"># (minx, miny, maxx, maxy)</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 5: Loading Data -->
+  <div class="border-l-4 border-cyan-500 pl-4">
+    <h2 class="font-bold text-xl text-cyan-700">5. Loading Geospatial Data</h2>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Common File Formats</h3>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="text-left p-2 border-b">Format</th>
+            <th class="text-left p-2 border-b">Extension</th>
+            <th class="text-left p-2 border-b">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border-b">Shapefile</td>
+            <td class="p-2 border-b font-mono text-xs">.shp</td>
+            <td class="p-2 border-b text-gray-500">
+              Legacy, needs .dbf, .shx, .prj files
+            </td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">GeoJSON</td>
+            <td class="p-2 border-b font-mono text-xs">.geojson</td>
+            <td class="p-2 border-b text-gray-500">
+              Web-friendly, human-readable
+            </td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">GeoPackage</td>
+            <td class="p-2 border-b font-mono text-xs">.gpkg</td>
+            <td class="p-2 border-b text-gray-500">
+              Modern, single file, recommended
+            </td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b">KML</td>
+            <td class="p-2 border-b font-mono text-xs">.kml</td>
+            <td class="p-2 border-b text-gray-500">Google Earth format</td>
+          </tr>
+          <tr>
+            <td class="p-2">CSV</td>
+            <td class="p-2 font-mono text-xs">.csv</td>
+            <td class="p-2 text-gray-500">Needs manual conversion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="mt-3 bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"
+    >
+      <pre><span class="text-gray-500"># From file</span>
+gdf = gpd.read_file(<span class="text-green-300">"neighborhoods.geojson"</span>)
+gdf = gpd.read_file(<span class="text-green-300">"boundaries.shp"</span>)
+gdf = gpd.read_file(<span class="text-green-300">"data.gpkg"</span>)
+
+<span class="text-gray-500"># From URL</span>
+url = <span class="text-green-300">"https://data.cityofchicago.org/api/geospatial/..."</span>
+gdf = gpd.read_file(url)
+
+<span class="text-gray-500"># From pandas with lat/lon</span>
+df = pd.read_csv(<span class="text-green-300">"data.csv"</span>)
+gdf = gpd.GeoDataFrame(
+    df,
+    geometry=gpd.points_from_xy(df[<span class="text-green-300">'longitude'</span>], df[<span class="text-green-300">'latitude'</span>]),
+    crs=<span class="text-green-300">"EPSG:4326"</span>
 )
 
-<span class="text-gray-500"># Now you have .geometry access!</span>
-<span class="text-blue-300">print</span>(gdf.geometry.centroid)</pre>
+<span class="text-gray-500"># From WKT (Well-Known Text) strings</span>
+<span class="text-purple-400">from</span> shapely <span class="text-purple-400">import</span> wkt
+df[<span class="text-green-300">'geometry'</span>] = df[<span class="text-green-300">'wkt_column'</span>].apply(wkt.loads)
+gdf = gpd.GeoDataFrame(df, crs=<span class="text-green-300">"EPSG:4326"</span>)</pre>
     </div>
   </div>
 
   <!-- Part 6: Spatial Relationships -->
   <div class="border-l-4 border-purple-500 pl-4">
-    <h2 class="font-bold text-xl text-purple-700">5. Spatial Relationships</h2>
-    <p class="text-sm text-gray-600 mt-1">True/False questions about geometry pairs.</p>
+    <h2 class="font-bold text-xl text-purple-700">
+      6. Spatial Relationships — The Heart of Geospatial Analysis
+    </h2>
+    <p class="text-gray-600 mt-2">
+      True/False questions about geometry pairs. This is where the power lives.
+    </p>
 
-    <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
-      <div class="bg-purple-50 p-2 rounded border border-purple-100">
-        <span class="font-mono text-purple-700">contains</span>
-        <div class="text-xs text-gray-500">A completely inside B</div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 text-sm">
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">contains()</span>
+        <div class="text-xs text-gray-600 mt-1">Does A contain B entirely?</div>
+        <code class="text-xs text-gray-500">polygon.contains(point)</code>
       </div>
-      <div class="bg-purple-50 p-2 rounded border border-purple-100">
-        <span class="font-mono text-purple-700">intersects</span>
-        <div class="text-xs text-gray-500">Any overlap at all</div>
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">within()</span>
+        <div class="text-xs text-gray-600 mt-1">Is A within B entirely?</div>
+        <code class="text-xs text-gray-500">point.within(polygon)</code>
       </div>
-      <div class="bg-purple-50 p-2 rounded border border-purple-100">
-        <span class="font-mono text-purple-700">within</span>
-        <div class="text-xs text-gray-500">Inverse of contains</div>
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">intersects()</span>
+        <div class="text-xs text-gray-600 mt-1">Any overlap at all?</div>
+        <code class="text-xs text-gray-500">poly1.intersects(poly2)</code>
       </div>
-      <div class="bg-purple-50 p-2 rounded border border-purple-100">
-        <span class="font-mono text-purple-700">touches</span>
-        <div class="text-xs text-gray-500">Boundaries touch only</div>
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">touches()</span>
+        <div class="text-xs text-gray-600 mt-1">Boundaries touch only?</div>
+        <code class="text-xs text-gray-500">poly1.touches(poly2)</code>
+      </div>
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">overlaps()</span>
+        <div class="text-xs text-gray-600 mt-1">Interiors overlap?</div>
+        <code class="text-xs text-gray-500">poly1.overlaps(poly2)</code>
+      </div>
+      <div class="bg-purple-50 p-3 rounded border border-purple-100">
+        <span class="font-mono text-purple-700 font-bold">disjoint()</span>
+        <div class="text-xs text-gray-600 mt-1">No relationship?</div>
+        <code class="text-xs text-gray-500">poly1.disjoint(poly2)</code>
       </div>
     </div>
-    
-    <div class="mt-4 bg-white border border-gray-200 rounded p-3">
-         <div class="font-semibold text-gray-700 mb-2">Visual Guide</div>
-         <div class="flex justify-around text-center text-xs">
-             <div class="border p-2 rounded">
-                 <div class="font-bold">Contains</div>
-                 <div class="mt-1">🔳 includes ▫️</div>
-             </div>
-             <div class="border p-2 rounded">
-                 <div class="font-bold">Intersects</div>
-                 <div class="mt-1">❌ overlap</div>
-             </div>
-             <div class="border p-2 rounded">
-                 <div class="font-bold">Disjoint</div>
-                 <div class="mt-1">🔳 ... 🔳</div>
-             </div>
-         </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-3">
+        Visual Guide to Spatial Relationships
+      </h3>
+      <div
+        class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-sm font-mono"
+      >
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="text-lg mb-2">
+            <span
+              class="inline-block border-2 border-blue-500 w-12 h-12 relative"
+            >
+              <span
+                class="absolute inset-3 border border-red-500 w-4 h-4"
+              ></span>
+            </span>
+          </div>
+          <div class="font-bold text-blue-600">CONTAINS</div>
+          <div class="text-xs text-gray-500">A.contains(B) ✓</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="text-lg mb-2">
+            <span
+              class="inline-block border-2 border-blue-500 w-8 h-8 relative -mr-3"
+            ></span>
+            <span
+              class="inline-block border-2 border-red-500 w-8 h-8 relative -ml-3"
+            ></span>
+          </div>
+          <div class="font-bold text-blue-600">INTERSECTS</div>
+          <div class="text-xs text-gray-500">Any overlap</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="text-lg mb-2">
+            <span class="inline-block border-2 border-blue-500 w-8 h-8"></span>
+            <span
+              class="inline-block border-2 border-red-500 w-8 h-8 -ml-0.5"
+            ></span>
+          </div>
+          <div class="font-bold text-blue-600">TOUCHES</div>
+          <div class="text-xs text-gray-500">Boundaries only</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="text-lg mb-2">
+            <span
+              class="inline-block border-2 border-blue-500 w-8 h-8 mr-2"
+            ></span>
+            <span class="inline-block border-2 border-red-500 w-8 h-8"></span>
+          </div>
+          <div class="font-bold text-blue-600">DISJOINT</div>
+          <div class="text-xs text-gray-500">No relationship</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Distance</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Distance between geometries (in CRS units!)</span>
+point1.distance(point2)  <span class="text-gray-500"># Returns float</span>
+
+<span class="text-gray-500"># In a GeoDataFrame</span>
+gdf[<span class="text-green-300">'distance_to_downtown'</span>] = gdf.geometry.distance(downtown_point)
+
+<span class="text-gray-500"># ⚠️ WARNING: If CRS is EPSG:4326, distance is in DEGREES!</span>
+<span class="text-gray-500"># Always project first for meaningful distances:</span>
+gdf_projected = gdf.to_crs(<span class="text-green-300">"EPSG:32616"</span>)  <span class="text-gray-500"># UTM zone</span>
+gdf_projected[<span class="text-green-300">'distance_m'</span>] = gdf_projected.geometry.distance(downtown_proj)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 7: Spatial Operations -->
+  <div class="border-l-4 border-pink-500 pl-4">
+    <h2 class="font-bold text-xl text-pink-700">
+      7. Spatial Operations — Transforming Geometries
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">Buffer</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Create a polygon around a geometry at a specified distance.
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre><span class="text-gray-500"># 1km radius around each school</span>
+gdf_proj = gdf.to_crs(<span class="text-green-300">"EPSG:32616"</span>)
+gdf_proj[<span class="text-green-300">'buffer'</span>] = gdf_proj.buffer(<span class="text-yellow-400">1000</span>)</pre>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">Centroid</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Get the center point of a polygon.
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre>gdf[<span class="text-green-300">'centroid'</span>] = gdf.geometry.centroid</pre>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">Convex Hull</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Smallest convex polygon containing all points (rubber band around
+          pins).
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre><span class="text-purple-400">from</span> shapely.ops <span class="text-purple-400">import</span> unary_union
+all_pts = unary_union(gdf.geometry)
+hull = all_pts.convex_hull</pre>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">Simplify</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Reduce complexity (fewer vertices).
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre><span class="text-gray-500"># 100 meter tolerance</span>
+gdf[<span class="text-green-300">'simple'</span>] = gdf.simplify(<span class="text-yellow-400">100</span>)</pre>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">
+          Bounding Box / Envelope
+        </h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Rectangle that fully contains the geometry.
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre>gdf[<span class="text-green-300">'bbox'</span>] = gdf.geometry.envelope
+minx, miny, maxx, maxy = gdf.total_bounds</pre>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-pink-700 mb-2">Clip</h3>
+        <p class="text-sm text-gray-600 mb-2">Cut geometries to a boundary.</p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre>clipped = gpd.clip(gdf, boundary_polygon)</pre>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Part 8: Spatial Joins -->
   <div class="border-l-4 border-orange-500 pl-4">
-    <h2 class="font-bold text-xl text-orange-700">6. Spatial Joins (sjoin)</h2>
-    <p class="text-gray-700 mt-1">Joining data based on location, not keys.</p>
-    
-    <div class="bg-gray-800 text-white p-4 rounded-lg mt-3 text-sm overflow-x-auto">
-<pre><span class="text-gray-500"># "Which neighborhood is this crime in?"</span>
+    <h2 class="font-bold text-xl text-orange-700">
+      8. Spatial Joins — The Killer Feature
+    </h2>
+    <p class="text-gray-600 mt-2">
+      This is the most powerful operation. Combines data based on
+      <strong>spatial relationships</strong> instead of matching column values.
+    </p>
 
-<span class="text-gray-500"># Left: Points (Crimes)</span>
-<span class="text-gray-500"># Right: Polygons (Neighborhoods)</span>
-joined = gpd.sjoin(
-    crimes,
-    neighborhoods,
-    how=<span class="text-green-300">"left"</span>,
-    predicate=<span class="text-green-300">"within"</span>
-)
-
-<span class="text-gray-500"># Result: Crimes DataFrame with neighborhood columns attached</span></pre>
-    </div>
-    
-    <div class="mt-3 bg-orange-50 p-3 rounded text-sm text-orange-800">
-      <strong>Common Predicates:</strong> <code>intersects</code> (default), <code>within</code>, <code>contains</code>.
-    </div>
-  </div>
-
-  <!-- Part 11: Viz -->
-  <div class="border-l-4 border-teal-500 pl-4">
-    <h2 class="font-bold text-xl text-teal-700">7. Visualization</h2>
-    
-    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
-      <div class="font-semibold text-teal-700 mb-2">Static (Matplotlib)</div>
-      <div class="bg-gray-800 text-white p-3 rounded text-sm">
-<pre>gdf.plot(
-    column=<span class="text-green-300">'population'</span>,
-    cmap=<span class="text-green-300">'viridis'</span>,
-    legend=<span class="text-purple-400">True</span>
-)</pre>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+      <div class="bg-orange-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-orange-800 mb-2">Regular Join</h3>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs">
+          <pre><span class="text-gray-500"># Match where keys equal</span>
+pd.merge(df1, df2, on=<span class="text-green-300">'key'</span>)</pre>
+        </div>
+      </div>
+      <div class="bg-orange-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-orange-800 mb-2">Spatial Join</h3>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs">
+          <pre><span class="text-gray-500"># Match where geometries relate</span>
+gpd.sjoin(gdf1, gdf2, predicate=<span class="text-green-300">'intersects'</span>)</pre>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded-lg p-4 mt-3">
-      <div class="font-semibold text-teal-700 mb-2">Interactive (Folium)</div>
-      <div class="bg-gray-800 text-white p-3 rounded text-sm">
-<pre><span class="text-purple-400">import</span> folium
-m = folium.Map(location=[<span class="text-yellow-400">41.88</span>, <span class="text-yellow-400">-87.63</span>])
-folium.GeoJson(gdf).add_to(m)</pre>
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">
+        sjoin() — Join Attributes by Location
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Example: Which neighborhood is each crime in?</span>
+crimes = gpd.read_file(<span class="text-green-300">"crimes.geojson"</span>)           <span class="text-gray-500"># Points</span>
+neighborhoods = gpd.read_file(<span class="text-green-300">"neighborhoods.geojson"</span>)  <span class="text-gray-500"># Polygons</span>
+
+<span class="text-gray-500"># Join: attach neighborhood info to each crime</span>
+crimes_with_hood = gpd.sjoin(
+    crimes,              <span class="text-gray-500"># Left GeoDataFrame</span>
+    neighborhoods,       <span class="text-gray-500"># Right GeoDataFrame</span>
+    how=<span class="text-green-300">'left'</span>,          <span class="text-gray-500"># Keep all crimes even if no match</span>
+    predicate=<span class="text-green-300">'within'</span>   <span class="text-gray-500"># Crime point is WITHIN neighborhood polygon</span>
+)
+
+<span class="text-gray-500"># Result: crimes DataFrame with neighborhood columns attached!</span></pre>
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">sjoin Predicates</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr>
+              <td class="p-2 border-b font-mono text-orange-600">intersects</td>
+              <td class="p-2 border-b">Any spatial overlap (most common)</td>
+            </tr>
+            <tr>
+              <td class="p-2 border-b font-mono text-orange-600">within</td>
+              <td class="p-2 border-b">Left is completely inside right</td>
+            </tr>
+            <tr>
+              <td class="p-2 font-mono text-orange-600">contains</td>
+              <td class="p-2">Left completely contains right</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">sjoin "how" Parameter</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr>
+              <td class="p-2 border-b font-mono text-orange-600">left</td>
+              <td class="p-2 border-b">Keep all left rows, NaN if no match</td>
+            </tr>
+            <tr>
+              <td class="p-2 border-b font-mono text-orange-600">right</td>
+              <td class="p-2 border-b">Keep all right rows</td>
+            </tr>
+            <tr>
+              <td class="p-2 font-mono text-orange-600">inner</td>
+              <td class="p-2">Only rows with matches (default)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">
+        sjoin_nearest() — Find Nearest Features
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Find nearest school for each home (GeoPandas 0.10+)</span>
+homes_with_school = gpd.sjoin_nearest(
+    homes, 
+    schools, 
+    distance_col=<span class="text-green-300">'dist_to_school'</span>
+)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 9: Overlay Operations -->
+  <div class="border-l-4 border-amber-500 pl-4">
+    <h2 class="font-bold text-xl text-amber-700">
+      9. Overlay Operations — Combining Geometries
+    </h2>
+    <p class="text-gray-600 mt-2">
+      Unlike sjoin (transfers attributes), <strong>overlay</strong> actually
+      combines the geometries themselves.
+    </p>
+
+    <div
+      class="bg-gray-800 text-white p-4 rounded-lg mt-3 text-sm overflow-x-auto"
+    >
+      <pre><span class="text-gray-500"># Find the intersection of two polygon layers</span>
+intersection = gpd.overlay(gdf1, gdf2, how=<span class="text-green-300">'intersection'</span>)
+
+<span class="text-gray-500"># Find areas in gdf1 that are NOT in gdf2</span>
+difference = gpd.overlay(gdf1, gdf2, how=<span class="text-green-300">'difference'</span>)
+
+<span class="text-gray-500"># Combine all areas from both</span>
+union = gpd.overlay(gdf1, gdf2, how=<span class="text-green-300">'union'</span>)
+
+<span class="text-gray-500"># Symmetric difference (in one but not both)</span>
+sym_diff = gpd.overlay(gdf1, gdf2, how=<span class="text-green-300">'symmetric_difference'</span>)</pre>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-3">
+        Visual Guide to Overlay Operations
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-sm">
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="h-16 flex items-center justify-center">
+            <div class="relative">
+              <div
+                class="w-10 h-10 border-2 border-blue-500 bg-blue-100 absolute"
+              ></div>
+              <div
+                class="w-10 h-10 border-2 border-red-500 bg-red-100 absolute left-5 top-3"
+              ></div>
+              <div class="w-4 h-4 bg-purple-500 absolute left-5 top-3"></div>
+            </div>
+          </div>
+          <div class="font-bold text-amber-600 mt-4">intersection</div>
+          <div class="text-xs text-gray-500">Overlap only</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="h-16 flex items-center justify-center">
+            <div class="relative">
+              <div
+                class="w-10 h-10 border-2 border-blue-500 bg-blue-300 absolute"
+              ></div>
+              <div
+                class="w-10 h-10 border-2 border-red-500 bg-red-300 absolute left-5 top-3"
+              ></div>
+            </div>
+          </div>
+          <div class="font-bold text-amber-600 mt-4">union</div>
+          <div class="text-xs text-gray-500">All areas</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="h-16 flex items-center justify-center">
+            <div class="relative">
+              <div
+                class="w-10 h-10 border-2 border-blue-500 bg-blue-300 absolute"
+              ></div>
+              <div
+                class="w-10 h-10 border-2 border-red-500 bg-transparent absolute left-5 top-3"
+              ></div>
+            </div>
+          </div>
+          <div class="font-bold text-amber-600 mt-4">difference</div>
+          <div class="text-xs text-gray-500">A minus B</div>
+        </div>
+        <div class="bg-gray-50 p-3 rounded">
+          <div class="h-16 flex items-center justify-center">
+            <div class="relative">
+              <div
+                class="w-10 h-10 border-2 border-blue-500 bg-blue-300 absolute"
+              ></div>
+              <div
+                class="w-10 h-10 border-2 border-red-500 bg-red-300 absolute left-5 top-3"
+              ></div>
+              <div class="w-4 h-4 bg-white absolute left-5 top-3"></div>
+            </div>
+          </div>
+          <div class="font-bold text-amber-600 mt-4">symmetric_diff</div>
+          <div class="text-xs text-gray-500">One but not both</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 10: Aggregation -->
+  <div class="border-l-4 border-lime-500 pl-4">
+    <h2 class="font-bold text-xl text-lime-700">
+      10. Aggregation and Grouping
+    </h2>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-lime-700 mb-2">
+        Dissolve — Spatial GroupBy
+      </h3>
+      <p class="text-sm text-gray-600 mb-2">
+        Like pandas <code>groupby</code>, but merges geometries together.
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Merge all neighborhoods into their parent community areas</span>
+communities = neighborhoods.dissolve(
+    by=<span class="text-green-300">'community_area'</span>, 
+    aggfunc=<span class="text-green-300">'sum'</span>
+)
+<span class="text-gray-500"># Geometries are merged, numeric columns summed</span></pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-lime-700 mb-2">
+        Counting Points in Polygons
+      </h3>
+      <p class="text-sm text-gray-600 mb-2">A super common pattern:</p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Method 1: sjoin then groupby</span>
+joined = gpd.sjoin(points, polygons)
+counts = joined.groupby(<span class="text-green-300">'polygon_id'</span>).size()
+
+<span class="text-gray-500"># Method 2: Using sjoin with index</span>
+points_with_poly = gpd.sjoin(points, polygons[[<span class="text-green-300">'geometry'</span>]])
+polygons[<span class="text-green-300">'point_count'</span>] = points_with_poly.groupby(<span class="text-green-300">'index_right'</span>).size()</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-lime-700 mb-2">
+        Aggregating Values Within Polygons
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Average home price per neighborhood</span>
+homes_in_hoods = gpd.sjoin(home_sales, neighborhoods)
+avg_prices = homes_in_hoods.groupby(<span class="text-green-300">'neighborhood_name'</span>)[<span class="text-green-300">'price'</span>].mean()
+neighborhoods = neighborhoods.merge(avg_prices, on=<span class="text-green-300">'neighborhood_name'</span>)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 11: Common Workflows -->
+  <div class="border-l-4 border-sky-500 pl-4">
+    <h2 class="font-bold text-xl text-sky-700">
+      11. Common Workflows and Patterns
+    </h2>
+
+    <div class="mt-3 bg-white border border-sky-200 rounded-lg p-4">
+      <h3 class="font-semibold text-sky-700 mb-2">
+        Pattern 1: Point-in-Polygon Analysis
+      </h3>
+      <p class="text-sm text-gray-600 mb-2 italic">
+        "How many crimes occurred in each neighborhood?"
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># 1. Load data</span>
+crimes = gpd.read_file(<span class="text-green-300">"crimes.geojson"</span>)
+neighborhoods = gpd.read_file(<span class="text-green-300">"neighborhoods.geojson"</span>)
+
+<span class="text-gray-500"># 2. Ensure same CRS</span>
+crimes = crimes.to_crs(neighborhoods.crs)
+
+<span class="text-gray-500"># 3. Spatial join</span>
+crimes_with_hood = gpd.sjoin(crimes, neighborhoods, predicate=<span class="text-green-300">'within'</span>)
+
+<span class="text-gray-500"># 4. Aggregate</span>
+crime_counts = crimes_with_hood.groupby(<span class="text-green-300">'neighborhood_name'</span>).size().reset_index(name=<span class="text-green-300">'crime_count'</span>)
+
+<span class="text-gray-500"># 5. Merge back</span>
+neighborhoods = neighborhoods.merge(crime_counts, on=<span class="text-green-300">'neighborhood_name'</span>, how=<span class="text-green-300">'left'</span>)
+neighborhoods[<span class="text-green-300">'crime_count'</span>] = neighborhoods[<span class="text-green-300">'crime_count'</span>].fillna(<span class="text-yellow-400">0</span>)
+
+<span class="text-gray-500"># 6. Visualize</span>
+neighborhoods.plot(column=<span class="text-green-300">'crime_count'</span>, cmap=<span class="text-green-300">'Reds'</span>, legend=<span class="text-purple-400">True</span>)</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-sky-200 rounded-lg p-4">
+      <h3 class="font-semibold text-sky-700 mb-2">
+        Pattern 2: Proximity Analysis
+      </h3>
+      <p class="text-sm text-gray-600 mb-2 italic">
+        "How far is each home from the nearest school?"
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># 1. Project to meters</span>
+homes = homes.to_crs(<span class="text-green-300">"EPSG:32616"</span>)
+schools = schools.to_crs(<span class="text-green-300">"EPSG:32616"</span>)
+
+<span class="text-gray-500"># 2. Use sjoin_nearest (GeoPandas 0.10+)</span>
+homes_with_nearest = gpd.sjoin_nearest(
+    homes, 
+    schools, 
+    distance_col=<span class="text-green-300">'dist_to_school'</span>
+)
+
+<span class="text-gray-500"># Result: each home now has dist_to_school in meters</span></pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-sky-200 rounded-lg p-4">
+      <h3 class="font-semibold text-sky-700 mb-2">
+        Pattern 3: Buffer Analysis
+      </h3>
+      <p class="text-sm text-gray-600 mb-2 italic">
+        "Which homes are within 1km of a park?"
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># 1. Project to meters</span>
+parks = parks.to_crs(<span class="text-green-300">"EPSG:32616"</span>)
+homes = homes.to_crs(<span class="text-green-300">"EPSG:32616"</span>)
+
+<span class="text-gray-500"># 2. Buffer parks by 1km</span>
+park_buffers = parks.copy()
+park_buffers[<span class="text-green-300">'geometry'</span>] = parks.geometry.buffer(<span class="text-yellow-400">1000</span>)
+
+<span class="text-gray-500"># 3. Dissolve into single polygon</span>
+park_zone = park_buffers.dissolve()
+
+<span class="text-gray-500"># 4. Find homes within</span>
+homes[<span class="text-green-300">'near_park'</span>] = homes.geometry.within(park_zone.geometry.iloc[<span class="text-yellow-400">0</span>])</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-sky-200 rounded-lg p-4">
+      <h3 class="font-semibold text-sky-700 mb-2">
+        Pattern 4: Creating a Grid
+      </h3>
+      <p class="text-sm text-gray-600 mb-2 italic">
+        "Analyze data on a regular grid instead of irregular boundaries"
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> shapely.geometry <span class="text-purple-400">import</span> box
+
+<span class="text-gray-500"># Get bounds of study area</span>
+minx, miny, maxx, maxy = study_area.total_bounds
+
+<span class="text-gray-500"># Create grid</span>
+cell_size = <span class="text-yellow-400">1000</span>  <span class="text-gray-500"># 1km cells</span>
+cols = np.arange(minx, maxx, cell_size)
+rows = np.arange(miny, maxy, cell_size)
+
+grid_cells = []
+<span class="text-purple-400">for</span> x <span class="text-purple-400">in</span> cols:
+    <span class="text-purple-400">for</span> y <span class="text-purple-400">in</span> rows:
+        grid_cells.append(box(x, y, x + cell_size, y + cell_size))
+
+grid = gpd.GeoDataFrame(geometry=grid_cells, crs=study_area.crs)
+
+<span class="text-gray-500"># Clip to study area boundary</span>
+grid = gpd.clip(grid, study_area)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 12: Visualization -->
+  <div class="border-l-4 border-teal-500 pl-4">
+    <h2 class="font-bold text-xl text-teal-700">
+      12. Visualization and Mapping
+    </h2>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-teal-700 mb-2">
+        Quick Plots with GeoPandas (Matplotlib)
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-gray-500"># Basic plot</span>
+gdf.plot()
+
+<span class="text-gray-500"># Choropleth (color by value)</span>
+gdf.plot(column=<span class="text-green-300">'population'</span>, cmap=<span class="text-green-300">'viridis'</span>, legend=<span class="text-purple-400">True</span>)
+
+<span class="text-gray-500"># With better styling</span>
+fig, ax = plt.subplots(figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">8</span>))
+gdf.plot(
+    ax=ax,
+    column=<span class="text-green-300">'crime_rate'</span>,
+    cmap=<span class="text-green-300">'Reds'</span>,
+    legend=<span class="text-purple-400">True</span>,
+    legend_kwds={<span class="text-green-300">'label'</span>: <span class="text-green-300">'Crime Rate per 1000'</span>},
+    edgecolor=<span class="text-green-300">'black'</span>,
+    linewidth=<span class="text-yellow-400">0.5</span>
+)
+ax.set_title(<span class="text-green-300">'Crime Rate by Neighborhood'</span>)
+ax.set_axis_off()</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-teal-700 mb-2">
+        Layering Multiple GeoDataFrames
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre>fig, ax = plt.subplots(figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">8</span>))
+
+<span class="text-gray-500"># Base layer: neighborhoods</span>
+neighborhoods.plot(ax=ax, color=<span class="text-green-300">'lightgray'</span>, edgecolor=<span class="text-green-300">'white'</span>)
+
+<span class="text-gray-500"># Second layer: highlighted areas</span>
+high_crime.plot(ax=ax, color=<span class="text-green-300">'red'</span>, alpha=<span class="text-yellow-400">0.5</span>)
+
+<span class="text-gray-500"># Point layer on top</span>
+schools.plot(ax=ax, color=<span class="text-green-300">'blue'</span>, markersize=<span class="text-yellow-400">20</span>)
+
+plt.show()</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-teal-700 mb-2">
+        Interactive Maps with Folium
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> folium
+
+<span class="text-gray-500"># Create base map</span>
+m = folium.Map(location=[<span class="text-yellow-400">41.88</span>, <span class="text-yellow-400">-87.63</span>], zoom_start=<span class="text-yellow-400">11</span>)
+
+<span class="text-gray-500"># Add polygons (must be EPSG:4326!)</span>
+folium.GeoJson(
+    neighborhoods,
+    style_function=<span class="text-purple-400">lambda</span> x: {
+        <span class="text-green-300">'fillColor'</span>: <span class="text-green-300">'blue'</span>,
+        <span class="text-green-300">'color'</span>: <span class="text-green-300">'black'</span>,
+        <span class="text-green-300">'weight'</span>: <span class="text-yellow-400">1</span>,
+        <span class="text-green-300">'fillOpacity'</span>: <span class="text-yellow-400">0.3</span>
+    }
+).add_to(m)
+
+<span class="text-gray-500"># Add markers</span>
+<span class="text-purple-400">for</span> idx, row <span class="text-purple-400">in</span> schools.iterrows():
+    folium.Marker(
+        location=[row.geometry.y, row.geometry.x],
+        popup=row[<span class="text-green-300">'school_name'</span>]
+    ).add_to(m)
+
+m.save(<span class="text-green-300">'map.html'</span>)</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-teal-700 mb-2">
+        Choropleth Maps with Folium
+      </h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre>m = folium.Map(location=[<span class="text-yellow-400">41.88</span>, <span class="text-yellow-400">-87.63</span>], zoom_start=<span class="text-yellow-400">11</span>)
+
+folium.Choropleth(
+    geo_data=neighborhoods,
+    data=neighborhoods,
+    columns=[<span class="text-green-300">'neighborhood_id'</span>, <span class="text-green-300">'crime_rate'</span>],
+    key_on=<span class="text-green-300">'feature.properties.neighborhood_id'</span>,
+    fill_color=<span class="text-green-300">'YlOrRd'</span>,
+    fill_opacity=<span class="text-yellow-400">0.7</span>,
+    line_opacity=<span class="text-yellow-400">0.2</span>,
+    legend_name=<span class="text-green-300">'Crime Rate'</span>
+).add_to(m)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 13: Performance Tips -->
+  <div class="border-l-4 border-rose-500 pl-4">
+    <h2 class="font-bold text-xl text-rose-700">13. Performance Tips</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+      <div class="bg-rose-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-rose-800 mb-2">Use Spatial Indexes</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          GeoPandas uses R-tree indexes automatically.
+        </p>
+        <code class="block bg-white p-2 rounded text-xs"
+          >gdf.sindex # Ensure index exists</code
+        >
+      </div>
+
+      <div class="bg-rose-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-rose-800 mb-2">Simplify for Viz</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Reduce complexity for visualization.
+        </p>
+        <code class="block bg-white p-2 rounded text-xs"
+          >gdf.geometry.simplify(100)</code
+        >
+      </div>
+
+      <div class="bg-rose-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-rose-800 mb-2">
+          Project Before Analysis
+        </h3>
+        <p class="text-sm text-gray-600 mb-2">
+          EPSG:4326 operations are slower (spherical math).
+        </p>
+        <code class="block bg-white p-2 rounded text-xs"
+          >gdf.to_crs("EPSG:32616")</code
+        >
+      </div>
+
+      <div class="bg-rose-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-rose-800 mb-2">Chunk Large Files</h3>
+        <p class="text-sm text-gray-600 mb-2">
+          Process in batches, then concat.
+        </p>
+        <code class="block bg-white p-2 rounded text-xs"
+          >pd.read_csv(..., chunksize=100000)</code
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 14: Quick Reference -->
+  <div class="border-l-4 border-violet-500 pl-4">
+    <h2 class="font-bold text-xl text-violet-700">14. Quick Reference</h2>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">Essential Imports</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
+<span class="text-purple-400">from</span> shapely.geometry <span class="text-purple-400">import</span> Point, Polygon, LineString
+<span class="text-purple-400">from</span> shapely.ops <span class="text-purple-400">import</span> unary_union, nearest_points
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> folium</pre>
+      </div>
+    </div>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">CRS Cheat Sheet</h3>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="text-left p-2 border-b">Code</th>
+            <th class="text-left p-2 border-b">Name</th>
+            <th class="text-left p-2 border-b">Units</th>
+            <th class="text-left p-2 border-b">Use For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border-b font-mono text-xs">EPSG:4326</td>
+            <td class="p-2 border-b">WGS84</td>
+            <td class="p-2 border-b">Degrees</td>
+            <td class="p-2 border-b">GPS, web maps, storage</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b font-mono text-xs">EPSG:3857</td>
+            <td class="p-2 border-b">Web Mercator</td>
+            <td class="p-2 border-b">Meters</td>
+            <td class="p-2 border-b">Web map tiles</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b font-mono text-xs">EPSG:32616</td>
+            <td class="p-2 border-b">UTM 16N</td>
+            <td class="p-2 border-b">Meters</td>
+            <td class="p-2 border-b">US Midwest analysis</td>
+          </tr>
+          <tr>
+            <td class="p-2 font-mono text-xs">EPSG:2163</td>
+            <td class="p-2">US National Atlas</td>
+            <td class="p-2">Meters</td>
+            <td class="p-2">US-wide maps</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">Geometry Methods</h3>
+        <div class="text-sm font-mono space-y-1">
+          <div>
+            <span class="text-violet-600">.area</span>
+            <span class="text-gray-400">— Area</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.length</span>
+            <span class="text-gray-400">— Perimeter/length</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.centroid</span>
+            <span class="text-gray-400">— Center point</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.bounds</span>
+            <span class="text-gray-400">— (minx, miny, maxx, maxy)</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.buffer(d)</span>
+            <span class="text-gray-400">— Buffer by d</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.simplify(t)</span>
+            <span class="text-gray-400">— Simplify</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.convex_hull</span>
+            <span class="text-gray-400">— Convex hull</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.envelope</span>
+            <span class="text-gray-400">— Bounding box</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.is_valid</span>
+            <span class="text-gray-400">— Check validity</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.make_valid()</span>
+            <span class="text-gray-400">— Fix invalid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          GeoDataFrame Operations
+        </h3>
+        <div class="text-sm font-mono space-y-1">
+          <div>
+            <span class="text-violet-600">.plot()</span>
+            <span class="text-gray-400">— Quick plot</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.to_crs()</span>
+            <span class="text-gray-400">— Reproject</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.total_bounds</span>
+            <span class="text-gray-400">— All bounds</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.dissolve(by=)</span>
+            <span class="text-gray-400">— Merge by attr</span>
+          </div>
+          <div>
+            <span class="text-violet-600">gpd.sjoin()</span>
+            <span class="text-gray-400">— Spatial join</span>
+          </div>
+          <div>
+            <span class="text-violet-600">gpd.overlay()</span>
+            <span class="text-gray-400">— Geometric overlay</span>
+          </div>
+          <div>
+            <span class="text-violet-600">gpd.clip()</span>
+            <span class="text-gray-400">— Clip to boundary</span>
+          </div>
+          <div>
+            <span class="text-violet-600">.to_file()</span>
+            <span class="text-gray-400">— Save to file</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Checklist -->
-  <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-    <h2 class="font-bold text-lg text-gray-800 mb-4 border-b pb-2">✅ The Geometric Checklist</h2>
-    <ul class="space-y-2 text-sm text-gray-700">
-      <li class="flex items-center gap-2">
-        <input type="checkbox" disabled class="rounded text-blue-500">
-        <span>What is my CRS? (<code class="bg-white px-1">gdf.crs</code>)</span>
-      </li>
-      <li class="flex items-center gap-2">
-        <input type="checkbox" disabled class="rounded text-blue-500">
-        <span>Do layers match? (<code class="bg-white px-1">to_crs()</code>)</span>
-      </li>
-      <li class="flex items-center gap-2">
-        <input type="checkbox" disabled class="rounded text-blue-500">
-        <span>Measuring distance? Project to meters first!</span>
-      </li>
-      <li class="flex items-center gap-2">
-        <input type="checkbox" disabled class="rounded text-blue-500">
-        <span>Web mapping? Use EPSG:4326.</span>
-      </li>
-      <li class="flex items-center gap-2">
-        <input type="checkbox" disabled class="rounded text-blue-500">
-        <span>Are geometries valid? (<code class="bg-white px-1">is_valid</code>)</span>
-      </li>
-    </ul>
+  <div
+    class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-200"
+  >
+    <h2 class="font-bold text-lg text-gray-800 mb-4 border-b pb-2">
+      ✅ The Mental Checklist — Before Any Geospatial Analysis
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ul class="space-y-2 text-sm text-gray-700">
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>What is my CRS?</strong> Check with
+            <code class="bg-white px-1 rounded">gdf.crs</code></span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>Do all layers match?</strong> Use
+            <code class="bg-white px-1 rounded">to_crs()</code> to align</span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>Measuring distance/area?</strong> Project to meters
+            first!</span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span><strong>Displaying on web?</strong> Use EPSG:4326</span>
+        </li>
+      </ul>
+      <ul class="space-y-2 text-sm text-gray-700">
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>What spatial relationship?</strong> Choose the right
+            predicate</span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>Combine data or geometry?</strong> sjoin vs overlay</span
+          >
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-green-500 mt-0.5">☐</span>
+          <span
+            ><strong>Are geometries valid?</strong>
+            <code class="bg-white px-1 rounded">.is_valid</code>, fix with
+            <code class="bg-white px-1 rounded">.buffer(0)</code></span
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Final Summary -->
+  <div class="bg-indigo-50 rounded-lg p-6 border border-indigo-200">
+    <h2 class="font-bold text-lg text-indigo-800 mb-3">🎯 The Core Insight</h2>
+    <p class="text-indigo-700">
+      Every geospatial analysis is some combination of:
+    </p>
+    <ol class="list-decimal list-inside text-indigo-700 mt-2 space-y-1">
+      <li>Loading data with geometries</li>
+      <li>Ensuring CRS alignment</li>
+      <li>Applying spatial relationships or operations</li>
+      <li>Aggregating or joining based on location</li>
+      <li>Visualizing the results</li>
+    </ol>
+    <p class="text-indigo-800 font-medium mt-4">
+      Location is just another dimension of data — but it unlocks questions that
+      are impossible to answer otherwise.
+    </p>
   </div>
 </div>
+```
