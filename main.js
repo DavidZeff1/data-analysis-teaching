@@ -38,6 +38,7 @@ const content = {
     seaborn: () => fetch("/python/seaborn.html").then((r) => r.text()),
     basics: () => fetch("/python/basics.html").then((r) => r.text()),
     streamlit: () => fetch("/python/streamlit.html").then((r) => r.text()),
+    geospatial: () => fetch("/python/geospatial.html").then((r) => r.text()),
   },
   excel: {
     setup: () => fetch("/excel/setup.html").then((r) => r.text()),
