@@ -1,1293 +1,506 @@
+
 <div class="space-y-4">
-  <h1 class="text-2xl font-bold">SQL to Pandas Cheat Sheet</h1>
+  <h1 class="text-2xl font-bold">Pandas Cheat Sheet</h1>
 
   <div>
-    <a
+    
       class="bg-blue-50 border border-blue-200 rounded-lg p-1"
       href="https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf"
     >
-      cheat sheet</a
+      Official cheat sheet</a
     >
     <p class="text-gray-600">
-      Pandas is Python's data manipulation library. If you know SQL, you already
-      understand the concepts - the syntax is just different. This guide shows
-      side-by-side comparisons to help you translate between the two.
+      Pandas is Python's data manipulation library for working with tabular data.
     </p>
     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
       <p class="text-sm">
         <strong>Setup:</strong> All examples assume you have a DataFrame called
         <code class="bg-gray-200 px-1 rounded">df</code> loaded from your data.
       </p>
-      <pre
-        class="bg-gray-800 text-white p-2 rounded text-sm mt-2"
-      ><span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+      <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2"><span class="text-blue-400">import</span> pandas <span class="text-blue-400">as</span> pd
+<span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
 
-<span class="text-gray-400"># Load data (like connecting to a database)</span>
-df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)
-invoices = pd.read_csv(<span class="text-green-400">'invoices.csv'</span>)
-customers = pd.read_csv(<span class="text-green-400">'customers.csv'</span>)</pre>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)</pre>
     </div>
   </div>
 
-  <!-- SELECT -->
+  <!-- Selecting Columns -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      SELECT - Choosing Columns
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      In SQL you SELECT columns, in Pandas you use bracket notation or
-      <code>.loc[]</code>
-    </p>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Selecting Columns</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Select specific columns</span>
+df[[<span class="text-green-400">'col1'</span>, <span class="text-green-400">'col2'</span>]]
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Select all columns</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices;
+<span class="text-gray-400"># Select single column (returns Series)</span>
+df[<span class="text-green-400">'col'</span>]
 
-<span class="text-gray-400">-- Select specific columns</span>
-<span class="text-blue-400">SELECT</span> InvoiceId, Total 
-<span class="text-blue-400">FROM</span> invoices;
+<span class="text-gray-400"># Select single column (returns DataFrame)</span>
+df[[<span class="text-green-400">'col'</span>]]
 
-<span class="text-gray-400">-- Select with alias</span>
-<span class="text-blue-400">SELECT</span> Total <span class="text-blue-400">AS</span> Amount 
-<span class="text-blue-400">FROM</span> invoices;
+<span class="text-gray-400"># Rename columns</span>
+df.rename(columns={<span class="text-green-400">'old'</span>: <span class="text-green-400">'new'</span>})
 
-<span class="text-gray-400">-- Select distinct</span>
-<span class="text-blue-400">SELECT DISTINCT</span> Country 
-<span class="text-blue-400">FROM</span> customers;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Select all columns</span>
-invoices
-
-<span class="text-gray-400"># Select specific columns</span>
-invoices[[<span class="text-green-400">'InvoiceId'</span>, <span class="text-green-400">'Total'</span>]]
-
-<span class="text-gray-400"># Select with rename (alias)</span>
-invoices[[<span class="text-green-400">'Total'</span>]].rename(
-    columns={<span class="text-green-400">'Total'</span>: <span class="text-green-400">'Amount'</span>})
-
-<span class="text-gray-400"># Select distinct</span>
-customers[<span class="text-green-400">'Country'</span>].unique()
-<span class="text-gray-400"># or as DataFrame:</span>
-customers[[<span class="text-green-400">'Country'</span>]].drop_duplicates()</pre>
-      </div>
+<span class="text-gray-400"># Get unique values</span>
+df[<span class="text-green-400">'col'</span>].unique()              <span class="text-gray-400"># returns array</span>
+df[[<span class="text-green-400">'col'</span>]].drop_duplicates()   <span class="text-gray-400"># returns DataFrame</span></pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Single brackets
-      <code>df['col']</code> return a Series, double brackets
-      <code>df[['col']]</code> return a DataFrame. Use double brackets when
-      selecting multiple columns or when you need DataFrame output.
+      <strong>💡</strong> Single brackets <code>df['col']</code> → Series. Double brackets <code>df[['col']]</code> → DataFrame.
     </div>
   </div>
 
-  <!-- WHERE -->
+  <!-- Filtering Rows -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">WHERE - Filtering Rows</h2>
-    <p class="text-sm text-gray-600 mb-3">
-      SQL's WHERE becomes boolean indexing in Pandas. The condition goes inside
-      brackets.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Simple filter</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">WHERE</span> Total > 10;
-
-<span class="text-gray-400">-- Multiple conditions (AND)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">WHERE</span> Total > 10 
-  <span class="text-blue-400">AND</span> Country = <span class="text-green-400">'USA'</span>;
-
-<span class="text-gray-400">-- Multiple conditions (OR)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
-<span class="text-blue-400">WHERE</span> Country = <span class="text-green-400">'USA'</span> 
-   <span class="text-blue-400">OR</span> Country = <span class="text-green-400">'Canada'</span>;
-
-<span class="text-gray-400">-- IN operator</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
-<span class="text-blue-400">WHERE</span> Country <span class="text-blue-400">IN</span> (<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>);
-
-<span class="text-gray-400">-- BETWEEN</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">WHERE</span> Total <span class="text-blue-400">BETWEEN</span> 5 <span class="text-blue-400">AND</span> 15;
-
-<span class="text-gray-400">-- LIKE (pattern matching)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
-<span class="text-blue-400">WHERE</span> Email <span class="text-blue-400">LIKE</span> <span class="text-green-400">'%gmail.com'</span>;
-
-<span class="text-gray-400">-- IS NULL / IS NOT NULL</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
-<span class="text-blue-400">WHERE</span> Company <span class="text-blue-400">IS NULL</span>;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Simple filter</span>
-invoices[invoices[<span class="text-green-400">'Total'</span>] > 10]
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Filtering Rows</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Simple filter</span>
+df[df[<span class="text-green-400">'Total'</span>] > 10]
 
 <span class="text-gray-400"># Multiple conditions (AND) - use &</span>
-invoices[
-    (invoices[<span class="text-green-400">'Total'</span>] > 10) & 
-    (invoices[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>)
-]
+df[(df[<span class="text-green-400">'Total'</span>] > 10) & (df[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>)]
 
 <span class="text-gray-400"># Multiple conditions (OR) - use |</span>
-customers[
-    (customers[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>) | 
-    (customers[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'Canada'</span>)
-]
+df[(df[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'USA'</span>) | (df[<span class="text-green-400">'Country'</span>] == <span class="text-green-400">'Canada'</span>)]
 
-<span class="text-gray-400"># IN operator - use .isin()</span>
-customers[
-    customers[<span class="text-green-400">'Country'</span>].isin([<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>])
-]
+<span class="text-gray-400"># Check if value in list</span>
+df[df[<span class="text-green-400">'Country'</span>].isin([<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>])]
 
-<span class="text-gray-400"># BETWEEN - use .between()</span>
-invoices[invoices[<span class="text-green-400">'Total'</span>].between(5, 15)]
+<span class="text-gray-400"># Range check</span>
+df[df[<span class="text-green-400">'Total'</span>].between(5, 15)]
 
-<span class="text-gray-400"># LIKE - use .str.contains()</span>
-customers[
-    customers[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail.com'</span>)
-]
+<span class="text-gray-400"># Pattern matching</span>
+df[df[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail.com'</span>)]
+df[df[<span class="text-green-400">'Name'</span>].str.startswith(<span class="text-green-400">'A'</span>)]
 
-<span class="text-gray-400"># IS NULL / IS NOT NULL</span>
-customers[customers[<span class="text-green-400">'Company'</span>].isna()]
-customers[customers[<span class="text-green-400">'Company'</span>].notna()]</pre>
-      </div>
+<span class="text-gray-400"># Null checks</span>
+df[df[<span class="text-green-400">'Company'</span>].isna()]       <span class="text-gray-400"># is null</span>
+df[df[<span class="text-green-400">'Company'</span>].notna()]     <span class="text-gray-400"># is not null</span>
+
+<span class="text-gray-400"># Negation - use ~</span>
+df[~df[<span class="text-green-400">'Country'</span>].isin([<span class="text-green-400">'USA'</span>, <span class="text-green-400">'Canada'</span>])]</pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Always wrap each condition in parentheses
-      when combining with <code>&</code> or <code>|</code>. Use
-      <code>&</code> for AND, <code>|</code> for OR, <code>~</code> for NOT.
+      <strong>💡</strong> Always wrap each condition in parentheses when combining with <code>&</code> or <code>|</code>. Use <code>&</code> for AND, <code>|</code> for OR, <code>~</code> for NOT.
     </div>
   </div>
 
-  <!-- ORDER BY & LIMIT -->
+  <!-- Sorting & Limiting -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      ORDER BY & LIMIT - Sorting and Limiting
-    </h2>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Sort ascending</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">ORDER BY</span> Total;
-
-<span class="text-gray-400">-- Sort descending</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>;
-
-<span class="text-gray-400">-- Multiple sort columns</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">ORDER BY</span> Country, Total <span class="text-blue-400">DESC</span>;
-
-<span class="text-gray-400">-- LIMIT (top N rows)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
-<span class="text-blue-400">LIMIT</span> 10;
-
-<span class="text-gray-400">-- OFFSET (skip rows)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">LIMIT</span> 10 <span class="text-blue-400">OFFSET</span> 5;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Sort ascending</span>
-invoices.sort_values(<span class="text-green-400">'Total'</span>)
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Sorting & Limiting</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Sort ascending</span>
+df.sort_values(<span class="text-green-400">'Total'</span>)
 
 <span class="text-gray-400"># Sort descending</span>
-invoices.sort_values(<span class="text-green-400">'Total'</span>, ascending=<span class="text-blue-400">False</span>)
+df.sort_values(<span class="text-green-400">'Total'</span>, ascending=<span class="text-blue-400">False</span>)
 
-<span class="text-gray-400"># Multiple sort columns</span>
-invoices.sort_values(
-    [<span class="text-green-400">'Country'</span>, <span class="text-green-400">'Total'</span>],
-    ascending=[<span class="text-blue-400">True</span>, <span class="text-blue-400">False</span>]
-)
+<span class="text-gray-400"># Sort by multiple columns</span>
+df.sort_values([<span class="text-green-400">'Country'</span>, <span class="text-green-400">'Total'</span>], ascending=[<span class="text-blue-400">True</span>, <span class="text-blue-400">False</span>])
 
-<span class="text-gray-400"># LIMIT (top N rows)</span>
-invoices.nlargest(10, <span class="text-green-400">'Total'</span>)
-<span class="text-gray-400"># or:</span>
-invoices.sort_values(<span class="text-green-400">'Total'</span>, ascending=<span class="text-blue-400">False</span>).head(10)
+<span class="text-gray-400"># Get first/last N rows</span>
+df.head(10)
+df.tail(10)
 
-<span class="text-gray-400"># OFFSET (skip rows)</span>
-invoices.iloc[5:15]</pre>
-      </div>
+<span class="text-gray-400"># Get top/bottom N by value</span>
+df.nlargest(10, <span class="text-green-400">'Total'</span>)
+df.nsmallest(10, <span class="text-green-400">'Total'</span>)
+
+<span class="text-gray-400"># Slice rows by position</span>
+df.iloc[5:15]</pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>.head(n)</code> and
-      <code>.tail(n)</code> are quick ways to get first/last rows.
-      <code>.nlargest()</code> and <code>.nsmallest()</code> are optimized for
-      "top N" queries.
+      <strong>💡</strong> <code>.nlargest()</code> and <code>.nsmallest()</code> are optimized for "top N" queries.
     </div>
   </div>
 
-  <!-- GROUP BY -->
+  <!-- Aggregation -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">GROUP BY - Aggregation</h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Both SQL and Pandas use the same concept: group rows, then aggregate.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Simple aggregation</span>
-<span class="text-blue-400">SELECT</span> 
-    Country,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> Count,
-    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
-<span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">GROUP BY</span> Country;
-
-<span class="text-gray-400">-- Multiple group columns</span>
-<span class="text-blue-400">SELECT</span> 
-    Country,
-    City,
-    <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">AS</span> AvgSale
-<span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">GROUP BY</span> Country, City;
-
-<span class="text-gray-400">-- All aggregate functions</span>
-<span class="text-blue-400">SELECT</span>
-    <span class="text-purple-400">COUNT</span>(*),
-    <span class="text-purple-400">SUM</span>(Total),
-    <span class="text-purple-400">AVG</span>(Total),
-    <span class="text-purple-400">MIN</span>(Total),
-    <span class="text-purple-400">MAX</span>(Total)
-<span class="text-blue-400">FROM</span> invoices;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Simple aggregation</span>
-invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Aggregation (groupby)</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Basic groupby with named aggregations</span>
+df.groupby(<span class="text-green-400">'Country'</span>).agg(
     Count=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'count'</span>),
-    TotalSales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
-).reset_index()
-
-<span class="text-gray-400"># Multiple group columns</span>
-invoices.groupby([<span class="text-green-400">'Country'</span>, <span class="text-green-400">'City'</span>]).agg(
+    TotalSales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>),
     AvgSale=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'mean'</span>)
 ).reset_index()
 
-<span class="text-gray-400"># All aggregate functions</span>
-invoices.agg({
-    <span class="text-green-400">'Total'</span>: [<span class="text-green-400">'count'</span>, <span class="text-green-400">'sum'</span>, <span class="text-green-400">'mean'</span>, <span class="text-green-400">'min'</span>, <span class="text-green-400">'max'</span>]
-})
+<span class="text-gray-400"># Group by multiple columns</span>
+df.groupby([<span class="text-green-400">'Country'</span>, <span class="text-green-400">'City'</span>]).agg(
+    AvgSale=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'mean'</span>)
+).reset_index()
 
-<span class="text-gray-400"># Quick shorthand</span>
-invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].sum()</pre>
-      </div>
+<span class="text-gray-400"># Quick aggregations</span>
+df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].sum()
+df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].mean()
+
+<span class="text-gray-400"># Multiple aggregations on same column</span>
+df.agg({<span class="text-green-400">'Total'</span>: [<span class="text-green-400">'count'</span>, <span class="text-green-400">'sum'</span>, <span class="text-green-400">'mean'</span>, <span class="text-green-400">'min'</span>, <span class="text-green-400">'max'</span>]})</pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>.reset_index()</code> converts the
-      grouped result back to a regular DataFrame (like SQL output). Without it,
-      group columns become the index.
+      <strong>💡</strong> <code>.reset_index()</code> converts the grouped result back to a regular DataFrame. Without it, group columns become the index.
     </div>
   </div>
 
   <!-- Counting Methods -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      Counting Methods - size vs count vs nunique vs value_counts
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Pandas has multiple counting methods that behave differently.
-      Understanding when to use each is crucial.
-    </p>
-
-    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-4">
-      <pre><span class="text-gray-400"># Setup with nulls (this matters!)</span>
-df = pd.DataFrame({
-    <span class="text-green-400">'class'</span>: [<span class="text-green-400">'Math'</span>, <span class="text-green-400">'Math'</span>, <span class="text-green-400">'Math'</span>, <span class="text-green-400">'English'</span>, <span class="text-green-400">'English'</span>],
-    <span class="text-green-400">'student'</span>: [<span class="text-green-400">'Alice'</span>, <span class="text-green-400">'Bob'</span>, <span class="text-blue-400">None</span>, <span class="text-green-400">'Dave'</span>, <span class="text-green-400">'Eve'</span>],
-    <span class="text-green-400">'score'</span>: [90, 85, 95, 70, 80]
-})</pre>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Method</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># .size() - counts ALL rows including nulls</span>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Counting Methods</h2>
+    <p class="text-sm text-gray-600 mb-3">Understanding when to use each is crucial - they behave differently with nulls.</p>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># .size() - counts ALL rows including nulls</span>
 df.groupby(<span class="text-green-400">'class'</span>).size()
-<span class="text-gray-400"># English: 2, Math: 3</span>
 
-<span class="text-gray-400"># .count() - counts non-null per column</span>
+<span class="text-gray-400"># .count() - counts non-null values per column</span>
 df.groupby(<span class="text-green-400">'class'</span>).count()
-<span class="text-gray-400"># Math student=2 (not 3!), score=3</span>
 
 <span class="text-gray-400"># .nunique() - counts unique values</span>
 df.groupby(<span class="text-green-400">'class'</span>)[<span class="text-green-400">'student'</span>].nunique()
-<span class="text-gray-400"># English: 2, Math: 2 (Alice, Bob)</span>
 
 <span class="text-gray-400"># .value_counts() - frequency of each value</span>
-df.groupby(<span class="text-green-400">'class'</span>)[<span class="text-green-400">'score'</span>].value_counts()
-<span class="text-gray-400"># Math 85: 1, 90: 1, 95: 1</span></pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Returns</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># .size() → Series</span>
-<span class="text-gray-400"># One value per group</span>
-
-
-<span class="text-gray-400"># .count() → DataFrame</span>
-<span class="text-gray-400"># One column per original column</span>
-
-
-<span class="text-gray-400"># .nunique() → Series</span>
-<span class="text-gray-400"># One value per group</span>
-
-
-<span class="text-gray-400"># .value_counts() → Series (multi-index)</span>
-<span class="text-gray-400"># One row per unique value in group</span></pre>
-      </div>
+df[<span class="text-green-400">'Country'</span>].value_counts()
+df.groupby(<span class="text-green-400">'class'</span>)[<span class="text-green-400">'score'</span>].value_counts()</pre>
     </div>
-
-    <div class="mt-4">
-      <h3 class="font-semibold text-gray-700 mb-2">
-        Counting Methods Comparison
-      </h3>
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm border border-gray-300">
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="border px-3 py-2 text-left">Method</th>
-              <th class="border px-3 py-2 text-left">Question it answers</th>
-              <th class="border px-3 py-2 text-left">Counts nulls?</th>
-              <th class="border px-3 py-2 text-left">Returns</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border px-3 py-1 font-mono text-xs">.size()</td>
-              <td class="border px-3 py-1">How many rows?</td>
-              <td class="border px-3 py-1">Yes</td>
-              <td class="border px-3 py-1">Series</td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-mono text-xs">.count()</td>
-              <td class="border px-3 py-1">
-                How many non-null values per column?
-              </td>
-              <td class="border px-3 py-1">No</td>
-              <td class="border px-3 py-1">DataFrame</td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-mono text-xs">.nunique()</td>
-              <td class="border px-3 py-1">How many unique values?</td>
-              <td class="border px-3 py-1">No</td>
-              <td class="border px-3 py-1">Series</td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-mono text-xs">
-                .value_counts()
-              </td>
-              <td class="border px-3 py-1">How many of each specific value?</td>
-              <td class="border px-3 py-1">No</td>
-              <td class="border px-3 py-1">Series (multi-index)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> "Just tell me how many rows per group" →
-      use <code>.size()</code>. Want that as a new column? → use
-      <code>.transform('size')</code>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Method</th>
+            <th class="border px-3 py-2 text-left">Question it answers</th>
+            <th class="border px-3 py-2 text-left">Counts nulls?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.size()</td>
+            <td class="border px-3 py-1">How many rows?</td>
+            <td class="border px-3 py-1">Yes</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.count()</td>
+            <td class="border px-3 py-1">How many non-null values per column?</td>
+            <td class="border px-3 py-1">No</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.nunique()</td>
+            <td class="border px-3 py-1">How many unique values?</td>
+            <td class="border px-3 py-1">No</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.value_counts()</td>
+            <td class="border px-3 py-1">How many of each specific value?</td>
+            <td class="border px-3 py-1">No</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- HAVING -->
+  <!-- Filtering Groups -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      HAVING - Filtering Groups
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      HAVING filters after aggregation. In Pandas, you aggregate first, then
-      filter the result.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Filter after grouping</span>
-<span class="text-blue-400">SELECT</span> 
-    Country,
-    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSales
-<span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">GROUP BY</span> Country
-<span class="text-blue-400">HAVING</span> <span class="text-purple-400">SUM</span>(Total) > 100;
-
-<span class="text-gray-400">-- HAVING with COUNT</span>
-<span class="text-blue-400">SELECT</span> 
-    CustomerId,
-    <span class="text-purple-400">COUNT</span>(*) <span class="text-blue-400">AS</span> Orders
-<span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">GROUP BY</span> CustomerId
-<span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 5;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Filter after grouping</span>
-grouped = invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Filtering Groups</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Filter after grouping (aggregate first, then filter)</span>
+grouped = df.groupby(<span class="text-green-400">'Country'</span>).agg(
     TotalSales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
 ).reset_index()
 grouped[grouped[<span class="text-green-400">'TotalSales'</span>] > 100]
 
-<span class="text-gray-400"># HAVING with COUNT</span>
-grouped = invoices.groupby(<span class="text-green-400">'CustomerId'</span>).agg(
+<span class="text-gray-400"># Filter groups by count</span>
+grouped = df.groupby(<span class="text-green-400">'CustomerId'</span>).agg(
     Orders=(<span class="text-green-400">'InvoiceId'</span>, <span class="text-green-400">'count'</span>)
 ).reset_index()
 grouped[grouped[<span class="text-green-400">'Orders'</span>] >= 5]
 
-<span class="text-gray-400"># One-liner with .filter()</span>
-invoices.groupby(<span class="text-green-400">'CustomerId'</span>).filter(
-    <span class="text-blue-400">lambda</span> x: len(x) >= 5
-)</pre>
-      </div>
+<span class="text-gray-400"># One-liner with .filter() - returns original rows</span>
+df.groupby(<span class="text-green-400">'CustomerId'</span>).filter(<span class="text-blue-400">lambda</span> x: len(x) >= 5)</pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> In Pandas, HAVING is just a regular filter
-      applied to the aggregated DataFrame. The <code>.filter()</code> method is
-      an alternative that returns the original rows (not aggregated).
+      <strong>💡</strong> <code>.filter()</code> returns the original rows (not aggregated), while aggregating then filtering returns summary rows.
     </div>
   </div>
 
   <!-- Transform -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      TRANSFORM - Group Calculations Back to Rows
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      <code>transform()</code> applies a function to groups but returns results
-      aligned with the original DataFrame's index — same shape in, same shape
-      out.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Add group average to each row</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">PARTITION BY</span> Country
-    ) <span class="text-blue-400">AS</span> CountryAvg
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Percent of group total</span>
-<span class="text-blue-400">SELECT</span> *,
-    Total / <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">PARTITION BY</span> Country
-    ) <span class="text-blue-400">AS</span> PctOfCountry
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Filter: groups with 5+ members</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">WHERE</span> Country <span class="text-blue-400">IN</span> (
-    <span class="text-blue-400">SELECT</span> Country <span class="text-blue-400">FROM</span> invoices
-    <span class="text-blue-400">GROUP BY</span> Country
-    <span class="text-blue-400">HAVING</span> <span class="text-purple-400">COUNT</span>(*) >= 5
-);</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Add group average to each row</span>
-invoices[<span class="text-green-400">'CountryAvg'</span>] = invoices.groupby(
-    <span class="text-green-400">'Country'</span>
-)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'mean'</span>)
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Transform (Group Calculations Back to Rows)</h2>
+    <p class="text-sm text-gray-600 mb-3"><code>transform()</code> applies a function to groups but returns results aligned with the original index — same shape in, same shape out.</p>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Add group average to each row</span>
+df[<span class="text-green-400">'CountryAvg'</span>] = df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'mean'</span>)
 
 <span class="text-gray-400"># Percent of group total</span>
-invoices[<span class="text-green-400">'PctOfCountry'</span>] = (
-    invoices[<span class="text-green-400">'Total'</span>] / 
-    invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'sum'</span>)
-)
+df[<span class="text-green-400">'PctOfCountry'</span>] = df[<span class="text-green-400">'Total'</span>] / df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'sum'</span>)
 
-<span class="text-gray-400"># Filter: groups with 5+ members</span>
-invoices[
-    invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'count'</span>) >= 5
-]
+<span class="text-gray-400"># Filter: keep only groups with 5+ members</span>
+df[df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(<span class="text-green-400">'count'</span>) >= 5]
 
 <span class="text-gray-400"># Normalize within groups (z-score)</span>
-invoices[<span class="text-green-400">'Normalized'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
+df[<span class="text-green-400">'Normalized'</span>] = df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
     <span class="text-blue-400">lambda</span> x: (x - x.mean()) / x.std()
 )
 
 <span class="text-gray-400"># Fill NaN with group mean</span>
-invoices[<span class="text-green-400">'Total'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
+df[<span class="text-green-400">'Total'</span>] = df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].transform(
     <span class="text-blue-400">lambda</span> x: x.fillna(x.mean())
 )</pre>
-      </div>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>agg()</code> collapses groups into
-      summary rows. <code>transform()</code> broadcasts group results back to
-      every original row. Use transform when you need group-level stats but want
-      to keep your row count.
+      <strong>💡</strong> <code>agg()</code> collapses groups into summary rows. <code>transform()</code> broadcasts group results back to every original row.
     </div>
   </div>
 
-  <!-- Cut & Qcut - Binning -->
+  <!-- Binning -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      CUT & QCUT - Binning Continuous Data
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      <code>pd.cut()</code> creates equal-width bins.
-      <code>pd.qcut()</code> creates equal-frequency bins (quantiles).
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Equal-width bins (like cut)</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-blue-400">CASE</span>
-        <span class="text-blue-400">WHEN</span> Total <span class="text-blue-400">BETWEEN</span> 0 <span class="text-blue-400">AND</span> 10 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Low'</span>
-        <span class="text-blue-400">WHEN</span> Total <span class="text-blue-400">BETWEEN</span> 10 <span class="text-blue-400">AND</span> 20 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'High'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> PriceTier
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Quantile bins (like qcut)</span>
-<span class="text-gray-400">-- Requires window functions</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">NTILE</span>(4) <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">ORDER BY</span> Total
-    ) <span class="text-blue-400">AS</span> Quartile
-<span class="text-blue-400">FROM</span> invoices;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># cut: Equal-width bins (by value range)</span>
-invoices[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
-    invoices[<span class="text-green-400">'Total'</span>],
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Binning (cut & qcut)</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># cut: Equal-width bins (by value range)</span>
+df[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
+    df[<span class="text-green-400">'Total'</span>],
     bins=[0, 10, 20, float(<span class="text-green-400">'inf'</span>)],
     labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
 )
 
 <span class="text-gray-400"># cut: Auto-create n equal-width bins</span>
-invoices[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
-    invoices[<span class="text-green-400">'Total'</span>], 
-    bins=3,
-    labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
-)
+df[<span class="text-green-400">'PriceTier'</span>] = pd.cut(df[<span class="text-green-400">'Total'</span>], bins=3, labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>])
 
 <span class="text-gray-400"># qcut: Equal-frequency bins (by count)</span>
-invoices[<span class="text-green-400">'Quartile'</span>] = pd.qcut(
-    invoices[<span class="text-green-400">'Total'</span>],
-    q=4,
-    labels=[<span class="text-green-400">'Q1'</span>, <span class="text-green-400">'Q2'</span>, <span class="text-green-400">'Q3'</span>, <span class="text-green-400">'Q4'</span>]
-)
+df[<span class="text-green-400">'Quartile'</span>] = pd.qcut(df[<span class="text-green-400">'Total'</span>], q=4, labels=[<span class="text-green-400">'Q1'</span>, <span class="text-green-400">'Q2'</span>, <span class="text-green-400">'Q3'</span>, <span class="text-green-400">'Q4'</span>])
 
 <span class="text-gray-400"># qcut: Custom percentiles</span>
-invoices[<span class="text-green-400">'Tier'</span>] = pd.qcut(
-    invoices[<span class="text-green-400">'Total'</span>],
+df[<span class="text-green-400">'Tier'</span>] = pd.qcut(
+    df[<span class="text-green-400">'Total'</span>],
     q=[0, 0.25, 0.75, 1],
     labels=[<span class="text-green-400">'Bottom 25%'</span>, <span class="text-green-400">'Middle'</span>, <span class="text-green-400">'Top 25%'</span>]
 )</pre>
-      </div>
     </div>
-
-    <div class="mt-4">
-      <h3 class="font-semibold text-gray-700 mb-2">Cut vs Qcut</h3>
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm border border-gray-300">
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="border px-3 py-2 text-left"></th>
-              <th class="border px-3 py-2 text-left">pd.cut()</th>
-              <th class="border px-3 py-2 text-left">pd.qcut()</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border px-3 py-1 font-semibold">Bins by</td>
-              <td class="border px-3 py-1">Value range (equal width)</td>
-              <td class="border px-3 py-1">Data distribution (equal count)</td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-semibold">Use when</td>
-              <td class="border px-3 py-1">
-                Boundaries matter (age groups, price ranges)
-              </td>
-              <td class="border px-3 py-1">
-                Even groups matter (percentiles, quartiles)
-              </td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-semibold">Skewed data</td>
-              <td class="border px-3 py-1">Uneven group sizes</td>
-              <td class="border px-3 py-1">Even group sizes</td>
-            </tr>
-            <tr>
-              <td class="border px-3 py-1 font-semibold">Example</td>
-              <td class="border px-3 py-1 font-mono text-xs">
-                cut(ages, bins=[0,18,65,100])
-              </td>
-              <td class="border px-3 py-1 font-mono text-xs">
-                qcut(sales, q=4)
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>cut</code> asks "what range does this
-      value fall into?" <code>qcut</code> asks "what percentile is this value?"
-      Use <code>cut</code> for meaningful categories (Child/Adult/Senior),
-      <code>qcut</code> for statistical groupings (quartiles, deciles).
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left"></th>
+            <th class="border px-3 py-2 text-left">pd.cut()</th>
+            <th class="border px-3 py-2 text-left">pd.qcut()</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Bins by</td>
+            <td class="border px-3 py-1">Value range (equal width)</td>
+            <td class="border px-3 py-1">Data distribution (equal count)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Use when</td>
+            <td class="border px-3 py-1">Boundaries matter (age groups, price ranges)</td>
+            <td class="border px-3 py-1">Even groups matter (percentiles, quartiles)</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- JOIN -->
+  <!-- Merging -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      JOIN - Combining Tables
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Pandas uses <code>merge()</code> for SQL-style joins. The syntax maps
-      directly.
-    </p>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Merging DataFrames</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Inner join (only matching rows)</span>
+pd.merge(df1, df2, on=<span class="text-green-400">'key'</span>, how=<span class="text-green-400">'inner'</span>)
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- INNER JOIN</span>
-<span class="text-blue-400">SELECT</span> *
-<span class="text-blue-400">FROM</span> invoices i
-<span class="text-blue-400">JOIN</span> customers c 
-  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
+<span class="text-gray-400"># Left join (keep all from left)</span>
+pd.merge(df1, df2, on=<span class="text-green-400">'key'</span>, how=<span class="text-green-400">'left'</span>)
 
-<span class="text-gray-400">-- LEFT JOIN</span>
-<span class="text-blue-400">SELECT</span> *
-<span class="text-blue-400">FROM</span> customers c
-<span class="text-blue-400">LEFT JOIN</span> invoices i 
-  <span class="text-blue-400">ON</span> c.CustomerId = i.CustomerId;
+<span class="text-gray-400"># Right join (keep all from right)</span>
+pd.merge(df1, df2, on=<span class="text-green-400">'key'</span>, how=<span class="text-green-400">'right'</span>)
 
-<span class="text-gray-400">-- RIGHT JOIN</span>
-<span class="text-blue-400">SELECT</span> *
-<span class="text-blue-400">FROM</span> invoices i
-<span class="text-blue-400">RIGHT JOIN</span> customers c 
-  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
-
-<span class="text-gray-400">-- FULL OUTER JOIN</span>
-<span class="text-blue-400">SELECT</span> *
-<span class="text-blue-400">FROM</span> invoices i
-<span class="text-blue-400">FULL OUTER JOIN</span> customers c 
-  <span class="text-blue-400">ON</span> i.CustomerId = c.CustomerId;
-
-<span class="text-gray-400">-- Multiple join keys</span>
-<span class="text-blue-400">SELECT</span> *
-<span class="text-blue-400">FROM</span> table1 t1
-<span class="text-blue-400">JOIN</span> table2 t2 
-  <span class="text-blue-400">ON</span> t1.key1 = t2.key1 
- <span class="text-blue-400">AND</span> t1.key2 = t2.key2;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># INNER JOIN</span>
-pd.merge(invoices, customers, 
-         on=<span class="text-green-400">'CustomerId'</span>, 
-         how=<span class="text-green-400">'inner'</span>)
-
-<span class="text-gray-400"># LEFT JOIN</span>
-pd.merge(customers, invoices,
-         on=<span class="text-green-400">'CustomerId'</span>,
-         how=<span class="text-green-400">'left'</span>)
-
-<span class="text-gray-400"># RIGHT JOIN</span>
-pd.merge(invoices, customers,
-         on=<span class="text-green-400">'CustomerId'</span>,
-         how=<span class="text-green-400">'right'</span>)
-
-<span class="text-gray-400"># FULL OUTER JOIN</span>
-pd.merge(invoices, customers,
-         on=<span class="text-green-400">'CustomerId'</span>,
-         how=<span class="text-green-400">'outer'</span>)
+<span class="text-gray-400"># Outer join (keep all from both)</span>
+pd.merge(df1, df2, on=<span class="text-green-400">'key'</span>, how=<span class="text-green-400">'outer'</span>)
 
 <span class="text-gray-400"># Multiple join keys</span>
-pd.merge(table1, table2,
-         on=[<span class="text-green-400">'key1'</span>, <span class="text-green-400">'key2'</span>])
+pd.merge(df1, df2, on=[<span class="text-green-400">'key1'</span>, <span class="text-green-400">'key2'</span>])
 
 <span class="text-gray-400"># Different column names</span>
-pd.merge(df1, df2,
-         left_on=<span class="text-green-400">'cust_id'</span>,
-         right_on=<span class="text-green-400">'customer_id'</span>)</pre>
-      </div>
+pd.merge(df1, df2, left_on=<span class="text-green-400">'cust_id'</span>, right_on=<span class="text-green-400">'customer_id'</span>)</pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>how=</code> parameter maps to JOIN
-      type: <code>'inner'</code>, <code>'left'</code>, <code>'right'</code>,
-      <code>'outer'</code>. Default is inner join.
+      <strong>💡</strong> Default is inner join. Use <code>how=</code> to specify: <code>'inner'</code>, <code>'left'</code>, <code>'right'</code>, <code>'outer'</code>.
     </div>
   </div>
 
-  <!-- UNION -->
+  <!-- Concatenating -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">UNION - Combining Rows</h2>
-    <p class="text-sm text-gray-600 mb-3">
-      UNION stacks DataFrames vertically. Pandas uses <code>concat()</code>.
-    </p>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Concatenating DataFrames</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Stack vertically (add rows)</span>
+pd.concat([df1, df2])
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- UNION (removes duplicates)</span>
-<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> artists
-<span class="text-blue-400">UNION</span>
-<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> customers;
+<span class="text-gray-400"># Stack vertically and remove duplicates</span>
+pd.concat([df1, df2]).drop_duplicates()
 
-<span class="text-gray-400">-- UNION ALL (keeps duplicates)</span>
-<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> artists
-<span class="text-blue-400">UNION ALL</span>
-<span class="text-blue-400">SELECT</span> Name <span class="text-blue-400">FROM</span> customers;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># UNION (removes duplicates)</span>
-pd.concat([
-    artists[[<span class="text-green-400">'Name'</span>]], 
-    customers[[<span class="text-green-400">'Name'</span>]]
-]).drop_duplicates()
-
-<span class="text-gray-400"># UNION ALL (keeps duplicates)</span>
-pd.concat([
-    artists[[<span class="text-green-400">'Name'</span>]], 
-    customers[[<span class="text-green-400">'Name'</span>]]
-])</pre>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>concat()</code> is like UNION ALL by
-      default. Add <code>.drop_duplicates()</code> for UNION behavior.
+<span class="text-gray-400"># Stack horizontally (add columns)</span>
+pd.concat([df1, df2], axis=1)</pre>
     </div>
   </div>
 
-  <!-- CASE -->
+  <!-- Conditional Logic -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      CASE - Conditional Logic
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      SQL's CASE becomes <code>np.where()</code>, <code>np.select()</code>, or
-      <code>.apply()</code> in Pandas.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Simple CASE (2 outcomes)</span>
-<span class="text-blue-400">SELECT</span>
-    Total,
-    <span class="text-blue-400">CASE</span> 
-        <span class="text-blue-400">WHEN</span> Total > 10 <span class="text-blue-400">THEN</span> <span class="text-green-400">'High'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Low'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> Category
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Multiple conditions</span>
-<span class="text-blue-400">SELECT</span>
-    Total,
-    <span class="text-blue-400">CASE</span>
-        <span class="text-blue-400">WHEN</span> Total > 15 <span class="text-blue-400">THEN</span> <span class="text-green-400">'High'</span>
-        <span class="text-blue-400">WHEN</span> Total > 5 <span class="text-blue-400">THEN</span> <span class="text-green-400">'Medium'</span>
-        <span class="text-blue-400">ELSE</span> <span class="text-green-400">'Low'</span>
-    <span class="text-blue-400">END</span> <span class="text-blue-400">AS</span> Category
-<span class="text-blue-400">FROM</span> invoices;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
-
-<span class="text-gray-400"># Simple CASE (2 outcomes)</span>
-invoices[<span class="text-green-400">'Category'</span>] = np.where(
-    invoices[<span class="text-green-400">'Total'</span>] > 10,
-    <span class="text-green-400">'High'</span>,
-    <span class="text-green-400">'Low'</span>
-)
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Conditional Logic</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Simple if/else (2 outcomes)</span>
+df[<span class="text-green-400">'Category'</span>] = np.where(df[<span class="text-green-400">'Total'</span>] > 10, <span class="text-green-400">'High'</span>, <span class="text-green-400">'Low'</span>)
 
 <span class="text-gray-400"># Multiple conditions</span>
 conditions = [
-    invoices[<span class="text-green-400">'Total'</span>] > 15,
-    invoices[<span class="text-green-400">'Total'</span>] > 5
+    df[<span class="text-green-400">'Total'</span>] > 15,
+    df[<span class="text-green-400">'Total'</span>] > 5
 ]
 choices = [<span class="text-green-400">'High'</span>, <span class="text-green-400">'Medium'</span>]
-invoices[<span class="text-green-400">'Category'</span>] = np.select(
-    conditions, choices, default=<span class="text-green-400">'Low'</span>
-)
+df[<span class="text-green-400">'Category'</span>] = np.select(conditions, choices, default=<span class="text-green-400">'Low'</span>)
 
 <span class="text-gray-400"># Alternative: pd.cut() for ranges</span>
-invoices[<span class="text-green-400">'Category'</span>] = pd.cut(
-    invoices[<span class="text-green-400">'Total'</span>],
+df[<span class="text-green-400">'Category'</span>] = pd.cut(
+    df[<span class="text-green-400">'Total'</span>],
     bins=[0, 5, 15, float(<span class="text-green-400">'inf'</span>)],
     labels=[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]
 )</pre>
-      </div>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> <code>np.where()</code> for simple if/else.
-      <code>np.select()</code> for multiple conditions. <code>pd.cut()</code> is
-      perfect for binning numeric ranges.
+      <strong>💡</strong> <code>np.where()</code> for simple if/else. <code>np.select()</code> for multiple conditions. <code>pd.cut()</code> for numeric ranges.
     </div>
   </div>
 
-  <!-- Subqueries -->
+  <!-- Ranking & Window Functions -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">Subqueries</h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Subqueries in SQL become chained operations or intermediate variables in
-      Pandas.
-    </p>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Ranking & Window Functions</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Row number (unique rank for each row)</span>
+df[<span class="text-green-400">'RowNum'</span>] = df[<span class="text-green-400">'Total'</span>].rank(method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>).astype(int)
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Subquery in WHERE</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> invoices
-<span class="text-blue-400">WHERE</span> Total > (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(Total) <span class="text-blue-400">FROM</span> invoices
-);
+<span class="text-gray-400"># Rank (ties get same rank, gaps after)</span>
+df[<span class="text-green-400">'Rank'</span>] = df[<span class="text-green-400">'Total'</span>].rank(method=<span class="text-green-400">'min'</span>, ascending=<span class="text-blue-400">False</span>).astype(int)
 
-<span class="text-gray-400">-- Subquery with IN</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> customers
-<span class="text-blue-400">WHERE</span> CustomerId <span class="text-blue-400">IN</span> (
-    <span class="text-blue-400">SELECT</span> CustomerId 
-    <span class="text-blue-400">FROM</span> invoices
-    <span class="text-blue-400">WHERE</span> Total > 20
-);
+<span class="text-gray-400"># Dense rank (ties get same rank, no gaps)</span>
+df[<span class="text-green-400">'DenseRank'</span>] = df[<span class="text-green-400">'Total'</span>].rank(method=<span class="text-green-400">'dense'</span>, ascending=<span class="text-blue-400">False</span>).astype(int)
 
-<span class="text-gray-400">-- Subquery in FROM (derived table)</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> (
-    <span class="text-blue-400">SELECT</span> Country, <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> Sales
-    <span class="text-blue-400">FROM</span> invoices
-    <span class="text-blue-400">GROUP BY</span> Country
-) <span class="text-blue-400">AS</span> country_sales
-<span class="text-blue-400">WHERE</span> Sales > 100;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Subquery in WHERE</span>
-avg_total = invoices[<span class="text-green-400">'Total'</span>].mean()
-invoices[invoices[<span class="text-green-400">'Total'</span>] > avg_total]
-
-<span class="text-gray-400"># Subquery with IN</span>
-high_spenders = invoices[
-    invoices[<span class="text-green-400">'Total'</span>] > 20
-][<span class="text-green-400">'CustomerId'</span>]
-customers[customers[<span class="text-green-400">'CustomerId'</span>].isin(high_spenders)]
-
-<span class="text-gray-400"># Subquery in FROM (derived table)</span>
-country_sales = invoices.groupby(<span class="text-green-400">'Country'</span>).agg(
-    Sales=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
-).reset_index()
-country_sales[country_sales[<span class="text-green-400">'Sales'</span>] > 100]</pre>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Pandas encourages breaking down complex
-      queries into steps. Store intermediate results in variables - it's more
-      readable than nested SQL.
-    </div>
-  </div>
-
-  <!-- Window Functions -->
-  <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">Window Functions</h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Pandas has equivalents for all major window functions using
-      <code>.transform()</code>, <code>.rank()</code>, and
-      <code>.shift()</code>.
-    </p>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- ROW_NUMBER</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
-    ) <span class="text-blue-400">AS</span> RowNum
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- RANK / DENSE_RANK</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">RANK</span>() <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
-    ) <span class="text-blue-400">AS</span> Rank
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Partition by (group window)</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">ROW_NUMBER</span>() <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">PARTITION BY</span> Country
-        <span class="text-blue-400">ORDER BY</span> Total <span class="text-blue-400">DESC</span>
-    ) <span class="text-blue-400">AS</span> CountryRank
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- Running total</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">ORDER BY</span> InvoiceDate
-    ) <span class="text-blue-400">AS</span> RunningTotal
-<span class="text-blue-400">FROM</span> invoices;
-
-<span class="text-gray-400">-- LAG / LEAD</span>
-<span class="text-blue-400">SELECT</span> *,
-    <span class="text-purple-400">LAG</span>(Total) <span class="text-blue-400">OVER</span> (
-        <span class="text-blue-400">ORDER BY</span> InvoiceDate
-    ) <span class="text-blue-400">AS</span> PrevTotal
-<span class="text-blue-400">FROM</span> invoices;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># ROW_NUMBER</span>
-invoices[<span class="text-green-400">'RowNum'</span>] = invoices[<span class="text-green-400">'Total'</span>].rank(
-    method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>
-).astype(int)
-
-<span class="text-gray-400"># RANK / DENSE_RANK</span>
-invoices[<span class="text-green-400">'Rank'</span>] = invoices[<span class="text-green-400">'Total'</span>].rank(
-    method=<span class="text-green-400">'min'</span>, ascending=<span class="text-blue-400">False</span>  <span class="text-gray-400"># 'dense' for dense_rank</span>
-).astype(int)
-
-<span class="text-gray-400"># Partition by (group window)</span>
-invoices[<span class="text-green-400">'CountryRank'</span>] = invoices.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].rank(
+<span class="text-gray-400"># Rank within groups</span>
+df[<span class="text-green-400">'CountryRank'</span>] = df.groupby(<span class="text-green-400">'Country'</span>)[<span class="text-green-400">'Total'</span>].rank(
     method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>
 ).astype(int)
 
 <span class="text-gray-400"># Running total</span>
-invoices = invoices.sort_values(<span class="text-green-400">'InvoiceDate'</span>)
-invoices[<span class="text-green-400">'RunningTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].cumsum()
+df = df.sort_values(<span class="text-green-400">'Date'</span>)
+df[<span class="text-green-400">'RunningTotal'</span>] = df[<span class="text-green-400">'Total'</span>].cumsum()
 
-<span class="text-gray-400"># LAG / LEAD</span>
-invoices[<span class="text-green-400">'PrevTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].shift(1)  <span class="text-gray-400"># LAG</span>
-invoices[<span class="text-green-400">'NextTotal'</span>] = invoices[<span class="text-green-400">'Total'</span>].shift(-1) <span class="text-gray-400"># LEAD</span></pre>
-      </div>
+<span class="text-gray-400"># Previous/Next row values</span>
+df[<span class="text-green-400">'PrevTotal'</span>] = df[<span class="text-green-400">'Total'</span>].shift(1)   <span class="text-gray-400"># LAG</span>
+df[<span class="text-green-400">'NextTotal'</span>] = df[<span class="text-green-400">'Total'</span>].shift(-1)  <span class="text-gray-400"># LEAD</span></pre>
     </div>
-
     <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> The <code>method</code> parameter in
-      <code>.rank()</code> controls tie handling:
-      <code>'first'</code>=ROW_NUMBER, <code>'min'</code>=RANK,
-      <code>'dense'</code>=DENSE_RANK.
+      <strong>💡</strong> <code>method</code> parameter: <code>'first'</code>=row number, <code>'min'</code>=rank, <code>'dense'</code>=dense rank.
     </div>
   </div>
 
-  <!-- CTEs -->
+  <!-- Common Operations -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      CTEs - Step-by-Step Queries
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      CTEs are just named intermediate results. In Pandas, use variables.
-    </p>
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Common Operations</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Count distinct</span>
+df[<span class="text-green-400">'Country'</span>].nunique()
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-blue-400">WITH</span> CustomerTotals <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> 
-        CustomerId,
-        <span class="text-purple-400">SUM</span>(Total) <span class="text-blue-400">AS</span> TotalSpent
-    <span class="text-blue-400">FROM</span> invoices
-    <span class="text-blue-400">GROUP BY</span> CustomerId
-),
-AvgSpending <span class="text-blue-400">AS</span> (
-    <span class="text-blue-400">SELECT</span> <span class="text-purple-400">AVG</span>(TotalSpent) <span class="text-blue-400">AS</span> Avg
-    <span class="text-blue-400">FROM</span> CustomerTotals
-)
-<span class="text-blue-400">SELECT</span> ct.*
-<span class="text-blue-400">FROM</span> CustomerTotals ct, AvgSpending av
-<span class="text-blue-400">WHERE</span> ct.TotalSpent > av.Avg;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># CTE 1: CustomerTotals</span>
-customer_totals = invoices.groupby(<span class="text-green-400">'CustomerId'</span>).agg(
-    TotalSpent=(<span class="text-green-400">'Total'</span>, <span class="text-green-400">'sum'</span>)
-).reset_index()
-
-<span class="text-gray-400"># CTE 2: AvgSpending</span>
-avg_spending = customer_totals[<span class="text-green-400">'TotalSpent'</span>].mean()
-
-<span class="text-gray-400"># Final query</span>
-customer_totals[customer_totals[<span class="text-green-400">'TotalSpent'</span>] > avg_spending]</pre>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Pandas naturally encourages the CTE pattern
-      - breaking queries into readable steps. Name your intermediate DataFrames
-      descriptively.
-    </div>
-  </div>
-
-  <!-- Useful Extras -->
-  <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">Useful Extras</h2>
-
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">SQL</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400">-- Count distinct</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COUNT</span>(<span class="text-blue-400">DISTINCT</span> Country)
-<span class="text-blue-400">FROM</span> customers;
-
-<span class="text-gray-400">-- NULL handling</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">COALESCE</span>(Company, <span class="text-green-400">'N/A'</span>)
-<span class="text-blue-400">FROM</span> customers;
-
-<span class="text-gray-400">-- String concatenation</span>
-<span class="text-blue-400">SELECT</span> FirstName || <span class="text-green-400">' '</span> || LastName
-<span class="text-blue-400">FROM</span> customers;
-
-<span class="text-gray-400">-- Date extraction</span>
-<span class="text-blue-400">SELECT</span> 
-    <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%Y'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Year,
-    <span class="text-purple-400">STRFTIME</span>(<span class="text-green-400">'%m'</span>, InvoiceDate) <span class="text-blue-400">AS</span> Month
-<span class="text-blue-400">FROM</span> invoices;</pre>
-      </div>
-      <div>
-        <div class="text-sm font-semibold text-gray-500 mb-1">Pandas</div>
-        <pre
-          class="bg-gray-800 text-white p-3 rounded text-sm"
-        ><span class="text-gray-400"># Count distinct</span>
-customers[<span class="text-green-400">'Country'</span>].nunique()
-
-<span class="text-gray-400"># NULL handling</span>
-customers[<span class="text-green-400">'Company'</span>].fillna(<span class="text-green-400">'N/A'</span>)
+<span class="text-gray-400"># Fill null values</span>
+df[<span class="text-green-400">'Company'</span>].fillna(<span class="text-green-400">'N/A'</span>)
 
 <span class="text-gray-400"># String concatenation</span>
-customers[<span class="text-green-400">'FirstName'</span>] + <span class="text-green-400">' '</span> + customers[<span class="text-green-400">'LastName'</span>]
+df[<span class="text-green-400">'FullName'</span>] = df[<span class="text-green-400">'FirstName'</span>] + <span class="text-green-400">' '</span> + df[<span class="text-green-400">'LastName'</span>]
 
 <span class="text-gray-400"># Date extraction</span>
-invoices[<span class="text-green-400">'InvoiceDate'</span>] = pd.to_datetime(
-    invoices[<span class="text-green-400">'InvoiceDate'</span>]
-)
-invoices[<span class="text-green-400">'Year'</span>] = invoices[<span class="text-green-400">'InvoiceDate'</span>].dt.year
-invoices[<span class="text-green-400">'Month'</span>] = invoices[<span class="text-green-400">'InvoiceDate'</span>].dt.month</pre>
-      </div>
+df[<span class="text-green-400">'Date'</span>] = pd.to_datetime(df[<span class="text-green-400">'Date'</span>])
+df[<span class="text-green-400">'Year'</span>] = df[<span class="text-green-400">'Date'</span>].dt.year
+df[<span class="text-green-400">'Month'</span>] = df[<span class="text-green-400">'Date'</span>].dt.month
+
+<span class="text-gray-400"># Filter above average</span>
+avg = df[<span class="text-green-400">'Total'</span>].mean()
+df[df[<span class="text-green-400">'Total'</span>] > avg]
+
+<span class="text-gray-400"># Filter using another DataFrame's values</span>
+high_spenders = df[df[<span class="text-green-400">'Total'</span>] > 20][<span class="text-green-400">'CustomerId'</span>]
+customers[customers[<span class="text-green-400">'CustomerId'</span>].isin(high_spenders)]</pre>
     </div>
   </div>
-  <!-- Accessors -->
-  <div class="bg-white rounded-lg border border-gray-200 p-4">
-    <h2 class="font-bold text-lg mb-3 text-blue-700">
-      Pandas Accessors (.str, .dt, .cat)
-    </h2>
-    <p class="text-sm text-gray-600 mb-3">
-      Accessors let you apply specialized methods to Series of a specific type.
-      Access them via <code>.str</code> for strings, <code>.dt</code> for
-      datetimes, and <code>.cat</code> for categoricals.
-    </p>
 
-    <!-- String Accessor -->
-    <div class="mb-4">
-      <h3 class="font-semibold text-green-700 mb-2">.str - String Methods</h3>
-      <p class="text-xs text-gray-600 mb-2">
-        Works on Series containing string data. Vectorized string operations.
-      </p>
-      <div class="bg-gray-800 text-white p-3 rounded text-sm">
-        <pre><span class="text-gray-400"># Case conversion</span>
-df[<span class="text-green-400">'Name'</span>].str.lower()              <span class="text-gray-400"># lowercase</span>
-df[<span class="text-green-400">'Name'</span>].str.upper()              <span class="text-gray-400"># UPPERCASE</span>
-df[<span class="text-green-400">'Name'</span>].str.title()              <span class="text-gray-400"># Title Case</span>
-df[<span class="text-green-400">'Name'</span>].str.capitalize()          <span class="text-gray-400"># First letter only</span>
+  <!-- String Accessor -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">.str Accessor (String Methods)</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Case conversion</span>
+df[<span class="text-green-400">'Name'</span>].str.lower()
+df[<span class="text-green-400">'Name'</span>].str.upper()
+df[<span class="text-green-400">'Name'</span>].str.title()
 
 <span class="text-gray-400"># Whitespace</span>
-df[<span class="text-green-400">'Name'</span>].str.strip()              <span class="text-gray-400"># trim both sides</span>
-df[<span class="text-green-400">'Name'</span>].str.lstrip()             <span class="text-gray-400"># trim left</span>
-df[<span class="text-green-400">'Name'</span>].str.rstrip()             <span class="text-gray-400"># trim right</span>
+df[<span class="text-green-400">'Name'</span>].str.strip()
 
 <span class="text-gray-400"># Search & Match</span>
-df[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail'</span>)   <span class="text-gray-400"># True/False for each row</span>
-df[<span class="text-green-400">'Email'</span>].str.startswith(<span class="text-green-400">'a'</span>)    <span class="text-gray-400"># starts with 'a'</span>
-df[<span class="text-green-400">'Email'</span>].str.endswith(<span class="text-green-400">'.com'</span>)   <span class="text-gray-400"># ends with '.com'</span>
-df[<span class="text-green-400">'Email'</span>].str.match(<span class="text-green-400">r'^\w+@'</span>)    <span class="text-gray-400"># regex match from start</span>
+df[<span class="text-green-400">'Email'</span>].str.contains(<span class="text-green-400">'gmail'</span>)
+df[<span class="text-green-400">'Email'</span>].str.startswith(<span class="text-green-400">'a'</span>)
+df[<span class="text-green-400">'Email'</span>].str.endswith(<span class="text-green-400">'.com'</span>)
 
-<span class="text-gray-400"># Extract & Replace</span>
-df[<span class="text-green-400">'Email'</span>].str.replace(<span class="text-green-400">'@'</span>, <span class="text-green-400">'[at]'</span>) <span class="text-gray-400"># replace substring</span>
-df[<span class="text-green-400">'Email'</span>].str.extract(<span class="text-green-400">r'@(\w+)\.'</span>) <span class="text-gray-400"># extract with regex group</span>
+<span class="text-gray-400"># Replace</span>
 df[<span class="text-green-400">'Phone'</span>].str.replace(<span class="text-green-400">r'\D'</span>, <span class="text-green-400">''</span>, regex=<span class="text-blue-400">True</span>)  <span class="text-gray-400"># remove non-digits</span>
 
-<span class="text-gray-400"># Split & Join</span>
-df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>)            <span class="text-gray-400"># split into list</span>
-df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>, expand=<span class="text-blue-400">True</span>)  <span class="text-gray-400"># split into columns</span>
-df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>).str[<span class="text-yellow-400">0</span>]     <span class="text-gray-400"># get first part after split</span>
-df[<span class="text-green-400">'Tags'</span>].str.join(<span class="text-green-400">', '</span>)            <span class="text-gray-400"># join list elements</span>
+<span class="text-gray-400"># Split</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>)                    <span class="text-gray-400"># into list</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>, expand=<span class="text-blue-400">True</span>)       <span class="text-gray-400"># into columns</span>
+df[<span class="text-green-400">'Name'</span>].str.split(<span class="text-green-400">' '</span>).str[0]             <span class="text-gray-400"># first part</span>
 
 <span class="text-gray-400"># Length & Slicing</span>
-df[<span class="text-green-400">'Name'</span>].str.len()               <span class="text-gray-400"># character count</span>
-df[<span class="text-green-400">'Name'</span>].str[:<span class="text-yellow-400">3</span>]                  <span class="text-gray-400"># first 3 characters</span>
-df[<span class="text-green-400">'Name'</span>].str[-<span class="text-yellow-400">4</span>:]                 <span class="text-gray-400"># last 4 characters</span>
-df[<span class="text-green-400">'Name'</span>].str.slice(<span class="text-yellow-400">0</span>, <span class="text-yellow-400">5</span>)          <span class="text-gray-400"># substring [0:5]</span>
+df[<span class="text-green-400">'Name'</span>].str.len()
+df[<span class="text-green-400">'Name'</span>].str[:3]                          <span class="text-gray-400"># first 3 chars</span>
 
-<span class="text-gray-400"># Padding & Alignment</span>
-df[<span class="text-green-400">'ID'</span>].str.zfill(<span class="text-yellow-400">5</span>)              <span class="text-gray-400"># '42' → '00042'</span>
-df[<span class="text-green-400">'Name'</span>].str.pad(<span class="text-yellow-400">10</span>, side=<span class="text-green-400">'left'</span>) <span class="text-gray-400"># left pad to width 10</span>
-
-<span class="text-gray-400"># Find & Count</span>
-df[<span class="text-green-400">'Text'</span>].str.find(<span class="text-green-400">'word'</span>)         <span class="text-gray-400"># index of first occurrence (-1 if not found)</span>
-df[<span class="text-green-400">'Text'</span>].str.count(<span class="text-green-400">'a'</span>)           <span class="text-gray-400"># count occurrences</span>
+<span class="text-gray-400"># Padding</span>
+df[<span class="text-green-400">'ID'</span>].str.zfill(5)                       <span class="text-gray-400"># '42' → '00042'</span>
 
 <span class="text-gray-400"># Boolean checks</span>
-df[<span class="text-green-400">'Code'</span>].str.isdigit()           <span class="text-gray-400"># all digits?</span>
-df[<span class="text-green-400">'Code'</span>].str.isalpha()           <span class="text-gray-400"># all letters?</span>
-df[<span class="text-green-400">'Code'</span>].str.isalnum()           <span class="text-gray-400"># alphanumeric?</span>
-df[<span class="text-green-400">'Name'</span>].str.isupper()           <span class="text-gray-400"># all uppercase?</span></pre>
-      </div>
+df[<span class="text-green-400">'Code'</span>].str.isdigit()
+df[<span class="text-green-400">'Code'</span>].str.isalpha()</pre>
     </div>
+  </div>
 
-    <!-- Datetime Accessor -->
-    <div class="mb-4">
-      <h3 class="font-semibold text-purple-700 mb-2">.dt - Datetime Methods</h3>
-      <p class="text-xs text-gray-600 mb-2">
-        Works on Series containing datetime data. First convert with
-        <code>pd.to_datetime()</code> if needed.
-      </p>
-      <div class="bg-gray-800 text-white p-3 rounded text-sm">
-        <pre><span class="text-gray-400"># First, ensure datetime type</span>
+  <!-- Datetime Accessor -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">.dt Accessor (Datetime Methods)</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># First, ensure datetime type</span>
 df[<span class="text-green-400">'Date'</span>] = pd.to_datetime(df[<span class="text-green-400">'Date'</span>])
 
 <span class="text-gray-400"># Extract components</span>
-df[<span class="text-green-400">'Date'</span>].dt.year                 <span class="text-gray-400"># 2024</span>
-df[<span class="text-green-400">'Date'</span>].dt.month                <span class="text-gray-400"># 1-12</span>
-df[<span class="text-green-400">'Date'</span>].dt.day                  <span class="text-gray-400"># 1-31</span>
-df[<span class="text-green-400">'Date'</span>].dt.hour                 <span class="text-gray-400"># 0-23</span>
-df[<span class="text-green-400">'Date'</span>].dt.minute               <span class="text-gray-400"># 0-59</span>
-df[<span class="text-green-400">'Date'</span>].dt.second               <span class="text-gray-400"># 0-59</span>
-
-<span class="text-gray-400"># Day info</span>
-df[<span class="text-green-400">'Date'</span>].dt.dayofweek            <span class="text-gray-400"># 0=Mon, 6=Sun</span>
-df[<span class="text-green-400">'Date'</span>].dt.day_name()           <span class="text-gray-400"># 'Monday', 'Tuesday'...</span>
-df[<span class="text-green-400">'Date'</span>].dt.dayofyear            <span class="text-gray-400"># 1-366</span>
-df[<span class="text-green-400">'Date'</span>].dt.days_in_month        <span class="text-gray-400"># 28, 29, 30, or 31</span>
-
-<span class="text-gray-400"># Week & Quarter</span>
-df[<span class="text-green-400">'Date'</span>].dt.isocalendar().week   <span class="text-gray-400"># ISO week number (1-53)</span>
-df[<span class="text-green-400">'Date'</span>].dt.quarter              <span class="text-gray-400"># 1-4</span>
-
-<span class="text-gray-400"># Month name</span>
-df[<span class="text-green-400">'Date'</span>].dt.month_name()         <span class="text-gray-400"># 'January', 'February'...</span>
+df[<span class="text-green-400">'Date'</span>].dt.year
+df[<span class="text-green-400">'Date'</span>].dt.month
+df[<span class="text-green-400">'Date'</span>].dt.day
+df[<span class="text-green-400">'Date'</span>].dt.hour
+df[<span class="text-green-400">'Date'</span>].dt.dayofweek           <span class="text-gray-400"># 0=Mon, 6=Sun</span>
+df[<span class="text-green-400">'Date'</span>].dt.day_name()          <span class="text-gray-400"># 'Monday', etc.</span>
+df[<span class="text-green-400">'Date'</span>].dt.quarter             <span class="text-gray-400"># 1-4</span>
 
 <span class="text-gray-400"># Boolean checks</span>
-df[<span class="text-green-400">'Date'</span>].dt.is_month_start       <span class="text-gray-400"># True if 1st of month</span>
-df[<span class="text-green-400">'Date'</span>].dt.is_month_end         <span class="text-gray-400"># True if last of month</span>
-df[<span class="text-green-400">'Date'</span>].dt.is_quarter_start     <span class="text-gray-400"># True if quarter start</span>
-df[<span class="text-green-400">'Date'</span>].dt.is_year_start        <span class="text-gray-400"># True if Jan 1</span>
-df[<span class="text-green-400">'Date'</span>].dt.is_leap_year         <span class="text-gray-400"># True if leap year</span>
-
-<span class="text-gray-400"># Date only (remove time)</span>
-df[<span class="text-green-400">'Date'</span>].dt.date                 <span class="text-gray-400"># datetime.date objects</span>
-df[<span class="text-green-400">'Date'</span>].dt.normalize()          <span class="text-gray-400"># set time to 00:00:00</span>
-
-<span class="text-gray-400"># Time only</span>
-df[<span class="text-green-400">'Date'</span>].dt.time                 <span class="text-gray-400"># datetime.time objects</span>
+df[<span class="text-green-400">'Date'</span>].dt.is_month_start
+df[<span class="text-green-400">'Date'</span>].dt.is_month_end
+df[<span class="text-green-400">'Date'</span>].dt.is_weekend          <span class="text-gray-400"># Sat/Sun</span>
 
 <span class="text-gray-400"># Period conversions (for grouping)</span>
-df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'M'</span>)       <span class="text-gray-400"># to monthly period</span>
-df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'Q'</span>)       <span class="text-gray-400"># to quarterly period</span>
-df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'Y'</span>)       <span class="text-gray-400"># to yearly period</span>
+df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'M'</span>)      <span class="text-gray-400"># monthly</span>
+df[<span class="text-green-400">'Date'</span>].dt.to_period(<span class="text-green-400">'Q'</span>)      <span class="text-gray-400"># quarterly</span>
 
 <span class="text-gray-400"># Formatting</span>
-df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%Y-%m-%d'</span>) <span class="text-gray-400"># '2024-03-15'</span>
-df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%B %d, %Y'</span>) <span class="text-gray-400"># 'March 15, 2024'</span>
-
-<span class="text-gray-400"># Timezone</span>
-df[<span class="text-green-400">'Date'</span>].dt.tz_localize(<span class="text-green-400">'UTC'</span>)   <span class="text-gray-400"># set timezone</span>
-df[<span class="text-green-400">'Date'</span>].dt.tz_convert(<span class="text-green-400">'US/Eastern'</span>) <span class="text-gray-400"># convert timezone</span></pre>
-      </div>
+df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%Y-%m-%d'</span>)
+df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-green-400">'%B %d, %Y'</span>)  <span class="text-gray-400"># 'March 15, 2024'</span></pre>
     </div>
+  </div>
 
-    <!-- Categorical Accessor -->
-    <div class="mb-4">
-      <h3 class="font-semibold text-orange-700 mb-2">
-        .cat - Categorical Methods
-      </h3>
-      <p class="text-xs text-gray-600 mb-2">
-        Works on categorical dtype. Useful for memory efficiency and ordered
-        data.
-      </p>
-      <div class="bg-gray-800 text-white p-3 rounded text-sm">
-        <pre><span class="text-gray-400"># Convert to categorical</span>
+  <!-- Categorical Accessor -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">.cat Accessor (Categorical Methods)</h2>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Convert to categorical</span>
 df[<span class="text-green-400">'Size'</span>] = df[<span class="text-green-400">'Size'</span>].astype(<span class="text-green-400">'category'</span>)
 
-<span class="text-gray-400"># Or with pd.Categorical for ordered</span>
+<span class="text-gray-400"># Create ordered categorical</span>
 df[<span class="text-green-400">'Size'</span>] = pd.Categorical(
     df[<span class="text-green-400">'Size'</span>], 
     categories=[<span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'XL'</span>], 
@@ -1295,820 +508,157 @@ df[<span class="text-green-400">'Size'</span>] = pd.Categorical(
 )
 
 <span class="text-gray-400"># View categories</span>
-df[<span class="text-green-400">'Size'</span>].cat.categories          <span class="text-gray-400"># Index(['S', 'M', 'L', 'XL'])</span>
-df[<span class="text-green-400">'Size'</span>].cat.codes               <span class="text-gray-400"># numeric codes (0, 1, 2, 3)</span>
-df[<span class="text-green-400">'Size'</span>].cat.ordered             <span class="text-gray-400"># True if ordered</span>
-
-<span class="text-gray-400"># Modify categories</span>
-df[<span class="text-green-400">'Size'</span>].cat.add_categories([<span class="text-green-400">'XXL'</span>])
-df[<span class="text-green-400">'Size'</span>].cat.remove_categories([<span class="text-green-400">'S'</span>])
-df[<span class="text-green-400">'Size'</span>].cat.rename_categories({<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>})
-df[<span class="text-green-400">'Size'</span>].cat.reorder_categories([<span class="text-green-400">'XL'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'S'</span>])
-
-<span class="text-gray-400"># Set as ordered/unordered</span>
-df[<span class="text-green-400">'Size'</span>].cat.as_ordered()
-df[<span class="text-green-400">'Size'</span>].cat.as_unordered()
+df[<span class="text-green-400">'Size'</span>].cat.categories
+df[<span class="text-green-400">'Size'</span>].cat.codes              <span class="text-gray-400"># numeric codes (0, 1, 2, 3)</span>
 
 <span class="text-gray-400"># With ordered categorical, comparisons work!</span>
-df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400">'M'</span>]                <span class="text-gray-400"># rows where Size is L or XL</span></pre>
-      </div>
-    </div>
-    <!-- GeoPandas -->
-    <div class="bg-white rounded-lg border border-gray-200 p-4">
-      <h2 class="font-bold text-lg mb-3 text-blue-700">
-        GeoPandas - Spatial Data Operations
-      </h2>
-      <p class="text-sm text-gray-600 mb-3">
-        GeoPandas extends Pandas to handle geospatial data. If you know PostGIS
-        or spatial SQL, these concepts will be familiar.
-      </p>
-
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-        <p class="text-sm">
-          <strong>Setup:</strong> GeoPandas uses a
-          <code class="bg-gray-200 px-1 rounded">GeoDataFrame</code> which is a
-          DataFrame with a special <code>geometry</code> column.
-        </p>
-        <pre
-          class="bg-gray-800 text-white p-2 rounded text-sm mt-2"
-        ><span class="text-blue-400">import</span> geopandas <span class="text-blue-400">as</span> gpd
-<span class="text-blue-400">from</span> shapely.geometry <span class="text-blue-400">import</span> Point, Polygon
-
-<span class="text-gray-400"># Load spatial data</span>
-gdf = gpd.read_file(<span class="text-green-400">'neighborhoods.geojson'</span>)
-points = gpd.read_file(<span class="text-green-400">'locations.shp'</span>)
-
-<span class="text-gray-400"># Create from regular DataFrame</span>
-gdf = gpd.GeoDataFrame(
-    df, 
-    geometry=gpd.points_from_xy(df[<span class="text-green-400">'longitude'</span>], df[<span class="text-green-400">'latitude'</span>]),
-    crs=<span class="text-green-400">'EPSG:4326'</span>  <span class="text-gray-400"># WGS84</span>
-)</pre>
-      </div>
-
-      <!-- Reading & Writing Spatial Data -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">
-          Reading & Writing Spatial Data
-        </h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Load from spatial table</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> neighborhoods;
-
-<span class="text-gray-400">-- Create point from coords</span>
-<span class="text-blue-400">SELECT</span> 
-    name,
-    <span class="text-purple-400">ST_SetSRID</span>(
-        <span class="text-purple-400">ST_MakePoint</span>(lon, lat), 
-        4326
-    ) <span class="text-blue-400">AS</span> geom
-<span class="text-blue-400">FROM</span> locations;</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Read various formats</span>
-gdf = gpd.read_file(<span class="text-green-400">'data.geojson'</span>)
-gdf = gpd.read_file(<span class="text-green-400">'data.shp'</span>)
-gdf = gpd.read_file(<span class="text-green-400">'data.gpkg'</span>)
-
-<span class="text-gray-400"># Create geometry from coordinates</span>
-gdf = gpd.GeoDataFrame(
-    df,
-    geometry=gpd.points_from_xy(
-        df[<span class="text-green-400">'lon'</span>], df[<span class="text-green-400">'lat'</span>]
-    ),
-    crs=<span class="text-green-400">'EPSG:4326'</span>
-)
-
-<span class="text-gray-400"># Write to file</span>
-gdf.to_file(<span class="text-green-400">'output.geojson'</span>, driver=<span class="text-green-400">'GeoJSON'</span>)</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spatial Predicates -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">
-          Spatial Predicates (Filtering)
-        </h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Points within polygon</span>
-<span class="text-blue-400">SELECT</span> p.* 
-<span class="text-blue-400">FROM</span> points p, neighborhoods n
-<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Within</span>(p.geom, n.geom)
-  <span class="text-blue-400">AND</span> n.name = <span class="text-green-400">'Downtown'</span>;
-
-<span class="text-gray-400">-- Intersects</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> parcels
-<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Intersects</span>(
-    geom, 
-    <span class="text-purple-400">ST_Buffer</span>(
-        <span class="text-purple-400">ST_MakePoint</span>(-87.6, 41.8), 
-        0.01
-    )
-);
-
-<span class="text-gray-400">-- Contains</span>
-<span class="text-blue-400">SELECT</span> * <span class="text-blue-400">FROM</span> neighborhoods
-<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Contains</span>(
-    geom, 
-    <span class="text-purple-400">ST_MakePoint</span>(-87.6, 41.8)
-);</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Points within polygon</span>
-downtown = neighborhoods[
-    neighborhoods[<span class="text-green-400">'name'</span>] == <span class="text-green-400">'Downtown'</span>
-].geometry.iloc[<span class="text-yellow-400">0</span>]
-points[points.within(downtown)]
-
-<span class="text-gray-400"># Intersects (with buffer)</span>
-center = Point(-87.6, 41.8)
-buffer = center.buffer(0.01)
-parcels[parcels.intersects(buffer)]
-
-<span class="text-gray-400"># Contains</span>
-point = Point(-87.6, 41.8)
-neighborhoods[neighborhoods.contains(point)]
-
-<span class="text-gray-400"># Other predicates</span>
-gdf[gdf.touches(other_geom)]
-gdf[gdf.crosses(line_geom)]
-gdf[gdf.overlaps(polygon)]
-gdf[gdf.disjoint(other_geom)]  <span class="text-gray-400"># NOT intersects</span></pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spatial Joins -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">Spatial Joins</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Point in polygon join</span>
-<span class="text-blue-400">SELECT</span> 
-    p.name <span class="text-blue-400">AS</span> point_name,
-    n.name <span class="text-blue-400">AS</span> neighborhood
-<span class="text-blue-400">FROM</span> points p
-<span class="text-blue-400">JOIN</span> neighborhoods n
-  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Within</span>(p.geom, n.geom);
-
-<span class="text-gray-400">-- Nearest neighbor join</span>
-<span class="text-blue-400">SELECT DISTINCT ON</span> (p.id)
-    p.name,
-    s.name <span class="text-blue-400">AS</span> nearest_station
-<span class="text-blue-400">FROM</span> points p
-<span class="text-blue-400">CROSS JOIN LATERAL</span> (
-    <span class="text-blue-400">SELECT</span> name 
-    <span class="text-blue-400">FROM</span> stations
-    <span class="text-blue-400">ORDER BY</span> geom <-> p.geom
-    <span class="text-blue-400">LIMIT</span> 1
-) s;</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Point in polygon join</span>
-joined = gpd.sjoin(
-    points, 
-    neighborhoods,
-    how=<span class="text-green-400">'inner'</span>,
-    predicate=<span class="text-green-400">'within'</span>
-)
-
-<span class="text-gray-400"># Other predicates: 'intersects', 'contains'</span>
-joined = gpd.sjoin(
-    parcels, 
-    flood_zones,
-    predicate=<span class="text-green-400">'intersects'</span>
-)
-
-<span class="text-gray-400"># Nearest neighbor join</span>
-joined = gpd.sjoin_nearest(
-    points,
-    stations,
-    how=<span class="text-green-400">'left'</span>,
-    distance_col=<span class="text-green-400">'dist_to_station'</span>
-)
-
-<span class="text-gray-400"># Left join (keep all left geometries)</span>
-joined = gpd.sjoin(
-    points, neighborhoods,
-    how=<span class="text-green-400">'left'</span>,
-    predicate=<span class="text-green-400">'within'</span>
-)</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- Geometric Operations -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">Geometric Operations</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Buffer</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Buffer</span>(geom, 100) 
-<span class="text-blue-400">FROM</span> points;
-
-<span class="text-gray-400">-- Centroid</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Centroid</span>(geom) 
-<span class="text-blue-400">FROM</span> neighborhoods;
-
-<span class="text-gray-400">-- Area & Length</span>
-<span class="text-blue-400">SELECT</span> 
-    name,
-    <span class="text-purple-400">ST_Area</span>(geom) <span class="text-blue-400">AS</span> area,
-    <span class="text-purple-400">ST_Perimeter</span>(geom) <span class="text-blue-400">AS</span> perimeter
-<span class="text-blue-400">FROM</span> neighborhoods;
-
-<span class="text-gray-400">-- Distance between geometries</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Distance</span>(
-    a.geom, b.geom
-) <span class="text-blue-400">AS</span> distance
-<span class="text-blue-400">FROM</span> point_a a, point_b b;
-
-<span class="text-gray-400">-- Union / Dissolve</span>
-<span class="text-blue-400">SELECT</span> 
-    region,
-    <span class="text-purple-400">ST_Union</span>(geom) <span class="text-blue-400">AS</span> geom
-<span class="text-blue-400">FROM</span> neighborhoods
-<span class="text-blue-400">GROUP BY</span> region;</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Buffer</span>
-gdf[<span class="text-green-400">'buffered'</span>] = gdf.geometry.buffer(100)
-
-<span class="text-gray-400"># Centroid</span>
-gdf[<span class="text-green-400">'centroid'</span>] = gdf.geometry.centroid
-
-<span class="text-gray-400"># Area & Length (use projected CRS!)</span>
-gdf_projected = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)
-gdf[<span class="text-green-400">'area_m2'</span>] = gdf_projected.geometry.area
-gdf[<span class="text-green-400">'perimeter_m'</span>] = gdf_projected.geometry.length
-
-<span class="text-gray-400"># Distance (between each row and a point)</span>
-target = Point(-87.6, 41.8)
-gdf[<span class="text-green-400">'distance'</span>] = gdf.geometry.distance(target)
-
-<span class="text-gray-400"># Union / Dissolve (like GROUP BY)</span>
-dissolved = gdf.dissolve(by=<span class="text-green-400">'region'</span>)
-
-<span class="text-gray-400"># Dissolve with aggregation</span>
-dissolved = gdf.dissolve(
-    by=<span class="text-green-400">'region'</span>,
-    aggfunc={<span class="text-green-400">'population'</span>: <span class="text-green-400">'sum'</span>}
-)</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- Set Operations -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">
-          Set Operations (Overlay)
-        </h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Intersection</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Intersection</span>(
-    a.geom, b.geom
-)
-<span class="text-blue-400">FROM</span> layer_a a, layer_b b
-<span class="text-blue-400">WHERE</span> <span class="text-purple-400">ST_Intersects</span>(a.geom, b.geom);
-
-<span class="text-gray-400">-- Difference (A minus B)</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Difference</span>(
-    a.geom, b.geom
-)
-<span class="text-blue-400">FROM</span> layer_a a, layer_b b;
-
-<span class="text-gray-400">-- Union of two layers</span>
-<span class="text-blue-400">SELECT</span> <span class="text-purple-400">ST_Union</span>(a.geom, b.geom)
-<span class="text-blue-400">FROM</span> layer_a a, layer_b b;</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Intersection</span>
-intersection = gpd.overlay(
-    gdf1, gdf2, 
-    how=<span class="text-green-400">'intersection'</span>
-)
-
-<span class="text-gray-400"># Difference (A minus B)</span>
-difference = gpd.overlay(
-    gdf1, gdf2, 
-    how=<span class="text-green-400">'difference'</span>
-)
-
-<span class="text-gray-400"># Union of two layers</span>
-union = gpd.overlay(
-    gdf1, gdf2, 
-    how=<span class="text-green-400">'union'</span>
-)
-
-<span class="text-gray-400"># Symmetric difference (XOR)</span>
-sym_diff = gpd.overlay(
-    gdf1, gdf2,
-    how=<span class="text-green-400">'symmetric_difference'</span>
-)</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- CRS & Projections -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">CRS & Projections</h3>
-        <div class="bg-gray-800 text-white p-3 rounded text-sm">
-          <pre><span class="text-gray-400"># Check current CRS</span>
-gdf.crs                              <span class="text-gray-400"># EPSG:4326</span>
-
-<span class="text-gray-400"># Set CRS (if missing)</span>
-gdf = gdf.set_crs(<span class="text-green-400">'EPSG:4326'</span>)
-
-<span class="text-gray-400"># Reproject to different CRS</span>
-gdf_meters = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)  <span class="text-gray-400"># Web Mercator (meters)</span>
-gdf_utm = gdf.to_crs(<span class="text-green-400">'EPSG:32616'</span>)    <span class="text-gray-400"># UTM Zone 16N (for Chicago)</span>
-
-<span class="text-gray-400"># Common CRS codes:</span>
-<span class="text-gray-400"># EPSG:4326  - WGS84 (lat/lon, degrees) - GPS coordinates</span>
-<span class="text-gray-400"># EPSG:3857  - Web Mercator (meters) - Google Maps, etc.</span>
-<span class="text-gray-400"># EPSG:2154  - Lambert 93 (France)</span>
-<span class="text-gray-400"># EPSG:32616 - UTM Zone 16N (meters) - Great Lakes region</span>
-
-<span class="text-gray-400"># ⚠️ IMPORTANT: Always project to meters before calculating area/distance!</span>
-gdf_projected = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)
-gdf[<span class="text-green-400">'area_m2'</span>] = gdf_projected.geometry.area</pre>
-        </div>
-      </div>
-
-      <!-- Geometry Accessor -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">.geometry Accessor</h3>
-        <div class="bg-gray-800 text-white p-3 rounded text-sm">
-          <pre><span class="text-gray-400"># Access geometry properties (like .str and .dt accessors)</span>
-gdf.geometry.area                    <span class="text-gray-400"># area of each geometry</span>
-gdf.geometry.length                  <span class="text-gray-400"># perimeter/length</span>
-gdf.geometry.centroid                <span class="text-gray-400"># centroid point</span>
-gdf.geometry.bounds                  <span class="text-gray-400"># bounding box (minx, miny, maxx, maxy)</span>
-gdf.geometry.total_bounds            <span class="text-gray-400"># bounds of entire GeoDataFrame</span>
-
-<span class="text-gray-400"># Geometry type checks</span>
-gdf.geometry.geom_type               <span class="text-gray-400"># 'Point', 'Polygon', etc.</span>
-gdf.geometry.is_valid                <span class="text-gray-400"># True/False for each geometry</span>
-gdf.geometry.is_empty                <span class="text-gray-400"># True if empty geometry</span>
-
-<span class="text-gray-400"># Extract coordinates</span>
-gdf.geometry.x                       <span class="text-gray-400"># x coordinate (points only)</span>
-gdf.geometry.y                       <span class="text-gray-400"># y coordinate (points only)</span>
-
-<span class="text-gray-400"># Simplify (reduce vertices)</span>
-gdf.geometry.simplify(tolerance=0.001)
-
-<span class="text-gray-400"># Convex hull</span>
-gdf.geometry.convex_hull
-
-<span class="text-gray-400"># Envelope (bounding box as polygon)</span>
-gdf.geometry.envelope</pre>
-        </div>
-      </div>
-
-      <!-- Aggregations with Geometry -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">Spatial Aggregations</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              SQL (PostGIS)
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400">-- Count points in each polygon</span>
-<span class="text-blue-400">SELECT</span> 
-    n.name,
-    <span class="text-purple-400">COUNT</span>(p.id) <span class="text-blue-400">AS</span> point_count
-<span class="text-blue-400">FROM</span> neighborhoods n
-<span class="text-blue-400">LEFT JOIN</span> points p
-  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Contains</span>(n.geom, p.geom)
-<span class="text-blue-400">GROUP BY</span> n.name;
-
-<span class="text-gray-400">-- Sum values within polygons</span>
-<span class="text-blue-400">SELECT</span>
-    n.name,
-    <span class="text-purple-400">SUM</span>(p.value) <span class="text-blue-400">AS</span> total_value
-<span class="text-blue-400">FROM</span> neighborhoods n
-<span class="text-blue-400">JOIN</span> points p
-  <span class="text-blue-400">ON</span> <span class="text-purple-400">ST_Contains</span>(n.geom, p.geom)
-<span class="text-blue-400">GROUP BY</span> n.name;</pre>
-          </div>
-          <div>
-            <div class="text-sm font-semibold text-gray-500 mb-1">
-              GeoPandas
-            </div>
-            <pre
-              class="bg-gray-800 text-white p-3 rounded text-sm"
-            ><span class="text-gray-400"># Count points in each polygon</span>
-joined = gpd.sjoin(
-    points, neighborhoods,
-    how=<span class="text-green-400">'right'</span>,
-    predicate=<span class="text-green-400">'within'</span>
-)
-counts = joined.groupby(<span class="text-green-400">'name'</span>).size()
-
-<span class="text-gray-400"># Sum values within polygons</span>
-joined = gpd.sjoin(
-    points, neighborhoods,
-    predicate=<span class="text-green-400">'within'</span>
-)
-totals = joined.groupby(<span class="text-green-400">'name'</span>)[<span class="text-green-400">'value'</span>].sum()
-
-<span class="text-gray-400"># Merge back to keep geometry</span>
-neighborhoods = neighborhoods.merge(
-    totals.reset_index(),
-    on=<span class="text-green-400">'name'</span>,
-    how=<span class="text-green-400">'left'</span>
-)</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Plotting -->
-      <div class="mb-4">
-        <h3 class="font-semibold text-green-700 mb-2">Quick Visualization</h3>
-        <div class="bg-gray-800 text-white p-3 rounded text-sm">
-          <pre><span class="text-gray-400"># Basic plot</span>
-gdf.plot()
-
-<span class="text-gray-400"># Choropleth (colored by column)</span>
-gdf.plot(column=<span class="text-green-400">'population'</span>, cmap=<span class="text-green-400">'viridis'</span>, legend=<span class="text-blue-400">True</span>)
-
-<span class="text-gray-400"># Layer multiple GeoDataFrames</span>
-<span class="text-blue-400">import</span> matplotlib.pyplot <span class="text-blue-400">as</span> plt
-fig, ax = plt.subplots(figsize=(10, 10))
-neighborhoods.plot(ax=ax, color=<span class="text-green-400">'lightgray'</span>, edgecolor=<span class="text-green-400">'black'</span>)
-points.plot(ax=ax, color=<span class="text-green-400">'red'</span>, markersize=5)
-plt.show()
-
-<span class="text-gray-400"># Interactive map (requires folium)</span>
-gdf.explore(column=<span class="text-green-400">'population'</span>, cmap=<span class="text-green-400">'viridis'</span>)</pre>
-        </div>
-      </div>
-
-      <!-- Reference Table -->
-      <div class="mt-4">
-        <h3 class="font-semibold text-gray-700 mb-2">
-          GeoPandas Quick Reference
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-xs border border-gray-300">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="border px-2 py-1 text-left">PostGIS</th>
-                <th class="border px-2 py-1 text-left">GeoPandas</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Within(a, b)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf[gdf.within(geom)]
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Contains(a, b)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf[gdf.contains(geom)]
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Intersects(a, b)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf[gdf.intersects(geom)]
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">
-                  ST_Buffer(geom, dist)
-                </td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf.geometry.buffer(dist)
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Centroid(geom)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf.geometry.centroid
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Area(geom)</td>
-                <td class="border px-2 py-1 font-mono">gdf.geometry.area</td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Distance(a, b)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf.geometry.distance(geom)
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">ST_Union (GROUP BY)</td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf.dissolve(by='col')
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">
-                  ST_Intersection(a, b)
-                </td>
-                <td class="border px-2 py-1 font-mono">
-                  gpd.overlay(how='intersection')
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">Spatial JOIN</td>
-                <td class="border px-2 py-1 font-mono">
-                  gpd.sjoin(gdf1, gdf2)
-                </td>
-              </tr>
-              <tr>
-                <td class="border px-2 py-1 font-mono">
-                  ST_Transform(geom, srid)
-                </td>
-                <td class="border px-2 py-1 font-mono">
-                  gdf.to_crs('EPSG:xxxx')
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-        <strong>💡 Intuition:</strong> GeoPandas = Pandas + Shapely. The
-        <code>geometry</code> column holds Shapely objects, so you can use any
-        Shapely method. Always check your CRS before spatial operations, and
-        project to meters (like EPSG:3857) before calculating distances or
-        areas.
-      </div>
-    </div>
-
-    <!-- Quick Reference Table -->
-    <div class="mt-4">
-      <h3 class="font-semibold text-gray-700 mb-2">Accessor Quick Reference</h3>
-      <div class="overflow-x-auto">
-        <table class="w-full text-xs border border-gray-300">
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="border px-2 py-1 text-left">Task</th>
-              <th class="border px-2 py-1 text-left">Accessor Method</th>
-              <th class="border px-2 py-1 text-left">Example Output</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="bg-green-50">
-              <td class="border px-2 py-1 font-semibold" colspan="3">
-                .str (Strings)
-              </td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Extract email domain</td>
-              <td class="border px-2 py-1 font-mono">.str.split('@').str[1]</td>
-              <td class="border px-2 py-1">'gmail.com'</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Clean whitespace</td>
-              <td class="border px-2 py-1 font-mono">
-                .str.strip().str.lower()
-              </td>
-              <td class="border px-2 py-1">'hello world'</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Check pattern</td>
-              <td class="border px-2 py-1 font-mono">
-                .str.contains(r'^\d{3}-')
-              </td>
-              <td class="border px-2 py-1">True/False</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Get initials</td>
-              <td class="border px-2 py-1 font-mono">
-                .str.split().str[0].str[0]
-              </td>
-              <td class="border px-2 py-1">'J' (from 'John')</td>
-            </tr>
-            <tr class="bg-purple-50">
-              <td class="border px-2 py-1 font-semibold" colspan="3">
-                .dt (Datetime)
-              </td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Get year-month</td>
-              <td class="border px-2 py-1 font-mono">.dt.to_period('M')</td>
-              <td class="border px-2 py-1">2024-03</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Week of year</td>
-              <td class="border px-2 py-1 font-mono">.dt.isocalendar().week</td>
-              <td class="border px-2 py-1">11</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Is weekend?</td>
-              <td class="border px-2 py-1 font-mono">.dt.dayofweek >= 5</td>
-              <td class="border px-2 py-1">True/False</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Format date</td>
-              <td class="border px-2 py-1 font-mono">.dt.strftime('%b %Y')</td>
-              <td class="border px-2 py-1">'Mar 2024'</td>
-            </tr>
-            <tr class="bg-orange-50">
-              <td class="border px-2 py-1 font-semibold" colspan="3">
-                .cat (Categorical)
-              </td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Get unique categories</td>
-              <td class="border px-2 py-1 font-mono">.cat.categories</td>
-              <td class="border px-2 py-1">['S', 'M', 'L']</td>
-            </tr>
-            <tr>
-              <td class="border px-2 py-1">Get numeric codes</td>
-              <td class="border px-2 py-1 font-mono">.cat.codes</td>
-              <td class="border px-2 py-1">0, 1, 2, ...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
-      <strong>💡 Intuition:</strong> Accessors are like "namespaces" for
-      type-specific methods. They prevent polluting the main Series with
-      hundreds of methods. Chain them for powerful one-liners:
-      <code>df['Email'].str.lower().str.strip().str.split('@').str[1]</code>
+df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400">'M'</span>]               <span class="text-gray-400"># rows where Size is L or XL</span></pre>
     </div>
   </div>
 
-  <!-- Quick Reference Table -->
+  <!-- GeoPandas -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">GeoPandas (Spatial Data)</h2>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+      <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-blue-400">import</span> geopandas <span class="text-blue-400">as</span> gpd
+<span class="text-blue-400">from</span> shapely.geometry <span class="text-blue-400">import</span> Point
+
+<span class="text-gray-400"># Load spatial data</span>
+gdf = gpd.read_file(<span class="text-green-400">'data.geojson'</span>)
+
+<span class="text-gray-400"># Create from DataFrame with coordinates</span>
+gdf = gpd.GeoDataFrame(
+    df, 
+    geometry=gpd.points_from_xy(df[<span class="text-green-400">'lon'</span>], df[<span class="text-green-400">'lat'</span>]),
+    crs=<span class="text-green-400">'EPSG:4326'</span>
+)</pre>
+    </div>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+      <pre><span class="text-gray-400"># Spatial filtering</span>
+gdf[gdf.within(polygon)]
+gdf[gdf.intersects(other_geom)]
+gdf[gdf.contains(point)]
+
+<span class="text-gray-400"># Spatial join</span>
+joined = gpd.sjoin(points, neighborhoods, predicate=<span class="text-green-400">'within'</span>)
+
+<span class="text-gray-400"># Nearest neighbor join</span>
+joined = gpd.sjoin_nearest(points, stations, distance_col=<span class="text-green-400">'dist'</span>)
+
+<span class="text-gray-400"># Geometric operations</span>
+gdf[<span class="text-green-400">'buffered'</span>] = gdf.geometry.buffer(100)
+gdf[<span class="text-green-400">'centroid'</span>] = gdf.geometry.centroid
+gdf[<span class="text-green-400">'distance'</span>] = gdf.geometry.distance(target_point)
+
+<span class="text-gray-400"># Dissolve (merge geometries by group)</span>
+dissolved = gdf.dissolve(by=<span class="text-green-400">'region'</span>, aggfunc={<span class="text-green-400">'population'</span>: <span class="text-green-400">'sum'</span>})
+
+<span class="text-gray-400"># Overlay operations</span>
+gpd.overlay(gdf1, gdf2, how=<span class="text-green-400">'intersection'</span>)
+gpd.overlay(gdf1, gdf2, how=<span class="text-green-400">'difference'</span>)
+gpd.overlay(gdf1, gdf2, how=<span class="text-green-400">'union'</span>)
+
+<span class="text-gray-400"># CRS (Coordinate Reference System)</span>
+gdf.crs                              <span class="text-gray-400"># check current CRS</span>
+gdf = gdf.set_crs(<span class="text-green-400">'EPSG:4326'</span>)       <span class="text-gray-400"># set CRS</span>
+gdf = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)        <span class="text-gray-400"># reproject</span>
+
+<span class="text-gray-400"># ⚠️ Always project to meters before calculating area/distance!</span>
+gdf_m = gdf.to_crs(<span class="text-green-400">'EPSG:3857'</span>)
+gdf[<span class="text-green-400">'area_m2'</span>] = gdf_m.geometry.area
+
+<span class="text-gray-400"># Quick plot</span>
+gdf.plot(column=<span class="text-green-400">'population'</span>, cmap=<span class="text-green-400">'viridis'</span>, legend=<span class="text-blue-400">True</span>)
+gdf.explore()  <span class="text-gray-400"># interactive map</span></pre>
+    </div>
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡</strong> Common CRS: <code>EPSG:4326</code> (GPS lat/lon), <code>EPSG:3857</code> (Web Mercator, meters).
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Quick Reference</h2>
     <div class="overflow-x-auto">
       <table class="w-full text-sm border border-gray-300">
         <thead class="bg-gray-100">
           <tr>
-            <th class="border px-3 py-2 text-left">SQL</th>
+            <th class="border px-3 py-2 text-left">Task</th>
             <th class="border px-3 py-2 text-left">Pandas</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">
-              SELECT col1, col2
-            </td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              df[['col1', 'col2']]
-            </td>
+            <td class="border px-3 py-1">Select columns</td>
+            <td class="border px-3 py-1 font-mono text-xs">df[['col1', 'col2']]</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">SELECT DISTINCT</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              df.drop_duplicates()
-            </td>
+            <td class="border px-3 py-1">Remove duplicates</td>
+            <td class="border px-3 py-1 font-mono text-xs">df.drop_duplicates()</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">WHERE condition</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              df[df['col'] > value]
-            </td>
+            <td class="border px-3 py-1">Filter rows</td>
+            <td class="border px-3 py-1 font-mono text-xs">df[df['col'] > value]</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">AND / OR</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              & / | (with parentheses)
-            </td>
+            <td class="border px-3 py-1">AND / OR / NOT</td>
+            <td class="border px-3 py-1 font-mono text-xs">& / | / ~ (with parentheses)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">IN (...)</td>
+            <td class="border px-3 py-1">Value in list</td>
             <td class="border px-3 py-1 font-mono text-xs">.isin([...])</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">BETWEEN a AND b</td>
+            <td class="border px-3 py-1">Range check</td>
             <td class="border px-3 py-1 font-mono text-xs">.between(a, b)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">LIKE '%text%'</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .str.contains('text')
-            </td>
+            <td class="border px-3 py-1">Pattern match</td>
+            <td class="border px-3 py-1 font-mono text-xs">.str.contains('text')</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">
-              IS NULL / IS NOT NULL
-            </td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .isna() / .notna()
-            </td>
+            <td class="border px-3 py-1">Null check</td>
+            <td class="border px-3 py-1 font-mono text-xs">.isna() / .notna()</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">
-              ORDER BY col DESC
-            </td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .sort_values('col', ascending=False)
-            </td>
+            <td class="border px-3 py-1">Sort</td>
+            <td class="border px-3 py-1 font-mono text-xs">.sort_values('col', ascending=False)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">LIMIT n</td>
-            <td class="border px-3 py-1 font-mono text-xs">.head(n)</td>
+            <td class="border px-3 py-1">First/Last N</td>
+            <td class="border px-3 py-1 font-mono text-xs">.head(n) / .tail(n)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">GROUP BY col</td>
-            <td class="border px-3 py-1 font-mono text-xs">.groupby('col')</td>
+            <td class="border px-3 py-1">Group & aggregate</td>
+            <td class="border px-3 py-1 font-mono text-xs">.groupby('col').agg(...)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">
-              COUNT(*) / SUM / AVG
-            </td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .count() / .sum() / .mean()
-            </td>
+            <td class="border px-3 py-1">Count / Sum / Mean</td>
+            <td class="border px-3 py-1 font-mono text-xs">.count() / .sum() / .mean()</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">JOIN</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              pd.merge(df1, df2, on='key')
-            </td>
+            <td class="border px-3 py-1">Join tables</td>
+            <td class="border px-3 py-1 font-mono text-xs">pd.merge(df1, df2, on='key')</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">UNION ALL</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              pd.concat([df1, df2])
-            </td>
+            <td class="border px-3 py-1">Stack rows</td>
+            <td class="border px-3 py-1 font-mono text-xs">pd.concat([df1, df2])</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">CASE WHEN</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              np.where() or np.select()
-            </td>
+            <td class="border px-3 py-1">If/else</td>
+            <td class="border px-3 py-1 font-mono text-xs">np.where(cond, true, false)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">ROW_NUMBER()</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .rank(method='first')
-            </td>
+            <td class="border px-3 py-1">Multiple conditions</td>
+            <td class="border px-3 py-1 font-mono text-xs">np.select(conditions, choices)</td>
           </tr>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">LAG() / LEAD()</td>
-            <td class="border px-3 py-1 font-mono text-xs">
-              .shift(1) / .shift(-1)
-            </td>
+            <td class="border px-3 py-1">Rank</td>
+            <td class="border px-3 py-1 font-mono text-xs">.rank(method='first')</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">Previous/Next row</td>
+            <td class="border px-3 py-1 font-mono text-xs">.shift(1) / .shift(-1)</td>
           </tr>
         </tbody>
       </table>
@@ -2116,28 +666,14 @@ gdf.explore(column=<span class="text-green-400">'population'</span>, cmap=<span 
   </div>
 
   <div class="bg-gray-100 rounded-lg p-4 mt-4">
-    <h2 class="font-bold text-lg mb-2">Key Differences to Remember</h2>
+    <h2 class="font-bold text-lg mb-2">Key Things to Remember</h2>
     <ul class="list-disc ml-5 space-y-1 text-sm">
-      <li>
-        <strong>Pandas is 0-indexed</strong>, SQL is 1-indexed (for positions)
-      </li>
-      <li><strong>Pandas uses & | ~</strong> for AND OR NOT, not the words</li>
-      <li>
-        <strong>Always wrap conditions in parentheses</strong> when combining
-        with & or |
-      </li>
-      <li>
-        <strong>Pandas operations return new DataFrames</strong> - assign to
-        save changes
-      </li>
-      <li>
-        <strong>Use .reset_index()</strong> after groupby to get a clean
-        DataFrame
-      </li>
-      <li>
-        <strong>Pandas is more flexible</strong> - you can chain operations
-        fluently
-      </li>
+      <li><strong>Pandas is 0-indexed</strong></li>
+      <li><strong>Use <code>&</code> <code>|</code> <code>~</code></strong> for AND, OR, NOT (not the words)</li>
+      <li><strong>Always wrap conditions in parentheses</strong> when combining</li>
+      <li><strong>Operations return new DataFrames</strong> - assign to save changes</li>
+      <li><strong>Use <code>.reset_index()</code></strong> after groupby to get a clean DataFrame</li>
+      <li><strong>Chain operations</strong> for readable, fluent code</li>
     </ul>
   </div>
 </div>
