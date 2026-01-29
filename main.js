@@ -41,6 +41,7 @@ const content = {
     geospatial: () => fetch("/python/geospatial.html").then((r) => r.text()),
   },
   excel: {
+    shortcuts: () => fetch("/excel/shortcuts.html").then((r) => r.text()),
     setup: () => fetch("/excel/setup.html").then((r) => r.text()),
     formulas: () => fetch("/excel/formulas.html").then((r) => r.text()),
     references: () => fetch("/excel/references.html").then((r) => r.text()),
