@@ -23,6 +23,102 @@
 df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)</pre>
     </div>
   </div>
+  <!-- DataFrame Structure -->
+<div class="bg-white rounded-lg border border-gray-200 p-4">
+  <h2 class="font-bold text-lg mb-3 text-blue-700">DataFrame Structure (Index, Columns, Values)</h2>
+  <p class="text-sm text-gray-600 mb-3">Every DataFrame has 3 parts: column names (top), index (side), and values (the data).</p>
+  
+  <div class="bg-gray-100 p-3 rounded text-sm font-mono mb-4">
+    <pre>                COLUMNS (df.columns)
+                   ↓    ↓    ↓
+                 name   age  city
+               +------+-----+-------+
+INDEX    0     | Alice|  25 | NYC   |  ← VALUES
+(df.index)     +------+-----+-------+
+         1     | Bob  |  30 | LA    |  ← (df.values)
+               +------+-----+-------+
+         2     | Carol|  35 | Chicago|
+               +------+-----+-------+</pre>
+  </div>
+
+  <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+    <pre><span class="text-gray-400"># Access the 3 parts</span>
+df.columns              <span class="text-gray-400"># Index(['name', 'age', 'city'])</span>
+df.index                <span class="text-gray-400"># RangeIndex(0, 1, 2) or custom labels</span>
+df.values               <span class="text-gray-400"># 2D numpy array of data</span>
+
+<span class="text-gray-400"># Access data by COLUMN (most common)</span>
+df[<span class="text-green-400">'name'</span>]               <span class="text-gray-400"># get column → returns Series</span>
+df[[<span class="text-green-400">'name'</span>, <span class="text-green-400">'age'</span>]]      <span class="text-gray-400"># get multiple columns → returns DataFrame</span>
+
+<span class="text-gray-400"># Access data by INDEX (row label)</span>
+df.loc[0]               <span class="text-gray-400"># get row by label → returns Series</span>
+df.loc[[0, 2]]          <span class="text-gray-400"># get multiple rows → returns DataFrame</span>
+
+<span class="text-gray-400"># Access specific cell</span>
+df.loc[0, <span class="text-green-400">'name'</span>]       <span class="text-gray-400"># row 0, column 'name' → 'Alice'</span>
+
+<span class="text-gray-400"># Access by position (not label)</span>
+df.iloc[0]              <span class="text-gray-400"># first row</span>
+df.iloc[0, 1]           <span class="text-gray-400"># first row, second column</span></pre>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm border border-gray-300">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2 text-left">Method</th>
+          <th class="border px-3 py-2 text-left">Accesses by</th>
+          <th class="border px-3 py-2 text-left">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df['col']</td>
+          <td class="border px-3 py-1">Column name</td>
+          <td class="border px-3 py-1 font-mono text-xs">df['age']</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df.loc[label]</td>
+          <td class="border px-3 py-1">Index label</td>
+          <td class="border px-3 py-1 font-mono text-xs">df.loc[0] or df.loc['row_a']</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df.iloc[pos]</td>
+          <td class="border px-3 py-1">Integer position</td>
+          <td class="border px-3 py-1 font-mono text-xs">df.iloc[0] (always first row)</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df.loc[row, col]</td>
+          <td class="border px-3 py-1">Both</td>
+          <td class="border px-3 py-1 font-mono text-xs">df.loc[0, 'name']</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bg-gray-800 text-white p-3 rounded text-sm mt-4">
+    <pre><span class="text-gray-400"># After .corr().stack() → MultiIndex Series</span>
+corr_matrix = df.corr()
+<span class="text-gray-400">#          A     B</span>
+<span class="text-gray-400">#     A   1.0   0.5</span>
+<span class="text-gray-400">#     B   0.5   1.0</span>
+
+stacked = corr_matrix.stack()
+<span class="text-gray-400"># A  A    1.0   ← index is now (row, col) tuple</span>
+<span class="text-gray-400">#    B    0.5</span>
+<span class="text-gray-400"># B  A    0.5</span>
+<span class="text-gray-400">#    B    1.0</span>
+
+stacked.index              <span class="text-gray-400"># MultiIndex with 2 levels</span>
+stacked[(<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</span>)]        <span class="text-gray-400"># access by tuple → 0.5</span>
+stacked[stacked != 1]      <span class="text-gray-400"># filter by value</span></pre>
+  </div>
+
+  <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+    <strong>💡</strong> <code>.loc[]</code> uses labels, <code>.iloc[]</code> uses positions. When index is 0,1,2... they look the same, but with custom index labels they differ!
+  </div>
+</div>
 
   <!-- Selecting Columns -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
