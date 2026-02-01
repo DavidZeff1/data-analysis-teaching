@@ -515,6 +515,83 @@ df[<span class="text-green-400">'Size'</span>].cat.codes              <span clas
 df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400">'M'</span>]               <span class="text-gray-400"># rows where Size is L or XL</span></pre>
     </div>
   </div>
+  <!-- Apply & Map -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Apply & Map</h2>
+    <p class="text-sm text-gray-600 mb-3">Apply custom functions to your data. Use vectorized operations when possible - they're faster.</p>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># .map() - Series only, element-wise transformation</span>
+df[<span class="text-green-400">'Grade'</span>].map({<span class="text-green-400">'A'</span>: 4, <span class="text-green-400">'B'</span>: 3, <span class="text-green-400">'C'</span>: 2})    <span class="text-gray-400"># dict mapping</span>
+df[<span class="text-green-400">'Name'</span>].map(<span class="text-blue-400">lambda</span> x: x.upper())           <span class="text-gray-400"># function</span>
+df[<span class="text-green-400">'Code'</span>].map(lookup_series)                   <span class="text-gray-400"># another Series</span>
+
+<span class="text-gray-400"># .apply() on Series - element-wise with more flexibility</span>
+df[<span class="text-green-400">'Total'</span>].apply(<span class="text-blue-400">lambda</span> x: x * 1.1)
+df[<span class="text-green-400">'Name'</span>].apply(<span class="text-blue-400">lambda</span> x: x.split()[0] <span class="text-blue-400">if</span> <span class="text-green-400">' '</span> <span class="text-blue-400">in</span> x <span class="text-blue-400">else</span> x)
+
+<span class="text-gray-400"># .apply() on DataFrame - apply to each column (default)</span>
+df.apply(<span class="text-blue-400">lambda</span> col: col.max() - col.min())    <span class="text-gray-400"># range per column</span>
+
+<span class="text-gray-400"># .apply() on DataFrame - apply to each row</span>
+df.apply(<span class="text-blue-400">lambda</span> row: row[<span class="text-green-400">'Price'</span>] * row[<span class="text-green-400">'Qty'</span>], axis=1)
+
+<span class="text-gray-400"># .apply() with custom function</span>
+<span class="text-blue-400">def</span> categorize(value):
+    <span class="text-blue-400">if</span> value > 100: <span class="text-blue-400">return</span> <span class="text-green-400">'High'</span>
+    <span class="text-blue-400">elif</span> value > 50: <span class="text-blue-400">return</span> <span class="text-green-400">'Medium'</span>
+    <span class="text-blue-400">else</span>: <span class="text-blue-400">return</span> <span class="text-green-400">'Low'</span>
+
+df[<span class="text-green-400">'Category'</span>] = df[<span class="text-green-400">'Total'</span>].apply(categorize)
+
+<span class="text-gray-400"># .apply() with groupby - apply function to each group</span>
+df.groupby(<span class="text-green-400">'Country'</span>).apply(<span class="text-blue-400">lambda</span> g: g.nlargest(3, <span class="text-green-400">'Total'</span>))
+
+<span class="text-gray-400"># .map() on DataFrame - element-wise (replaces deprecated .applymap())</span>
+df[[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</span>]].map(<span class="text-blue-400">lambda</span> x: f<span class="text-green-400">'${x:.2f}'</span>)      <span class="text-gray-400"># format all cells</span></pre>
+    </div>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Method</th>
+            <th class="border px-3 py-2 text-left">Works on</th>
+            <th class="border px-3 py-2 text-left">Use case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">Series.map()</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Dict/Series lookup, simple transforms</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">Series.apply()</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Complex logic, multiple operations</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">DataFrame.apply(axis=0)</td>
+            <td class="border px-3 py-1">Each column</td>
+            <td class="border px-3 py-1">Column-wise aggregations</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">DataFrame.apply(axis=1)</td>
+            <td class="border px-3 py-1">Each row</td>
+            <td class="border px-3 py-1">Row-wise calculations using multiple columns</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">DataFrame.map()</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Format all cells, element-wise transforms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡</strong> Prefer vectorized operations (<code>df['col'] * 2</code>) over apply - they're 10-100x faster. Use apply only when vectorization isn't possible.
+    </div>
+  </div>
+
 
   <!-- GeoPandas -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
