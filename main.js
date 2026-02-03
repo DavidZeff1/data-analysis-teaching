@@ -39,6 +39,7 @@ const content = {
     basics: () => fetch("/python/basics.html").then((r) => r.text()),
     streamlit: () => fetch("/python/streamlit.html").then((r) => r.text()),
     geospatial: () => fetch("/python/geospatial.html").then((r) => r.text()),
+    maps: () => fetch("/python/maps.html").then((r) => r.text()),
   },
   excel: {
     shortcuts: () => fetch("/excel/shortcuts.html").then((r) => r.text()),
