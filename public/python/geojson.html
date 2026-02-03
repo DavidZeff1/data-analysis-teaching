@@ -1,0 +1,162 @@
+<div class="space-y-6">
+  <div class="border-b pb-4">
+    <h1 class="text-3xl font-bold text-gray-800">
+      GeoJSON: The Data Lingua Franca
+    </h1>
+    <p class="text-gray-600 mt-2 text-lg">
+      Understanding the JSON format that powers almost all modern web mapping.
+    </p>
+  </div>
+
+  <!-- Part 1: What is it? -->
+  <div class="border-l-4 border-yellow-500 pl-4">
+    <h2 class="font-bold text-xl text-yellow-700">1. What is GeoJSON?</h2>
+    <p class="mt-2 text-gray-700">
+      GeoJSON is just JSON (JavaScript Object Notation) with a specific rulebook
+      for how to describe shapes on Earth.
+    </p>
+    <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+      <li>It is <strong>human-readable</strong> text.</li>
+      <li>It supports <strong>Points, Lines, Polygons</strong>.</li>
+      <li>It stores <strong>attributes</strong> (properties) with each shape.</li>
+      <li>It defaults to <strong>WGS84 (EPSG:4326)</strong>.</li>
+    </ul>
+
+    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">The Hierarchy</h3>
+      <div class="space-y-2 text-sm">
+        <div class="bg-gray-50 p-2 rounded border border-gray-200">
+          <strong class="text-yellow-600">FeatureCollection</strong>: A list of
+          things.
+          <div class="ml-4 mt-1 border-l-2 border-gray-300 pl-2">
+            <strong class="text-blue-600">Feature</strong>: A single thing (e.g.
+            one park).
+            <div class="ml-4 mt-1 border-l-2 border-gray-300 pl-2">
+              <div>
+                <strong class="text-green-600">Geometry</strong>: The shape
+                (coordinates).
+              </div>
+              <div>
+                <strong class="text-purple-600">Properties</strong>: The data
+                (name, area, owner).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 2: The Structure -->
+  <div class="border-l-4 border-blue-500 pl-4">
+    <h2 class="font-bold text-xl text-blue-700">2. The Anatomy of GeoJSON</h2>
+    <p class="mt-2 text-gray-700">
+      Here is exactly what it looks like. You will likely generate this, not write
+      it by hand.
+    </p>
+
+    <div
+      class="mt-3 bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto font-mono"
+    >
+      <pre>{
+  <span class="text-yellow-400">"type"</span>: <span class="text-green-300">"FeatureCollection"</span>,
+  <span class="text-yellow-400">"features"</span>: [
+    {
+      <span class="text-yellow-400">"type"</span>: <span class="text-green-300">"Feature"</span>,
+      <span class="text-yellow-400">"properties"</span>: {
+        <span class="text-yellow-400">"name"</span>: <span class="text-green-300">"Central Park"</span>,
+        <span class="text-yellow-400">"visited"</span>: <span class="text-blue-300">true</span>
+      },
+      <span class="text-yellow-400">"geometry"</span>: {
+        <span class="text-yellow-400">"type"</span>: <span class="text-green-300">"Polygon"</span>,
+        <span class="text-yellow-400">"coordinates"</span>: [
+          [
+            [-73.958, 40.800],
+            [-73.971, 40.764],
+            [-73.981, 40.768],
+            [-73.958, 40.800]
+          ]
+        ]
+      }
+    }
+  ]
+}</pre>
+    </div>
+  </div>
+
+  <!-- Part 3: Python & GeoJSON -->
+  <div class="border-l-4 border-green-500 pl-4">
+    <h2 class="font-bold text-xl text-green-700">
+      3. Using GeoJSON in Python
+    </h2>
+    <p class="mt-2 text-gray-700">
+      Two ways to interact: The "Hard" way (Dictionary) and the "Easy" way
+      (GeoPandas).
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          Method A: The "Hard" Way (json)
+        </h3>
+        <p class="text-xs text-gray-500 mb-2">
+          Treat it like a nested dictionary. Good for API responses or simple
+          scripts.
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre><span class="text-purple-400">import</span> json
+
+<span class="text-gray-500"># Read</span>
+<span class="text-purple-400">with</span> <span class="text-blue-300">open</span>(<span class="text-green-300">'data.geojson'</span>) <span class="text-purple-400">as</span> f:
+    data = json.load(f)
+
+<span class="text-gray-500"># Access</span>
+first_feature = data[<span class="text-green-300">'features'</span>][<span class="text-yellow-400">0</span>]
+name = first_feature[<span class="text-green-300">'properties'</span>][<span class="text-green-300">'name'</span>]</pre>
+        </div>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          Method B: The "Easy" Way (GeoPandas)
+        </h3>
+        <p class="text-xs text-gray-500 mb-2">
+          Convert immediately to a tabular format. Best for analysis.
+        </p>
+        <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
+          <pre><span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
+
+<span class="text-gray-500"># Read</span>
+gdf = gpd.read_file(<span class="text-green-300">'data.geojson'</span>)
+
+<span class="text-gray-500"># Write</span>
+gdf.to_file(<span class="text-green-300">'output.geojson'</span>, driver=<span class="text-green-300">'GeoJSON'</span>)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 4: Common Gotchas -->
+  <div class="border-l-4 border-red-500 pl-4">
+    <h2 class="font-bold text-xl text-red-700">4. Common Gotchas</h2>
+
+    <div class="mt-3 bg-red-50 p-4 rounded-lg">
+      <ul class="list-disc list-inside text-sm text-red-800 space-y-2">
+        <li>
+          <strong>XY vs YX</strong>: GeoJSON uses
+          <code>[Longitude, Latitude]</code> (X, Y). Google Maps uses
+          <code>(Lat, Lon)</code>. This flips often!
+        </li>
+        <li>
+          <strong>CRS</strong>: GeoJSON spec says coordinates <em>must</em> be
+          WGS84 (lat/lon). If you save projected data (meters) as GeoJSON, web
+          maps will likely put your data in the ocean near Africa (0,0).
+        </li>
+        <li>
+          <strong>File Size</strong>: GeoJSON is verbose text. Large datasets
+          will result in massive files. Use <strong>GeoParquet</strong> or
+          <strong>GeoPackage</strong> for big data.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

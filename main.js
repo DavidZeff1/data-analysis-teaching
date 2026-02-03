@@ -40,6 +40,7 @@ const content = {
     streamlit: () => fetch("/python/streamlit.html").then((r) => r.text()),
     geospatial: () => fetch("/python/geospatial.html").then((r) => r.text()),
     maps: () => fetch("/python/maps.html").then((r) => r.text()),
+    geojson: () => fetch("/python/geojson.html").then((r) => r.text()),
   },
   excel: {
     shortcuts: () => fetch("/excel/shortcuts.html").then((r) => r.text()),
