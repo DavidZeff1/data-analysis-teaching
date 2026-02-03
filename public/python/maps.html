@@ -1,76 +1,109 @@
 <div class="space-y-6">
   <div class="border-b pb-4">
     <h1 class="text-3xl font-bold text-gray-800">
-      Geospatial Visualization: Putting Data on the Map
+      Geospatial Visualization: The Comprehensive Guide
     </h1>
     <p class="text-gray-600 mt-2 text-lg">
-      From static publication-quality plots to interactive web maps.
-      <br />
-      <span class="text-sm italic"
-        >Prerequisite: Familiarity with GeoPandas (see the Geospatial tab).</span
-      >
+      Mastering the art of layering data: From raw CSVs to complex multi-layered
+      interactive maps.
     </p>
   </div>
 
-  <!-- Part 1: Static Maps -->
-  <div class="border-l-4 border-indigo-500 pl-4">
-    <h2 class="font-bold text-xl text-indigo-700">
-      1. Static Maps with GeoPandas
+  <!-- Part 0: Data Prep -->
+  <div class="border-l-4 border-gray-500 pl-4">
+    <h2 class="font-bold text-xl text-gray-700">
+      0. Data Prep: The Prerequisite
     </h2>
     <p class="mt-2 text-gray-700">
-      The quickest way to see your data. Uses <code>matplotlib</code> under the
-      hood. Perfect for reports, papers, and quick EDA.
+      You can't map what you can't read. Most data comes as CSVs with lat/lon
+      columns. Here is the standard recipe to get them ready for mapping.
     </p>
 
     <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
-      <h3 class="font-semibold text-gray-700 mb-2">The Basic .plot()</h3>
+      <h3 class="font-semibold text-gray-700 mb-2">
+        Recipe: CSV to GeoDataFrame
+      </h3>
       <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
-        <pre><span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
-<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+        <pre><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> geopandas <span class="text-purple-400">as</span> gpd
 
-<span class="text-gray-500"># Load data (e.g. world countries)</span>
-world = gpd.read_file(gpd.datasets.get_path(<span class="text-green-300">'naturalearth_lowres'</span>))
+<span class="text-gray-500"># 1. Load the raw data</span>
+df = pd.read_csv(<span class="text-green-300">'store_locations.csv'</span>)  <span class="text-gray-500"># Has 'lat', 'lon', 'category'</span>
 
-<span class="text-gray-500"># Basic plot</span>
-world.plot()
-plt.show()</pre>
+<span class="text-gray-500"># 2. Convert to GeoDataFrame (The Magic Step)</span>
+gdf_stores = gpd.GeoDataFrame(
+    df,
+    geometry=gpd.points_from_xy(df.lon, df.lat),  <span class="text-gray-500"># Longitude is X, Latitude is Y!</span>
+    crs=<span class="text-green-300">"EPSG:4326"</span>  <span class="text-gray-500"># Standard GPS coordinates</span>
+)</pre>
+      </div>
+      <div class="mt-2 text-sm text-red-600 bg-red-50 p-2 rounded">
+        <strong>CRITICAL:</strong> Always specify the CRS. If you overlay this on
+        other data, their CRSs <em>must</em> match. Use
+        <code>.to_crs()</code> to align them.
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 1: Static Maps & Layers -->
+  <div class="border-l-4 border-indigo-500 pl-4">
+    <h2 class="font-bold text-xl text-indigo-700">
+      1. Mastering Layers (Static Maps)
+    </h2>
+    <p class="mt-2 text-gray-700">
+      A map is just a stack of transparencies. You build it from the bottom up.
+    </p>
+
+    <div class="mt-3 bg-indigo-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-indigo-800 mb-2">
+        The Pattern: Points on Polygons
+      </h3>
+      <p class="text-sm text-indigo-700 mb-2">
+        Common task: Show customer locations (Points) on top of neighborhood
+        boundaries (Polygons).
+      </p>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+<span class="text-gray-500"># 1. Setup the canvas (Figure & Axis)</span>
+fig, ax = plt.subplots(figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">12</span>))
+
+<span class="text-gray-500"># 2. Bottom Layer: Neighborhood Polygons</span>
+neighborhoods.plot(
+    ax=ax,
+    color=<span class="text-green-300">'whitesmoke'</span>,      <span class="text-gray-500"># Light background</span>
+    edgecolor=<span class="text-green-300">'lightgrey'</span>,   <span class="text-gray-500"># Subtle borders</span>
+    zorder=<span class="text-yellow-400">1</span>                 <span class="text-gray-500"># Draw first (bottom)</span>
+)
+
+<span class="text-gray-500"># 3. Top Layer: Store Points</span>
+gdf_stores.plot(
+    ax=ax,
+    color=<span class="text-green-300">'red'</span>,           <span class="text-gray-500"># Standout color</span>
+    markersize=<span class="text-yellow-400">20</span>,         <span class="text-gray-500"># Adjust size</span>
+    alpha=<span class="text-yellow-400">0.7</span>,             <span class="text-gray-500"># Slight transparency for overlapping points</span>
+    zorder=<span class="text-yellow-400">2</span>               <span class="text-gray-500"># Draw second (top)</span>
+)
+
+<span class="text-gray-500"># 4. Final Polish</span>
+ax.set_axis_off()          <span class="text-gray-500"># Hides the box/ticks</span>
+plt.title(<span class="text-green-300">"Store Locations in Chicago"</span>)</pre>
       </div>
     </div>
 
     <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
-      <h3 class="font-semibold text-gray-700 mb-2">Customizing the Look</h3>
+      <h3 class="font-semibold text-gray-700 mb-2">Categorical Plots</h3>
       <p class="text-sm text-gray-600 mb-2">
-        Since it's matplotlib, you have full control.
+        Color points by a category column (e.g. 'Type': Grocery, Clothes,
+        Electronics).
       </p>
       <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
-        <pre>world.plot(
-    color=<span class="text-green-300">'white'</span>,      <span class="text-gray-500"># Fill color</span>
-    edgecolor=<span class="text-green-300">'black'</span>,  <span class="text-gray-500"># Border color</span>
-    linewidth=<span class="text-yellow-400">0.5</span>,      <span class="text-gray-500"># Border width</span>
-    figsize=(<span class="text-yellow-400">15</span>, <span class="text-yellow-400">10</span>),   <span class="text-gray-500"># Image size</span>
-    alpha=<span class="text-yellow-400">0.9</span>           <span class="text-gray-500"># Transparency</span>
-)
-plt.axis(<span class="text-green-300">'off'</span>)       <span class="text-gray-500"># Remove axis ticks</span>
-plt.title(<span class="text-green-300">"The World"</span>, fontsize=<span class="text-yellow-400">20</span>)</pre>
-      </div>
-    </div>
-
-    <div class="mt-3 bg-indigo-50 p-4 rounded-lg">
-      <h3 class="font-semibold text-indigo-800 mb-2">Layering Maps</h3>
-      <p class="text-sm text-indigo-700">
-        Plot multiple layers on the same "axis" (canvas). Order matters!
-      </p>
-      <div
-        class="bg-gray-800 text-white p-3 rounded mt-2 text-sm overflow-x-auto"
-      >
-        <pre>fig, ax = plt.subplots(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">10</span>))
-
-<span class="text-gray-500"># Layer 1: Base (Countries)</span>
-world.plot(ax=ax, color=<span class="text-green-300">'lightgrey'</span>)
-
-<span class="text-gray-500"># Layer 2: Cities</span>
-cities = gpd.read_file(gpd.datasets.get_path(<span class="text-green-300">'naturalearth_cities'</span>))
-cities.plot(ax=ax, color=<span class="text-green-300">'red'</span>, markersize=<span class="text-yellow-400">5</span>)</pre>
+        <pre>gdf_stores.plot(
+    column=<span class="text-green-300">'Type'</span>,   <span class="text-gray-500"># Column to color by</span>
+    ax=ax,
+    legend=<span class="text-blue-300">True</span>,     <span class="text-gray-500"># Add legend automatically</span>
+    cmap=<span class="text-green-300">'Set1'</span>      <span class="text-gray-500"># Qualitative colormap</span>
+)</pre>
       </div>
     </div>
   </div>
@@ -78,117 +111,113 @@ cities.plot(ax=ax, color=<span class="text-green-300">'red'</span>, markersize=<
   <!-- Part 2: Choropleth Maps -->
   <div class="border-l-4 border-green-500 pl-4">
     <h2 class="font-bold text-xl text-green-700">
-      2. Choropleth Maps (Color by Value)
+      2. Choropleth Maps (Heatmaps)
     </h2>
     <p class="mt-2 text-gray-700">
-      Coloring regions based on a data column (e.g., GDP, population).
+      The classic "Color by Number". Best for visualizing density or average
+      values across regions.
     </p>
 
     <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
       <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
-        <pre>world.plot(
-    column=<span class="text-green-300">'pop_est'</span>,           <span class="text-gray-500"># Column to visualize</span>
-    legend=<span class="text-blue-300">True</span>,                <span class="text-gray-500"># Show scale bar</span>
-    legend_kwds={<span class="text-green-300">'label'</span>: <span class="text-green-300">"Population by Country"</span>},
-    cmap=<span class="text-green-300">'OrRd'</span>,                <span class="text-gray-500"># Color map (Oranges-Reds)</span>
-    scheme=<span class="text-green-300">'quantiles'</span>,         <span class="text-gray-500"># Binning scheme (needs mapclassify)</span>
-    k=<span class="text-yellow-400">5</span>                         <span class="text-gray-500"># Number of bins</span>
+        <pre>neighborhoods.plot(
+    column=<span class="text-green-300">'population_density'</span>,
+    legend=<span class="text-blue-300">True</span>,
+    cmap=<span class="text-green-300">'YlOrRd'</span>,            <span class="text-gray-500"># Yellow to Red</span>
+    scheme=<span class="text-green-300">'quantiles'</span>,       <span class="text-gray-500"># Binning (requires mapclassify)</span>
+    k=<span class="text-yellow-400">5</span>,                      <span class="text-gray-500"># 5 Buckets</span>
+    edgecolor=<span class="text-green-300">'black'</span>,        <span class="text-gray-500"># separation lines</span>
+    linewidth=<span class="text-yellow-400">0.1</span>
 )</pre>
       </div>
-    </div>
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-3">
-      <p class="text-sm text-yellow-800">
-        <strong>Tip:</strong> Install <code>mapclassify</code> for advanced
-        binning schemes like 'quantiles', 'fisherjenks', or 'equal_interval'.
-      </p>
     </div>
   </div>
 
   <!-- Part 3: Interactive Maps -->
   <div class="border-l-4 border-teal-500 pl-4">
     <h2 class="font-bold text-xl text-teal-700">
-      3. Interactive Maps with Folium
+      3. Advanced Interactive Maps (Folium)
     </h2>
     <p class="mt-2 text-gray-700">
-      Use <code>folium</code> to create Leaflet.js maps in Python. Zoomable,
-      clickable, shareable HTML files.
+      Static maps are for slides. Interactive maps are for exploration.
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+      <!-- Basic Interactive -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
-        <h3 class="font-semibold text-teal-700 mb-2">Basic Map</h3>
+        <h3 class="font-semibold text-teal-700 mb-2">The Base Map</h3>
         <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
           <pre><span class="text-purple-400">import</span> folium
 
-<span class="text-gray-500"># Center on Chicago</span>
 m = folium.Map(
-    location=[<span class="text-yellow-400">41.8781</span>, <span class="text-yellow-400">-87.6298</span>],
-    zoom_start=<span class="text-yellow-400">12</span>,
+    location=[<span class="text-yellow-400">41.87</span>, <span class="text-yellow-400">-87.62</span>],
+    zoom_start=<span class="text-yellow-400">11</span>,
     tiles=<span class="text-green-300">'CartoDB positron'</span>
-)
-m  <span class="text-gray-500"># Display in notebook</span></pre>
+)</pre>
         </div>
       </div>
+      <!-- Layer Control -->
       <div class="bg-white border border-gray-200 rounded-lg p-4">
-        <h3 class="font-semibold text-teal-700 mb-2">Adding Markers</h3>
+        <h3 class="font-semibold text-teal-700 mb-2">The Layer Control</h3>
         <div class="bg-gray-800 text-white p-2 rounded text-xs overflow-x-auto">
-          <pre>folium.Marker(
-    [<span class="text-yellow-400">41.8781</span>, <span class="text-yellow-400">-87.6298</span>],
-    popup=<span class="text-green-300">"Willis Tower"</span>,
-    tooltip=<span class="text-green-300">"Click me!"</span>,
-    icon=folium.Icon(color=<span class="text-green-300">'red'</span>)
-).add_to(m)</pre>
+          <pre><span class="text-gray-500"># Add this LAST after adding all layers</span>
+folium.LayerControl().add_to(m)</pre>
         </div>
       </div>
     </div>
 
-    <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
-      <h3 class="font-semibold text-gray-700 mb-2">
-        Mapping a GeoDataFrame with Folium
+    <div class="mt-3 bg-teal-50 p-4 rounded-lg">
+      <h3 class="font-semibold text-teal-800 mb-2">
+        Building a Multi-Layer Interactive Map
       </h3>
-      <p class="text-sm text-gray-600 mb-2">
-        No need for manual loops. Use <code>GeoJson</code> or
-        <code>explore()</code>.
+      <p class="text-sm text-teal-700 mb-2">
+        Combine polygons and points with toggles.
       </p>
       <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
-        <pre><span class="text-gray-500"># The modern, easy way (GeoPandas 0.10+)</span>
-gdf.explore(
-    column=<span class="text-green-300">'population'</span>,  <span class="text-gray-500"># Color by column</span>
-    cmap=<span class="text-green-300">'viridis'</span>,       <span class="text-gray-500"># Color map</span>
-    legend=<span class="text-blue-300">True</span>,
-    tiles=<span class="text-green-300">'CartoDB positron'</span>
-)
+        <pre><span class="text-gray-500"># 1. Create Base Map</span>
+m = folium.Map(location=[<span class="text-yellow-400">41.87</span>, <span class="text-yellow-400">-87.62</span>], zoom_start=<span class="text-yellow-400">11</span>)
 
-<span class="text-gray-500"># The manual, customizable way</span>
+<span class="text-gray-500"># 2. Add Choropleth Layer (Neighborhoods)</span>
+folium.Choropleth(
+    geo_data=neighborhoods,
+    name=<span class="text-green-300">'Population Density'</span>,
+    data=neighborhoods,
+    columns=[<span class="text-green-300">'name'</span>, <span class="text-green-300">'density'</span>],
+    key_on=<span class="text-green-300">'feature.properties.name'</span>,
+    fill_color=<span class="text-green-300">'YlOrRd'</span>
+).add_to(m)
+
+<span class="text-gray-500"># 3. Add Point Layer (Stores) using GeoJson</span>
+<span class="text-gray-500"># We use GeoJson to add tooltips and custom styles easily</span>
 folium.GeoJson(
-    gdf,
-    name=<span class="text-green-300">"Neighborhoods"</span>,
-    popup=folium.GeoJsonPopup(fields=[<span class="text-green-300">'name'</span>, <span class="text-green-300">'pop'</span>])
-).add_to(m)</pre>
+    gdf_stores,
+    name=<span class="text-green-300">'Store Locations'</span>,
+    tooltip=folium.GeoJsonTooltip(fields=[<span class="text-green-300">'StoreName'</span>, <span class="text-green-300">'Type'</span>]),
+    marker=folium.CircleMarker(radius=<span class="text-yellow-400">4</span>, fill_color=<span class="text-green-300">'blue'</span>)
+).add_to(m)
+
+<span class="text-gray-500"># 4. Add Toggle Control</span>
+folium.LayerControl().add_to(m)</pre>
       </div>
     </div>
   </div>
 
-  <!-- Part 4: Basemaps -->
+  <!-- Part 4: Basemaps contextily -->
   <div class="border-l-4 border-orange-500 pl-4">
-    <h2 class="font-bold text-xl text-orange-700">4. Adding Context (Basemaps)</h2>
+    <h2 class="font-bold text-xl text-orange-700">4. Contextily (Basemaps)</h2>
     <p class="mt-2 text-gray-700">
-      Static plots often float in white space. Use <code>contextily</code> to add
-      street or satellite tiles to static plots.
+      For static maps only. Adds the background map tiles.
     </p>
 
     <div class="mt-3 bg-white border border-gray-200 rounded-lg p-4">
       <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
         <pre><span class="text-purple-400">import</span> contextily <span class="text-purple-400">as</span> cx
 
-<span class="text-gray-500"># 1. Project to Web Mercator (Required for most tiles!)</span>
-data_wm = gdf.to_crs(epsg=<span class="text-yellow-400">3857</span>)
+<span class="text-gray-500"># ⚠️ CRITICAL: Must be in Web Mercator (EPSG:3857)</span>
+ax = gdf.to_crs(epsg=<span class="text-yellow-400">3857</span>).plot(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">10</span>), alpha=<span class="text-yellow-400">0.5</span>)
 
-<span class="text-gray-500"># 2. Plot data</span>
-ax = data_wm.plot(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">10</span>), alpha=<span class="text-yellow-400">0.5</span>, edgecolor=<span class="text-green-300">'k'</span>)
-
-<span class="text-gray-500"># 3. Add basemap</span>
-cx.add_basemap(ax, source=cx.providers.OpenStreetMap.Mapnik)</pre>
+<span class="text-gray-500"># Add the basemap</span>
+cx.add_basemap(ax, source=cx.providers.CartoDB.Positron)</pre>
       </div>
     </div>
   </div>
