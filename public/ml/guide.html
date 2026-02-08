@@ -1,282 +1,738 @@
-<div class="max-w-4xl mx-auto space-y-12 pb-12">
+<div class="max-w-6xl mx-auto space-y-8 pb-12 px-4">
   <!-- Header Section -->
-  <header class="text-center space-y-4">
-    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
-      Machine Learning Selection Guide
+  <header class="text-center space-y-4 pt-8">
+    <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight">
+      ML Model Decision Tree
     </h1>
-    <p class="text-xl text-gray-600 max-w-2xl mx-auto italic">
-      Navigating Machine Learning Solutions for Business Problems
+    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      Follow the path to find the right machine learning approach for your business problem
     </p>
-    <div class="h-1 w-24 bg-blue-500 mx-auto rounded-full"></div>
+    <div class="h-1 w-32 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto rounded-full"></div>
   </header>
 
-  <!-- Introduction -->
-  <section class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-    <p class="text-lg leading-relaxed text-gray-700">
-      The most critical decision in machine learning architecture begins with a single strategic pivot: 
-      <span class="font-bold text-blue-600 underline decoration-blue-200 underline-offset-4">the identification of a target variable</span>. 
-      This choice dictates the methodology, reliability of insights, and the ultimate ROI of the deployment.
+  <!-- Quick Start Guide -->
+  <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+      <span class="text-3xl">🚀</span> Start Here
+    </h2>
+    <p class="text-lg text-gray-700 mb-4">
+      Answer these questions in order to navigate to your solution:
     </p>
+    <ol class="space-y-2 text-gray-700">
+      <li class="flex items-start gap-3">
+        <span class="font-bold text-blue-600 text-lg">1.</span>
+        <span><strong>Do you have a specific outcome to predict?</strong> (Target variable exists?)</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="font-bold text-blue-600 text-lg">2.</span>
+        <span><strong>What type is your target?</strong> (Categories or Numbers?)</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="font-bold text-blue-600 text-lg">3.</span>
+        <span><strong>What's your specific use case?</strong></span>
+      </li>
+    </ol>
   </section>
 
-  <!-- Section 1: Strategic Pivot -->
+  <!-- Main Decision Tree -->
   <section class="space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
-      <h2 class="text-2xl font-bold text-gray-800">The Strategic Pivot: Supervised vs. Unsupervised Learning</h2>
-    </div>
     
-    <p class="text-gray-600 leading-relaxed">
-      The first milestone is determining the existence of "labeled" historical data. This distinction is the primary driver of project risk and success.
-    </p>
+    <!-- Level 1: Main Split -->
+    <div class="bg-white p-8 rounded-2xl shadow-xl border-2 border-gray-200">
+      <div class="text-center mb-8">
+        <div class="inline-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-2xl shadow-lg">
+          <h3 class="text-2xl font-bold">Start: What's Your Goal?</h3>
+          <p class="text-sm text-purple-100 mt-1">Choose your primary objective</p>
+        </div>
+      </div>
 
-    <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+      <!-- Three Main Branches -->
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <!-- Branch 1: Supervised Learning -->
+        <div class="relative">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-purple-600 to-blue-600"></div>
+          <details class="group mt-8">
+            <summary class="cursor-pointer list-none">
+              <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="text-4xl mb-3 text-center">🎯</div>
+                <h4 class="font-bold text-xl mb-2 text-center">Predict Specific Outcome</h4>
+                <p class="text-sm text-blue-100 text-center mb-3">I have labeled data with a target variable</p>
+                <div class="text-center text-xs bg-white/20 rounded-full px-3 py-1 inline-block">Click to expand ▼</div>
+              </div>
+            </summary>
+            
+            <!-- Supervised Sub-branches -->
+            <div class="mt-6 pl-4 border-l-4 border-blue-400 space-y-4">
+              
+              <!-- Classification Branch -->
+              <details class="group/class">
+                <summary class="cursor-pointer list-none">
+                  <div class="bg-blue-50 border-2 border-blue-300 p-5 rounded-xl hover:shadow-lg transition-all">
+                    <h5 class="font-bold text-lg text-blue-900 mb-1">📊 Classification</h5>
+                    <p class="text-sm text-blue-700">Target = <strong>Categories</strong> (Yes/No, Type A/B/C)</p>
+                    <p class="text-xs text-blue-600 mt-2">Examples: Fraud detection, spam filter, customer churn</p>
+                  </div>
+                </summary>
+                
+                <div class="mt-4 ml-4 space-y-3">
+                  <!-- Binary Classification -->
+                  <div class="bg-white border-2 border-green-300 rounded-lg p-4 shadow-md">
+                    <div class="flex items-start gap-3 mb-3">
+                      <span class="text-2xl">✅</span>
+                      <div>
+                        <h6 class="font-bold text-green-900">Binary Classification</h6>
+                        <p class="text-xs text-gray-600 italic">2 categories (Yes/No, True/False)</p>
+                      </div>
+                    </div>
+                    
+                    <div class="bg-green-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-green-900 mb-2">🎯 RECOMMENDED MODELS:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li class="flex items-start gap-2">
+                          <span class="text-green-600 font-bold">→</span>
+                          <span><strong>Logistic Regression</strong> - Simple, interpretable baseline</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-green-600 font-bold">→</span>
+                          <span><strong>Random Forest</strong> - Handles non-linear patterns well</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-green-600 font-bold">→</span>
+                          <span><strong>XGBoost/LightGBM</strong> - Industry standard, high performance</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-green-600 font-bold">→</span>
+                          <span><strong>Neural Networks</strong> - Complex patterns, large datasets</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li>• Fraud detection (legitimate vs fraudulent)</li>
+                        <li>• Email spam filter (spam vs not spam)</li>
+                        <li>• Customer churn (will leave vs will stay)</li>
+                        <li>• Medical diagnosis (disease vs healthy)</li>
+                        <li>• Ad click prediction (click vs no click)</li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                      <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                      <ul class="space-y-1 text-xs text-yellow-800">
+                        <li>• Start with Logistic Regression for interpretability</li>
+                        <li>• Use probability outputs for risk scoring</li>
+                        <li>• Handle imbalanced classes with SMOTE or class weights</li>
+                        <li>• Optimize threshold based on business costs (false positives vs false negatives)</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <!-- Multi-class Classification -->
+                  <div class="bg-white border-2 border-purple-300 rounded-lg p-4 shadow-md">
+                    <div class="flex items-start gap-3 mb-3">
+                      <span class="text-2xl">🎨</span>
+                      <div>
+                        <h6 class="font-bold text-purple-900">Multi-class Classification</h6>
+                        <p class="text-xs text-gray-600 italic">3+ categories (Type A/B/C/D)</p>
+                      </div>
+                    </div>
+                    
+                    <div class="bg-purple-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-purple-900 mb-2">🎯 RECOMMENDED MODELS:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li class="flex items-start gap-2">
+                          <span class="text-purple-600 font-bold">→</span>
+                          <span><strong>Multinomial Logistic Regression</strong> - Simple multi-class</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-purple-600 font-bold">→</span>
+                          <span><strong>Random Forest</strong> - Handles many classes naturally</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-purple-600 font-bold">→</span>
+                          <span><strong>XGBoost/LightGBM</strong> - Excellent for many features</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-purple-600 font-bold">→</span>
+                          <span><strong>Neural Networks (Softmax)</strong> - Complex patterns, many classes</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li>• Product categorization (Electronics/Clothing/Food/etc)</li>
+                        <li>• Sentiment analysis (Positive/Neutral/Negative)</li>
+                        <li>• Document classification (Sports/Politics/Tech/etc)</li>
+                        <li>• Animal species identification</li>
+                        <li>• Language detection</li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                      <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                      <ul class="space-y-1 text-xs text-yellow-800">
+                        <li>• Use one-vs-rest strategy for many classes</li>
+                        <li>• Consider hierarchical classification for related categories</li>
+                        <li>• Balance classes or use weighted loss functions</li>
+                        <li>• Analyze confusion matrix to identify problem class pairs</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </details>
+              
+              <!-- Regression Branch -->
+              <details class="group/reg">
+                <summary class="cursor-pointer list-none">
+                  <div class="bg-indigo-50 border-2 border-indigo-300 p-5 rounded-xl hover:shadow-lg transition-all">
+                    <h5 class="font-bold text-lg text-indigo-900 mb-1">📈 Regression</h5>
+                    <p class="text-sm text-indigo-700">Target = <strong>Numbers</strong> (prices, amounts, scores)</p>
+                    <p class="text-xs text-indigo-600 mt-2">Examples: Price prediction, sales forecasting, temperature</p>
+                  </div>
+                </summary>
+                
+                <div class="mt-4 ml-4">
+                  <div class="bg-white border-2 border-indigo-300 rounded-lg p-4 shadow-md">
+                    <div class="flex items-start gap-3 mb-3">
+                      <span class="text-2xl">📊</span>
+                      <div>
+                        <h6 class="font-bold text-indigo-900">Regression Models</h6>
+                        <p class="text-xs text-gray-600 italic">Predicting continuous numerical values</p>
+                      </div>
+                    </div>
+                    
+                    <div class="bg-indigo-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-indigo-900 mb-2">🎯 RECOMMENDED MODELS:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li class="flex items-start gap-2">
+                          <span class="text-indigo-600 font-bold">→</span>
+                          <span><strong>Linear Regression</strong> - Simple relationships, interpretable</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-indigo-600 font-bold">→</span>
+                          <span><strong>Ridge/Lasso Regression</strong> - Regularized linear models</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-indigo-600 font-bold">→</span>
+                          <span><strong>Random Forest Regressor</strong> - Non-linear patterns</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-indigo-600 font-bold">→</span>
+                          <span><strong>XGBoost/LightGBM Regressor</strong> - High performance standard</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="text-indigo-600 font-bold">→</span>
+                          <span><strong>Neural Networks</strong> - Complex non-linear relationships</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                      <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                      <ul class="space-y-1 text-xs text-gray-700">
+                        <li>• Customer lifetime value (CLV) prediction</li>
+                        <li>• House price estimation</li>
+                        <li>• Stock price forecasting</li>
+                        <li>• Temperature/weather prediction</li>
+                        <li>• Sales volume forecasting</li>
+                        <li>• Resource demand estimation</li>
+                      </ul>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                      <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                      <ul class="space-y-1 text-xs text-yellow-800">
+                        <li>• Check for linear relationships first (simplest is often best)</li>
+                        <li>• Feature scaling is crucial for linear models</li>
+                        <li>• Use cross-validation to prevent overfitting</li>
+                        <li>• Evaluate with RMSE, MAE, or R² depending on use case</li>
+                        <li>• Consider log transformation for skewed targets</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </details>
+        </div>
+        
+        <!-- Branch 2: Unsupervised Learning -->
+        <div class="relative">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-purple-600 to-green-600"></div>
+          <details class="group mt-8">
+            <summary class="cursor-pointer list-none">
+              <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="text-4xl mb-3 text-center">🔍</div>
+                <h4 class="font-bold text-xl mb-2 text-center">Discover Patterns</h4>
+                <p class="text-sm text-green-100 text-center mb-3">No target variable, find hidden structure</p>
+                <div class="text-center text-xs bg-white/20 rounded-full px-3 py-1 inline-block">Click to expand ▼</div>
+              </div>
+            </summary>
+            
+            <!-- Unsupervised Sub-branches -->
+            <div class="mt-6 pl-4 border-l-4 border-green-400 space-y-4">
+              
+              <!-- Clustering -->
+              <div class="bg-white border-2 border-green-300 rounded-lg p-4 shadow-md">
+                <div class="flex items-start gap-3 mb-3">
+                  <span class="text-2xl">👥</span>
+                  <div>
+                    <h6 class="font-bold text-green-900">Clustering</h6>
+                    <p class="text-xs text-gray-600 italic">Group similar records/customers</p>
+                  </div>
+                </div>
+                
+                <div class="bg-green-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-green-900 mb-2">🎯 RECOMMENDED MODELS:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li class="flex items-start gap-2">
+                      <span class="text-green-600 font-bold">→</span>
+                      <span><strong>K-Means</strong> - Fast, simple, requires # of clusters</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-green-600 font-bold">→</span>
+                      <span><strong>DBSCAN</strong> - Finds arbitrary shapes, handles noise</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-green-600 font-bold">→</span>
+                      <span><strong>Hierarchical Clustering</strong> - Creates dendrograms</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-green-600 font-bold">→</span>
+                      <span><strong>Gaussian Mixture Models</strong> - Probabilistic clustering</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li>• Customer segmentation for targeted marketing</li>
+                    <li>• Anomaly/fraud detection (outlier groups)</li>
+                    <li>• Image segmentation</li>
+                    <li>• Document organization</li>
+                    <li>• Market basket analysis</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded mb-3">
+                  <p class="text-xs font-semibold text-amber-900 mb-1">⚠️ WARNING:</p>
+                  <p class="text-xs text-amber-800">No guarantee clusters will be actionable or business-relevant. Validate clusters against business objectives.</p>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                  <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                  <ul class="space-y-1 text-xs text-yellow-800">
+                    <li>• Use elbow method or silhouette score to find optimal K</li>
+                    <li>• Scale/normalize features before clustering</li>
+                    <li>• Validate clusters with domain experts</li>
+                    <li>• Consider dimensionality reduction (PCA) first for high-dim data</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- Association -->
+              <div class="bg-white border-2 border-emerald-300 rounded-lg p-4 shadow-md">
+                <div class="flex items-start gap-3 mb-3">
+                  <span class="text-2xl">🛒</span>
+                  <div>
+                    <h6 class="font-bold text-emerald-900">Association Rules</h6>
+                    <p class="text-xs text-gray-600 italic">Find items that occur together</p>
+                  </div>
+                </div>
+                
+                <div class="bg-emerald-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-emerald-900 mb-2">🎯 RECOMMENDED ALGORITHMS:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li class="flex items-start gap-2">
+                      <span class="text-emerald-600 font-bold">→</span>
+                      <span><strong>Apriori</strong> - Classic algorithm, finds frequent itemsets</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-emerald-600 font-bold">→</span>
+                      <span><strong>FP-Growth</strong> - Faster than Apriori, uses tree structure</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-emerald-600 font-bold">→</span>
+                      <span><strong>ECLAT</strong> - Efficient for large datasets</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li>• Market basket analysis (beer + diapers)</li>
+                    <li>• Product recommendation</li>
+                    <li>• Cross-selling opportunities</li>
+                    <li>• Store layout optimization</li>
+                    <li>• Web usage mining (pages visited together)</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-purple-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-purple-900 mb-2">🔑 KEY DIFFERENCE:</p>
+                  <p class="text-xs text-purple-800"><strong>Clustering</strong> groups similar <strong>records</strong> (customers), while <strong>Association</strong> groups <strong>items</strong> (products that co-occur)</p>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                  <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                  <ul class="space-y-1 text-xs text-yellow-800">
+                    <li>• Set minimum support and confidence thresholds</li>
+                    <li>• Look for high lift values (> 1) for meaningful associations</li>
+                    <li>• Filter out obvious associations (milk + bread)</li>
+                    <li>• Consider temporal patterns (day of week, season)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+        
+        <!-- Branch 3: Relationship Tasks -->
+        <div class="relative">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-purple-600 to-orange-600"></div>
+          <details class="group mt-8">
+            <summary class="cursor-pointer list-none">
+              <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="text-4xl mb-3 text-center">🔗</div>
+                <h4 class="font-bold text-xl mb-2 text-center">Find Connections</h4>
+                <p class="text-sm text-orange-100 text-center mb-3">Relationships between entities or objects</p>
+                <div class="text-center text-xs bg-white/20 rounded-full px-3 py-1 inline-block">Click to expand ▼</div>
+              </div>
+            </summary>
+            
+            <!-- Relationship Sub-branches -->
+            <div class="mt-6 pl-4 border-l-4 border-orange-400 space-y-4">
+              
+              <!-- Link Prediction -->
+              <div class="bg-white border-2 border-orange-300 rounded-lg p-4 shadow-md">
+                <div class="flex items-start gap-3 mb-3">
+                  <span class="text-2xl">🌐</span>
+                  <div>
+                    <h6 class="font-bold text-orange-900">Link Prediction</h6>
+                    <p class="text-xs text-gray-600 italic">Predict connections in networks/graphs</p>
+                  </div>
+                </div>
+                
+                <div class="bg-orange-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-orange-900 mb-2">🎯 RECOMMENDED APPROACHES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li class="flex items-start gap-2">
+                      <span class="text-orange-600 font-bold">→</span>
+                      <span><strong>Graph Neural Networks (GNN)</strong> - State-of-the-art</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-orange-600 font-bold">→</span>
+                      <span><strong>Node2Vec</strong> - Graph embedding approach</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-orange-600 font-bold">→</span>
+                      <span><strong>Common Neighbors</strong> - Simple heuristic method</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-orange-600 font-bold">→</span>
+                      <span><strong>Matrix Factorization</strong> - Collaborative filtering</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li>• LinkedIn "People You May Know"</li>
+                    <li>• Facebook friend recommendations</li>
+                    <li>• Protein interaction prediction (biology)</li>
+                    <li>• Knowledge graph completion</li>
+                    <li>• Supply chain network optimization</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                  <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                  <ul class="space-y-1 text-xs text-yellow-800">
+                    <li>• Consider network structure (triangles, common neighbors)</li>
+                    <li>• Use node attributes if available</li>
+                    <li>• Handle class imbalance (many more non-links than links)</li>
+                    <li>• Evaluate with precision@K for practical relevance</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- Similarity Matching -->
+              <div class="bg-white border-2 border-red-300 rounded-lg p-4 shadow-md">
+                <div class="flex items-start gap-3 mb-3">
+                  <span class="text-2xl">🎯</span>
+                  <div>
+                    <h6 class="font-bold text-red-900">Similarity Matching</h6>
+                    <p class="text-xs text-gray-600 italic">Measure relatedness between objects</p>
+                  </div>
+                </div>
+                
+                <div class="bg-red-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-red-900 mb-2">🎯 RECOMMENDED APPROACHES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li class="flex items-start gap-2">
+                      <span class="text-red-600 font-bold">→</span>
+                      <span><strong>Cosine Similarity</strong> - Text and embeddings</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-red-600 font-bold">→</span>
+                      <span><strong>Euclidean Distance</strong> - Spatial similarity</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-red-600 font-bold">→</span>
+                      <span><strong>Siamese Networks</strong> - Learn similarity from data</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-red-600 font-bold">→</span>
+                      <span><strong>Embeddings (Word2Vec, BERT)</strong> - Semantic similarity</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="bg-blue-50 rounded-lg p-3 mb-3">
+                  <p class="text-xs font-semibold text-blue-900 mb-2">💼 USE CASES:</p>
+                  <ul class="space-y-1 text-xs text-gray-700">
+                    <li>• Face recognition / verification</li>
+                    <li>• Netflix/Spotify recommendations</li>
+                    <li>• Document similarity / plagiarism detection</li>
+                    <li>• Image search / reverse image search</li>
+                    <li>• Duplicate detection</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                  <p class="text-xs font-semibold text-yellow-900 mb-1">💡 KEY TIPS:</p>
+                  <ul class="space-y-1 text-xs text-yellow-800">
+                    <li>• Choose metric based on data type (cosine for sparse, euclidean for dense)</li>
+                    <li>• Use pre-trained embeddings when possible</li>
+                    <li>• Consider approximate nearest neighbor for scale (FAISS, Annoy)</li>
+                    <li>• Normalize features for better comparison</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision Matrix -->
+  <section class="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-200">
+    <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Quick Decision Matrix</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <tr>
-            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Feature</th>
-            <th class="px-6 py-4 text-left text-xs font-bold text-blue-600 uppercase tracking-wider">Supervised Learning</th>
-            <th class="px-6 py-4 text-left text-xs font-bold text-indigo-600 uppercase tracking-wider">Unsupervised Learning</th>
+            <th class="px-6 py-4 text-left text-sm font-bold">Business Question</th>
+            <th class="px-6 py-4 text-left text-sm font-bold">Target Type</th>
+            <th class="px-6 py-4 text-left text-sm font-bold">ML Task</th>
+            <th class="px-6 py-4 text-left text-sm font-bold">First Model to Try</th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr>
-            <td class="px-6 py-4 font-semibold text-gray-700">Key Question</td>
-            <td class="px-6 py-4 text-gray-600">Is there a specific target variable? (Yes)</td>
-            <td class="px-6 py-4 text-gray-600">Is there a specific target variable? (No)</td>
+        <tbody class="divide-y divide-gray-200">
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Will customer buy product?</td>
+            <td class="px-6 py-4 text-sm">Categorical (Yes/No)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-blue-600">Binary Classification</td>
+            <td class="px-6 py-4 text-sm">Logistic Regression</td>
           </tr>
-          <tr>
-            <td class="px-6 py-4 font-semibold text-gray-700">Label Necessity</td>
-            <td class="px-6 py-4 text-gray-600">Required: Examples are necessary (e.g., "These are Bananas")</td>
-            <td class="px-6 py-4 text-gray-600">None: Groups data by inherent patterns</td>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">How much will customer spend?</td>
+            <td class="px-6 py-4 text-sm">Numerical ($)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-indigo-600">Regression</td>
+            <td class="px-6 py-4 text-sm">Linear Regression</td>
           </tr>
-          <tr>
-            <td class="px-6 py-4 font-semibold text-gray-700">Usefulness</td>
-            <td class="px-6 py-4 text-gray-600 font-medium text-green-600">High: Engineered for business objective</td>
-            <td class="px-6 py-4 text-gray-600 font-medium text-amber-600">Low: Actionable groups not guaranteed</td>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Is transaction fraudulent?</td>
+            <td class="px-6 py-4 text-sm">Categorical (Yes/No)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-blue-600">Binary Classification</td>
+            <td class="px-6 py-4 text-sm">Random Forest</td>
+          </tr>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Which product category?</td>
+            <td class="px-6 py-4 text-sm">Categorical (A/B/C/D)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-purple-600">Multi-class Classification</td>
+            <td class="px-6 py-4 text-sm">Random Forest</td>
+          </tr>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Group similar customers?</td>
+            <td class="px-6 py-4 text-sm">None (exploratory)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-green-600">Clustering</td>
+            <td class="px-6 py-4 text-sm">K-Means</td>
+          </tr>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">What products go together?</td>
+            <td class="px-6 py-4 text-sm">None (patterns)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-emerald-600">Association Rules</td>
+            <td class="px-6 py-4 text-sm">Apriori</td>
+          </tr>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Recommend connections?</td>
+            <td class="px-6 py-4 text-sm">Links (graph)</td>
+            <td class="px-6 py-4 text-sm font-semibold text-orange-600">Link Prediction</td>
+            <td class="px-6 py-4 text-sm">Common Neighbors</td>
+          </tr>
+          <tr class="hover:bg-blue-50 transition-colors">
+            <td class="px-6 py-4 text-sm">Find similar items?</td>
+            <td class="px-6 py-4 text-sm">Similarity score</td>
+            <td class="px-6 py-4 text-sm font-semibold text-red-600">Similarity Matching</td>
+            <td class="px-6 py-4 text-sm">Cosine Similarity</td>
           </tr>
         </tbody>
       </table>
     </div>
+  </section>
 
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-r-xl">
-      <div class="flex items-center gap-3 mb-2">
-        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-        <h3 class="font-bold text-amber-800">Architectural Risk</h3>
+  <!-- Data Types Reference -->
+  <section class="grid md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-blue-200">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">📝</span>
+        <h3 class="text-xl font-bold text-gray-900">Categorical</h3>
       </div>
-      <p class="text-amber-700 leading-relaxed text-sm">
-        Without a target variable to anchor the learning process, there is no guarantee that the identified groups or clusters will be commercially meaningful. Organizations often invest heavily in unsupervised discovery only to find segments that lack strategic relevance.
-      </p>
+      <p class="text-sm text-gray-600 mb-3">Fixed values with no inherent order</p>
+      <div class="bg-blue-50 rounded-lg p-3">
+        <p class="text-xs font-semibold text-blue-900 mb-2">Examples:</p>
+        <ul class="text-xs text-gray-700 space-y-1">
+          <li>• Gender (M/F)</li>
+          <li>• State (CA/NY/TX)</li>
+          <li>• Product Type</li>
+          <li>• Yes/No</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-purple-200">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">📊</span>
+        <h3 class="text-xl font-bold text-gray-900">Ordinal</h3>
+      </div>
+      <p class="text-sm text-gray-600 mb-3">Categories with clear ordering</p>
+      <div class="bg-purple-50 rounded-lg p-3">
+        <p class="text-xs font-semibold text-purple-900 mb-2">Examples:</p>
+        <ul class="text-xs text-gray-700 space-y-1">
+          <li>• Rating (1-5 stars)</li>
+          <li>• Education level</li>
+          <li>• Low/Medium/High</li>
+          <li>• Size (S/M/L/XL)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-indigo-200">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">🔢</span>
+        <h3 class="text-xl font-bold text-gray-900">Numerical</h3>
+      </div>
+      <p class="text-sm text-gray-600 mb-3">Continuous or discrete numbers with meaningful ratios</p>
+      <div class="bg-indigo-50 rounded-lg p-3">
+        <p class="text-xs font-semibold text-indigo-900 mb-2">Examples:</p>
+        <ul class="text-xs text-gray-700 space-y-1">
+          <li>• Price ($49.99)</li>
+          <li>• Age (years)</li>
+          <li>• Temperature (°C)</li>
+          <li>• Count, Revenue</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <hr class="border-gray-100">
-
-  <!-- Section 2: Supervised Learning -->
-  <section class="space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
-      <h2 class="text-2xl font-bold text-gray-800">Supervised Learning: Categorical vs. Numerical</h2>
+  <!-- Key Success Factors -->
+  <section class="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-2xl p-10 shadow-2xl">
+    <h2 class="text-3xl font-bold text-center mb-8">Critical Success Factors</h2>
+    
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <div class="text-4xl mb-3">🎯</div>
+        <h3 class="text-xl font-bold mb-2">1. Predictive Accuracy</h3>
+        <p class="text-sm text-gray-300">Build models that target business objectives with precision through careful attribute selection</p>
+      </div>
+      
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <div class="text-4xl mb-3">⚡</div>
+        <h3 class="text-xl font-bold mb-2">2. Performance Efficiency</h3>
+        <p class="text-sm text-gray-300">Reduce infrastructure costs and improve processing speed by selecting informative features</p>
+      </div>
+      
+      <div class="bg-white/10 backdrop-blur rounded-xl p-6 border border-white/20">
+        <div class="text-4xl mb-3">🛡️</div>
+        <h3 class="text-xl font-bold mb-2">3. Risk Mitigation</h3>
+        <p class="text-sm text-gray-300">Avoid overfitting by focusing on true signal rather than noise in your data</p>
+      </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
-        <h3 class="text-xl font-bold text-blue-900">Classification</h3>
-        <p class="text-sm text-blue-800 leading-relaxed">
-          Assigning data points into a set of small, predefined categories. 
-          <br><br>
-          <span class="font-bold">Examples:</span> Fraud detection, churn prediction, ad-click probability.
-        </p>
-        <div class="pt-2 italic text-xs text-blue-600">
-          <strong>Fuzzy Classification:</strong> leverages probabilities for nuanced risk management.
+    <div class="border-t border-white/20 pt-8">
+      <h3 class="text-2xl font-bold mb-6 text-center">Master Questions Before Starting</h3>
+      <div class="grid gap-4 max-w-3xl mx-auto">
+        <div class="bg-blue-500/20 border border-blue-400/30 p-5 rounded-xl">
+          <p class="text-white font-semibold mb-1">📌 Information Judgment</p>
+          <p class="text-sm text-blue-100">How do we judge if a specific variable contains important information about the target?</p>
         </div>
-      </div>
-      <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 space-y-3">
-        <h3 class="text-xl font-bold text-indigo-900">Regression</h3>
-        <p class="text-sm text-indigo-800 leading-relaxed">
-          Value estimation when the target variable is numerical where order and ratio are essential.
-          <br><br>
-          <span class="font-bold">Examples:</span> Customer lifetime spend, temperature forecasting, stock prices.
-        </p>
-      </div>
-    </div>
-
-    <div class="overflow-hidden rounded-xl border border-gray-200">
-      <div class="bg-gray-800 px-4 py-2 text-white text-xs font-bold uppercase tracking-widest">Supervised Task Decision Matrix</div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <tbody class="bg-white divide-y divide-gray-200 text-sm">
-            <tr class="bg-gray-50 font-bold text-gray-600">
-              <td class="px-6 py-3">Business Question</td>
-              <td class="px-6 py-3">Target Type</td>
-              <td class="px-6 py-3">Business Goal</td>
-              <td class="px-6 py-3">Task</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4">Will a customer buy this?</td>
-              <td class="px-6 py-4">Categorical</td>
-              <td class="px-6 py-4">Revenue Growth</td>
-              <td class="px-6 py-4 font-bold text-blue-600">Classification</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4">How much will they spend?</td>
-              <td class="px-6 py-4">Numerical</td>
-              <td class="px-6 py-4">Resource Allocation</td>
-              <td class="px-6 py-4 font-bold text-indigo-600">Regression</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4">Is this fraudulent?</td>
-              <td class="px-6 py-4">Categorical</td>
-              <td class="px-6 py-4">Risk Mitigation</td>
-              <td class="px-6 py-4 font-bold text-blue-600">Classification</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <hr class="border-gray-100">
-
-  <!-- Section 3: Unsupervised Learning -->
-  <section class="space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
-      <h2 class="text-2xl font-bold text-gray-800">Unsupervised Learning: Identifying Patterns</h2>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="space-y-4">
-        <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
-          <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
-          Clustering
-        </h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Identifies groups based on inherent record similarity.
-          <ul class="list-disc ml-5 mt-2 space-y-1 text-sm text-gray-500">
-            <li>Market Segmentation</li>
-            <li>Anomaly Detection</li>
-          </ul>
-        </p>
-      </div>
-      <div class="space-y-4">
-        <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
-          <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-          Association
-        </h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Identifies items that frequently appear together (e.g., Beer and Diapers).
-        </p>
-        <div class="bg-gray-50 p-4 rounded-lg text-xs italic text-gray-500 border-l-2 border-gray-200">
-          <strong>Distinction:</strong> Clustering groups <strong>records</strong> (similar customers), while Association groups <strong>items</strong> (products that "go together").
+        
+        <div class="bg-indigo-500/20 border border-indigo-400/30 p-5 rounded-xl">
+          <p class="text-white font-semibold mb-1">📌 Automated Selection</p>
+          <p class="text-sm text-indigo-100">How do we automate the selection of the most informative variables to handle high-dimensional data?</p>
+        </div>
+        
+        <div class="bg-purple-500/20 border border-purple-400/30 p-5 rounded-xl">
+          <p class="text-white font-semibold mb-1">📌 Variable Ranking</p>
+          <p class="text-sm text-purple-100">How do we obtain a clear ranking of variable importance to inform business strategy?</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 4: Advanced Relationship Tasks -->
-  <section class="space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">4</div>
-      <h2 class="text-2xl font-bold text-gray-800">Advanced Relationship Tasks</h2>
-    </div>
-
-    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8 rounded-2xl shadow-xl grid md:grid-cols-2 gap-8">
-      <div class="space-y-3">
-        <h3 class="text-lg font-bold text-blue-400">Link Prediction</h3>
-        <p class="text-sm text-gray-300 leading-relaxed">
-          Predicts connections within a network (graph). 
-          <br><br>
-          <span class="font-bold text-white">Example:</span> LinkedIn's "People you may know."
-        </p>
+  <!-- Common Pitfalls -->
+  <section class="bg-red-50 border-2 border-red-200 rounded-2xl p-8">
+    <h2 class="text-2xl font-bold text-red-900 mb-6 flex items-center gap-3">
+      <span class="text-3xl">⚠️</span>
+      Common Pitfalls to Avoid
+    </h2>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Unsupervised Without Validation</h3>
+        <p class="text-sm text-gray-700">Don't invest heavily in clustering/association without validating that results align with business goals. Clusters may be statistically valid but commercially meaningless.</p>
       </div>
-      <div class="space-y-3">
-        <h3 class="text-lg font-bold text-indigo-400">Similarity Matching</h3>
-        <p class="text-sm text-gray-300 leading-relaxed">
-          Measures specific relatedness between two objects.
-          <br><br>
-          <span class="font-bold text-white">Example:</span> Face recognition, Netflix recommendations.
-        </p>
+      
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Wrong Task Selection</h3>
+        <p class="text-sm text-gray-700">Using regression for categorical targets or classification for continuous values. Verify your target variable type first.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Section 5: Data Taxonomy -->
-  <section class="space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">5</div>
-      <h2 class="text-2xl font-bold text-gray-800">Data Taxonomy & Attribute Quality</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-        <h4 class="font-bold text-gray-800 mb-2">Categorical</h4>
-        <p class="text-xs text-gray-500">Fixed values with no internal order (e.g., State, Gender).</p>
+      
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Ignoring Class Imbalance</h3>
+        <p class="text-sm text-gray-700">In fraud detection or rare events (1% positive class), standard accuracy is misleading. Use precision/recall, F1-score, or SMOTE/class weights.</p>
       </div>
-      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-        <h4 class="font-bold text-gray-800 mb-2">Ordinal</h4>
-        <p class="text-xs text-gray-500">Categories with clear order (e.g., Low < Medium < High).</p>
+      
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Overfitting Complex Models</h3>
+        <p class="text-sm text-gray-700">Starting with neural networks for small datasets. Begin simple (linear/logistic regression), increase complexity only if needed.</p>
       </div>
-      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-        <h4 class="font-bold text-gray-800 mb-2">Numerical</h4>
-        <p class="text-xs text-gray-500">Continuous or discrete metrics where ratios matter.</p>
+      
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Not Scaling Features</h3>
+        <p class="text-sm text-gray-700">Distance-based algorithms (K-Means, KNN) and neural networks need feature scaling. Age (0-100) vs Income (0-1M) will bias results.</p>
       </div>
-    </div>
-
-    <div class="bg-gray-100 p-6 rounded-2xl space-y-4">
-      <h3 class="font-bold text-gray-800">The Feature Vector</h3>
-      <p class="text-sm text-gray-600">Representing a record numerically for model processing.</p>
-      <div class="bg-white p-4 rounded-xl border border-gray-200 font-mono text-xs overflow-x-auto">
-        <div class="text-gray-400 mb-2 uppercase tracking-tighter">Table Record:</div>
-        (Person ID: 17824, Age: 49, Gender: M, Income: 12000, Balance: -3000)
-        <div class="h-4"></div>
-        <div class="text-blue-500 mb-2 uppercase tracking-tighter">Feature Vector:</div>
-        (17824, 49, M, 12000, -3000)
+      
+      <div class="bg-white rounded-lg p-5 border border-red-200">
+        <h3 class="font-bold text-red-900 mb-2">❌ Data Leakage</h3>
+        <p class="text-sm text-gray-700">Including information in features that wouldn't be available at prediction time (e.g., using "account_closed_date" to predict churn).</p>
       </div>
     </div>
   </section>
 
-  <!-- Final Strategic ROI -->
-  <section class="bg-blue-600 rounded-3xl p-10 text-white space-y-8 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-    <div class="relative z-10 space-y-6">
-      <h2 class="text-3xl font-bold text-center">ROI of Strategic Attribute Selection</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="text-center space-y-2">
-          <div class="text-blue-200 font-bold text-lg">01</div>
-          <h4 class="font-bold">Predictive Accuracy</h4>
-          <p class="text-sm text-blue-100 italic">Targeting objectives with precision.</p>
-        </div>
-        <div class="text-center space-y-2">
-          <div class="text-blue-200 font-bold text-lg">02</div>
-          <h4 class="font-bold">Performance Efficiency</h4>
-          <p class="text-sm text-blue-100 italic">Reducing infrastructure costs.</p>
-        </div>
-        <div class="text-center space-y-2">
-          <div class="text-blue-200 font-bold text-lg">03</div>
-          <h4 class="font-bold">Risk Mitigation</h4>
-          <p class="text-sm text-blue-100 italic">Avoiding model overfitting.</p>
-        </div>
-      </div>
-
-      <div class="pt-8 border-t border-white/20">
-        <h3 class="font-bold text-xl mb-6 text-center">Master Questions for Stakeholders</h3>
-        <div class="grid gap-4 max-w-xl mx-auto">
-          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
-            How do we judge if a specific variable contains important information about the target?
-          </div>
-          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
-            How do we automate the selection of the most informative variables?
-          </div>
-          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
-            How do we obtain a clear ranking of variable importance to inform business strategy?
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="text-center text-gray-400 text-sm">
-    &copy; 2026 Machine Learning Architectural Blueprint
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm pt-8">
+    <p class="mb-2">🎓 ML Model Selection Decision Tree v2.0</p>
+    <p>&copy; 2026 Machine Learning Architectural Blueprint</p>
   </footer>
 </div>
