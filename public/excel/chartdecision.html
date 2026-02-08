@@ -1,0 +1,726 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">📊 Chart Decision Tree</h1>
+  <p class="text-gray-600">A strategic framework for selecting the right visualization. Answer the three core questions: <strong>What's the goal?</strong> <strong>What data types?</strong> <strong>How many variables?</strong></p>
+
+  <a href="/How to Choose the right Data Visualization.pdf" download class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+    <span class="font-medium">Download Full PDF Guide</span>
+  </a>
+
+  <!-- Level 1: Role Identification -->
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-5">
+    <h2 class="font-bold text-xl text-blue-800 mb-4">🎯 Step 1: What's Your Goal?</h2>
+    <p class="text-sm text-gray-700 mb-4">Click on your visualization goal to see recommended chart types:</p>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <a href="#time" class="bg-white border-2 border-blue-300 rounded-lg p-3 hover:bg-blue-100 hover:border-blue-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">📈</div>
+        <div class="font-semibold text-sm">Change Over Time</div>
+      </a>
+      <a href="#partwhole" class="bg-white border-2 border-purple-300 rounded-lg p-3 hover:bg-purple-100 hover:border-purple-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">🥧</div>
+        <div class="font-semibold text-sm">Part-to-Whole</div>
+      </a>
+      <a href="#flows" class="bg-white border-2 border-green-300 rounded-lg p-3 hover:bg-green-100 hover:border-green-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">🔄</div>
+        <div class="font-semibold text-sm">Flows & Processes</div>
+      </a>
+      <a href="#distribution" class="bg-white border-2 border-yellow-300 rounded-lg p-3 hover:bg-yellow-100 hover:border-yellow-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">📊</div>
+        <div class="font-semibold text-sm">Distribution</div>
+      </a>
+      <a href="#comparison" class="bg-white border-2 border-red-300 rounded-lg p-3 hover:bg-red-100 hover:border-red-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">⚖️</div>
+        <div class="font-semibold text-sm">Comparing Groups</div>
+      </a>
+      <a href="#relationships" class="bg-white border-2 border-teal-300 rounded-lg p-3 hover:bg-teal-100 hover:border-teal-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">🔗</div>
+        <div class="font-semibold text-sm">Relationships</div>
+      </a>
+      <a href="#geographical" class="bg-white border-2 border-orange-300 rounded-lg p-3 hover:bg-orange-100 hover:border-orange-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">🗺️</div>
+        <div class="font-semibold text-sm">Geographical</div>
+      </a>
+      <a href="#rawdata" class="bg-white border-2 border-gray-300 rounded-lg p-3 hover:bg-gray-100 hover:border-gray-500 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">🔢</div>
+        <div class="font-semibold text-sm">Raw Data/Numbers</div>
+      </a>
+      <a href="#avoid" class="bg-white border-2 border-red-400 rounded-lg p-3 hover:bg-red-100 hover:border-red-600 transition-all cursor-pointer block text-center">
+        <div class="text-2xl mb-1">⚠️</div>
+        <div class="font-semibold text-sm">What to Avoid</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Section: Change Over Time -->
+  <div id="time" class="bg-blue-50 border border-blue-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-blue-800 flex items-center gap-2">📈 Change Over Time</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Time on horizontal axis, left to right, past to future.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+        <h3 class="font-semibold text-gray-800">One Numeric Variable</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Line Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Standard for emphasizing progression and continuity.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Sparkline</span>
+            </div>
+            <p class="text-xs text-gray-600">Miniature line charts for tables/dashboards.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Bar Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Few time periods, emphasize discrete totals.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-blue-400">
+        <h3 class="font-semibold text-gray-800">Comparing Two Points in Time</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+            <span class="font-medium">Slope Chart</span>
+          </div>
+          <p class="text-xs text-gray-600">Uses line slopes between two temporal points to show direction and magnitude of change for many items.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-blue-400">
+        <h3 class="font-semibold text-gray-800">Two Numeric Variables Across Time</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+            <span class="font-medium">Connected Scatter Plot</span>
+          </div>
+          <p class="text-xs text-gray-600">Shows how two metrics evolve together over time; segments connect points chronologically.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-blue-400">
+        <h3 class="font-semibold text-gray-800">Multiple Recordings Per Time Period</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+            <span class="font-medium">Box Plot</span>
+          </div>
+          <p class="text-xs text-gray-600">Shows how a distribution of values evolves over specific intervals.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-blue-400">
+        <h3 class="font-semibold text-gray-800">Financial Metrics</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+            <span class="font-medium">Candlestick Chart</span>
+          </div>
+          <p class="text-xs text-gray-600">Encodes opening, closing, and price ranges; color indicates direction of change.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-blue-100 rounded p-3 mt-4 text-sm">
+      <strong>💡 Tip:</strong> Line Chart emphasizes "flow" of data, Bar Chart emphasizes "volume" of individual periods. If volumes have sub-groups, use Part-to-Whole charts.
+    </div>
+  </div>
+
+  <!-- Section: Part-to-Whole -->
+  <div id="partwhole" class="bg-purple-50 border border-purple-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-purple-800 flex items-center gap-2">🥧 Part-to-Whole Composition</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Shows how a total is constructed. Vital for resource allocation.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-purple-500">
+        <h3 class="font-semibold text-gray-800">Simple Breakdowns (5 or fewer categories)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Pie Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Best with distinct proportions. ⚠️ Use with caution—angles harder to judge than lengths.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Doughnut Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Pie with center hole—can display a key metric in the center.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-purple-400">
+        <h3 class="font-semibold text-gray-800">Higher Precision or More Categories</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Stacked Bar Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Superior to pies—humans judge lengths more accurately.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Waffle Chart / Grid Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">10×10 grid of squares for clear, discrete percentages.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-purple-400">
+        <h3 class="font-semibold text-gray-800">Hierarchical Structures (parts within parts)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Mosaic / Marimekko Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Divided on both axes for two categorical variables.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Treemap</span>
+            </div>
+            <p class="text-xs text-gray-600">Nested rectangles for multiple hierarchy levels.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-purple-400">
+        <h3 class="font-semibold text-gray-800">Temporal Composition</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Stacked Area Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Line chart with shaded regions for sub-groups over time.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Stream Graph</span>
+            </div>
+            <p class="text-xs text-gray-600">Stacked area around central axis; prioritizes relative changes.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Waterfall Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Decomposes changes between two time points using floating bars.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Flows and Processes -->
+  <div id="flows" class="bg-green-50 border border-green-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-green-800 flex items-center gap-2">🔄 Flows and Processes</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Tracks movement across multi-stage systems. Shows volume transformation or loss.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-green-500">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+          <span class="font-semibold">Funnel Chart</span>
+        </div>
+        <p class="text-sm text-gray-600"><strong>Use for:</strong> Customer/Business Funnels</p>
+        <p class="text-xs text-gray-500 mt-1">Emphasizes loss of volume at each connection stage.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-green-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+          <span class="font-semibold">Sankey Diagram</span>
+        </div>
+        <p class="text-sm text-gray-600"><strong>Use for:</strong> Multi-stage volumes</p>
+        <p class="text-xs text-gray-500 mt-1">Width shows relative volume; handles multiple inputs/outputs.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-green-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+          <span class="font-semibold">Parallel Sets Chart</span>
+        </div>
+        <p class="text-sm text-gray-600"><strong>Use for:</strong> Inter-dimensional relationships</p>
+        <p class="text-xs text-gray-500 mt-1">Shows how subgroups relate across multiple categorical dimensions.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-green-500">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+          <span class="font-semibold">Gantt Chart</span>
+        </div>
+        <p class="text-sm text-gray-600"><strong>Use for:</strong> Task Scheduling</p>
+        <p class="text-xs text-gray-500 mt-1">Maps tasks against a timeline for start/end dates and durations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Distribution -->
+  <div id="distribution" class="bg-yellow-50 border border-yellow-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-yellow-800 flex items-center gap-2">📊 Data Distribution</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Critical exploratory step to identify ranges, density, and outliers.</p>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse bg-white rounded-lg overflow-hidden">
+        <thead class="bg-yellow-100">
+          <tr>
+            <th class="text-left p-3 font-semibold">Variable Type</th>
+            <th class="text-left p-3 font-semibold">Recommended Chart</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-yellow-100">
+            <td class="p-3">Qualitative / Discrete</td>
+            <td class="p-3"><span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded mr-1">BASIC</span> Bar Chart</td>
+            <td class="p-3 text-xs text-gray-600">Height indicates group counts</td>
+          </tr>
+          <tr class="border-t border-yellow-100 bg-yellow-50/50">
+            <td class="p-3">Numeric (Binned)</td>
+            <td class="p-3"><span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded mr-1">BASIC</span> Histogram</td>
+            <td class="p-3 text-xs text-gray-600">Bins continuous data into ranges for frequency</td>
+          </tr>
+          <tr class="border-t border-yellow-100">
+            <td class="p-3">Numeric (Smooth)</td>
+            <td class="p-3"><span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded mr-1">UNCOMMON</span> Density Curve</td>
+            <td class="p-3 text-xs text-gray-600">Smooth curve of value density</td>
+          </tr>
+          <tr class="border-t border-yellow-100 bg-yellow-50/50">
+            <td class="p-3">Statistical Ranges</td>
+            <td class="p-3"><span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded mr-1">BASIC</span> Box Plot</td>
+            <td class="p-3 text-xs text-gray-600">Central 50% and overall range</td>
+          </tr>
+          <tr class="border-t border-yellow-100">
+            <td class="p-3">Large Datasets</td>
+            <td class="p-3"><span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded mr-1">ADVANCED</span> Letter-value Plot</td>
+            <td class="p-3 text-xs text-gray-600">Extended box plots with eighths/sixteenths</td>
+          </tr>
+          <tr class="border-t border-yellow-100 bg-yellow-50/50">
+            <td class="p-3">Individual Points</td>
+            <td class="p-3"><span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded mr-1">UNCOMMON</span> Rug / Strip / Swarm Plot</td>
+            <td class="p-3 text-xs text-gray-600">Shows exact positions to reveal clusters</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-yellow-100 rounded p-3 mt-4 text-sm">
+      <strong>💡 Tip:</strong> For comparing distributions across groups, use a <strong>Violin Plot</strong>—it combines a density curve with a box plot summary.
+    </div>
+  </div>
+
+  <!-- Section: Comparing Groups -->
+  <div id="comparison" class="bg-red-50 border border-red-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-red-800 flex items-center gap-2">⚖️ Comparing Values Between Groups</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">The most frequent task in visualization. Make differences immediately apparent.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-red-500">
+        <h3 class="font-semibold text-gray-800">Primary Comparison Tools</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Bar Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Gold standard for comparing values against zero-baseline.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Grouped Bar Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Compares two categorical variables using clusters.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-red-400">
+        <h3 class="font-semibold text-gray-800">High-Cardinality Data (Many Groups)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Lollipop Chart</span>
+            </div>
+            <p class="text-xs text-gray-600">Cleaner alternative to bars for many groups.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Dot Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">Uses position (not length); superior when zero-baseline not needed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-red-400">
+        <h3 class="font-semibold text-gray-800">Comparing Distributions Across Groups</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Violin Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">Density curve + box plot summary.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Ridgeline Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">Offset axes show distinct distribution patterns.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-red-400">
+        <h3 class="font-semibold text-gray-800">Multi-Attribute Comparison</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Parallel Coordinates Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">Multiple vertical scales for many dimensions.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium">Dumbbell Plot</span>
+            </div>
+            <p class="text-xs text-gray-600">Connects two points to emphasize difference (e.g., two years).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-red-400">
+        <h3 class="font-semibold text-gray-800">Rank-Focused Visualization</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+            <span class="font-medium">Bump Chart</span>
+          </div>
+          <p class="text-xs text-gray-600">Modified line chart that tracks rank rather than raw value.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Relationships -->
+  <div id="relationships" class="bg-teal-50 border border-teal-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-teal-800 flex items-center gap-2">🔗 Relationships Between Variables</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Identify correlations, trends, and patterns between two or more variables.</p>
+    
+    <div class="space-y-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-teal-500">
+        <h3 class="font-semibold text-gray-800">Variable Relationships</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Scatter Plot</span>
+            </div>
+            <p class="text-xs text-gray-600"><strong>Two numeric variables:</strong> Core correlations.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Bubble Chart</span>
+            </div>
+            <p class="text-xs text-gray-600"><strong>Three numeric variables:</strong> Point size as third dimension. Limit to 3.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium">Heatmap</span>
+            </div>
+            <p class="text-xs text-gray-600"><strong>Multi-variable:</strong> Grid where cell colors indicate frequency or summary.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">2-D Density Curve</span>
+            </div>
+            <p class="text-xs text-gray-600">Smooth mapping of density across two numeric axes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-teal-400">
+        <h3 class="font-semibold text-gray-800">Dual-Scale Comparison</h3>
+        <div class="bg-gray-50 rounded p-3 mt-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+            <span class="font-medium">Dual-axis Bar-line Plot</span>
+          </div>
+          <p class="text-xs text-gray-600">Shares an axis (usually time) for related variables on different scales.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-teal-400">
+        <h3 class="font-semibold text-gray-800">Networks & Similarity</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Dendrogram</span>
+            </div>
+            <p class="text-xs text-gray-600">Shows similarity via branching; often paired with heatmap.</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Network Diagram</span>
+            </div>
+            <p class="text-xs text-gray-600">Entities (nodes) and connections (edges).</p>
+          </div>
+          <div class="bg-gray-50 rounded p-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium">Chord Diagram</span>
+            </div>
+            <p class="text-xs text-gray-600">Nodes in circle showing complex connections.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Geographical -->
+  <div id="geographical" class="bg-orange-50 border border-orange-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-orange-800 flex items-center gap-2">🗺️ Geographical Data</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Visualize spatial patterns and regional values.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-orange-500">
+        <h3 class="font-semibold text-gray-800 mb-2">Point Positioning</h3>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded p-2">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium text-sm">Scatter Map</span>
+            </div>
+            <p class="text-xs text-gray-600">For coordinates</p>
+          </div>
+          <div class="bg-gray-50 rounded p-2">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+              <span class="font-medium text-sm">Bubble Map</span>
+            </div>
+            <p class="text-xs text-gray-600">Size shows value or groups dense points</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-orange-400">
+        <h3 class="font-semibold text-gray-800 mb-2">Regional Values</h3>
+        <div class="bg-gray-50 rounded p-2">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+            <span class="font-medium text-sm">Choropleth</span>
+          </div>
+          <p class="text-xs text-gray-600">Color-coded regions. ⚠️ Use rates/ratios to avoid population distortion.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-orange-400">
+        <h3 class="font-semibold text-gray-800 mb-2">Process Flows</h3>
+        <div class="bg-gray-50 rounded p-2">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+            <span class="font-medium text-sm">Connection Map</span>
+          </div>
+          <p class="text-xs text-gray-600">Maps networks or volumes over geographic area</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-orange-400">
+        <h3 class="font-semibold text-gray-800 mb-2">Spatial Density</h3>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded p-2">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+              <span class="font-medium text-sm">2-D Histogram / Hexbin</span>
+            </div>
+          </div>
+          <div class="bg-gray-50 rounded p-2">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+              <span class="font-medium text-sm">Isopleth / Contour Map</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-orange-400 md:col-span-2">
+        <h3 class="font-semibold text-gray-800 mb-2">Value-Based Distortion</h3>
+        <div class="bg-gray-50 rounded p-2">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+            <span class="font-medium text-sm">Cartogram</span>
+          </div>
+          <p class="text-xs text-gray-600">Distorts regional sizes to represent data values</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: What to Avoid -->
+  <div id="avoid" class="bg-red-100 border-2 border-red-300 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-red-800 flex items-center gap-2">⚠️ What to Avoid</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Certain charts introduce visual distortion. Prioritize clarity over novelty.</p>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse bg-white rounded-lg overflow-hidden">
+        <thead class="bg-red-200">
+          <tr>
+            <th class="text-left p-3 font-semibold">❌ Avoid</th>
+            <th class="text-left p-3 font-semibold">✅ Use Instead</th>
+            <th class="text-left p-3 font-semibold">Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-red-100">
+            <td class="p-3 font-medium text-red-700">Pictogram</td>
+            <td class="p-3 text-green-700">Bar Chart</td>
+            <td class="p-3 text-xs text-gray-600">Icons require rounding, causing precision loss</td>
+          </tr>
+          <tr class="border-t border-red-100 bg-red-50/50">
+            <td class="p-3 font-medium text-red-700">Circular Bar Chart</td>
+            <td class="p-3 text-green-700">Bar Chart</td>
+            <td class="p-3 text-xs text-gray-600">Arcs distort values; unclear if value is angle or length</td>
+          </tr>
+          <tr class="border-t border-red-100">
+            <td class="p-3 font-medium text-red-700">Radar / Spider Plot</td>
+            <td class="p-3 text-green-700">Parallel Coordinates</td>
+            <td class="p-3 text-xs text-gray-600">Perceived area changes with arbitrary attribute order</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section: Raw Data -->
+  <div id="rawdata" class="bg-gray-50 border border-gray-200 rounded-lg p-5">
+    <h2 class="font-bold text-xl text-gray-800 flex items-center gap-2">🔢 Raw Data and Numbers</h2>
+    <p class="text-sm text-gray-600 mt-1 mb-4">Sometimes a graphical representation is less efficient than the data itself.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-lg p-4 border-l-4 border-gray-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+          <span class="font-semibold">Single Value Chart</span>
+        </div>
+        <p class="text-xs text-gray-600">Single, critical number where no comparison is needed.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-gray-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+          <span class="font-semibold">Single Value with Indicator</span>
+        </div>
+        <p class="text-xs text-gray-600">Compares to previous period (e.g., "% change" arrow).</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-gray-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+          <span class="font-semibold">Bullet Chart</span>
+        </div>
+        <p class="text-xs text-gray-600">Compares a single value against a benchmark/target using bar + marker.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4 border-l-4 border-gray-400">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+          <span class="font-semibold">Table</span>
+        </div>
+        <p class="text-xs text-gray-600">Multiple data points across attributes for precise lookup.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Checklist -->
+  <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-xl p-5">
+    <h2 class="font-bold text-xl text-indigo-800 mb-4">✅ Final Refinement Checklist</h2>
+    <p class="text-sm text-gray-700 mb-4">Always evaluate your final visualization against these principles:</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xl">1️⃣</span>
+          <span class="font-semibold">Simplicity</span>
+        </div>
+        <p class="text-sm text-gray-600">Is it as simple as possible? If crowded, use <strong>Small Multiples (Faceting)</strong>.</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xl">2️⃣</span>
+          <span class="font-semibold">Encoding</span>
+        </div>
+        <p class="text-sm text-gray-600">Effectiveness: <strong>Position</strong> → Length → Color → Size</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xl">3️⃣</span>
+          <span class="font-semibold">Orientation</span>
+        </div>
+        <p class="text-sm text-gray-600">Would horizontal orientation better fit long category names?</p>
+      </div>
+
+      <div class="bg-white rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xl">4️⃣</span>
+          <span class="font-semibold">Hierarchy</span>
+        </div>
+        <p class="text-sm text-gray-600">Does it guide viewers from most important to supporting details?</p>
+      </div>
+    </div>
+
+    <div class="bg-indigo-100 rounded-lg p-4 mt-4">
+      <p class="text-center text-indigo-800 font-medium">🎯 <strong>The Goal:</strong> Ensure your visualization provides actionable insights that raw numbers alone cannot convey.</p>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="bg-white border border-gray-200 rounded-lg p-4">
+    <h3 class="font-semibold text-gray-700 mb-3">📋 Chart Type Legend</h3>
+    <div class="flex flex-wrap gap-3">
+      <div class="flex items-center gap-2">
+        <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded">BASIC</span>
+        <span class="text-sm text-gray-600">Common, widely available</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded">UNCOMMON</span>
+        <span class="text-sm text-gray-600">Less common, may need specialized tools</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded">ADVANCED</span>
+        <span class="text-sm text-gray-600">Complex, requires specific software</span>
+      </div>
+    </div>
+  </div>
+</div>

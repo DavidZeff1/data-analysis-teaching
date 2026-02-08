@@ -54,6 +54,7 @@ const content = {
     charts: () => fetch("/excel/charts.html").then((r) => r.text()),
     powerquery: () => fetch("/excel/powerquery.html").then((r) => r.text()),
     validation: () => fetch("/excel/validation.html").then((r) => r.text()),
+    chartdecision: () => fetch("/excel/chartdecision.html").then((r) => r.text()),
   },
   tableau: {
     setup: () => fetch("/tableau/setup.html").then((r) => r.text()),
