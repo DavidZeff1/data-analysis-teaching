@@ -461,6 +461,111 @@ df[<span class="text-green-400">'Category'</span>] = pd.cut(
     </div>
   </div>
 
+
+<!-- Duplicates -->
+<div class="bg-white rounded-lg border border-gray-200 p-4">
+  <h2 class="font-bold text-lg mb-3 text-blue-700">Handling Duplicates</h2>
+  <div class="bg-gray-800 text-white p-3 rounded text-sm">
+    <pre><span class="text-gray-400"># Check if duplicates exist</span>
+df.duplicated().any()                    <span class="text-gray-400"># True if any duplicates</span>
+df.duplicated().sum()                    <span class="text-gray-400"># Count duplicate rows</span>
+
+<span class="text-gray-400"># See which rows are duplicates</span>
+df.duplicated()                          <span class="text-gray-400"># Boolean Series (True = duplicate)</span>
+df[df.duplicated()]                      <span class="text-gray-400"># Show duplicate rows (excludes first occurrence)</span>
+df[df.duplicated(keep=<span class="text-blue-400">False</span>)]            <span class="text-gray-400"># Show ALL duplicates (including first)</span>
+
+<span class="text-gray-400"># Remove duplicates</span>
+df.drop_duplicates()                     <span class="text-gray-400"># Keep first occurrence</span>
+df.drop_duplicates(keep=<span class="text-green-400">'last'</span>)          <span class="text-gray-400"># Keep last occurrence</span>
+df.drop_duplicates(keep=<span class="text-blue-400">False</span>)            <span class="text-gray-400"># Remove all duplicates</span>
+
+<span class="text-gray-400"># Check duplicates in specific columns</span>
+df.duplicated(subset=[<span class="text-green-400">'Name'</span>, <span class="text-green-400">'Email'</span>])
+df.drop_duplicates(subset=[<span class="text-green-400">'ID'</span>])       <span class="text-gray-400"># Remove rows with duplicate IDs</span>
+
+<span class="text-gray-400"># Find duplicate values in a single column</span>
+df[df[<span class="text-green-400">'Email'</span>].duplicated()]           <span class="text-gray-400"># Rows where email appears more than once</span>
+df[<span class="text-green-400">'Email'</span>].value_counts()              <span class="text-gray-400"># Count occurrences of each value</span></pre>
+  </div>
+</div>
+
+<!-- Index Management -->
+<div class="bg-white rounded-lg border border-gray-200 p-4">
+  <h2 class="font-bold text-lg mb-3 text-blue-700">Index Management & reset_index()</h2>
+  <p class="text-sm text-gray-600 mb-3">Many operations (groupby, set_index, filtering) can create messy indexes. Use reset_index() to fix them.</p>
+  
+  <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+    <pre><span class="text-gray-400"># Basic reset - moves index to a column</span>
+df.reset_index()                         <span class="text-gray-400"># Index becomes column 'index'</span>
+df.reset_index(drop=<span class="text-blue-400">True</span>)                  <span class="text-gray-400"># Discard old index, create new 0,1,2...</span>
+
+<span class="text-gray-400"># Common after groupby</span>
+result = df.groupby(<span class="text-green-400">'Category'</span>).agg({<span class="text-green-400">'Sales'</span>: <span class="text-green-400">'sum'</span>})
+<span class="text-gray-400"># result has 'Category' as index - often not what you want!</span>
+result.reset_index()                     <span class="text-gray-400"># Now 'Category' is a regular column</span>
+
+<span class="text-gray-400"># After filtering - indexes become non-consecutive</span>
+filtered = df[df[<span class="text-green-400">'Age'</span>] > 30]          <span class="text-gray-400"># Index: [2, 5, 7, 12...]</span>
+filtered.reset_index(drop=<span class="text-blue-400">True</span>)           <span class="text-gray-400"># Index: [0, 1, 2, 3...]</span>
+
+<span class="text-gray-400"># Set a column as index (opposite of reset_index)</span>
+df.set_index(<span class="text-green-400">'CustomerID'</span>)             <span class="text-gray-400"># Use CustomerID as index</span>
+df.set_index([<span class="text-green-400">'Year'</span>, <span class="text-green-400">'Month'</span>])        <span class="text-gray-400"># Multi-level index</span></pre>
+  </div>
+
+  <div class="bg-yellow-50 rounded p-3 text-sm">
+    <strong>⚠️ Common gotcha:</strong> After <code>groupby().agg()</code>, the grouped column becomes the index!
+    <pre class="bg-white p-2 rounded mt-2 text-xs font-mono"><span class="text-gray-400"># ❌ Won't work - 'Country' is the index, not a column</span>
+grouped = df.groupby(<span class="text-green-400">'Country'</span>).agg({<span class="text-green-400">'Sales'</span>: <span class="text-green-400">'sum'</span>})
+grouped[<span class="text-green-400">'Country'</span>]  <span class="text-red-600"># KeyError!</span>
+
+<span class="text-gray-400"># ✅ Fix with reset_index()</span>
+grouped = df.groupby(<span class="text-green-400">'Country'</span>).agg({<span class="text-green-400">'Sales'</span>: <span class="text-green-400">'sum'</span>}).reset_index()
+grouped[<span class="text-green-400">'Country'</span>]  <span class="text-green-600"># Works!</span></pre>
+  </div>
+
+  <div class="mt-3 overflow-x-auto">
+    <table class="w-full text-sm border border-gray-300">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2 text-left">Operation</th>
+          <th class="border px-3 py-2 text-left">Index behavior</th>
+          <th class="border px-3 py-2 text-left">Need reset_index?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">groupby().agg()</td>
+          <td class="border px-3 py-1">Grouped columns become index</td>
+          <td class="border px-3 py-1">✅ Almost always</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df[condition]</td>
+          <td class="border px-3 py-1">Keeps original (non-sequential)</td>
+          <td class="border px-3 py-1">⚠️ Optional (cosmetic)</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">set_index()</td>
+          <td class="border px-3 py-1">Column moves to index</td>
+          <td class="border px-3 py-1">❌ Intentional</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">sort_values()</td>
+          <td class="border px-3 py-1">Reorders but keeps values</td>
+          <td class="border px-3 py-1">⚠️ Optional</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">concat()</td>
+          <td class="border px-3 py-1">May have duplicates</td>
+          <td class="border px-3 py-1">✅ Often needed</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
   <!-- Ranking & Window Functions -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Ranking & Window Functions</h2>
