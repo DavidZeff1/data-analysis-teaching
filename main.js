@@ -77,6 +77,9 @@ const content = {
   math: {
     statistics: () => fetch("/math/statistics.html").then((r) => r.text()),
   },
+  ml: {
+    guide: () => fetch("/ml/guide.html").then((r) => r.text()),
+  },
 };
 
 document.querySelectorAll(".tab").forEach((btn) => {

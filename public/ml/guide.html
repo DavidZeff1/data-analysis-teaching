@@ -1,0 +1,282 @@
+<div class="max-w-4xl mx-auto space-y-12 pb-12">
+  <!-- Header Section -->
+  <header class="text-center space-y-4">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+      Machine Learning Selection Guide
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto italic">
+      Navigating Machine Learning Solutions for Business Problems
+    </p>
+    <div class="h-1 w-24 bg-blue-500 mx-auto rounded-full"></div>
+  </header>
+
+  <!-- Introduction -->
+  <section class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+    <p class="text-lg leading-relaxed text-gray-700">
+      The most critical decision in machine learning architecture begins with a single strategic pivot: 
+      <span class="font-bold text-blue-600 underline decoration-blue-200 underline-offset-4">the identification of a target variable</span>. 
+      This choice dictates the methodology, reliability of insights, and the ultimate ROI of the deployment.
+    </p>
+  </section>
+
+  <!-- Section 1: Strategic Pivot -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">1</div>
+      <h2 class="text-2xl font-bold text-gray-800">The Strategic Pivot: Supervised vs. Unsupervised Learning</h2>
+    </div>
+    
+    <p class="text-gray-600 leading-relaxed">
+      The first milestone is determining the existence of "labeled" historical data. This distinction is the primary driver of project risk and success.
+    </p>
+
+    <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Feature</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-blue-600 uppercase tracking-wider">Supervised Learning</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-indigo-600 uppercase tracking-wider">Unsupervised Learning</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr>
+            <td class="px-6 py-4 font-semibold text-gray-700">Key Question</td>
+            <td class="px-6 py-4 text-gray-600">Is there a specific target variable? (Yes)</td>
+            <td class="px-6 py-4 text-gray-600">Is there a specific target variable? (No)</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-semibold text-gray-700">Label Necessity</td>
+            <td class="px-6 py-4 text-gray-600">Required: Examples are necessary (e.g., "These are Bananas")</td>
+            <td class="px-6 py-4 text-gray-600">None: Groups data by inherent patterns</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-semibold text-gray-700">Usefulness</td>
+            <td class="px-6 py-4 text-gray-600 font-medium text-green-600">High: Engineered for business objective</td>
+            <td class="px-6 py-4 text-gray-600 font-medium text-amber-600">Low: Actionable groups not guaranteed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-r-xl">
+      <div class="flex items-center gap-3 mb-2">
+        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <h3 class="font-bold text-amber-800">Architectural Risk</h3>
+      </div>
+      <p class="text-amber-700 leading-relaxed text-sm">
+        Without a target variable to anchor the learning process, there is no guarantee that the identified groups or clusters will be commercially meaningful. Organizations often invest heavily in unsupervised discovery only to find segments that lack strategic relevance.
+      </p>
+    </div>
+  </section>
+
+  <hr class="border-gray-100">
+
+  <!-- Section 2: Supervised Learning -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">2</div>
+      <h2 class="text-2xl font-bold text-gray-800">Supervised Learning: Categorical vs. Numerical</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 space-y-3">
+        <h3 class="text-xl font-bold text-blue-900">Classification</h3>
+        <p class="text-sm text-blue-800 leading-relaxed">
+          Assigning data points into a set of small, predefined categories. 
+          <br><br>
+          <span class="font-bold">Examples:</span> Fraud detection, churn prediction, ad-click probability.
+        </p>
+        <div class="pt-2 italic text-xs text-blue-600">
+          <strong>Fuzzy Classification:</strong> leverages probabilities for nuanced risk management.
+        </div>
+      </div>
+      <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 space-y-3">
+        <h3 class="text-xl font-bold text-indigo-900">Regression</h3>
+        <p class="text-sm text-indigo-800 leading-relaxed">
+          Value estimation when the target variable is numerical where order and ratio are essential.
+          <br><br>
+          <span class="font-bold">Examples:</span> Customer lifetime spend, temperature forecasting, stock prices.
+        </p>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-gray-200">
+      <div class="bg-gray-800 px-4 py-2 text-white text-xs font-bold uppercase tracking-widest">Supervised Task Decision Matrix</div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <tbody class="bg-white divide-y divide-gray-200 text-sm">
+            <tr class="bg-gray-50 font-bold text-gray-600">
+              <td class="px-6 py-3">Business Question</td>
+              <td class="px-6 py-3">Target Type</td>
+              <td class="px-6 py-3">Business Goal</td>
+              <td class="px-6 py-3">Task</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4">Will a customer buy this?</td>
+              <td class="px-6 py-4">Categorical</td>
+              <td class="px-6 py-4">Revenue Growth</td>
+              <td class="px-6 py-4 font-bold text-blue-600">Classification</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4">How much will they spend?</td>
+              <td class="px-6 py-4">Numerical</td>
+              <td class="px-6 py-4">Resource Allocation</td>
+              <td class="px-6 py-4 font-bold text-indigo-600">Regression</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4">Is this fraudulent?</td>
+              <td class="px-6 py-4">Categorical</td>
+              <td class="px-6 py-4">Risk Mitigation</td>
+              <td class="px-6 py-4 font-bold text-blue-600">Classification</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-gray-100">
+
+  <!-- Section 3: Unsupervised Learning -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">3</div>
+      <h2 class="text-2xl font-bold text-gray-800">Unsupervised Learning: Identifying Patterns</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
+          <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+          Clustering
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Identifies groups based on inherent record similarity.
+          <ul class="list-disc ml-5 mt-2 space-y-1 text-sm text-gray-500">
+            <li>Market Segmentation</li>
+            <li>Anomaly Detection</li>
+          </ul>
+        </p>
+      </div>
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold text-gray-700 flex items-center gap-2">
+          <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+          Association
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Identifies items that frequently appear together (e.g., Beer and Diapers).
+        </p>
+        <div class="bg-gray-50 p-4 rounded-lg text-xs italic text-gray-500 border-l-2 border-gray-200">
+          <strong>Distinction:</strong> Clustering groups <strong>records</strong> (similar customers), while Association groups <strong>items</strong> (products that "go together").
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Advanced Relationship Tasks -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">4</div>
+      <h2 class="text-2xl font-bold text-gray-800">Advanced Relationship Tasks</h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8 rounded-2xl shadow-xl grid md:grid-cols-2 gap-8">
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold text-blue-400">Link Prediction</h3>
+        <p class="text-sm text-gray-300 leading-relaxed">
+          Predicts connections within a network (graph). 
+          <br><br>
+          <span class="font-bold text-white">Example:</span> LinkedIn's "People you may know."
+        </p>
+      </div>
+      <div class="space-y-3">
+        <h3 class="text-lg font-bold text-indigo-400">Similarity Matching</h3>
+        <p class="text-sm text-gray-300 leading-relaxed">
+          Measures specific relatedness between two objects.
+          <br><br>
+          <span class="font-bold text-white">Example:</span> Face recognition, Netflix recommendations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Data Taxonomy -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-lg">5</div>
+      <h2 class="text-2xl font-bold text-gray-800">Data Taxonomy & Attribute Quality</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+        <h4 class="font-bold text-gray-800 mb-2">Categorical</h4>
+        <p class="text-xs text-gray-500">Fixed values with no internal order (e.g., State, Gender).</p>
+      </div>
+      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+        <h4 class="font-bold text-gray-800 mb-2">Ordinal</h4>
+        <p class="text-xs text-gray-500">Categories with clear order (e.g., Low < Medium < High).</p>
+      </div>
+      <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+        <h4 class="font-bold text-gray-800 mb-2">Numerical</h4>
+        <p class="text-xs text-gray-500">Continuous or discrete metrics where ratios matter.</p>
+      </div>
+    </div>
+
+    <div class="bg-gray-100 p-6 rounded-2xl space-y-4">
+      <h3 class="font-bold text-gray-800">The Feature Vector</h3>
+      <p class="text-sm text-gray-600">Representing a record numerically for model processing.</p>
+      <div class="bg-white p-4 rounded-xl border border-gray-200 font-mono text-xs overflow-x-auto">
+        <div class="text-gray-400 mb-2 uppercase tracking-tighter">Table Record:</div>
+        (Person ID: 17824, Age: 49, Gender: M, Income: 12000, Balance: -3000)
+        <div class="h-4"></div>
+        <div class="text-blue-500 mb-2 uppercase tracking-tighter">Feature Vector:</div>
+        (17824, 49, M, 12000, -3000)
+      </div>
+    </div>
+  </section>
+
+  <!-- Final Strategic ROI -->
+  <section class="bg-blue-600 rounded-3xl p-10 text-white space-y-8 shadow-2xl relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+    <div class="relative z-10 space-y-6">
+      <h2 class="text-3xl font-bold text-center">ROI of Strategic Attribute Selection</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="text-center space-y-2">
+          <div class="text-blue-200 font-bold text-lg">01</div>
+          <h4 class="font-bold">Predictive Accuracy</h4>
+          <p class="text-sm text-blue-100 italic">Targeting objectives with precision.</p>
+        </div>
+        <div class="text-center space-y-2">
+          <div class="text-blue-200 font-bold text-lg">02</div>
+          <h4 class="font-bold">Performance Efficiency</h4>
+          <p class="text-sm text-blue-100 italic">Reducing infrastructure costs.</p>
+        </div>
+        <div class="text-center space-y-2">
+          <div class="text-blue-200 font-bold text-lg">03</div>
+          <h4 class="font-bold">Risk Mitigation</h4>
+          <p class="text-sm text-blue-100 italic">Avoiding model overfitting.</p>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-white/20">
+        <h3 class="font-bold text-xl mb-6 text-center">Master Questions for Stakeholders</h3>
+        <div class="grid gap-4 max-w-xl mx-auto">
+          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
+            How do we judge if a specific variable contains important information about the target?
+          </div>
+          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
+            How do we automate the selection of the most informative variables?
+          </div>
+          <div class="bg-white/10 p-4 rounded-xl hover:bg-white/20 transition-colors cursor-default border border-white/10">
+            How do we obtain a clear ranking of variable importance to inform business strategy?
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center text-gray-400 text-sm">
+    &copy; 2026 Machine Learning Architectural Blueprint
+  </footer>
+</div>

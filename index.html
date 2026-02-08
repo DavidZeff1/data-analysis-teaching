@@ -58,6 +58,12 @@
         >
           Python
         </button>
+        <button
+          class="tab px-4 py-2 rounded hover:bg-gray-200"
+          data-tab="ml"
+        >
+          Machine Learning
+        </button>
         <a
           href="https://github.com/DavidZeff1/data-analysis-teaching"
           target="_blank"
@@ -483,6 +489,18 @@
         <div id="python-geospatial" class="subcontent hidden">Loading...</div>
         <div id="python-maps" class="subcontent hidden">Loading...</div>
         <div id="python-geojson" class="subcontent hidden">Loading...</div>
+      </div>
+      <div id="ml" class="content hidden">
+        <div class="flex flex-wrap gap-1 mb-4">
+          <button
+            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
+            data-tab="ml"
+            data-sub="guide"
+          >
+            Selection Guide
+          </button>
+        </div>
+        <div id="ml-guide" class="subcontent">Loading...</div>
       </div>
     </main>
     <script type="module" src="main.js"></script>
