@@ -460,6 +460,100 @@ df[<span class="text-green-400">'Category'</span>] = pd.cut(
       <strong>💡</strong> <code>np.where()</code> for simple if/else. <code>np.select()</code> for multiple conditions. <code>pd.cut()</code> for numeric ranges.
     </div>
   </div>
+  <!-- Renaming Columns -->
+<div class="bg-white rounded-lg border border-gray-200 p-4">
+  <h2 class="font-bold text-lg mb-3 text-blue-700">Renaming Columns</h2>
+  <div class="bg-gray-800 text-white p-3 rounded text-sm">
+    <pre><span class="text-gray-400"># Rename specific columns (dict mapping)</span>
+df.rename(columns={<span class="text-green-400">'old_name'</span>: <span class="text-green-400">'new_name'</span>})
+df.rename(columns={
+    <span class="text-green-400">'CustomerID'</span>: <span class="text-green-400">'customer_id'</span>,
+    <span class="text-green-400">'Total Price'</span>: <span class="text-green-400">'total_price'</span>
+})
+
+<span class="text-gray-400"># Rename ALL columns at once (provide list in same order)</span>
+df.columns = [<span class="text-green-400">'id'</span>, <span class="text-green-400">'name'</span>, <span class="text-green-400">'age'</span>, <span class="text-green-400">'city'</span>]
+
+<span class="text-gray-400"># String operations on ALL column names</span>
+df.columns = df.columns.str.strip()              <span class="text-gray-400"># Remove whitespace</span>
+df.columns = df.columns.str.lower()              <span class="text-gray-400"># Lowercase</span>
+df.columns = df.columns.str.upper()              <span class="text-gray-400"># Uppercase</span>
+df.columns = df.columns.str.replace(<span class="text-green-400">' '</span>, <span class="text-green-400">'_'</span>)     <span class="text-gray-400"># Replace spaces with underscores</span>
+
+<span class="text-gray-400"># Chain multiple transformations</span>
+df.columns = df.columns.str.strip().str.lower().str.replace(<span class="text-green-400">' '</span>, <span class="text-green-400">'_'</span>)
+
+<span class="text-gray-400"># Remove special characters</span>
+df.columns = df.columns.str.replace(<span class="text-green-400">r'[^a-zA-Z0-9_]'</span>, <span class="text-green-400">''</span>, regex=<span class="text-blue-400">True</span>)
+
+<span class="text-gray-400"># Add prefix/suffix to all columns</span>
+df.add_prefix(<span class="text-green-400">'col_'</span>)                        <span class="text-gray-400"># col_A, col_B, col_C</span>
+df.add_suffix(<span class="text-green-400">'_2024'</span>)                      <span class="text-gray-400"># A_2024, B_2024, C_2024</span>
+
+<span class="text-gray-400"># Rename using a function</span>
+df.rename(columns=<span class="text-blue-400">lambda</span> x: x.strip().lower())
+df.rename(columns=str.upper)
+
+<span class="text-gray-400"># Rename by index position</span>
+df.rename(columns={df.columns[0]: <span class="text-green-400">'first_col'</span>})
+
+<span class="text-gray-400"># Rename inplace (modifies original DataFrame)</span>
+df.rename(columns={<span class="text-green-400">'old'</span>: <span class="text-green-400">'new'</span>}, inplace=<span class="text-blue-400">True</span>)</pre>
+  </div>
+
+  <div class="bg-blue-50 border border-blue-200 rounded p-3 mt-3 text-sm">
+    <strong>💡 Common cleaning pattern:</strong>
+    <pre class="bg-white p-2 rounded mt-2 text-xs font-mono"><span class="text-gray-400"># Clean messy column names in one go</span>
+df.columns = (df.columns
+              .str.strip()                <span class="text-gray-400"># Remove leading/trailing spaces</span>
+              .str.lower()                <span class="text-gray-400"># Lowercase everything</span>
+              .str.replace(<span class="text-green-400">' '</span>, <span class="text-green-400">'_'</span>)      <span class="text-gray-400"># Spaces → underscores</span>
+              .str.replace(<span class="text-green-400">r'[^\w]'</span>, <span class="text-green-400">''</span>, regex=<span class="text-blue-400">True</span>))  <span class="text-gray-400"># Remove special chars</span></pre>
+  </div>
+
+  <div class="mt-3 overflow-x-auto">
+    <table class="w-full text-sm border border-gray-300">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2 text-left">Method</th>
+          <th class="border px-3 py-2 text-left">Use case</th>
+          <th class="border px-3 py-2 text-left">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">.rename(columns={...})</td>
+          <td class="border px-3 py-1">Rename specific columns</td>
+          <td class="border px-3 py-1 font-mono text-xs">{'old': 'new'}</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">df.columns = [...]</td>
+          <td class="border px-3 py-1">Replace ALL column names</td>
+          <td class="border px-3 py-1 font-mono text-xs">['a', 'b', 'c']</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">.columns.str.method()</td>
+          <td class="border px-3 py-1">Transform all column names</td>
+          <td class="border px-3 py-1 font-mono text-xs">.str.lower()</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">.add_prefix()</td>
+          <td class="border px-3 py-1">Add prefix to all columns</td>
+          <td class="border px-3 py-1 font-mono text-xs">col_A, col_B</td>
+        </tr>
+        <tr>
+          <td class="border px-3 py-1 font-mono text-xs">.add_suffix()</td>
+          <td class="border px-3 py-1">Add suffix to all columns</td>
+          <td class="border px-3 py-1 font-mono text-xs">A_2024, B_2024</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bg-yellow-50 rounded p-3 mt-3 text-sm">
+    <strong>⚠️ Remember:</strong> Most rename operations return a <strong>new</strong> DataFrame. Either assign it back (<code>df = df.rename(...)</code>) or use <code>inplace=True</code>.
+  </div>
+</div>
 
 
 <!-- Duplicates -->
