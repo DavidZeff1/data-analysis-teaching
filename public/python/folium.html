@@ -1,0 +1,139 @@
+<div class="space-y-4">
+  <h1 class="text-2xl font-bold">Folium: Interactive Maps in Python</h1>
+  
+  <div>
+    <h2 class="font-bold text-lg">What is Folium?</h2>
+    <p>Folium is a powerful Python library used for creating interactive maps. It builds on the data-wrangling strengths of Python and the mapping strengths of the Leaflet.js library. It allows you to visualize data that's been manipulated in Python on an interactive Leaflet map.</p>
+    
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🗺️</div>
+        <div class="font-semibold text-blue-700">Interactive</div>
+        <p class="text-xs text-gray-600">Zoom, pan, and click functionality out of the box</p>
+      </div>
+      <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">📍</div>
+        <div class="font-semibold text-green-700">Customizable Markers</div>
+        <p class="text-xs text-gray-600">Easily add markers, popups, and tooltips</p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+        <div class="text-2xl mb-1">🌍</div>
+        <div class="font-semibold text-purple-700">Choropleth Maps</div>
+        <p class="text-xs text-gray-600">Visualize regional data with color gradients</p>
+      </div>
+    </div>
+    
+    <div class="bg-gray-800 text-white p-3 rounded mt-4">
+      <pre class="text-sm"><span class="text-gray-400"># Installation</span>
+!pip install folium
+
+<span class="text-blue-400">import</span> folium</pre>
+    </div>
+  </div>
+
+  <div class="border-t-4 border-blue-500 pt-4">
+    <h2 class="font-bold text-xl text-blue-700">1. Basic Map Creation</h2>
+    <p class="text-sm text-gray-600 mb-3">Creating a map is as simple as calling <code>folium.Map()</code> and providing the center coordinates.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-4">
+          <div class="bg-gray-800 text-white p-3 rounded text-sm">
+            <pre><span class="text-gray-400"># Create a basic map centered at a location</span>
+m = folium.Map(location=[<span class="text-green-400">45.5236</span>, <span class="text-green-400">-122.6750</span>], zoom_start=<span class="text-green-400">13</span>)
+
+<span class="text-gray-400"># Save it to an HTML file</span>
+m.save(<span class="text-green-400">"index.html"</span>)</pre>
+          </div>
+          <p class="text-xs text-gray-600">
+            <strong>location:</strong> Latitude and Longitude of the center.<br>
+            <strong>zoom_start:</strong> Initial zoom level (higher is closer).<br>
+            <strong>tiles:</strong> Map style (e.g., "OpenStreetMap", "CartoDB positron").
+          </p>
+        </div>
+        <div class="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <div class="text-center text-gray-400 italic">
+            <p>Interactive Map Preview</p>
+            <p class="text-xs">(Requires HTML rendering)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t-4 border-green-500 pt-4">
+    <h2 class="font-bold text-xl text-green-700">2. Markers and Popups</h2>
+    <p class="text-sm text-gray-600 mb-3">Add points of interest to your map with markers. Custom popups and tooltips provide more info.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-4">
+        <pre><span class="text-gray-400"># Add a standard marker</span>
+folium.Marker(
+    location=[<span class="text-green-400">45.5236</span>, <span class="text-green-400">-122.6750</span>],
+    popup=<span class="text-green-400">"Portland, OR"</span>,
+    tooltip=<span class="text-green-400">"Click for more info"</span>
+).add_to(m)
+
+<span class="text-gray-400"># Add a circular marker</span>
+folium.CircleMarker(
+    location=[<span class="text-green-400">45.5215</span>, <span class="text-green-400">-122.6261</span>],
+    radius=<span class="text-green-400">50</span>,
+    popup=<span class="text-green-400">"Laurelhurst Park"</span>,
+    color=<span class="text-green-400">"#3186cc"</span>,
+    fill=<span class="text-purple-400">True</span>,
+    fill_color=<span class="text-green-400">"#3186cc"</span>
+).add_to(m)</pre>
+      </div>
+      <div class="bg-green-50 rounded p-3">
+        <p class="text-sm"><strong>💡 Tip:</strong> Popups can contain HTML, allowing you to embed images, charts, or links inside the marker info window!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t-4 border-purple-500 pt-4">
+    <h2 class="font-bold text-xl text-purple-700">3. Choropleth Maps</h2>
+    <p class="text-sm text-gray-600 mb-3">Choropleth maps use color gradients to represent data values across geographic regions (like states or countries).</p>
+    
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-4">
+        <pre><span class="text-gray-400"># Create choropleth layer</span>
+folium.Choropleth(
+    geo_data=state_geo,          <span class="text-gray-400"># GeoJSON file</span>
+    name=<span class="text-green-400">"choropleth"</span>,
+    data=state_data,             <span class="text-gray-400"># DataFrame with values</span>
+    columns=[<span class="text-green-400">"State"</span>, <span class="text-green-400">"Unemployment"</span>],
+    key_on=<span class="text-green-400">"feature.id"</span>,        <span class="text-gray-400"># Link between data and GeoJSON</span>
+    fill_color=<span class="text-green-400">"YlGn"</span>,
+    fill_opacity=<span class="text-green-400">0.7</span>,
+    line_opacity=<span class="text-green-400">0.2</span>,
+    legend_name=<span class="text-green-400">"Unemployment Rate (%)"</span>
+).add_to(m)</pre>
+      </div>
+      <div class="bg-blue-50 rounded p-3">
+        <p class="text-sm"><strong>📝 Key Requirements:</strong> You need a <strong>GeoJSON</strong> file defining the boundaries and a <strong>Pandas DataFrame</strong> with the values you want to plot.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t-4 border-yellow-500 pt-4">
+    <h2 class="font-bold text-xl text-yellow-700">4. Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-sm mb-2">Performance</h3>
+        <ul class="text-xs space-y-1 list-disc pl-4">
+          <li>Limit the number of markers (hundreds are fine, thousands can lag).</li>
+          <li>Use <code>MarkerCluster</code> for high-density point data.</li>
+          <li>Optimize GeoJSON files (compress using tools like mapshaper).</li>
+        </ul>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-sm mb-2">User Experience</h3>
+        <ul class="text-xs space-y-1 list-disc pl-4">
+          <li>Choose a tile layer that doesn't distract from your data.</li>
+          <li>Always provide a legend for choropleth maps.</li>
+          <li>Set appropriate initial zoom and center points.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
