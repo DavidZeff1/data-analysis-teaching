@@ -1,0 +1,124 @@
+<div class="space-y-6">
+  <div class="border-b pb-4">
+    <h1 class="text-3xl font-bold text-gray-800">
+      Nominatim API (OpenStreetMap)
+    </h1>
+    <p class="text-gray-600 mt-2 text-lg">
+      Free, open-source geocoding and reverse geocoding using OpenStreetMap data.
+    </p>
+  </div>
+
+  <!-- Section 1: What is Nominatim? -->
+  <div class="border-l-4 border-indigo-500 pl-4">
+    <h2 class="font-bold text-xl text-indigo-700">
+      1. What is Nominatim?
+    </h2>
+    <p class="mt-2 text-gray-700">
+      <strong>Nominatim</strong> (from the Latin for 'by name') is a tool to search OpenStreetMap data by name and address (geocoding) and to generate addresses from geographic coordinates (reverse geocoding).
+    </p>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-indigo-50 p-3 rounded-lg">
+        <h3 class="font-bold text-indigo-800 mb-1">Geocoding</h3>
+        <p class="text-sm text-indigo-700">
+          Address $\rightarrow$ Coordinates<br>
+          "1600 Amphitheatre Pkwy" $\rightarrow$ (37.422, -122.084)
+        </p>
+      </div>
+      <div class="bg-green-50 p-3 rounded-lg">
+        <h3 class="font-bold text-green-800 mb-1">Reverse Geocoding</h3>
+        <p class="text-sm text-green-700">
+          Coordinates $\rightarrow$ Address<br>
+          (41.878, -87.629) $\rightarrow$ "Willis Tower, Chicago, IL"
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Getting Started -->
+  <div class="border-l-4 border-blue-500 pl-4">
+    <h2 class="font-bold text-xl text-blue-700">
+      2. Getting Started with Geopy
+    </h2>
+    <p class="text-gray-600 mt-2">
+      While you can use the API directly via HTTP, the <code>geopy</code> library makes it much easier in Python.
+    </p>
+    <div class="bg-gray-800 text-white p-3 rounded-lg mt-3 text-sm font-mono">
+      <span class="text-gray-500"># Install the library</span><br>
+      pip install geopy
+    </div>
+  </div>
+
+  <!-- Section 3: Geocoding Example -->
+  <div class="border-l-4 border-green-500 pl-4">
+    <h2 class="font-bold text-xl text-green-700">
+      3. Geocoding (Address to Coordinates)
+    </h2>
+    <div class="bg-gray-800 text-white p-4 rounded-lg mt-3 text-sm overflow-x-auto">
+      <pre><span class="text-purple-400">from</span> geopy.geocoders <span class="text-purple-400">import</span> Nominatim
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-500"># 1. Initialize Nominatim API (User_Agent is REQUIRED)</span>
+geolocator = Nominatim(user_agent=<span class="text-green-300">"my_geocoder_app"</span>)
+
+<span class="text-gray-500"># 2. Geocode an address</span>
+location = geolocator.geocode(<span class="text-green-300">"Willis Tower, Chicago"</span>)
+
+<span class="text-blue-300">print</span>(location.address)
+<span class="text-blue-300">print</span>((location.latitude, location.longitude))
+<span class="text-blue-300">print</span>(location.raw)  <span class="text-gray-500"># Full dictionary response</span></pre>
+    </div>
+  </div>
+
+  <!-- Section 4: Reverse Geocoding -->
+  <div class="border-l-4 border-purple-500 pl-4">
+    <h2 class="font-bold text-xl text-purple-700">
+      4. Reverse Geocoding (Coordinates to Address)
+    </h2>
+    <div class="bg-gray-800 text-white p-4 rounded-lg mt-3 text-sm overflow-x-auto">
+      <pre><span class="text-purple-400">from</span> geopy.geocoders <span class="text-purple-400">import</span> Nominatim
+
+geolocator = Nominatim(user_agent=<span class="text-green-300">"my_geocoder_app"</span>)
+
+<span class="text-gray-500"># 3. Reverse geocode (lat, lon)</span>
+location = geolocator.reverse(<span class="text-green-300">"41.8781, -87.6298"</span>)
+
+<span class="text-blue-300">print</span>(location.address)
+<span class="text-blue-300">print</span>(location.raw[<span class="text-green-300">'address'</span>])  <span class="text-gray-500"># Structured address components</span></pre>
+    </div>
+  </div>
+
+  <!-- Section 5: Best Practices -->
+  <div class="border-l-4 border-red-500 pl-4">
+    <h2 class="font-bold text-xl text-red-700">
+      5. Critical Usage Policies & Best Practices
+    </h2>
+    
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mt-3">
+      <h3 class="font-bold text-red-800">The 1-Second Rule</h3>
+      <p class="text-sm text-red-700 mt-1">
+        Nominatim is a shared service. Their <strong>Usage Policy</strong> strictly limits you to <strong>1 request per second</strong>.
+      </p>
+    </div>
+
+    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4">
+      <h3 class="font-semibold text-gray-700 mb-2">How to geocode safely:</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm overflow-x-auto">
+        <pre><span class="text-purple-400">from</span> geopy.extra.rate_limiter <span class="text-purple-400">import</span> RateLimiter
+
+<span class="text-gray-500"># Wrap the geocoding function with a delay</span>
+geocode = RateLimiter(geolocator.geocode, min_delay_seconds=<span class="text-yellow-400">1</span>)
+
+<span class="text-gray-500"># Use on a pandas column</span>
+df[<span class="text-green-300">'location'</span>] = df[<span class="text-green-300">'address'</span>].apply(geocode)
+
+<span class="text-gray-500"># Extract lat/lon safely</span>
+df[<span class="text-green-300">'point'</span>] = df[<span class="text-green-300">'location'</span>].apply(<span class="text-purple-400">lambda</span> loc: (loc.latitude, loc.longitude) <span class="text-purple-400">if</span> loc <span class="text-purple-400">else</span> <span class="text-blue-300">None</span>)</pre>
+      </div>
+      <ul class="list-disc list-inside text-sm text-gray-600 mt-4 space-y-1">
+        <li><strong>User-Agent:</strong> You MUST provide a descriptive User-Agent string.</li>
+        <li><strong>Caching:</strong> Cache your results locally. Don't re-geocode the same addresses every time you run your script.</li>
+        <li><strong>Bulk Geocoding:</strong> If you have 10,000+ addresses, consider a paid provider (Google, Mapbox) or hosting your own Nominatim server.</li>
+      </ul>
+    </div>
+  </div>
+</div>
