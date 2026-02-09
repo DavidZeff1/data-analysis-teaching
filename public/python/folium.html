@@ -164,6 +164,42 @@ folium.Choropleth(
     </div>
   </div>
 
+  <div class="bg-white border border-gray-200 rounded-lg p-4 mb-3">
+  <h3 class="font-semibold text-md mb-2">Adding Hover Tooltips</h3>
+  <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+    <pre><span class="text-gray-400"># Choropleth doesn't support hover by default - add GeoJson layer on top</span>
+
+<span class="text-gray-400"># 1. Create the choropleth (colors)</span>
+folium.Choropleth(
+    geo_data=gdf,
+    data=gdf,
+    columns=[<span class="text-green-400">'community_area'</span>, <span class="text-green-400">'crime_per_population'</span>],
+    key_on=<span class="text-green-400">'feature.properties.community_area'</span>,
+    fill_color=<span class="text-green-400">'YlOrRd'</span>,
+    fill_opacity=<span class="text-green-400">0.7</span>,
+    line_opacity=<span class="text-green-400">0.2</span>,
+    legend_name=<span class="text-green-400">'Crime per Population'</span>
+).add_to(m)
+
+<span class="text-gray-400"># 2. Add invisible GeoJson layer for tooltips</span>
+folium.GeoJson(
+    gdf,
+    style_function=<span class="text-purple-400">lambda</span> x: {
+        <span class="text-green-400">'fillColor'</span>: <span class="text-green-400">'transparent'</span>,  <span class="text-gray-400"># Make it invisible</span>
+        <span class="text-green-400">'color'</span>: <span class="text-green-400">'transparent'</span>           <span class="text-gray-400"># Hide borders too</span>
+    },
+    tooltip=folium.GeoJsonTooltip(
+        fields=[<span class="text-green-400">'community_area'</span>, <span class="text-green-400">'crime_per_population'</span>, <span class="text-green-400">'crime_count'</span>],
+        aliases=[<span class="text-green-400">'Community:'</span>, <span class="text-green-400">'Crime per Pop:'</span>, <span class="text-green-400">'Total Crimes:'</span>],
+        localize=<span class="text-purple-400">True</span>
+    )
+).add_to(m)</pre>
+  </div>
+  <div class="bg-green-50 rounded p-3">
+    <p class="text-sm"><strong>💡 How it works:</strong> The GeoJson layer is invisible but captures mouse events. When you hover, it shows the tooltip with your data. The <code>fields</code> parameter specifies which columns to display, and <code>aliases</code> provides friendly labels.</p>
+  </div>
+</div>
+
   <div class="border-t-4 border-yellow-500 pt-4">
     <h2 class="font-bold text-xl text-yellow-700">4. Best Practices</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
