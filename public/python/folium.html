@@ -92,26 +92,75 @@ folium.CircleMarker(
 
   <div class="border-t-4 border-purple-500 pt-4">
     <h2 class="font-bold text-xl text-purple-700">3. Choropleth Maps</h2>
-    <p class="text-sm text-gray-600 mb-3">Choropleth maps use color gradients to represent data values across geographic regions (like states or countries).</p>
+    <p class="text-sm text-gray-600 mb-3">Choropleth maps use color gradients to represent data values across geographic regions. Works with GeoJSON, GeoDataFrames, shapefiles, and more.</p>
     
-    <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-4">
-        <pre><span class="text-gray-400"># Create choropleth layer</span>
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-3">
+      <h3 class="font-semibold text-md mb-2">Method 1: Using GeoDataFrame (Most Common)</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+        <pre><span class="text-gray-400"># GeoDataFrame already has geometry and data together</span>
 folium.Choropleth(
-    geo_data=state_geo,          <span class="text-gray-400"># GeoJSON file</span>
-    name=<span class="text-green-400">"choropleth"</span>,
-    data=state_data,             <span class="text-gray-400"># DataFrame with values</span>
-    columns=[<span class="text-green-400">"State"</span>, <span class="text-green-400">"Unemployment"</span>],
-    key_on=<span class="text-green-400">"feature.id"</span>,        <span class="text-gray-400"># Link between data and GeoJSON</span>
-    fill_color=<span class="text-green-400">"YlGn"</span>,
+    geo_data=gdf,                          <span class="text-gray-400"># GeoDataFrame with geometry</span>
+    data=gdf,                              <span class="text-gray-400"># Same GeoDataFrame with values</span>
+    columns=[<span class="text-green-400">'community_area'</span>, <span class="text-green-400">'crime_per_population'</span>],
+    key_on=<span class="text-green-400">'feature.properties.community_area'</span>,  <span class="text-gray-400"># Match column name</span>
+    fill_color=<span class="text-green-400">'YlOrRd'</span>,              <span class="text-gray-400"># Yellow-Orange-Red gradient</span>
     fill_opacity=<span class="text-green-400">0.7</span>,
     line_opacity=<span class="text-green-400">0.2</span>,
-    legend_name=<span class="text-green-400">"Unemployment Rate (%)"</span>
+    legend_name=<span class="text-green-400">'Crime per Population'</span>
 ).add_to(m)</pre>
       </div>
-      <div class="bg-blue-50 rounded p-3">
-        <p class="text-sm"><strong>📝 Key Requirements:</strong> You need a <strong>GeoJSON</strong> file defining the boundaries and a <strong>Pandas DataFrame</strong> with the values you want to plot.</p>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-3">
+      <h3 class="font-semibold text-md mb-2">Method 2: Separate GeoJSON File + DataFrame</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+        <pre><span class="text-gray-400"># When geometry and data are separate</span>
+folium.Choropleth(
+    geo_data=<span class="text-green-400">'states.geojson'</span>,        <span class="text-gray-400"># GeoJSON file path</span>
+    data=state_data,                   <span class="text-gray-400"># Pandas DataFrame</span>
+    columns=[<span class="text-green-400">'State'</span>, <span class="text-green-400">'Unemployment'</span>],
+    key_on=<span class="text-green-400">'feature.id'</span>,               <span class="text-gray-400"># Match GeoJSON property</span>
+    fill_color=<span class="text-green-400">'YlGn'</span>,
+    fill_opacity=<span class="text-green-400">0.7</span>,
+    line_opacity=<span class="text-green-400">0.2</span>,
+    legend_name=<span class="text-green-400">'Unemployment Rate (%)'</span>
+).add_to(m)</pre>
       </div>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg p-4 mb-3">
+      <h3 class="font-semibold text-md mb-2">Method 3: From Shapefile</h3>
+      <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+        <pre><span class="text-gray-400"># Load shapefile first, then use as GeoDataFrame</span>
+gdf = gpd.read_file(<span class="text-green-400">'boundaries.shp'</span>)
+gdf = gdf.merge(data_df, on=<span class="text-green-400">'id_column'</span>)
+
+folium.Choropleth(
+    geo_data=gdf,
+    data=gdf,
+    columns=[<span class="text-green-400">'id_column'</span>, <span class="text-green-400">'value_column'</span>],
+    key_on=<span class="text-green-400">'feature.properties.id_column'</span>,
+    fill_color=<span class="text-green-400">'RdYlGn'</span>,              <span class="text-gray-400"># Red-Yellow-Green</span>
+    fill_opacity=<span class="text-green-400">0.7</span>,
+    line_opacity=<span class="text-green-400">0.2</span>,
+    legend_name=<span class="text-green-400">'Value'</span>
+).add_to(m)</pre>
+      </div>
+    </div>
+
+    <div class="bg-blue-50 rounded p-3 mb-3">
+      <p class="text-sm mb-2"><strong>🔑 Key Parameters Explained:</strong></p>
+      <ul class="text-sm space-y-1 ml-4">
+        <li><strong>geo_data:</strong> GeoDataFrame, GeoJSON file path, or GeoJSON dict</li>
+        <li><strong>data:</strong> DataFrame with your values (can be same as geo_data)</li>
+        <li><strong>columns:</strong> [ID column, value column] - links data to shapes</li>
+        <li><strong>key_on:</strong> 'feature.properties.COLUMN_NAME' - must match ID column</li>
+        <li><strong>fill_color:</strong> Color scheme - 'YlOrRd', 'YlGn', 'RdYlGn', 'Blues', etc.</li>
+      </ul>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-3">
+      <p class="text-sm"><strong>⚠️ Common Issue:</strong> If <code>key_on='feature.properties.community_area'</code>, your <code>columns</code> must include <code>'community_area'</code> as the first element. They must match exactly (case-sensitive)!</p>
     </div>
   </div>
 
