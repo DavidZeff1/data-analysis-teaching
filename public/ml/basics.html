@@ -1,0 +1,78 @@
+<div class="prose max-w-none">
+    <h1 class="text-3xl font-bold mb-6">Python for Machine Learning Basics</h1>
+
+    <p class="mb-4">
+        Before training complex models, you must prepare your data. Here are the essential Python operations using <code>scikit-learn</code> (sklearn) and <code>pandas</code>.
+    </p>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">1. Splitting Data (Train/Test Split)</h2>
+        <p class="mb-4">
+            To evaluate how well our model performs on unseen data, we split our dataset into a <strong>training set</strong> and a <strong>test set</strong>.
+        </p>
+        <div class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto">
+            <pre><code>from sklearn.model_selection import train_test_split
+
+# Split features (X) and target (y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print(f"Training set size: {len(X_train)}")
+print(f"Test set size: {len(X_test)}")</code></pre>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">2. Feature Scaling</h2>
+        <p class="mb-4">
+            Many ML algorithms (like KNN and SVM) are sensitive to the scale of the data. <code>StandardScaler</code> standardizes features by removing the mean and scaling to unit variance.
+        </p>
+        <div class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto">
+            <pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+# Fit on training data AND transform it
+X_train_scaled = scaler.fit_transform(X_train)
+
+# ONLY transform test data (using training mean/std)
+X_test_scaled = scaler.transform(X_test)</code></pre>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">3. Handling Missing Values</h2>
+        <p class="mb-4">
+            Most ML models cannot handle <code>NaN</code> values. <code>SimpleImputer</code> provides basic strategies for imputing missing values.
+        </p>
+        <div class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto">
+            <pre><code>from sklearn.impute import SimpleImputer
+
+# Fill missing values with the mean
+imputer = SimpleImputer(strategy='mean')
+X_imputed = imputer.fit_transform(X)</code></pre>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">4. Categorical Encoding</h2>
+        <p class="mb-4">
+            Machine Learning models only understand numbers. We need to convert text categories into numerical data.
+        </p>
+        <div class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto">
+            <pre><code>from sklearn.preprocessing import OneHotEncoder
+
+# Create the encoder
+encoder = OneHotEncoder(sparse=False)
+
+# Transform the categorical column
+# (Reshaping might be needed: df[['column']])
+encoded_data = encoder.fit_transform(df[['Category']])</code></pre>
+        </div>
+    </section>
+
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
+        <p class="text-blue-700">
+            <strong>Pro Tip:</strong> Always use <code>fit_transform()</code> on your training data and only <code>transform()</code> on your test data to prevent data leakage!
+        </p>
+    </div>
+</div>
