@@ -1,159 +1,110 @@
 <div class="prose max-w-none">
-  <h1 class="text-4xl font-bold mb-4">Python for Machine Learning — Data Preparation Essentials</h1>
 
-  <p class="mb-6 text-lg">
-    Before training machine learning models, your data must be cleaned, transformed,
-    and prepared correctly. This guide summarizes the core preprocessing steps using
-    <code>pandas</code> and <code>scikit-learn</code>, with practical patterns used in real ML workflows.
+  <h1 class="text-4xl font-bold mb-6">
+    Python for Machine Learning — Data Preparation Essentials
+  </h1>
+
+  <p class="text-lg mb-8">
+    Before training models, data must be cleaned and transformed.
+    Below are the most common preprocessing operations using
+    <code>pandas</code> and <code>scikit-learn</code>.
   </p>
 
-  <!-- Workflow Overview -->
-  <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-10">
-    <h2 class="text-2xl font-semibold mb-3">Typical ML Data Preparation Workflow</h2>
-    <ol class="list-decimal ml-6 space-y-2">
-      <li>Load and inspect data</li>
+  <!-- Workflow -->
+  <div class="bg-gray-50 border rounded-xl p-6 mb-10">
+    <h2 class="text-2xl font-semibold mb-3">ML Preparation Workflow</h2>
+    <ol class="list-decimal ml-6 space-y-1">
       <li>Handle missing values</li>
       <li>Encode categorical variables</li>
-      <li>Split into training and testing sets</li>
-      <li>Scale numerical features</li>
-      <li>Train and evaluate the model</li>
+      <li>Split train/test data</li>
+      <li>Scale features</li>
+      <li>Train model</li>
     </ol>
   </div>
 
-  <!-- Train Test Split -->
+  <!-- Split -->
   <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">1. Splitting Data (Train/Test Split)</h2>
+    <h2 class="text-2xl font-semibold mb-3">
+      1. Train/Test Split
+    </h2>
 
     <p class="mb-4">
-      To measure performance on unseen data, we split the dataset into:
+      Split data so evaluation happens on unseen samples.
     </p>
 
-    <ul class="list-disc ml-6 mb-4 space-y-1">
-      <li><strong>Training set</strong> — used to train the model.</li>
-      <li><strong>Test set</strong> — used only for final evaluation.</li>
-    </ul>
+<pre class="rounded-xl overflow-x-auto"><code class="language-python">
+from sklearn.model_selection import train_test_split
 
-    <div class="bg-gray-900 text-gray-100 p-5 rounded-xl overflow-x-auto text-sm">
-<pre><code>from sklearn.model_selection import train_test_split
-
-# X = features, y = target
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
-    test_size=0.2,   # 20% test data
-    random_state=42  # reproducibility
+    test_size=0.2,
+    random_state=42
 )
 
 print("Training samples:", len(X_train))
-print("Test samples:", len(X_test))</code></pre>
-    </div>
+print("Test samples:", len(X_test))
+</code></pre>
+
   </section>
 
   <!-- Scaling -->
   <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">2. Feature Scaling</h2>
+    <h2 class="text-2xl font-semibold mb-3">
+      2. Feature Scaling
+    </h2>
 
     <p class="mb-4">
-      Algorithms like KNN, SVM, and Neural Networks are sensitive to feature scale.
-      <code>StandardScaler</code> standardizes features to:
+      Standardization helps algorithms compare features fairly.
     </p>
 
-    <ul class="list-disc ml-6 mb-4 space-y-1">
-      <li>Mean = 0</li>
-      <li>Standard deviation = 1</li>
-    </ul>
-
-    <div class="bg-gray-900 text-gray-100 p-5 rounded-xl overflow-x-auto text-sm">
-<pre><code>from sklearn.preprocessing import StandardScaler
+<pre class="rounded-xl overflow-x-auto"><code class="language-python">
+from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
-# Fit ONLY on training data
 X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+</code></pre>
 
-# Apply same transformation to test data
-X_test_scaled = scaler.transform(X_test)</code></pre>
-    </div>
-
-    <p class="mt-3 text-sm text-gray-600">
-      Scaling after splitting avoids leaking information from test data.
-    </p>
   </section>
 
   <!-- Missing Values -->
   <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">3. Handling Missing Values</h2>
+    <h2 class="text-2xl font-semibold mb-3">
+      3. Handling Missing Values
+    </h2>
 
-    <p class="mb-4">
-      Most ML models cannot handle missing values (<code>NaN</code>). 
-      We fill missing values using an imputation strategy.
-    </p>
+<pre class="rounded-xl overflow-x-auto"><code class="language-python">
+from sklearn.impute import SimpleImputer
 
-    <div class="bg-gray-900 text-gray-100 p-5 rounded-xl overflow-x-auto text-sm">
-<pre><code>from sklearn.impute import SimpleImputer
-
-# Replace missing values with column mean
 imputer = SimpleImputer(strategy="mean")
+X_imputed = imputer.fit_transform(X)
+</code></pre>
 
-X_imputed = imputer.fit_transform(X)</code></pre>
-    </div>
-
-    <p class="mt-3 text-sm text-gray-600">
-      Other strategies: <code>median</code>, <code>most_frequent</code>, or constant values.
-    </p>
   </section>
 
   <!-- Encoding -->
   <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">4. Encoding Categorical Variables</h2>
+    <h2 class="text-2xl font-semibold mb-3">
+      4. Categorical Encoding
+    </h2>
 
-    <p class="mb-4">
-      ML models require numeric input. One-hot encoding converts categories
-      into binary columns.
-    </p>
-
-    <div class="bg-gray-900 text-gray-100 p-5 rounded-xl overflow-x-auto text-sm">
-<pre><code>from sklearn.preprocessing import OneHotEncoder
+<pre class="rounded-xl overflow-x-auto"><code class="language-python">
+from sklearn.preprocessing import OneHotEncoder
 
 encoder = OneHotEncoder(sparse=False)
+encoded_data = encoder.fit_transform(df[['Category']])
+</code></pre>
 
-encoded_data = encoder.fit_transform(df[['Category']])</code></pre>
-    </div>
-
-    <p class="mt-3 text-sm text-gray-600">
-      Each category becomes its own column with 0/1 values.
-    </p>
   </section>
 
-  <!-- Best Practices -->
-  <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg mb-10">
-    <h2 class="text-xl font-semibold mb-2">Best Practice: Prevent Data Leakage</h2>
-    <p class="text-blue-900">
-      Always use <code>fit_transform()</code> on training data and
-      <code>transform()</code> on test data.  
-      Never learn preprocessing parameters from the test set.
-    </p>
+  <!-- Tip -->
+  <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+    <strong>Pro Tip:</strong>
+    Always <code>fit_transform()</code> on training data and
+    only <code>transform()</code> on test data.
   </div>
 
-  <!-- Bonus: Production Pattern -->
-  <div class="bg-green-50 border border-green-200 rounded-xl p-6">
-    <h2 class="text-xl font-semibold mb-3">Recommended: Use Pipelines in Real Projects</h2>
-    <p class="mb-3">
-      In production systems, preprocessing steps are combined into a
-      single pipeline to avoid mistakes.
-    </p>
-
-    <div class="bg-gray-900 text-gray-100 p-5 rounded-xl overflow-x-auto text-sm">
-<pre><code>from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-
-pipeline = Pipeline([
-    ("scaler", StandardScaler()),
-    ("model", LogisticRegression())
-])
-
-pipeline.fit(X_train, y_train)
-pipeline.score(X_test, y_test)</code></pre>
-    </div>
-  </div>
 </div>
+
 
