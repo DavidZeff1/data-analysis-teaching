@@ -1,110 +1,310 @@
-<div class="prose max-w-none">
+<div class="prose max-w-none bg-gradient-to-br from-slate-50 to-blue-50 p-8 rounded-xl">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Python for Machine Learning</h1>
+            <p class="text-xl text-gray-600">Essential Data Preprocessing Techniques</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+        </div>
 
-  <h1 class="text-4xl font-bold mb-6">
-    Python for Machine Learning — Data Preparation Essentials
-  </h1>
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Before training complex models, you must prepare your data. Data preprocessing is crucial—models are only as good as the data they're trained on. Here are the essential Python operations using <code class="bg-blue-100 text-blue-800 px-2 py-1 rounded">scikit-learn</code> and <code class="bg-blue-100 text-blue-800 px-2 py-1 rounded">pandas</code>.
+            </p>
+        </div>
 
-  <p class="text-lg mb-8">
-    Before training models, data must be cleaned and transformed.
-    Below are the most common preprocessing operations using
-    <code>pandas</code> and <code>scikit-learn</code>.
-  </p>
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">1</span>
+                        Train/Test Split
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        To evaluate how well our model generalizes to unseen data, we split our dataset into a <strong class="text-blue-600">training set</strong> (for learning patterns) and a <strong class="text-purple-600">test set</strong> (for evaluation).
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 
-  <!-- Workflow -->
-  <div class="bg-gray-50 border rounded-xl p-6 mb-10">
-    <h2 class="text-2xl font-semibold mb-3">ML Preparation Workflow</h2>
-    <ol class="list-decimal ml-6 space-y-1">
-      <li>Handle missing values</li>
-      <li>Encode categorical variables</li>
-      <li>Split train/test data</li>
-      <li>Scale features</li>
-      <li>Train model</li>
-    </ol>
-  </div>
-
-  <!-- Split -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">
-      1. Train/Test Split
-    </h2>
-
-    <p class="mb-4">
-      Split data so evaluation happens on unseen samples.
-    </p>
-
-<pre class="rounded-xl overflow-x-auto"><code class="language-python">
-from sklearn.model_selection import train_test_split
-
+<span class="text-gray-400"># Split features (X) and target (y)</span>
+<span class="text-gray-400"># test_size=0.2 means 80% training, 20% testing</span>
+<span class="text-gray-400"># random_state ensures reproducibility</span>
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
-    test_size=0.2,
-    random_state=42
+    X, y, 
+    test_size=<span class="text-yellow-400">0.2</span>, 
+    random_state=<span class="text-yellow-400">42</span>,
+    stratify=y  <span class="text-gray-400"># Maintains class distribution (for classification)</span>
 )
 
-print("Training samples:", len(X_train))
-print("Test samples:", len(X_test))
-</code></pre>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Training set size: {len(X_train)}"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Test set size: {len(X_test)}"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Split ratio: {len(X_train)/(len(X_train)+len(X_test)):.1%} train"</span>)</code></pre>
+                    </div>
+                    <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                        <p class="text-sm text-blue-800"><strong>💡 Key Point:</strong> Never touch your test set during model development—it's your final reality check!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  </section>
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">2</span>
+                        Feature Scaling
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Many ML algorithms (KNN, SVM, Neural Networks, Logistic Regression) are sensitive to the scale of features. If one feature ranges from 0-1 and another from 0-1000, the model will be biased toward the larger scale.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler
 
-  <!-- Scaling -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">
-      2. Feature Scaling
-    </h2>
-
-    <p class="mb-4">
-      Standardization helps algorithms compare features fairly.
-    </p>
-
-<pre class="rounded-xl overflow-x-auto"><code class="language-python">
-from sklearn.preprocessing import StandardScaler
-
+<span class="text-gray-400"># Initialize the scaler</span>
 scaler = StandardScaler()
 
+<span class="text-gray-400"># Fit on training data AND transform it</span>
+<span class="text-gray-400"># This learns the mean and std from training data</span>
 X_train_scaled = scaler.fit_transform(X_train)
+
+<span class="text-gray-400"># ONLY transform test data (using training statistics)</span>
+<span class="text-gray-400"># This prevents data leakage!</span>
 X_test_scaled = scaler.transform(X_test)
-</code></pre>
 
-  </section>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Original mean: {X_train.mean():.2f}"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Scaled mean: {X_train_scaled.mean():.2f}"</span>)  <span class="text-gray-400"># ≈ 0</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Scaled std: {X_train_scaled.std():.2f}"</span>)    <span class="text-gray-400"># ≈ 1</span></code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                            <p class="text-sm text-purple-800"><strong>StandardScaler:</strong> Centers data around 0 with std = 1. Best for normally distributed data.</p>
+                        </div>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+                            <p class="text-sm text-indigo-800"><strong>MinMaxScaler:</strong> Scales to [0,1] range. Good when you need bounded values.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Missing Values -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">
-      3. Handling Missing Values
-    </h2>
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                        Handling Missing Values
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Real-world data is messy—missing values are inevitable. Most ML models cannot handle <code class="bg-green-100 text-green-800 px-2 py-1 rounded">NaN</code> values, so we need imputation strategies.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
 
-<pre class="rounded-xl overflow-x-auto"><code class="language-python">
-from sklearn.impute import SimpleImputer
+<span class="text-gray-400"># Check for missing values</span>
+<span class="text-blue-400">print</span>(df.isnull().sum())
 
-imputer = SimpleImputer(strategy="mean")
-X_imputed = imputer.fit_transform(X)
-</code></pre>
+<span class="text-gray-400"># Strategy 1: Fill with mean (for numerical features)</span>
+imputer_mean = SimpleImputer(strategy=<span class="text-green-400">'mean'</span>)
+X_imputed = imputer_mean.fit_transform(X)
 
-  </section>
+<span class="text-gray-400"># Strategy 2: Fill with median (robust to outliers)</span>
+imputer_median = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+X_imputed = imputer_median.fit_transform(X)
 
-  <!-- Encoding -->
-  <section class="mb-10">
-    <h2 class="text-2xl font-semibold mb-3">
-      4. Categorical Encoding
-    </h2>
+<span class="text-gray-400"># Strategy 3: Fill with most frequent (for categorical)</span>
+imputer_mode = SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)
+X_imputed = imputer_mode.fit_transform(X)
 
-<pre class="rounded-xl overflow-x-auto"><code class="language-python">
-from sklearn.preprocessing import OneHotEncoder
+<span class="text-gray-400"># Strategy 4: Fill with constant</span>
+imputer_const = SimpleImputer(strategy=<span class="text-green-400">'constant'</span>, fill_value=<span class="text-yellow-400">0</span>)
+X_imputed = imputer_const.fit_transform(X)</code></pre>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                        <p class="text-sm text-green-800"><strong>⚠️ Warning:</strong> Imputation can introduce bias. If >50% of values are missing, consider dropping that feature entirely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-encoder = OneHotEncoder(sparse=False)
-encoded_data = encoder.fit_transform(df[['Category']])
-</code></pre>
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">4</span>
+                        Encoding Categorical Variables
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Machine learning models only understand numbers. We need to convert categorical text data (like "red", "blue", "green") into numerical format.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder, LabelEncoder
 
-  </section>
+<span class="text-gray-400"># Method 1: One-Hot Encoding (for nominal categories)</span>
+<span class="text-gray-400"># Creates binary columns for each category</span>
+<span class="text-gray-400"># Example: "Red", "Blue", "Green" → [1,0,0], [0,1,0], [0,0,1]</span>
+encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, drop=<span class="text-green-400">'first'</span>)  <span class="text-gray-400"># drop='first' prevents multicollinearity</span>
+encoded_data = encoder.fit_transform(df[[<span class="text-green-400">'Color'</span>]])
 
-  <!-- Tip -->
-  <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
-    <strong>Pro Tip:</strong>
-    Always <code>fit_transform()</code> on training data and
-    only <code>transform()</code> on test data.
-  </div>
+<span class="text-gray-400"># Get feature names</span>
+feature_names = encoder.get_feature_names_out([<span class="text-green-400">'Color'</span>])
+encoded_df = pd.DataFrame(encoded_data, columns=feature_names)
 
+<span class="text-gray-400"># Method 2: Label Encoding (for ordinal categories)</span>
+<span class="text-gray-400"># Example: "Low", "Medium", "High" → 0, 1, 2</span>
+label_encoder = LabelEncoder()
+df[<span class="text-green-400">'Size_Encoded'</span>] = label_encoder.fit_transform(df[<span class="text-green-400">'Size'</span>])
+
+<span class="text-gray-400"># Method 3: Pandas get_dummies (quick one-hot encoding)</span>
+df_encoded = pd.get_dummies(df, columns=[<span class="text-green-400">'Color'</span>, <span class="text-green-400">'Brand'</span>], drop_first=<span class="text-yellow-400">True</span>)</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+                            <p class="text-sm text-orange-800"><strong>One-Hot Encoding:</strong> Use for nominal categories (no order). Example: colors, countries, brands.</p>
+                        </div>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                            <p class="text-sm text-red-800"><strong>Label Encoding:</strong> Use for ordinal categories (natural order). Example: ratings, education levels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-pink-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">5</span>
+                        Feature Selection
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Not all features are equally useful. Removing irrelevant or redundant features improves model performance and reduces training time.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.feature_selection <span class="text-purple-400">import</span> SelectKBest, f_classif, mutual_info_classif
+
+<span class="text-gray-400"># Method 1: Select K best features using ANOVA F-test</span>
+selector = SelectKBest(score_func=f_classif, k=<span class="text-yellow-400">10</span>)  <span class="text-gray-400"># Select top 10 features</span>
+X_selected = selector.fit_transform(X_train, y_train)
+
+<span class="text-gray-400"># Get selected feature indices</span>
+selected_features = selector.get_support(indices=<span class="text-yellow-400">True</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Selected features: {selected_features}"</span>)
+
+<span class="text-gray-400"># Method 2: Using feature importances from tree-based models</span>
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+
+rf = RandomForestClassifier(n_estimators=<span class="text-yellow-400">100</span>, random_state=<span class="text-yellow-400">42</span>)
+rf.fit(X_train, y_train)
+
+<span class="text-gray-400"># Get feature importances</span>
+importances = pd.DataFrame({
+    <span class="text-green-400">'feature'</span>: X_train.columns,
+    <span class="text-green-400">'importance'</span>: rf.feature_importances_
+}).sort_values(<span class="text-green-400">'importance'</span>, ascending=<span class="text-yellow-400">False</span>)
+
+<span class="text-blue-400">print</span>(importances.head(<span class="text-yellow-400">10</span>))</code></pre>
+                    </div>
+                    <div class="bg-pink-50 border-l-4 border-pink-400 p-4 rounded">
+                        <p class="text-sm text-pink-800"><strong>🎯 Rule of Thumb:</strong> Start with all features, then remove those with low importance or high correlation with others.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">6</span>
+                        Complete Pipeline Example
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Putting it all together: a production-ready preprocessing pipeline that you can reuse across projects.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+
+<span class="text-gray-400"># Define numerical and categorical columns</span>
+numeric_features = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'income'</span>, <span class="text-green-400">'credit_score'</span>]
+categorical_features = [<span class="text-green-400">'education'</span>, <span class="text-green-400">'employment'</span>]
+
+<span class="text-gray-400"># Create preprocessing pipelines for each data type</span>
+numeric_transformer = Pipeline(steps=[
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'median'</span>)),
+    (<span class="text-green-400">'scaler'</span>, StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
+    (<span class="text-green-400">'onehot'</span>, OneHotEncoder(drop=<span class="text-green-400">'first'</span>, sparse_output=<span class="text-yellow-400">False</span>))
+])
+
+<span class="text-gray-400"># Combine preprocessing steps</span>
+preprocessor = ColumnTransformer(
+    transformers=[
+        (<span class="text-green-400">'num'</span>, numeric_transformer, numeric_features),
+        (<span class="text-green-400">'cat'</span>, categorical_transformer, categorical_features)
+    ])
+
+<span class="text-gray-400"># Create full pipeline with model</span>
+full_pipeline = Pipeline(steps=[
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># Fit the entire pipeline</span>
+full_pipeline.fit(X_train, y_train)
+
+<span class="text-gray-400"># Make predictions (preprocessing happens automatically!)</span>
+predictions = full_pipeline.predict(X_test)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {full_pipeline.score(X_test, y_test):.3f}"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl p-8 text-white">
+            <h3 class="text-2xl font-bold mb-4">🔑 Golden Rules of Data Preprocessing</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">1. Always Split First</p>
+                    <p class="text-sm opacity-90">Split your data before any preprocessing to prevent data leakage.</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">2. Fit Only on Training Data</p>
+                    <p class="text-sm opacity-90">Use fit_transform() on train, transform() on test. Never the other way!</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">3. Use Pipelines</p>
+                    <p class="text-sm opacity-90">Pipelines ensure consistent preprocessing and prevent errors in production.</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">4. Know Your Data</p>
+                    <p class="text-sm opacity-90">Explore with df.info(), df.describe(), and df.isnull() before preprocessing.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-600">
+            <p class="text-sm">Remember: <span class="font-semibold text-blue-600">Garbage in, garbage out.</span> Quality preprocessing is the foundation of successful machine learning!</p>
+        </div>
+    </div>
 </div>
 
 
