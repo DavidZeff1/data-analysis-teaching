@@ -1,77 +1,550 @@
-<div class="space-y-6">
+<div class="space-y-8">
     <section>
-        <h2 class="text-2xl font-bold mb-4">Decision Trees</h2>
-        <p class="mb-4">
-            Decision Trees are a type of Supervised Machine Learning where the data is continuously split according to a certain parameter. The tree can be explained by two entities, namely <strong>decision nodes</strong> and <strong>leaves</strong>. The leaves are the decisions or the final outcomes, and the decision nodes are where the data is split.
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Decision Trees</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            Decision Trees are a type of Supervised Machine Learning algorithm where the data is continuously split according to certain parameters. The tree can be explained by two entities: <strong>decision nodes</strong> (internal nodes where data splits occur) and <strong>leaves</strong> (terminal nodes representing final outcomes or predictions). Think of it as a flowchart where you ask a series of questions to reach a decision.
         </p>
-        <div class="bg-blue-50 p-4 rounded-lg mb-4">
-            <h3 class="font-semibold mb-2">How it works:</h3>
-            <p>At each node, the algorithm chooses the best feature to split the data. The goal is to maximize <strong>Information Gain</strong> or minimize <strong>Gini Impurity</strong>.</p>
-            <p class="mt-2 text-sm italic">
-                Gini Impurity formula: $G = 1 - \sum_{i=1}^{n} p_i^2$
-            </p>
+        
+        <div class="bg-blue-50 p-6 rounded-lg mb-6 border-l-4 border-blue-500">
+            <h3 class="font-semibold text-lg mb-3 text-blue-900">How Decision Trees Work:</h3>
+            <p class="mb-3">At each decision node, the algorithm evaluates all features and chooses the one that best splits the data. The "best" split is determined by measuring:</p>
+            <ul class="list-disc ml-6 space-y-2 mb-4">
+                <li><strong>Information Gain</strong> - The reduction in entropy (disorder) after splitting</li>
+                <li><strong>Gini Impurity</strong> - Probability of incorrectly classifying a random element</li>
+                <li><strong>Gain Ratio</strong> - Normalized information gain to prevent bias toward features with many values</li>
+            </ul>
+            <div class="bg-white p-4 rounded mt-4">
+                <p class="text-sm font-mono mb-2">Gini Impurity: $G = 1 - \sum_{i=1}^{n} p_i^2$</p>
+                <p class="text-sm font-mono">Entropy: $H = -\sum_{i=1}^{n} p_i \log_2(p_i)$</p>
+                <p class="text-sm text-gray-600 mt-2">where $p_i$ is the probability of class $i$</p>
+            </div>
         </div>
-        <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto"><code>from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
 
-# Initialize the classifier
-clf = DecisionTreeClassifier(max_depth=3)
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-900 mb-3 flex items-center">
+                    <span class="text-2xl mr-2">✓</span> Advantages
+                </h3>
+                <ul class="list-disc ml-5 space-y-2 text-sm">
+                    <li>Easy to understand and interpret (white box model)</li>
+                    <li>Requires little data preprocessing</li>
+                    <li>Can handle both numerical and categorical data</li>
+                    <li>Non-parametric (no assumptions about data distribution)</li>
+                    <li>Can capture non-linear relationships</li>
+                    <li>Feature importance is naturally computed</li>
+                </ul>
+            </div>
+            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                <h3 class="font-semibold text-red-900 mb-3 flex items-center">
+                    <span class="text-2xl mr-2">✗</span> Disadvantages
+                </h3>
+                <ul class="list-disc ml-5 space-y-2 text-sm">
+                    <li>Prone to overfitting, especially with deep trees</li>
+                    <li>Can be unstable (small data changes → different trees)</li>
+                    <li>Biased toward features with more levels</li>
+                    <li>Can create overly complex trees (poor generalization)</li>
+                    <li>Greedy algorithm (may not find global optimum)</li>
+                    <li>Struggles with linear relationships</li>
+                </ul>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code>from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import train_test_split, cross_val_score
+import matplotlib.pyplot as plt
+
+# Initialize the classifier with key parameters
+clf = DecisionTreeClassifier(
+    max_depth=5,              # Limit tree depth to prevent overfitting
+    min_samples_split=20,     # Minimum samples to split a node
+    min_samples_leaf=10,      # Minimum samples in leaf node
+    criterion='gini',         # Splitting criterion
+    random_state=42
+)
 
 # Fit the model
 clf.fit(X_train, y_train)
 
-# Predict
-predictions = clf.predict(X_test)</code></pre>
+# Evaluate with cross-validation
+scores = cross_val_score(clf, X_train, y_train, cv=5)
+print(f"Cross-validation accuracy: {scores.mean():.3f} (+/- {scores.std():.3f})")
+
+# Make predictions
+predictions = clf.predict(X_test)
+probabilities = clf.predict_proba(X_test)
+
+# Visualize the tree (for smaller trees)
+plt.figure(figsize=(20,10))
+plot_tree(clf, feature_names=feature_names, class_names=class_names, filled=True)
+plt.show()</code></pre>
     </section>
 
-    <section>
-        <h2 class="text-2xl font-bold mb-4">Random Forests</h2>
-        <p class="mb-4">
-            A Random Forest is an ensemble learning method that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned.
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Random Forests</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            Random Forests are an ensemble learning method that constructs a multitude of decision trees during training and outputs the mode (classification) or mean (regression) of individual trees. The key innovation is the introduction of <strong>randomness</strong> at two levels: random sampling of training data (bootstrap aggregating) and random feature selection at each split.
         </p>
-        <div class="bg-green-50 p-4 rounded-lg mb-4 border-l-4 border-green-500">
-            <h3 class="font-semibold mb-2 text-green-800">Why Random Forests?</h3>
-            <ul class="list-disc ml-5 space-y-1">
-                <li>Higher accuracy than single decision trees.</li>
-                <li>Reduction in overfitting by averaging results.</li>
-                <li>Handles large datasets with higher dimensionality.</li>
-            </ul>
-        </div>
-        <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto"><code>from sklearn.ensemble import RandomForestClassifier
 
-# Initialize the Forest
-rf = RandomForestClassifier(n_estimators=100, random_state=42)
+        <div class="bg-purple-50 p-6 rounded-lg mb-6 border-l-4 border-purple-500">
+            <h3 class="font-semibold text-lg mb-3 text-purple-900">The Ensemble Approach:</h3>
+            <ol class="list-decimal ml-6 space-y-2">
+                <li><strong>Bootstrap Sampling:</strong> Create multiple training subsets by randomly sampling with replacement from the original dataset</li>
+                <li><strong>Random Feature Selection:</strong> At each split, consider only a random subset of features (typically √n for classification, n/3 for regression)</li>
+                <li><strong>Parallel Tree Building:</strong> Train independent decision trees on each bootstrap sample</li>
+                <li><strong>Aggregation:</strong> Combine predictions through voting (classification) or averaging (regression)</li>
+            </ol>
+            <p class="mt-4 text-sm italic text-purple-800">
+                This process reduces variance without increasing bias, leading to better generalization.
+            </p>
+        </div>
+
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg mb-6 border border-green-300">
+            <h3 class="font-semibold text-lg mb-3 text-gray-900">Why Random Forests Outperform Single Trees:</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <h4 class="font-semibold text-green-700 mb-2">Performance Benefits:</h4>
+                    <ul class="list-disc ml-5 space-y-1 text-sm">
+                        <li>Dramatically reduces overfitting through averaging</li>
+                        <li>Higher accuracy and robustness</li>
+                        <li>Handles missing values effectively</li>
+                        <li>Works well with high-dimensional data</li>
+                        <li>Resistant to outliers and noise</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-blue-700 mb-2">Additional Features:</h4>
+                    <ul class="list-disc ml-5 space-y-1 text-sm">
+                        <li>Out-of-bag (OOB) error estimation</li>
+                        <li>Measures feature importance reliably</li>
+                        <li>Can detect feature interactions</li>
+                        <li>Parallelizable (fast training)</li>
+                        <li>Minimal hyperparameter tuning needed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code>from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+import numpy as np
+
+# Initialize the Random Forest with optimized parameters
+rf = RandomForestClassifier(
+    n_estimators=200,         # Number of trees
+    max_depth=10,             # Maximum tree depth
+    min_samples_split=5,      # Minimum samples to split
+    min_samples_leaf=2,       # Minimum samples in leaf
+    max_features='sqrt',      # Number of features to consider at each split
+    bootstrap=True,           # Use bootstrap samples
+    oob_score=True,           # Use out-of-bag samples for validation
+    n_jobs=-1,                # Use all processors
+    random_state=42
+)
 
 # Fit the model
 rf.fit(X_train, y_train)
 
-# Check feature importance
-importances = rf.feature_importances_</code></pre>
+# Out-of-bag score (internal cross-validation)
+print(f"OOB Score: {rf.oob_score_:.3f}")
+
+# Make predictions
+predictions = rf.predict(X_test)
+probabilities = rf.predict_proba(X_test)
+
+# Feature importance analysis
+feature_importance = pd.DataFrame({
+    'feature': feature_names,
+    'importance': rf.feature_importances_
+}).sort_values('importance', ascending=False)
+
+print("Top 10 Most Important Features:")
+print(feature_importance.head(10))
+
+# Detailed evaluation
+print("\nClassification Report:")
+print(classification_report(y_test, predictions))</code></pre>
     </section>
 
-    <section>
-        <h2 class="text-2xl font-bold mb-4">Key Parameters</h2>
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parameter</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">n_estimators</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">Number of trees in the forest.</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">max_depth</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">Maximum depth of each tree. Prevents overfitting.</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">min_samples_split</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">Minimum samples required to split an internal node.</td>
-                </tr>
-            </tbody>
-        </table>
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Hyperparameter Tuning Guide</h2>
+        
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Parameter</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Description</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Recommended Values</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Effect</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">n_estimators</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Number of trees in the forest</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">100-500</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">More trees → better performance but slower training</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">max_depth</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Maximum depth of each tree</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">3-20 or None</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Lower → prevents overfitting; Higher → captures complexity</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">min_samples_split</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Minimum samples required to split an internal node</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">2-20</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Higher → smoother decision boundaries, reduces overfitting</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">min_samples_leaf</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Minimum samples required in a leaf node</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">1-10</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Higher → smoother model, prevents outlier-driven leaves</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">max_features</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Number of features to consider for best split</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">'sqrt', 'log2', or int</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Lower → more randomness, better decorrelation between trees</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">bootstrap</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Whether to use bootstrap samples</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">True (default)</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">True → enables bagging; False → all data used for each tree</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">criterion</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Function to measure split quality</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">'gini' or 'entropy'</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Gini is faster; Entropy may produce more balanced trees</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">max_samples</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Size of bootstrap samples (if bootstrap=True)</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">0.5-1.0 or None</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Lower → faster training, more diversity between trees</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-400 mb-6">
+            <h3 class="font-semibold text-yellow-900 mb-2">💡 Hyperparameter Tuning Tips:</h3>
+            <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                <li><strong>Start simple:</strong> Begin with default parameters and increase complexity as needed</li>
+                <li><strong>Use GridSearchCV or RandomizedSearchCV</strong> for systematic optimization</li>
+                <li><strong>Monitor OOB score:</strong> It's a free cross-validation estimate (when bootstrap=True)</li>
+                <li><strong>Balance speed vs accuracy:</strong> Fewer trees train faster but may underperform</li>
+                <li><strong>Consider your data size:</strong> Small datasets need more regularization (lower max_depth, higher min_samples)</li>
+            </ul>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto"><code>from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from scipy.stats import randint
+
+# Define parameter grid
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [5, 10, 15, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4],
+    'max_features': ['sqrt', 'log2']
+}
+
+# Grid Search (exhaustive)
+grid_search = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_grid,
+    cv=5,
+    n_jobs=-1,
+    scoring='accuracy',
+    verbose=1
+)
+grid_search.fit(X_train, y_train)
+print(f"Best parameters: {grid_search.best_params_}")
+print(f"Best score: {grid_search.best_score_:.3f}")
+
+# Randomized Search (faster alternative)
+param_distributions = {
+    'n_estimators': randint(100, 500),
+    'max_depth': randint(5, 30),
+    'min_samples_split': randint(2, 20),
+    'min_samples_leaf': randint(1, 10)
+}
+
+random_search = RandomizedSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_distributions,
+    n_iter=50,
+    cv=5,
+    n_jobs=-1,
+    random_state=42
+)
+random_search.fit(X_train, y_train)</code></pre>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Decision Trees vs Random Forests</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                <h3 class="text-xl font-bold mb-4 text-blue-900">🌳 Single Decision Tree</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <span class="font-semibold text-gray-700">Best For:</span>
+                        <p class="text-gray-600">Interpretability, quick prototyping, rule extraction</p>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-gray-700">When to Use:</span>
+                        <ul class="list-disc ml-5 mt-1 text-gray-600">
+                            <li>Need explainability (regulatory requirements)</li>
+                            <li>Small to medium datasets</li>
+                            <li>Fast training is critical</li>
+                            <li>Simple decision boundaries suffice</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-gray-700">Trade-offs:</span>
+                        <p class="text-gray-600">High interpretability but prone to overfitting and instability</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                <h3 class="text-xl font-bold mb-4 text-green-900">🌲 Random Forest</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <span class="font-semibold text-gray-700">Best For:</span>
+                        <p class="text-gray-600">Accuracy, robustness, feature selection</p>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-gray-700">When to Use:</span>
+                        <ul class="list-disc ml-5 mt-1 text-gray-600">
+                            <li>Accuracy is priority over interpretability</li>
+                            <li>Large datasets with many features</li>
+                            <li>Noisy data or outliers present</li>
+                            <li>Need feature importance rankings</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-gray-700">Trade-offs:</span>
+                        <p class="text-gray-600">Higher accuracy and robustness but less interpretable and slower</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg border border-indigo-200">
+            <h3 class="text-xl font-semibold mb-4 text-indigo-900">📊 Performance Comparison</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="text-left text-sm font-semibold text-gray-700">
+                            <th class="pb-2">Metric</th>
+                            <th class="pb-2 px-4">Decision Tree</th>
+                            <th class="pb-2 px-4">Random Forest</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-gray-600">
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Training Speed</td>
+                            <td class="py-2 px-4">⚡⚡⚡ Fast</td>
+                            <td class="py-2 px-4">⚡⚡ Moderate</td>
+                        </tr>
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Prediction Speed</td>
+                            <td class="py-2 px-4">⚡⚡⚡ Very Fast</td>
+                            <td class="py-2 px-4">⚡⚡ Moderate (n trees)</td>
+                        </tr>
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Accuracy</td>
+                            <td class="py-2 px-4">⭐⭐ Good</td>
+                            <td class="py-2 px-4">⭐⭐⭐ Excellent</td>
+                        </tr>
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Overfitting Risk</td>
+                            <td class="py-2 px-4">🔴 High</td>
+                            <td class="py-2 px-4">🟢 Low</td>
+                        </tr>
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Interpretability</td>
+                            <td class="py-2 px-4">⭐⭐⭐ Excellent</td>
+                            <td class="py-2 px-4">⭐ Limited</td>
+                        </tr>
+                        <tr class="border-t border-indigo-100">
+                            <td class="py-2 font-medium">Memory Usage</td>
+                            <td class="py-2 px-4">💾 Low</td>
+                            <td class="py-2 px-4">💾💾💾 High</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Practical Use Cases</h2>
+        
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-900 mb-2">🏥 Healthcare</h3>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li>Disease diagnosis from symptoms</li>
+                    <li>Patient risk stratification</li>
+                    <li>Medical image classification</li>
+                    <li>Treatment recommendation systems</li>
+                </ul>
+            </div>
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-900 mb-2">💰 Finance</h3>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li>Credit risk assessment</li>
+                    <li>Fraud detection</li>
+                    <li>Stock price prediction</li>
+                    <li>Customer churn prediction</li>
+                </ul>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h3 class="font-semibold text-purple-900 mb-2">🛒 E-commerce</h3>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li>Product recommendation</li>
+                    <li>Customer segmentation</li>
+                    <li>Demand forecasting</li>
+                    <li>Price optimization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Advanced Techniques</h2>
+        
+        <div class="space-y-6">
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900">1. Handling Imbalanced Data</h3>
+                <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code># Option 1: Class weights
+rf = RandomForestClassifier(class_weight='balanced')
+
+# Option 2: Manual weights
+rf = RandomForestClassifier(class_weight={0: 1, 1: 10})
+
+# Option 3: Resampling with SMOTE
+from imblearn.ensemble import BalancedRandomForestClassifier
+brf = BalancedRandomForestClassifier(n_estimators=100)</code></pre>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900">2. Feature Importance Visualization</h3>
+                <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Get feature importances
+importances = rf.feature_importances_
+indices = np.argsort(importances)[::-1]
+
+# Plot
+plt.figure(figsize=(12, 6))
+plt.title("Feature Importances")
+plt.bar(range(len(importances)), importances[indices])
+plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=90)
+plt.tight_layout()
+plt.show()
+
+# Permutation importance (more reliable)
+from sklearn.inspection import permutation_importance
+perm_importance = permutation_importance(rf, X_test, y_test, n_repeats=10)
+sorted_idx = perm_importance.importances_mean.argsort()[::-1]</code></pre>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900">3. Partial Dependence Plots</h3>
+                <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>from sklearn.inspection import PartialDependenceDisplay
+
+# Show how a feature affects predictions
+features = [0, 1, (0, 1)]  # Feature indices or pairs
+PartialDependenceDisplay.from_estimator(rf, X_train, features)
+plt.show()</code></pre>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900">4. Model Persistence</h3>
+                <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>import joblib
+import pickle
+
+# Save model (joblib is more efficient for large models)
+joblib.dump(rf, 'random_forest_model.pkl')
+
+# Load model
+loaded_rf = joblib.load('random_forest_model.pkl')
+
+# Alternative: using pickle
+with open('model.pkl', 'wb') as f:
+    pickle.dump(rf, f)
+
+with open('model.pkl', 'rb') as f:
+    loaded_rf = pickle.load(f)</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Common Pitfalls & Solutions</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Not scaling features</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Tree-based models don't require feature scaling, but it can help with interpretation and some ensemble methods.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> While not necessary for Random Forests, standardize if combining with other algorithms or for distance-based importance measures.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Ignoring feature correlation</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Highly correlated features can split importance, making interpretation harder.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Remove highly correlated features (correlation > 0.95) or use feature selection techniques.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Default hyperparameters for all datasets</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Default parameters work reasonably but rarely optimally.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Always perform hyperparameter tuning, especially for max_depth, min_samples_split, and n_estimators.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Extrapolation beyond training data</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Random Forests cannot extrapolate beyond the range of training data.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Ensure test data falls within training data range, or use algorithms like gradient boosting that handle this better.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg">
+            <h2 class="text-2xl font-bold mb-3">🎯 Quick Reference: When to Choose Which</h2>
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+                <div>
+                    <h3 class="font-semibold mb-2 text-blue-100">Choose Decision Trees when:</h3>
+                    <ul class="space-y-1 ml-4">
+                        <li>✓ Interpretability is critical</li>
+                        <li>✓ You need to extract business rules</li>
+                        <li>✓ Working with small datasets</li>
+                        <li>✓ Fast predictions are essential</li>
+                        <li>✓ Memory is severely constrained</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2 text-purple-100">Choose Random Forests when:</h3>
+                    <ul class="space-y-1 ml-4">
+                        <li>✓ Accuracy is the top priority</li>
+                        <li>✓ Data has noise or outliers</li>
+                        <li>✓ Working with high-dimensional data</li>
+                        <li>✓ Need robust feature importance</li>
+                        <li>✓ Black-box models are acceptable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
