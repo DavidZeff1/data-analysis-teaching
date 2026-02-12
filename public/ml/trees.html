@@ -1,0 +1,77 @@
+<div class="space-y-6">
+    <section>
+        <h2 class="text-2xl font-bold mb-4">Decision Trees</h2>
+        <p class="mb-4">
+            Decision Trees are a type of Supervised Machine Learning where the data is continuously split according to a certain parameter. The tree can be explained by two entities, namely <strong>decision nodes</strong> and <strong>leaves</strong>. The leaves are the decisions or the final outcomes, and the decision nodes are where the data is split.
+        </p>
+        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+            <h3 class="font-semibold mb-2">How it works:</h3>
+            <p>At each node, the algorithm chooses the best feature to split the data. The goal is to maximize <strong>Information Gain</strong> or minimize <strong>Gini Impurity</strong>.</p>
+            <p class="mt-2 text-sm italic">
+                Gini Impurity formula: $G = 1 - \sum_{i=1}^{n} p_i^2$
+            </p>
+        </div>
+        <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto"><code>from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+
+# Initialize the classifier
+clf = DecisionTreeClassifier(max_depth=3)
+
+# Fit the model
+clf.fit(X_train, y_train)
+
+# Predict
+predictions = clf.predict(X_test)</code></pre>
+    </section>
+
+    <section>
+        <h2 class="text-2xl font-bold mb-4">Random Forests</h2>
+        <p class="mb-4">
+            A Random Forest is an ensemble learning method that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned.
+        </p>
+        <div class="bg-green-50 p-4 rounded-lg mb-4 border-l-4 border-green-500">
+            <h3 class="font-semibold mb-2 text-green-800">Why Random Forests?</h3>
+            <ul class="list-disc ml-5 space-y-1">
+                <li>Higher accuracy than single decision trees.</li>
+                <li>Reduction in overfitting by averaging results.</li>
+                <li>Handles large datasets with higher dimensionality.</li>
+            </ul>
+        </div>
+        <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-x-auto"><code>from sklearn.ensemble import RandomForestClassifier
+
+# Initialize the Forest
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Fit the model
+rf.fit(X_train, y_train)
+
+# Check feature importance
+importances = rf.feature_importances_</code></pre>
+    </section>
+
+    <section>
+        <h2 class="text-2xl font-bold mb-4">Key Parameters</h2>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parameter</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">n_estimators</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Number of trees in the forest.</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">max_depth</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Maximum depth of each tree. Prevents overfitting.</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">min_samples_split</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">Minimum samples required to split an internal node.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

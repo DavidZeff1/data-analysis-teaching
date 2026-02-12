@@ -82,6 +82,7 @@ const content = {
   ml: {
     guide: () => fetch("/ml/guide.html").then((r) => r.text()),
     basics: () => fetch("/ml/basics.html").then((r) => r.text()),
+    trees: () => fetch("/ml/trees.html").then((r) => r.text()),
   },
 };
 
