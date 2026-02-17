@@ -1,0 +1,584 @@
+<div class="prose max-w-none bg-gradient-to-br from-slate-50 to-emerald-50 p-8 rounded-xl">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Missing Values & Encoding</h1>
+            <p class="text-xl text-gray-600">Handling Missing Data and Converting Categorical Variables</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Real-world datasets are rarely clean. Two of the most common challenges are <strong class="text-emerald-600">missing values</strong> and <strong class="text-teal-600">categorical variables</strong>. Most machine learning models require complete numerical data, so learning how to handle these issues is essential before you can train any model.
+            </p>
+        </div>
+
+        <!-- Part 1: Missing Values -->
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl shadow-2xl p-6 mb-10 text-white">
+            <h2 class="text-3xl font-bold flex items-center">
+                <span class="text-4xl mr-3">🔍</span> Part 1: Handling Missing Values
+            </h2>
+            <p class="mt-2 opacity-90">Detecting, understanding, and fixing gaps in your data</p>
+        </div>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-emerald-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">1</span>
+                        Detecting Missing Values
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Before fixing missing data, you need to find it. Missing values can appear as <code class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">NaN</code>, <code class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">None</code>, empty strings, or placeholder values like <code class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">-999</code>.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># Create sample data with missing values</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'age'</span>: [<span class="text-yellow-400">25</span>, <span class="text-yellow-400">30</span>, np.nan, <span class="text-yellow-400">45</span>, <span class="text-yellow-400">35</span>, np.nan],
+    <span class="text-green-400">'salary'</span>: [<span class="text-yellow-400">50000</span>, np.nan, <span class="text-yellow-400">70000</span>, <span class="text-yellow-400">90000</span>, np.nan, <span class="text-yellow-400">60000</span>],
+    <span class="text-green-400">'city'</span>: [<span class="text-green-400">'NYC'</span>, <span class="text-green-400">'LA'</span>, <span class="text-green-400">'NYC'</span>, <span class="text-yellow-400">None</span>, <span class="text-green-400">'LA'</span>, <span class="text-green-400">'NYC'</span>]
+})
+
+<span class="text-gray-400"># Check total missing values per column</span>
+<span class="text-blue-400">print</span>(df.isnull().sum())
+<span class="text-gray-400"># age       2
+# salary    2
+# city      1</span>
+
+<span class="text-gray-400"># Percentage of missing values</span>
+<span class="text-blue-400">print</span>((df.isnull().sum() / len(df) * <span class="text-yellow-400">100</span>).round(<span class="text-yellow-400">1</span>))
+
+<span class="text-gray-400"># Visual summary of the dataset</span>
+<span class="text-blue-400">print</span>(df.info())</code></pre>
+                    </div>
+                    <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded">
+                        <p class="text-sm text-emerald-800"><strong>💡 Pro Tip:</strong> Use <code class="bg-emerald-100 text-emerald-800 px-1 rounded">df.isnull().sum().sort_values(ascending=False)</code> to quickly see which columns have the most missing data.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">2</span>
+                        Why Data Goes Missing
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Understanding <em>why</em> data is missing helps you choose the right strategy:
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded">
+                            <p class="font-semibold text-emerald-900 mb-2">MCAR</p>
+                            <p class="text-sm text-emerald-800"><strong>Missing Completely At Random</strong> — No pattern. A survey respondent accidentally skipped a question.</p>
+                        </div>
+                        <div class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded">
+                            <p class="font-semibold text-teal-900 mb-2">MAR</p>
+                            <p class="text-sm text-teal-800"><strong>Missing At Random</strong> — Related to observed data. Younger people are less likely to report income.</p>
+                        </div>
+                        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+                            <p class="font-semibold text-cyan-900 mb-2">MNAR</p>
+                            <p class="text-sm text-cyan-800"><strong>Missing Not At Random</strong> — Related to the missing value itself. High earners refuse to share salary.</p>
+                        </div>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                        <p class="text-sm text-amber-800"><strong>⚠️ Important:</strong> MNAR is the hardest to handle — simple imputation can introduce serious bias. Consider domain expertise or more advanced techniques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                        Strategy 1: Dropping Missing Data
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        The simplest approach — but use with caution. Dropping data means losing information, which can bias your model.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-gray-400"># Drop rows with ANY missing values</span>
+df_clean = df.dropna()
+
+<span class="text-gray-400"># Drop rows where specific columns are missing</span>
+df_clean = df.dropna(subset=[<span class="text-green-400">'age'</span>, <span class="text-green-400">'salary'</span>])
+
+<span class="text-gray-400"># Drop columns where more than 50% of values are missing</span>
+threshold = len(df) * <span class="text-yellow-400">0.5</span>
+df_clean = df.dropna(axis=<span class="text-yellow-400">1</span>, thresh=<span class="text-blue-400">int</span>(threshold))
+
+<span class="text-gray-400"># Check how much data we lost</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Original: {len(df)} rows → Cleaned: {len(df_clean)} rows"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Data lost: {(1 - len(df_clean)/len(df))*100:.1f}%"</span>)</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                            <p class="text-sm text-green-800"><strong>✓ When to drop:</strong> Small percentage of missing data (&lt;5%), data is MCAR, or you have plenty of observations.</p>
+                        </div>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                            <p class="text-sm text-red-800"><strong>✗ When NOT to drop:</strong> Large percentage missing, data is MAR/MNAR, or feature is highly predictive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">4</span>
+                        Strategy 2: Simple Imputation
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Replace missing values with a statistical summary of the column. This is the most common approach in practice.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+
+<span class="text-gray-400"># ── Numerical Features ──────────────────────────</span>
+
+<span class="text-gray-400"># Mean imputation (sensitive to outliers)</span>
+imputer_mean = SimpleImputer(strategy=<span class="text-green-400">'mean'</span>)
+df[<span class="text-green-400">'salary'</span>] = imputer_mean.fit_transform(df[[<span class="text-green-400">'salary'</span>]])
+
+<span class="text-gray-400"># Median imputation (robust to outliers — often preferred)</span>
+imputer_median = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+df[<span class="text-green-400">'age'</span>] = imputer_median.fit_transform(df[[<span class="text-green-400">'age'</span>]])
+
+<span class="text-gray-400"># Constant value</span>
+imputer_const = SimpleImputer(strategy=<span class="text-green-400">'constant'</span>, fill_value=<span class="text-yellow-400">0</span>)
+df[<span class="text-green-400">'score'</span>] = imputer_const.fit_transform(df[[<span class="text-green-400">'score'</span>]])
+
+<span class="text-gray-400"># ── Categorical Features ────────────────────────</span>
+
+<span class="text-gray-400"># Most frequent value (mode)</span>
+imputer_mode = SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)
+df[<span class="text-green-400">'city'</span>] = imputer_mode.fit_transform(df[[<span class="text-green-400">'city'</span>]])
+
+<span class="text-gray-400"># Constant placeholder</span>
+imputer_unknown = SimpleImputer(strategy=<span class="text-green-400">'constant'</span>, fill_value=<span class="text-green-400">'Unknown'</span>)
+df[<span class="text-green-400">'city'</span>] = imputer_unknown.fit_transform(df[[<span class="text-green-400">'city'</span>]])</code></pre>
+                    </div>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Strategy</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Data Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Best When</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Caution</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-3 font-medium">Mean</td>
+                                    <td class="px-6 py-3">Numerical</td>
+                                    <td class="px-6 py-3">Data is normally distributed</td>
+                                    <td class="px-6 py-3 text-red-600">Skewed by outliers</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-3 font-medium">Median</td>
+                                    <td class="px-6 py-3">Numerical</td>
+                                    <td class="px-6 py-3">Outliers present, skewed data</td>
+                                    <td class="px-6 py-3 text-red-600">Ignores distribution shape</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-medium">Most Frequent</td>
+                                    <td class="px-6 py-3">Categorical</td>
+                                    <td class="px-6 py-3">One dominant category</td>
+                                    <td class="px-6 py-3 text-red-600">Can overrepresent mode</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-3 font-medium">Constant</td>
+                                    <td class="px-6 py-3">Any</td>
+                                    <td class="px-6 py-3">Missingness is meaningful</td>
+                                    <td class="px-6 py-3 text-red-600">Introduces artificial value</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                        <p class="text-sm text-blue-800"><strong>💡 Key Point:</strong> Always <code class="bg-blue-100 text-blue-800 px-1 rounded">fit</code> the imputer on training data only, then <code class="bg-blue-100 text-blue-800 px-1 rounded">transform</code> both train and test sets to prevent data leakage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">5</span>
+                        Strategy 3: Advanced Imputation (KNN)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        KNN Imputer uses the <strong>K nearest neighbors</strong> of each sample to fill in missing values. It considers relationships between features, making it smarter than simple imputation.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> KNNImputer
+
+<span class="text-gray-400"># Uses 5 nearest neighbors to estimate missing values</span>
+knn_imputer = KNNImputer(n_neighbors=<span class="text-yellow-400">5</span>, weights=<span class="text-green-400">'distance'</span>)
+
+<span class="text-gray-400"># Only works on numerical data</span>
+X_imputed = knn_imputer.fit_transform(X_train_numeric)
+
+<span class="text-gray-400"># Convert back to DataFrame</span>
+X_imputed_df = pd.DataFrame(X_imputed, columns=X_train_numeric.columns)
+
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Missing values after KNN imputation:"</span>)
+<span class="text-blue-400">print</span>(X_imputed_df.isnull().sum())</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                            <p class="text-sm text-purple-800"><strong>✓ Advantage:</strong> Captures relationships between features. If age and salary are correlated, KNN uses salary to better estimate missing age.</p>
+                        </div>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                            <p class="text-sm text-red-800"><strong>✗ Disadvantage:</strong> Slower on large datasets. Requires features to be scaled first (use StandardScaler before KNN).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">6</span>
+                        Adding a Missing Indicator
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Sometimes the <em>fact</em> that data is missing is itself a useful signal. You can add binary columns indicating where values were originally missing.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># Step 1: Create indicator columns BEFORE imputing</span>
+<span class="text-purple-400">for</span> col <span class="text-purple-400">in</span> df.columns:
+    <span class="text-purple-400">if</span> df[col].isnull().any():
+        df[<span class="text-green-400">f'{col}_was_missing'</span>] = df[col].isnull().astype(<span class="text-blue-400">int</span>)
+
+<span class="text-gray-400"># Step 2: Then impute the missing values</span>
+imputer = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
+
+<span class="text-gray-400"># Now model can learn from BOTH the imputed value</span>
+<span class="text-gray-400"># AND whether it was originally missing</span>
+<span class="text-blue-400">print</span>(df.head())</code></pre>
+                    </div>
+                    <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+                        <p class="text-sm text-indigo-800"><strong>🎯 When to use:</strong> When you suspect the missingness pattern itself contains predictive information (e.g., customers who skip providing income might have different behavior).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 2: Encoding -->
+        <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl shadow-2xl p-6 mb-10 text-white">
+            <h2 class="text-3xl font-bold flex items-center">
+                <span class="text-4xl mr-3">🏷️</span> Part 2: Encoding Categorical Variables
+            </h2>
+            <p class="mt-2 opacity-90">Converting text categories into numbers that models can understand</p>
+        </div>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">7</span>
+                        Label Encoding (Ordinal)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Assigns a unique integer to each category. Use <strong>only</strong> when categories have a natural order (e.g., "Low" &lt; "Medium" &lt; "High").
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> LabelEncoder, OrdinalEncoder
+
+<span class="text-gray-400"># ── LabelEncoder (for target variable) ──────────</span>
+le = LabelEncoder()
+y_encoded = le.fit_transform(y)  <span class="text-gray-400"># ['cat','dog','bird'] → [1, 2, 0]</span>
+
+<span class="text-gray-400"># Decode back to original labels</span>
+y_original = le.inverse_transform(y_encoded)
+
+<span class="text-gray-400"># ── OrdinalEncoder (for features with natural order) ──</span>
+<span class="text-gray-400"># Define the order explicitly</span>
+ordinal_encoder = OrdinalEncoder(
+    categories=[[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]]
+)
+
+df[<span class="text-green-400">'priority_encoded'</span>] = ordinal_encoder.fit_transform(df[[<span class="text-green-400">'priority'</span>]])
+<span class="text-gray-400"># Low → 0, Medium → 1, High → 2</span></code></pre>
+                    </div>
+                    <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+                        <p class="text-sm text-orange-800"><strong>⚠️ Warning:</strong> Never use Label/Ordinal encoding for <em>nominal</em> categories like colors or countries — the model will wrongly assume "France" (2) is greater than "Canada" (1).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">8</span>
+                        One-Hot Encoding (Nominal)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Creates a new binary (0/1) column for each category. This is the safest encoding for categories with <strong>no natural order</strong>.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># ── Method 1: Scikit-Learn OneHotEncoder ─────────</span>
+encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, drop=<span class="text-green-400">'first'</span>)
+encoded = encoder.fit_transform(df[[<span class="text-green-400">'color'</span>]])
+
+<span class="text-gray-400"># Get readable column names</span>
+feature_names = encoder.get_feature_names_out([<span class="text-green-400">'color'</span>])
+encoded_df = pd.DataFrame(encoded, columns=feature_names)
+
+<span class="text-gray-400"># ── Method 2: Pandas get_dummies (quick & easy) ──</span>
+df_encoded = pd.get_dummies(df, columns=[<span class="text-green-400">'color'</span>, <span class="text-green-400">'brand'</span>], drop_first=<span class="text-yellow-400">True</span>)
+
+<span class="text-gray-400"># Example transformation:</span>
+<span class="text-gray-400"># color  →  color_Green  color_Red</span>
+<span class="text-gray-400"># Blue      0            0</span>
+<span class="text-gray-400"># Green     1            0</span>
+<span class="text-gray-400"># Red       0            1</span></code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                            <p class="text-sm text-amber-800"><strong>drop='first':</strong> Removes the first category column to avoid multicollinearity (the dummy variable trap). Blue is represented by Green=0, Red=0.</p>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                            <p class="text-sm text-yellow-800"><strong>⚠️ High Cardinality:</strong> If a column has 100+ unique values, one-hot encoding creates 100+ new columns. Consider target encoding instead.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">9</span>
+                        Target Encoding (High Cardinality)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Replaces each category with the mean of the target variable for that category. Great for features with many unique values (like zip codes or product IDs).
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-gray-400"># Manual Target Encoding</span>
+<span class="text-gray-400"># For each city, compute the average target (e.g., average price)</span>
+means = df.groupby(<span class="text-green-400">'city'</span>)[<span class="text-green-400">'price'</span>].mean()
+df[<span class="text-green-400">'city_encoded'</span>] = df[<span class="text-green-400">'city'</span>].map(means)
+
+<span class="text-gray-400"># Using sklearn (v1.3+)</span>
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> TargetEncoder
+
+target_enc = TargetEncoder(smooth=<span class="text-green-400">'auto'</span>)
+df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transform(
+    df[[<span class="text-green-400">'city'</span>]], df[<span class="text-green-400">'price'</span>]
+)
+
+<span class="text-gray-400"># Example transformation:</span>
+<span class="text-gray-400"># city   price  →  city_encoded</span>
+<span class="text-gray-400"># NYC    500       450.0  (avg price in NYC)</span>
+<span class="text-gray-400"># LA     400       380.0  (avg price in LA)</span>
+<span class="text-gray-400"># NYC    400       450.0</span></code></pre>
+                    </div>
+                    <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+                        <p class="text-sm text-rose-800"><strong>⚠️ Data Leakage Risk:</strong> Target encoding uses the target variable, so you MUST fit only on training data. Using it on the full dataset causes leakage. The <code class="bg-rose-100 text-rose-800 px-1 rounded">smooth</code> parameter helps reduce overfitting for rare categories.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">10</span>
+                        Choosing the Right Encoding
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="overflow-x-auto mb-4">
+                        <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Situation</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Encoding</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-3">Ordered categories (2-5 levels)</td>
+                                    <td class="px-6 py-3 font-medium text-orange-600">Ordinal Encoding</td>
+                                    <td class="px-6 py-3">Education: HS → BS → MS → PhD</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-3">Unordered categories (2-10 levels)</td>
+                                    <td class="px-6 py-3 font-medium text-amber-600">One-Hot Encoding</td>
+                                    <td class="px-6 py-3">Color: Red, Blue, Green</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3">Binary category (2 levels)</td>
+                                    <td class="px-6 py-3 font-medium text-green-600">Label Encoding</td>
+                                    <td class="px-6 py-3">Gender: Male/Female → 0/1</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-3">High cardinality (10+ levels)</td>
+                                    <td class="px-6 py-3 font-medium text-rose-600">Target Encoding</td>
+                                    <td class="px-6 py-3">Zip Code, Product ID</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3">Tree-based models</td>
+                                    <td class="px-6 py-3 font-medium text-purple-600">Ordinal / Label</td>
+                                    <td class="px-6 py-3">Trees can handle integer codes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete Pipeline -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">🔗</span>
+                        Complete Pipeline: Missing Values + Encoding
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        In practice, you handle missing values and encoding together in a single pipeline. Here's a production-ready example:
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder, OrdinalEncoder
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># ── Define column types ─────────────────────────</span>
+numeric_features = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'income'</span>, <span class="text-green-400">'credit_score'</span>]
+categorical_nominal = [<span class="text-green-400">'city'</span>, <span class="text-green-400">'department'</span>]
+categorical_ordinal = [<span class="text-green-400">'education'</span>]  <span class="text-gray-400"># has natural order</span>
+
+<span class="text-gray-400"># ── Numerical pipeline: impute → scale ──────────</span>
+numeric_pipeline = Pipeline([
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'median'</span>)),
+    (<span class="text-green-400">'scaler'</span>, StandardScaler())
+])
+
+<span class="text-gray-400"># ── Nominal pipeline: impute → one-hot ──────────</span>
+nominal_pipeline = Pipeline([
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
+    (<span class="text-green-400">'encoder'</span>, OneHotEncoder(drop=<span class="text-green-400">'first'</span>, sparse_output=<span class="text-yellow-400">False</span>,
+                             handle_unknown=<span class="text-green-400">'ignore'</span>))
+])
+
+<span class="text-gray-400"># ── Ordinal pipeline: impute → ordinal encode ───</span>
+ordinal_pipeline = Pipeline([
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
+    (<span class="text-green-400">'encoder'</span>, OrdinalEncoder(
+        categories=[[<span class="text-green-400">'High School'</span>, <span class="text-green-400">'Bachelor'</span>, <span class="text-green-400">'Master'</span>, <span class="text-green-400">'PhD'</span>]]
+    ))
+])
+
+<span class="text-gray-400"># ── Combine all transformers ────────────────────</span>
+preprocessor = ColumnTransformer([
+    (<span class="text-green-400">'num'</span>, numeric_pipeline, numeric_features),
+    (<span class="text-green-400">'nom'</span>, nominal_pipeline, categorical_nominal),
+    (<span class="text-green-400">'ord'</span>, ordinal_pipeline, categorical_ordinal)
+])
+
+<span class="text-gray-400"># ── Full pipeline: preprocess → model ───────────</span>
+model = Pipeline([
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># ── Train and evaluate ──────────────────────────</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+model.fit(X_train, y_train)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {model.score(X_test, y_test):.3f}"</span>)</code></pre>
+                    </div>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+                        <p class="text-sm text-cyan-800"><strong>✨ Why Pipelines?</strong> They guarantee the same preprocessing steps run in the same order during training and prediction. No chance of forgetting a step or applying them in the wrong order!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Card -->
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl shadow-2xl p-8 text-white">
+            <h3 class="text-2xl font-bold mb-4">📋 Quick Reference Cheat Sheet</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-black bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">Missing Values Checklist</p>
+                    <ul class="text-sm opacity-90 space-y-1">
+                        <li>✅ Always check <code class="text-emerald-200">df.isnull().sum()</code> first</li>
+                        <li>✅ Use median for skewed numerical data</li>
+                        <li>✅ Use mode for categorical data</li>
+                        <li>✅ Try KNN imputer for correlated features</li>
+                        <li>✅ Add missing indicators when missingness matters</li>
+                    </ul>
+                </div>
+                <div class="bg-black bg-opacity-20 rounded-lg p-4 backdrop-blur-sm">
+                    <p class="font-semibold mb-2">Encoding Checklist</p>
+                    <ul class="text-sm opacity-90 space-y-1">
+                        <li>✅ One-hot for nominal (unordered) categories</li>
+                        <li>✅ Ordinal/Label for ordered categories</li>
+                        <li>✅ Target encoding for high cardinality</li>
+                        <li>✅ Always use <code class="text-emerald-200">drop='first'</code> with one-hot</li>
+                        <li>✅ Wrap everything in a Pipeline!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-600">
+            <p class="text-sm">Remember: <span class="font-semibold text-emerald-600">Clean data → Good features → Better models.</span> Preprocessing is where data science truly begins!</p>
+        </div>
+    </div>
+</div>
