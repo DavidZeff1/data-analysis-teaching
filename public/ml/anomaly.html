@@ -1,0 +1,490 @@
+<div class="space-y-8">
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Anomaly Detection with Isolation Forest</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            Isolation Forest is an unsupervised algorithm that detects anomalies by isolating observations. The core idea: <strong>anomalies are few and different</strong>, so they're easier to isolate. The algorithm randomly selects a feature and a split value — anomalies require fewer splits to be isolated, resulting in shorter path lengths in the tree.
+        </p>
+
+        <div class="bg-blue-50 p-6 rounded-lg mb-6 border-l-4 border-blue-500">
+            <h3 class="font-semibold text-lg mb-3 text-blue-900">How Isolation Forest Works:</h3>
+            <ol class="list-decimal ml-6 space-y-2">
+                <li><strong>Random Partitioning:</strong> Randomly select a feature and a random split value between the min and max of that feature</li>
+                <li><strong>Recursive Splitting:</strong> Continue splitting until each point is isolated (alone in its partition)</li>
+                <li><strong>Path Length:</strong> Count how many splits it took to isolate each point</li>
+                <li><strong>Anomaly Score:</strong> Points with shorter average path lengths across all trees are more anomalous</li>
+            </ol>
+            <div class="bg-white p-4 rounded mt-4">
+                <p class="text-sm font-mono mb-2">Anomaly Score: $s(x, n) = 2^{-\frac{E(h(x))}{c(n)}}$</p>
+                <p class="text-sm text-gray-600 mt-2">where $E(h(x))$ is the average path length and $c(n)$ is the average path length of unsuccessful search in a Binary Search Tree</p>
+                <ul class="list-disc ml-5 mt-2 text-sm text-gray-600">
+                    <li>Score close to <strong>1</strong> → Anomaly</li>
+                    <li>Score close to <strong>0.5</strong> → Normal</li>
+                    <li>Score close to <strong>0</strong> → Very normal (dense region)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-400 mb-6">
+            <h3 class="font-semibold text-yellow-900 mb-2">💡 Key Intuition:</h3>
+            <p class="text-sm text-gray-700">
+                Think of it like a game of 20 questions. If you can identify something in just 2-3 questions, it's unusual and stands out. If it takes 15+ questions, it's typical and blends in with everything else. Isolation Forest uses exactly this principle — anomalies are <strong>easy to isolate</strong>, normal points are <strong>hard to isolate</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">The Three Use Cases</h2>
+        <p class="mb-6 text-lg text-gray-700">
+            Isolation Forest can be used in three fundamentally different ways. Understanding <strong>which use case you're in</strong> determines how you configure the model — what data you fit on, how you set contamination, and what you do with the output.
+        </p>
+
+        <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-lg border border-red-200 mb-6">
+            <h3 class="text-xl font-bold mb-2 text-gray-900">🚨 The Key Difference:</h3>
+            <p class="text-gray-700">
+                In <strong>Use Case 1</strong>, the anomaly output <em>IS</em> the end product — you're delivering those labels/scores.
+                In <strong>Use Case 2</strong>, it's just a means to clean your data — the Isolation Forest gets thrown away afterward.
+                In <strong>Use Case 3</strong>, the anomaly score becomes a feature for another model.
+            </p>
+        </div>
+    </section>
+
+    <!-- USE CASE 1 -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">
+            <span class="text-red-600">Use Case 1:</span> Anomaly Detection IS the Goal
+        </h2>
+        <p class="mb-4 text-lg text-gray-700">
+            You want to <strong>find and flag the weird stuff</strong>. The anomaly labels or scores ARE your deliverable.
+        </p>
+
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200 mb-6">
+            <h3 class="font-semibold text-red-900 mb-3">Real-World Examples:</h3>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">💳 Fraud Detection</h4>
+                    <p class="text-sm text-gray-600">Flag unusual credit card transactions that deviate from normal spending patterns</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">🔒 Network Intrusion</h4>
+                    <p class="text-sm text-gray-600">Detect unusual network traffic that could indicate a cyber attack</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">🏭 Defective Products</h4>
+                    <p class="text-sm text-gray-600">Identify manufactured items that fall outside quality specifications</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 mb-6">
+            <h3 class="font-semibold text-green-900 mb-3">Practical Implications:</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li><strong>Fit on as much data as possible</strong> — use the whole DataFrame minus identifiers (IDs, names, etc.)</li>
+                <li><strong>You care about the output</strong> — the anomaly labels/scores ARE your deliverable</li>
+                <li><strong>You might include the target</strong> if it's relevant (e.g., flagging unusual transaction <em>amounts</em>)</li>
+                <li><strong>Tune contamination carefully</strong> — it directly controls how many things get flagged</li>
+            </ul>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code>from sklearn.ensemble import IsolationForest
+import pandas as pd
+import numpy as np
+
+# Load your data
+df = pd.read_csv('transactions.csv')
+
+# Drop identifiers — keep all meaningful features
+# Including the target (amount) because unusual amounts ARE what we want to detect
+features = df.drop(columns=['transaction_id', 'customer_name', 'date'])
+
+# Initialize — contamination is CRITICAL here
+# This directly controls what % of data gets flagged
+iso = IsolationForest(
+    n_estimators=200,        # More trees = more stable results
+    contamination=0.05,      # Expect ~5% of transactions to be anomalous
+    max_samples='auto',      # Use min(256, n_samples) by default
+    random_state=42
+)
+
+# Fit and predict
+# Labels: 1 = normal, -1 = anomaly
+df['anomaly_label'] = iso.fit_predict(features)
+
+# Get anomaly scores (lower = more anomalous)
+df['anomaly_score'] = iso.decision_function(features)
+
+# Your deliverable: the flagged transactions
+anomalies = df[df['anomaly_label'] == -1]
+print(f"Flagged {len(anomalies)} anomalous transactions out of {len(df)}")
+print(f"\nTop 10 most anomalous:")
+print(anomalies.nsmallest(10, 'anomaly_score')[['transaction_id', 'anomaly_score']])</code></pre>
+
+        <div class="bg-orange-50 p-5 rounded-lg border-l-4 border-orange-400 mb-4">
+            <h3 class="font-semibold text-orange-900 mb-2">⚠️ Contamination Tuning Tips:</h3>
+            <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                <li><strong>Domain knowledge first:</strong> If you know ~2% of transactions are fraudulent, start with <code>contamination=0.02</code></li>
+                <li><strong>Too high</strong> → too many false positives (alert fatigue)</li>
+                <li><strong>Too low</strong> → you'll miss real anomalies</li>
+                <li><strong>Iterate:</strong> Start conservative, then adjust based on manual review of flagged items</li>
+                <li>Use <code>contamination='auto'</code> as a starting point — it uses the original paper's threshold</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- USE CASE 2 -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">
+            <span class="text-blue-600">Use Case 2:</span> Cleanup Before Supervised Learning
+        </h2>
+        <p class="mb-4 text-lg text-gray-700">
+            You want to <strong>remove dirty or corrupted data</strong> before training a supervised model. The Isolation Forest is just a preprocessing step — it gets thrown away afterward.
+        </p>
+
+        <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 mb-6">
+            <h3 class="font-semibold text-blue-900 mb-3">Key Principles:</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li><strong>Exclude the target column when fitting</strong> — you don't want the cleanup driven by the target variable</li>
+                <li><strong>After removing anomalies, the Isolation Forest is thrown away</strong> — it was just a preprocessing step</li>
+                <li><strong>Be conservative with contamination (keep it low, like 0.01)</strong> — you'd rather keep a slightly weird point than delete valid training data</li>
+                <li><strong>Only clean the training set</strong> — don't remove "anomalies" from your test set</li>
+            </ul>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-900 mb-3 flex items-center">
+                    <span class="text-2xl mr-2">✓</span> DO
+                </h3>
+                <ul class="list-disc ml-5 space-y-2 text-sm">
+                    <li>Exclude the target from Isolation Forest fitting</li>
+                    <li>Keep contamination low (0.005 – 0.02)</li>
+                    <li>Only clean training data, not test data</li>
+                    <li>Check what was removed — make sure it's actually bad data</li>
+                    <li>Compare model performance before and after cleanup</li>
+                </ul>
+            </div>
+            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                <h3 class="font-semibold text-red-900 mb-3 flex items-center">
+                    <span class="text-2xl mr-2">✗</span> DON'T
+                </h3>
+                <ul class="list-disc ml-5 space-y-2 text-sm">
+                    <li>Include the target when fitting — this biases your cleanup</li>
+                    <li>Set contamination too high — you'll lose valid training data</li>
+                    <li>Remove anomalies from the test set — that distorts your evaluation</li>
+                    <li>Skip inspecting removed rows — you might be deleting important edge cases</li>
+                    <li>Assume cleanup always helps — always validate with a before/after comparison</li>
+                </ul>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code>from sklearn.ensemble import IsolationForest
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+import pandas as pd
+
+# Load and split data FIRST
+df = pd.read_csv('dataset.csv')
+X = df.drop(columns=['target', 'id'])
+y = df['target']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 1: Fit Isolation Forest on training features ONLY (no target!)
+iso = IsolationForest(
+    contamination=0.01,      # Very conservative — only remove the worst 1%
+    n_estimators=100,
+    random_state=42
+)
+
+# Fit on X_train only — NOT the target column
+outlier_labels = iso.fit_predict(X_train)
+
+# Step 2: Remove anomalies from training data only
+mask = outlier_labels == 1  # Keep only normal points
+X_train_clean = X_train[mask]
+y_train_clean = y_train[mask]
+
+print(f"Removed {(~mask).sum()} rows out of {len(X_train)} ({(~mask).mean()*100:.1f}%)")
+print(f"Training set: {len(X_train)} → {len(X_train_clean)}")
+
+# Step 3: Inspect what was removed (sanity check!)
+removed = X_train[~mask]
+print(f"\nRemoved rows summary:")
+print(removed.describe())
+
+# Step 4: Train your actual model on cleaned data
+# The Isolation Forest is now THROWN AWAY — its job is done
+clf = RandomForestClassifier(n_estimators=200, random_state=42)
+clf.fit(X_train_clean, y_train_clean)
+
+# Evaluate on the UNMODIFIED test set
+predictions = clf.predict(X_test)
+print("\nClassification Report (after cleanup):")
+print(classification_report(y_test, predictions))</code></pre>
+
+        <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-500 mb-4">
+            <h3 class="font-semibold text-purple-900 mb-2">💡 Before vs After Comparison:</h3>
+            <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code># Always compare to validate that cleanup actually helped!
+
+# Model WITHOUT cleanup
+clf_baseline = RandomForestClassifier(n_estimators=200, random_state=42)
+clf_baseline.fit(X_train, y_train)
+baseline_score = clf_baseline.score(X_test, y_test)
+
+# Model WITH cleanup
+clf_clean = RandomForestClassifier(n_estimators=200, random_state=42)
+clf_clean.fit(X_train_clean, y_train_clean)
+clean_score = clf_clean.score(X_test, y_test)
+
+print(f"Baseline accuracy: {baseline_score:.4f}")
+print(f"After cleanup:     {clean_score:.4f}")
+print(f"Improvement:       {clean_score - baseline_score:+.4f}")</code></pre>
+        </div>
+    </section>
+
+    <!-- USE CASE 3 -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">
+            <span class="text-purple-600">Use Case 3:</span> Feature Engineering
+        </h2>
+        <p class="mb-4 text-lg text-gray-700">
+            You add the anomaly score as a <strong>new feature</strong> in your main model, giving it a sense of "how unusual is this row." The score becomes just another column your model can learn from.
+        </p>
+
+        <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500 mb-6">
+            <h3 class="font-semibold text-purple-900 mb-3">Key Principles:</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li><strong>Be careful about data leakage</strong> — fit on train only, then transform train and test separately</li>
+                <li><strong>The score becomes just another column</strong> your model can learn from</li>
+                <li><strong>Don't remove data</strong> — you're enriching it, not filtering it</li>
+                <li>Works especially well when "unusualness" is a predictive signal</li>
+            </ul>
+        </div>
+
+        <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-red-900 mb-2">⚠️ Leakage Warning:</h3>
+            <p class="text-sm text-gray-700">
+                If you fit the Isolation Forest on <strong>all data</strong> (train + test), the anomaly scores for the test set will be influenced by the test data itself. This is <strong>data leakage</strong> — your model gets an unfair peek at test data during training. Always <strong>fit on train, transform both train and test</strong>.
+            </p>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code>from sklearn.ensemble import IsolationForest, RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+import pandas as pd
+
+# Load and split data
+df = pd.read_csv('dataset.csv')
+X = df.drop(columns=['target', 'id'])
+y = df['target']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 1: Fit Isolation Forest on TRAINING data only
+iso = IsolationForest(
+    n_estimators=100,
+    contamination='auto',
+    random_state=42
+)
+iso.fit(X_train)  # Fit on train ONLY
+
+# Step 2: Generate anomaly scores for BOTH train and test
+# decision_function returns the anomaly score (lower = more anomalous)
+X_train_enriched = X_train.copy()
+X_test_enriched = X_test.copy()
+
+X_train_enriched['anomaly_score'] = iso.decision_function(X_train)
+X_test_enriched['anomaly_score'] = iso.decision_function(X_test)
+
+# Step 3: Train your main model with the enriched features
+clf = RandomForestClassifier(n_estimators=200, random_state=42)
+clf.fit(X_train_enriched, y_train)
+
+# Evaluate
+predictions = clf.predict(X_test_enriched)
+print("Classification Report (with anomaly score feature):")
+print(classification_report(y_test, predictions))
+
+# Check if the anomaly score feature is actually useful
+importances = pd.Series(
+    clf.feature_importances_,
+    index=X_train_enriched.columns
+).sort_values(ascending=False)
+
+print("\nFeature Importances:")
+print(importances.head(10))</code></pre>
+
+        <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-500 mb-4">
+            <h3 class="font-semibold text-green-900 mb-2">💡 When Does This Help?</h3>
+            <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                <li><strong>Credit scoring:</strong> "How unusual is this applicant?" can predict default risk</li>
+                <li><strong>Healthcare:</strong> "How unusual are these lab results?" can help predict diagnosis</li>
+                <li><strong>E-commerce:</strong> "How unusual is this user behavior?" can predict churn</li>
+                <li>Always check the <strong>feature importance</strong> — if the anomaly score ranks low, it's not adding value</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Quick Reference: Comparing All Three Use Cases</h2>
+
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Aspect</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-red-700 uppercase tracking-wider">1. Detection (Goal)</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-blue-700 uppercase tracking-wider">2. Cleanup (Preprocessing)</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-purple-700 uppercase tracking-wider">3. Feature Engineering</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Goal</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Find and flag anomalies</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Remove dirty data before training</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Add "unusualness" as a feature</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">What to fit on</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">All features (including target if relevant)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Features only — exclude target</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Training features only</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Include target?</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">✅ If relevant to detection</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">❌ Never</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">❌ Never</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Contamination</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Based on domain knowledge (0.01–0.1)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Very conservative (0.005–0.02)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">'auto' or domain-based</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Output is used as</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">🎯 The final deliverable</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">🗑️ Thrown away after cleaning</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">📊 A new column in your dataset</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Leakage concern?</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Low</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Medium — don't clean test set</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">High — fit on train only!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- HYPERPARAMETERS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Isolation Forest Hyperparameters</h2>
+
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Parameter</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Description</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Default</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Guidance</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">n_estimators</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Number of isolation trees</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">100</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">100–300 is usually enough; more = more stable but slower</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">contamination</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Expected proportion of anomalies</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">'auto'</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Most critical parameter — set based on your use case and domain knowledge</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">max_samples</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Samples drawn to train each tree</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">'auto' (256)</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">256 works well per the original paper; increase for very large datasets</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">max_features</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Features drawn to train each tree</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">1.0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Reduce to increase randomness in high-dimensional data</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">random_state</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Seed for reproducibility</td>
+                        <td class="px-6 py-4 text-sm text-blue-600 font-mono">None</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Always set this for reproducible results (e.g., 42)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- DECISION FLOWCHART -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-lg">
+            <h2 class="text-2xl font-bold mb-3">🎯 Decision Flowchart: Which Use Case Am I In?</h2>
+            <div class="space-y-4 text-sm">
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-2">❓ Ask yourself: "What do I want to DO with the anomalies?"</p>
+                    <div class="ml-4 space-y-3">
+                        <div>
+                            <p class="font-semibold text-red-200">→ "Report them / flag them / investigate them"</p>
+                            <p class="ml-4">👉 <strong>Use Case 1</strong> — Anomaly Detection is the Goal</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-blue-200">→ "Remove them so my main model trains better"</p>
+                            <p class="ml-4">👉 <strong>Use Case 2</strong> — Cleanup Before Supervised Learning</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-purple-200">→ "Use how weird each row is as an input to my model"</p>
+                            <p class="ml-4">👉 <strong>Use Case 3</strong> — Feature Engineering</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMON PITFALLS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Common Pitfalls & Solutions</h2>
+
+        <div class="space-y-4">
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Including identifiers in the features</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> IDs, names, or dates can look "anomalous" simply because they're unique — every ID is unique by definition!</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Always drop identifier columns before fitting. Only include columns with actual analytical meaning.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Not inspecting the removed rows</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Blindly removing "anomalies" without checking what they are. You might be deleting important edge cases or minority class examples.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Always inspect removed rows. Check their distribution, look at specific examples, and compare model performance before and after removal.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Using the same contamination for every use case</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Contamination of 0.1 might be fine for fraud detection but way too aggressive for data cleanup.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Use Case 1: tune based on domain knowledge. Use Case 2: keep it very low (0.01). Use Case 3: 'auto' is often fine.</p>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h3 class="font-semibold text-red-900 mb-2">❌ Pitfall: Forgetting to handle data leakage in Use Case 3</h3>
+                <p class="text-sm text-gray-700 mb-2"><strong>Issue:</strong> Fitting Isolation Forest on all data (train + test) means test set anomaly scores are influenced by test data.</p>
+                <p class="text-sm text-green-700"><strong>Solution:</strong> Always fit on training data only, then use <code>decision_function()</code> on both train and test separately.</p>
+            </div>
+        </div>
+    </section>
+</div>
