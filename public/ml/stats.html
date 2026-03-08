@@ -1,0 +1,198 @@
+<div class="prose max-w-none p-8 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Statistical Tests in Machine Learning</h1>
+            <p class="text-xl text-gray-600">Selecting the right statistical test for feature selection, evaluation, and hypothesis testing</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-blue-500">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Statistical tests are essential in Machine Learning for <strong>Feature Selection</strong>, comparing group differences, and understanding relationships between variables before training models. Below is a comprehensive guide based on your data types and objectives.
+            </p>
+        </div>
+
+        <!-- 1. Comparing Groups -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">1</span>
+                        Comparing Groups (Hypothesis Testing)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-6 text-lg">
+                        These tests help you determine if changes or differences across categories are statistically significant, or if they are likely just due to random chance.
+                    </p>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Test</th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">What it Checks</th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">When to Use (Data Types)</th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-purple-700 uppercase">Non-Parametric Alternative</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-gray-700 text-sm">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold text-blue-800 whitespace-nowrap">t-test</td>
+                                    <td class="px-6 py-4">Checks if there is a significant difference between the means of two groups. Evaluates if the average difference is large enough relative to the internal variance (standard deviation) to claim it is not due to luck.</td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><strong>Dependent:</strong> Continuous<br><strong>Explanatory:</strong> Dichotomous (2 groups)</td>
+                                    <td class="px-6 py-4 font-medium text-purple-600">Mann-Whitney U test</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold text-blue-800 whitespace-nowrap">ANOVA</td>
+                                    <td class="px-6 py-4">Compares means of more than two groups simultaneously. Checks the variance within the groups versus the variance between the groups.</td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><strong>Dependent:</strong> Continuous<br><strong>Explanatory:</strong> Categorical (≥3 levels)</td>
+                                    <td class="px-6 py-4 font-medium text-purple-600">Kruskal-Wallis test</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold text-blue-800 whitespace-nowrap">Chi-Square (χ²)</td>
+                                    <td class="px-6 py-4">Checks the fit or independence between categories. Answers: "Is there a dependency between these two categorical variables?"</td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><strong>Feature 1:</strong> Categorical (Nominal/Ordinal)<br><strong>Feature 2:</strong> Categorical</td>
+                                    <td class="px-6 py-4 font-medium text-purple-600">Fisher's exact test</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Correlation -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">2</span>
+                        Measuring Correlation
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-6 text-lg">
+                        Correlation helps us identify how features interact together linearly or non-linearly. In ML, highly correlated independent features represent multicollinearity and one can typically be removed.
+                    </p>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Feature / Aspect</th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-blue-700 uppercase">Pearson (r)</th>
+                                    <th class="px-6 py-4 text-left text-sm font-bold text-purple-700 uppercase">Spearman (ρ)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 text-gray-700 text-sm">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">What is measured?</td>
+                                    <td class="px-6 py-4"><strong>Linear relationship</strong> between two continuous variables.</td>
+                                    <td class="px-6 py-4"><strong>Monotonic relationship</strong> (strictly increasing/decreasing) between variables.</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">Suitable Data Types</td>
+                                    <td class="px-6 py-4">Continuous, approximately normally distributed.</td>
+                                    <td class="px-6 py-4">Continuous or ordinal variables.</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">Value Range</td>
+                                    <td class="px-6 py-4 font-mono">-1 ≤ r ≤ 1</td>
+                                    <td class="px-6 py-4 font-mono">-1 ≤ ρ ≤ 1</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">Interpretation</td>
+                                    <td class="px-6 py-4">
+                                        <ul class="list-none space-y-2">
+                                            <li><span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-mono text-xs"> r = 1</span> Perfect linear positive</li>
+                                            <li><span class="bg-gray-100 text-gray-800 px-2 py-0.5 rounded font-mono text-xs"> r = 0</span> No linear relationship</li>
+                                            <li><span class="bg-red-100 text-red-800 px-2 py-0.5 rounded font-mono text-xs"> r = -1</span> Perfect linear negative</li>
+                                        </ul>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <ul class="list-none space-y-2">
+                                            <li><span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-mono text-xs"> ρ = 1</span> Perfect monotonic positive</li>
+                                            <li><span class="bg-gray-100 text-gray-800 px-2 py-0.5 rounded font-mono text-xs"> ρ = 0</span> No monotonic relationship</li>
+                                            <li><span class="bg-red-100 text-red-800 px-2 py-0.5 rounded font-mono text-xs"> ρ = -1</span> Perfect monotonic negative</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">Sensitivity to Outliers</td>
+                                    <td class="px-6 py-4 text-red-600 font-medium">High (Very affected by outliers)</td>
+                                    <td class="px-6 py-4 text-green-600 font-medium">Lower (Robust and stable against outliers)</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="px-6 py-4 font-semibold">Common Use Cases</td>
+                                    <td class="px-6 py-4">Scores, physical measurements, heights, weights.</td>
+                                    <td class="px-6 py-4">Rankings, surveys, non-normal distributions.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Python Examples -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                        Python Implementation Guide
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> scipy <span class="text-purple-400">import</span> stats
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 1. T-Test Example (Continuous Target vs Binary Feature)</span>
+<span class="text-gray-400"># Evaluating if there's a significant salary difference between Genders</span>
+male_salaries = df[df[<span class="text-green-400">'Gender'</span>] == <span class="text-green-400">'M'</span>][<span class="text-green-400">'Salary'</span>]
+female_salaries = df[df[<span class="text-green-400">'Gender'</span>] == <span class="text-green-400">'F'</span>][<span class="text-green-400">'Salary'</span>]
+
+t_stat, p_value = stats.ttest_ind(male_salaries, female_salaries)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"T-Test p-value: {p_value:.4f}"</span>) 
+<span class="text-gray-400"># P-value < 0.05 implies difference is statistically significant.</span>
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 2. ANOVA Example (Continuous Target vs Categorical >=3 Levels)</span>
+<span class="text-gray-400"># Checking if Region affects Sales significantly</span>
+ny_sales = df[df[<span class="text-green-400">'Region'</span>] == <span class="text-green-400">'NY'</span>][<span class="text-green-400">'Sales'</span>]
+tx_sales = df[df[<span class="text-green-400">'Region'</span>] == <span class="text-green-400">'TX'</span>][<span class="text-green-400">'Sales'</span>]
+ca_sales = df[df[<span class="text-green-400">'Region'</span>] == <span class="text-green-400">'CA'</span>][<span class="text-green-400">'Sales'</span>]
+
+f_stat, p_value = stats.f_oneway(ny_sales, tx_sales, ca_sales)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"ANOVA p-value: {p_value:.4f}"</span>)
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 3. Chi-Square Example (Categorical vs Categorical)</span>
+<span class="text-gray-400"># Checking if Product Preference depends on Gender</span>
+contingency_table = pd.crosstab(df[<span class="text-green-400">'Gender'</span>], df[<span class="text-green-400">'Preference'</span>])
+chi2_stat, p_val, dof, ex = stats.chi2_contingency(contingency_table)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Chi-Square p-value: {p_val:.4f}"</span>)
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 4. Pearson vs Spearman Correlation</span>
+<span class="text-gray-400"># Pearson (Linear, sensitive to outliers)</span>
+pearson_corr, _ = stats.pearsonr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
+
+<span class="text-gray-400"># Spearman (Monotonic, robust to outliers)</span>
+spearman_corr, _ = stats.spearmanr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
+
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Pearson: {pearson_corr:.3f} | Spearman: {spearman_corr:.3f}"</span>)
+
+<span class="text-gray-400"># In Pandas, apply across entire DataFrame iteratively:</span>
+df.corr(method=<span class="text-green-400">'pearson'</span>)
+df.corr(method=<span class="text-green-400">'spearman'</span>)</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
