@@ -1,0 +1,153 @@
+<div class="space-y-8">
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Evaluating Classification Models</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            When predicting categories (e.g., fraud vs. not fraud, spam vs. not spam), simply looking at overall accuracy is often misleading. We need more nuanced metrics to understand how our model makes errors, especially when classes are imbalanced or when false positives and false negatives have different real-world costs.
+        </p>
+    </section>
+
+    <!-- CONFUSION MATRIX & METRICS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Confusion Matrix, Precision, and Recall</h2>
+        <div class="bg-blue-50 p-6 rounded-lg mb-6 border-l-4 border-blue-500">
+            <h3 class="font-semibold text-lg mb-3 text-blue-900">The Confusion Matrix:</h3>
+            <p class="text-sm text-gray-700 mb-4">A table showing actual vs. predicted values. This represents the foundation of all classification metrics.</p>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700 text-sm">
+                <li><strong>True Positives (TP):</strong> Model predicted positive, and it actually is positive.</li>
+                <li><strong>True Negatives (TN):</strong> Model predicted negative, and it actually is negative.</li>
+                <li><strong>False Positives (FP):</strong> Model predicted positive, but it's actually negative (Type I Error).</li>
+                <li><strong>False Negatives (FN):</strong> Model predicted negative, but it's actually positive (Type II Error).</li>
+            </ul>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                <h4 class="font-bold text-gray-900 mb-2">Precision</h4>
+                <p class="text-sm text-gray-600 mb-2"><em>"Out of all the instances I flagged as positive, how many were actually positive?"</em></p>
+                <p class="text-xs font-mono bg-gray-100 p-2 rounded mb-2">$$Precision = \frac{TP}{TP + FP}$$</p>
+                <p class="text-sm text-gray-600">Focus on minimizing False Positives (e.g., Spam filter - don't put regular emails into the spam folder).</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                <h4 class="font-bold text-gray-900 mb-2">Recall (aka Sensitivity)</h4>
+                <p class="text-sm text-gray-600 mb-2"><em>"Out of all the actual positive instances, how many did I successfully flag?"</em></p>
+                <p class="text-xs font-mono bg-gray-100 p-2 rounded mb-2">$$Recall = \frac{TP}{TP + FN}$$</p>
+                <p class="text-sm text-gray-600">Focus on minimizing False Negatives (e.g., Cancer screening - make sure you don't miss a sick patient).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUTOFF -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Cutoff (Decision Threshold)</h2>
+        <p class="mb-6 text-gray-700">
+            Most classifiers output a probability (e.g., 80% chance of fraud) rather than a hard label. By default, the cutoff is usually 0.5 (50%). However, you can change this cutoff to prioritize Precision over Recall or vice versa.
+        </p>
+        <div class="bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-400 mb-6">
+            <h3 class="font-semibold text-yellow-900 mb-2">💡 Adjusting the Cutoff:</h3>
+            <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                <li><strong>Higher cutoff (e.g., 0.8):</strong> Model is more conservative. It only predicts positive if it's very sure. Results in higher Precision, lower Recall.</li>
+                <li><strong>Lower cutoff (e.g., 0.2):</strong> Model flags easily. Results in higher Recall, lower Precision.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ROC AND AUC -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">ROC Curve and Area Under the Curve (AUC)</h2>
+        <div class="bg-green-50 p-6 rounded-lg mb-6 border-l-4 border-green-500">
+            <h3 class="font-semibold text-lg mb-3 text-green-900">Visualizing Trade-offs</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700 text-sm">
+                <li><strong>ROC (Receiver Operating Characteristic) Curve:</strong> A plot showing the True Positive Rate (Recall) vs False Positive Rate at different classification cutoffs.</li>
+                <li><strong>AUC (Area Under the Curve):</strong> A single metric summarizing the entire ROC curve. It tells you the probability that a randomly chosen positive example is ranked more highly than a randomly chosen negative example.</li>
+            </ul>
+            <div class="mt-4 bg-white p-3 rounded">
+                <p class="text-sm"><strong>AUC = 1.0:</strong> Perfect model.</p>
+                <p class="text-sm"><strong>AUC = 0.5:</strong> Meaningless model (equivalent to random guessing).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPECTED VALUE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Expected Value (EV)</h2>
+        <p class="mb-4 text-gray-700">
+            Machine Learning logic doesn't exist in a vacuum; business value is what matters. Expected Value assigns financial costs and benefits to your confusion matrix to determine the actual business impact of your model.
+        </p>
+        <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500 mb-6">
+             <h3 class="font-semibold text-purple-900 mb-3">The EV Formula:</h3>
+            <p class="text-sm font-mono bg-white p-3 rounded mb-2">$$EV = P(TP) \times Cost(TP) + P(FP) \times Cost(FP) + P(TN) \times Cost(TN) + P(FN) \times Cost(FN)$$</p>
+            <p class="text-sm text-gray-700">By calculating the Expected Value at different cutoffs, you can find the optimal threshold that maximizes profit (or minimizes loss) rather than just maximizing abstract machine learning metrics.</p>
+        </div>
+    </section>
+
+    <!-- JUPYTER NOTEBOOK EXAMPLE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Jupyter Notebook Examples</h2>
+        <p class="mb-4 text-gray-700">Below is an example showing how to calculate and visualize these metrics using Python and Scikit-Learn.</p>
+        
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-gray-400"># Import necessary libraries</span>
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> (confusion_matrix, classification_report, 
+                             roc_curve, roc_auc_score, precision_score, recall_score)
+
+<span class="text-gray-400"># 1. Train a model and get predictions/probabilities</span>
+<span class="text-gray-400"># Assuming X_train, X_test, y_train, y_test already exist</span>
+clf = RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>)
+clf.fit(X_train, y_train)
+
+<span class="text-gray-400"># Predictions using the default 0.5 probability cutoff</span>
+y_pred = clf.predict(X_test)
+
+<span class="text-gray-400"># Probabilities (needed for custom cutoffs, ROC, and AUC)</span>
+y_prob = clf.predict_proba(X_test)[:, <span class="text-yellow-400">1</span>] <span class="text-gray-400"># Probability of the positive class</span>
+
+<span class="text-gray-400"># 2. Confusion Matrix & Basic Metrics</span>
+print(<span class="text-green-400">"Confusion Matrix:\n"</span>, confusion_matrix(y_test, y_pred))
+print(<span class="text-green-400">"\nClassification Report:\n"</span>, classification_report(y_test, y_pred))
+
+<span class="text-gray-400"># 3. Changing the Cutoff</span>
+custom_cutoff = <span class="text-yellow-400">0.3</span>  <span class="text-gray-400"># More eager to flag positives, increasing recall</span>
+y_pred_custom = (y_prob >= custom_cutoff).astype(int)
+
+print(f<span class="text-green-400">"Recall at 0.5 cutoff: {recall_score(y_test, y_pred):.3f}"</span>)
+print(f<span class="text-green-400">"Recall at {custom_cutoff} cutoff: {recall_score(y_test, y_pred_custom):.3f}"</span>)
+
+<span class="text-gray-400"># 4. Plotting the Confusion Matrix nicely</span>
+cm = confusion_matrix(y_test, y_pred_custom)
+sns.heatmap(cm, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-green-400">"d"</span>, cmap=<span class="text-green-400">"Blues"</span>)
+plt.title(f<span class="text-green-400">"Confusion Matrix (Cutoff={custom_cutoff})"</span>)
+plt.xlabel(<span class="text-green-400">"Predicted Label"</span>)
+plt.ylabel(<span class="text-green-400">"True Label"</span>)
+plt.show()
+
+<span class="text-gray-400"># 5. ROC Curve and AUC</span>
+auc = roc_auc_score(y_test, y_prob)
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">6</span>))
+plt.plot(fpr, tpr, label=f<span class="text-green-400">"ROC Curve (AUC = {auc:.3f})"</span>)
+plt.plot([<span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>], [<span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>], <span class="text-green-400">'k--'</span>, label=<span class="text-green-400">"Random Guessing (AUC = 0.5)"</span>)
+plt.xlabel(<span class="text-green-400">"False Positive Rate"</span>)
+plt.ylabel(<span class="text-green-400">"True Positive Rate (Recall)"</span>)
+plt.title(<span class="text-green-400">"Receiver Operating Characteristic (ROC)"</span>)
+plt.legend()
+plt.show()
+
+<span class="text-gray-400"># 6. Expected Value Calculation Example</span>
+<span class="text-gray-400"># Suppose detecting fraud correctly saves $100 but investigating a false alarm costs $10</span>
+profit_matrix = np.array([
+    [<span class="text-yellow-400">0</span>, -<span class="text-yellow-400">10</span>],  <span class="text-gray-400"># True Negatives (TN) = $0 profit, False Positives (FP) = loss of $10</span>
+    [<span class="text-yellow-400">0</span>,  <span class="text-yellow-400">100</span>]  <span class="text-gray-400"># False Negatives (FN) = $0 profit, True Positives (TP) = save $100</span>
+])
+
+<span class="text-gray-400"># Calculate Expected Value (EV) for the 0.3 cutoff</span>
+total_profit = np.sum(cm * profit_matrix)
+print(f<span class="text-green-400">"Total Expected Profit at 0.3 cutoff: ${total_profit}"</span>)
+</code></pre>
+    </section>
+</div>
