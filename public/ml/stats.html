@@ -12,6 +12,38 @@
             </p>
         </div>
 
+        <!-- Motivation Section -->
+        <section class="mb-10">
+            <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-xl shadow-lg p-8 text-white">
+                <h2 class="text-3xl font-bold mb-4 flex items-center">
+                    <span class="text-4xl mr-3">💡</span>
+                    Why Do We Need Statistical Tests in ML?
+                </h2>
+                <div class="space-y-4 text-emerald-50 text-lg">
+                    <p>Machine Learning models are powerful, but they can easily learn noise or false patterns if we feed them garbage data. Statistical tests provide the <strong>mathematical proof</strong> we need to make rigorous decisions <em>before</em> we train any models.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-black bg-opacity-20 p-5 rounded-lg border border-emerald-400">
+                            <h3 class="text-xl font-bold text-white mb-2">1. Feature Selection</h3>
+                            <p class="text-sm">Not all features are useful. If a statistical test proves a feature has no significant relationship with the target variable, we can safely drop it. This reduces noise, speeds up training, and prevents overfitting.</p>
+                        </div>
+                        <div class="bg-black bg-opacity-20 p-5 rounded-lg border border-emerald-400">
+                            <h3 class="text-xl font-bold text-white mb-2">2. Avoiding Multicollinearity</h3>
+                            <p class="text-sm">If two independent features are highly correlated (proven by Pearson/Spearman correlation), they provide duplicate information, which can destabilize models like Logistic Regression. Testing helps us remove redundant features.</p>
+                        </div>
+                        <div class="bg-black bg-opacity-20 p-5 rounded-lg border border-emerald-400">
+                            <h3 class="text-xl font-bold text-white mb-2">3. Proving A/B Test Results</h3>
+                            <p class="text-sm">When deploying a model, we often run A/B tests (e.g., Model A vs. Model B). Statistical tests (like T-Tests) tell us if Model B's higher conversion rate is actually better, or just a result of random luck.</p>
+                        </div>
+                        <div class="bg-black bg-opacity-20 p-5 rounded-lg border border-emerald-400">
+                            <h3 class="text-xl font-bold text-white mb-2">4. Validating Anomalies</h3>
+                            <p class="text-sm">Statistical tests help us understand if a data point is a true outlier mathematically, or if it naturally falls within the expected variance of the data distribution.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 1. Comparing Groups -->
         <section class="mb-10">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
