@@ -1,0 +1,253 @@
+<div class="prose max-w-none bg-gradient-to-br from-indigo-50 to-blue-50 p-8 rounded-xl">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Exploratory Data Analysis (EDA) & Data Prep</h1>
+            <p class="text-xl text-gray-600">The crucial first steps before training any Machine Learning model</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-blue-500">
+            <p class="text-lg text-gray-700 leading-relaxed">
+                <strong>EDA (Exploratory Data Analysis)</strong> is how we "get to know" our dataset. Before we impute missing values, encode categories, or train models, we must understand the shape, distribution, relationships, and anomalies in our data.
+            </p>
+        </div>
+
+        <!-- 1. Initial Inspection -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold text-shadow">1</span>
+                        Initial Inspection & Descriptive Statistics
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        The very first thing to do when you load a dataset is to look at its fundamental properties: data types, row counts, and summary statistics.
+                    </p>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># Load data</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)
+
+<span class="text-gray-400"># 1. Quick look at the first few rows</span>
+display(df.head())
+
+<span class="text-gray-400"># 2. Get data types and non-null counts</span>
+<span class="text-gray-400"># Look out for numeric columns stored as 'object' (strings)</span>
+df.info()
+
+<span class="text-gray-400"># 3. Summary statistics for numerical columns</span>
+<span class="text-gray-400"># Checks mean, std, min, max, and quartiles (25%, 50%, 75%)</span>
+display(df.describe())
+
+<span class="text-gray-400"># 4. Summary for categorical columns</span>
+display(df.describe(include=[<span class="text-green-400">'object'</span>, <span class="text-green-400">'category'</span>]))</code></pre>
+
+                    <div class="bg-blue-50 p-4 rounded text-sm text-blue-800">
+                        <strong>💡 What to look for:</strong> Is the mean vastly different from the median (50%)? If so, your data is skewed. Is the max value impossibly high? You might have outliers or data entry errors.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Handling Duplicates -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">2</span>
+                        Handling Duplicates & Data Types
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        Duplicate rows can bias your model by giving double importance to certain observations. Incorrect data types (like a date stored as text) will break ML algorithms.
+                    </p>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># Check for exact duplicate rows</span>
+duplicate_count = df.duplicated().sum()
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Found {duplicate_count} duplicate rows"</span>)
+
+<span class="text-gray-400"># Drop them (keep the first occurrence)</span>
+df = df.drop_duplicates()
+
+<span class="text-gray-400"># Fixing Data Types</span>
+<span class="text-gray-400"># 'price' might have a '$' sign, making it an object. We need to clean it:</span>
+df[<span class="text-green-400">'price'</span>] = df[<span class="text-green-400">'price'</span>].str.replace(<span class="text-green-400">'$'</span>, <span class="text-green-400">''</span>).astype(<span class="text-blue-400">float</span>)
+
+<span class="text-gray-400"># Convert to datetime</span>
+df[<span class="text-green-400">'date'</span>] = pd.to_datetime(df[<span class="text-green-400">'date'</span>])</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Univariate Analysis (Visualizing Distributions) -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-violet-500 to-purple-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                        Univariate Analysis (Distributions)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        Analyzing one variable at a time using visualizations. This helps identify the shape of the data (normal, skewed, bimodal).
+                    </p>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+
+<span class="text-gray-400"># 1. Numerical: Histograms and Boxplots</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
+sns.histplot(df[<span class="text-green-400">'income'</span>], kde=<span class="text-purple-400">True</span>, ax=axes[<span class="text-yellow-400">0</span>])
+axes[<span class="text-yellow-400">0</span>].set_title(<span class="text-green-400">'Income Distribution'</span>)
+
+sns.boxplot(x=df[<span class="text-green-400">'income'</span>], ax=axes[<span class="text-yellow-400">1</span>])
+axes[<span class="text-yellow-400">1</span>].set_title(<span class="text-green-400">'Income Boxplot (detects outliers)'</span>)
+plt.show()
+
+<span class="text-gray-400"># 2. Categorical: Countplots</span>
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">4</span>))
+sns.countplot(data=df, x=<span class="text-green-400">'department'</span>, order=df[<span class="text-green-400">'department'</span>].value_counts().index)
+plt.xticks(rotation=<span class="text-yellow-400">45</span>)
+plt.title(<span class="text-green-400">'Employee Count by Department'</span>)
+plt.show()</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Outlier Detection and Handling -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-red-500 to-rose-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-red-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">4</span>
+                        Outlier Detection & Handling
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        Outliers can severely impact linear models (like Linear/Logistic Regression) and distance-based models (like KNN).
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-rose-50 border border-rose-200 p-4 rounded">
+                            <h4 class="font-bold text-rose-800 mb-2">IQR Method (Robust)</h4>
+                            <p class="text-sm text-gray-700">Calculates the Interquartile Range (75th percentile - 25th percentile). Any value outside Q1 - 1.5*IQR or Q3 + 1.5*IQR is an outlier. Best for skewed data.</p>
+                        </div>
+                        <div class="bg-red-50 border border-red-200 p-4 rounded">
+                            <h4 class="font-bold text-red-800 mb-2">Z-Score Method</h4>
+                            <p class="text-sm text-gray-700">Measures how many standard deviations a value is from the mean. Values with a Z-score > 3 or < -3 are often considered outliers. Assumes data is normally distributed.</p>
+                        </div>
+                    </div>
+
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># Handling outliers via Capping (Winsorization) using IQR</span>
+Q1 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.25</span>)
+Q3 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.75</span>)
+IQR = Q3 - Q1
+
+lower_bound = Q1 - <span class="text-yellow-400">1.5</span> * IQR
+upper_bound = Q3 + <span class="text-yellow-400">1.5</span> * IQR
+
+<span class="text-gray-400"># Option A: Remove them</span>
+df_clean = df[(df[<span class="text-green-400">'income'</span>] >= lower_bound) & (df[<span class="text-green-400">'income'</span>] <= upper_bound)]
+
+<span class="text-gray-400"># Option B: Cap them (Winsorize) - replace extremes with the bounds</span>
+df[<span class="text-green-400">'income_capped'</span>] = df[<span class="text-green-400">'income'</span>].clip(lower=lower_bound, upper=upper_bound)</code></pre>
+                    <div class="bg-gray-100 p-4 rounded text-sm text-gray-700 border-l-4 border-gray-400">
+                        <strong>Note:</strong> For multidimensional or complex outlier detection, you may use algorithms like <strong>Isolation Forest</strong> (see the Anomaly Detection section).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Bivariate / Multivariate Analysis -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-teal-500 to-emerald-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">5</span>
+                        Bivariate Analysis & Correlations
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        Understanding how features relate to each other and to the target variable. Highly correlated features (multicollinearity) can harm certain linear models.
+                    </p>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># 1. Scatter Plot (Numerical vs Numerical)</span>
+plt.figure(figsize=(<span class="text-yellow-400">6</span>, <span class="text-yellow-400">4</span>))
+sns.scatterplot(data=df, x=<span class="text-green-400">'age'</span>, y=<span class="text-green-400">'income'</span>, hue=<span class="text-green-400">'target_class'</span>)
+plt.title(<span class="text-green-400">'Age vs Income (Colored by Target)'</span>)
+plt.show()
+
+<span class="text-gray-400"># 2. Correlation Matrix Heatmap (Linear Relationships)</span>
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">6</span>))
+corr_matrix = df.select_dtypes(include=[<span class="text-green-400">'number'</span>]).corr()
+
+<span class="text-gray-400"># sns.heatmap makes it easy to spot strong positive/negative correlations</span>
+sns.heatmap(corr_matrix, annot=<span class="text-purple-400">True</span>, cmap=<span class="text-green-400">'coolwarm'</span>, fmt=<span class="text-green-400">".2f"</span>)
+plt.title(<span class="text-green-400">'Feature Correlation Matrix'</span>)
+plt.show()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Feature Scaling and Transformation -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">6</span>
+                        Feature Scaling & Transformation
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg">
+                        ML models like SVM, KNN, and Neural Networks require features to be on the same scale (e.g., salary in $100,000s shouldn't dominate age in 10s).
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                         <div class="bg-cyan-50 border border-cyan-200 p-4 rounded">
+                            <h4 class="font-bold text-cyan-800 mb-2">Standardization</h4>
+                            <p class="text-sm text-gray-700"><code>StandardScaler</code> shifts data to have Mean=0 and Std=1. Best for normally distributed data.</p>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 p-4 rounded">
+                            <h4 class="font-bold text-blue-800 mb-2">Normalization</h4>
+                            <p class="text-sm text-gray-700"><code>MinMaxScaler</code> scales data between 0 and 1. Good for image pixels or when you know exact bounded limits.</p>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 p-4 rounded">
+                            <h4 class="font-bold text-purple-800 mb-2">Log Transformation</h4>
+                            <p class="text-sm text-gray-700">Applying <code>np.log1p()</code> squashes highly right-skewed data (like incomes or page views) into a more normal shape.</p>
+                        </div>
+                    </div>
+
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, MinMaxScaler
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># 1. Standardization (Mean=0, Std=1)</span>
+scaler = StandardScaler()
+df[<span class="text-green-400">'age_scaled'</span>] = scaler.fit_transform(df[[<span class="text-green-400">'age'</span>]])
+
+<span class="text-gray-400"># 2. Log Transformation for highly skewed data</span>
+<span class="text-gray-400"># log1p is log(1+x), safe for zero values</span>
+df[<span class="text-green-400">'income_log'</span>] = np.log1p(df[<span class="text-green-400">'income'</span>])
+
+<span class="text-gray-400"># Visualizing the fix</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">4</span>))
+sns.histplot(df[<span class="text-green-400">'income'</span>], ax=axes[<span class="text-yellow-400">0</span>]).set_title(<span class="text-green-400">'Original (Skewed)'</span>)
+sns.histplot(df[<span class="text-green-400">'income_log'</span>], ax=axes[<span class="text-yellow-400">1</span>]).set_title(<span class="text-green-400">'Log Transformed'</span>)
+plt.show()</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Next Steps -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-2xl p-6 text-white text-center">
+            <h3 class="text-2xl font-bold mb-2">What's Next?</h3>
+            <p class="text-lg opacity-90">
+                Once EDA is complete, duplicates are gone, outliers are handled, and skewed features are transformed, you move on to dealing with <strong>Missing Values & Categorical Variables Encoding</strong>!
+            </p>
+        </div>
+
+    </div>
+</div>
