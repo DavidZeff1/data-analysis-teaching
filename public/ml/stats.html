@@ -167,16 +167,17 @@
         </section>
 
         <!-- Practical Python Examples -->
-        <section class="mb-10">
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
-                    <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
-                        Python Implementation Guide
-                    </h2>
-                </div>
-                <div class="p-6">
-                    <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<!-- Practical Python Examples -->
+<section class="mb-10">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+            <h2 class="text-3xl font-bold text-white flex items-center">
+                <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                Python Implementation Guide
+            </h2>
+        </div>
+        <div class="p-6">
+            <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
 <span class="text-purple-400">from</span> scipy <span class="text-purple-400">import</span> stats
 
 <span class="text-gray-400"># ──────────────────────────────────────────</span>
@@ -186,8 +187,22 @@ male_salaries = df[df[<span class="text-green-400">'Gender'</span>] == <span cla
 female_salaries = df[df[<span class="text-green-400">'Gender'</span>] == <span class="text-green-400">'F'</span>][<span class="text-green-400">'Salary'</span>]
 
 t_stat, p_value = stats.ttest_ind(male_salaries, female_salaries)
-<span class="text-blue-400">print</span>(f<span class="text-green-400">"T-Test p-value: {p_value:.4f}"</span>) 
-<span class="text-gray-400"># P-value < 0.05 implies difference is statistically significant.</span>
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"T-Test p-value: {p_value:.4f}"</span>)
+
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-purple-400">if</span> p_value &lt; <span class="text-yellow-400">0.05</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"✅ Significant difference → Keep 'Gender' as a feature"</span>)
+<span class="text-purple-400">else</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"❌ No significant difference → Consider dropping 'Gender'"</span>)
+
+<span class="text-gray-400"># WHY:</span>
+<span class="text-gray-400"># p < 0.05 means there's less than a 5% chance the observed salary gap</span>
+<span class="text-gray-400"># is just random noise. The two groups are genuinely drawn from</span>
+<span class="text-gray-400"># different distributions, so Gender carries real predictive signal.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># p >= 0.05 means the difference we see could easily be due to chance</span>
+<span class="text-gray-400"># alone. Gender doesn't meaningfully separate the salary values,</span>
+<span class="text-gray-400"># so it won't help a model and may just add noise.</span>
 
 
 <span class="text-gray-400"># ──────────────────────────────────────────</span>
@@ -200,31 +215,159 @@ ca_sales = df[df[<span class="text-green-400">'Region'</span>] == <span class="t
 f_stat, p_value = stats.f_oneway(ny_sales, tx_sales, ca_sales)
 <span class="text-blue-400">print</span>(f<span class="text-green-400">"ANOVA p-value: {p_value:.4f}"</span>)
 
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># p < 0.05  → At least one region's sales distribution is different. Keep 'Region'.</span>
+<span class="text-gray-400"># p >= 0.05 → All regions have similar sales. Region doesn't add predictive value.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY:</span>
+<span class="text-gray-400"># ANOVA compares the variance *between* groups to the variance *within* groups.</span>
+<span class="text-gray-400"># A high F-statistic (low p) means the group means are far apart relative</span>
+<span class="text-gray-400"># to the spread inside each group — i.e., Region actually explains some of</span>
+<span class="text-gray-400"># the variation in Sales, not just random fluctuation within each region.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># ⚠️ ANOVA only tells you *that* groups differ, not *which* ones.</span>
+<span class="text-gray-400"># Run a post-hoc Tukey test to find out which pairs are actually different:</span>
+<span class="text-purple-400">from</span> statsmodels.stats.multicomp <span class="text-purple-400">import</span> pairwise_tukeyhsd
+tukey = pairwise_tukeyhsd(df[<span class="text-green-400">'Sales'</span>], df[<span class="text-green-400">'Region'</span>])
+<span class="text-blue-400">print</span>(tukey.summary())
+<span class="text-gray-400"># WHY Tukey: Running multiple T-Tests between every pair would inflate your</span>
+<span class="text-gray-400"># false positive rate (e.g. 3 pairs = 3 chances to get a fluke p < 0.05).</span>
+<span class="text-gray-400"># Tukey corrects for this by adjusting the threshold for each comparison.</span>
+
 
 <span class="text-gray-400"># ──────────────────────────────────────────</span>
 <span class="text-gray-400"># 3. Chi-Square Example (Categorical vs Categorical)</span>
 <span class="text-gray-400"># Checking if Product Preference depends on Gender</span>
 contingency_table = pd.crosstab(df[<span class="text-green-400">'Gender'</span>], df[<span class="text-green-400">'Preference'</span>])
-chi2_stat, p_val, dof, ex = stats.chi2_contingency(contingency_table)
+chi2_stat, p_val, dof, expected = stats.chi2_contingency(contingency_table)
 <span class="text-blue-400">print</span>(f<span class="text-green-400">"Chi-Square p-value: {p_val:.4f}"</span>)
+
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># p < 0.05  → Association exists → Keep both features, or engineer an interaction term.</span>
+<span class="text-gray-400"># p >= 0.05 → No association → The two variables are statistically independent.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY:</span>
+<span class="text-gray-400"># Chi-Square compares the *observed* counts in each cell of the table to the</span>
+<span class="text-gray-400"># *expected* counts if the two variables had zero relationship.</span>
+<span class="text-gray-400"># A large chi2_stat means the real distribution looks very different from</span>
+<span class="text-gray-400"># the "no relationship" baseline — i.e., knowing someone's Gender genuinely</span>
+<span class="text-gray-400"># shifts the probability distribution of their Preference.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># ⚠️ Check that all expected frequencies are >= 5.</span>
+<span class="text-gray-400"># WHY: Chi-Square is an approximation that breaks down with very small cell</span>
+<span class="text-gray-400"># counts. If any cell is < 5, use Fisher's Exact Test instead.</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Expected frequencies:\n"</span>, expected)
 
 
 <span class="text-gray-400"># ──────────────────────────────────────────</span>
 <span class="text-gray-400"># 4. Pearson vs Spearman Correlation</span>
 <span class="text-gray-400"># Pearson (Linear, sensitive to outliers)</span>
-pearson_corr, _ = stats.pearsonr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
+pearson_corr, pearson_p = stats.pearsonr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
 
 <span class="text-gray-400"># Spearman (Monotonic, robust to outliers)</span>
-spearman_corr, _ = stats.spearmanr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
+spearman_corr, spearman_p = stats.spearmanr(df[<span class="text-green-400">'Age'</span>], df[<span class="text-green-400">'Income'</span>])
 
-<span class="text-blue-400">print</span>(f<span class="text-green-400">"Pearson: {pearson_corr:.3f} | Spearman: {spearman_corr:.3f}"</span>)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Pearson:  r={pearson_corr:.3f},  p={pearson_p:.4f}"</span>)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Spearman: r={spearman_corr:.3f}, p={spearman_p:.4f}"</span>)
 
-<span class="text-gray-400"># In Pandas, apply across entire DataFrame iteratively:</span>
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># |r| > 0.8  → Very strong → Multicollinearity risk, consider dropping one feature.</span>
+<span class="text-gray-400"># |r| 0.5–0.8 → Moderate → Useful signal, worth keeping.</span>
+<span class="text-gray-400"># |r| < 0.3  → Weak → Low value for linear models (may still help tree-based models).</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY multicollinearity matters:</span>
+<span class="text-gray-400"># If two features move together (r > 0.8), they're telling the model the same</span>
+<span class="text-gray-400"># story twice. In linear models this inflates coefficient variance and makes</span>
+<span class="text-gray-400"># the model unstable. One of them is essentially redundant.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># Pearson ≈ Spearman → Relationship is linear. Pearson is reliable here.</span>
+<span class="text-gray-400"># Pearson >> Spearman → A few outliers are pulling the linear correlation up.</span>
+<span class="text-gray-400"># WHY: Pearson uses raw values, so extreme points have outsized weight.</span>
+<span class="text-gray-400"># Spearman uses ranks, so a single extreme value only moves one rank.</span>
+<span class="text-gray-400"># If they diverge, trust Spearman and investigate the outliers.</span>
+
+<span class="text-gray-400"># Apply across entire DataFrame:</span>
 df.corr(method=<span class="text-green-400">'pearson'</span>)
-df.corr(method=<span class="text-green-400">'spearman'</span>)</code></pre>
-                </div>
-            </div>
-        </section>
+df.corr(method=<span class="text-green-400">'spearman'</span>)
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 5. Point-Biserial Correlation (Continuous vs Binary)</span>
+<span class="text-gray-400"># How strongly does a binary flag correlate with a continuous variable?</span>
+<span class="text-gray-400"># e.g. Does being a Premium member correlate with spending?</span>
+df[<span class="text-green-400">'IsPremium_num'</span>] = df[<span class="text-green-400">'IsPremium'</span>].map({<span class="text-green-400">'Yes'</span>: <span class="text-yellow-400">1</span>, <span class="text-green-400">'No'</span>: <span class="text-yellow-400">0</span>})
+corr, p_value = stats.pointbiserialr(df[<span class="text-green-400">'IsPremium_num'</span>], df[<span class="text-green-400">'Spending'</span>])
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Point-Biserial r={corr:.3f}, p={p_value:.4f}"</span>)
+
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># Interpret r just like Pearson — direction and magnitude both matter.</span>
+<span class="text-gray-400"># Positive r → The "Yes" group has higher Spending on average.</span>
+<span class="text-gray-400"># Negative r → The "Yes" group has lower Spending on average.</span>
+<span class="text-gray-400"># p < 0.05   → This relationship is statistically real, not a fluke.</span>
+<span class="text-gray-400"># p >= 0.05  → The spending difference between groups could just be random.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY use Point-Biserial instead of just Pearson?</span>
+<span class="text-gray-400"># Mathematically they're equivalent when one variable is binary (0/1).</span>
+<span class="text-gray-400"># Using pointbiserialr() is just more explicit — it makes your intent</span>
+<span class="text-gray-400"># clear to anyone reading the code, and avoids accidentally using Pearson</span>
+<span class="text-gray-400"># on a non-binary categorical that was label-encoded as numbers.</span>
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 6. Cramér's V (Categorical vs Categorical — Strength of Association)</span>
+<span class="text-gray-400"># Chi-Square tells you IF an association exists. Cramér's V tells you HOW STRONG.</span>
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+contingency_table = pd.crosstab(df[<span class="text-green-400">'Region'</span>], df[<span class="text-green-400">'ProductCategory'</span>])
+chi2, p, dof, _ = stats.chi2_contingency(contingency_table)
+n = contingency_table.sum().sum()
+cramers_v = np.sqrt(chi2 / (n * (min(contingency_table.shape) - <span class="text-yellow-400">1</span>)))
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Cramér's V: {cramers_v:.3f}"</span>)
+
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># V ~0.1  → Weak   → Features are mostly independent, safe to use both.</span>
+<span class="text-gray-400"># V ~0.3  → Moderate → Some overlap, but both features still add unique info.</span>
+<span class="text-gray-400"># V ~0.5+ → Strong → Features are heavily redundant. Using both in a model</span>
+<span class="text-gray-400">#                     risks feeding it the same information twice.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY not just use Chi-Square for strength?</span>
+<span class="text-gray-400"># Chi-Square is sensitive to sample size — a huge dataset will produce a</span>
+<span class="text-gray-400"># significant p-value even for a trivially weak association.</span>
+<span class="text-gray-400"># Cramér's V normalizes the chi2 statistic by sample size and table dimensions,</span>
+<span class="text-gray-400"># giving you a 0–1 score that's comparable across datasets of any size.</span>
+
+
+<span class="text-gray-400"># ──────────────────────────────────────────</span>
+<span class="text-gray-400"># 7. Full EDA Correlation Heatmap (Quick Visual Summary)</span>
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+corr_matrix = df.select_dtypes(include=<span class="text-green-400">'number'</span>).corr()
+
+plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">8</span>))
+sns.heatmap(corr_matrix, annot=<span class="text-yellow-400">True</span>, fmt=<span class="text-green-400">".2f"</span>, cmap=<span class="text-green-400">'coolwarm'</span>,
+            center=<span class="text-yellow-400">0</span>, square=<span class="text-yellow-400">True</span>, linewidths=<span class="text-yellow-400">0.5</span>)
+plt.title(<span class="text-green-400">"Correlation Heatmap"</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># ✅ What to do with the result:</span>
+<span class="text-gray-400"># Dark red  (r → +1) → Strong positive: both features rise together.</span>
+<span class="text-gray-400"># Dark blue (r → -1) → Strong negative: one rises as the other falls.</span>
+<span class="text-gray-400"># Near white (r → 0) → No linear relationship.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># Feature pairs with |r| > 0.8 → Flag for multicollinearity (see #4 above).</span>
+<span class="text-gray-400"># Features with high |r| to your target column → Prioritize these in modeling.</span>
+<span class="text-gray-400"># Features with |r| ≈ 0 to target → May still be useful in non-linear models;</span>
+<span class="text-gray-400">#   don't drop them based on correlation alone.</span>
+<span class="text-gray-400">#</span>
+<span class="text-gray-400"># WHY use a heatmap instead of just reading the numbers?</span>
+<span class="text-gray-400"># With 10+ features the correlation matrix becomes a wall of decimals.</span>
+<span class="text-gray-400"># The color encoding lets you instantly spot clusters of correlated features</span>
+<span class="text-gray-400"># and strong target relationships that would take minutes to find manually.</span></code></pre>
+        </div>
+    </div>
+</section>
 
     </div>
 </div>
