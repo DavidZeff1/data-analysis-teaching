@@ -1,0 +1,579 @@
+<div class="space-y-8">
+
+    <!-- SECTION 1: FOUNDATIONS -->
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">The Definitive Guide to Outlier Detection, Analysis & Treatment</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            In data science, the integrity of analytical results and predictive power of ML models depend heavily on handling observations that deviate significantly from the rest. Outliers require more than identification — they require <strong>strategic evaluation</strong>. Distinguishing between a data entry error and a genuine rare event is essential.
+        </p>
+
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg mb-6 border-l-4 border-indigo-500">
+            <h3 class="font-semibold text-lg mb-3 text-indigo-900">📖 What Is an Outlier?</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li><strong>General Definition:</strong> Any observation point that is distant from other observations in the feature space</li>
+                <li><strong>Statistical Definition:</strong> Values that fall outside the typical distribution — isolated points beyond the whiskers of a box plot</li>
+            </ul>
+        </div>
+
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-lg mb-3 text-red-900">🚨 Why Do Outliers Matter?</h3>
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📊 Sensitivity of Metrics</h4>
+                    <p class="text-sm text-gray-700">Outliers heavily influence <strong>sensitive metrics</strong> like the mean and standard deviation. Unlike robust metrics such as the median, a single extreme value can significantly inflate the mean, providing a misleading "average."</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">⚠️ Violation of Model Assumptions</h4>
+                    <p class="text-sm text-gray-700">Many tools (Linear Regression, t-tests) rely on <strong>normally distributed errors</strong>. Outliers violate these assumptions, undermining reliability and accuracy.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">🤖 Model Bias & Training Distortion</h4>
+                    <p class="text-sm text-gray-700">Outliers in training data can "pull" the model toward extreme values, causing poor generalization. Particularly acute for <strong>Neural Networks</strong> and <strong>Linear Regression</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># Demonstrate how a single outlier shifts the mean</span>
+salaries = [<span class="text-yellow-400">50000</span>, <span class="text-yellow-400">52000</span>, <span class="text-yellow-400">48000</span>, <span class="text-yellow-400">51000</span>, <span class="text-yellow-400">49000</span>, <span class="text-yellow-400">53000</span>, <span class="text-yellow-400">47000</span>]
+
+print(<span class="text-green-400">f"Without outlier:"</span>)
+print(<span class="text-green-400">f"  Mean:   ${np.mean(salaries):,.0f}"</span>)     <span class="text-gray-400"># $50,000</span>
+print(<span class="text-green-400">f"  Median: ${np.median(salaries):,.0f}"</span>)   <span class="text-gray-400"># $50,000</span>
+
+<span class="text-gray-400"># Add a CEO salary</span>
+salaries_with_outlier = salaries + [<span class="text-yellow-400">5000000</span>]
+
+print(<span class="text-green-400">f"\nWith outlier (CEO salary $5M):"</span>)
+print(<span class="text-green-400">f"  Mean:   ${np.mean(salaries_with_outlier):,.0f}"</span>)   <span class="text-gray-400"># $668,750 ← MISLEADING!</span>
+print(<span class="text-green-400">f"  Median: ${np.median(salaries_with_outlier):,.0f}"</span>) <span class="text-gray-400"># $50,500  ← ROBUST</span>
+
+print(<span class="text-green-400">f"\nStd Dev without outlier: ${np.std(salaries):,.0f}"</span>)
+print(<span class="text-green-400">f"Std Dev with outlier:    ${np.std(salaries_with_outlier):,.0f}"</span>) <span class="text-gray-400"># Massively inflated</span></code></pre>
+    </section>
+
+    <!-- SECTION 2: DETECTION METHODOLOGIES -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Detection Methodologies: Visual & Statistical Diagnostics</h2>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-900 mb-2">📦 Box Plots</h4>
+                <p class="text-sm text-gray-700">Primary tool for identifying individual outliers — dots beyond the whisker boundaries.</p>
+            </div>
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h4 class="font-semibold text-green-900 mb-2">🔵 Scatter Plots</h4>
+                <p class="text-sm text-gray-700">Essential for 2D anomalies — points breaking the relationship between two variables.</p>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h4 class="font-semibold text-purple-900 mb-2">📊 Histograms</h4>
+                <p class="text-sm text-gray-700">Reveal distribution skew and the presence of extreme tail values.</p>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+np.random.seed(<span class="text-yellow-400">42</span>)
+data = np.concatenate([np.random.normal(<span class="text-yellow-400">50</span>, <span class="text-yellow-400">10</span>, <span class="text-yellow-400">200</span>), [<span class="text-yellow-400">120</span>, <span class="text-yellow-400">130</span>, <span class="text-yellow-400">-20</span>, <span class="text-yellow-400">140</span>]])
+df = pd.DataFrame({<span class="text-green-400">'value'</span>: data})
+
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">3</span>, figsize=(<span class="text-yellow-400">18</span>, <span class="text-yellow-400">5</span>))
+
+<span class="text-gray-400"># Box Plot</span>
+axes[<span class="text-yellow-400">0</span>].boxplot(df[<span class="text-green-400">'value'</span>])
+axes[<span class="text-yellow-400">0</span>].set_title(<span class="text-green-400">'Box Plot — Outliers as dots'</span>)
+
+<span class="text-gray-400"># Histogram</span>
+axes[<span class="text-yellow-400">1</span>].hist(df[<span class="text-green-400">'value'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, alpha=<span class="text-yellow-400">0.7</span>)
+axes[<span class="text-yellow-400">1</span>].set_title(<span class="text-green-400">'Histogram — Extreme tail values'</span>)
+
+<span class="text-gray-400"># Scatter Plot (2D)</span>
+x = np.concatenate([np.random.normal(<span class="text-yellow-400">50</span>, <span class="text-yellow-400">10</span>, <span class="text-yellow-400">200</span>), [<span class="text-yellow-400">120</span>, <span class="text-yellow-400">130</span>, <span class="text-yellow-400">-20</span>, <span class="text-yellow-400">140</span>]])
+y = x * <span class="text-yellow-400">0.8</span> + np.random.normal(<span class="text-yellow-400">0</span>, <span class="text-yellow-400">5</span>, len(x))
+y[-<span class="text-yellow-400">1</span>] = <span class="text-yellow-400">10</span>  <span class="text-gray-400"># Make one point break the relationship</span>
+axes[<span class="text-yellow-400">2</span>].scatter(x, y, alpha=<span class="text-yellow-400">0.6</span>)
+axes[<span class="text-yellow-400">2</span>].set_title(<span class="text-green-400">'Scatter Plot — Relationship-breaking points'</span>)
+
+plt.tight_layout()
+plt.show()</code></pre>
+
+        <!-- Statistical Methods Table -->
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">Statistical Methods</h3>
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Method</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Type</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Logic</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Best For</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Z-Score</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Parametric</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">$z = \frac{x - \mu}{\sigma}$, flags where $|z| > 3$</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Gaussian distributions</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">IQR (Tukey's Fences)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Non-Parametric</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Outside $[Q_1 - 1.5 \times IQR]$ or $[Q_3 + 1.5 \times IQR]$</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Skewed distributions</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">Isolation Forest</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">ML-Based</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Isolates points by random splits — fewer splits = more anomalous</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">High-dimensional / unsupervised</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> scipy <span class="text-purple-400">import</span> stats
+
+np.random.seed(<span class="text-yellow-400">42</span>)
+data = np.concatenate([np.random.normal(<span class="text-yellow-400">50</span>, <span class="text-yellow-400">10</span>, <span class="text-yellow-400">200</span>), [<span class="text-yellow-400">120</span>, <span class="text-yellow-400">130</span>, <span class="text-yellow-400">-20</span>, <span class="text-yellow-400">140</span>]])
+df = pd.DataFrame({<span class="text-green-400">'value'</span>: data})
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 1: Z-Score (Parametric)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+df[<span class="text-green-400">'z_score'</span>] = np.abs(stats.zscore(df[<span class="text-green-400">'value'</span>]))
+z_outliers = df[df[<span class="text-green-400">'z_score'</span>] > <span class="text-yellow-400">3</span>]
+print(<span class="text-green-400">f"Z-Score outliers (|z| > 3): {len(z_outliers)}"</span>)
+print(z_outliers[[<span class="text-green-400">'value'</span>, <span class="text-green-400">'z_score'</span>]])
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 2: IQR (Non-Parametric)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+Q1 = df[<span class="text-green-400">'value'</span>].quantile(<span class="text-yellow-400">0.25</span>)
+Q3 = df[<span class="text-green-400">'value'</span>].quantile(<span class="text-yellow-400">0.75</span>)
+IQR = Q3 - Q1
+lower_bound = Q1 - <span class="text-yellow-400">1.5</span> * IQR
+upper_bound = Q3 + <span class="text-yellow-400">1.5</span> * IQR
+
+iqr_outliers = df[(df[<span class="text-green-400">'value'</span>] < lower_bound) | (df[<span class="text-green-400">'value'</span>] > upper_bound)]
+print(<span class="text-green-400">f"\nIQR outliers: {len(iqr_outliers)}"</span>)
+print(<span class="text-green-400">f"Boundaries: [{lower_bound:.1f}, {upper_bound:.1f}]"</span>)
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 3: Isolation Forest</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> IsolationForest
+
+iso = IsolationForest(contamination=<span class="text-yellow-400">0.02</span>, random_state=<span class="text-yellow-400">42</span>)
+df[<span class="text-green-400">'iso_label'</span>] = iso.fit_predict(df[[<span class="text-green-400">'value'</span>]])
+iso_outliers = df[df[<span class="text-green-400">'iso_label'</span>] == -<span class="text-yellow-400">1</span>]
+print(<span class="text-green-400">f"\nIsolation Forest outliers: {len(iso_outliers)}"</span>)</code></pre>
+
+        <!-- Z-Score vs IQR Trade-offs -->
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-900 mb-2">📐 Z-Score — Strengths & Risks</h4>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li><strong>Strength:</strong> Highly informative for Gaussian data — uses every record</li>
+                    <li><strong>Strength:</strong> Captures the entire shape of the curve</li>
+                    <li><strong>Risk:</strong> Dangerous for non-normal data</li>
+                    <li><strong>Risk:</strong> Mean and SD are themselves sensitive to outliers</li>
+                </ul>
+            </div>
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h4 class="font-semibold text-green-900 mb-2">📏 IQR — Strengths & Risks</h4>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li><strong>Strength:</strong> Robust for skewed data — relies on median</li>
+                    <li><strong>Strength:</strong> Not affected by extreme values</li>
+                    <li><strong>Risk:</strong> Less informative for normal distributions</li>
+                    <li><strong>Risk:</strong> Ignores top & bottom 25% — may miss tail info</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ROOT CAUSE ANALYSIS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Root Cause Analysis: The Investigative Framework</h2>
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-lg border-l-4 border-amber-500 mb-6">
+            <h3 class="font-semibold text-lg mb-2 text-amber-900">⚖️ Detection ≠ Deletion</h3>
+            <p class="text-gray-700">Investigation into the root cause is the bridge between raw data and actionable insight. <strong>Always investigate WHY before altering data.</strong></p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                <h4 class="font-semibold text-red-900 mb-2">🔴 Data Entry Errors</h4>
+                <p class="text-sm text-gray-700 mb-2">Typos or unit mistakes (e.g., weight in grams vs. kilograms)</p>
+                <p class="text-sm text-green-700"><strong>Action:</strong> Check data integrity → treat as error → correct or remove</p>
+            </div>
+            <div class="bg-orange-50 p-5 rounded-lg border border-orange-200">
+                <h4 class="font-semibold text-orange-900 mb-2">🟠 Measurement Errors</h4>
+                <p class="text-sm text-gray-700 mb-2">Faulty sensors or broken equipment</p>
+                <p class="text-sm text-green-700"><strong>Action:</strong> Check data integrity → if uncorrectable, remove</p>
+            </div>
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-900 mb-2">🔵 Valid Rarity</h4>
+                <p class="text-sm text-gray-700 mb-2">Genuine extreme events (CEO salary, Black Friday spike)</p>
+                <p class="text-sm text-green-700"><strong>Action:</strong> Check domain knowledge → <strong>PRESERVE</strong> — this is real-world truth</p>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h4 class="font-semibold text-purple-900 mb-2">🟣 Sampling Issues</h4>
+                <p class="text-sm text-gray-700 mb-2">Data from a different population (villas in an apartment dataset)</p>
+                <p class="text-sm text-green-700"><strong>Action:</strong> Check collection method → treat as irrelevant → remove</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: TREATMENT OPTIONS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Strategic Treatment Options: A Comprehensive Toolkit</h2>
+
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Treatment</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">When to Use</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Trade-off</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">🗑️ Removal</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Confirmed errors or non-representative sampling</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Loses information — document WHY and volume</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">📎 Capping (Winsorization)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Keep data point but neutralize extreme value</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Retains observation, caps at whisker boundary</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">📊 Binning (Discretization)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Grouping continuous data into intervals</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Extremes go into shared "top bin"</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">📐 Log / Sqrt Transform</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Heavily skewed positive data (income, prices)</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Compresses range; Log is aggressive, Sqrt is gentler</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">🛡️ Robust Statistics</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Valid outliers that should be kept</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Use Median, IQR, Spearman instead of Mean, SD, Pearson</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-900">🌲 Robust ML Models</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">When outliers are valid and numerous</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Decision Trees, Random Forests — split-based, not mean-based</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+np.random.seed(<span class="text-yellow-400">42</span>)
+df = pd.DataFrame({<span class="text-green-400">'income'</span>: np.concatenate([
+    np.random.normal(<span class="text-yellow-400">50000</span>, <span class="text-yellow-400">15000</span>, <span class="text-yellow-400">500</span>),
+    [<span class="text-yellow-400">300000</span>, <span class="text-yellow-400">450000</span>, <span class="text-yellow-400">800000</span>]  <span class="text-gray-400"># Outliers</span>
+])})
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># TREATMENT 1: Capping (Winsorization)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+Q1 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.25</span>)
+Q3 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.75</span>)
+IQR = Q3 - Q1
+lower = Q1 - <span class="text-yellow-400">1.5</span> * IQR
+upper = Q3 + <span class="text-yellow-400">1.5</span> * IQR
+
+df[<span class="text-green-400">'income_capped'</span>] = df[<span class="text-green-400">'income'</span>].clip(lower, upper)
+print(<span class="text-green-400">f"Capping boundaries: [${lower:,.0f}, ${upper:,.0f}]"</span>)
+print(<span class="text-green-400">f"Max before: ${df['income'].max():,.0f} → After: ${df['income_capped'].max():,.0f}"</span>)
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># TREATMENT 2: Log Transformation</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+df[<span class="text-green-400">'income_log'</span>] = np.log1p(df[<span class="text-green-400">'income'</span>])  <span class="text-gray-400"># log1p handles 0 values safely</span>
+print(<span class="text-green-400">f"\nLog Transform — Max before: {df['income'].max():,.0f} → After: {df['income_log'].max():.2f}"</span>)
+print(<span class="text-green-400">f"Skew before: {df['income'].skew():.2f} → After: {df['income_log'].skew():.2f}"</span>)
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># TREATMENT 3: Square Root Transformation</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+df[<span class="text-green-400">'income_sqrt'</span>] = np.sqrt(df[<span class="text-green-400">'income'</span>])
+print(<span class="text-green-400">f"\nSqrt Transform — Max before: {df['income'].max():,.0f} → After: {df['income_sqrt'].max():.2f}"</span>)
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># TREATMENT 4: Binning (Discretization)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+bins = [<span class="text-yellow-400">0</span>, <span class="text-yellow-400">30000</span>, <span class="text-yellow-400">50000</span>, <span class="text-yellow-400">70000</span>, <span class="text-yellow-400">100000</span>, float(<span class="text-green-400">'inf'</span>)]
+labels = [<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>, <span class="text-green-400">'Very High'</span>, <span class="text-green-400">'Top'</span>]
+df[<span class="text-green-400">'income_bin'</span>] = pd.cut(df[<span class="text-green-400">'income'</span>], bins=bins, labels=labels)
+print(<span class="text-green-400">f"\nBinned distribution:"</span>)
+print(df[<span class="text-green-400">'income_bin'</span>].value_counts())</code></pre>
+    </section>
+
+    <!-- SECTION 5: DATA LEAKAGE & PIPELINE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Operational Workflow & Prevention of Data Leakage</h2>
+
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-lg mb-2 text-red-900">🚨 Data Leakage Warning</h3>
+            <p class="text-gray-700">Treating outliers across the <strong>entire dataset</strong> simultaneously causes data leakage — information from the test set "seeps" into the parameters (Mean, SD, IQR) used to train the model, compromising evaluation integrity.</p>
+        </div>
+
+        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 mb-6">
+            <h3 class="font-semibold text-lg mb-3 text-green-900">✅ The Correct Workflow</h3>
+            <ol class="list-decimal ml-6 space-y-2 text-gray-700">
+                <li><strong>Split</strong> data into Train and Test sets <strong>first</strong></li>
+                <li><strong>Calculate</strong> outlier parameters (Mean, SD, IQR) <strong>only on training data</strong></li>
+                <li><strong>Apply</strong> those calculated parameters to transform/cap/bin <strong>both</strong> train and test sets</li>
+            </ol>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># Step 1: SPLIT FIRST — before any outlier treatment</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+
+<span class="text-gray-400"># Step 2: Calculate parameters ONLY on training data</span>
+Q1 = X_train[<span class="text-green-400">'feature'</span>].quantile(<span class="text-yellow-400">0.25</span>)
+Q3 = X_train[<span class="text-green-400">'feature'</span>].quantile(<span class="text-yellow-400">0.75</span>)
+IQR = Q3 - Q1
+lower = Q1 - <span class="text-yellow-400">1.5</span> * IQR
+upper = Q3 + <span class="text-yellow-400">1.5</span> * IQR
+
+<span class="text-gray-400"># Step 3: Apply SAME parameters to BOTH train and test</span>
+X_train[<span class="text-green-400">'feature_capped'</span>] = X_train[<span class="text-green-400">'feature'</span>].clip(lower, upper)
+X_test[<span class="text-green-400">'feature_capped'</span>]  = X_test[<span class="text-green-400">'feature'</span>].clip(lower, upper)  <span class="text-gray-400"># Using TRAIN parameters!</span>
+
+print(<span class="text-green-400">f"Boundaries from TRAINING data: [{lower:.2f}, {upper:.2f}]"</span>)
+print(<span class="text-green-400">f"Applied to both train ({len(X_train)} rows) and test ({len(X_test)} rows)"</span>)</code></pre>
+
+        <!-- Target Variable -->
+        <div class="bg-gradient-to-r from-red-50 to-pink-50 p-6 rounded-lg border border-red-200 mb-6">
+            <h3 class="text-xl font-bold mb-3 text-red-900">🚫 Special Handling of the Target Variable</h3>
+            <p class="text-gray-700 mb-3">Treating outliers on the target — the "truth" the model predicts — is <strong>generally forbidden</strong>. The only exceptions are confirmed errors (height of 10m, negative age).</p>
+            <div class="bg-white p-4 rounded mt-3">
+                <h4 class="font-semibold text-gray-900 mb-2">If target outliers cause instability, change the APPROACH:</h4>
+                <ul class="list-disc ml-6 space-y-1 text-sm text-gray-700">
+                    <li><strong>Target Transformation:</strong> Log/Sqrt lets the model learn on a compressed scale, then inverse-transform for reporting</li>
+                    <li><strong>Robust Loss Functions:</strong> Use <strong>MAE</strong> instead of MSE/RMSE — MSE squares errors, making outliers dominate the loss</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: MASTER DECISION TREE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 rounded-lg mb-6">
+            <h2 class="text-2xl font-bold mb-3">🎯 The Master Decision Tree: Outlier Handling Strategy</h2>
+            <p class="text-sm opacity-90">Follow this flowchart for every outlier you encounter. The decision is never "detect and delete" — it's "detect, investigate, and strategize."</p>
+        </div>
+
+        <div class="space-y-4 mb-6">
+            <!-- Level 1 -->
+            <div class="bg-indigo-50 p-5 rounded-lg border-l-4 border-indigo-600">
+                <h3 class="font-bold text-lg text-indigo-900 mb-2">Step 1: Detect — "Is there an outlier?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>→ <strong>Normal-looking data?</strong> Use Z-Score (parametric)</p>
+                    <p>→ <strong>Skewed data?</strong> Use IQR Method (non-parametric)</p>
+                    <p>→ <strong>High-dimensional?</strong> Use Isolation Forest (ML-based)</p>
+                    <p>→ <strong>Always start with visual inspection:</strong> Box plots + Scatter plots + Histograms</p>
+                </div>
+            </div>
+
+            <!-- Level 2 -->
+            <div class="bg-amber-50 p-5 rounded-lg border-l-4 border-amber-600">
+                <h3 class="font-bold text-lg text-amber-900 mb-2">Step 2: Investigate — "WHY is it an outlier?"</h3>
+                <div class="ml-4 grid md:grid-cols-2 gap-3 text-sm">
+                    <div class="bg-white p-3 rounded">
+                        <p class="font-semibold text-red-700">❌ Data Entry / Measurement Error</p>
+                        <p class="text-gray-600">→ Can it be corrected from source? Fix it. Otherwise → Remove</p>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                        <p class="font-semibold text-purple-700">🔄 Sampling Issue</p>
+                        <p class="text-gray-600">→ Wrong population? → Remove (it doesn't belong here)</p>
+                    </div>
+                    <div class="bg-white p-3 rounded col-span-2">
+                        <p class="font-semibold text-green-700">✅ Valid Rarity</p>
+                        <p class="text-gray-600">→ Real event → <strong>DO NOT DELETE</strong> → Go to Step 3</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 3 -->
+            <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-600">
+                <h3 class="font-bold text-lg text-green-900 mb-2">Step 3: Treat — "How do I handle this valid outlier?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>→ <strong>Need to preserve exact values?</strong> Use Robust Statistics (Median, IQR, Spearman) or Robust ML Models (Trees, Forests)</p>
+                    <p>→ <strong>Need to reduce impact but keep the row?</strong> Use Capping/Winsorization</p>
+                    <p>→ <strong>Heavily skewed positive data?</strong> Use Log or Sqrt Transformation</p>
+                    <p>→ <strong>Can discretize the feature?</strong> Use Binning</p>
+                </div>
+            </div>
+
+            <!-- Level 4 -->
+            <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-600">
+                <h3 class="font-bold text-lg text-blue-900 mb-2">Step 4: Implement — "In what ORDER?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>1️⃣ <strong>Split</strong> into Train/Test FIRST</p>
+                    <p>2️⃣ <strong>Calculate</strong> parameters on Training data ONLY</p>
+                    <p>3️⃣ <strong>Apply</strong> same parameters to BOTH sets</p>
+                    <p>4️⃣ <strong>Never</strong> touch target outliers (unless confirmed errors)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Pipeline Example -->
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">Complete Pipeline Example</h3>
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestRegressor
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> mean_absolute_error
+<span class="text-purple-400">from</span> scipy <span class="text-purple-400">import</span> stats
+
+<span class="text-gray-400"># ═══════════════════════════════════════════════════════════</span>
+<span class="text-gray-400"># COMPLETE OUTLIER HANDLING PIPELINE (No Leakage!)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════════════════════</span>
+
+df = pd.read_csv(<span class="text-green-400">'housing.csv'</span>)
+X = df.drop(columns=[<span class="text-green-400">'price'</span>, <span class="text-green-400">'id'</span>])
+y = df[<span class="text-green-400">'price'</span>]
+
+<span class="text-gray-400"># ── STEP 1: Split FIRST ──</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># ── STEP 2: EDA on TRAINING data only ──</span>
+<span class="text-gray-400"># Visual inspection</span>
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, len(X_train.columns), figsize=(<span class="text-yellow-400">20</span>, <span class="text-yellow-400">4</span>))
+<span class="text-purple-400">for</span> i, col <span class="text-purple-400">in</span> enumerate(X_train.columns):
+    axes[i].boxplot(X_train[col].dropna())
+    axes[i].set_title(col)
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># ── STEP 3: Calculate outlier boundaries on TRAIN ──</span>
+outlier_params = {}
+<span class="text-purple-400">for</span> col <span class="text-purple-400">in</span> X_train.select_dtypes(include=[np.number]).columns:
+    Q1 = X_train[col].quantile(<span class="text-yellow-400">0.25</span>)
+    Q3 = X_train[col].quantile(<span class="text-yellow-400">0.75</span>)
+    IQR = Q3 - Q1
+    outlier_params[col] = {
+        <span class="text-green-400">'lower'</span>: Q1 - <span class="text-yellow-400">1.5</span> * IQR,
+        <span class="text-green-400">'upper'</span>: Q3 + <span class="text-yellow-400">1.5</span> * IQR
+    }
+
+<span class="text-gray-400"># ── STEP 4: Apply capping to BOTH using TRAIN params ──</span>
+<span class="text-purple-400">for</span> col, params <span class="text-purple-400">in</span> outlier_params.items():
+    X_train[col] = X_train[col].clip(params[<span class="text-green-400">'lower'</span>], params[<span class="text-green-400">'upper'</span>])
+    X_test[col]  = X_test[col].clip(params[<span class="text-green-400">'lower'</span>], params[<span class="text-green-400">'upper'</span>])
+
+<span class="text-gray-400"># ── STEP 5: Handle target with LOG transform (not deletion!) ──</span>
+y_train_log = np.log1p(y_train)
+y_test_log  = np.log1p(y_test)
+
+<span class="text-gray-400"># ── STEP 6: Train with robust model + robust loss ──</span>
+model = RandomForestRegressor(
+    n_estimators=<span class="text-yellow-400">200</span>,
+    criterion=<span class="text-green-400">'absolute_error'</span>,  <span class="text-gray-400"># MAE — robust to outliers!</span>
+    random_state=<span class="text-yellow-400">42</span>
+)
+model.fit(X_train, y_train_log)
+
+<span class="text-gray-400"># ── STEP 7: Predict and inverse-transform ──</span>
+y_pred_log = model.predict(X_test)
+y_pred = np.expm1(y_pred_log)  <span class="text-gray-400"># Inverse of log1p</span>
+
+mae = mean_absolute_error(y_test, y_pred)
+print(<span class="text-green-400">f"MAE: ${mae:,.0f}"</span>)
+print(<span class="text-green-400">f"No data leakage ✅ | Target preserved ✅ | Robust model ✅"</span>)</code></pre>
+    </section>
+
+    <!-- QUICK REFERENCE CHEAT SHEET -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Quick Reference Cheat Sheet</h2>
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Scenario</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Detection</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Treatment</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Model Choice</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Salary data (skewed)</td>
+                        <td class="px-4 py-3 text-sm">IQR + Box Plot</td>
+                        <td class="px-4 py-3 text-sm">Log Transform or Cap</td>
+                        <td class="px-4 py-3 text-sm">Random Forest + MAE</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Sensor readings (normal)</td>
+                        <td class="px-4 py-3 text-sm">Z-Score</td>
+                        <td class="px-4 py-3 text-sm">Remove (measurement error)</td>
+                        <td class="px-4 py-3 text-sm">Linear Regression</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Fraud detection</td>
+                        <td class="px-4 py-3 text-sm">Isolation Forest</td>
+                        <td class="px-4 py-3 text-sm">Keep! (they ARE the signal)</td>
+                        <td class="px-4 py-3 text-sm">Gradient Boosting</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Survey with typos</td>
+                        <td class="px-4 py-3 text-sm">IQR + domain rules</td>
+                        <td class="px-4 py-3 text-sm">Correct or Remove</td>
+                        <td class="px-4 py-3 text-sm">Any</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">High-dimensional data</td>
+                        <td class="px-4 py-3 text-sm">Isolation Forest</td>
+                        <td class="px-4 py-3 text-sm">Feature engineering (anomaly score)</td>
+                        <td class="px-4 py-3 text-sm">Ensemble Methods</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-lg">
+            <h3 class="text-xl font-bold mb-3">🧠 The Golden Rules</h3>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">1. Never delete without investigating</p>
+                    <p class="opacity-90">Detection is not a mandate for deletion</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">2. Split before treating</p>
+                    <p class="opacity-90">Calculate all parameters on training data only</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">3. Don't touch the target</p>
+                    <p class="opacity-90">Transform the approach, not the truth</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">4. Document everything</p>
+                    <p class="opacity-90">Record what was removed, why, and how many</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

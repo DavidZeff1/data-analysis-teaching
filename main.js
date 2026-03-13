@@ -87,6 +87,7 @@ const content = {
     preprocessing: () => fetch("/ml/preprocessing.html").then((r) => r.text()),
     trees: () => fetch("/ml/trees.html").then((r) => r.text()),
     anomaly: () => fetch("/ml/anomaly.html").then((r) => r.text()),
+    outliers: () => fetch("/ml/outliers.html").then((r) => r.text()),
     evaluation: () => fetch("/ml/evaluation.html").then((r) => r.text()),
   },
 };
