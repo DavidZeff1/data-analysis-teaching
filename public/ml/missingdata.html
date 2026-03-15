@@ -1,0 +1,568 @@
+<div class="space-y-8">
+
+    <!-- SECTION 1: STRATEGIC IMPACT -->
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">The Strategic Impact of Data Incompleteness</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            Missing data is not a mere technical nuisance to be automated away; it is a <strong>strategic risk</strong> that can fundamentally undermine the integrity of the Machine Learning pipeline, leading to significant downstream business costs and regulatory bias.
+        </p>
+
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg mb-6 border-l-4 border-indigo-500">
+            <h3 class="font-semibold text-lg mb-3 text-indigo-900">📖 What Are Missing Values?</h3>
+            <p class="text-gray-700 mb-3">Missing values are unobserved "placeholders" — represented as <code class="bg-indigo-100 px-1 rounded">NaN</code>, <code class="bg-indigo-100 px-1 rounded">Null</code>, <code class="bg-indigo-100 px-1 rounded">None</code>, or blank cells — where data is absent.</p>
+            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📋 Unit Non-Response</h4>
+                    <p class="text-sm text-gray-700">An <strong>entire record</strong> is unobserved or latent — the whole row is missing from the dataset.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📝 Item Non-Response</h4>
+                    <p class="text-sm text-gray-700"><strong>Specific variables</strong> within a record are missing — certain cells in an otherwise complete row.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">Why Does Data Go Missing?</h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                <h4 class="font-semibold text-red-900 mb-2">👤 Human Error</h4>
+                <p class="text-sm text-gray-700">Information missed during entry, skipped survey questions, or non-mandatory fields — often involving sensitive topics like weight or income.</p>
+            </div>
+            <div class="bg-orange-50 p-5 rounded-lg border border-orange-200">
+                <h4 class="font-semibold text-orange-900 mb-2">⚙️ Technical Issues</h4>
+                <p class="text-sm text-gray-700">Data corruption during transmission or sensor malfunctions — e.g., a thermometer that stops recording during a critical timeframe.</p>
+            </div>
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-900 mb-2">📐 Study Design</h4>
+                <p class="text-sm text-gray-700">Participants dropping out, or "conditional questions" — e.g., asking for car cost only from those who indicated car ownership.</p>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h4 class="font-semibold text-purple-900 mb-2">🔒 Confidentiality</h4>
+                <p class="text-sm text-gray-700">Data intentionally scrubbed to protect privacy or maintain security protocols.</p>
+            </div>
+        </div>
+
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-lg mb-3 text-red-900">🚨 The Three-Fold Failure of Missing Data</h3>
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📊 Bias</h4>
+                    <p class="text-sm text-gray-700">If only sick individuals drop out of a health study, the results are <strong>systematically skewed</strong> — the remaining data no longer represents the true population.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📉 Reduced Statistical Power</h4>
+                    <p class="text-sm text-gray-700">Fewer complete observations <strong>weakens the reliability</strong> of statistical tests, making it harder to detect true effects.</p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">💥 Model Failure</h4>
+                    <p class="text-sm text-gray-700">Standard libraries like <strong>Scikit-Learn will crash</strong> upon encountering null entries — the pipeline simply stops.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TAXONOMY OF MISSINGNESS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Taxonomy of Missingness: MCAR, MAR, MNAR</h2>
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-lg border-l-4 border-amber-500 mb-6">
+            <h3 class="font-semibold text-lg mb-2 text-amber-900">⚠️ Critical Strategic Step</h3>
+            <p class="text-gray-700">Identifying the <strong>mechanism</strong> behind data absence is the most critical step. Selecting a handling strategy without diagnosing the mechanism is a leading cause of injecting artificial bias into a model.</p>
+        </div>
+
+        <div class="space-y-4 mb-6">
+            <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-500">
+                <h4 class="font-bold text-lg text-green-900 mb-2">MCAR — Missing Completely at Random</h4>
+                <p class="text-sm text-gray-700 mb-2">The probability of data being missing is <strong>entirely unrelated</strong> to any variable, observed or unobserved.</p>
+                <div class="bg-white p-3 rounded mt-2">
+                    <p class="text-sm text-gray-600"><strong>Example:</strong> A hard drive crash deletes 5% of records at random.</p>
+                    <p class="text-sm text-green-700 mt-1"><strong>Strategy:</strong> Deletion is viable — but <em>only</em> if the missing volume is extremely low.</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-500">
+                <h4 class="font-bold text-lg text-blue-900 mb-2">MAR — Missing At Random</h4>
+                <p class="text-sm text-gray-700 mb-2">Missingness is related to <strong>observed variables</strong> but not the missing value itself.</p>
+                <div class="bg-white p-3 rounded mt-2">
+                    <p class="text-sm text-gray-600"><strong>Example:</strong> Married participants skip internet browsing questions more frequently than single ones — but within the "married" group, the missingness is random.</p>
+                    <p class="text-sm text-blue-700 mt-1"><strong>Strategy:</strong> Requires sophisticated imputation (KNN, MICE, Regression) to utilize existing relationships.</p>
+                </div>
+            </div>
+
+            <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+                <h4 class="font-bold text-lg text-red-900 mb-2">MNAR — Missing Not At Random</h4>
+                <p class="text-sm text-gray-700 mb-2">The probability of missingness <strong>depends on the unobserved value itself</strong>. This is the most problematic type.</p>
+                <div class="bg-white p-3 rounded mt-2">
+                    <p class="text-sm text-gray-600"><strong>Example:</strong> High-income earners are statistically less likely to disclose their salary.</p>
+                    <p class="text-sm text-red-700 mt-1"><strong>Strategy:</strong> Almost always introduces systematic bias. Requires specialized statistical modeling or retaining NaNs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Category</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Definition</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Real-World Example</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Recommended Strategy</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-green-800">MCAR</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Missingness is random and unrelated to any variable</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Hardware failure / Hard drive crash</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Deletion (only if volume is low)</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-blue-800">MAR</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Missingness relates to other observed variables</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Married users skipping web-usage questions</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Advanced imputation (KNN, MICE, Regression)</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-semibold text-red-800">MNAR</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Missingness depends on the unobserved value itself</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">High-earners refusing to disclose income</td>
+                        <td class="px-6 py-4 text-sm text-gray-700">Specialized modeling or retaining NaNs</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 3: DIAGNOSTIC TECHNIQUES -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Diagnostic Techniques: Detecting Gaps in Python</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            In the exploratory phase, <strong>"data profiling"</strong> is a mandatory diagnostic gate. We must determine if missingness is localized to a feature or systemic across the population.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-900 mb-2">🔍 Global Health Check</h4>
+                <p class="text-sm text-gray-700">Use <code class="bg-blue-100 px-1 rounded">df.isnull().sum()</code> to quantify the count and percentage of missing values per column.</p>
+            </div>
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h4 class="font-semibold text-green-900 mb-2">📊 Categorical Integrity</h4>
+                <p class="text-sm text-gray-700">Use <code class="bg-green-100 px-1 rounded">value_counts(dropna=False)</code> to assess representation across categories.</p>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h4 class="font-semibold text-purple-900 mb-2">🗺️ Visual Discovery</h4>
+                <p class="text-sm text-gray-700">Matrix plots and heatmaps reveal if gaps are <strong>clustered</strong> (systemic) or <strong>dispersed</strong> (random).</p>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># STEP 1: Global Health Check</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># Count and percentage of missing values per column</span>
+missing_count = df.isnull().sum()
+missing_pct = (df.isnull().sum() / len(df)) * <span class="text-yellow-400">100</span>
+
+missing_report = pd.DataFrame({
+    <span class="text-green-400">'Missing Count'</span>: missing_count,
+    <span class="text-green-400">'Missing %'</span>: missing_pct.round(<span class="text-yellow-400">2</span>)
+}).sort_values(<span class="text-green-400">'Missing %'</span>, ascending=<span class="text-yellow-400">False</span>)
+
+print(missing_report[missing_report[<span class="text-green-400">'Missing Count'</span>] > <span class="text-yellow-400">0</span>])
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># STEP 2: Categorical Integrity Check</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># Check if any category is disproportionately silenced</span>
+print(df[<span class="text-green-400">'marital_status'</span>].value_counts(dropna=<span class="text-yellow-400">False</span>))
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># STEP 3: Visual Discovery — Missingness Heatmap</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+plt.figure(figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">6</span>))
+sns.heatmap(df.isnull(), cbar=<span class="text-yellow-400">True</span>, yticklabels=<span class="text-yellow-400">False</span>, cmap=<span class="text-green-400">'viridis'</span>)
+plt.title(<span class="text-green-400">'Missing Data Heatmap — Yellow = Missing'</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># STEP 4: Correlation of Missingness</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># Check if missingness in one column correlates with another</span>
+missing_corr = df.isnull().corr()
+plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">8</span>))
+sns.heatmap(missing_corr, annot=<span class="text-yellow-400">True</span>, cmap=<span class="text-green-400">'coolwarm'</span>, center=<span class="text-yellow-400">0</span>)
+plt.title(<span class="text-green-400">'Missingness Correlation Matrix'</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+
+        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-lg border-l-4 border-indigo-500 mb-6">
+            <h3 class="font-semibold text-lg mb-2 text-indigo-900">🎯 The Diagnostic Must Answer</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li><strong>Is the missingness localized?</strong> — Confined to specific features?</li>
+                <li><strong>Is it systemic?</strong> — Spread across the entire dataset?</li>
+                <li><strong>Is there a visible pattern?</strong> — Clustered gaps indicate systemic failure.</li>
+            </ul>
+            <p class="text-gray-700 mt-3">These answers dictate the shift from detection to the <strong>"Hierarchy of Handling."</strong></p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: STRATEGIC HANDLING -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Strategic Handling: The Hierarchy of Missing Data Treatment</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            Handling missing data requires a calculated trade-off between <strong>maximizing information</strong> and <strong>minimizing bias</strong>.
+        </p>
+
+        <div class="space-y-4 mb-6">
+            <div class="bg-emerald-50 p-5 rounded-lg border-l-4 border-emerald-600">
+                <h4 class="font-bold text-lg text-emerald-900 mb-2">1️⃣ Prevention & Retrieval (Highest Priority)</h4>
+                <p class="text-sm text-gray-700">The <strong>only</strong> way to ensure genuine accuracy. Before estimating, attempt to go back to the source: re-run failed sensors, retrieve original records, or contact participants to fill skipped fields.</p>
+            </div>
+            <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-600">
+                <h4 class="font-bold text-lg text-blue-900 mb-2">2️⃣ External Enrichment</h4>
+                <p class="text-sm text-gray-700">Fill gaps with <strong>actual data</strong> via secondary datasets or APIs. For example, if real estate records lack property features, an API like Zillow can fill those gaps with ground-truth values.</p>
+            </div>
+            <div class="bg-amber-50 p-5 rounded-lg border-l-4 border-amber-600">
+                <h4 class="font-bold text-lg text-amber-900 mb-2">3️⃣ Deletion Methods (Last Resort)</h4>
+                <p class="text-sm text-gray-700">Removing rows or columns. Effective for "Irrelevant Features" or columns with extreme null percentages. Reduces dimensionality but risks discarding useful information.</p>
+            </div>
+            <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-600">
+                <h4 class="font-bold text-lg text-purple-900 mb-2">4️⃣ Imputation (Statistical Estimation)</h4>
+                <p class="text-sm text-gray-700">Replacing gaps with calculated statistics: <strong>Mean</strong> (for normal distributions), <strong>Median</strong> (for skewed data/outliers), or <strong>Mode</strong> (for categorical data). Advanced methods (Regression, KNN, MICE) are required for MAR scenarios.</p>
+            </div>
+            <div class="bg-gray-100 p-5 rounded-lg border-l-4 border-gray-600">
+                <h4 class="font-bold text-lg text-gray-900 mb-2">5️⃣ Flagging (Binary Indicators)</h4>
+                <p class="text-sm text-gray-700">Creating an <code class="bg-gray-200 px-1 rounded">Is_Missing</code> boolean feature allows the model to treat the <strong>absence of data as a signal itself</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Deletion vs Imputation Trade-offs -->
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                <h4 class="font-semibold text-red-900 mb-2">🗑️ Deletion — Trade-offs</h4>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li><strong>Pro:</strong> Simplifies the pipeline</li>
+                    <li><strong>Pro:</strong> Reduces dimensionality; speeds up training</li>
+                    <li><strong>Con:</strong> Discards information</li>
+                    <li><strong>Con:</strong> Requires subjective thresholds (50% vs 80%?)</li>
+                </ul>
+            </div>
+            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                <h4 class="font-semibold text-green-900 mb-2">🔧 Imputation — Trade-offs</h4>
+                <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                    <li><strong>Pro:</strong> Retains dataset volume</li>
+                    <li><strong>Pro:</strong> Maximizes available information</li>
+                    <li><strong>Con:</strong> Introduces estimates, not facts</li>
+                    <li><strong>Con:</strong> Requires uncertainty estimation (p-values, CIs)</li>
+                </ul>
+            </div>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer, KNNImputer
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 1: Simple Imputation (Mean / Median / Mode)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+
+<span class="text-gray-400"># Mean — for normally distributed numeric features</span>
+mean_imputer = SimpleImputer(strategy=<span class="text-green-400">'mean'</span>)
+df[<span class="text-green-400">'age_filled'</span>] = mean_imputer.fit_transform(df[[<span class="text-green-400">'age'</span>]])
+
+<span class="text-gray-400"># Median — for skewed numeric features (robust to outliers)</span>
+median_imputer = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+df[<span class="text-green-400">'income_filled'</span>] = median_imputer.fit_transform(df[[<span class="text-green-400">'income'</span>]])
+
+<span class="text-gray-400"># Mode — for categorical features</span>
+mode_imputer = SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)
+df[<span class="text-green-400">'city_filled'</span>] = mode_imputer.fit_transform(df[[<span class="text-green-400">'city'</span>]])
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 2: KNN Imputation (Advanced — for MAR)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+knn_imputer = KNNImputer(n_neighbors=<span class="text-yellow-400">5</span>)
+df_numeric = df.select_dtypes(include=[np.number])
+df_knn = pd.DataFrame(
+    knn_imputer.fit_transform(df_numeric),
+    columns=df_numeric.columns
+)
+print(<span class="text-green-400">"KNN imputation complete — uses 5 nearest neighbors"</span>)
+
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+<span class="text-gray-400"># METHOD 3: Flagging — Missingness as a Feature</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════</span>
+df[<span class="text-green-400">'income_is_missing'</span>] = df[<span class="text-green-400">'income'</span>].isnull().astype(<span class="text-yellow-400">int</span>)
+print(<span class="text-green-400">f"Missing flags created: {df['income_is_missing'].sum()} flagged"</span>)</code></pre>
+
+        <!-- MICE Imputation -->
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">MICE — Multiple Imputation by Chained Equations</h3>
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border-l-4 border-purple-500 mb-4">
+            <p class="text-gray-700">MICE is the gold standard for MAR data. It iteratively imputes each feature using the others as predictors, running <strong>multiple rounds</strong> to converge on stable estimates.</p>
+        </div>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">from</span> sklearn.experimental <span class="text-purple-400">import</span> enable_iterative_imputer
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> IterativeImputer
+
+<span class="text-gray-400"># MICE-style imputation using Scikit-Learn's IterativeImputer</span>
+mice_imputer = IterativeImputer(
+    max_iter=<span class="text-yellow-400">10</span>,
+    random_state=<span class="text-yellow-400">42</span>,
+    sample_posterior=<span class="text-yellow-400">False</span>
+)
+
+df_mice = pd.DataFrame(
+    mice_imputer.fit_transform(df_numeric),
+    columns=df_numeric.columns
+)
+
+print(<span class="text-green-400">"MICE imputation complete"</span>)
+print(<span class="text-green-400">f"Remaining NaNs: {df_mice.isnull().sum().sum()}"</span>)  <span class="text-gray-400"># Should be 0</span></code></pre>
+    </section>
+
+    <!-- SECTION 5: ML PIPELINE INTEGRATION -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Integration with the ML Pipeline</h2>
+
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-lg mb-2 text-red-900">🚨 The Risk of Model Failure</h3>
+            <p class="text-gray-700">While some algorithms (certain Decision Tree implementations) can technically handle nulls, <strong>standard Scikit-Learn will fail</strong>. Even when an algorithm can process missingness, the architect's goal remains the minimization of bias through rigorous pre-processing.</p>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-lg mb-6">
+            <h3 class="text-xl font-bold mb-3">🧠 Best Practices for a Robust ML Pipeline</h3>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">1. Diagnose the Mechanism</p>
+                    <p class="opacity-90">Never select a handling strategy without determining if data is MCAR, MAR, or MNAR.</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">2. Exhaust Retrieval Options</p>
+                    <p class="opacity-90">Prioritize genuine data points (sensor re-runs, participant contact) over estimates.</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">3. Govern Thresholds</p>
+                    <p class="opacity-90">Deletion must be gated by professional judgment and strict volume thresholds.</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">4. Preserve Statistical Power</p>
+                    <p class="opacity-90">Choose methods that maximize information without skewing distributions.</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg col-span-2">
+                    <p class="font-semibold mb-1">5. Quantify Confidence</p>
+                    <p class="opacity-90">Always provide estimations of uncertainty (p-values, confidence intervals) for any imputed data used in the final model.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">Complete Leak-Free Pipeline</h3>
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer, KNNImputer
+<span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> classification_report
+
+<span class="text-gray-400"># ═══════════════════════════════════════════════════════════</span>
+<span class="text-gray-400"># COMPLETE MISSING DATA PIPELINE (No Leakage!)</span>
+<span class="text-gray-400"># ═══════════════════════════════════════════════════════════</span>
+
+df = pd.read_csv(<span class="text-green-400">'dataset.csv'</span>)
+
+<span class="text-gray-400"># ── STEP 1: Identify column types ──</span>
+numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+categorical_cols = df.select_dtypes(include=[<span class="text-green-400">'object'</span>, <span class="text-green-400">'category'</span>]).columns.tolist()
+
+<span class="text-gray-400"># Remove target from feature lists</span>
+target = <span class="text-green-400">'target'</span>
+numeric_cols = [c <span class="text-purple-400">for</span> c <span class="text-purple-400">in</span> numeric_cols <span class="text-purple-400">if</span> c != target]
+
+X = df[numeric_cols + categorical_cols]
+y = df[target]
+
+<span class="text-gray-400"># ── STEP 2: Split FIRST — before ANY imputation ──</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>, stratify=y
+)
+
+<span class="text-gray-400"># ── STEP 3: Build imputation pipeline ──</span>
+<span class="text-gray-400"># Numeric: KNN imputation (leverages relationships)</span>
+<span class="text-gray-400"># Categorical: Mode imputation (most frequent)</span>
+preprocessor = ColumnTransformer(
+    transformers=[
+        (<span class="text-green-400">'num'</span>, KNNImputer(n_neighbors=<span class="text-yellow-400">5</span>), numeric_cols),
+        (<span class="text-green-400">'cat'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>), categorical_cols),
+    ]
+)
+
+<span class="text-gray-400"># ── STEP 4: Full pipeline — impute + train ──</span>
+pipeline = Pipeline([
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(n_estimators=<span class="text-yellow-400">200</span>, random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># ── STEP 5: Fit on train, predict on test ──</span>
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)
+
+print(classification_report(y_test, y_pred))
+print(<span class="text-green-400">"No data leakage ✅ | Imputation fitted on train only ✅"</span>)</code></pre>
+    </section>
+
+    <!-- SECTION 6: DECISION TREE -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 rounded-lg mb-6">
+            <h2 class="text-2xl font-bold mb-3">🎯 The Master Decision Tree: Missing Data Strategy</h2>
+            <p class="text-sm opacity-90">Follow this flowchart for every feature with missing values. The decision is never "detect and delete" — it's "diagnose, strategize, and implement."</p>
+        </div>
+
+        <div class="space-y-4 mb-6">
+            <div class="bg-indigo-50 p-5 rounded-lg border-l-4 border-indigo-600">
+                <h3 class="font-bold text-lg text-indigo-900 mb-2">Step 1: Profile — "How much is missing?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>→ <strong>< 5% missing?</strong> Low risk — simple imputation or deletion may suffice</p>
+                    <p>→ <strong>5–30% missing?</strong> Moderate risk — requires careful imputation strategy</p>
+                    <p>→ <strong>> 30% missing?</strong> High risk — consider dropping the feature entirely or advanced modeling</p>
+                    <p>→ <strong>Always start with:</strong> <code class="bg-indigo-100 px-1 rounded">df.isnull().sum()</code> + Heatmap visualization</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 p-5 rounded-lg border-l-4 border-amber-600">
+                <h3 class="font-bold text-lg text-amber-900 mb-2">Step 2: Diagnose — "WHY is it missing?"</h3>
+                <div class="ml-4 grid md:grid-cols-3 gap-3 text-sm">
+                    <div class="bg-white p-3 rounded">
+                        <p class="font-semibold text-green-700">🟢 MCAR</p>
+                        <p class="text-gray-600">Random loss → Deletion OK if volume is tiny</p>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                        <p class="font-semibold text-blue-700">🔵 MAR</p>
+                        <p class="text-gray-600">Related to observed data → Advanced imputation (KNN, MICE)</p>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                        <p class="font-semibold text-red-700">🔴 MNAR</p>
+                        <p class="text-gray-600">Self-dependent → Specialized modeling or retain NaNs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-600">
+                <h3 class="font-bold text-lg text-green-900 mb-2">Step 3: Retrieve — "Can we get the real data?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>→ <strong>Re-run sensors?</strong> Contact data source for original records</p>
+                    <p>→ <strong>External API?</strong> Enrich with secondary datasets (Zillow, Census, etc.)</p>
+                    <p>→ <strong>If retrieval fails</strong> → Move to Step 4</p>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-600">
+                <h3 class="font-bold text-lg text-purple-900 mb-2">Step 4: Handle — "Which technique fits?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>→ <strong>Normal distribution?</strong> Mean imputation</p>
+                    <p>→ <strong>Skewed / has outliers?</strong> Median imputation</p>
+                    <p>→ <strong>Categorical?</strong> Mode imputation</p>
+                    <p>→ <strong>MAR with relationships?</strong> KNN or MICE imputation</p>
+                    <p>→ <strong>Missingness is informative?</strong> Create binary <code class="bg-purple-100 px-1 rounded">Is_Missing</code> flag</p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-600">
+                <h3 class="font-bold text-lg text-blue-900 mb-2">Step 5: Implement — "In what ORDER?"</h3>
+                <div class="ml-4 space-y-2 text-sm text-gray-700">
+                    <p>1️⃣ <strong>Split</strong> into Train/Test FIRST</p>
+                    <p>2️⃣ <strong>Fit</strong> imputer on Training data ONLY</p>
+                    <p>3️⃣ <strong>Transform</strong> BOTH sets with the fitted imputer</p>
+                    <p>4️⃣ <strong>Use Pipelines</strong> to prevent data leakage</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <h3 class="text-2xl font-bold mb-4 text-gray-900">Quick Reference Cheat Sheet</h3>
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Scenario</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Mechanism</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Handling Strategy</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Python Tool</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Random sensor failure (< 2%)</td>
+                        <td class="px-4 py-3 text-sm">MCAR</td>
+                        <td class="px-4 py-3 text-sm">Drop rows</td>
+                        <td class="px-4 py-3 text-sm"><code class="bg-gray-100 px-1 rounded">df.dropna()</code></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Skewed income with gaps</td>
+                        <td class="px-4 py-3 text-sm">MAR</td>
+                        <td class="px-4 py-3 text-sm">Median or KNN Imputation</td>
+                        <td class="px-4 py-3 text-sm"><code class="bg-gray-100 px-1 rounded">KNNImputer()</code></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Survey with conditional questions</td>
+                        <td class="px-4 py-3 text-sm">MAR (by design)</td>
+                        <td class="px-4 py-3 text-sm">Flag + Context-aware imputation</td>
+                        <td class="px-4 py-3 text-sm"><code class="bg-gray-100 px-1 rounded">IterativeImputer()</code></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">High-earners hiding salary</td>
+                        <td class="px-4 py-3 text-sm">MNAR</td>
+                        <td class="px-4 py-3 text-sm">Retain NaN + Flag + Specialized model</td>
+                        <td class="px-4 py-3 text-sm">Domain-specific</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Feature 80% missing</td>
+                        <td class="px-4 py-3 text-sm">Any</td>
+                        <td class="px-4 py-3 text-sm">Drop the column</td>
+                        <td class="px-4 py-3 text-sm"><code class="bg-gray-100 px-1 rounded">df.drop(columns=[...])</code></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-semibold">Categorical field (city, gender)</td>
+                        <td class="px-4 py-3 text-sm">MAR/MCAR</td>
+                        <td class="px-4 py-3 text-sm">Mode imputation</td>
+                        <td class="px-4 py-3 text-sm"><code class="bg-gray-100 px-1 rounded">SimpleImputer('most_frequent')</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-lg">
+            <h3 class="text-xl font-bold mb-3">🧠 The Golden Rules of Missing Data</h3>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">1. Diagnose before treating</p>
+                    <p class="opacity-90">MCAR, MAR, or MNAR — the mechanism dictates the strategy</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">2. Exhaust retrieval first</p>
+                    <p class="opacity-90">Real data always beats statistical estimates</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">3. Split before imputing</p>
+                    <p class="opacity-90">Fit imputers on training data only — prevent leakage</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">4. Use Pipelines</p>
+                    <p class="opacity-90">Sklearn Pipelines automate leak-free imputation</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">5. Quantify uncertainty</p>
+                    <p class="opacity-90">Imputed values are estimates — report confidence intervals</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg">
+                    <p class="font-semibold mb-1">6. Document everything</p>
+                    <p class="opacity-90">Record what was missing, why, and how it was handled</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
