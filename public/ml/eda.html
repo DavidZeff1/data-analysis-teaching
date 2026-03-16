@@ -30,22 +30,61 @@
 <span class="text-gray-400"># Load data</span>
 df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)
 
-<span class="text-gray-400"># 1. Quick look at the first few rows</span>
+<span class="text-gray-400"># 1. Quick look at the first and last rows</span>
 display(df.head())
+display(df.tail())       <span class="text-gray-400"># Sometimes errors cluster at the end of a file</span>
+display(df.sample(<span class="text-yellow-400">5</span>))   <span class="text-gray-400"># Random sample to spot unexpected patterns</span>
 
-<span class="text-gray-400"># 2. Get data types and non-null counts</span>
+<span class="text-gray-400"># 2. Shape: how many rows and columns?</span>
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Rows: {df.shape[0]}, Columns: {df.shape[1]}"</span>)
+
+<span class="text-gray-400"># 3. Get data types and non-null counts</span>
 <span class="text-gray-400"># Look out for numeric columns stored as 'object' (strings)</span>
 df.info()
 
-<span class="text-gray-400"># 3. Summary statistics for numerical columns</span>
+<span class="text-gray-400"># 4. Memory usage — important for large datasets</span>
+<span class="text-blue-400">print</span>(df.memory_usage(deep=<span class="text-purple-400">True</span>).sum() / <span class="text-yellow-400">1024</span>**<span class="text-yellow-400">2</span>, <span class="text-green-400">"MB"</span>)
+
+<span class="text-gray-400"># 5. Summary statistics for numerical columns</span>
 <span class="text-gray-400"># Checks mean, std, min, max, and quartiles (25%, 50%, 75%)</span>
 display(df.describe())
 
-<span class="text-gray-400"># 4. Summary for categorical columns</span>
+<span class="text-gray-400"># 6. Summary for categorical columns</span>
 display(df.describe(include=[<span class="text-green-400">'object'</span>, <span class="text-green-400">'category'</span>]))</code></pre>
 
+                    <h4 class="font-bold text-gray-800 mt-6 mb-3 text-lg">🔍 Checking Unique Values & Spotting Issues</h4>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># How many unique values per column? Helps identify:</span>
+<span class="text-gray-400"># - IDs (all unique), binary flags (2 unique), low-cardinality categoricals</span>
+<span class="text-blue-400">print</span>(df.nunique())
+
+<span class="text-gray-400"># Spot columns with suspiciously few unique values</span>
+<span class="text-gray-400"># E.g., a 'gender' column might have: ['Male', 'Female', 'male', 'M', '']</span>
+<span class="text-purple-400">for</span> col <span class="text-purple-400">in</span> df.select_dtypes(include=<span class="text-green-400">'object'</span>).columns:
+    <span class="text-blue-400">print</span>(f<span class="text-green-400">"\n{col}:"</span>)
+    <span class="text-blue-400">print</span>(df[col].value_counts(dropna=<span class="text-purple-400">False</span>))
+
+<span class="text-gray-400"># Check for columns where numeric data is hidden as strings</span>
+<span class="text-gray-400"># Common culprits: '$100', '5%', '1,000', 'N/A', '-'</span>
+<span class="text-purple-400">for</span> col <span class="text-purple-400">in</span> df.select_dtypes(include=<span class="text-green-400">'object'</span>).columns:
+    sample_vals = df[col].dropna().head(<span class="text-yellow-400">5</span>).tolist()
+    <span class="text-blue-400">print</span>(f<span class="text-green-400">"{col}: {sample_vals}"</span>)</code></pre>
+
+                    <h4 class="font-bold text-gray-800 mt-6 mb-3 text-lg">📊 Missing Data Overview</h4>
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># Missing values count and percentage per column</span>
+missing = df.isnull().sum()
+missing_pct = (missing / len(df)) * <span class="text-yellow-400">100</span>
+missing_df = pd.DataFrame({
+    <span class="text-green-400">'Missing Count'</span>: missing,
+    <span class="text-green-400">'Missing %'</span>: missing_pct.round(<span class="text-yellow-400">2</span>)
+}).sort_values(<span class="text-green-400">'Missing %'</span>, ascending=<span class="text-purple-400">False</span>)
+display(missing_df[missing_df[<span class="text-green-400">'Missing Count'</span>] > <span class="text-yellow-400">0</span>])
+
+<span class="text-gray-400"># Are missing values random or patterned?</span>
+<span class="text-gray-400"># If two columns are always missing together, that's a pattern</span>
+<span class="text-blue-400">print</span>(df.isnull().corr())  <span class="text-gray-400"># High correlation = missing together</span></code></pre>
+
                     <div class="bg-blue-50 p-4 rounded text-sm text-blue-800">
-                        <strong>💡 What to look for:</strong> Is the mean vastly different from the median (50%)? If so, your data is skewed. Is the max value impossibly high? You might have outliers or data entry errors.
+                        <strong>💡 What to look for:</strong> Is the mean vastly different from the median (50%)? → Your data is skewed. Is the max value impossibly high? → Outliers or data entry errors. Are there columns with mostly missing values (>50%)? → Consider dropping them. Does a column have only 1 unique value? → It provides no information, drop it.
                     </div>
                 </div>
             </div>
