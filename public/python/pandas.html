@@ -23,6 +23,122 @@
 df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)</pre>
     </div>
   </div>
+
+  <!-- Section Overview -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">📋 Section Overview</h2>
+    <p class="text-sm text-gray-600 mb-4">This cheat sheet is organized from foundational concepts to advanced operations. Use this map to jump to what you need.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Category</th>
+            <th class="border px-3 py-2 text-left">Section</th>
+            <th class="border px-3 py-2 text-left">What it's for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1 font-semibold" rowspan="2">🏗️ Basics</td>
+            <td class="border px-3 py-1">DataFrame Structure</td>
+            <td class="border px-3 py-1">Understand the 3 parts of a DataFrame and how to access data</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Selecting Columns</td>
+            <td class="border px-3 py-1">Pick which columns to keep or inspect</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold" rowspan="2">🔍 Filtering & Sorting</td>
+            <td class="border px-3 py-1">Filtering Rows</td>
+            <td class="border px-3 py-1">Keep only the rows that match your criteria</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">Sorting & Limiting</td>
+            <td class="border px-3 py-1">Order your data and grab the top/bottom N</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1 font-semibold" rowspan="4">📊 Grouping & Aggregation</td>
+            <td class="border px-3 py-1">Aggregation (groupby)</td>
+            <td class="border px-3 py-1">Summarize data by categories (sum, mean, count)</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Counting Methods</td>
+            <td class="border px-3 py-1">Different ways to count rows, values, and uniques</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Filtering Groups</td>
+            <td class="border px-3 py-1">Keep only groups that meet a condition after aggregating</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Transform</td>
+            <td class="border px-3 py-1">Broadcast group calculations back to every original row</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold" rowspan="3">🔗 Combining & Reshaping</td>
+            <td class="border px-3 py-1">Merging DataFrames</td>
+            <td class="border px-3 py-1">Join two tables using a shared key (like SQL JOINs)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">Concatenating DataFrames</td>
+            <td class="border px-3 py-1">Stack tables on top or side by side</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">Binning (cut & qcut)</td>
+            <td class="border px-3 py-1">Turn continuous numbers into labeled categories</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1 font-semibold" rowspan="4">🧹 Data Cleaning</td>
+            <td class="border px-3 py-1">Conditional Logic</td>
+            <td class="border px-3 py-1">Create new columns with if/else rules</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Renaming Columns</td>
+            <td class="border px-3 py-1">Clean up messy column names</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Handling Duplicates</td>
+            <td class="border px-3 py-1">Find and remove repeated rows</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Index Management</td>
+            <td class="border px-3 py-1">Fix messy row indexes after operations</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold" rowspan="3">🔤 Data Types & Accessors</td>
+            <td class="border px-3 py-1">.str Accessor</td>
+            <td class="border px-3 py-1">String manipulation on text columns</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">.dt Accessor</td>
+            <td class="border px-3 py-1">Extract parts of dates (year, month, day of week)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1">.cat Accessor</td>
+            <td class="border px-3 py-1">Work with ordered categories (S, M, L, XL)</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1 font-semibold" rowspan="3">⚡ Advanced</td>
+            <td class="border px-3 py-1">Ranking & Window Functions</td>
+            <td class="border px-3 py-1">Rank rows, running totals, lag/lead operations</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">Apply & Map</td>
+            <td class="border px-3 py-1">Apply custom functions when built-in methods aren't enough</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="border px-3 py-1">GeoPandas</td>
+            <td class="border px-3 py-1">Work with geographic/spatial data (maps, coordinates)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">📖 Reference</td>
+            <td class="border px-3 py-1">Quick Reference & Key Reminders</td>
+            <td class="border px-3 py-1">One-line summary of every common operation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- DataFrame Structure -->
 <div class="bg-white rounded-lg border border-gray-200 p-4">
   <h2 class="font-bold text-lg mb-3 text-blue-700">DataFrame Structure (Index, Columns, Values)</h2>
@@ -123,6 +239,7 @@ stacked[stacked != 1]      <span class="text-gray-400"># filter by value</span><
   <!-- Selecting Columns -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Selecting Columns</h2>
+    <p class="text-sm text-gray-600 mb-3">Think of this as choosing which columns from a spreadsheet you care about. You're narrowing your view to just the relevant data — like picking only the columns you'd include in a report.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Select specific columns</span>
 df[[<span class="text-green-400">'col1'</span>, <span class="text-green-400">'col2'</span>]]
@@ -148,6 +265,7 @@ df[[<span class="text-green-400">'col'</span>]].drop_duplicates()   <span class=
   <!-- Filtering Rows -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Filtering Rows</h2>
+    <p class="text-sm text-gray-600 mb-3">Filtering is like a bouncer at the door — you set the rules and only the rows that pass get through. This is equivalent to SQL's <code class="bg-gray-200 px-1 rounded">WHERE</code> clause. You create a True/False mask and pandas keeps only the True rows.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Simple filter</span>
 df[df[<span class="text-green-400">'Total'</span>] > 10]
@@ -183,6 +301,7 @@ df[~df[<span class="text-green-400">'Country'</span>].isin([<span class="text-gr
   <!-- Sorting & Limiting -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Sorting & Limiting</h2>
+    <p class="text-sm text-gray-600 mb-3">Sorting rearranges your rows by value (like SQL's <code class="bg-gray-200 px-1 rounded">ORDER BY</code>), and limiting lets you grab just the first/last N rows. Together they answer questions like "what are the top 10 highest sales?"</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Sort ascending</span>
 df.sort_values(<span class="text-green-400">'Total'</span>)
@@ -212,6 +331,7 @@ df.iloc[5:15]</pre>
   <!-- Aggregation -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Aggregation (groupby)</h2>
+    <p class="text-sm text-gray-600 mb-3">Groupby is "split-apply-combine": split your data into groups (by country, by category), apply a calculation to each group (sum, mean, count), then combine the results into a summary table. It's SQL's <code class="bg-gray-200 px-1 rounded">GROUP BY</code> equivalent.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Basic groupby with named aggregations</span>
 df.groupby(<span class="text-green-400">'Country'</span>).agg(
@@ -240,7 +360,7 @@ df.agg({<span class="text-green-400">'Total'</span>: [<span class="text-green-40
   <!-- Counting Methods -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Counting Methods</h2>
-    <p class="text-sm text-gray-600 mb-3">Understanding when to use each is crucial - they behave differently with nulls.</p>
+    <p class="text-sm text-gray-600 mb-3">"How many?" is one of the most common questions in data analysis, but there are many flavors: how many rows? How many non-null values? How many unique values? How many of each? Each method answers a different version of that question — and they behave differently with nulls.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># .size() - counts ALL rows including nulls</span>
 df.groupby(<span class="text-green-400">'class'</span>).size()
@@ -293,6 +413,7 @@ df.groupby(<span class="text-green-400">'class'</span>)[<span class="text-green-
   <!-- Filtering Groups -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Filtering Groups</h2>
+    <p class="text-sm text-gray-600 mb-3">Sometimes you don't just want to filter individual rows — you want to filter entire groups. For example: "show me only customers who have placed 5+ orders." This is SQL's <code class="bg-gray-200 px-1 rounded">HAVING</code> clause. You aggregate first, then apply a condition to the summary.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Filter after grouping (aggregate first, then filter)</span>
 grouped = df.groupby(<span class="text-green-400">'Country'</span>).agg(
@@ -346,6 +467,7 @@ df[<span class="text-green-400">'Total'</span>] = df.groupby(<span class="text-g
   <!-- Binning -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Binning (cut & qcut)</h2>
+    <p class="text-sm text-gray-600 mb-3">Binning converts continuous numbers into discrete categories — like turning exact ages into age groups (0-17, 18-35, 36-60, 60+). Think of it as putting values into labeled buckets. <code class="bg-gray-200 px-1 rounded">cut</code> makes buckets of equal width, <code class="bg-gray-200 px-1 rounded">qcut</code> makes buckets with equal number of items.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># cut: Equal-width bins (by value range)</span>
 df[<span class="text-green-400">'PriceTier'</span>] = pd.cut(
@@ -395,6 +517,7 @@ df[<span class="text-green-400">'Tier'</span>] = pd.qcut(
   <!-- Merging -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Merging DataFrames</h2>
+    <p class="text-sm text-gray-600 mb-3">Merging is how you combine two tables that share a common column — exactly like SQL JOINs. Think of it as "looking up" information from one table and attaching it to another. For example, merging a customers table with an orders table using customer ID.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Inner join (only matching rows)</span>
 pd.merge(df1, df2, on=<span class="text-green-400">'key'</span>, how=<span class="text-green-400">'inner'</span>)
@@ -422,6 +545,7 @@ pd.merge(df1, df2, left_on=<span class="text-green-400">'cust_id'</span>, right_
   <!-- Concatenating -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Concatenating DataFrames</h2>
+    <p class="text-sm text-gray-600 mb-3">Unlike merging (which matches rows by a key), concatenating is simple stacking — gluing tables together either vertically (more rows) or horizontally (more columns). Think: "I have January data and February data in separate tables, and I want to combine them into one."</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Stack vertically (add rows)</span>
 pd.concat([df1, df2])
@@ -437,6 +561,7 @@ pd.concat([df1, df2], axis=1)</pre>
   <!-- Conditional Logic -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Conditional Logic</h2>
+    <p class="text-sm text-gray-600 mb-3">This is how you create new columns based on rules — like SQL's <code class="bg-gray-200 px-1 rounded">CASE WHEN</code>. "If total > 10, label it 'High', otherwise 'Low'." Use <code class="bg-gray-200 px-1 rounded">np.where</code> for simple if/else and <code class="bg-gray-200 px-1 rounded">np.select</code> when you have multiple conditions.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Simple if/else (2 outcomes)</span>
 df[<span class="text-green-400">'Category'</span>] = np.where(df[<span class="text-green-400">'Total'</span>] > 10, <span class="text-green-400">'High'</span>, <span class="text-green-400">'Low'</span>)
@@ -463,6 +588,7 @@ df[<span class="text-green-400">'Category'</span>] = pd.cut(
   <!-- Renaming Columns -->
 <div class="bg-white rounded-lg border border-gray-200 p-4">
   <h2 class="font-bold text-lg mb-3 text-blue-700">Renaming Columns</h2>
+  <p class="text-sm text-gray-600 mb-3">Real-world datasets often come with messy column names — spaces, inconsistent casing, abbreviations. Renaming columns is one of the first things you do to make your data easier to work with. Think of it as putting clear labels on every column so your code reads like plain English.</p>
   <div class="bg-gray-800 text-white p-3 rounded text-sm">
     <pre><span class="text-gray-400"># Rename specific columns (dict mapping)</span>
 df.rename(columns={<span class="text-green-400">'old_name'</span>: <span class="text-green-400">'new_name'</span>})
@@ -559,6 +685,7 @@ df.columns = (df.columns
 <!-- Duplicates -->
 <div class="bg-white rounded-lg border border-gray-200 p-4">
   <h2 class="font-bold text-lg mb-3 text-blue-700">Handling Duplicates</h2>
+  <p class="text-sm text-gray-600 mb-3">Duplicate rows can silently inflate your counts, sums, and averages. Before any analysis, you should check "do I have repeated data?" Think of this as quality control — making sure every row represents a unique observation.</p>
   <div class="bg-gray-800 text-white p-3 rounded text-sm">
     <pre><span class="text-gray-400"># Check if duplicates exist</span>
 df.duplicated().any()                    <span class="text-gray-400"># True if any duplicates</span>
@@ -663,6 +790,7 @@ grouped[<span class="text-green-400">'Country'</span>]  <span class="text-green-
   <!-- Ranking & Window Functions -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Ranking & Window Functions</h2>
+    <p class="text-sm text-gray-600 mb-3">Ranking assigns a position number to each row based on a value (1st place, 2nd place, etc.). Window functions like running totals and lag/lead let you reference other rows — the previous row's value, the cumulative sum so far, etc. These are the pandas equivalents of SQL's <code class="bg-gray-200 px-1 rounded">ROW_NUMBER()</code>, <code class="bg-gray-200 px-1 rounded">RANK()</code>, and <code class="bg-gray-200 px-1 rounded">LAG()</code>.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Row number (unique rank for each row)</span>
 df[<span class="text-green-400">'RowNum'</span>] = df[<span class="text-green-400">'Total'</span>].rank(method=<span class="text-green-400">'first'</span>, ascending=<span class="text-blue-400">False</span>).astype(int)
@@ -694,6 +822,7 @@ df[<span class="text-green-400">'NextTotal'</span>] = df[<span class="text-green
   <!-- Common Operations -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Common Operations</h2>
+    <p class="text-sm text-gray-600 mb-3">These are the everyday one-liners you'll use constantly — filling nulls, concatenating strings, extracting date parts, filtering by averages, and cross-referencing between DataFrames. Think of this as your toolbox of frequently needed recipes.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Count distinct</span>
 df[<span class="text-green-400">'Country'</span>].nunique()
@@ -722,6 +851,7 @@ customers[customers[<span class="text-green-400">'CustomerId'</span>].isin(high_
   <!-- String Accessor -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">.str Accessor (String Methods)</h2>
+    <p class="text-sm text-gray-600 mb-3">The <code class="bg-gray-200 px-1 rounded">.str</code> accessor lets you run Python string methods on an entire column at once — no loops needed. Think of it as applying <code class="bg-gray-200 px-1 rounded">.lower()</code>, <code class="bg-gray-200 px-1 rounded">.split()</code>, <code class="bg-gray-200 px-1 rounded">.contains()</code> to every row simultaneously.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Case conversion</span>
 df[<span class="text-green-400">'Name'</span>].str.lower()
@@ -760,6 +890,7 @@ df[<span class="text-green-400">'Code'</span>].str.isalpha()</pre>
   <!-- Datetime Accessor -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">.dt Accessor (Datetime Methods)</h2>
+    <p class="text-sm text-gray-600 mb-3">Once a column is datetime type, <code class="bg-gray-200 px-1 rounded">.dt</code> gives you instant access to components like year, month, day of week, and quarter — no parsing or string slicing needed. This is essential for any time-based analysis (trends, seasonality, grouping by month).</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># First, ensure datetime type</span>
 df[<span class="text-green-400">'Date'</span>] = pd.to_datetime(df[<span class="text-green-400">'Date'</span>])
@@ -791,6 +922,7 @@ df[<span class="text-green-400">'Date'</span>].dt.strftime(<span class="text-gre
   <!-- Categorical Accessor -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">.cat Accessor (Categorical Methods)</h2>
+    <p class="text-sm text-gray-600 mb-3">Categories let you tell pandas that a column has a fixed set of values with an optional order (like S < M < L < XL). This saves memory, enables meaningful sorting, and allows comparison operators to work on non-numeric data.</p>
     <div class="bg-gray-800 text-white p-3 rounded text-sm">
       <pre><span class="text-gray-400"># Convert to categorical</span>
 df[<span class="text-green-400">'Size'</span>] = df[<span class="text-green-400">'Size'</span>].astype(<span class="text-green-400">'category'</span>)
@@ -891,6 +1023,7 @@ df[[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</s
   <!-- GeoPandas -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">GeoPandas (Spatial Data)</h2>
+    <p class="text-sm text-gray-600 mb-3">GeoPandas extends pandas to handle geographic data — points, lines, and polygons. If your data has locations (latitude/longitude, boundaries, shapes), GeoPandas lets you do spatial filtering ("which points are inside this area?"), spatial joins, and mapping — all with familiar pandas syntax.</p>
     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
       <pre class="bg-gray-800 text-white p-2 rounded text-sm"><span class="text-blue-400">import</span> geopandas <span class="text-blue-400">as</span> gpd
 <span class="text-blue-400">from</span> shapely.geometry <span class="text-blue-400">import</span> Point
@@ -951,6 +1084,7 @@ gdf.explore()  <span class="text-gray-400"># interactive map</span></pre>
   <!-- Quick Reference -->
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Quick Reference</h2>
+    <p class="text-sm text-gray-600 mb-3">A one-line lookup table for the most common pandas operations. Use this when you know what you want to do but can't remember the exact syntax.</p>
     <div class="overflow-x-auto">
       <table class="w-full text-sm border border-gray-300">
         <thead class="bg-gray-100">
