@@ -39,7 +39,11 @@ df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)</pre>
         </thead>
         <tbody>
           <tr class="bg-blue-50">
-            <td class="border px-3 py-1 font-semibold" rowspan="2">🏗️ Basics</td>
+            <td class="border px-3 py-1 font-semibold" rowspan="3">🏗️ Basics</td>
+            <td class="border px-3 py-1">Series & Initialization</td>
+            <td class="border px-3 py-1">Create Series and DataFrames, read files, inspect your data</td>
+          </tr>
+          <tr class="bg-blue-50">
             <td class="border px-3 py-1">DataFrame Structure</td>
             <td class="border px-3 py-1">Understand the 3 parts of a DataFrame and how to access data</td>
           </tr>
@@ -136,6 +140,166 @@ df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)</pre>
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Series & Initialization -->
+  <div class="bg-white rounded-lg border border-gray-200 p-4">
+    <h2 class="font-bold text-lg mb-3 text-blue-700">Series & Initialization</h2>
+    <p class="text-sm text-gray-600 mb-3">Pandas has two core types: a <strong>Series</strong> (a single column of data with an index) and a <strong>DataFrame</strong> (a table made of multiple Series). Think of a Series as one column in a spreadsheet, and a DataFrame as the entire spreadsheet.</p>
+
+    <div class="bg-gray-100 p-3 rounded text-sm font-mono mb-4">
+      <pre>  Series (1D)              DataFrame (2D)
+  ┌───────┐              ┌──────┬─────┬───────┐
+  │ Alice │  ← one       │ name │ age │ city  │
+  │ Bob   │    column    ├──────┼─────┼───────┤
+  │ Carol │    of data   │ Alice│  25 │ NYC   │
+  └───────┘              │ Bob  │  30 │ LA    │
+    ↑ index              │ Carol│  35 │ Chicago│
+    is on the            └──────┴─────┴───────┘
+    left side              ↑ multiple Series side by side</pre>
+    </div>
+
+    <h3 class="font-bold text-md mb-2 text-blue-600">Creating a Series</h3>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+      <pre><span class="text-gray-400"># From a list</span>
+s = pd.Series([10, 20, 30])
+<span class="text-gray-400"># 0    10</span>
+<span class="text-gray-400"># 1    20</span>
+<span class="text-gray-400"># 2    30</span>
+
+<span class="text-gray-400"># From a list with custom index</span>
+s = pd.Series([10, 20, 30], index=[<span class="text-green-400">'a'</span>, <span class="text-green-400">'b'</span>, <span class="text-green-400">'c'</span>])
+<span class="text-gray-400"># a    10</span>
+<span class="text-gray-400"># b    20</span>
+<span class="text-gray-400"># c    30</span>
+
+<span class="text-gray-400"># From a dictionary (keys become the index)</span>
+s = pd.Series({<span class="text-green-400">'apples'</span>: 3, <span class="text-green-400">'bananas'</span>: 5, <span class="text-green-400">'oranges'</span>: 2})
+
+<span class="text-gray-400"># From a scalar (broadcasts to all index values)</span>
+s = pd.Series(0, index=[<span class="text-green-400">'a'</span>, <span class="text-green-400">'b'</span>, <span class="text-green-400">'c'</span>])
+<span class="text-gray-400"># a    0</span>
+<span class="text-gray-400"># b    0</span>
+<span class="text-gray-400"># c    0</span>
+
+<span class="text-gray-400"># Name your Series (useful inside DataFrames)</span>
+s = pd.Series([10, 20, 30], name=<span class="text-green-400">'scores'</span>)</pre>
+    </div>
+
+    <h3 class="font-bold text-md mb-2 text-blue-600">Creating a DataFrame</h3>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+      <pre><span class="text-gray-400"># From a dictionary of lists (most common)</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'name'</span>: [<span class="text-green-400">'Alice'</span>, <span class="text-green-400">'Bob'</span>, <span class="text-green-400">'Carol'</span>],
+    <span class="text-green-400">'age'</span>: [25, 30, 35],
+    <span class="text-green-400">'city'</span>: [<span class="text-green-400">'NYC'</span>, <span class="text-green-400">'LA'</span>, <span class="text-green-400">'Chicago'</span>]
+})
+
+<span class="text-gray-400"># From a list of dictionaries (each dict = one row)</span>
+df = pd.DataFrame([
+    {<span class="text-green-400">'name'</span>: <span class="text-green-400">'Alice'</span>, <span class="text-green-400">'age'</span>: 25},
+    {<span class="text-green-400">'name'</span>: <span class="text-green-400">'Bob'</span>, <span class="text-green-400">'age'</span>: 30},
+    {<span class="text-green-400">'name'</span>: <span class="text-green-400">'Carol'</span>, <span class="text-green-400">'age'</span>: 35}
+])
+
+<span class="text-gray-400"># From a numpy array</span>
+df = pd.DataFrame(
+    np.array([[1, 2], [3, 4], [5, 6]]),
+    columns=[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</span>]
+)
+
+<span class="text-gray-400"># Empty DataFrame with defined columns</span>
+df = pd.DataFrame(columns=[<span class="text-green-400">'name'</span>, <span class="text-green-400">'age'</span>, <span class="text-green-400">'city'</span>])</pre>
+    </div>
+
+    <h3 class="font-bold text-md mb-2 text-blue-600">Reading Data from Files</h3>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+      <pre><span class="text-gray-400"># CSV (most common)</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>)
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>, sep=<span class="text-green-400">';'</span>)              <span class="text-gray-400"># custom delimiter</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>, encoding=<span class="text-green-400">'latin1'</span>)       <span class="text-gray-400"># encoding issues</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>, parse_dates=[<span class="text-green-400">'date'</span>])    <span class="text-gray-400"># auto-parse dates</span>
+df = pd.read_csv(<span class="text-green-400">'data.csv'</span>, nrows=100)               <span class="text-gray-400"># read only first 100 rows</span>
+
+<span class="text-gray-400"># Excel</span>
+df = pd.read_excel(<span class="text-green-400">'data.xlsx'</span>)
+df = pd.read_excel(<span class="text-green-400">'data.xlsx'</span>, sheet_name=<span class="text-green-400">'Sheet2'</span>)
+
+<span class="text-gray-400"># JSON</span>
+df = pd.read_json(<span class="text-green-400">'data.json'</span>)
+
+<span class="text-gray-400"># From clipboard (paste from Excel/Google Sheets)</span>
+df = pd.read_clipboard()
+
+<span class="text-gray-400"># Save back to file</span>
+df.to_csv(<span class="text-green-400">'output.csv'</span>, index=<span class="text-blue-400">False</span>)     <span class="text-gray-400"># index=False avoids extra column</span>
+df.to_excel(<span class="text-green-400">'output.xlsx'</span>, index=<span class="text-blue-400">False</span>)</pre>
+    </div>
+
+    <h3 class="font-bold text-md mb-2 text-blue-600">Quick Inspection</h3>
+    <p class="text-sm text-gray-600 mb-3">The first thing you do after loading data: look at it. These commands give you a quick health check.</p>
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mb-3">
+      <pre>df.head()                  <span class="text-gray-400"># first 5 rows</span>
+df.head(10)                <span class="text-gray-400"># first 10 rows</span>
+df.tail()                  <span class="text-gray-400"># last 5 rows</span>
+df.shape                   <span class="text-gray-400"># (rows, columns) — e.g. (1000, 12)</span>
+df.dtypes                  <span class="text-gray-400"># data type of each column</span>
+df.info()                  <span class="text-gray-400"># columns, types, non-null counts, memory</span>
+df.describe()              <span class="text-gray-400"># stats for numeric columns (mean, std, min, max)</span>
+df.describe(include=<span class="text-green-400">'all'</span>) <span class="text-gray-400"># include non-numeric columns too</span>
+df.columns.tolist()        <span class="text-gray-400"># list of column names</span>
+df.nunique()               <span class="text-gray-400"># unique value count per column</span>
+df.isnull().sum()          <span class="text-gray-400"># null count per column</span>
+len(df)                    <span class="text-gray-400"># number of rows</span></pre>
+    </div>
+
+    <div class="mt-3 overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left">Command</th>
+            <th class="border px-3 py-2 text-left">Returns</th>
+            <th class="border px-3 py-2 text-left">Use when</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.head()</td>
+            <td class="border px-3 py-1">First N rows</td>
+            <td class="border px-3 py-1">"What does my data look like?"</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.shape</td>
+            <td class="border px-3 py-1">(rows, cols) tuple</td>
+            <td class="border px-3 py-1">"How big is my dataset?"</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.dtypes</td>
+            <td class="border px-3 py-1">Type per column</td>
+            <td class="border px-3 py-1">"Are my numbers stored as numbers?"</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.info()</td>
+            <td class="border px-3 py-1">Full summary</td>
+            <td class="border px-3 py-1">"How many nulls? What types? How much memory?"</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.describe()</td>
+            <td class="border px-3 py-1">Statistics</td>
+            <td class="border px-3 py-1">"What's the mean, min, max of my numeric columns?"</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">.isnull().sum()</td>
+            <td class="border px-3 py-1">Null counts</td>
+            <td class="border px-3 py-1">"How much missing data do I have?"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>💡</strong> A single column from a DataFrame (<code>df['name']</code>) is a <strong>Series</strong>. Multiple columns (<code>df[['name', 'age']]</code>) is a <strong>DataFrame</strong>. This matters because some methods only work on one type.
     </div>
   </div>
 
@@ -946,13 +1110,153 @@ df[df[<span class="text-green-400">'Size'</span>] > <span class="text-green-400"
   <div class="bg-white rounded-lg border border-gray-200 p-4">
     <h2 class="font-bold text-lg mb-3 text-blue-700">Apply & Map</h2>
     <p class="text-sm text-gray-600 mb-3">Apply custom functions to your data. Use vectorized operations when possible - they're faster.</p>
-    <div class="bg-gray-800 text-white p-3 rounded text-sm">
-      <pre><span class="text-gray-400"># .map() - Series only, element-wise transformation</span>
-df[<span class="text-green-400">'Grade'</span>].map({<span class="text-green-400">'A'</span>: 4, <span class="text-green-400">'B'</span>: 3, <span class="text-green-400">'C'</span>: 2})    <span class="text-gray-400"># dict mapping</span>
-df[<span class="text-green-400">'Name'</span>].map(<span class="text-blue-400">lambda</span> x: x.upper())           <span class="text-gray-400"># function</span>
-df[<span class="text-green-400">'Code'</span>].map(lookup_series)                   <span class="text-gray-400"># another Series</span>
 
-<span class="text-gray-400"># .apply() on Series - element-wise with more flexibility</span>
+    <!-- .map() Deep Dive -->
+    <h3 class="font-bold text-md mb-2 text-blue-600 mt-2">.map() — Value Translation (Dictionary Lookup)</h3>
+    <p class="text-sm text-gray-600 mb-3">Think of <code class="bg-gray-200 px-1 rounded">.map()</code> as a lookup table. You give it a dictionary and it translates every value in the column. It's the simplest way to say "whenever you see X, replace it with Y."</p>
+
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Basic dict mapping — translate values</span>
+df[<span class="text-green-400">'Grade'</span>].map({<span class="text-green-400">'A'</span>: 4, <span class="text-green-400">'B'</span>: 3, <span class="text-green-400">'C'</span>: 2, <span class="text-green-400">'D'</span>: 1, <span class="text-green-400">'F'</span>: 0})
+
+<span class="text-gray-400"># Country codes → full names</span>
+country_map = {<span class="text-green-400">'US'</span>: <span class="text-green-400">'United States'</span>, <span class="text-green-400">'UK'</span>: <span class="text-green-400">'United Kingdom'</span>, <span class="text-green-400">'CA'</span>: <span class="text-green-400">'Canada'</span>}
+df[<span class="text-green-400">'CountryName'</span>] = df[<span class="text-green-400">'CountryCode'</span>].map(country_map)
+
+<span class="text-gray-400"># Boolean-like cleanup → real booleans</span>
+df[<span class="text-green-400">'Active'</span>] = df[<span class="text-green-400">'Status'</span>].map({<span class="text-green-400">'yes'</span>: <span class="text-blue-400">True</span>, <span class="text-green-400">'no'</span>: <span class="text-blue-400">False</span>, <span class="text-green-400">'Y'</span>: <span class="text-blue-400">True</span>, <span class="text-green-400">'N'</span>: <span class="text-blue-400">False</span>})
+
+<span class="text-gray-400"># Numeric scores → letter grades</span>
+<span class="text-blue-400">def</span> score_to_grade(score):
+    <span class="text-blue-400">if</span> score >= 90: <span class="text-blue-400">return</span> <span class="text-green-400">'A'</span>
+    <span class="text-blue-400">elif</span> score >= 80: <span class="text-blue-400">return</span> <span class="text-green-400">'B'</span>
+    <span class="text-blue-400">elif</span> score >= 70: <span class="text-blue-400">return</span> <span class="text-green-400">'C'</span>
+    <span class="text-blue-400">elif</span> score >= 60: <span class="text-blue-400">return</span> <span class="text-green-400">'D'</span>
+    <span class="text-blue-400">else</span>: <span class="text-blue-400">return</span> <span class="text-green-400">'F'</span>
+
+df[<span class="text-green-400">'LetterGrade'</span>] = df[<span class="text-green-400">'Score'</span>].map(score_to_grade)</pre>
+    </div>
+
+    <div class="bg-yellow-50 rounded p-2 mt-3 text-sm">
+      <strong>⚠️ NaN behavior:</strong> <code>.map()</code> with a dict sets <strong>unmapped values to NaN</strong>. If your dict doesn't cover every value, you'll get NaN for the rest.
+    </div>
+
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mt-3">
+      <pre><span class="text-gray-400"># ⚠️ Problem: values not in dict become NaN</span>
+df[<span class="text-green-400">'Size'</span>].map({<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>, <span class="text-green-400">'M'</span>: <span class="text-green-400">'Medium'</span>})
+<span class="text-gray-400"># If any row has 'L' or 'XL' → becomes NaN!</span>
+
+<span class="text-gray-400"># ✅ Fix 1: Fill NaN with the original value</span>
+df[<span class="text-green-400">'Size'</span>].map({<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>, <span class="text-green-400">'M'</span>: <span class="text-green-400">'Medium'</span>}).fillna(df[<span class="text-green-400">'Size'</span>])
+
+<span class="text-gray-400"># ✅ Fix 2: Use .replace() instead (keeps unmapped values as-is)</span>
+df[<span class="text-green-400">'Size'</span>].replace({<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>, <span class="text-green-400">'M'</span>: <span class="text-green-400">'Medium'</span>})
+<span class="text-gray-400"># 'L' stays 'L', 'XL' stays 'XL'</span>
+
+<span class="text-gray-400"># ✅ Fix 3: Use a defaultdict</span>
+<span class="text-blue-400">from</span> collections <span class="text-blue-400">import</span> defaultdict
+safe_map = defaultdict(<span class="text-blue-400">lambda</span>: <span class="text-green-400">'Unknown'</span>, {<span class="text-green-400">'S'</span>: <span class="text-green-400">'Small'</span>, <span class="text-green-400">'M'</span>: <span class="text-green-400">'Medium'</span>})
+df[<span class="text-green-400">'Size'</span>].map(safe_map)</pre>
+    </div>
+
+    <!-- .map() with Series and functions -->
+    <h3 class="font-bold text-md mb-2 text-blue-600 mt-4">.map() with a Series (Cross-DataFrame Lookup)</h3>
+    <p class="text-sm text-gray-600 mb-3">You can map from one DataFrame's column using another DataFrame as a lookup table. Create a Series with the lookup index and map onto it — like a VLOOKUP in Excel.</p>
+
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># Build a lookup Series from another DataFrame</span>
+<span class="text-gray-400"># departments has columns: dept_id, dept_name</span>
+dept_lookup = departments.set_index(<span class="text-green-400">'dept_id'</span>)[<span class="text-green-400">'dept_name'</span>]
+<span class="text-gray-400"># dept_lookup is now:   101 → 'Sales'</span>
+<span class="text-gray-400">#                       102 → 'Marketing'</span>
+<span class="text-gray-400">#                       103 → 'Engineering'</span>
+
+<span class="text-gray-400"># Map employee dept_id → dept_name</span>
+employees[<span class="text-green-400">'Department'</span>] = employees[<span class="text-green-400">'dept_id'</span>].map(dept_lookup)
+
+<span class="text-gray-400"># Map with a lambda function</span>
+df[<span class="text-green-400">'Name'</span>].map(<span class="text-blue-400">lambda</span> x: x.upper())           <span class="text-gray-400"># function</span>
+df[<span class="text-green-400">'Name'</span>].map(<span class="text-blue-400">lambda</span> x: x.strip().title())    <span class="text-gray-400"># clean + capitalize</span>
+df[<span class="text-green-400">'Email'</span>].map(<span class="text-blue-400">lambda</span> x: x.split(<span class="text-green-400">'@'</span>)[1])     <span class="text-gray-400"># extract domain</span>
+df[<span class="text-green-400">'Price'</span>].map(<span class="text-green-400">'${:.2f}'</span>.format)              <span class="text-gray-400"># format as currency</span></pre>
+    </div>
+
+    <!-- .map() vs .replace() comparison -->
+    <h3 class="font-bold text-md mb-2 text-blue-600 mt-4">.map() vs .replace() — When to Use Which</h3>
+
+    <div class="mt-2 overflow-x-auto">
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2 text-left"></th>
+            <th class="border px-3 py-2 text-left">.map()</th>
+            <th class="border px-3 py-2 text-left">.replace()</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Unmapped values</td>
+            <td class="border px-3 py-1">Become <strong>NaN</strong></td>
+            <td class="border px-3 py-1">Stay <strong>unchanged</strong></td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Accepts</td>
+            <td class="border px-3 py-1">Dict, Series, or function</td>
+            <td class="border px-3 py-1">Dict, list, scalar, regex</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Works on</td>
+            <td class="border px-3 py-1">Series only (or DataFrame element-wise)</td>
+            <td class="border px-3 py-1">Series or DataFrame</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Use when</td>
+            <td class="border px-3 py-1">Complete translation (every value must map)</td>
+            <td class="border px-3 py-1">Partial cleanup (fix some values, leave the rest)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-semibold">Regex support</td>
+            <td class="border px-3 py-1">❌ No</td>
+            <td class="border px-3 py-1">✅ Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-gray-800 text-white p-3 rounded text-sm mt-3">
+      <pre><span class="text-gray-400"># .replace() — partial substitution (unmatched stay the same)</span>
+df[<span class="text-green-400">'Status'</span>].replace({<span class="text-green-400">'Active'</span>: <span class="text-green-400">'A'</span>, <span class="text-green-400">'Inactive'</span>: <span class="text-green-400">'I'</span>})
+
+<span class="text-gray-400"># .replace() with regex — fix messy text patterns</span>
+df[<span class="text-green-400">'Phone'</span>].replace(<span class="text-green-400">r'\D'</span>, <span class="text-green-400">''</span>, regex=<span class="text-blue-400">True</span>)       <span class="text-gray-400"># strip non-digits</span>
+df[<span class="text-green-400">'Name'</span>].replace(<span class="text-green-400">r'\s+'</span>, <span class="text-green-400">' '</span>, regex=<span class="text-blue-400">True</span>)       <span class="text-gray-400"># collapse whitespace</span>
+
+<span class="text-gray-400"># .replace() across entire DataFrame</span>
+df.replace({<span class="text-green-400">'N/A'</span>: np.nan, <span class="text-green-400">'n/a'</span>: np.nan, <span class="text-green-400">''</span>: np.nan})  <span class="text-gray-400"># clean nulls</span>
+
+<span class="text-gray-400"># Chaining .map() for multi-step transforms</span>
+df[<span class="text-green-400">'Region'</span>] = (df[<span class="text-green-400">'State'</span>]
+    .map(state_to_region)        <span class="text-gray-400"># state → region</span>
+    .fillna(<span class="text-green-400">'Unknown'</span>)             <span class="text-gray-400"># handle unmapped states</span>
+)</pre>
+    </div>
+
+    <div class="bg-blue-50 border border-blue-200 rounded p-3 mt-3 text-sm">
+      <strong>💡 Rule of thumb:</strong>
+      <ul class="list-disc ml-5 mt-1 space-y-1">
+        <li><strong>.map(dict)</strong> — "Translate ALL values. Anything I didn't list should be NaN."</li>
+        <li><strong>.replace(dict)</strong> — "Fix SOME values. Leave everything else alone."</li>
+        <li><strong>.map(function)</strong> — "Run this function on every single value."</li>
+        <li><strong>np.where / np.select</strong> — "Create values based on conditions (if/else logic)."</li>
+      </ul>
+    </div>
+
+    <!-- .apply() section -->
+    <h3 class="font-bold text-md mb-2 text-blue-600 mt-5">.apply() — Custom Functions</h3>
+    <p class="text-sm text-gray-600 mb-3">When built-in methods and simple mapping aren't enough, <code class="bg-gray-200 px-1 rounded">.apply()</code> runs any function on every element, row, or column. It's the most flexible tool — but also the slowest.</p>
+
+    <div class="bg-gray-800 text-white p-3 rounded text-sm">
+      <pre><span class="text-gray-400"># .apply() on Series - element-wise with more flexibility</span>
 df[<span class="text-green-400">'Total'</span>].apply(<span class="text-blue-400">lambda</span> x: x * 1.1)
 df[<span class="text-green-400">'Name'</span>].apply(<span class="text-blue-400">lambda</span> x: x.split()[0] <span class="text-blue-400">if</span> <span class="text-green-400">' '</span> <span class="text-blue-400">in</span> x <span class="text-blue-400">else</span> x)
 
@@ -976,6 +1280,8 @@ df.groupby(<span class="text-green-400">'Country'</span>).apply(<span class="tex
 <span class="text-gray-400"># .map() on DataFrame - element-wise (replaces deprecated .applymap())</span>
 df[[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</span>]].map(<span class="text-blue-400">lambda</span> x: f<span class="text-green-400">'${x:.2f}'</span>)      <span class="text-gray-400"># format all cells</span></pre>
     </div>
+
+    <!-- Summary table -->
     <div class="mt-4 overflow-x-auto">
       <table class="w-full text-sm border border-gray-300">
         <thead class="bg-gray-100">
@@ -987,9 +1293,24 @@ df[[<span class="text-green-400">'A'</span>, <span class="text-green-400">'B'</s
         </thead>
         <tbody>
           <tr>
-            <td class="border px-3 py-1 font-mono text-xs">Series.map()</td>
+            <td class="border px-3 py-1 font-mono text-xs">Series.map(dict)</td>
             <td class="border px-3 py-1">Each element</td>
-            <td class="border px-3 py-1">Dict/Series lookup, simple transforms</td>
+            <td class="border px-3 py-1">Translate values via lookup table (unmapped → NaN)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">Series.map(func)</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Simple one-liner transforms on every value</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">Series.map(Series)</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Cross-DataFrame lookups (like VLOOKUP)</td>
+          </tr>
+          <tr>
+            <td class="border px-3 py-1 font-mono text-xs">Series.replace()</td>
+            <td class="border px-3 py-1">Each element</td>
+            <td class="border px-3 py-1">Fix some values, leave the rest unchanged</td>
           </tr>
           <tr>
             <td class="border px-3 py-1 font-mono text-xs">Series.apply()</td>
