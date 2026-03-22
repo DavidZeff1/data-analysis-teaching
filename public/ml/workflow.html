@@ -17,6 +17,67 @@
             </ul>
         </div>
 
+        <div class="bg-gray-800 text-white rounded-xl shadow-lg p-6 mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center text-teal-400">The 7-Step Anatomy of a Professional Workflow</h2>
+            <div class="space-y-6">
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">1</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Separate X and y</h3>
+                        <p class="text-gray-300 mt-1">First, separate what you are trying to predict (<code>y</code>) from the things you are using to make the prediction (<code>X</code>).</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">2</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Split FIRST (Train/Test Split)</h3>
+                        <p class="text-gray-300 mt-1">Split the data before doing <strong>anything</strong> else. Everything we learn about the data (averages, medians, categories) must come <em>only</em> from the training set to prevent data leakage.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">3</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Identify Column Types in X_train</h3>
+                        <p class="text-gray-300 mt-1">Group your columns by data type (e.g., Numeric vs Categorical). Often we use <code>X_train.select_dtypes()</code> to get dynamic lists of which columns need which type of preprocessing.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">4</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Build Sub-Pipelines for Each Data Type</h3>
+                        <p class="text-gray-300 mt-1">Create mini-pipelines to process specific datatypes. For example, a <code>numeric_transformer</code> might do Imputation ➔ Scaling, while a <code>categorical_transformer</code> might do Imputation ➔ OneHotEncoding.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">5</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Build the ColumnTransformer (The Traffic Cop)</h3>
+                        <p class="text-gray-300 mt-1"><code>ColumnTransformer</code> looks at the raw data and sends the Numeric columns to the Numeric Sub-Pipeline, the Categorical columns to the Categorical Sub-Pipeline, and combines all the results back into a single matrix.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md">
+                    <div class="bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl">6</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-teal-300">Chain into the Final Master Pipeline</h3>
+                        <p class="text-gray-300 mt-1">Attach your machine learning model to the end of your <code>ColumnTransformer</code>. Now you have a single object that takes raw data on one side, and spits out predictions on the other side.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start bg-gray-700 p-4 rounded-lg shadow-md border border-teal-500 bg-gray-800">
+                    <div class="bg-teal-400 text-gray-900 font-bold w-10 h-10 rounded-full flex items-center justify-center shrink-0 mr-4 text-xl shadow-[0_0_15px_rgba(45,212,191,0.5)]">7</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Fit and Predict</h3>
+                        <p class="text-teal-100 mt-1">When you call <code>model.fit(X_train, y_train)</code>, the pipeline learns how to impute, scale, encode, and predict based <strong>only</strong> on the training data. When you call <code>model.predict(X_test)</code>, it blindly applies those learned rules to the unseen test data to score it fairly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Section 1 -->
         <section class="mb-12">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
