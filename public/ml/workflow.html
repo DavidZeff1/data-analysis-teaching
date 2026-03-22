@@ -67,6 +67,34 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- How They Work Together -->
+                    <div class="mt-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-8 shadow-inner text-white border-t border-slate-700">
+                        <h3 class="text-2xl font-bold text-teal-400 mb-4 flex items-center">
+                            <svg class="w-7 h-7 mr-3 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            How They Work Together (The Master Pipeline)
+                        </h3>
+                        <p class="text-gray-300 text-lg mb-6 leading-relaxed">
+                            These two concepts are designed to be nested inside each other. A common, professional architecture is to build mini <strong>Pipelines</strong> for each data type, combine them using a <strong>ColumnTransformer</strong>, and then put that ColumnTransformer into a final master <strong>Pipeline</strong> with your machine learning model!
+                        </p>
+                        <div class="bg-black bg-opacity-50 p-6 rounded-lg font-mono text-sm overflow-x-auto border border-gray-700">
+                            <div class="text-blue-400 mb-1"># 1. Mini-Pipelines for specific data types</div>
+                            <div class="text-gray-300">num_pipe = Pipeline([('imputer', SimpleImputer()), ('scaler', StandardScaler())])</div>
+                            <div class="text-gray-300 mb-5">cat_pipe = Pipeline([('imputer', SimpleImputer()), ('encoder', OneHotEncoder())])</div>
+                            
+                            <div class="text-indigo-400 mb-1"># 2. ColumnTransformer groups them by column</div>
+                            <div class="text-gray-300">preprocessor = ColumnTransformer([</div>
+                            <div class="text-gray-300">&nbsp;&nbsp;('num', num_pipe, numeric_columns),</div>
+                            <div class="text-gray-300">&nbsp;&nbsp;('cat', cat_pipe, categorical_columns)</div>
+                            <div class="text-gray-300 mb-5">])</div>
+                            
+                            <div class="text-green-400 mb-1"># 3. The Master Pipeline puts it all together with the model!</div>
+                            <div class="text-gray-300">master_pipeline = Pipeline([</div>
+                            <div class="text-gray-300">&nbsp;&nbsp;('preprocessor', preprocessor),</div>
+                            <div class="text-gray-300">&nbsp;&nbsp;('model', RandomForestClassifier())</div>
+                            <div class="text-gray-300">])</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
