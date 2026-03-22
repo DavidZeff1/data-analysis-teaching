@@ -1,0 +1,241 @@
+<div class="prose max-w-none bg-gradient-to-br from-indigo-50 to-blue-50 p-8 rounded-xl">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">End-to-End ML Workflows & Pipelines</h1>
+            <p class="text-xl text-gray-600">The absolute best practice for combining missing values, encoding, scaling, and modeling without data leakage.</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-10 border-l-4 border-indigo-500">
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">Why Use Pipelines and ColumnTransformers?</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                In real projects, you don't scale features manually and encode categorical features separately. Doing that leads to messy code and <strong>Data Leakage</strong> (accidentally letting your model learn things from the test set). 
+            </p>
+            <ul class="list-disc pl-6 sm:pl-8 text-gray-700 space-y-2 text-lg">
+                <li><strong class="text-indigo-600">ColumnTransformer:</strong> Applies different steps to different columns (e.g., scale the numerical ones, encode the categorical ones) and stitches them back together automatically.</li>
+                <li><strong class="text-blue-600">Pipeline:</strong> Chains all your preprocessing steps and your machine learning model into a <strong>single object</strong>. It forces you to <code>fit</code> only on the training data, and <code>transform</code> on the test data.</li>
+            </ul>
+        </div>
+
+        <!-- Section 1 -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-teal-500 to-emerald-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">1</span>
+                        Basic Pipeline: OHE + Passthrough
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        This is a great starting template. We use the Palmer Penguins dataset. We apply <strong>OneHotEncoding</strong> to the categorical columns, and we let the numerical columns <strong>pass through</strong> unmodified (Naive Bayes handles unscaled continuous data well).
+                    </p>
+                    
+                    <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded mb-4">
+                        <p class="text-sm text-indigo-800">
+                            <strong>Best Practice Alert:</strong> We derive our <code>categorical_cols</code> and <code>numerical_cols</code> directly from <code>X_train</code> <em>after</em> the split, preventing any possibility of data leakage!
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.naive_bayes <span class="text-purple-400">import</span> GaussianNB
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
+
+<span class="text-gray-400"># 1. Load data and drop missing values for simplicity here</span>
+penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
+
+y = penguins[<span class="text-green-400">'island'</span>]  <span class="text-gray-400"># Predicting which island the penguin is from</span>
+X = penguins.drop(columns=[<span class="text-green-400">'island'</span>])
+
+<span class="text-gray-400"># 2. Split FIRST — the golden rule of machine learning</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># 3. Derive column lists dynamically from X_train</span>
+categorical_cols = X_train.select_dtypes(include=<span class="text-green-400">'object'</span>).columns.tolist()  <span class="text-gray-400"># ['species', 'sex']</span>
+numerical_cols = X_train.select_dtypes(include=<span class="text-green-400">'number'</span>).columns.tolist()  <span class="text-gray-400"># ['bill_length_mm', ...]</span>
+
+<span class="text-gray-400"># 4. Build the ColumnTransformer</span>
+preprocessor = ColumnTransformer(transformers=[
+    <span class="text-gray-400"># (name, transformer_object, list_of_columns)</span>
+    (<span class="text-green-400">'cat'</span>, OneHotEncoder(handle_unknown=<span class="text-green-400">'ignore'</span>, sparse_output=<span class="text-yellow-400">False</span>), categorical_cols),
+    (<span class="text-green-400">'num'</span>, <span class="text-green-400">'passthrough'</span>, numerical_cols)  <span class="text-gray-400"># 'passthrough' means do nothing to these</span>
+])
+
+<span class="text-gray-400"># 5. Build the Pipeline tying it all together</span>
+model = Pipeline(steps=[
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'model'</span>, GaussianNB())
+])
+
+<span class="text-gray-400"># 6. Fit the ENTIRE pipeline on training data</span>
+model.fit(X_train, y_train)
+
+<span class="text-gray-400"># 7. Predict! The pipeline automatically transforms X_test before passing to the model</span>
+predictions = model.predict(X_test)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">2</span>
+                        Real World Workflow: Missing Values + Encoding + Scaling
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        In the real world, data has missing values. If you try to drop them all, you lose too much data. Here we use the Titanic dataset. We will build <strong>Inner Pipelines</strong> to chain imputation and scaling/encoding together, before passing them to the ColumnTransformer.
+                    </p>
+                    
+                    <ul class="list-disc pl-6 mb-4 text-gray-700">
+                        <li><strong>Numerical Pipeline:</strong> Fill missing with median ➔ Standard Scaler</li>
+                        <li><strong>Categorical Pipeline:</strong> Fill missing with 'missing' ➔ One-Hot Encoder</li>
+                    </ul>
+
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
+
+<span class="text-gray-400"># 1. Load data — raw and filled with nulls!</span>
+titanic = sns.load_dataset(<span class="text-green-400">'titanic'</span>)
+X = titanic.drop(columns=[<span class="text-green-400">'survived'</span>, <span class="text-green-400">'alive'</span>])  <span class="text-gray-400"># Drop targets</span>
+y = titanic[<span class="text-green-400">'survived'</span>]
+
+<span class="text-gray-400"># 2. Split FIRST</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># 3. Dynamic Column Selection</span>
+<span class="text-gray-400"># Note: 'object' gets strings, 'category' gets pandas categories</span>
+cat_cols = X_train.select_dtypes(include=[<span class="text-green-400">'object'</span>, <span class="text-green-400">'category'</span>]).columns.tolist()
+num_cols = X_train.select_dtypes(include=<span class="text-green-400">'number'</span>).columns.tolist()
+
+<span class="text-gray-400"># 4. Create Sub-Pipelines for robust transformations</span>
+numeric_transformer = Pipeline(steps=[
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'median'</span>)),  <span class="text-gray-400"># Fills missing numeric with median</span>
+    (<span class="text-green-400">'scaler'</span>, StandardScaler())                  <span class="text-gray-400"># Then scales them</span>
+])
+
+categorical_transformer = Pipeline(steps=[
+    (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'constant'</span>, fill_value=<span class="text-green-400">'missing'</span>)), <span class="text-gray-400"># Fill missing categorical</span>
+    (<span class="text-green-400">'onehot'</span>, OneHotEncoder(handle_unknown=<span class="text-green-400">'ignore'</span>, sparse_output=<span class="text-yellow-400">False</span>))    <span class="text-gray-400"># Then OneHot Encode</span>
+])
+
+<span class="text-gray-400"># 5. Pack sub-pipelines into ColumnTransformer</span>
+preprocessor = ColumnTransformer(transformers=[
+    (<span class="text-green-400">'num'</span>, numeric_transformer, num_cols),
+    (<span class="text-green-400">'cat'</span>, categorical_transformer, cat_cols)
+])
+
+<span class="text-gray-400"># 6. Final Master Pipeline with Model</span>
+model = Pipeline(steps=[
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(n_estimators=<span class="text-yellow-400">100</span>, random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># 7. Fit and Evaluate</span>
+model.fit(X_train, y_train)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, model.predict(X_test)):.2%}"</span>)</code></pre>
+                    </div>
+
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-sm text-amber-900 mt-4">
+                        💡 <strong>Why handle_unknown='ignore'?</strong> Sometimes the test set has a category that never appeared in the training set (e.g., a rare port of embarkation). If you don't use <code>handle_unknown='ignore'</code>, the OneHotEncoder will crash in production when it sees it!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-rose-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">3</span>
+                        Advanced Workflow: Multiple Encoding Types
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Not all categories are equal. Some are <strong>ordinal</strong> (they have an order), some are <strong>nominal</strong> (no order), and some have <strong>high cardinality</strong> (too many unique values). This example shows how to route strictly defined columns into customized transformation blocks.
+                    </p>
+
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OrdinalEncoder, TargetEncoder, RobustScaler, OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> GradientBoostingRegressor
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> r2_score
+
+<span class="text-gray-400"># Load Diamonds Dataset</span>
+diamonds = sns.load_dataset(<span class="text-green-400">'diamonds'</span>).sample(<span class="text-yellow-400">2000</span>, random_state=<span class="text-yellow-400">1</span>)
+X = diamonds.drop(columns=[<span class="text-green-400">'price'</span>])
+y = diamonds[<span class="text-green-400">'price'</span>]  <span class="text-gray-400"># Predicting price!</span>
+
+<span class="text-gray-400"># Split First</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+
+<span class="text-gray-400"># Define our rigid feature groupings based on domain knowledge</span>
+ordinal_cols = [<span class="text-green-400">'cut'</span>]           <span class="text-gray-400"># Natural Order: Fair &lt; Good &lt; Very Good &lt; Premium &lt; Ideal</span>
+high_card_cols = [<span class="text-green-400">'color'</span>, <span class="text-green-400">'clarity'</span>] <span class="text-gray-400"># Target Encoding handles many unique categories</span>
+num_cols = [<span class="text-green-400">'carat'</span>, <span class="text-green-400">'depth'</span>, <span class="text-green-400">'table'</span>, <span class="text-green-400">'x'</span>, <span class="text-green-400">'y'</span>, <span class="text-green-400">'z'</span>] <span class="text-gray-400"># Have major outliers!</span>
+
+<span class="text-gray-400"># Create specific transformers for each type</span>
+preprocessor = ColumnTransformer(transformers=[
+    <span class="text-gray-400"># 1. Scale numeric data robustly because diamonds have crazy dimensions sometimes</span>
+    (<span class="text-green-400">'num'</span>, RobustScaler(), num_cols),
+    
+    <span class="text-gray-400"># 2. Ordinal Encode 'cut' so it respects ranking</span>
+    (<span class="text-green-400">'ord'</span>, OrdinalEncoder(categories=[[<span class="text-green-400">'Fair'</span>, <span class="text-green-400">'Good'</span>, <span class="text-green-400">'Very Good'</span>, <span class="text-green-400">'Premium'</span>, <span class="text-green-400">'Ideal'</span>]]), ordinal_cols),
+    
+    <span class="text-gray-400"># 3. Target Encode high cardinality categories to prevent explosion of columns</span>
+    (<span class="text-green-400">'tgt'</span>, TargetEncoder(smooth=<span class="text-green-400">'auto'</span>), high_card_cols)
+])
+
+<span class="text-gray-400"># Build Regressor Pipeline</span>
+model = Pipeline(steps=[
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'regressor'</span>, GradientBoostingRegressor(random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># Fit and Evaluate!</span>
+<span class="text-gray-400"># Note: TargetEncoder requires y_train to function. Pipeline passes it flawlessly.</span>
+model.fit(X_train, y_train)
+
+r2 = r2_score(y_test, model.predict(X_test))
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"R^2 Score: {r2:.4f}"</span>)</code></pre>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-gray-800 text-white rounded-xl shadow-lg p-8 mb-10 border-t-8 border-teal-400 text-center">
+            <h2 class="text-2xl font-bold mb-4">You just mastered production-ready Machine Learning code! 🚀</h2>
+            <p class="text-lg opacity-90">
+                You can save that <code>model</code> object using <code>joblib.dump(model, 'model.pkl')</code>. Because it is a pipeline, when you load it in a server a year from now to predict a completely new single row of data, it will automatically handle missing values, encode text, scale numbers, and pass it to the model. 
+            </p>
+        </div>
+
+    </div>
+</div>
