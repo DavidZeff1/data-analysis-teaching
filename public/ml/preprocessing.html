@@ -293,10 +293,112 @@ df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
             </div>
         </section>
 
-        <!-- Part 2: Encoding -->
+        <!-- Part 2: Feature Scaling -->
+        <div class="bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl shadow-2xl p-6 mb-10 text-white">
+            <h2 class="text-3xl font-bold flex items-center">
+                <span class="text-4xl mr-3">📏</span> Part 2: Feature Scaling
+            </h2>
+            <p class="mt-2 opacity-90">Converting all numerical inputs onto the same scale so models treat them equally</p>
+        </div>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-sky-500 to-sky-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-sky-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">7</span>
+                        StandardScaler (Standardization)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Transforms data so it has a <strong>mean of 0</strong> and a <strong>standard deviation of 1</strong>. This is the "default" scaler you should use 90% of the time, especially for algorithms like SVM, KNN, regression, and neural networks.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler
+
+scaler = StandardScaler()
+
+<span class="text-gray-400"># 1. Fit (learn mean and std) AND Transform the training data</span>
+X_train_scaled = scaler.fit_transform(X_train[[<span class="text-green-400">'age'</span>, <span class="text-green-400">'salary'</span>]])
+
+<span class="text-gray-400"># 2. ONLY Transform the test data (using training mean/std)</span>
+X_test_scaled = scaler.transform(X_test[[<span class="text-green-400">'age'</span>, <span class="text-green-400">'salary'</span>]])
+
+<span class="text-gray-400"># See the new distribution</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Mean:"</span>, X_train_scaled.mean(axis=<span class="text-yellow-400">0</span>))  <span class="text-gray-400"># Will be very close to 0</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Std:"</span>, X_train_scaled.std(axis=<span class="text-yellow-400">0</span>))   <span class="text-gray-400"># Will be exactly 1</span></code></pre>
+                    </div>
+                    <div class="bg-sky-50 border-l-4 border-sky-400 p-4 rounded">
+                        <p class="text-sm text-sky-800"><strong>Math behind it:</strong> <code>z = (x - mean) / standard_deviation</code>. A value of +1.5 means the data point is 1.5 standard deviations above the average.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">8</span>
+                        MinMaxScaler (Normalization)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Squeezes all data strictly into a range between <strong>0 and 1</strong>. Useful when you need a fixed boundary, like image pixels (0-255) or when working with distance-based algorithms that don't assume a normal distribution.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> MinMaxScaler
+
+<span class="text-gray-400"># You can customize the feature range if needed (e.g., to [-1, 1])</span>
+min_max = MinMaxScaler(feature_range=(<span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>))
+
+X_train_norm = min_max.fit_transform(X_train)
+X_test_norm = min_max.transform(X_test)
+
+<span class="text-gray-400"># Check the new boundaries</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Min value:"</span>, X_train_norm.min())  <span class="text-gray-400"># Exactly 0</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Max value:"</span>, X_train_norm.max())  <span class="text-gray-400"># Exactly 1</span></code></pre>
+                    </div>
+                    <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+                        <p class="text-sm text-rose-800"><strong>⚠️ Caution:</strong> MinMaxScaler is highly sensitive to outliers. A single massive outlier will crush all your normal data points into a tiny range near 0.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
+                    <h2 class="text-3xl font-bold text-white flex items-center">
+                        <span class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">9</span>
+                        RobustScaler (Outlier-Proof Scaling)
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        Does the same job as StandardScaler, but uses median and IQR instead of mean and standard deviation. This makes it <strong>completely immune to massive outliers</strong> that would ruin the other scalers.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> RobustScaler
+
+<span class="text-gray-400"># Uses the interquartile range (IQR, the middle 50% of the data)</span>
+robust = RobustScaler()
+
+X_train_robust = robust.fit_transform(X_train)
+X_test_robust = robust.transform(X_test)</code></pre>
+                    </div>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded text-sm text-cyan-800">
+                        <strong>When to use:</strong> If you are predicting salaries, test scores, or real estate prices where 1% of the data contains insanely high values (like billionaires) but you don't want to delete them.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 3: Encoding -->
         <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl shadow-2xl p-6 mb-10 text-white">
             <h2 class="text-3xl font-bold flex items-center">
-                <span class="text-4xl mr-3">🏷️</span> Part 2: Encoding Categorical Variables
+                <span class="text-4xl mr-3">🏷️</span> Part 3: Encoding Categorical Variables
             </h2>
             <p class="mt-2 opacity-90">Converting text categories into numbers that models can understand</p>
         </div>
@@ -305,8 +407,8 @@ df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">7</span>
-                        Label Encoding (Ordinal)
+                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">10</span>
+                        Label Encoding & OrdinalEncoder
                     </h2>
                 </div>
                 <div class="p-6">
@@ -343,8 +445,8 @@ df[<span class="text-green-400">'priority_encoded'</span>] = ordinal_encoder.fit
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">8</span>
-                        One-Hot Encoding (Nominal)
+                        <span class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">11</span>
+                        OneHotEncoder (Nominal)
                     </h2>
                 </div>
                 <div class="p-6">
@@ -388,8 +490,8 @@ df_encoded = pd.get_dummies(df, columns=[<span class="text-green-400">'color'</s
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">9</span>
-                        Target Encoding (High Cardinality)
+                        <span class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">12</span>
+                        Target Encoder (High Cardinality)
                     </h2>
                 </div>
                 <div class="p-6">
@@ -427,7 +529,7 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">10</span>
+                        <span class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">13</span>
                         Choosing the Right Encoding
                     </h2>
                 </div>
@@ -481,7 +583,7 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
                     <div class="relative z-10">
                         <h2 class="text-3xl font-bold text-white flex items-center mb-2">
-                            <span class="bg-white text-teal-600 rounded-lg w-12 h-12 flex items-center justify-center mr-4 text-2xl font-black shadow-lg">11</span>
+                            <span class="bg-white text-teal-600 rounded-lg w-12 h-12 flex items-center justify-center mr-4 text-2xl font-black shadow-lg">14</span>
                             The Golden Rule: fit() vs transform()
                         </h2>
                         <p class="text-teal-100 text-lg ml-16 font-medium">The most critical concept in Machine Learning preprocessing to prevent Data Leakage.</p>
