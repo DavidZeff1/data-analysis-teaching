@@ -474,6 +474,115 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
             </div>
         </section>
 
+        <section class="mb-14">
+            <div class="bg-white rounded-xl shadow-lg border-2 border-teal-500 overflow-hidden transform transition hover:scale-[1.01] duration-300">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-700 p-8 relative overflow-hidden">
+                    <!-- Background pattern -->
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-bold text-white flex items-center mb-2">
+                            <span class="bg-white text-teal-600 rounded-lg w-12 h-12 flex items-center justify-center mr-4 text-2xl font-black shadow-lg">11</span>
+                            The Golden Rule: fit() vs transform()
+                        </h2>
+                        <p class="text-teal-100 text-lg ml-16 font-medium">The most critical concept in Machine Learning preprocessing to prevent Data Leakage.</p>
+                    </div>
+                </div>
+                
+                <div class="p-8">
+                    <p class="text-gray-700 mb-6 text-xl leading-relaxed border-l-4 border-teal-500 pl-4 italic">
+                        "Never let your model or your preprocessors see the test data. They must learn <strong>only</strong> from the training data."
+                    </p>
+
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-blue-50 rounded-xl p-6 border-t-4 border-blue-500 shadow-sm">
+                            <h3 class="text-xl font-bold text-blue-900 mb-3 font-mono">.fit()</h3>
+                            <p class="text-blue-800 text-sm mb-3"><strong>The "Learning" Phase</strong></p>
+                            <p class="text-gray-700 text-sm">Calculates the necessary statistics (mean, standard deviation, median, categories) from the data and saves them internally.</p>
+                            <p class="mt-3 text-xs font-semibold text-blue-600 uppercase tracking-wide">It does NOT change the data.</p>
+                        </div>
+                        
+                        <div class="bg-green-50 rounded-xl p-6 border-t-4 border-green-500 shadow-sm">
+                            <h3 class="text-xl font-bold text-green-900 mb-3 font-mono">.transform()</h3>
+                            <p class="text-green-800 text-sm mb-3"><strong>The "Applying" Phase</strong></p>
+                            <p class="text-gray-700 text-sm">Uses the statistics previously learned by <code class="bg-green-100 text-green-800 px-1 rounded">.fit()</code> to actually modify the data.</p>
+                            <p class="mt-3 text-xs font-semibold text-green-600 uppercase tracking-wide">It CANNOT learn new things.</p>
+                        </div>
+
+                        <div class="bg-purple-50 rounded-xl p-6 border-t-4 border-purple-500 shadow-sm">
+                            <h3 class="text-xl font-bold text-purple-900 mb-3 font-mono">.fit_transform()</h3>
+                            <p class="text-purple-800 text-sm mb-3"><strong>The "Combo" Move</strong></p>
+                            <p class="text-gray-700 text-sm">Learns the statistics AND applies them immediately. It is slightly faster than calling fit and transform separately.</p>
+                            <p class="mt-3 text-xs font-semibold text-purple-600 uppercase tracking-wide">USE ONLY ON TRAINING DATA.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b-2 border-gray-100">Why does this matter? (Data Leakage)</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            If you use <code class="font-mono text-rose-600 bg-rose-50 px-1 rounded">fit()</code> on your entire dataset before splitting, or if you use <code class="font-mono text-rose-600 bg-rose-50 px-1 rounded">fit_transform()</code> on your test data, your scaler/imputer will "see" the test set. For example, if you scale using the mean of the <em>entire</em> dataset, information about the test set has "leaked" into the training process. Your model will perform artificially well on the test set, but fail in the real world.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-rose-600 flex items-center mb-3 text-lg">
+                                <span class="bg-rose-100 p-1 rounded-full mr-2">❌</span> The WRONG Way
+                            </h4>
+                            <div class="bg-gray-900 text-gray-300 p-5 rounded-lg text-sm font-mono overflow-x-auto h-full shadow-inner border border-gray-800">
+<pre><code><span class="text-gray-500"># 💀 This causes Data Leakage!</span>
+scaler = StandardScaler()
+
+<span class="text-gray-500"># WRONG: Fitting on the whole dataset</span>
+X_scaled = scaler.<span class="text-rose-400 font-bold">fit_transform</span>(X)
+
+X_train, X_test, y_train, y_test = \
+    train_test_split(X_scaled, y)
+    
+<span class="text-gray-500"># --------- OR ---------</span>
+
+X_train, X_test, y_train, y_test = \
+    train_test_split(X, y)
+    
+<span class="text-gray-500"># WRONG: Fitting again on test data</span>
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.<span class="text-rose-400 font-bold">fit_transform</span>(X_test)</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-teal-600 flex items-center mb-3 text-lg">
+                                <span class="bg-teal-100 p-1 rounded-full mr-2">✅</span> The RIGHT Way
+                            </h4>
+                            <div class="bg-gray-900 text-gray-300 p-5 rounded-lg text-sm font-mono overflow-x-auto h-full shadow-inner border border-teal-900">
+<pre><code><span class="text-gray-500"># 🛡️ Safe, reliable, correct</span>
+X_train, X_test, y_train, y_test = \
+    train_test_split(X, y)
+
+scaler = StandardScaler()
+
+<span class="text-gray-500"># 1. Fit AND Transform the TRAINING data</span>
+X_train = scaler.<span class="text-teal-400 font-bold">fit_transform</span>(X_train)
+
+<span class="text-gray-500"># 2. ONLY Transform the TEST data </span>
+<span class="text-gray-500"># (Using the rules learned from X_train!)</span>
+X_test = scaler.<span class="text-teal-400 font-bold">transform</span>(X_test)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-amber-50 rounded-lg p-5 border border-amber-200 flex items-start">
+                        <span class="text-2xl mr-4 mt-1">💡</span>
+                        <div>
+                            <h4 class="font-bold text-amber-900">Pro-Tip: Use Pipelines</h4>
+                            <p class="text-amber-800 mt-1">
+                                Notice how easy it is to make a mistake? That's exactly why <code class="bg-amber-100 px-1 rounded font-mono">sklearn.pipeline.Pipeline</code> exists. When you call <code class="bg-amber-100 px-1 rounded font-mono">pipeline.fit(X_train)</code> and <code class="bg-amber-100 px-1 rounded font-mono">pipeline.predict(X_test)</code>, scikit-learn strictly enforces this rule for you automatically behind the scenes!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Complete Workflows -->
         <div class="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-2xl p-6 mb-10 text-white">
             <h2 class="text-3xl font-bold flex items-center">
