@@ -314,32 +314,38 @@ df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
                         Transforms data so it has a <strong>mean of 0</strong> and a <strong>standard deviation of 1</strong>. This is the "default" scaler you should use 90% of the time, especially for algorithms like SVM, KNN, regression, and neural networks.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler
 <span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LogisticRegression
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
+
+<span class="text-gray-400"># Load the real Palmer Penguins dataset</span>
+penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
+
+<span class="text-gray-400"># Pick only the numeric columns as features</span>
+X = penguins[[<span class="text-green-400">'bill_length_mm'</span>, <span class="text-green-400">'bill_depth_mm'</span>, <span class="text-green-400">'flipper_length_mm'</span>, <span class="text-green-400">'body_mass_g'</span>]]
+y = penguins[<span class="text-green-400">'species'</span>]
 
 <span class="text-gray-400"># 1. Split the data FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(df[[<span class="text-green-400">'age'</span>, <span class="text-green-400">'salary'</span>]], df[<span class="text-green-400">'purchased'</span>])
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="text-yellow-400">42</span>)
 
 <span class="text-gray-400"># 2. Initialize the Scaler</span>
 scaler = StandardScaler()
 
-<span class="text-gray-400"># 3. Fit (learn mean and std) AND Transform the training data</span>
+<span class="text-gray-400"># 3. fit_transform on training data (learns mean/std from train ONLY)</span>
 X_train_scaled = scaler.fit_transform(X_train)
 
-<span class="text-gray-400"># 4. ONLY Transform the test data (using training mean/std)</span>
+<span class="text-gray-400"># 4. transform on test data (applies the training mean/std)</span>
 X_test_scaled = scaler.transform(X_test)
 
-<span class="text-gray-400"># See the new distribution</span>
-<span class="text-blue-400">print</span>(<span class="text-green-400">"Mean:"</span>, X_train_scaled.mean(axis=<span class="text-yellow-400">0</span>))  <span class="text-gray-400"># Will be very close to 0</span>
-<span class="text-blue-400">print</span>(<span class="text-green-400">"Std:"</span>, X_train_scaled.std(axis=<span class="text-yellow-400">0</span>))   <span class="text-gray-400"># Will be exactly 1</span>
-
 <span class="text-gray-400"># 5. Fit a model on the SCALED training data</span>
-model = LogisticRegression()
+model = LogisticRegression(max_iter=<span class="text-yellow-400">200</span>)
 model.fit(X_train_scaled, y_train)
 
-<span class="text-gray-400"># 6. Predict using the SCALED test data</span>
-predictions = model.predict(X_test_scaled)</code></pre>
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = model.predict(X_test_scaled)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Accuracy:"</span>, accuracy_score(y_test, predictions))</code></pre>
                     </div>
                     <div class="bg-sky-50 border-l-4 border-sky-400 p-4 rounded">
                         <p class="text-sm text-sky-800"><strong>Math behind it:</strong> <code>z = (x - mean) / standard_deviation</code>. A value of +1.5 means the data point is 1.5 standard deviations above the average.</p>
@@ -361,30 +367,33 @@ predictions = model.predict(X_test_scaled)</code></pre>
                         Squeezes all data strictly into a range between <strong>0 and 1</strong>. Useful when you need a fixed boundary, like image pixels (0-255) or when working with distance-based algorithms that don't assume a normal distribution.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.datasets <span class="text-purple-400">import</span> load_iris
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> MinMaxScaler
 <span class="text-purple-400">from</span> sklearn.neighbors <span class="text-purple-400">import</span> KNeighborsClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
+
+<span class="text-gray-400"># Load the real Iris dataset (150 flowers, 4 measurements each)</span>
+iris = load_iris()
+X, y = iris.data, iris.target  <span class="text-gray-400"># sepal/petal length & width</span>
 
 <span class="text-gray-400"># 1. Split the data FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="text-yellow-400">42</span>)
 
-<span class="text-gray-400"># 2. You can customize the feature range if needed (e.g., to [-1, 1])</span>
-min_max = MinMaxScaler(feature_range=(<span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>))
+<span class="text-gray-400"># 2. Squeeze all features into [0, 1] range</span>
+min_max = MinMaxScaler()
 
-<span class="text-gray-400"># 3. Fit and Transform Training Data, ONLY Transform Test Data</span>
+<span class="text-gray-400"># 3. fit_transform on training data, transform on test data</span>
 X_train_norm = min_max.fit_transform(X_train)
 X_test_norm = min_max.transform(X_test)
 
-<span class="text-gray-400"># Check the new boundaries</span>
-<span class="text-blue-400">print</span>(<span class="text-green-400">"Min value:"</span>, X_train_norm.min())  <span class="text-gray-400"># Exactly 0</span>
-<span class="text-blue-400">print</span>(<span class="text-green-400">"Max value:"</span>, X_train_norm.max())  <span class="text-gray-400"># Exactly 1</span>
-
-<span class="text-gray-400"># 4. Fit a distance-based model (KNN loves MinMax!)</span>
-knn = KNeighborsClassifier(n_neighbors=<span class="text-yellow-400">3</span>)
+<span class="text-gray-400"># 4. Fit KNN (distance-based model — loves normalized data!)</span>
+knn = KNeighborsClassifier(n_neighbors=<span class="text-yellow-400">5</span>)
 knn.fit(X_train_norm, y_train)
 
-<span class="text-gray-400"># 5. Predict using normalized test data</span>
-predictions = knn.predict(X_test_norm)</code></pre>
+<span class="text-gray-400"># 5. Predict and evaluate</span>
+predictions = knn.predict(X_test_norm)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Accuracy:"</span>, accuracy_score(y_test, predictions))</code></pre>
                     </div>
                     <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
                         <p class="text-sm text-rose-800"><strong>⚠️ Caution:</strong> MinMaxScaler is highly sensitive to outliers. A single massive outlier will crush all your normal data points into a tiny range near 0.</p>
@@ -406,26 +415,34 @@ predictions = knn.predict(X_test_norm)</code></pre>
                         Does the same job as StandardScaler, but uses median and IQR instead of mean and standard deviation. This makes it <strong>completely immune to massive outliers</strong> that would ruin the other scalers.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> RobustScaler
 <span class="text-purple-400">from</span> sklearn.svm <span class="text-purple-400">import</span> SVC
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
+
+<span class="text-gray-400"># Load penguins — body_mass_g has some extreme values</span>
+penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
+X = penguins[[<span class="text-green-400">'bill_length_mm'</span>, <span class="text-green-400">'bill_depth_mm'</span>, <span class="text-green-400">'flipper_length_mm'</span>, <span class="text-green-400">'body_mass_g'</span>]]
+y = penguins[<span class="text-green-400">'species'</span>]
 
 <span class="text-gray-400"># 1. Split the data FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="text-yellow-400">42</span>)
 
-<span class="text-gray-400"># 2. Uses the interquartile range (IQR, the middle 50% of the data)</span>
+<span class="text-gray-400"># 2. RobustScaler uses median + IQR (ignores outliers)</span>
 robust = RobustScaler()
 
-<span class="text-gray-400"># 3. Fit and Transform Training Data, ONLY Transform Test Data</span>
+<span class="text-gray-400"># 3. fit_transform on training data, transform on test data</span>
 X_train_robust = robust.fit_transform(X_train)
 X_test_robust = robust.transform(X_test)
 
-<span class="text-gray-400"># 4. Fit a model sensitive to outliers like SVM</span>
+<span class="text-gray-400"># 4. Fit SVM (very sensitive to feature scale)</span>
 svm_model = SVC()
 svm_model.fit(X_train_robust, y_train)
 
-<span class="text-gray-400"># 5. Predict safely without outlier distortion</span>
-predictions = svm_model.predict(X_test_robust)</code></pre>
+<span class="text-gray-400"># 5. Predict and evaluate</span>
+predictions = svm_model.predict(X_test_robust)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Accuracy:"</span>, accuracy_score(y_test, predictions))</code></pre>
                     </div>
                     <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded text-sm text-cyan-800">
                         <strong>When to use:</strong> If you are predicting salaries, test scores, or real estate prices where 1% of the data contains insanely high values (like billionaires) but you don't want to delete them.
@@ -455,35 +472,41 @@ predictions = svm_model.predict(X_test_robust)</code></pre>
                         Assigns a unique integer to each category. Use <strong>only</strong> when categories have a natural order (e.g., "Low" &lt; "Medium" &lt; "High").
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> LabelEncoder, OrdinalEncoder
 <span class="text-purple-400">from</span> sklearn.tree <span class="text-purple-400">import</span> DecisionTreeClassifier
 
+<span class="text-gray-400"># Create a simple dataset with an ordinal feature</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'size'</span>:    [<span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'XL'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'S'</span>, <span class="text-green-400">'XL'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'S'</span>],
+    <span class="text-green-400">'product'</span>: [<span class="text-green-400">'shirt'</span>, <span class="text-green-400">'pants'</span>, <span class="text-green-400">'shirt'</span>, <span class="text-green-400">'jacket'</span>, <span class="text-green-400">'pants'</span>,
+               <span class="text-green-400">'jacket'</span>, <span class="text-green-400">'shirt'</span>, <span class="text-green-400">'pants'</span>, <span class="text-green-400">'jacket'</span>, <span class="text-green-400">'shirt'</span>]
+})
+
 <span class="text-gray-400"># 1. Split the data FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(df[[<span class="text-green-400">'priority'</span>]], df[<span class="text-green-400">'animal'</span>])
+X_train, X_test, y_train, y_test = train_test_split(
+    df[[<span class="text-green-400">'size'</span>]], df[<span class="text-green-400">'product'</span>], random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># ── LabelEncoder (for target variable `y` ONLY) ──────────</span>
+<span class="text-gray-400"># ── LabelEncoder (for target variable 'product') ──</span>
 le = LabelEncoder()
-y_train_encoded = le.fit_transform(y_train)  <span class="text-gray-400"># Learn and encode train</span>
-y_test_encoded = le.transform(y_test)        <span class="text-gray-400"># Only encode test</span>
+y_train_enc = le.fit_transform(y_train)  <span class="text-gray-400"># jacket→0, pants→1, shirt→2</span>
+y_test_enc = le.transform(y_test)
 
-<span class="text-gray-400"># ── OrdinalEncoder (for features `X` with natural order) ──</span>
-<span class="text-gray-400"># Define the order explicitly</span>
-ordinal_encoder = OrdinalEncoder(categories=[[<span class="text-green-400">'Low'</span>, <span class="text-green-400">'Medium'</span>, <span class="text-green-400">'High'</span>]])
+<span class="text-gray-400"># ── OrdinalEncoder (for the 'size' feature — it has a natural order) ──</span>
+ordinal_enc = OrdinalEncoder(categories=[[<span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'XL'</span>]])
+X_train_enc = ordinal_enc.fit_transform(X_train)  <span class="text-gray-400"># S→0, M→1, L→2, XL→3</span>
+X_test_enc = ordinal_enc.transform(X_test)
 
-<span class="text-gray-400"># Fit on training data ONLY</span>
-X_train_encoded = ordinal_encoder.fit_transform(X_train)
-X_test_encoded = ordinal_encoder.transform(X_test)
-
-<span class="text-gray-400"># ── 3. Train a Tree model (Trees handle ordinal data well) ──</span>
+<span class="text-gray-400"># 2. Train a Decision Tree</span>
 tree = DecisionTreeClassifier()
+tree.fit(X_train_enc, y_train_enc)
 
-<span class="text-gray-400"># Fit using the ordinal-encoded features and label-encoded target</span>
-tree.fit(X_train_encoded, y_train_encoded)
-
-<span class="text-gray-400"># Predict and decode the result back to English!</span>
-pred_encoded = tree.predict(X_test_encoded)
-predictions = le.inverse_transform(pred_encoded)</code></pre>
+<span class="text-gray-400"># 3. Predict and decode back to English</span>
+pred_enc = tree.predict(X_test_enc)
+predictions = le.inverse_transform(pred_enc)
+<span class="text-blue-400">print</span>(predictions)  <span class="text-gray-400"># e.g. ['shirt', 'pants', 'jacket']</span></code></pre>
                     </div>
                     <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
                         <p class="text-sm text-orange-800"><strong>⚠️ Warning:</strong> Never use Label/Ordinal encoding for <em>nominal</em> categories like colors or countries — the model will wrongly assume "France" (2) is greater than "Canada" (1).</p>
@@ -505,35 +528,39 @@ predictions = le.inverse_transform(pred_encoded)</code></pre>
                         Creates a new binary (0/1) column for each category. This is the safest encoding for categories with <strong>no natural order</strong>.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder
-<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestRegressor
-<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
 
-<span class="text-gray-400"># 1. Split the data FIRST (assuming 'price' is the target)</span>
-X = df[[<span class="text-green-400">'color'</span>, <span class="text-green-400">'brand'</span>, <span class="text-green-400">'mileage'</span>]]
-y = df[<span class="text-green-400">'price'</span>]
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+<span class="text-gray-400"># Load penguins and use the categorical columns</span>
+penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
+X = penguins[[<span class="text-green-400">'island'</span>, <span class="text-green-400">'sex'</span>]]      <span class="text-gray-400"># Nominal features (no order)</span>
+y = penguins[<span class="text-green-400">'species'</span>]
 
-<span class="text-gray-400"># ── Scikit-Learn OneHotEncoder ─────────</span>
-<span class="text-gray-400"># drop='first' avoids multicollinearity (the dummy variable trap)</span>
-<span class="text-gray-400"># handle_unknown='ignore' prevents crashing if test set has new colors</span>
+<span class="text-gray-400"># 1. Split the data FIRST</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="text-yellow-400">42</span>)
+
+<span class="text-gray-400"># 2. OneHotEncoder — creates binary columns for each category</span>
+<span class="text-gray-400"># handle_unknown='ignore' prevents crash if test has unseen categories</span>
 encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, drop=<span class="text-green-400">'first'</span>, handle_unknown=<span class="text-green-400">'ignore'</span>)
 
-<span class="text-gray-400"># 2. Fit on training categories, transform both train and test</span>
-X_train_encoded = encoder.fit_transform(X_train[[<span class="text-green-400">'color'</span>, <span class="text-green-400">'brand'</span>]])
-X_test_encoded = encoder.transform(X_test[[<span class="text-green-400">'color'</span>, <span class="text-green-400">'brand'</span>]])
+<span class="text-gray-400"># 3. fit_transform on train, transform on test</span>
+X_train_enc = encoder.fit_transform(X_train)
+X_test_enc = encoder.transform(X_test)
 
-<span class="text-gray-400"># (Optional: Convert array back to a nice Pandas DataFrame)</span>
-feature_names = encoder.get_feature_names_out([<span class="text-green-400">'color'</span>, <span class="text-green-400">'brand'</span>])
-X_train_df = pd.DataFrame(X_train_encoded, columns=feature_names)
+<span class="text-gray-400"># See what columns were created:</span>
+<span class="text-blue-400">print</span>(encoder.get_feature_names_out())
+<span class="text-gray-400"># e.g. ['island_Dream', 'island_Torgersen', 'sex_Male']</span>
 
-<span class="text-gray-400"># ── 3. Train a model on the One-Hot Encoded data ──</span>
-rf_model = RandomForestRegressor()
-rf_model.fit(X_train_encoded, y_train)
+<span class="text-gray-400"># 4. Train a model on the encoded data</span>
+rf = RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>)
+rf.fit(X_train_enc, y_train)
 
-<span class="text-gray-400"># 4. Predict using the properly encoded test set</span>
-predictions = rf_model.predict(X_test_encoded)</code></pre>
+<span class="text-gray-400"># 5. Predict and evaluate</span>
+predictions = rf.predict(X_test_enc)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Accuracy:"</span>, accuracy_score(y_test, predictions))</code></pre>
                     </div>
                     <div class="grid md:grid-cols-2 gap-4">
                         <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
@@ -560,28 +587,38 @@ predictions = rf_model.predict(X_test_encoded)</code></pre>
                         Replaces each category with the mean of the target variable for that category. Great for features with many unique values (like zip codes or product IDs).
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> TargetEncoder
 <span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> GradientBoostingRegressor
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> mean_squared_error
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># Load penguins — use 'island' (3 unique) to predict body_mass_g</span>
+penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
+X = penguins[[<span class="text-green-400">'island'</span>, <span class="text-green-400">'species'</span>]]  <span class="text-gray-400"># High-cardinality-like categories</span>
+y = penguins[<span class="text-green-400">'body_mass_g'</span>]            <span class="text-gray-400"># Regression target</span>
 
 <span class="text-gray-400"># 1. Split the data FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(df[[<span class="text-green-400">'city'</span>]], df[<span class="text-green-400">'price'</span>])
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="text-yellow-400">42</span>)
 
-<span class="text-gray-400"># 2. Initialize TargetEncoder (requires scikit-learn 1.3+)</span>
+<span class="text-gray-400"># 2. TargetEncoder replaces each category with the average target</span>
 target_enc = TargetEncoder(smooth=<span class="text-green-400">'auto'</span>)
 
-<span class="text-gray-400"># 3. Fit using training features AND training target!</span>
-X_train_encoded = target_enc.fit_transform(X_train, y_train)
+<span class="text-gray-400"># 3. fit_transform needs BOTH X_train AND y_train!</span>
+X_train_enc = target_enc.fit_transform(X_train, y_train)
 
-<span class="text-gray-400"># 4. Transform test features (uses the means learned from training data)</span>
-X_test_encoded = target_enc.transform(X_test)
+<span class="text-gray-400"># 4. transform only needs X_test (uses means from training)</span>
+X_test_enc = target_enc.transform(X_test)
 
-<span class="text-gray-400"># ── Train a model using the Target-Encoded feature ──</span>
-gbm = GradientBoostingRegressor()
-gbm.fit(X_train_encoded, y_train)
+<span class="text-gray-400"># 5. Train a regression model</span>
+gbm = GradientBoostingRegressor(random_state=<span class="text-yellow-400">42</span>)
+gbm.fit(X_train_enc, y_train)
 
-<span class="text-gray-400"># Predict on the properly encoded test set</span>
-predictions = gbm.predict(X_test_encoded)</code></pre>
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = gbm.predict(X_test_enc)
+rmse = np.sqrt(mean_squared_error(y_test, predictions))
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"RMSE: {rmse:.0f}g"</span>)  <span class="text-gray-400"># e.g. "RMSE: 312g"</span></code></pre>
                     </div>
                     <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
                         <p class="text-sm text-rose-800"><strong>⚠️ Data Leakage Risk:</strong> Target encoding uses the target variable, so you MUST fit only on training data. Using it on the full dataset causes leakage. The <code class="bg-rose-100 text-rose-800 px-1 rounded">smooth</code> parameter helps reduce overfitting for rare categories.</p>
