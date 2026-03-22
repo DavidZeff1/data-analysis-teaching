@@ -474,47 +474,374 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
             </div>
         </section>
 
-        <!-- Complete Pipeline -->
+        <!-- Complete Workflows -->
+        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-2xl p-6 mb-10 text-white">
+            <h2 class="text-3xl font-bold flex items-center">
+                <span class="text-4xl mr-3">🔗</span> Complete Workflows: End-to-End Examples
+            </h2>
+            <p class="mt-2 opacity-90">Each example is fully self-contained — from raw data to trained model. They progress from simple to complex so you can see how the pieces fit together.</p>
+        </div>
+
+        <!-- Workflow Decision Guide -->
         <section class="mb-10">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-6">
-                    <h2 class="text-3xl font-bold text-white flex items-center">
-                        <span class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">🔗</span>
-                        Complete Pipeline: Missing Values + Encoding
+                <div class="bg-gradient-to-r from-slate-600 to-slate-700 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        🧭 Which Workflow Do I Need?
                     </h2>
                 </div>
                 <div class="p-6">
-                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
-                        In practice, you handle missing values and encoding together in a single pipeline. Here's a production-ready example:
+                    <div class="overflow-x-auto mb-4">
+                        <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Scenario</th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Task</th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Key Steps</th>
+                                    <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-green-600">Workflow 1</td>
+                                    <td class="px-4 py-3">Binary Classification (simple)</td>
+                                    <td class="px-4 py-3 text-sm">Drop nulls → one-hot → fit</td>
+                                    <td class="px-4 py-3 text-sm">Predict if customer will churn (yes/no)</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 font-medium text-blue-600">Workflow 2</td>
+                                    <td class="px-4 py-3">Multi-class Classification</td>
+                                    <td class="px-4 py-3 text-sm">Impute → encode (mixed) → scale → fit</td>
+                                    <td class="px-4 py-3 text-sm">Predict animal species from measurements</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-purple-600">Workflow 3</td>
+                                    <td class="px-4 py-3">Regression</td>
+                                    <td class="px-4 py-3 text-sm">Impute → encode → scale → fit → evaluate with RMSE/R²</td>
+                                    <td class="px-4 py-3 text-sm">Predict house price from features</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 font-medium text-rose-600">Workflow 4</td>
+                                    <td class="px-4 py-3">Full Pipeline (production)</td>
+                                    <td class="px-4 py-3 text-sm">Pipeline with ColumnTransformer, ordinal + nominal + numeric</td>
+                                    <td class="px-4 py-3 text-sm">Predict loan approval with messy real-world data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                        <p class="text-sm text-amber-800"><strong>🎯 Classification vs Regression:</strong> If your target is a <strong>category</strong> (yes/no, species, rating), it's classification → use accuracy, precision, recall. If your target is a <strong>number</strong> (price, temperature, salary), it's regression → use RMSE, MAE, R².</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 1: Simple Classification -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">1</span>
+                        Workflow 1: Simple Binary Classification (Beginner)
+                    </h2>
+                    <p class="text-green-100 mt-1 text-sm">Minimal preprocessing — great starting point when your data is mostly clean</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> Predict if a customer will churn (leave) based on their account info. Only numerical and simple categorical features, very few missing values.
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>Approach:</strong> Drop the few rows with missing values → one-hot encode the categorical columns → train a simple model → check accuracy.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.tree <span class="text-purple-400">import</span> DecisionTreeClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score, classification_report
+
+<span class="text-gray-400"># ── Step 1: Create sample data ──────────────────</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'age'</span>: [<span class="text-yellow-400">25</span>, <span class="text-yellow-400">45</span>, <span class="text-yellow-400">35</span>, <span class="text-yellow-400">50</span>, <span class="text-yellow-400">23</span>, <span class="text-yellow-400">40</span>, <span class="text-yellow-400">60</span>, <span class="text-yellow-400">33</span>],
+    <span class="text-green-400">'monthly_spend'</span>: [<span class="text-yellow-400">50</span>, <span class="text-yellow-400">120</span>, <span class="text-yellow-400">80</span>, <span class="text-yellow-400">200</span>, <span class="text-yellow-400">30</span>, <span class="text-yellow-400">150</span>, <span class="text-yellow-400">90</span>, <span class="text-yellow-400">70</span>],
+    <span class="text-green-400">'contract'</span>: [<span class="text-green-400">'month'</span>, <span class="text-green-400">'year'</span>, <span class="text-green-400">'month'</span>, <span class="text-green-400">'year'</span>, <span class="text-green-400">'month'</span>, <span class="text-green-400">'two_year'</span>, <span class="text-green-400">'year'</span>, <span class="text-green-400">'month'</span>],
+    <span class="text-green-400">'churned'</span>: [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>]
+})
+
+<span class="text-gray-400"># ── Step 2: Check for missing values ────────────</span>
+<span class="text-blue-400">print</span>(df.isnull().sum())   <span class="text-gray-400"># If few → just drop them</span>
+df = df.dropna()
+
+<span class="text-gray-400"># ── Step 3: Separate features (X) and target (y) </span>
+X = df.drop(<span class="text-green-400">'churned'</span>, axis=<span class="text-yellow-400">1</span>)
+y = df[<span class="text-green-400">'churned'</span>]
+
+<span class="text-gray-400"># ── Step 4: One-hot encode categorical columns ──</span>
+X = pd.get_dummies(X, columns=[<span class="text-green-400">'contract'</span>], drop_first=<span class="text-yellow-400">True</span>)
+<span class="text-blue-400">print</span>(X.head())  <span class="text-gray-400"># Now all columns are numeric!</span>
+
+<span class="text-gray-400"># ── Step 5: Split into train/test ───────────────</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.25</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># ── Step 6: Train model ─────────────────────────</span>
+model = DecisionTreeClassifier(random_state=<span class="text-yellow-400">42</span>)
+model.fit(X_train, y_train)
+
+<span class="text-gray-400"># ── Step 7: Evaluate ────────────────────────────</span>
+y_pred = model.predict(X_test)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, y_pred):.2f}"</span>)
+<span class="text-blue-400">print</span>(classification_report(y_test, y_pred))</code></pre>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                        <p class="text-sm text-green-800"><strong>💡 When to use this approach:</strong> Quick prototyping, clean datasets with very few missing values (&lt;5%), and when you just need a baseline result fast. This is NOT production-ready — it doesn't handle unseen categories or prevent data leakage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 2: Classification with Mixed Types -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">2</span>
+                        Workflow 2: Classification with Missing Data + Mixed Types
+                    </h2>
+                    <p class="text-blue-100 mt-1 text-sm">Handles missing values properly with imputation, encodes multiple column types</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> Predict which species an animal belongs to. The dataset has missing measurements, a mix of numeric and categorical features, and an ordinal size column.
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>What's different from Workflow 1:</strong> We can't just drop rows — too much data would be lost. Instead we impute missing values (median for numbers, mode for categories), and we handle ordinal vs nominal encoding separately.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder, OrdinalEncoder, StandardScaler
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score, classification_report
+
+<span class="text-gray-400"># ── Step 1: Create messy data ───────────────────</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'weight'</span>: [<span class="text-yellow-400">30</span>, np.nan, <span class="text-yellow-400">5</span>, <span class="text-yellow-400">80</span>, <span class="text-yellow-400">15</span>, np.nan, <span class="text-yellow-400">50</span>, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">70</span>, <span class="text-yellow-400">25</span>],
+    <span class="text-green-400">'height'</span>: [<span class="text-yellow-400">60</span>, <span class="text-yellow-400">40</span>, <span class="text-yellow-400">20</span>, np.nan, <span class="text-yellow-400">35</span>, <span class="text-yellow-400">55</span>, <span class="text-yellow-400">70</span>, <span class="text-yellow-400">15</span>, np.nan, <span class="text-yellow-400">45</span>],
+    <span class="text-green-400">'color'</span>: [<span class="text-green-400">'brown'</span>, <span class="text-green-400">'black'</span>, <span class="text-green-400">'white'</span>, <span class="text-green-400">'brown'</span>, <span class="text-yellow-400">None</span>, <span class="text-green-400">'black'</span>, <span class="text-green-400">'brown'</span>, <span class="text-green-400">'white'</span>, <span class="text-green-400">'black'</span>, <span class="text-green-400">'brown'</span>],
+    <span class="text-green-400">'size'</span>: [<span class="text-green-400">'M'</span>, <span class="text-green-400">'S'</span>, <span class="text-green-400">'S'</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'S'</span>, <span class="text-yellow-400">None</span>, <span class="text-green-400">'L'</span>, <span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'M'</span>],   <span class="text-gray-400"># ordinal: S &lt; M &lt; L</span>
+    <span class="text-green-400">'species'</span>: [<span class="text-green-400">'dog'</span>, <span class="text-green-400">'cat'</span>, <span class="text-green-400">'cat'</span>, <span class="text-green-400">'dog'</span>, <span class="text-green-400">'cat'</span>, <span class="text-green-400">'dog'</span>, <span class="text-green-400">'dog'</span>, <span class="text-green-400">'cat'</span>, <span class="text-green-400">'dog'</span>, <span class="text-green-400">'cat'</span>]
+})
+
+<span class="text-gray-400"># ── Step 2: Inspect missing data ────────────────</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Missing values:"</span>)
+<span class="text-blue-400">print</span>(df.isnull().sum())
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"\nTotal rows: {len(df)}"</span>)
+
+<span class="text-gray-400"># ── Step 3: Separate X and y BEFORE any processing</span>
+X = df.drop(<span class="text-green-400">'species'</span>, axis=<span class="text-yellow-400">1</span>)
+y = df[<span class="text-green-400">'species'</span>]
+
+<span class="text-gray-400"># ── Step 4: Split BEFORE imputing (prevents leakage!)</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.3</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># ── Step 5: Identify column types ───────────────</span>
+numeric_cols = [<span class="text-green-400">'weight'</span>, <span class="text-green-400">'height'</span>]
+nominal_cols = [<span class="text-green-400">'color'</span>]         <span class="text-gray-400"># no natural order</span>
+ordinal_cols = [<span class="text-green-400">'size'</span>]          <span class="text-gray-400"># S &lt; M &lt; L</span>
+
+<span class="text-gray-400"># ── Step 6: Handle missing values ───────────────</span>
+<span class="text-gray-400"># Numeric: fill with median (robust to outliers)</span>
+num_imputer = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+X_train[numeric_cols] = num_imputer.fit_transform(X_train[numeric_cols])
+X_test[numeric_cols] = num_imputer.transform(X_test[numeric_cols])  <span class="text-gray-400"># transform only!</span>
+
+<span class="text-gray-400"># Categorical: fill with most frequent value</span>
+cat_imputer = SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)
+X_train[nominal_cols + ordinal_cols] = cat_imputer.fit_transform(X_train[nominal_cols + ordinal_cols])
+X_test[nominal_cols + ordinal_cols] = cat_imputer.transform(X_test[nominal_cols + ordinal_cols])
+
+<span class="text-gray-400"># ── Step 7: Encode ordinal column ───────────────</span>
+ord_enc = OrdinalEncoder(categories=[[<span class="text-green-400">'S'</span>, <span class="text-green-400">'M'</span>, <span class="text-green-400">'L'</span>]])
+X_train[<span class="text-green-400">'size'</span>] = ord_enc.fit_transform(X_train[[<span class="text-green-400">'size'</span>]])
+X_test[<span class="text-green-400">'size'</span>] = ord_enc.transform(X_test[[<span class="text-green-400">'size'</span>]])
+<span class="text-gray-400"># Now: S=0, M=1, L=2</span>
+
+<span class="text-gray-400"># ── Step 8: One-hot encode nominal column ───────</span>
+X_train = pd.get_dummies(X_train, columns=nominal_cols, drop_first=<span class="text-yellow-400">True</span>)
+X_test = pd.get_dummies(X_test, columns=nominal_cols, drop_first=<span class="text-yellow-400">True</span>)
+
+<span class="text-gray-400"># Make sure test has same columns as train</span>
+X_test = X_test.reindex(columns=X_train.columns, fill_value=<span class="text-yellow-400">0</span>)
+
+<span class="text-gray-400"># ── Step 9: Train and evaluate ──────────────────</span>
+model = RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, y_pred):.2f}"</span>)
+<span class="text-blue-400">print</span>(classification_report(y_test, y_pred))</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                            <p class="text-sm text-blue-800"><strong>⚠️ Key rule: fit on train, transform on test.</strong> The imputer learns values (median, mode) from training data only. Never let test data influence preprocessing — that's data leakage.</p>
+                        </div>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                            <p class="text-sm text-amber-800"><strong>⚠️ Column alignment:</strong> <code class="bg-amber-100 px-1 rounded">pd.get_dummies</code> may produce different columns for train vs test (if test is missing a category). Use <code class="bg-amber-100 px-1 rounded">reindex</code> to fix this.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 3: Regression -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">3</span>
+                        Workflow 3: Regression (Predicting a Number)
+                    </h2>
+                    <p class="text-purple-100 mt-1 text-sm">Predict a continuous value — uses different metrics and often needs feature scaling</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> Predict house price from square footage, bedrooms, neighborhood, and condition. The target is a continuous number, so this is <strong>regression</strong>, not classification.
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>What's different from classification:</strong> We use a regressor instead of a classifier, and evaluate with RMSE / R² instead of accuracy. Scaling is important for distance-based regressors.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OrdinalEncoder
+<span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LinearRegression
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> mean_squared_error, r2_score
+
+<span class="text-gray-400"># ── Step 1: Create housing data ─────────────────</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'sqft'</span>: [<span class="text-yellow-400">1200</span>, <span class="text-yellow-400">1800</span>, np.nan, <span class="text-yellow-400">2400</span>, <span class="text-yellow-400">900</span>, <span class="text-yellow-400">3000</span>, <span class="text-yellow-400">1500</span>, <span class="text-yellow-400">2100</span>],
+    <span class="text-green-400">'bedrooms'</span>: [<span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">1</span>, np.nan, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">3</span>],
+    <span class="text-green-400">'neighborhood'</span>: [<span class="text-green-400">'downtown'</span>, <span class="text-green-400">'suburbs'</span>, <span class="text-green-400">'downtown'</span>, <span class="text-green-400">'suburbs'</span>, <span class="text-green-400">'rural'</span>, <span class="text-green-400">'downtown'</span>, <span class="text-green-400">'suburbs'</span>, <span class="text-green-400">'rural'</span>],
+    <span class="text-green-400">'condition'</span>: [<span class="text-green-400">'good'</span>, <span class="text-green-400">'excellent'</span>, <span class="text-green-400">'fair'</span>, <span class="text-green-400">'good'</span>, <span class="text-green-400">'fair'</span>, <span class="text-green-400">'excellent'</span>, <span class="text-green-400">'good'</span>, <span class="text-green-400">'fair'</span>],
+    <span class="text-green-400">'price'</span>: [<span class="text-yellow-400">250000</span>, <span class="text-yellow-400">350000</span>, <span class="text-yellow-400">200000</span>, <span class="text-yellow-400">450000</span>, <span class="text-yellow-400">150000</span>, <span class="text-yellow-400">500000</span>, <span class="text-yellow-400">300000</span>, <span class="text-yellow-400">180000</span>]
+})
+
+<span class="text-gray-400"># ── Step 2: Separate X and y ────────────────────</span>
+X = df.drop(<span class="text-green-400">'price'</span>, axis=<span class="text-yellow-400">1</span>)
+y = df[<span class="text-green-400">'price'</span>]
+
+<span class="text-gray-400"># ── Step 3: Split ───────────────────────────────</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.25</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># ── Step 4: Impute missing values ───────────────</span>
+num_cols = [<span class="text-green-400">'sqft'</span>, <span class="text-green-400">'bedrooms'</span>]
+num_imputer = SimpleImputer(strategy=<span class="text-green-400">'median'</span>)
+X_train[num_cols] = num_imputer.fit_transform(X_train[num_cols])
+X_test[num_cols] = num_imputer.transform(X_test[num_cols])
+
+<span class="text-gray-400"># ── Step 5: Encode ordinal feature (condition) ──</span>
+ord_enc = OrdinalEncoder(categories=[[<span class="text-green-400">'fair'</span>, <span class="text-green-400">'good'</span>, <span class="text-green-400">'excellent'</span>]])
+X_train[<span class="text-green-400">'condition'</span>] = ord_enc.fit_transform(X_train[[<span class="text-green-400">'condition'</span>]])
+X_test[<span class="text-green-400">'condition'</span>] = ord_enc.transform(X_test[[<span class="text-green-400">'condition'</span>]])
+
+<span class="text-gray-400"># ── Step 6: One-hot encode nominal feature ──────</span>
+X_train = pd.get_dummies(X_train, columns=[<span class="text-green-400">'neighborhood'</span>], drop_first=<span class="text-yellow-400">True</span>)
+X_test = pd.get_dummies(X_test, columns=[<span class="text-green-400">'neighborhood'</span>], drop_first=<span class="text-yellow-400">True</span>)
+X_test = X_test.reindex(columns=X_train.columns, fill_value=<span class="text-yellow-400">0</span>)
+
+<span class="text-gray-400"># ── Step 7: Scale features (important for Linear Regression!) </span>
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+<span class="text-gray-400"># ── Step 8: Train REGRESSOR (not classifier!) ───</span>
+model = LinearRegression()
+model.fit(X_train_scaled, y_train)
+
+<span class="text-gray-400"># ── Step 9: Evaluate with REGRESSION metrics ────</span>
+y_pred = model.predict(X_test_scaled)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
+
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"RMSE: ${rmse:,.0f}"</span>)       <span class="text-gray-400"># Lower is better</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"R² Score: {r2:.3f}"</span>)      <span class="text-gray-400"># Closer to 1.0 is better</span>
+
+<span class="text-gray-400"># ── Show predictions vs actual ──────────────────</span>
+results = pd.DataFrame({<span class="text-green-400">'Actual'</span>: y_test.values, <span class="text-green-400">'Predicted'</span>: y_pred.round(<span class="text-yellow-400">0</span>)})
+<span class="text-blue-400">print</span>(results)</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+                            <p class="text-sm text-purple-800"><strong>📊 Regression metrics explained:</strong><br>
+                            <strong>RMSE</strong> = average error in the same units as your target (e.g., $25,000 off)<br>
+                            <strong>R²</strong> = how much variance your model explains (1.0 = perfect, 0.0 = no better than predicting the mean)</p>
+                        </div>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                            <p class="text-sm text-amber-800"><strong>⚠️ Scaling matters for regression:</strong> Linear regression, KNN, and SVR are sensitive to feature scale. RandomForest and tree-based models are NOT — you can skip scaling with those.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 4: Production Pipeline -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">4</span>
+                        Workflow 4: Full Pipeline (Production-Ready)
+                    </h2>
+                    <p class="text-rose-100 mt-1 text-sm">Everything combined in a single sklearn Pipeline — no leakage, fully reproducible</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> Predict loan approval. The dataset has numeric columns, nominal categories, ordinal categories, and missing data everywhere. We use sklearn's <code class="bg-gray-200 px-1 rounded">ColumnTransformer</code> + <code class="bg-gray-200 px-1 rounded">Pipeline</code> to handle everything in one object.
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>Why this approach:</strong> In Workflows 1-3, we did each step manually — which works but is error-prone (easy to forget a step, apply wrong order, or leak test data). A Pipeline bundles everything together: one <code class="bg-gray-200 px-1 rounded">.fit()</code> does all preprocessing + training, one <code class="bg-gray-200 px-1 rounded">.predict()</code> does all preprocessing + inference.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
 <span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
 <span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder, OrdinalEncoder
 <span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
 <span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
-<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score, classification_report
 
-<span class="text-gray-400"># ── Define column types ─────────────────────────</span>
+<span class="text-gray-400"># ── Step 1: Define your column types ────────────</span>
 numeric_features = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'income'</span>, <span class="text-green-400">'credit_score'</span>]
-categorical_nominal = [<span class="text-green-400">'city'</span>, <span class="text-green-400">'department'</span>]
-categorical_ordinal = [<span class="text-green-400">'education'</span>]  <span class="text-gray-400"># has natural order</span>
+nominal_features = [<span class="text-green-400">'city'</span>, <span class="text-green-400">'employment_type'</span>]
+ordinal_features = [<span class="text-green-400">'education'</span>]
 
-<span class="text-gray-400"># ── Numerical pipeline: impute → scale ──────────</span>
+<span class="text-gray-400"># ── Step 2: Build a pipeline for EACH type ──────</span>
+
+<span class="text-gray-400"># Numeric: fill missing with median, then scale</span>
 numeric_pipeline = Pipeline([
     (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'median'</span>)),
     (<span class="text-green-400">'scaler'</span>, StandardScaler())
 ])
 
-<span class="text-gray-400"># ── Nominal pipeline: impute → one-hot ──────────</span>
+<span class="text-gray-400"># Nominal: fill missing with mode, then one-hot encode</span>
 nominal_pipeline = Pipeline([
     (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
     (<span class="text-green-400">'encoder'</span>, OneHotEncoder(drop=<span class="text-green-400">'first'</span>, sparse_output=<span class="text-yellow-400">False</span>,
                              handle_unknown=<span class="text-green-400">'ignore'</span>))
 ])
 
-<span class="text-gray-400"># ── Ordinal pipeline: impute → ordinal encode ───</span>
+<span class="text-gray-400"># Ordinal: fill missing with mode, then encode with order</span>
 ordinal_pipeline = Pipeline([
     (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
     (<span class="text-green-400">'encoder'</span>, OrdinalEncoder(
@@ -522,29 +849,54 @@ ordinal_pipeline = Pipeline([
     ))
 ])
 
-<span class="text-gray-400"># ── Combine all transformers ────────────────────</span>
+<span class="text-gray-400"># ── Step 3: Combine into ColumnTransformer ──────</span>
+<span class="text-gray-400"># This applies each pipeline to its respective columns</span>
 preprocessor = ColumnTransformer([
     (<span class="text-green-400">'num'</span>, numeric_pipeline, numeric_features),
-    (<span class="text-green-400">'nom'</span>, nominal_pipeline, categorical_nominal),
-    (<span class="text-green-400">'ord'</span>, ordinal_pipeline, categorical_ordinal)
+    (<span class="text-green-400">'nom'</span>, nominal_pipeline, nominal_features),
+    (<span class="text-green-400">'ord'</span>, ordinal_pipeline, ordinal_features)
 ])
 
-<span class="text-gray-400"># ── Full pipeline: preprocess → model ───────────</span>
-model = Pipeline([
+<span class="text-gray-400"># ── Step 4: Build the FULL pipeline ─────────────</span>
+<span class="text-gray-400"># Preprocessor + model in one object</span>
+full_pipeline = Pipeline([
     (<span class="text-green-400">'preprocessor'</span>, preprocessor),
-    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>))
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(
+        n_estimators=<span class="text-yellow-400">100</span>, random_state=<span class="text-yellow-400">42</span>
+    ))
 ])
 
-<span class="text-gray-400"># ── Train and evaluate ──────────────────────────</span>
+<span class="text-gray-400"># ── Step 5: Split and train ─────────────────────</span>
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
 )
 
-model.fit(X_train, y_train)
-<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {model.score(X_test, y_test):.3f}"</span>)</code></pre>
+<span class="text-gray-400"># One line does ALL preprocessing + training!</span>
+full_pipeline.fit(X_train, y_train)
+
+<span class="text-gray-400"># ── Step 6: Predict and evaluate ────────────────</span>
+<span class="text-gray-400"># One line does ALL preprocessing + prediction!</span>
+y_pred = full_pipeline.predict(X_test)
+
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, y_pred):.3f}"</span>)
+<span class="text-blue-400">print</span>(classification_report(y_test, y_pred))
+
+<span class="text-gray-400"># ── Bonus: See what the preprocessor did ────────</span>
+feature_names = full_pipeline.named_steps[<span class="text-green-400">'preprocessor'</span>].get_feature_names_out()
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Final features:"</span>, feature_names)</code></pre>
+                    </div>
+                    <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded mb-4">
+                        <p class="text-sm text-rose-800"><strong>✨ Why this is the best approach:</strong></p>
+                        <ul class="text-sm text-rose-800 list-disc ml-5 mt-1 space-y-1">
+                            <li><strong>No data leakage:</strong> <code class="bg-rose-100 px-1 rounded">.fit()</code> only sees training data</li>
+                            <li><strong>Reproducible:</strong> Same steps in exact same order every time</li>
+                            <li><strong>Works with cross-validation:</strong> <code class="bg-rose-100 px-1 rounded">cross_val_score(full_pipeline, X, y)</code></li>
+                            <li><strong>Handles new data:</strong> <code class="bg-rose-100 px-1 rounded">handle_unknown='ignore'</code> deals with unseen categories</li>
+                            <li><strong>Saveable:</strong> <code class="bg-rose-100 px-1 rounded">joblib.dump(full_pipeline, 'model.pkl')</code> saves everything</li>
+                        </ul>
                     </div>
                     <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
-                        <p class="text-sm text-cyan-800"><strong>✨ Why Pipelines?</strong> They guarantee the same preprocessing steps run in the same order during training and prediction. No chance of forgetting a step or applying them in the wrong order!</p>
+                        <p class="text-sm text-cyan-800"><strong>🔄 For Regression instead:</strong> Swap <code class="bg-cyan-100 px-1 rounded">RandomForestClassifier</code> → <code class="bg-cyan-100 px-1 rounded">RandomForestRegressor</code>, use <code class="bg-cyan-100 px-1 rounded">mean_squared_error</code> and <code class="bg-cyan-100 px-1 rounded">r2_score</code> instead of accuracy. Everything else stays the same!</p>
                     </div>
                 </div>
             </div>
