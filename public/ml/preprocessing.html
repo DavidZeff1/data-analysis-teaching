@@ -315,32 +315,45 @@ df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
                         <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder
 <span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LogisticRegression
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
 
-<span class="text-gray-400"># Load the Palmer Penguins dataset</span>
+<span class="text-gray-400"># Load Penguins — has BOTH numeric and categorical columns</span>
 penguins = sns.load_dataset(<span class="text-green-400">'penguins'</span>).dropna()
-
-<span class="text-gray-400"># Grab ALL numeric columns as features</span>
-X = penguins.select_dtypes(include=<span class="text-green-400">'number'</span>)  <span class="text-gray-400"># bill_length, bill_depth, flipper_length, body_mass</span>
 y = penguins[<span class="text-green-400">'species'</span>]
 
+<span class="text-gray-400"># Separate numeric vs categorical features</span>
+num_cols = [<span class="text-green-400">'bill_length_mm'</span>, <span class="text-green-400">'bill_depth_mm'</span>, <span class="text-green-400">'flipper_length_mm'</span>, <span class="text-green-400">'body_mass_g'</span>]
+cat_cols = [<span class="text-green-400">'island'</span>, <span class="text-green-400">'sex'</span>]
+
 <span class="text-gray-400"># 1. Split FIRST — before any preprocessing</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+X_train, X_test, y_train, y_test = train_test_split(
+    penguins[num_cols + cat_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># 2. StandardScaler learns from ALL numeric columns at once</span>
+<span class="text-gray-400"># 2. Scale the NUMERIC columns with StandardScaler</span>
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)  <span class="text-gray-400"># learns mean/std of each column</span>
-X_test_scaled = scaler.transform(X_test)         <span class="text-gray-400"># applies those same stats</span>
+X_train_num = scaler.fit_transform(X_train[num_cols])
+X_test_num = scaler.transform(X_test[num_cols])
 
-<span class="text-gray-400"># 3. Train on the scaled data</span>
+<span class="text-gray-400"># 3. Encode the CATEGORICAL columns with OneHotEncoder</span>
+encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, handle_unknown=<span class="text-green-400">'ignore'</span>)
+X_train_cat = encoder.fit_transform(X_train[cat_cols])
+X_test_cat = encoder.transform(X_test[cat_cols])
+
+<span class="text-gray-400"># 4. Combine scaled numbers + encoded categories</span>
+X_train_final = np.hstack([X_train_num, X_train_cat])
+X_test_final = np.hstack([X_test_num, X_test_cat])
+
+<span class="text-gray-400"># 5. Train on the combined data</span>
 model = LogisticRegression(max_iter=<span class="text-yellow-400">200</span>)
-model.fit(X_train_scaled, y_train)
+model.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 4. Predict and evaluate</span>
-predictions = model.predict(X_test_scaled)
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = model.predict(X_test_final)
 <span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
                     </div>
                     <div class="bg-sky-50 border-l-4 border-sky-400 p-4 rounded">
@@ -363,36 +376,45 @@ predictions = model.predict(X_test_scaled)
                         Squeezes all data strictly into a range between <strong>0 and 1</strong>. Useful when you need a fixed boundary, like image pixels (0-255) or when working with distance-based algorithms that don't assume a normal distribution.
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
-                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.datasets <span class="text-purple-400">import</span> load_wine
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> MinMaxScaler
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> MinMaxScaler, OneHotEncoder
 <span class="text-purple-400">from</span> sklearn.neighbors <span class="text-purple-400">import</span> KNeighborsClassifier
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
-<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
 
-<span class="text-gray-400"># Load Wine dataset (178 wines, 13 chemical features)</span>
-wine = load_wine()
-df = pd.DataFrame(wine.data, columns=wine.feature_names)
-df[<span class="text-green-400">'target'</span>] = wine.target
+<span class="text-gray-400"># Load Titanic — mixed numeric (age, fare) + categorical (sex, class)</span>
+titanic = sns.load_dataset(<span class="text-green-400">'titanic'</span>).dropna(subset=[<span class="text-green-400">'age'</span>, <span class="text-green-400">'embarked'</span>])
+y = titanic[<span class="text-green-400">'survived'</span>]
 
-<span class="text-gray-400"># Use ALL 13 features (alcohol, malic_acid, ash, alkalinity, ...)</span>
-X = df.drop(<span class="text-green-400">'target'</span>, axis=<span class="text-yellow-400">1</span>)
-y = df[<span class="text-green-400">'target'</span>]
+num_cols = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'fare'</span>, <span class="text-green-400">'sibsp'</span>, <span class="text-green-400">'parch'</span>]
+cat_cols = [<span class="text-green-400">'sex'</span>, <span class="text-green-400">'embarked'</span>, <span class="text-green-400">'class'</span>]
 
 <span class="text-gray-400"># 1. Split FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+X_train, X_test, y_train, y_test = train_test_split(
+    titanic[num_cols + cat_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># 2. MinMaxScaler normalizes ALL 13 features to [0, 1]</span>
+<span class="text-gray-400"># 2. MinMaxScaler normalizes numeric columns to [0, 1]</span>
 min_max = MinMaxScaler()
-X_train_norm = min_max.fit_transform(X_train)
-X_test_norm = min_max.transform(X_test)
+X_train_num = min_max.fit_transform(X_train[num_cols])
+X_test_num = min_max.transform(X_test[num_cols])
 
-<span class="text-gray-400"># 3. KNN uses distance — needs all features on the same scale!</span>
+<span class="text-gray-400"># 3. Encode the categorical columns</span>
+encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, handle_unknown=<span class="text-green-400">'ignore'</span>)
+X_train_cat = encoder.fit_transform(X_train[cat_cols])
+X_test_cat = encoder.transform(X_test[cat_cols])
+
+<span class="text-gray-400"># 4. Combine: scaled numbers + encoded categories</span>
+X_train_final = np.hstack([X_train_num, X_train_cat])
+X_test_final = np.hstack([X_test_num, X_test_cat])
+
+<span class="text-gray-400"># 5. KNN uses distance — needs all features on the same scale!</span>
 knn = KNeighborsClassifier(n_neighbors=<span class="text-yellow-400">5</span>)
-knn.fit(X_train_norm, y_train)
+knn.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 4. Predict and evaluate</span>
-predictions = knn.predict(X_test_norm)
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = knn.predict(X_test_final)
 <span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
                     </div>
                     <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
@@ -416,32 +438,44 @@ predictions = knn.predict(X_test_norm)
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
                         <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> RobustScaler
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> RobustScaler, OneHotEncoder
 <span class="text-purple-400">from</span> sklearn.svm <span class="text-purple-400">import</span> SVC
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
 
-<span class="text-gray-400"># Load the Diamonds dataset — has extreme outlier prices</span>
+<span class="text-gray-400"># Load Diamonds — mixed numeric (carat, depth...) + categorical (cut, color...)</span>
 diamonds = sns.load_dataset(<span class="text-green-400">'diamonds'</span>).sample(<span class="text-yellow-400">500</span>, random_state=<span class="text-yellow-400">1</span>)
-
-<span class="text-gray-400"># Use ALL numeric features (carat, depth, table, x, y, z, price)</span>
-X = diamonds.select_dtypes(include=<span class="text-green-400">'number'</span>).drop(<span class="text-green-400">'price'</span>, axis=<span class="text-yellow-400">1</span>)
 y = (diamonds[<span class="text-green-400">'price'</span>] > <span class="text-yellow-400">3000</span>).astype(<span class="text-blue-400">int</span>)  <span class="text-gray-400"># 0=cheap, 1=expensive</span>
 
+num_cols = [<span class="text-green-400">'carat'</span>, <span class="text-green-400">'depth'</span>, <span class="text-green-400">'table'</span>, <span class="text-green-400">'x'</span>, <span class="text-green-400">'y'</span>, <span class="text-green-400">'z'</span>]
+cat_cols = [<span class="text-green-400">'cut'</span>, <span class="text-green-400">'color'</span>, <span class="text-green-400">'clarity'</span>]
+
 <span class="text-gray-400"># 1. Split FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+X_train, X_test, y_train, y_test = train_test_split(
+    diamonds[num_cols + cat_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># 2. RobustScaler ignores the crazy outliers in carat/price</span>
+<span class="text-gray-400"># 2. RobustScaler on numeric cols (handles the outliers in carat)</span>
 robust = RobustScaler()
-X_train_robust = robust.fit_transform(X_train)  <span class="text-gray-400"># scales all 6 features</span>
-X_test_robust = robust.transform(X_test)
+X_train_num = robust.fit_transform(X_train[num_cols])
+X_test_num = robust.transform(X_test[num_cols])
 
-<span class="text-gray-400"># 3. SVM is very sensitive to scale — RobustScaler protects it</span>
+<span class="text-gray-400"># 3. Encode categorical cols</span>
+encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, handle_unknown=<span class="text-green-400">'ignore'</span>)
+X_train_cat = encoder.fit_transform(X_train[cat_cols])
+X_test_cat = encoder.transform(X_test[cat_cols])
+
+<span class="text-gray-400"># 4. Combine scaled numbers + encoded categories</span>
+X_train_final = np.hstack([X_train_num, X_train_cat])
+X_test_final = np.hstack([X_test_num, X_test_cat])
+
+<span class="text-gray-400"># 5. SVM is very sensitive to scale — RobustScaler protects it</span>
 svm = SVC()
-svm.fit(X_train_robust, y_train)
+svm.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 4. Predict and evaluate</span>
-predictions = svm.predict(X_test_robust)
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = svm.predict(X_test_final)
 <span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
                     </div>
                     <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded text-sm text-cyan-800">
@@ -473,36 +507,45 @@ predictions = svm.predict(X_test_robust)
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
                         <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> LabelEncoder, OrdinalEncoder
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OrdinalEncoder
 <span class="text-purple-400">from</span> sklearn.tree <span class="text-purple-400">import</span> DecisionTreeClassifier
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
 
-<span class="text-gray-400"># Load Titanic — has ordinal features like 'class' and 'who'</span>
+<span class="text-gray-400"># Load Titanic — mixed numeric + ordinal categorical</span>
 titanic = sns.load_dataset(<span class="text-green-400">'titanic'</span>).dropna(subset=[<span class="text-green-400">'age'</span>, <span class="text-green-400">'embarked'</span>])
-
-<span class="text-gray-400"># 'class' has a natural order: Third &lt; Second &lt; First</span>
-<span class="text-gray-400"># 'who' has a natural order: child &lt; woman &lt; man</span>
-X = titanic[[<span class="text-green-400">'class'</span>, <span class="text-green-400">'who'</span>]]
 y = titanic[<span class="text-green-400">'survived'</span>]
 
-<span class="text-gray-400"># 1. Split FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+<span class="text-gray-400"># Numeric columns (already numbers — no encoding needed)</span>
+num_cols = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'fare'</span>, <span class="text-green-400">'sibsp'</span>, <span class="text-green-400">'parch'</span>]
 
-<span class="text-gray-400"># 2. OrdinalEncoder — define the rank order for EACH column</span>
+<span class="text-gray-400"># Ordinal columns (have a natural rank order)</span>
+ord_cols = [<span class="text-green-400">'class'</span>, <span class="text-green-400">'who'</span>]
+
+<span class="text-gray-400"># 1. Split FIRST</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    titanic[num_cols + ord_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># 2. OrdinalEncoder — define the rank order for EACH ordinal column</span>
 ordinal_enc = OrdinalEncoder(categories=[
     [<span class="text-green-400">'Third'</span>, <span class="text-green-400">'Second'</span>, <span class="text-green-400">'First'</span>],   <span class="text-gray-400"># class: Third=0, Second=1, First=2</span>
     [<span class="text-green-400">'child'</span>, <span class="text-green-400">'woman'</span>, <span class="text-green-400">'man'</span>]        <span class="text-gray-400"># who:   child=0, woman=1, man=2</span>
 ])
-X_train_enc = ordinal_enc.fit_transform(X_train)
-X_test_enc = ordinal_enc.transform(X_test)
+X_train_ord = ordinal_enc.fit_transform(X_train[ord_cols])
+X_test_ord = ordinal_enc.transform(X_test[ord_cols])
 
-<span class="text-gray-400"># 3. Train a Decision Tree on ALL encoded features</span>
+<span class="text-gray-400"># 3. Combine numeric columns + encoded ordinal columns</span>
+X_train_final = np.hstack([X_train[num_cols].values, X_train_ord])
+X_test_final = np.hstack([X_test[num_cols].values, X_test_ord])
+
+<span class="text-gray-400"># 4. Train a Decision Tree (trees don't need scaling!)</span>
 tree = DecisionTreeClassifier(random_state=<span class="text-yellow-400">42</span>)
-tree.fit(X_train_enc, y_train)
+tree.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 4. Predict and evaluate</span>
-predictions = tree.predict(X_test_enc)
+<span class="text-gray-400"># 5. Predict and evaluate</span>
+predictions = tree.predict(X_test_final)
 <span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
                     </div>
                     <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
@@ -526,36 +569,47 @@ predictions = tree.predict(X_test_enc)
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
                         <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder
 <span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> accuracy_score
 
-<span class="text-gray-400"># Load Titanic and grab ALL categorical columns</span>
-titanic = sns.load_dataset(<span class="text-green-400">'titanic'</span>).dropna(subset=[<span class="text-green-400">'embarked'</span>])
-cat_cols = [<span class="text-green-400">'sex'</span>, <span class="text-green-400">'embarked'</span>, <span class="text-green-400">'class'</span>, <span class="text-green-400">'who'</span>, <span class="text-green-400">'deck'</span>, <span class="text-green-400">'embark_town'</span>, <span class="text-green-400">'alone'</span>]
-
-X = titanic[cat_cols]          <span class="text-gray-400"># ALL 7 categorical features</span>
+<span class="text-gray-400"># Load Titanic — mixed numeric + categorical</span>
+titanic = sns.load_dataset(<span class="text-green-400">'titanic'</span>).dropna(subset=[<span class="text-green-400">'age'</span>, <span class="text-green-400">'embarked'</span>])
 y = titanic[<span class="text-green-400">'survived'</span>]
 
+num_cols = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'fare'</span>, <span class="text-green-400">'sibsp'</span>, <span class="text-green-400">'parch'</span>]
+cat_cols = [<span class="text-green-400">'sex'</span>, <span class="text-green-400">'embarked'</span>, <span class="text-green-400">'class'</span>, <span class="text-green-400">'who'</span>]  <span class="text-gray-400"># nominal cats — no order</span>
+
 <span class="text-gray-400"># 1. Split FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+X_train, X_test, y_train, y_test = train_test_split(
+    titanic[num_cols + cat_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># 2. OneHotEncoder on ALL categorical columns at once</span>
+<span class="text-gray-400"># 2. Scale the numeric columns</span>
+scaler = StandardScaler()
+X_train_num = scaler.fit_transform(X_train[num_cols])
+X_test_num = scaler.transform(X_test[num_cols])
+
+<span class="text-gray-400"># 3. OneHotEncoder on all categorical columns at once</span>
 encoder = OneHotEncoder(sparse_output=<span class="text-yellow-400">False</span>, drop=<span class="text-green-400">'first'</span>, handle_unknown=<span class="text-green-400">'ignore'</span>)
-X_train_enc = encoder.fit_transform(X_train)
-X_test_enc = encoder.transform(X_test)
+X_train_cat = encoder.fit_transform(X_train[cat_cols])
+X_test_cat = encoder.transform(X_test[cat_cols])
 
-<span class="text-gray-400"># See ALL the new columns created:</span>
-<span class="text-blue-400">print</span>(<span class="text-green-400">f"Original columns: {<span class="text-blue-400">len</span>(cat_cols)} → Encoded columns: {X_train_enc.shape[<span class="text-yellow-400">1</span>]}"</span>)
-<span class="text-blue-400">print</span>(encoder.get_feature_names_out())
+<span class="text-gray-400"># See ALL the new columns created for the categoricals:</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Numeric: {<span class="text-blue-400">len</span>(num_cols)} cols + Categorical: {X_train_cat.shape[<span class="text-yellow-400">1</span>]} cols"</span>)
 
-<span class="text-gray-400"># 3. Train a model on ALL encoded features</span>
+<span class="text-gray-400"># 4. Combine scaled numbers + encoded categories</span>
+X_train_final = np.hstack([X_train_num, X_train_cat])
+X_test_final = np.hstack([X_test_num, X_test_cat])
+
+<span class="text-gray-400"># 5. Train on the combined features</span>
 rf = RandomForestClassifier(n_estimators=<span class="text-yellow-400">100</span>, random_state=<span class="text-yellow-400">42</span>)
-rf.fit(X_train_enc, y_train)
+rf.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 4. Predict and evaluate</span>
-predictions = rf.predict(X_test_enc)
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = rf.predict(X_test_final)
 <span class="text-blue-400">print</span>(<span class="text-green-400">f"Accuracy: {accuracy_score(y_test, predictions):.2%}"</span>)</code></pre>
                     </div>
                     <div class="grid md:grid-cols-2 gap-4">
@@ -584,38 +638,46 @@ predictions = rf.predict(X_test_enc)
                     </p>
                     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
                         <pre class="text-sm"><code><span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 <span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
-<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> TargetEncoder
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> TargetEncoder, StandardScaler
 <span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> GradientBoostingRegressor
 <span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> mean_squared_error
-<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
 
-<span class="text-gray-400"># Load Diamonds — lots of high-cardinality categorical features</span>
+<span class="text-gray-400"># Load Diamonds — mixed numeric + high-cardinality categoricals</span>
 diamonds = sns.load_dataset(<span class="text-green-400">'diamonds'</span>).sample(<span class="text-yellow-400">1000</span>, random_state=<span class="text-yellow-400">1</span>)
-
-<span class="text-gray-400"># Grab ALL categorical features: cut, color, clarity</span>
-cat_cols = [<span class="text-green-400">'cut'</span>, <span class="text-green-400">'color'</span>, <span class="text-green-400">'clarity'</span>]  <span class="text-gray-400"># 5, 7, and 8 unique values!</span>
-X = diamonds[cat_cols]
 y = diamonds[<span class="text-green-400">'price'</span>]  <span class="text-gray-400"># Regression target</span>
 
+num_cols = [<span class="text-green-400">'carat'</span>, <span class="text-green-400">'depth'</span>, <span class="text-green-400">'table'</span>, <span class="text-green-400">'x'</span>, <span class="text-green-400">'y'</span>, <span class="text-green-400">'z'</span>]
+cat_cols = [<span class="text-green-400">'cut'</span>, <span class="text-green-400">'color'</span>, <span class="text-green-400">'clarity'</span>]  <span class="text-gray-400"># 5, 7, and 8 unique values!</span>
+
 <span class="text-gray-400"># 1. Split FIRST</span>
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>)
+X_train, X_test, y_train, y_test = train_test_split(
+    diamonds[num_cols + cat_cols], y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
 
-<span class="text-gray-400"># 2. TargetEncoder replaces each category with the avg price</span>
+<span class="text-gray-400"># 2. Scale numeric columns</span>
+scaler = StandardScaler()
+X_train_num = scaler.fit_transform(X_train[num_cols])
+X_test_num = scaler.transform(X_test[num_cols])
+
+<span class="text-gray-400"># 3. TargetEncoder on categorical cols — replaces each with avg price</span>
 target_enc = TargetEncoder(smooth=<span class="text-green-400">'auto'</span>)
+X_train_cat = target_enc.fit_transform(X_train[cat_cols], y_train)  <span class="text-gray-400"># needs y!</span>
+X_test_cat = target_enc.transform(X_test[cat_cols])
 
-<span class="text-gray-400"># 3. fit_transform needs BOTH X_train AND y_train</span>
-X_train_enc = target_enc.fit_transform(X_train, y_train)
-X_test_enc = target_enc.transform(X_test)  <span class="text-gray-400"># uses training averages</span>
+<span class="text-gray-400"># 4. Combine scaled numbers + target-encoded categories</span>
+X_train_final = np.hstack([X_train_num, X_train_cat])
+X_test_final = np.hstack([X_test_num, X_test_cat])
 
-<span class="text-gray-400"># 4. Train a regression model on ALL encoded features</span>
+<span class="text-gray-400"># 5. Train a regression model on ALL combined features</span>
 gbm = GradientBoostingRegressor(n_estimators=<span class="text-yellow-400">200</span>, random_state=<span class="text-yellow-400">42</span>)
-gbm.fit(X_train_enc, y_train)
+gbm.fit(X_train_final, y_train)
 
-<span class="text-gray-400"># 5. Predict and evaluate</span>
-predictions = gbm.predict(X_test_enc)
+<span class="text-gray-400"># 6. Predict and evaluate</span>
+predictions = gbm.predict(X_test_final)
 rmse = np.sqrt(mean_squared_error(y_test, predictions))
-<span class="text-blue-400">print</span>(<span class="text-green-400">f"RMSE: ${rmse:,.0f}"</span>)  <span class="text-gray-400"># e.g. "RMSE: $1,842"</span></code></pre>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"RMSE: ${rmse:,.0f}"</span>)  <span class="text-gray-400"># e.g. "RMSE: $1,203"</span></code></pre>
                     </div>
                     <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
                         <p class="text-sm text-rose-800"><strong>⚠️ Data Leakage Risk:</strong> Target encoding uses the target variable, so you MUST fit only on training data. Using it on the full dataset causes leakage. The <code class="bg-rose-100 text-rose-800 px-1 rounded">smooth</code> parameter helps reduce overfitting for rare categories.</p>
