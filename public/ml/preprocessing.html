@@ -523,6 +523,28 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
                         </div>
                     </div>
 
+                    <!-- Preprocessors vs Models Callout -->
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg p-6 mb-8 shadow-sm">
+                        <h3 class="text-xl font-bold text-indigo-900 mb-2 flex items-center">
+                            <span class="text-2xl mr-2">🤔</span> Wait, what about .predict()?
+                        </h3>
+                        <p class="text-gray-700 mb-4 font-medium">It is incredibly common for beginners to confuse Preprocessors with Models. In Scikit-Learn, both use the word <code class="bg-indigo-100 text-indigo-800 px-1 rounded font-mono">.fit()</code>, but they do entirely different things!</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded border border-indigo-100 shadow-sm">
+                                <h4 class="font-bold text-teal-700 mb-1 border-b border-teal-100 pb-1">1. Preprocessors (Transformers)</h4>
+                                <p class="text-sm text-gray-500 mb-2 italic">StandardScaler, SimpleImputer, OneHotEncoder</p>
+                                <p class="text-sm text-gray-700">Their job is to <strong>clean and prepare data</strong>. They use <code class="font-mono text-blue-600">.fit()</code> to learn <em>how</em> to clean, and <strong class="text-teal-600 font-mono">.transform()</strong> to actually modify the data.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded border border-indigo-100 shadow-sm">
+                                <h4 class="font-bold text-purple-700 mb-1 border-b border-purple-100 pb-1">2. Models (Estimators)</h4>
+                                <p class="text-sm text-gray-500 mb-2 italic">RandomForest, LinearRegression, DecisionTree</p>
+                                <p class="text-sm text-gray-700">Their job is to <strong>guess the answer</strong>. They use <code class="font-mono text-blue-600">.fit()</code> to learn the patterns in the <em>already cleaned</em> data, and <strong class="text-purple-600 font-mono">.predict()</strong> to make a final guess.</p>
+                            </div>
+                        </div>
+                        <p class="text-indigo-800 text-sm mt-4 font-medium italic">Models do NOT have a .transform() method, and Preprocessors do NOT have a .predict() method!</p>
+                    </div>
+
                     <div class="grid md:grid-cols-3 gap-6 mb-8">
                         <div class="bg-blue-50 rounded-xl p-6 border-t-4 border-blue-500 shadow-sm">
                             <h3 class="text-xl font-bold text-blue-900 mb-3 font-mono">.fit()</h3>
