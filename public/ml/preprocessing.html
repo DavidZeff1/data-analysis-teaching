@@ -493,6 +493,36 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
                         "Never let your model or your preprocessors see the test data. They must learn <strong>only</strong> from the training data."
                     </p>
 
+                    <!-- Analogy Box -->
+                    <div class="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-xl p-6 mb-8 border border-teal-200">
+                        <h3 class="text-xl font-bold text-teal-900 mb-4 flex items-center">
+                            <span class="text-2xl mr-2">👨‍🏫</span> The "Curving an Exam" Analogy
+                        </h3>
+                        <p class="text-gray-700 mb-4">Imagine you are a teacher curving a difficult math exam for your class (the Training Data):</p>
+                        
+                        <ul class="space-y-4 mb-4">
+                            <li class="flex items-start">
+                                <span class="bg-blue-100 text-blue-800 font-mono px-2 py-1 rounded text-sm mr-3 mt-1 shadow-sm font-bold">.fit()</span>
+                                <div>
+                                    <p class="text-gray-800">The teacher calculates the <strong>class average</strong> (e.g., 65%).</p>
+                                    <p class="text-gray-500 text-sm">They are just "learning" the statistics. No grades have been changed yet.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-green-100 text-green-800 font-mono px-2 py-1 rounded text-sm mr-3 mt-1 shadow-sm font-bold">.transform()</span>
+                                <div>
+                                    <p class="text-gray-800">The teacher uses that class average to <strong>curve everyone's grade</strong> up by 10 points.</p>
+                                    <p class="text-gray-500 text-sm">Now the data (the grades) has actually been modified.</p>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="bg-white rounded-lg p-4 border-l-4 border-amber-400 shadow-sm mt-4">
+                            <p class="text-gray-800 font-medium mb-1">What happens when a student takes a make-up exam the next day (the Test Data)?</p>
+                            <p class="text-gray-600">The teacher does <strong>NOT</strong> recalculate a brand new class average just for that one student (<strong>no</strong> <code class="bg-gray-100 px-1 rounded text-rose-600 font-mono text-sm">.fit()</code>). Instead, the teacher simply applies the <em>existing</em> curve to the new student's grade (<strong>only</strong> <code class="bg-gray-100 px-1 rounded text-teal-600 font-mono text-sm">.transform()</code>).</p>
+                        </div>
+                    </div>
+
                     <div class="grid md:grid-cols-3 gap-6 mb-8">
                         <div class="bg-blue-50 rounded-xl p-6 border-t-4 border-blue-500 shadow-sm">
                             <h3 class="text-xl font-bold text-blue-900 mb-3 font-mono">.fit()</h3>
