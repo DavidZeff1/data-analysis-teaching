@@ -526,6 +526,18 @@ df[<span class="text-green-400">'city_encoded'</span>] = target_enc.fit_transfor
                                     <td class="px-4 py-3 text-sm">Pipeline with ColumnTransformer, ordinal + nominal + numeric</td>
                                     <td class="px-4 py-3 text-sm">Predict loan approval with messy real-world data</td>
                                 </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-orange-600">Workflow 5</td>
+                                    <td class="px-4 py-3">KNN Imputer + Missing Indicators</td>
+                                    <td class="px-4 py-3 text-sm">KNN impute → missing flags → target encode → fit</td>
+                                    <td class="px-4 py-3 text-sm">Predict salary with correlated features and meaningful missingness</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 font-medium text-indigo-600">Workflow 6</td>
+                                    <td class="px-4 py-3">Pipeline + GridSearchCV</td>
+                                    <td class="px-4 py-3 text-sm">Pipeline → cross-validation → hyperparameter tuning</td>
+                                    <td class="px-4 py-3 text-sm">Find the best model + preprocessing combo automatically</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -897,6 +909,214 @@ feature_names = full_pipeline.named_steps[<span class="text-green-400">'preproce
                     </div>
                     <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
                         <p class="text-sm text-cyan-800"><strong>🔄 For Regression instead:</strong> Swap <code class="bg-cyan-100 px-1 rounded">RandomForestClassifier</code> → <code class="bg-cyan-100 px-1 rounded">RandomForestRegressor</code>, use <code class="bg-cyan-100 px-1 rounded">mean_squared_error</code> and <code class="bg-cyan-100 px-1 rounded">r2_score</code> instead of accuracy. Everything else stays the same!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 5: KNN Imputer + Missing Indicators + Target Encoding -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">5</span>
+                        Workflow 5: KNN Imputer + Missing Indicators + Target Encoding
+                    </h2>
+                    <p class="text-orange-100 mt-1 text-sm">Advanced imputation that uses feature relationships, tracks where data was missing, and handles high-cardinality columns</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> Predict employee salary. Features are correlated (age and experience move together), some columns have many unique values (job title, department), and the <em>reason</em> data is missing could be a signal (high earners skip salary surveys).
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>What's new here:</strong> KNN imputer uses nearby rows to fill missing values (smarter than just median). Missing indicators tell the model <em>where</em> data was originally missing. Target encoding handles columns with too many categories for one-hot.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> KNNImputer, SimpleImputer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, TargetEncoder
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> GradientBoostingRegressor
+<span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> mean_squared_error, r2_score
+
+<span class="text-gray-400"># ── Step 1: Sample data with correlated features ─</span>
+df = pd.DataFrame({
+    <span class="text-green-400">'age'</span>: [<span class="text-yellow-400">25</span>, <span class="text-yellow-400">35</span>, np.nan, <span class="text-yellow-400">45</span>, <span class="text-yellow-400">28</span>, <span class="text-yellow-400">52</span>, np.nan, <span class="text-yellow-400">30</span>, <span class="text-yellow-400">40</span>, <span class="text-yellow-400">38</span>],
+    <span class="text-green-400">'experience'</span>: [<span class="text-yellow-400">2</span>, <span class="text-yellow-400">10</span>, <span class="text-yellow-400">8</span>, np.nan, <span class="text-yellow-400">3</span>, <span class="text-yellow-400">25</span>, <span class="text-yellow-400">12</span>, np.nan, <span class="text-yellow-400">15</span>, <span class="text-yellow-400">13</span>],
+    <span class="text-green-400">'hours_week'</span>: [<span class="text-yellow-400">40</span>, <span class="text-yellow-400">45</span>, <span class="text-yellow-400">38</span>, <span class="text-yellow-400">50</span>, <span class="text-yellow-400">40</span>, <span class="text-yellow-400">35</span>, <span class="text-yellow-400">42</span>, <span class="text-yellow-400">44</span>, np.nan, <span class="text-yellow-400">40</span>],
+    <span class="text-green-400">'job_title'</span>: [<span class="text-green-400">'analyst'</span>, <span class="text-green-400">'manager'</span>, <span class="text-green-400">'engineer'</span>, <span class="text-green-400">'director'</span>, <span class="text-green-400">'analyst'</span>,
+                  <span class="text-green-400">'VP'</span>, <span class="text-green-400">'manager'</span>, <span class="text-green-400">'engineer'</span>, <span class="text-green-400">'director'</span>, <span class="text-green-400">'analyst'</span>],
+    <span class="text-green-400">'salary'</span>: [<span class="text-yellow-400">55000</span>, <span class="text-yellow-400">85000</span>, <span class="text-yellow-400">75000</span>, <span class="text-yellow-400">120000</span>, <span class="text-yellow-400">58000</span>,
+              <span class="text-yellow-400">150000</span>, <span class="text-yellow-400">90000</span>, <span class="text-yellow-400">72000</span>, <span class="text-yellow-400">115000</span>, <span class="text-yellow-400">52000</span>]
+})
+
+<span class="text-gray-400"># ── Step 2: Separate X and y, then split ─────────</span>
+X = df.drop(<span class="text-green-400">'salary'</span>, axis=<span class="text-yellow-400">1</span>)
+y = df[<span class="text-green-400">'salary'</span>]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.3</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># ── Step 3: Add missing indicators BEFORE imputing </span>
+numeric_cols = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'experience'</span>, <span class="text-green-400">'hours_week'</span>]
+
+<span class="text-purple-400">for</span> col <span class="text-purple-400">in</span> numeric_cols:
+    <span class="text-purple-400">if</span> X_train[col].isnull().any():
+        X_train[<span class="text-green-400">f'{col}_missing'</span>] = X_train[col].isnull().astype(<span class="text-blue-400">int</span>)
+        X_test[<span class="text-green-400">f'{col}_missing'</span>] = X_test[col].isnull().astype(<span class="text-blue-400">int</span>)
+
+<span class="text-gray-400"># ── Step 4: KNN impute numeric cols ──────────────</span>
+<span class="text-gray-400"># Scale first (KNN needs scaled features)</span>
+scaler = StandardScaler()
+X_train[numeric_cols] = scaler.fit_transform(
+    SimpleImputer(strategy=<span class="text-green-400">'median'</span>).fit_transform(X_train[numeric_cols])
+)  <span class="text-gray-400"># rough fill first so scaler works</span>
+X_test[numeric_cols] = scaler.transform(
+    SimpleImputer(strategy=<span class="text-green-400">'median'</span>).fit(X_train[numeric_cols]).transform(X_test[numeric_cols])
+)
+
+<span class="text-gray-400"># Now KNN impute on scaled data</span>
+knn = KNNImputer(n_neighbors=<span class="text-yellow-400">3</span>, weights=<span class="text-green-400">'distance'</span>)
+X_train[numeric_cols] = knn.fit_transform(X_train[numeric_cols])
+X_test[numeric_cols] = knn.transform(X_test[numeric_cols])
+
+<span class="text-gray-400"># ── Step 5: Target encode high-cardinality column ─</span>
+<span class="text-gray-400"># job_title has many unique values — one-hot would create too many columns</span>
+target_enc = TargetEncoder(smooth=<span class="text-green-400">'auto'</span>)
+X_train[<span class="text-green-400">'job_encoded'</span>] = target_enc.fit_transform(
+    X_train[[<span class="text-green-400">'job_title'</span>]], y_train
+)
+X_test[<span class="text-green-400">'job_encoded'</span>] = target_enc.transform(X_test[[<span class="text-green-400">'job_title'</span>]])
+
+<span class="text-gray-400"># Drop original text column</span>
+X_train = X_train.drop(<span class="text-green-400">'job_title'</span>, axis=<span class="text-yellow-400">1</span>)
+X_test = X_test.drop(<span class="text-green-400">'job_title'</span>, axis=<span class="text-yellow-400">1</span>)
+
+<span class="text-gray-400"># ── Step 6: Train and evaluate ────────────────────</span>
+model = GradientBoostingRegressor(random_state=<span class="text-yellow-400">42</span>)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"RMSE: ${np.sqrt(mean_squared_error(y_test, y_pred)):,.0f}"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"R²: {r2_score(y_test, y_pred):.3f}"</span>)</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+                            <p class="text-sm text-orange-800"><strong>KNN Imputer:</strong> Uses the K most similar rows to estimate missing values. If age and experience are correlated, KNN uses one to fill the other — much smarter than just using the median.</p>
+                        </div>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+                            <p class="text-sm text-indigo-800"><strong>Missing Indicators:</strong> Binary columns (<code class="bg-indigo-100 px-1 rounded">age_missing = 1/0</code>) that tell the model "this value was originally missing." Useful when missingness itself is a signal.</p>
+                        </div>
+                        <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+                            <p class="text-sm text-rose-800"><strong>Target Encoding:</strong> Replaces each category with the average target for that category. Use when one-hot would create 50+ columns (zip codes, job titles, product IDs).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow 6: Pipeline + Cross-Validation + GridSearchCV -->
+        <section class="mb-10">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <span class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-lg font-bold">6</span>
+                        Workflow 6: Pipeline + Cross-Validation + GridSearchCV
+                    </h2>
+                    <p class="text-indigo-100 mt-1 text-sm">Find the best preprocessing + model combination automatically using grid search</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 mb-2 text-lg leading-relaxed">
+                        <strong>Scenario:</strong> You've built a pipeline but don't know the best settings. Should you impute with mean or median? Use 100 or 500 trees? Cross-validation tests your pipeline on multiple train/test splits, and GridSearchCV tries every combination to find the winner.
+                    </p>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        <strong>What's new here:</strong> Instead of guessing hyperparameters, we search over them automatically. The pipeline ensures no data leakage during cross-validation — each fold re-fits the imputer and scaler from scratch.
+                    </p>
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4">
+                        <pre class="text-sm"><code><span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> ColumnTransformer
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, OneHotEncoder
+<span class="text-purple-400">from</span> sklearn.impute <span class="text-purple-400">import</span> SimpleImputer
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> cross_val_score, GridSearchCV
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+
+<span class="text-gray-400"># ── Step 1: Build the pipeline (same as Workflow 4) </span>
+numeric_features = [<span class="text-green-400">'age'</span>, <span class="text-green-400">'income'</span>]
+categorical_features = [<span class="text-green-400">'city'</span>, <span class="text-green-400">'job_type'</span>]
+
+preprocessor = ColumnTransformer([
+    (<span class="text-green-400">'num'</span>, Pipeline([
+        (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'median'</span>)),
+        (<span class="text-green-400">'scaler'</span>, StandardScaler())
+    ]), numeric_features),
+    (<span class="text-green-400">'cat'</span>, Pipeline([
+        (<span class="text-green-400">'imputer'</span>, SimpleImputer(strategy=<span class="text-green-400">'most_frequent'</span>)),
+        (<span class="text-green-400">'encoder'</span>, OneHotEncoder(drop=<span class="text-green-400">'first'</span>, sparse_output=<span class="text-yellow-400">False</span>,
+                                 handle_unknown=<span class="text-green-400">'ignore'</span>))
+    ]), categorical_features)
+])
+
+pipeline = Pipeline([
+    (<span class="text-green-400">'preprocessor'</span>, preprocessor),
+    (<span class="text-green-400">'classifier'</span>, RandomForestClassifier(random_state=<span class="text-yellow-400">42</span>))
+])
+
+<span class="text-gray-400"># ── Step 2: Quick cross-validation ───────────────</span>
+<span class="text-gray-400"># Tests pipeline on 5 different train/test splits</span>
+scores = cross_val_score(pipeline, X, y, cv=<span class="text-yellow-400">5</span>, scoring=<span class="text-green-400">'accuracy'</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"CV Accuracy: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
+<span class="text-gray-400"># e.g. "CV Accuracy: 0.847 ± 0.023"</span>
+
+<span class="text-gray-400"># ── Step 3: GridSearchCV — try different settings ─</span>
+<span class="text-gray-400"># Use double underscores to access nested parameters:</span>
+<span class="text-gray-400"># pipeline_step__sub_step__parameter</span>
+param_grid = {
+    <span class="text-gray-400"># Try different imputation strategies</span>
+    <span class="text-green-400">'preprocessor__num__imputer__strategy'</span>: [<span class="text-green-400">'mean'</span>, <span class="text-green-400">'median'</span>],
+
+    <span class="text-gray-400"># Try different model hyperparameters</span>
+    <span class="text-green-400">'classifier__n_estimators'</span>: [<span class="text-yellow-400">50</span>, <span class="text-yellow-400">100</span>, <span class="text-yellow-400">200</span>],
+    <span class="text-green-400">'classifier__max_depth'</span>: [<span class="text-yellow-400">5</span>, <span class="text-yellow-400">10</span>, <span class="text-yellow-400">None</span>],
+}
+
+<span class="text-gray-400"># Run all combinations with 5-fold cross-validation</span>
+grid_search = GridSearchCV(
+    pipeline,
+    param_grid,
+    cv=<span class="text-yellow-400">5</span>,
+    scoring=<span class="text-green-400">'accuracy'</span>,
+    n_jobs=-<span class="text-yellow-400">1</span>,       <span class="text-gray-400"># use all CPU cores</span>
+    verbose=<span class="text-yellow-400">1</span>        <span class="text-gray-400"># show progress</span>
+)
+
+grid_search.fit(X_train, y_train)
+
+<span class="text-gray-400"># ── Step 4: See results ──────────────────────────</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Best score: {grid_search.best_score_:.3f}"</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Best params: {grid_search.best_params_}"</span>)
+<span class="text-gray-400"># e.g. {'classifier__max_depth': 10,</span>
+<span class="text-gray-400">#       'classifier__n_estimators': 200,</span>
+<span class="text-gray-400">#       'preprocessor__num__imputer__strategy': 'median'}</span>
+
+<span class="text-gray-400"># ── Step 5: Use the best model directly ───────────</span>
+best_model = grid_search.best_estimator_
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Test accuracy: {best_model.score(X_test, y_test):.3f}"</span>)
+
+<span class="text-gray-400"># The best_model is a fully fitted pipeline — use it for predictions</span>
+predictions = best_model.predict(X_test)</code></pre>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+                            <p class="text-sm text-indigo-800"><strong>🔑 Double-underscore naming:</strong> To tune a nested parameter, chain the pipeline step names with <code class="bg-indigo-100 px-1 rounded">__</code>: <code class="bg-indigo-100 px-1 rounded">preprocessor__num__imputer__strategy</code> means "inside the preprocessor, inside the 'num' transformer, inside the imputer, change the strategy."</p>
+                        </div>
+                        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                            <p class="text-sm text-green-800"><strong>📊 For regression:</strong> Change <code class="bg-green-100 px-1 rounded">scoring='accuracy'</code> to <code class="bg-green-100 px-1 rounded">scoring='neg_mean_squared_error'</code> or <code class="bg-green-100 px-1 rounded">scoring='r2'</code>. Sklearn uses negative MSE so that higher = better.</p>
+                        </div>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+                        <p class="text-sm text-amber-800"><strong>⏱️ Performance tip:</strong> GridSearchCV tries <strong>every</strong> combination. With 2 × 3 × 3 = 18 combinations and 5-fold CV, that's 90 model fits. For large search spaces, use <code class="bg-amber-100 px-1 rounded">RandomizedSearchCV</code> instead — it samples a fixed number of random combinations, much faster.</p>
                     </div>
                 </div>
             </div>
