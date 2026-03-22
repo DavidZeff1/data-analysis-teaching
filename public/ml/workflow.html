@@ -6,16 +6,70 @@
             <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-10 border-l-4 border-indigo-500">
-            <h2 class="text-2xl font-bold text-gray-800 mb-3">Why Use Pipelines and ColumnTransformers?</h2>
-            <p class="text-lg text-gray-700 leading-relaxed mb-4">
-                In real projects, you don't scale features manually and encode categorical features separately. Doing that leads to messy code and <strong>Data Leakage</strong> (accidentally letting your model learn things from the test set). 
-            </p>
-            <ul class="list-disc pl-6 sm:pl-8 text-gray-700 space-y-2 text-lg">
-                <li><strong class="text-indigo-600">ColumnTransformer:</strong> Applies different steps to different columns (e.g., scale the numerical ones, encode the categorical ones) and stitches them back together automatically.</li>
-                <li><strong class="text-blue-600">Pipeline:</strong> Chains all your preprocessing steps and your machine learning model into a <strong>single object</strong>. It forces you to <code>fit</code> only on the training data, and <code>transform</code> on the test data.</li>
-            </ul>
-        </div>
+        <!-- Core Concepts Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-600 to-blue-700 p-6">
+                    <h2 class="text-3xl font-bold text-white mb-2">The Core Concepts: Pipeline & ColumnTransformer</h2>
+                    <p class="text-blue-100 text-lg">The dynamic duo of professional machine learning.</p>
+                </div>
+                
+                <div class="p-8 space-y-8">
+                    <!-- The Risk -->
+                    <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg">
+                        <h3 class="text-xl font-bold text-red-800 mb-2">The Danger of Manual Preprocessing</h3>
+                        <p class="text-red-700 leading-relaxed">
+                            In amateur notebooks, you often see developers scaling features manually and encoding categories before splitting their data. This leads to <strong>Data Leakage</strong>—accidentally letting your model learn statistical properties (like the mean or max value) from the test set. It also creates messy, unmaintainable code that is impossible to deploy in production. Let's fix that.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Pipeline Card -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800">The Pipeline</h3>
+                            </div>
+                            <div class="space-y-3 text-slate-600">
+                                <p><strong>What it is:</strong> A sequence of data processing components (transformers) chained together, ending with an estimator (your ML model).</p>
+                                <p><strong>Why use it:</strong> It treats all preprocessing and modeling as a <strong>single object</strong>. When you call <code>fit()</code>, the pipeline handles passing the data sequentially through all transformations before fitting the model.</p>
+                                <p><strong>The Magic:</strong> It forces you to <code>fit_transform</code> on the training data, but strictly limits to <code>transform</code> on the test data, completely eliminating data leakage.</p>
+                            </div>
+                            <div class="mt-4 p-3 bg-slate-800 rounded-lg text-sm font-mono text-green-400">
+                                Pipeline(steps=[<br>
+                                &nbsp;&nbsp;('imputer', SimpleImputer()),<br>
+                                &nbsp;&nbsp;('scaler', StandardScaler()),<br>
+                                &nbsp;&nbsp;('model', RandomForest())<br>
+                                ])
+                            </div>
+                        </div>
+
+                        <!-- ColumnTransformer Card -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800">ColumnTransformer</h3>
+                            </div>
+                            <div class="space-y-3 text-slate-600">
+                                <p><strong>What it is:</strong> A specialized transformer that applies different preprocessing steps strictly to subsets of features (columns).</p>
+                                <p><strong>Why use it:</strong> Real-world tabular data is heterogeneous. You cannot apply a StandardScaler to a text column, and you shouldn't One-Hot Encode a continuous variable. The ColumnTransformer acts as a <strong>traffic cop</strong>.</p>
+                                <p><strong>The Magic:</strong> It routes numeric columns to numeric transformations, and categorical columns to categorical transformations, then seamlessly horizontally concatenates the matrix back together.</p>
+                            </div>
+                            <div class="mt-4 p-3 bg-slate-800 rounded-lg text-sm font-mono text-indigo-400">
+                                ColumnTransformer(transformers=[<br>
+                                &nbsp;&nbsp;('num', num_pipeline, num_cols),<br>
+                                &nbsp;&nbsp;('cat', cat_pipeline, cat_cols)<br>
+                                ])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="bg-gray-800 text-white rounded-xl shadow-lg p-6 mb-12">
             <h2 class="text-3xl font-bold mb-6 text-center text-teal-400">The 7-Step Anatomy of a Professional Workflow</h2>
