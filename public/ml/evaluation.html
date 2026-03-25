@@ -79,6 +79,32 @@
         </p>
       </div>
     </div>
+
+    <h4 class="font-semibold text-gray-800 mb-2">Python Example:</h4>
+    <pre
+      class="rounded-lg overflow-x-auto mb-6"
+    ><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+
+# Train a model (assuming X_train, X_test, y_train, y_test exist)
+clf = RandomForestClassifier(random_state=42)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+
+# Confusion Matrix & Classification Report
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Visualize the Confusion Matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.title("Confusion Matrix")
+plt.show()</code></pre>
   </section>
 
   <!-- CUTOFF -->
@@ -108,6 +134,24 @@
         </li>
       </ul>
     </div>
+
+    <h4 class="font-semibold text-gray-800 mb-2">Python Example:</h4>
+    <pre
+      class="rounded-lg overflow-x-auto mb-6"
+    ><code class="language-python"># Get predicted probabilities instead of hard labels
+y_prob = clf.predict_proba(X_test)[:, 1]  # Probability of the positive class
+
+# Default cutoff is 0.5
+y_pred_default = (y_prob >= 0.5).astype(int)
+
+# Lower the cutoff to 0.3 — catches more positives (higher recall)
+custom_cutoff = 0.3
+y_pred_custom = (y_prob >= custom_cutoff).astype(int)
+
+from sklearn.metrics import recall_score, precision_score
+
+print(f"At 0.5 cutoff → Precision: {precision_score(y_test, y_pred_default):.3f}, Recall: {recall_score(y_test, y_pred_default):.3f}")
+print(f"At 0.3 cutoff → Precision: {precision_score(y_test, y_pred_custom):.3f}, Recall: {recall_score(y_test, y_pred_custom):.3f}")</code></pre>
   </section>
 
   <!-- ROC AND AUC -->
@@ -140,6 +184,28 @@
         </p>
       </div>
     </div>
+
+    <h4 class="font-semibold text-gray-800 mb-2">Python Example:</h4>
+    <pre
+      class="rounded-lg overflow-x-auto mb-6"
+    ><code class="language-python">from sklearn.metrics import roc_curve, roc_auc_score
+import matplotlib.pyplot as plt
+
+# Calculate AUC score
+auc = roc_auc_score(y_test, y_prob)
+print(f"AUC Score: {auc:.3f}")
+
+# Plot the ROC Curve
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc:.3f})")
+plt.plot([0, 1], [0, 1], 'k--', label="Random Guessing (AUC = 0.5)")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate (Recall)")
+plt.title("Receiver Operating Characteristic (ROC)")
+plt.legend()
+plt.show()</code></pre>
   </section>
 
   <!-- EXPECTED VALUE -->
@@ -162,83 +228,33 @@
         just maximizing abstract machine learning metrics.
       </p>
     </div>
-  </section>
 
-  <!-- JUPYTER NOTEBOOK EXAMPLE -->
-  <section class="pt-6 border-t-2 border-gray-200">
-    <h2 class="text-3xl font-bold mb-4 text-gray-900">
-      Jupyter Notebook Examples
-    </h2>
-    <p class="mb-4 text-gray-700">
-      Below is an example showing how to calculate and visualize these metrics
-      using Python and Scikit-Learn.
-    </p>
-
+    <h4 class="font-semibold text-gray-800 mb-2">Python Example:</h4>
     <pre
       class="rounded-lg overflow-x-auto mb-6"
-    ><code class="language-python"># Import necessary libraries
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import (confusion_matrix, classification_report, 
-                             roc_curve, roc_auc_score, precision_score, recall_score)
+    ><code class="language-python">import numpy as np
+from sklearn.metrics import confusion_matrix
 
-# 1. Train a model and get predictions/probabilities
-# Assuming X_train, X_test, y_train, y_test already exist
-clf = RandomForestClassifier(random_state=42)
-clf.fit(X_train, y_train)
-
-# Predictions using the default 0.5 probability cutoff
-y_pred = clf.predict(X_test)
-
-# Probabilities (needed for custom cutoffs, ROC, and AUC)
-y_prob = clf.predict_proba(X_test)[:, 1]  # Probability of the positive class
-
-# 2. Confusion Matrix & Basic Metrics
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-print("\nClassification Report:\n", classification_report(y_test, y_pred))
-
-# 3. Changing the Cutoff
-custom_cutoff = 0.3  # More eager to flag positives, increasing recall
-y_pred_custom = (y_prob >= custom_cutoff).astype(int)
-
-print(f"Recall at 0.5 cutoff: {recall_score(y_test, y_pred):.3f}")
-print(f"Recall at {custom_cutoff} cutoff: {recall_score(y_test, y_pred_custom):.3f}")
-
-# 4. Plotting the Confusion Matrix nicely
+# Confusion matrix from predictions at 0.3 cutoff
 cm = confusion_matrix(y_test, y_pred_custom)
-sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
-plt.title(f"Confusion Matrix (Cutoff={custom_cutoff})")
-plt.xlabel("Predicted Label")
-plt.ylabel("True Label")
-plt.show()
 
-# 5. ROC Curve and AUC
-auc = roc_auc_score(y_test, y_prob)
-fpr, tpr, thresholds = roc_curve(y_test, y_prob)
-
-plt.figure(figsize=(8, 6))
-plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc:.3f})")
-plt.plot([0, 1], [0, 1], 'k--', label="Random Guessing (AUC = 0.5)")
-plt.xlabel("False Positive Rate")
-plt.ylabel("True Positive Rate (Recall)")
-plt.title("Receiver Operating Characteristic (ROC)")
-plt.legend()
-plt.show()
-
-# 6. Expected Value Calculation Example
-# Suppose detecting fraud correctly saves $100 but investigating a false alarm costs $10
+# Define a profit/cost matrix aligned with the confusion matrix
+# Layout:  [[TN,  FP],
+#           [FN,  TP]]
 profit_matrix = np.array([
-    [0, -10],  # True Negatives (TN) = $0 profit, False Positives (FP) = loss of $10
-    [0,  100]  # False Negatives (FN) = $0 profit, True Positives (TP) = save $100
+    [0, -10],   # TN = $0,   FP = -$10 (cost of investigating false alarm)
+    [0,  100]   # FN = $0,   TP = +$100 (value of catching fraud)
 ])
 
-# Calculate Expected Value (EV) for the 0.3 cutoff
+# Element-wise multiply counts by dollar values and sum
 total_profit = np.sum(cm * profit_matrix)
 print(f"Total Expected Profit at 0.3 cutoff: ${total_profit}")
-</code></pre>
+
+# Compare across multiple cutoffs to find the optimal one
+for cutoff in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7]:
+    preds = (y_prob >= cutoff).astype(int)
+    cm_temp = confusion_matrix(y_test, preds)
+    profit = np.sum(cm_temp * profit_matrix)
+    print(f"Cutoff {cutoff} → Profit: ${profit}")</code></pre>
   </section>
 </div>
