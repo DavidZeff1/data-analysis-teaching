@@ -16,6 +16,15 @@ function renderMath(element) {
   }
 }
 
+// Helper function to apply syntax highlighting after content loads
+function highlightCode(element) {
+  if (window.hljs) {
+    element.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  }
+}
+
 const content = {
   sql: {
     setup: () => fetch("/sql/setup.html").then((r) => r.text()),
@@ -56,7 +65,8 @@ const content = {
     charts: () => fetch("/excel/charts.html").then((r) => r.text()),
     powerquery: () => fetch("/excel/powerquery.html").then((r) => r.text()),
     validation: () => fetch("/excel/validation.html").then((r) => r.text()),
-    chartdecision: () => fetch("/excel/chartdecision.html").then((r) => r.text()),
+    chartdecision: () =>
+      fetch("/excel/chartdecision.html").then((r) => r.text()),
   },
   tableau: {
     setup: () => fetch("/tableau/setup.html").then((r) => r.text()),
@@ -112,6 +122,7 @@ document.querySelectorAll(".tab").forEach((btn) => {
         const el = document.getElementById(`${tabId}-${firstSub}`);
         el.innerHTML = html;
         renderMath(el);
+        highlightCode(el);
       });
     }
   };
@@ -135,6 +146,7 @@ document.querySelectorAll(".subtab").forEach((btn) => {
     const el = document.getElementById(`${tab}-${sub}`);
     el.innerHTML = await content[tab][sub]();
     renderMath(el);
+    highlightCode(el);
     el.classList.remove("hidden");
   };
 });

@@ -21,6 +21,15 @@
       src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Highlight.js for Code Syntax Highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/sql.min.js"></script>
   </head>
   <body class="bg-gray-100">
     <nav class="bg-white shadow">
@@ -58,10 +67,7 @@
         >
           Python
         </button>
-        <button
-          class="tab px-4 py-2 rounded hover:bg-gray-200"
-          data-tab="ml"
-        >
+        <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="ml">
           Machine Learning
         </button>
         <a
