@@ -100,6 +100,7 @@ const content = {
     outliers: () => fetch("/ml/outliers.html").then((r) => r.text()),
     missingdata: () => fetch("/ml/missingdata.html").then((r) => r.text()),
     evaluation: () => fetch("/ml/evaluation.html").then((r) => r.text()),
+    regression: () => fetch("/ml/regression.html").then((r) => r.text()),
     workflow: () => fetch("/ml/workflow.html").then((r) => r.text()),
   },
 };
