@@ -1,0 +1,1419 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-blue-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+      >
+        Feature Importance
+      </h1>
+      <p class="text-xl text-gray-600">
+        Discover Which Features Drive Your Model's Predictions
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-blue-700 mb-2">
+        Why Feature Importance Matters
+      </h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Feature importance tells you
+        <strong>which input variables have the biggest impact</strong>
+        on your model's predictions. Understanding this helps you:
+      </p>
+      <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
+        <li><strong>Explain</strong> your model to stakeholders</li>
+        <li><strong>Debug</strong> unexpected behaviour (e.g. data leakage)</li>
+        <li>
+          <strong>Simplify</strong> models by removing irrelevant features
+        </li>
+        <li><strong>Guide</strong> feature engineering and data collection</li>
+        <li>
+          <strong>Validate</strong> that the model is learning sensible patterns
+        </li>
+      </ul>
+    </div>
+
+    <!-- SETUP + DATASET -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-2">
+        🔧 Setup — Common Dataset for All Examples
+      </h2>
+      <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+        We'll use the <strong>California Housing</strong> dataset throughout
+        this page so you can compare every technique on the same data.
+      </p>
+      <div
+        class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+      >
+        <pre class="text-sm"><code class="language-python">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# --- Load dataset ---
+data = fetch_california_housing()
+X = pd.DataFrame(data.data, columns=data.feature_names)
+y = pd.Series(data.target, name="MedHouseVal")
+
+print(X.shape)          # (20640, 8)
+print(X.columns.tolist())
+# ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
+#  'Population', 'AveOccup', 'Latitude', 'Longitude']
+
+# --- Train / test split ---
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# --- Scaled version (needed for some methods) ---
+scaler = StandardScaler()
+X_train_sc = pd.DataFrame(
+    scaler.fit_transform(X_train), columns=X.columns, index=X_train.index
+)
+X_test_sc = pd.DataFrame(
+    scaler.transform(X_test), columns=X.columns, index=X_test.index
+)
+
+print("Ready! Train:", X_train.shape, "Test:", X_test.shape)</code></pre>
+      </div>
+      <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+        <p class="text-sm text-blue-800">
+          <strong>💡 Tip:</strong> Always split <em>before</em> computing
+          importance scores, so you can verify on unseen data and avoid leakage.
+        </p>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: CORRELATION ANALYSIS            -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >1</span
+            >
+            Correlation Analysis
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            The simplest check — <strong>Pearson correlation</strong> measures
+            the linear relationship between each feature and the target. Values
+            range from −1 to +1.
+          </p>
+
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-blue-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-blue-800">
+                    Value
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-blue-800">
+                    Interpretation
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">+0.7 to +1.0</td>
+                  <td class="px-4 py-2">Strong positive</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">+0.3 to +0.7</td>
+                  <td class="px-4 py-2">Moderate positive</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">−0.3 to +0.3</td>
+                  <td class="px-4 py-2">Weak / no linear relationship</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">−0.7 to −0.3</td>
+                  <td class="px-4 py-2">Moderate negative</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">−1.0 to −0.7</td>
+                  <td class="px-4 py-2">Strong negative</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Pearson correlation with target ---
+corr_with_target = X_train.assign(target=y_train).corr()["target"].drop("target")
+corr_sorted = corr_with_target.abs().sort_values(ascending=False)
+
+print("Correlation with MedHouseVal:")
+print(corr_sorted.round(4))
+
+# --- Visualise ---
+fig, axes = plt.subplots(1, 2, figsize=(16, 5))
+
+# Bar chart of correlations
+corr_with_target.sort_values().plot.barh(ax=axes[0], color="steelblue")
+axes[0].set_title("Pearson Correlation with Target")
+axes[0].axvline(0, color="black", linewidth=0.8)
+
+# Full correlation heatmap (feature vs feature)
+sns.heatmap(
+    X_train.corr(), annot=True, fmt=".2f", cmap="coolwarm",
+    center=0, ax=axes[1], square=True
+)
+axes[1].set_title("Feature–Feature Correlation Heatmap")
+
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div
+            class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded"
+          >
+            <p class="text-sm text-yellow-800">
+              <strong>⚠️ Limitation:</strong> Correlation only captures
+              <em>linear</em> relationships. A feature can be highly important
+              in a tree model yet have near-zero Pearson correlation.
+            </p>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> Quick first pass; identifying
+              multicollinearity between features (heatmap).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: MUTUAL INFORMATION              -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >2</span
+            >
+            Mutual Information
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Mutual information (MI) measures
+            <strong>any kind of dependency</strong>
+            between a feature and the target — linear or non-linear. MI ≥ 0;
+            higher = more informative.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.feature_selection import mutual_info_regression
+
+# --- Compute MI scores ---
+mi_scores = mutual_info_regression(X_train, y_train, random_state=42)
+mi_series = pd.Series(mi_scores, index=X.columns).sort_values(ascending=False)
+
+print("Mutual Information Scores:")
+print(mi_series.round(4))
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+mi_series.sort_values().plot.barh(ax=ax, color="darkorange")
+ax.set_title("Mutual Information with Target")
+ax.set_xlabel("MI Score")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Point:</strong> Use
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >mutual_info_regression</code
+              >
+              for continuous targets and
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >mutual_info_classif</code
+              >
+              for classification tasks.
+            </p>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> When you suspect non-linear
+              relationships; as a model-free importance check before training.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: TREE-BASED (BUILT-IN) IMPORTANCE -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >3</span
+            >
+            Tree-Based Feature Importance (MDI)
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Tree models like <strong>Random Forest</strong> and
+            <strong>Gradient Boosting</strong> compute importance automatically
+            via <em>Mean Decrease in Impurity (MDI)</em> — how much each feature
+            reduces the splitting criterion (Gini / MSE) across all trees.
+          </p>
+
+          <h3 class="text-xl font-bold text-green-700 mb-3">
+            3a. Random Forest Importance
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import RandomForestRegressor
+
+# --- Fit Random Forest ---
+rf = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
+rf.fit(X_train, y_train)
+
+# --- Extract importance ---
+rf_imp = pd.Series(rf.feature_importances_, index=X.columns)
+rf_imp_sorted = rf_imp.sort_values(ascending=False)
+
+print("Random Forest MDI Importance:")
+print(rf_imp_sorted.round(4))
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+rf_imp_sorted.sort_values().plot.barh(ax=ax, color="forestgreen")
+ax.set_title("Random Forest — Feature Importance (MDI)")
+ax.set_xlabel("Importance")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-green-700 mb-3">
+            3b. Gradient Boosting Importance
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import GradientBoostingRegressor
+
+# --- Fit Gradient Boosting ---
+gb = GradientBoostingRegressor(
+    n_estimators=200, learning_rate=0.1, max_depth=4, random_state=42
+)
+gb.fit(X_train, y_train)
+
+# --- Extract importance ---
+gb_imp = pd.Series(gb.feature_importances_, index=X.columns)
+gb_imp_sorted = gb_imp.sort_values(ascending=False)
+
+print("Gradient Boosting MDI Importance:")
+print(gb_imp_sorted.round(4))
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+gb_imp_sorted.sort_values().plot.barh(ax=ax, color="seagreen")
+ax.set_title("Gradient Boosting — Feature Importance (MDI)")
+ax.set_xlabel("Importance")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div
+            class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded"
+          >
+            <p class="text-sm text-yellow-800">
+              <strong>⚠️ Limitation:</strong> MDI importance is
+              <em>biased toward high-cardinality</em> (many unique values)
+              features and can inflate importance for noisy columns. Always
+              cross-check with permutation importance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 4: PERMUTATION IMPORTANCE          -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >4</span
+            >
+            Permutation Importance
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Permutation importance is <strong>model-agnostic</strong>. It
+            measures how much the model's score drops when a single feature's
+            values are randomly shuffled — breaking the feature → target
+            relationship while keeping the model unchanged.
+          </p>
+
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-purple-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Step
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Description
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">1</td>
+                  <td class="px-4 py-2">
+                    Compute baseline score on the test set
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">2</td>
+                  <td class="px-4 py-2">
+                    For each feature: shuffle its column, re-score
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">3</td>
+                  <td class="px-4 py-2">
+                    Importance = baseline score − shuffled score
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">4</td>
+                  <td class="px-4 py-2">
+                    Repeat N times and average for stability
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.inspection import permutation_importance
+
+# --- Compute on TEST set (avoids overfitting bias) ---
+perm_result = permutation_importance(
+    rf, X_test, y_test,
+    n_repeats=30,
+    random_state=42,
+    scoring="r2",
+    n_jobs=-1
+)
+
+perm_imp = pd.DataFrame({
+    "mean": perm_result.importances_mean,
+    "std":  perm_result.importances_std,
+}, index=X.columns).sort_values("mean", ascending=False)
+
+print("Permutation Importance (R² drop):")
+print(perm_imp.round(4))
+
+# --- Visualise with error bars ---
+fig, ax = plt.subplots(figsize=(8, 5))
+perm_imp_sorted = perm_imp.sort_values("mean")
+ax.barh(
+    perm_imp_sorted.index,
+    perm_imp_sorted["mean"],
+    xerr=perm_imp_sorted["std"],
+    color="mediumpurple",
+    capsize=3
+)
+ax.set_title("Permutation Importance (on Test Set)")
+ax.set_xlabel("Mean R² Decrease")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Point:</strong> Compute on the <em>test set</em>
+              for an unbiased view. On the training set, overfit features will
+              appear falsely important.
+            </p>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> Your go-to method — works with
+              <em>any</em> scikit-learn estimator. Great for sanity-checking
+              tree-based MDI results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: COEFFICIENTS (LINEAR MODELS)    -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >5</span
+            >
+            Linear Model Coefficients
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            For linear models (Linear Regression, Ridge, Lasso, Logistic
+            Regression) the <strong>coefficient magnitude</strong> tells you
+            each feature's effect — <em>but only when features are scaled</em>.
+            Positive coefficients push predictions up; negative push them down.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.linear_model import Ridge
+
+# --- Fit on SCALED data ---
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train_sc, y_train)
+
+# --- Coefficients as importance ---
+coef_imp = pd.Series(ridge.coef_, index=X.columns)
+coef_abs = coef_imp.abs().sort_values(ascending=False)
+
+print("Ridge Coefficients (scaled features):")
+print(coef_imp.sort_values(ascending=False).round(4))
+
+# --- Visualise ---
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Signed coefficients
+coef_imp.sort_values().plot.barh(ax=axes[0], color="teal")
+axes[0].set_title("Ridge Coefficients (Signed)")
+axes[0].axvline(0, color="black", linewidth=0.8)
+
+# Absolute magnitude
+coef_abs.sort_values().plot.barh(ax=axes[1], color="darkcyan")
+axes[1].set_title("Ridge Coefficients (Absolute)")
+
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-red-50 border-l-4 border-red-400 p-4 rounded">
+            <p class="text-sm text-red-800">
+              <strong>🚫 Common Mistake:</strong> Comparing coefficients on
+              <em>unscaled</em> data is meaningless — a feature measured in
+              millions will have a tiny coefficient even if it's critical.
+              <strong>Always scale first.</strong>
+            </p>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Tip:</strong> Lasso (
+              <code class="bg-blue-100 text-blue-800 px-1 rounded">alpha</code>
+              &gt; 0) drives unimportant coefficients to exactly zero — a
+              built-in feature selector!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: LASSO FEATURE SELECTION         -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >6</span
+            >
+            Lasso for Feature Selection
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            <strong>Lasso</strong> (L1 regularisation) automatically shrinks
+            weak feature coefficients to zero. By varying the regularisation
+            strength
+            <code class="bg-cyan-100 text-cyan-800 px-1 rounded">alpha</code>,
+            you can observe which features survive.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.linear_model import Lasso, LassoCV
+
+# --- Find optimal alpha via cross-validation ---
+lasso_cv = LassoCV(cv=5, random_state=42)
+lasso_cv.fit(X_train_sc, y_train)
+print(f"Best alpha: {lasso_cv.alpha_:.4f}")
+
+# --- Fit Lasso with optimal alpha ---
+lasso = Lasso(alpha=lasso_cv.alpha_)
+lasso.fit(X_train_sc, y_train)
+
+lasso_coef = pd.Series(lasso.coef_, index=X.columns)
+print("\nLasso Coefficients:")
+print(lasso_coef.round(4))
+print(f"\nFeatures kept: {(lasso_coef != 0).sum()} / {len(lasso_coef)}")
+print(f"Features dropped: {list(lasso_coef[lasso_coef == 0].index)}")
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+lasso_coef[lasso_coef != 0].sort_values().plot.barh(ax=ax, color="darkcyan")
+ax.set_title(f"Lasso Selected Features (alpha={lasso_cv.alpha_:.4f})")
+ax.axvline(0, color="black", linewidth=0.8)
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-cyan-700 mb-3">
+            Lasso Path — Watch Features Shrink
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Lasso coefficient path ---
+alphas = np.logspace(-4, 1, 100)
+coefs = []
+for a in alphas:
+    lasso_temp = Lasso(alpha=a, max_iter=10000)
+    lasso_temp.fit(X_train_sc, y_train)
+    coefs.append(lasso_temp.coef_)
+
+coefs = np.array(coefs)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+for i, col in enumerate(X.columns):
+    ax.plot(alphas, coefs[:, i], label=col)
+
+ax.set_xscale("log")
+ax.set_xlabel("Alpha (log scale)")
+ax.set_ylabel("Coefficient Value")
+ax.set_title("Lasso Path — Coefficients vs Regularisation Strength")
+ax.legend(loc="best", fontsize=8)
+ax.axhline(0, color="black", linewidth=0.5, linestyle="--")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> When you need an
+              <em>automatic feature selector</em> baked into your model.
+              Particularly useful before training expensive downstream models.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 7: SHAP VALUES                     -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-red-500 to-red-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-red-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >7</span
+            >
+            SHAP (SHapley Additive exPlanations)
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            SHAP provides <strong>theoretically grounded</strong>,
+            per-prediction explanations based on Shapley values from cooperative
+            game theory. Each feature gets a SHAP value indicating how much it
+            pushed the prediction above or below the average.
+          </p>
+
+          <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded mb-4">
+            <p class="text-sm text-red-800">
+              <strong>📦 Install:</strong>
+              <code class="bg-red-100 text-red-800 px-1 rounded"
+                >pip install shap</code
+              >
+            </p>
+          </div>
+
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            7a. Global Feature Importance (Summary Plot)
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre class="text-sm"><code class="language-python">import shap
+
+# --- Use Tree explainer for tree-based models ---
+explainer = shap.TreeExplainer(rf)
+shap_values = explainer.shap_values(X_test)
+
+# --- Bar plot (global importance = mean |SHAP|) ---
+shap.summary_plot(shap_values, X_test, plot_type="bar", show=False)
+plt.title("SHAP — Global Feature Importance")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            7b. Beeswarm Plot (Detailed View)
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Beeswarm: shows direction + magnitude ---
+shap.summary_plot(shap_values, X_test, show=False)
+plt.title("SHAP Beeswarm Plot")
+plt.tight_layout()
+plt.show()
+# Red dots = high feature value → see if that pushes prediction up or down</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            7c. Explain a Single Prediction (Waterfall)
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Waterfall plot for one prediction ---
+shap_explanation = shap.Explanation(
+    values=shap_values[0],
+    base_values=explainer.expected_value,
+    data=X_test.iloc[0],
+    feature_names=X.columns.tolist()
+)
+
+shap.plots.waterfall(shap_explanation, show=False)
+plt.title("SHAP Waterfall — Single Prediction")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            7d. Dependence Plot (Feature Interaction)
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- How does MedInc affect predictions? ---
+shap.dependence_plot("MedInc", shap_values, X_test, show=False)
+plt.title("SHAP Dependence — MedInc")
+plt.tight_layout()
+plt.show()
+# Colour = automatically selected interaction feature</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Point:</strong> SHAP is the gold standard for
+              feature importance. The values are <em>additive</em>: $f(x) =
+              \text{base\_value} + \sum \text{SHAP}_i$. This means you can trace
+              exactly how each feature contributes to every prediction.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 8: BORUTA (WRAPPER METHOD)         -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >8</span
+            >
+            Boruta — All-Relevant Feature Selection
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Boruta is a <strong>wrapper method</strong> built around Random
+            Forest. It creates "shadow" features (shuffled copies), then tests
+            whether each real feature is significantly more important than the
+            best shadow feature.
+          </p>
+
+          <div
+            class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded mb-4"
+          >
+            <p class="text-sm text-orange-800">
+              <strong>📦 Install:</strong>
+              <code class="bg-orange-100 text-orange-800 px-1 rounded"
+                >pip install boruta</code
+              >
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from boruta import BorutaPy
+
+# --- Run Boruta ---
+boruta = BorutaPy(
+    estimator=RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1),
+    n_estimators="auto",
+    max_iter=100,
+    random_state=42,
+    verbose=0
+)
+boruta.fit(X_train.values, y_train.values)
+
+# --- Results ---
+boruta_results = pd.DataFrame({
+    "Feature":   X.columns,
+    "Confirmed": boruta.support_,
+    "Tentative": boruta.support_weak_,
+    "Rank":      boruta.ranking_
+}).sort_values("Rank")
+
+print("Boruta Feature Selection Results:")
+print(boruta_results.to_string(index=False))
+
+confirmed = X.columns[boruta.support_].tolist()
+print(f"\nConfirmed features: {confirmed}")
+print(f"Rejected features: {X.columns[~boruta.support_ & ~boruta.support_weak_].tolist()}")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> When you want a
+              <em>statistically rigorous</em> yes/no decision on each feature.
+              Best for high-dimensional datasets with many candidate features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 9: RECURSIVE FEATURE ELIMINATION   -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >9</span
+            >
+            Recursive Feature Elimination (RFE)
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            RFE iteratively removes the least important feature, re-fits the
+            model, and repeats — producing a ranking and optimal subset.
+            <strong>RFECV</strong> adds cross-validation to find the best number
+            of features automatically.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.feature_selection import RFECV
+
+# --- RFECV with Random Forest ---
+rfecv = RFECV(
+    estimator=RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1),
+    step=1,
+    cv=5,
+    scoring="r2",
+    min_features_to_select=1,
+    n_jobs=-1
+)
+rfecv.fit(X_train, y_train)
+
+# --- Results ---
+rfe_results = pd.DataFrame({
+    "Feature":  X.columns,
+    "Selected": rfecv.support_,
+    "Rank":     rfecv.ranking_
+}).sort_values("Rank")
+
+print("RFE Feature Ranking:")
+print(rfe_results.to_string(index=False))
+print(f"\nOptimal number of features: {rfecv.n_features_}")
+print(f"Selected features: {X.columns[rfecv.support_].tolist()}")
+
+# --- Cross-validation curve ---
+fig, ax = plt.subplots(figsize=(8, 5))
+n_features_range = range(1, len(rfecv.cv_results_["mean_test_score"]) + 1)
+ax.plot(n_features_range, rfecv.cv_results_["mean_test_score"], marker="o", color="crimson")
+ax.fill_between(
+    n_features_range,
+    rfecv.cv_results_["mean_test_score"] - rfecv.cv_results_["std_test_score"],
+    rfecv.cv_results_["mean_test_score"] + rfecv.cv_results_["std_test_score"],
+    alpha=0.2, color="crimson"
+)
+ax.set_xlabel("Number of Features")
+ax.set_ylabel("CV R² Score")
+ax.set_title("RFECV — Optimal Number of Features")
+ax.axvline(rfecv.n_features_, linestyle="--", color="gray", label=f"Optimal: {rfecv.n_features_}")
+ax.legend()
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Point:</strong> RFE works with any model that
+              exposes
+              <code class="bg-blue-100 text-blue-800 px-1 rounded">coef_</code>
+              or
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >feature_importances_</code
+              >. Use RFECV to let cross-validation decide the best subset size.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 10: SELECTKBEST (STATISTICAL)      -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >10</span
+            >
+            SelectKBest — Statistical Feature Selection
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            <strong>SelectKBest</strong> ranks features using a univariate
+            statistical test and selects the top K. Common scoring functions:
+          </p>
+
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-amber-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Function
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Task
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Tests
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">f_regression</td>
+                  <td class="px-4 py-2">Regression</td>
+                  <td class="px-4 py-2">F-statistic (linear only)</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">mutual_info_regression</td>
+                  <td class="px-4 py-2">Regression</td>
+                  <td class="px-4 py-2">Mutual information</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">f_classif</td>
+                  <td class="px-4 py-2">Classification</td>
+                  <td class="px-4 py-2">ANOVA F-value</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">chi2</td>
+                  <td class="px-4 py-2">Classification</td>
+                  <td class="px-4 py-2">Chi-squared (non-negative features)</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">mutual_info_classif</td>
+                  <td class="px-4 py-2">Classification</td>
+                  <td class="px-4 py-2">Mutual information</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.feature_selection import SelectKBest, f_regression
+
+# --- Select top 5 features ---
+selector = SelectKBest(score_func=f_regression, k=5)
+selector.fit(X_train, y_train)
+
+# --- Results ---
+skb_scores = pd.DataFrame({
+    "Feature": X.columns,
+    "F-Score": selector.scores_,
+    "p-value": selector.pvalues_,
+    "Selected": selector.get_support()
+}).sort_values("F-Score", ascending=False)
+
+print("SelectKBest Results (f_regression):")
+print(skb_scores.to_string(index=False))
+
+# --- Transform data to keep only selected features ---
+X_train_selected = selector.transform(X_train)
+X_test_selected  = selector.transform(X_test)
+print(f"\nShape after selection: {X_train_selected.shape}")
+print(f"Kept: {X.columns[selector.get_support()].tolist()}")
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+skb_scores.sort_values("F-Score").plot.barh(
+    x="Feature", y="F-Score", ax=ax, color="goldenrod", legend=False
+)
+ax.set_title("SelectKBest — F-Regression Scores")
+ax.set_xlabel("F-Score")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ When to use:</strong> Fast, univariate pre-filter —
+              great for reducing very high-dimensional data before fitting a
+              model.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 11: COMPARING METHODS              -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >11</span
+            >
+            Comparing All Methods Side-by-Side
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            No single method is perfect. The best practice is to compare several
+            methods and trust features that
+            <strong>consistently rank high</strong>
+            across multiple approaches.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.preprocessing import MinMaxScaler
+
+# --- Collect all importance scores into one DataFrame ---
+comparison = pd.DataFrame(index=X.columns)
+
+# Correlation (absolute)
+comparison["Correlation"] = X_train.assign(target=y_train).corr()["target"].drop("target").abs()
+
+# Mutual Information
+comparison["Mutual Info"] = mi_series
+
+# Random Forest MDI
+comparison["RF MDI"] = rf_imp
+
+# Permutation Importance
+comparison["Permutation"] = perm_imp["mean"]
+
+# Ridge Coefficients (absolute)
+comparison["Ridge |Coef|"] = coef_imp.abs()
+
+# --- Normalise each column to [0, 1] for fair comparison ---
+scaler_mm = MinMaxScaler()
+comparison_norm = pd.DataFrame(
+    scaler_mm.fit_transform(comparison),
+    index=comparison.index,
+    columns=comparison.columns
+)
+
+# --- Average rank ---
+comparison_norm["Average"] = comparison_norm.mean(axis=1)
+comparison_norm = comparison_norm.sort_values("Average", ascending=False)
+
+print("Normalised Feature Importance Comparison:")
+print(comparison_norm.round(3))
+
+# --- Heatmap visualisation ---
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.heatmap(
+    comparison_norm.T, annot=True, fmt=".2f", cmap="YlOrRd",
+    ax=ax, linewidths=0.5
+)
+ax.set_title("Feature Importance — All Methods Compared (Normalised)")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Point:</strong> If a feature is ranked high by
+              correlation, mutual information, tree MDI, <em>and</em>
+              permutation importance — you can be confident it's genuinely
+              important. Disagreements hint at non-linear effects or
+              multicollinearity.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 12: HANDLING MULTICOLLINEARITY     -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-pink-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >12</span
+            >
+            Handling Multicollinearity (VIF)
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            When features are highly correlated, importance scores become
+            unreliable — the model splits importance between them. Use the
+            <strong>Variance Inflation Factor (VIF)</strong> to detect and
+            address this.
+          </p>
+
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-pink-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-pink-800">
+                    VIF Value
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-pink-800">
+                    Interpretation
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">1</td>
+                  <td class="px-4 py-2">No multicollinearity</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">1 – 5</td>
+                  <td class="px-4 py-2">Moderate — usually acceptable</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">5 – 10</td>
+                  <td class="px-4 py-2">High — investigate further</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-mono">&gt; 10</td>
+                  <td class="px-4 py-2">
+                    Severe — consider dropping or combining features
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+# --- Compute VIF for each feature ---
+vif_data = pd.DataFrame({
+    "Feature": X_train.columns,
+    "VIF": [
+        variance_inflation_factor(X_train.values, i)
+        for i in range(X_train.shape[1])
+    ]
+}).sort_values("VIF", ascending=False)
+
+print("Variance Inflation Factors:")
+print(vif_data.to_string(index=False))
+
+# --- Flag problematic features ---
+high_vif = vif_data[vif_data["VIF"] > 5]
+if len(high_vif) > 0:
+    print(f"\n⚠️  Features with VIF > 5:")
+    print(high_vif.to_string(index=False))
+else:
+    print("\n✅ No severe multicollinearity detected.")
+
+# --- Visualise ---
+fig, ax = plt.subplots(figsize=(8, 5))
+vif_data.sort_values("VIF").plot.barh(
+    x="Feature", y="VIF", ax=ax, color="hotpink", legend=False
+)
+ax.axvline(5, color="red", linestyle="--", label="Threshold (VIF=5)")
+ax.axvline(10, color="darkred", linestyle="--", label="Severe (VIF=10)")
+ax.set_title("Variance Inflation Factor (VIF)")
+ax.set_xlabel("VIF")
+ax.legend()
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div
+            class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded"
+          >
+            <p class="text-sm text-yellow-800">
+              <strong>⚠️ Important:</strong> High VIF doesn't mean a feature is
+              unimportant — it means its importance is <em>shared</em> with
+              correlated features and hard to attribute correctly. Options: drop
+              one feature, combine them (PCA), or use regularisation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 13: CHEAT SHEET                    -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-700 to-gray-800 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-gray-700 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >13</span
+            >
+            Cheat Sheet — Which Method to Use?
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Method
+                  </th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Model-Agnostic?
+                  </th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Captures Non-Linear?
+                  </th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Per-Prediction?
+                  </th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Speed
+                  </th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-800">
+                    Best For
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Correlation</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Fast</td>
+                  <td class="px-4 py-2">Quick EDA, multicollinearity check</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Mutual Information</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Fast</td>
+                  <td class="px-4 py-2">Pre-model non-linear screening</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Tree MDI</td>
+                  <td class="px-4 py-2">❌ Tree only</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Free (built-in)</td>
+                  <td class="px-4 py-2">Quick check after fitting trees</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Permutation</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">🐢 Medium</td>
+                  <td class="px-4 py-2">Reliable importance for any model</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Coefficients</td>
+                  <td class="px-4 py-2">❌ Linear only</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Free (built-in)</td>
+                  <td class="px-4 py-2">Interpretable linear models</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Lasso</td>
+                  <td class="px-4 py-2">❌ Linear only</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Fast</td>
+                  <td class="px-4 py-2">Automatic feature elimination</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">SHAP</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">🐢 Slow</td>
+                  <td class="px-4 py-2">Gold standard — full explainability</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Boruta</td>
+                  <td class="px-4 py-2">❌ RF-based</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">🐢 Slow</td>
+                  <td class="px-4 py-2">Statistically rigorous selection</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">RFECV</td>
+                  <td class="px-4 py-2">✅ Any estimator</td>
+                  <td class="px-4 py-2">✅ Depends</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">🐢 Slow</td>
+                  <td class="px-4 py-2">Finding optimal feature subset</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">SelectKBest</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">Depends on scorer</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">⚡ Fast</td>
+                  <td class="px-4 py-2">High-dimensional pre-filtering</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="mt-6 bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded"
+          >
+            <p class="text-sm text-indigo-800">
+              <strong>🎯 Recommended Workflow:</strong>
+            </p>
+            <ol
+              class="list-decimal list-inside text-sm text-indigo-800 mt-2 space-y-1"
+            >
+              <li>
+                <strong>Quick screen</strong> — Correlation + Mutual Information
+                (no model needed)
+              </li>
+              <li>
+                <strong>Train a model</strong> — Check Tree MDI or Coefficients
+                (free with your model)
+              </li>
+              <li>
+                <strong>Validate</strong> — Permutation importance on the test
+                set
+              </li>
+              <li>
+                <strong>Explain</strong> — SHAP for stakeholder presentations or
+                debugging
+              </li>
+              <li>
+                <strong>Select</strong> — Lasso, RFECV, or Boruta to finalise
+                feature set
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
