@@ -198,6 +198,40 @@ plt.show()</code></pre>
               multicollinearity between features (heatmap).
             </p>
           </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>E-commerce:</strong> You find that "number of product
+                reviews" and "average rating" are highly correlated (r = 0.85).
+                You'd drop one to avoid redundancy before training a sales
+                prediction model.
+              </li>
+              <li>
+                <strong>Healthcare:</strong> Correlation reveals that "BMI" has
+                the strongest linear relationship with diabetes risk. This tells
+                the clinical team to prioritise BMI monitoring in screening
+                programmes.
+              </li>
+              <li>
+                <strong>Marketing:</strong> The heatmap shows "email_opens" and
+                "email_clicks" are r = 0.92. You combine them into a single
+                "engagement_score" feature instead of feeding both into your
+                churn model.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Remove one of
+                any pair with |r| > 0.8 to reduce noise, or combine them.
+                Features with near-zero correlation to the target are safe
+                candidates for removal in linear models.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -266,6 +300,41 @@ plt.show()</code></pre>
               <strong>✅ When to use:</strong> When you suspect non-linear
               relationships; as a model-free importance check before training.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Fraud detection:</strong> "Transaction amount" has low
+                Pearson correlation with fraud, but high MI — because fraud
+                spikes at very low AND very high amounts. MI catches this
+                U-shaped pattern that correlation misses.
+              </li>
+              <li>
+                <strong>Retail pricing:</strong> Before building a demand model,
+                MI reveals that "day of week" strongly predicts sales
+                (non-linear — weekends spike) even though the numeric
+                correlation is near zero.
+              </li>
+              <li>
+                <strong>Sensor data:</strong> In manufacturing, MI helps
+                identify which of 200+ sensor readings actually carry
+                information about defect rates — letting you discard noisy
+                sensors before modelling.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Features with
+                high MI but low correlation have non-linear relationships — use
+                tree-based models or engineer features (e.g. binning, polynomial
+                terms) to capture them. Features with MI ≈ 0 can be safely
+                dropped regardless of model type.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -364,6 +433,39 @@ plt.show()</code></pre>
               features and can inflate importance for noisy columns. Always
               cross-check with permutation importance.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Credit scoring:</strong> After training a Random Forest,
+                MDI shows "income" and "credit history length" dominate. The
+                risk team uses this to justify the model's decisions to
+                regulators.
+              </li>
+              <li>
+                <strong>Customer churn:</strong> Gradient Boosting reveals "days
+                since last purchase" is the #1 driver. The retention team builds
+                a triggered email campaign when this value exceeds a threshold.
+              </li>
+              <li>
+                <strong>Real estate:</strong> MDI from both RF and GBM agree
+                that "location" and "square footage" dominate pricing —
+                confirming domain expertise and building stakeholder trust.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Compare RF vs
+                GBM rankings — features important in both are reliable. Use the
+                bottom-ranked features as candidates for removal to speed up
+                production models. If a random-looking ID column appears
+                important, investigate for data leakage.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -487,6 +589,45 @@ plt.show()</code></pre>
               tree-based MDI results.
             </p>
           </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Model audit:</strong> Your tree MDI says "user_id" is
+                very important — that's suspicious. Permutation importance on
+                the test set shows it has near-zero importance, confirming the
+                MDI was just noise from high cardinality. You've just caught a
+                potential data leakage issue.
+              </li>
+              <li>
+                <strong>Insurance pricing:</strong> After fitting any model
+                (XGBoost, neural net, logistic regression), permutation
+                importance gives you an apples-to-apples comparison of feature
+                impact. You discover "vehicle_age" matters more than
+                "driver_age" across all model types.
+              </li>
+              <li>
+                <strong>A/B test prioritisation:</strong> A product team wants
+                to know which features to A/B test first. Permutation importance
+                ranks them by real predictive impact, so the team invests
+                experimentation budget on the features that move the needle
+                most.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Features with
+                importance ≈ 0 (or negative) on the test set can be safely
+                removed. Large error bars mean the importance estimate is
+                unstable — collect more data or investigate multicollinearity.
+                This is the most trustworthy method for deciding which features
+                to keep in production.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -563,6 +704,42 @@ plt.show()</code></pre>
               &gt; 0) drives unimportant coefficients to exactly zero — a
               built-in feature selector!
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Regulated industries (banking, healthcare):</strong>
+                Regulators require you to explain exactly how each feature
+                affects the outcome. Signed coefficients let you say "a
+                1-standard-deviation increase in income increases the predicted
+                credit score by 0.35 points."
+              </li>
+              <li>
+                <strong>Marketing mix modelling:</strong> Coefficients tell you
+                the direction and magnitude of each channel's effect on sales —
+                "TV spend has +0.42 effect, while radio has only +0.08." This
+                directly informs budget allocation.
+              </li>
+              <li>
+                <strong>HR analytics:</strong> A negative coefficient on
+                "commute_distance" tells you longer commutes reduce employee
+                satisfaction. HR uses this to prioritise remote work policies
+                for distant employees.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Positive
+                coefficients = increasing that feature increases the target.
+                Negative = decreasing. Use the magnitudes to rank actionable
+                levers. Present these to business stakeholders as "the
+                controllable drivers" of your outcome.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -660,6 +837,42 @@ plt.show()</code></pre>
               <em>automatic feature selector</em> baked into your model.
               Particularly useful before training expensive downstream models.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>High-dimensional genomics:</strong> You have 20,000 gene
+                expression features. Lasso automatically zeros out 19,800 of
+                them, leaving 200 candidate genes for further lab testing —
+                saving millions in research costs.
+              </li>
+              <li>
+                <strong>Production ML pipelines:</strong> Fewer features =
+                faster inference, less data to collect, and cheaper storage.
+                Lasso tells you exactly which features to keep, reducing your
+                API's latency by dropping unnecessary columns.
+              </li>
+              <li>
+                <strong>Sensor monitoring:</strong> A factory has 500 IoT
+                sensors. The Lasso path reveals only 12 sensors carry predictive
+                signal for defect detection. Management decommissions the rest,
+                cutting maintenance costs.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Use the Lasso
+                path plot to see which features survive at different
+                regularisation strengths. Features that persist longest are your
+                "core" predictors. Dropped features (coef = 0) can be removed
+                from data pipelines entirely. Always validate the reduced
+                model's performance on the test set.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -777,6 +990,51 @@ plt.show()
               exactly how each feature contributes to every prediction.
             </p>
           </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Loan denial explanations:</strong> Regulations (like
+                GDPR's "right to explanation") require you to tell a customer
+                WHY they were denied. The waterfall plot shows: "Your income
+                pushed the score down by −0.3, while your credit history pushed
+                it up by +0.2" — a concrete, per-person explanation.
+              </li>
+              <li>
+                <strong>Medical diagnosis support:</strong> A doctor sees that
+                SHAP says "blood pressure pushed risk up by +15%" and "age
+                pushed it up by +8%" for a specific patient. This helps the
+                doctor prioritise which factor to address first.
+              </li>
+              <li>
+                <strong>Debugging unexpected predictions:</strong> A house is
+                predicted at $1.2M which seems too high. The waterfall shows
+                "Latitude" pushed the price up massively — you discover a
+                geocoding error that placed the house in San Francisco instead
+                of Sacramento.
+              </li>
+              <li>
+                <strong>Product recommendations:</strong> The beeswarm plot
+                reveals that "time since last visit" has a non-linear effect —
+                medium values decrease engagement, but very high values actually
+                increase it (win-back opportunity). You create a targeted
+                campaign for dormant users.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Use the summary
+                bar plot for stakeholder presentations ("here's what matters").
+                Use waterfall plots for individual case reviews. Use dependence
+                plots to discover non-linear effects and interaction effects to
+                engineer new features. SHAP is the most complete tool for both
+                global understanding and individual explanation.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -853,6 +1111,42 @@ print(f"Rejected features: {X.columns[~boruta.support_ & ~boruta.support_weak_].
               <em>statistically rigorous</em> yes/no decision on each feature.
               Best for high-dimensional datasets with many candidate features.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Biomarker discovery:</strong> A pharmaceutical company
+                has 5,000 protein markers. Boruta answers a clear yes/no: "These
+                47 proteins are statistically confirmed as relevant to the
+                disease." This determines which markers go into clinical trials.
+              </li>
+              <li>
+                <strong>Survey analysis:</strong> HR has a 100-question employee
+                satisfaction survey. Boruta identifies the 12 questions that
+                actually predict turnover — next year's survey only needs those
+                12, reducing survey fatigue.
+              </li>
+              <li>
+                <strong>Advertising features:</strong> Out of 300 campaign
+                metrics, Boruta confirms only 25 have a real relationship with
+                conversion. The analytics team stops tracking (and paying for)
+                the other 275 data points.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> "Confirmed"
+                features go into your final model. "Rejected" features are safe
+                to remove. "Tentative" features need further investigation — try
+                re-running with more iterations or use domain knowledge to
+                decide. Boruta's strength is giving you statistical confidence,
+                not just a ranking.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -939,6 +1233,43 @@ plt.show()</code></pre>
                 >feature_importances_</code
               >. Use RFECV to let cross-validation decide the best subset size.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Production model optimisation:</strong> Your model uses
+                50 features collected from 3 APIs. RFECV shows performance
+                plateaus at 15 features — you eliminate 35 API calls per
+                prediction, reducing latency from 200ms to 40ms.
+              </li>
+              <li>
+                <strong>Cost-sensitive data collection:</strong> Each feature in
+                a medical test costs money (blood tests, imaging). The CV curve
+                shows that 6 out of 20 tests give 95% of the predictive power.
+                The hospital saves patients time and money by ordering only
+                those 6.
+              </li>
+              <li>
+                <strong>Model simplification for edge devices:</strong> A model
+                needs to run on a mobile phone. RFECV finds the minimal feature
+                set that achieves acceptable accuracy, reducing memory and
+                computation requirements for on-device inference.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Look at the CV
+                curve — the "elbow" point (where adding more features stops
+                helping) is your optimal subset. Features ranked 1 are
+                essential; higher ranks are progressively less important. Deploy
+                the model with only the selected features, and monitor
+                performance to confirm no degradation.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1055,6 +1386,42 @@ plt.show()</code></pre>
               model.
             </p>
           </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Text classification:</strong> You have 50,000 TF-IDF
+                features from customer reviews. SelectKBest with chi2 reduces it
+                to the top 500 words in seconds — making downstream model
+                training feasible.
+              </li>
+              <li>
+                <strong>Genomics pre-filter:</strong> With 100,000 genetic
+                variants, even a Random Forest would be slow. SelectKBest with
+                mutual_info_classif narrows it to 1,000 candidate variants as a
+                fast first pass before running slower methods like Boruta.
+              </li>
+              <li>
+                <strong>Quick baseline feature set:</strong> A data scientist
+                joins a new project mid-sprint. SelectKBest gives a defensible
+                top-K feature set in under a minute, letting them build a
+                baseline model immediately.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Use SelectKBest
+                as a pre-filter, not a final answer — it evaluates each feature
+                independently and misses interactions. Take the top K features
+                into your model, then refine with permutation importance or
+                RFECV. Pay attention to p-values: features with p > 0.05 have no
+                statistically significant relationship with the target.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -1140,6 +1507,43 @@ plt.show()</code></pre>
               important. Disagreements hint at non-linear effects or
               multicollinearity.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Stakeholder reporting:</strong> You present the
+                normalised heatmap to leadership: "These 4 features are
+                consistently important across all methods — we're confident
+                they're real drivers, not artefacts of a single technique."
+              </li>
+              <li>
+                <strong>Resolving disagreements:</strong> "Customer tenure"
+                ranks high in MI but low in correlation — it has a non-linear
+                effect. You engineer a binned version (0–1yr, 1–3yr, 3+yr) and
+                re-run, confirming the non-linearity.
+              </li>
+              <li>
+                <strong>Building a robust feature set:</strong> Features that
+                rank in the top 5 across 4+ methods go into your "core" set.
+                Features that appear important in only one method get flagged
+                for investigation — they may be artefacts.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> Build a
+                consensus ranking (the average column). Use the top features for
+                your production model. Investigate features where methods
+                disagree — these are opportunities to discover non-linear
+                effects, interactions, or data quality issues. This comparison
+                table is the artefact you share in model documentation and
+                review meetings.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1252,6 +1656,44 @@ plt.show()</code></pre>
               correlated features and hard to attribute correctly. Options: drop
               one feature, combine them (PCA), or use regularisation.
             </p>
+          </div>
+
+          <div
+            class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded"
+          >
+            <p class="text-sm text-purple-800 font-semibold mb-2">
+              🏢 Real-World Practical Use
+            </p>
+            <ul class="list-disc list-inside text-sm text-purple-800 space-y-1">
+              <li>
+                <strong>Linear regression reliability:</strong> Your salary
+                prediction model has unstable coefficients that flip sign
+                between training runs. VIF reveals "years of experience" and
+                "age" have VIF > 10. Dropping "age" stabilises coefficients and
+                makes the model interpretable.
+              </li>
+              <li>
+                <strong>Feature importance trust:</strong> In your churn model,
+                "monthly_charges" and "total_charges" both appear moderately
+                important, but VIF shows they're highly collinear (VIF = 15).
+                The true importance is split between them — you combine them or
+                keep only one to get reliable importance scores.
+              </li>
+              <li>
+                <strong>Regulatory compliance:</strong> In credit modelling,
+                regulators flag models with unstable coefficients. Running VIF
+                and removing features above the threshold produces stable,
+                defensible models that pass audits.
+              </li>
+              <li>
+                <strong>What to do with the discovery:</strong> For VIF > 10:
+                drop one of the correlated pair (keep the one more interpretable
+                to stakeholders), or combine them with PCA/domain logic (e.g.
+                "total_charges / months" = average monthly rate). For VIF 5–10:
+                monitor but usually acceptable. After fixing, re-run your
+                importance analysis — rankings will become more reliable.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
