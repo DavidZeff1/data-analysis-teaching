@@ -1,0 +1,1308 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-blue-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+      >
+        Scikit-Learn Cheat Sheet
+      </h1>
+      <p class="text-xl text-gray-600">
+        Quick Reference for the Most Common sklearn Patterns
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- IMPORTS -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-blue-700 mb-2">📦 Common Imports</h2>
+      <div
+        class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+      >
+        <pre class="text-sm"><code class="language-python">import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder, OneHotEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score,
+    confusion_matrix, classification_report,
+    mean_squared_error, mean_absolute_error, r2_score
+)
+from sklearn.impute import SimpleImputer</code></pre>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: TRAIN/TEST SPLIT                -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >1</span
+            >
+            Train / Test Split
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre class="text-sm"><code class="language-python"># Basic split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Stratified split (keeps class proportions — use for classification)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+# Train / Validation / Test (3-way split)
+X_temp, X_test, y_temp, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+X_train, X_val, y_train, y_val = train_test_split(
+    X_temp, y_temp, test_size=0.25, random_state=42  # 0.25 × 0.8 = 0.2
+)</code></pre>
+          </div>
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Rule of thumb:</strong> 80/20 or 70/30 for most
+              datasets. Always set
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >random_state</code
+              >
+              for reproducibility. Use
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >stratify=y</code
+              >
+              when classes are imbalanced.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: PREPROCESSING                   -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-indigo-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >2</span
+            >
+            Preprocessing & Scaling
+          </h2>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-indigo-700 mb-3">Scaling</h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># StandardScaler: mean=0, std=1 (best for most models)
+scaler = StandardScaler()
+X_train_sc = scaler.fit_transform(X_train)   # fit + transform on train
+X_test_sc  = scaler.transform(X_test)        # only transform on test
+
+# MinMaxScaler: scales to [0, 1]
+scaler = MinMaxScaler()
+X_train_mm = scaler.fit_transform(X_train)
+X_test_mm  = scaler.transform(X_test)
+
+# RobustScaler: uses median/IQR — resistant to outliers
+from sklearn.preprocessing import RobustScaler
+scaler = RobustScaler()
+X_train_rb = scaler.fit_transform(X_train)
+X_test_rb  = scaler.transform(X_test)</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-indigo-700 mb-3">
+            Encoding Categorical Variables
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># Label Encoding (ordinal — low/medium/high)
+le = LabelEncoder()
+df["size_encoded"] = le.fit_transform(df["size"])  # 0, 1, 2
+
+# One-Hot Encoding (nominal — red/blue/green)
+ohe = OneHotEncoder(sparse_output=False, drop="first")  # drop to avoid multicollinearity
+encoded = ohe.fit_transform(df[["color"]])
+
+# Pandas shortcut
+df_encoded = pd.get_dummies(df, columns=["color"], drop_first=True)
+
+# OrdinalEncoder (for ordered categories in a pipeline)
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder(categories=[["low", "medium", "high"]])
+df["size_ord"] = oe.fit_transform(df[["size"]])</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-indigo-700 mb-3">
+            Handling Missing Values
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># Impute with mean (numerical)
+imputer = SimpleImputer(strategy="mean")       # also: "median", "most_frequent", "constant"
+X_train_imp = imputer.fit_transform(X_train)
+X_test_imp  = imputer.transform(X_test)
+
+# KNN Imputer (uses neighbours)
+from sklearn.impute import KNNImputer
+knn_imp = KNNImputer(n_neighbors=5)
+X_train_imp = knn_imp.fit_transform(X_train)
+X_test_imp  = knn_imp.transform(X_test)</code></pre>
+          </div>
+
+          <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+            <p class="text-sm text-red-800">
+              <strong>🚫 Golden Rule:</strong> Always
+              <code class="bg-red-100 text-red-800 px-1 rounded">fit</code>
+              on training data only, then
+              <code class="bg-red-100 text-red-800 px-1 rounded"
+                >transform</code
+              >
+              both train and test. Never fit on test data — that's data leakage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: CLASSIFICATION MODELS           -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >3</span
+            >
+            Classification Models
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Every sklearn model follows the same pattern:
+            <code class="bg-gray-100 text-gray-800 px-1 rounded"
+              >model.fit(X_train, y_train)</code
+            >
+            →
+            <code class="bg-gray-100 text-gray-800 px-1 rounded"
+              >model.predict(X_test)</code
+            >.
+          </p>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Logistic Regression ---
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(max_iter=1000, random_state=42)
+lr.fit(X_train_sc, y_train)
+y_pred = lr.predict(X_test_sc)
+y_proba = lr.predict_proba(X_test_sc)[:, 1]  # probability of class 1
+
+# --- K-Nearest Neighbours ---
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train_sc, y_train)                  # KNN needs scaled data
+y_pred = knn.predict(X_test_sc)
+
+# --- Decision Tree ---
+from sklearn.tree import DecisionTreeClassifier
+dt = DecisionTreeClassifier(max_depth=5, random_state=42)
+dt.fit(X_train, y_train)                      # trees don't need scaling
+y_pred = dt.predict(X_test)
+
+# --- Random Forest ---
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42, n_jobs=-1)
+rf.fit(X_train, y_train)
+y_pred = rf.predict(X_test)
+
+# --- Gradient Boosting ---
+from sklearn.ensemble import GradientBoostingClassifier
+gb = GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, max_depth=4, random_state=42)
+gb.fit(X_train, y_train)
+y_pred = gb.predict(X_test)
+
+# --- Support Vector Machine ---
+from sklearn.svm import SVC
+svm = SVC(kernel="rbf", C=1.0, probability=True, random_state=42)
+svm.fit(X_train_sc, y_train)                  # SVM needs scaled data
+y_pred = svm.predict(X_test_sc)
+
+# --- Naive Bayes ---
+from sklearn.naive_bayes import GaussianNB
+nb = GaussianNB()
+nb.fit(X_train, y_train)
+y_pred = nb.predict(X_test)</code></pre>
+          </div>
+
+          <div class="overflow-x-auto mb-4">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-green-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-green-800">
+                    Model
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-green-800">
+                    Needs Scaling?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-green-800">
+                    Handles Non-Linear?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-green-800">
+                    Key Hyperparameters
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Logistic Regression</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2 font-mono">C, penalty, max_iter</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">KNN</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2 font-mono">n_neighbors, weights</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Decision Tree</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2 font-mono">
+                    max_depth, min_samples_split
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Random Forest</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2 font-mono">n_estimators, max_depth</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Gradient Boosting</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2 font-mono">
+                    n_estimators, learning_rate, max_depth
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">SVM</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ (rbf kernel)</td>
+                  <td class="px-4 py-2 font-mono">C, kernel, gamma</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Naive Bayes</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2 font-mono">var_smoothing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 4: REGRESSION MODELS               -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >4</span
+            >
+            Regression Models
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># --- Linear Regression ---
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+y_pred = lr.predict(X_test)
+print(f"Coefficients: {lr.coef_}")
+print(f"Intercept:    {lr.intercept_}")
+
+# --- Ridge (L2 regularisation) ---
+from sklearn.linear_model import Ridge
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train_sc, y_train)
+
+# --- Lasso (L1 regularisation — zeros out features) ---
+from sklearn.linear_model import Lasso
+lasso = Lasso(alpha=0.1)
+lasso.fit(X_train_sc, y_train)
+
+# --- ElasticNet (L1 + L2) ---
+from sklearn.linear_model import ElasticNet
+en = ElasticNet(alpha=0.1, l1_ratio=0.5)
+en.fit(X_train_sc, y_train)
+
+# --- Random Forest Regressor ---
+from sklearn.ensemble import RandomForestRegressor
+rf_reg = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
+rf_reg.fit(X_train, y_train)
+
+# --- Gradient Boosting Regressor ---
+from sklearn.ensemble import GradientBoostingRegressor
+gb_reg = GradientBoostingRegressor(n_estimators=200, learning_rate=0.1, max_depth=4, random_state=42)
+gb_reg.fit(X_train, y_train)
+
+# --- SVR ---
+from sklearn.svm import SVR
+svr = SVR(kernel="rbf", C=1.0)
+svr.fit(X_train_sc, y_train)</code></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-purple-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Model
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Regularised?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Feature Selection?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-purple-800">
+                    Key Param
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2">Linear Regression</td>
+                  <td class="px-4 py-2">❌</td>
+                  <td class="px-4 py-2">❌</td>
+                  <td class="px-4 py-2 font-mono">—</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2">Ridge</td>
+                  <td class="px-4 py-2">✅ L2</td>
+                  <td class="px-4 py-2">❌ (shrinks, doesn't zero)</td>
+                  <td class="px-4 py-2 font-mono">alpha</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">Lasso</td>
+                  <td class="px-4 py-2">✅ L1</td>
+                  <td class="px-4 py-2">✅ (zeros out features)</td>
+                  <td class="px-4 py-2 font-mono">alpha</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2">ElasticNet</td>
+                  <td class="px-4 py-2">✅ L1+L2</td>
+                  <td class="px-4 py-2">✅ Partial</td>
+                  <td class="px-4 py-2 font-mono">alpha, l1_ratio</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">RF Regressor</td>
+                  <td class="px-4 py-2">Built-in</td>
+                  <td class="px-4 py-2">Via importance</td>
+                  <td class="px-4 py-2 font-mono">n_estimators, max_depth</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2">GB Regressor</td>
+                  <td class="px-4 py-2">Built-in</td>
+                  <td class="px-4 py-2">Via importance</td>
+                  <td class="px-4 py-2 font-mono">
+                    n_estimators, learning_rate
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: EVALUATION METRICS              -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >5</span
+            >
+            Evaluation Metrics
+          </h2>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-teal-700 mb-3">
+            Classification Metrics
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score,
+    confusion_matrix, classification_report, roc_auc_score
+)
+
+y_pred = model.predict(X_test)
+
+# Individual metrics
+print(f"Accuracy:  {accuracy_score(y_test, y_pred):.4f}")
+print(f"Precision: {precision_score(y_test, y_pred, average='binary'):.4f}")
+print(f"Recall:    {recall_score(y_test, y_pred, average='binary'):.4f}")
+print(f"F1 Score:  {f1_score(y_test, y_pred, average='binary'):.4f}")
+
+# For multi-class: average='weighted', 'macro', or 'micro'
+print(f"F1 (macro): {f1_score(y_test, y_pred, average='macro'):.4f}")
+
+# AUC-ROC (needs probabilities)
+y_proba = model.predict_proba(X_test)[:, 1]
+print(f"AUC-ROC:   {roc_auc_score(y_test, y_proba):.4f}")
+
+# Full report
+print(classification_report(y_test, y_pred))
+
+# Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+# [[TN, FP],
+#  [FN, TP]]</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-teal-700 mb-3">
+            Regression Metrics
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+y_pred = model.predict(X_test)
+
+print(f"MAE:  {mean_absolute_error(y_test, y_pred):.4f}")
+print(f"MSE:  {mean_squared_error(y_test, y_pred):.4f}")
+print(f"RMSE: {mean_squared_error(y_test, y_pred, squared=False):.4f}")
+print(f"R²:   {r2_score(y_test, y_pred):.4f}")</code></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-teal-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-teal-800">
+                    Metric
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-teal-800">
+                    Range
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-teal-800">
+                    When to Use
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Accuracy</td>
+                  <td class="px-4 py-2">0–1</td>
+                  <td class="px-4 py-2">Balanced classes only</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Precision</td>
+                  <td class="px-4 py-2">0–1</td>
+                  <td class="px-4 py-2">
+                    When false positives are costly (spam filter)
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Recall</td>
+                  <td class="px-4 py-2">0–1</td>
+                  <td class="px-4 py-2">
+                    When false negatives are costly (disease detection)
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">F1</td>
+                  <td class="px-4 py-2">0–1</td>
+                  <td class="px-4 py-2">Balance of precision & recall</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">AUC-ROC</td>
+                  <td class="px-4 py-2">0–1</td>
+                  <td class="px-4 py-2">
+                    Overall ranking ability, threshold-independent
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">MAE</td>
+                  <td class="px-4 py-2">0–∞</td>
+                  <td class="px-4 py-2">
+                    Regression — easy to interpret (same units as target)
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">RMSE</td>
+                  <td class="px-4 py-2">0–∞</td>
+                  <td class="px-4 py-2">
+                    Regression — penalises large errors more
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">R²</td>
+                  <td class="px-4 py-2">−∞ to 1</td>
+                  <td class="px-4 py-2">
+                    Regression — % of variance explained
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: CROSS-VALIDATION                -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >6</span
+            >
+            Cross-Validation
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
+
+# --- Quick cross-validation score ---
+scores = cross_val_score(model, X_train, y_train, cv=5, scoring="accuracy")
+print(f"CV Accuracy: {scores.mean():.4f} ± {scores.std():.4f}")
+
+# --- Common scoring options ---
+# Classification: "accuracy", "f1", "precision", "recall", "roc_auc"
+# Regression:     "r2", "neg_mean_squared_error", "neg_mean_absolute_error"
+
+# --- Custom K-Fold ---
+kf = KFold(n_splits=10, shuffle=True, random_state=42)
+scores = cross_val_score(model, X_train, y_train, cv=kf, scoring="r2")
+
+# --- Stratified K-Fold (classification — preserves class balances) ---
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+scores = cross_val_score(model, X_train, y_train, cv=skf, scoring="f1")
+
+# --- cross_validate (multiple metrics at once) ---
+from sklearn.model_selection import cross_validate
+results = cross_validate(
+    model, X_train, y_train, cv=5,
+    scoring=["accuracy", "f1", "roc_auc"],
+    return_train_score=True
+)
+print(f"Test Accuracy: {results['test_accuracy'].mean():.4f}")
+print(f"Test F1:       {results['test_f1'].mean():.4f}")
+print(f"Test AUC:      {results['test_roc_auc'].mean():.4f}")</code></pre>
+          </div>
+
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Tip:</strong> Regression scoring metrics are
+              <em>negated</em> in sklearn (e.g.
+              <code class="bg-blue-100 text-blue-800 px-1 rounded"
+                >neg_mean_squared_error</code
+              >). Higher is always better in sklearn, so MSE is negated.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 7: HYPERPARAMETER TUNING           -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-red-500 to-red-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-red-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >7</span
+            >
+            Hyperparameter Tuning
+          </h2>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            GridSearchCV — Exhaustive Search
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+    "n_estimators": [100, 200, 300],
+    "max_depth": [5, 10, 15, None],
+    "min_samples_split": [2, 5, 10]
+}
+
+grid = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_grid,
+    cv=5,
+    scoring="f1",
+    n_jobs=-1,
+    verbose=1
+)
+grid.fit(X_train, y_train)
+
+print(f"Best params: {grid.best_params_}")
+print(f"Best CV F1:  {grid.best_score_:.4f}")
+
+# Use the best model directly
+best_model = grid.best_estimator_
+y_pred = best_model.predict(X_test)</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-red-700 mb-3">
+            RandomizedSearchCV — Faster Alternative
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint, uniform
+
+param_dist = {
+    "n_estimators": randint(100, 500),
+    "max_depth": randint(3, 20),
+    "min_samples_split": randint(2, 20),
+    "min_samples_leaf": randint(1, 10),
+    "max_features": uniform(0.1, 0.9)
+}
+
+random_search = RandomizedSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_dist,
+    n_iter=50,          # try 50 random combinations
+    cv=5,
+    scoring="f1",
+    n_jobs=-1,
+    random_state=42,
+    verbose=1
+)
+random_search.fit(X_train, y_train)
+
+print(f"Best params: {random_search.best_params_}")
+print(f"Best CV F1:  {random_search.best_score_:.4f}")</code></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-red-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-red-800">
+                    Method
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-red-800">
+                    Speed
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-red-800">
+                    When to Use
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">GridSearchCV</td>
+                  <td class="px-4 py-2">🐢 Slow (tests every combo)</td>
+                  <td class="px-4 py-2">Small param space, need exact best</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">RandomizedSearchCV</td>
+                  <td class="px-4 py-2">⚡ Fast (samples N combos)</td>
+                  <td class="px-4 py-2">
+                    Large param space, good estimate fast
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 8: PIPELINES                       -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >8</span
+            >
+            Pipelines
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Pipelines chain preprocessing and modelling into a single object —
+            preventing data leakage and making code cleaner.
+          </p>
+
+          <h3 class="text-xl font-bold text-orange-700 mb-3">
+            Simple Pipeline
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.pipeline import Pipeline
+
+pipe = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model",  LogisticRegression(max_iter=1000))
+])
+
+pipe.fit(X_train, y_train)     # scaler fits + transforms, then model fits
+y_pred = pipe.predict(X_test)  # scaler transforms, then model predicts
+score = pipe.score(X_test, y_test)</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-orange-700 mb-3">
+            ColumnTransformer — Different Processing per Column Type
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.compose import ColumnTransformer
+
+num_features = ["age", "income", "score"]
+cat_features = ["city", "gender"]
+
+preprocessor = ColumnTransformer([
+    ("num", Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler",  StandardScaler())
+    ]), num_features),
+    ("cat", Pipeline([
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("encoder", OneHotEncoder(handle_unknown="ignore"))
+    ]), cat_features)
+])
+
+full_pipe = Pipeline([
+    ("preprocessor", preprocessor),
+    ("model", RandomForestClassifier(n_estimators=200, random_state=42))
+])
+
+full_pipe.fit(X_train, y_train)
+y_pred = full_pipe.predict(X_test)</code></pre>
+          </div>
+
+          <h3 class="text-xl font-bold text-orange-700 mb-3">
+            Pipeline + GridSearch
+          </h3>
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># Use double-underscore to access nested params
+param_grid = {
+    "model__n_estimators": [100, 200],
+    "model__max_depth": [5, 10, None],
+    "preprocessor__num__imputer__strategy": ["mean", "median"]
+}
+
+grid = GridSearchCV(full_pipe, param_grid, cv=5, scoring="f1", n_jobs=-1)
+grid.fit(X_train, y_train)
+print(grid.best_params_)</code></pre>
+          </div>
+
+          <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>✅ Best Practice:</strong> Always use Pipelines in
+              production. They prevent data leakage, make code reproducible, and
+              can be serialised with
+              <code class="bg-green-100 text-green-800 px-1 rounded"
+                >joblib.dump(pipe, "model.pkl")</code
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 9: FEATURE SELECTION               -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >9</span
+            >
+            Feature Selection (Quick Reference)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.feature_selection import (
+    SelectKBest, f_classif, f_regression,
+    mutual_info_classif, mutual_info_regression,
+    RFECV, VarianceThreshold
+)
+
+# --- Remove zero/low-variance features ---
+sel = VarianceThreshold(threshold=0.01)
+X_filtered = sel.fit_transform(X_train)
+
+# --- SelectKBest ---
+sel = SelectKBest(score_func=f_classif, k=10)
+X_best = sel.fit_transform(X_train, y_train)
+print("Selected:", X.columns[sel.get_support()].tolist())
+
+# --- Recursive Feature Elimination with CV ---
+from sklearn.ensemble import RandomForestClassifier
+rfecv = RFECV(
+    estimator=RandomForestClassifier(n_estimators=100, random_state=42),
+    step=1, cv=5, scoring="f1", n_jobs=-1
+)
+rfecv.fit(X_train, y_train)
+print(f"Optimal features: {rfecv.n_features_}")
+print(f"Selected: {X.columns[rfecv.support_].tolist()}")
+
+# --- Permutation Importance (model-agnostic) ---
+from sklearn.inspection import permutation_importance
+result = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42)
+imp = pd.Series(result.importances_mean, index=X.columns).sort_values(ascending=False)
+print(imp)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 10: CLUSTERING                     -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >10</span
+            >
+            Clustering (Unsupervised)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre class="text-sm"><code class="language-python"># --- K-Means ---
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+labels = kmeans.fit_predict(X_scaled)
+print(f"Inertia: {kmeans.inertia_:.2f}")
+print(f"Centroids shape: {kmeans.cluster_centers_.shape}")
+
+# --- Elbow Method ---
+inertias = []
+for k in range(1, 11):
+    km = KMeans(n_clusters=k, random_state=42, n_init=10)
+    km.fit(X_scaled)
+    inertias.append(km.inertia_)
+
+import matplotlib.pyplot as plt
+plt.plot(range(1, 11), inertias, marker="o")
+plt.xlabel("k"); plt.ylabel("Inertia"); plt.title("Elbow Method")
+plt.show()
+
+# --- Silhouette Score ---
+from sklearn.metrics import silhouette_score
+score = silhouette_score(X_scaled, labels)
+print(f"Silhouette: {score:.4f}")  # closer to 1 = better
+
+# --- DBSCAN ---
+from sklearn.cluster import DBSCAN
+db = DBSCAN(eps=0.5, min_samples=5)
+labels = db.fit_predict(X_scaled)
+print(f"Clusters found: {len(set(labels)) - (1 if -1 in labels else 0)}")
+print(f"Noise points: {(labels == -1).sum()}")
+
+# --- Hierarchical / Agglomerative ---
+from sklearn.cluster import AgglomerativeClustering
+agg = AgglomerativeClustering(n_clusters=3, linkage="ward")
+labels = agg.fit_predict(X_scaled)</code></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-amber-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Algorithm
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Needs k?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Shape
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-amber-800">
+                    Handles Noise?
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2">K-Means</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">Spherical</td>
+                  <td class="px-4 py-2">❌</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2">DBSCAN</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">Arbitrary</td>
+                  <td class="px-4 py-2">✅ Yes (labels = −1)</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">Agglomerative</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">Arbitrary</td>
+                  <td class="px-4 py-2">❌</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 11: DIMENSIONALITY REDUCTION       -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >11</span
+            >
+            Dimensionality Reduction
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre class="text-sm"><code class="language-python"># --- PCA ---
+from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2)               # reduce to 2 dimensions
+X_pca = pca.fit_transform(X_scaled)
+print(f"Explained variance: {pca.explained_variance_ratio_}")
+print(f"Total explained:    {pca.explained_variance_ratio_.sum():.4f}")
+
+# Pick components that explain 95% of variance
+pca_95 = PCA(n_components=0.95)
+X_95 = pca_95.fit_transform(X_scaled)
+print(f"Components needed for 95%: {pca_95.n_components_}")
+
+# --- t-SNE (visualisation only — no transform on new data) ---
+from sklearn.manifold import TSNE
+tsne = TSNE(n_components=2, perplexity=30, random_state=42)
+X_tsne = tsne.fit_transform(X_scaled)    # fit_transform only, no separate transform
+
+# --- Plot ---
+import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+axes[0].scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap="viridis", alpha=0.5, s=10)
+axes[0].set_title("PCA")
+axes[1].scatter(X_tsne[:, 0], X_tsne[:, 1], c=y, cmap="viridis", alpha=0.5, s=10)
+axes[1].set_title("t-SNE")
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-violet-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-violet-800">
+                    Method
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-violet-800">
+                    Linear?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-violet-800">
+                    Transform new data?
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-violet-800">
+                    Best For
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2">PCA</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">✅ Yes</td>
+                  <td class="px-4 py-2">
+                    Feature reduction, denoising, pipelines
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2">t-SNE</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">❌ No</td>
+                  <td class="px-4 py-2">2D/3D visualisation of clusters</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 12: SAVING & LOADING MODELS        -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-pink-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >12</span
+            >
+            Saving & Loading Models
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre class="text-sm"><code class="language-python">import joblib
+
+# --- Save ---
+joblib.dump(pipe, "model_pipeline.pkl")     # saves entire pipeline
+joblib.dump(scaler, "scaler.pkl")           # save scaler separately if needed
+
+# --- Load ---
+loaded_pipe = joblib.load("model_pipeline.pkl")
+y_pred = loaded_pipe.predict(X_new)
+
+# --- Alternative: pickle ---
+import pickle
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+with open("model.pkl", "rb") as f:
+    loaded_model = pickle.load(f)</code></pre>
+          </div>
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+            <p class="text-sm text-yellow-800">
+              <strong>⚠️ Tip:</strong>
+              <code class="bg-yellow-100 text-yellow-800 px-1 rounded"
+                >joblib</code
+              >
+              is preferred over pickle for sklearn models — it's more efficient
+              for large numpy arrays. Always save the <em>entire pipeline</em>,
+              not just the model, so preprocessing is included.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 13: COMMON PATTERNS CHEAT SHEET    -->
+    <!-- ========================================== -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-700 to-gray-800 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-gray-700 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >13</span
+            >
+            Quick Patterns Cheat Sheet
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="space-y-4">
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+              <p class="text-sm text-blue-800 font-semibold mb-1">
+                🔄 The Universal sklearn Pattern
+              </p>
+              <code class="text-sm text-blue-800"
+                >model.fit(X_train, y_train) → model.predict(X_test) →
+                metric(y_test, y_pred)</code
+              >
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+              <p class="text-sm text-green-800 font-semibold mb-1">
+                🚫 Prevent Data Leakage
+              </p>
+              <p class="text-sm text-green-800">
+                Always
+                <code class="bg-green-100 text-green-800 px-1 rounded"
+                  >fit</code
+                >
+                on train,
+                <code class="bg-green-100 text-green-800 px-1 rounded"
+                  >transform</code
+                >
+                on both. Use Pipelines to automate this.
+              </p>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+              <p class="text-sm text-yellow-800 font-semibold mb-1">
+                ⚡ When to Scale
+              </p>
+              <p class="text-sm text-yellow-800">
+                <strong>Must scale:</strong> KNN, SVM, Logistic Regression,
+                Neural Nets, PCA. <strong>Don't need:</strong> Decision Trees,
+                Random Forest, Gradient Boosting, Naive Bayes.
+              </p>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+              <p class="text-sm text-purple-800 font-semibold mb-1">
+                📊 Choosing a Metric
+              </p>
+              <p class="text-sm text-purple-800">
+                <strong>Balanced classes?</strong> → Accuracy.
+                <strong>Imbalanced?</strong> → F1, Precision, Recall, AUC-ROC.
+                <strong>Regression?</strong> → RMSE (penalises big errors) or
+                MAE (robust to outliers).
+              </p>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+              <p class="text-sm text-red-800 font-semibold mb-1">
+                🎯 Quick Model Selection
+              </p>
+              <p class="text-sm text-red-800">
+                <strong>Start simple:</strong> Logistic Regression / Linear
+                Regression → <strong>Try trees:</strong> Random Forest →
+                <strong>Boost performance:</strong> Gradient Boosting →
+                <strong>Tune:</strong> GridSearchCV / RandomizedSearchCV.
+              </p>
+            </div>
+
+            <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+              <p class="text-sm text-indigo-800 font-semibold mb-1">
+                🔑 Essential Hyperparameters
+              </p>
+              <div class="text-sm text-indigo-800 mt-2">
+                <p>
+                  <strong>Random Forest:</strong>
+                  <code class="bg-indigo-100 px-1 rounded">n_estimators</code>
+                  (more = better, slower),
+                  <code class="bg-indigo-100 px-1 rounded">max_depth</code>
+                  (controls overfitting)
+                </p>
+                <p>
+                  <strong>Gradient Boosting:</strong>
+                  <code class="bg-indigo-100 px-1 rounded">learning_rate</code>
+                  (lower = needs more trees),
+                  <code class="bg-indigo-100 px-1 rounded">n_estimators</code>,
+                  <code class="bg-indigo-100 px-1 rounded">max_depth</code>
+                </p>
+                <p>
+                  <strong>Logistic Regression:</strong>
+                  <code class="bg-indigo-100 px-1 rounded">C</code> (inverse
+                  regularisation — lower = more regularised)
+                </p>
+                <p>
+                  <strong>SVM:</strong>
+                  <code class="bg-indigo-100 px-1 rounded">C</code>,
+                  <code class="bg-indigo-100 px-1 rounded">kernel</code>
+                  (rbf/linear/poly),
+                  <code class="bg-indigo-100 px-1 rounded">gamma</code>
+                </p>
+                <p>
+                  <strong>KNN:</strong>
+                  <code class="bg-indigo-100 px-1 rounded">n_neighbors</code>
+                  (odd number to break ties)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

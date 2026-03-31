@@ -103,6 +103,7 @@ const content = {
     regression: () => fetch("/ml/regression.html").then((r) => r.text()),
     workflow: () => fetch("/ml/workflow.html").then((r) => r.text()),
     importance: () => fetch("/ml/importance.html").then((r) => r.text()),
+    sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
   },
 };
 
