@@ -131,46 +131,374 @@ X_test_rb  = scaler.transform(X_test)</code></pre>
           <h3 class="text-xl font-bold text-indigo-700 mb-3">
             Encoding Categorical Variables
           </h3>
+
+          <!-- Encoding Decision Chart -->
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-indigo-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    Method
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    When to Use
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    Output
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    ⚠️ Watch Out
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Label Encoding</td>
+                  <td class="px-4 py-2">
+                    Ordinal data with natural order (low/med/high)
+                  </td>
+                  <td class="px-4 py-2 font-mono">0, 1, 2</td>
+                  <td class="px-4 py-2">
+                    Implies order — don't use for nominal data
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Ordinal Encoding</td>
+                  <td class="px-4 py-2">Ordered categories in a pipeline</td>
+                  <td class="px-4 py-2 font-mono">0, 1, 2 (custom order)</td>
+                  <td class="px-4 py-2">You must specify the correct order</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">One-Hot Encoding</td>
+                  <td class="px-4 py-2">
+                    Nominal data, few categories (&lt;15)
+                  </td>
+                  <td class="px-4 py-2 font-mono">
+                    Binary columns per category
+                  </td>
+                  <td class="px-4 py-2">
+                    Explodes with high cardinality; use drop="first"
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Target Encoding</td>
+                  <td class="px-4 py-2">
+                    High-cardinality nominal (city, zip code)
+                  </td>
+                  <td class="px-4 py-2 font-mono">
+                    Mean of target per category
+                  </td>
+                  <td class="px-4 py-2">Risk of data leakage — use with CV</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Binary Encoding</td>
+                  <td class="px-4 py-2">
+                    Medium cardinality (10–100 categories)
+                  </td>
+                  <td class="px-4 py-2 font-mono">Binary digit columns</td>
+                  <td class="px-4 py-2">
+                    Fewer columns than one-hot but less interpretable
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Frequency Encoding</td>
+                  <td class="px-4 py-2">When category frequency matters</td>
+                  <td class="px-4 py-2 font-mono">Count or proportion</td>
+                  <td class="px-4 py-2">
+                    Categories with same frequency become identical
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Hash Encoding</td>
+                  <td class="px-4 py-2">
+                    Very high cardinality, fixed output size
+                  </td>
+                  <td class="px-4 py-2 font-mono">N hash columns</td>
+                  <td class="px-4 py-2">Collisions possible; not reversible</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <div
             class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
           >
             <pre
               class="text-sm"
-            ><code class="language-python"># Label Encoding (ordinal — low/medium/high)
+            ><code class="language-python"># ========== LABEL ENCODING (ordinal — low/medium/high) ==========
 le = LabelEncoder()
 df["size_encoded"] = le.fit_transform(df["size"])  # 0, 1, 2
 
-# One-Hot Encoding (nominal — red/blue/green)
-ohe = OneHotEncoder(sparse_output=False, drop="first")  # drop to avoid multicollinearity
+# ========== ORDINAL ENCODING (ordered, pipeline-friendly) ==========
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder(categories=[["low", "medium", "high"]])
+df["size_ord"] = oe.fit_transform(df[["size"]])
+
+# ========== ONE-HOT ENCODING (nominal — red/blue/green) ==========
+ohe = OneHotEncoder(sparse_output=False, drop="first")  # drop avoids multicollinearity
 encoded = ohe.fit_transform(df[["color"]])
 
 # Pandas shortcut
 df_encoded = pd.get_dummies(df, columns=["color"], drop_first=True)
 
-# OrdinalEncoder (for ordered categories in a pipeline)
-from sklearn.preprocessing import OrdinalEncoder
-oe = OrdinalEncoder(categories=[["low", "medium", "high"]])
-df["size_ord"] = oe.fit_transform(df[["size"]])</code></pre>
+# ========== TARGET ENCODING (high cardinality — city, zip) ==========
+from sklearn.preprocessing import TargetEncoder
+te = TargetEncoder(smooth="auto")     # sklearn >= 1.3
+df["city_te"] = te.fit_transform(df[["city"]], y)   # mean target per city
+# ⚠️ Always fit on train only to avoid leakage
+
+# ========== FREQUENCY / COUNT ENCODING ==========
+freq_map = df["city"].value_counts(normalize=True)    # proportion
+df["city_freq"] = df["city"].map(freq_map)
+# Or raw counts:
+count_map = df["city"].value_counts()
+df["city_count"] = df["city"].map(count_map)
+
+# ========== BINARY ENCODING (medium cardinality) ==========
+# pip install category_encoders
+import category_encoders as ce
+be = ce.BinaryEncoder(cols=["city"])
+df_binary = be.fit_transform(df)
+
+# ========== HASH ENCODING (very high cardinality) ==========
+he = ce.HashingEncoder(cols=["user_id"], n_components=8)
+df_hashed = he.fit_transform(df)</code></pre>
+          </div>
+
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-6">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Quick Decision:</strong>
+              <strong>2–3 categories?</strong> → One-Hot.
+              <strong>Ordered?</strong> → Ordinal.
+              <strong>4–15 unordered?</strong> → One-Hot (with drop="first").
+              <strong>15–100?</strong> → Target or Binary Encoding.
+              <strong>100+?</strong> → Target, Frequency, or Hash Encoding.
+            </p>
           </div>
 
           <h3 class="text-xl font-bold text-indigo-700 mb-3">
             Handling Missing Values
           </h3>
+
+          <!-- Missing Values Decision Chart -->
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full text-sm border border-gray-300 rounded-lg">
+              <thead class="bg-indigo-100">
+                <tr>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    Strategy
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    Data Type
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    How It Works
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    Best When
+                  </th>
+                  <th class="px-4 py-2 text-left font-semibold text-indigo-800">
+                    ⚠️ Drawback
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Mean</td>
+                  <td class="px-4 py-2">Numeric</td>
+                  <td class="px-4 py-2">Replace NaN with column mean</td>
+                  <td class="px-4 py-2">Roughly normal data, few missing</td>
+                  <td class="px-4 py-2">
+                    Sensitive to outliers; shrinks variance
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Median</td>
+                  <td class="px-4 py-2">Numeric</td>
+                  <td class="px-4 py-2">Replace NaN with column median</td>
+                  <td class="px-4 py-2">Skewed data or outliers present</td>
+                  <td class="px-4 py-2">
+                    Ignores relationships between features
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Most Frequent</td>
+                  <td class="px-4 py-2">Any</td>
+                  <td class="px-4 py-2">Replace NaN with the mode</td>
+                  <td class="px-4 py-2">Categorical features</td>
+                  <td class="px-4 py-2">Biases toward dominant category</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Constant</td>
+                  <td class="px-4 py-2">Any</td>
+                  <td class="px-4 py-2">
+                    Fill with a fixed value (e.g. 0, "Unknown")
+                  </td>
+                  <td class="px-4 py-2">
+                    Missingness has meaning (e.g. "not applicable")
+                  </td>
+                  <td class="px-4 py-2">
+                    Can create unrealistic values if chosen poorly
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">KNN Imputer</td>
+                  <td class="px-4 py-2">Numeric</td>
+                  <td class="px-4 py-2">
+                    Uses K nearest neighbours to estimate
+                  </td>
+                  <td class="px-4 py-2">
+                    Features are correlated; moderate missing %
+                  </td>
+                  <td class="px-4 py-2">
+                    Slow on large datasets; needs scaling
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Iterative (MICE)</td>
+                  <td class="px-4 py-2">Numeric</td>
+                  <td class="px-4 py-2">
+                    Models each feature as a function of others, iterates
+                  </td>
+                  <td class="px-4 py-2">
+                    Complex relationships; research-grade imputation
+                  </td>
+                  <td class="px-4 py-2">
+                    Slow; experimental in sklearn; can overfit
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Forward/Back Fill</td>
+                  <td class="px-4 py-2">Time series</td>
+                  <td class="px-4 py-2">
+                    Use previous (ffill) or next (bfill) value
+                  </td>
+                  <td class="px-4 py-2">Sequential/temporal data</td>
+                  <td class="px-4 py-2">
+                    Not suitable for random missing patterns
+                  </td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Interpolation</td>
+                  <td class="px-4 py-2">Time series / Numeric</td>
+                  <td class="px-4 py-2">
+                    Linear, polynomial, or spline interpolation
+                  </td>
+                  <td class="px-4 py-2">Smooth trends in sequential data</td>
+                  <td class="px-4 py-2">Assumes smooth underlying pattern</td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Add Indicator Column</td>
+                  <td class="px-4 py-2">Any</td>
+                  <td class="px-4 py-2">
+                    Add binary column flagging "was missing"
+                  </td>
+                  <td class="px-4 py-2">
+                    Use alongside any imputer — missingness itself is a signal
+                  </td>
+                  <td class="px-4 py-2">Doubles the number of columns</td>
+                </tr>
+                <tr class="border-t bg-gray-50">
+                  <td class="px-4 py-2 font-semibold">Drop Rows</td>
+                  <td class="px-4 py-2">Any</td>
+                  <td class="px-4 py-2">Remove rows with NaN</td>
+                  <td class="px-4 py-2">
+                    &lt;5% missing and MCAR (missing completely at random)
+                  </td>
+                  <td class="px-4 py-2">
+                    Loses data; biases results if not MCAR
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2 font-semibold">Drop Columns</td>
+                  <td class="px-4 py-2">Any</td>
+                  <td class="px-4 py-2">Remove feature entirely</td>
+                  <td class="px-4 py-2">&gt;50% missing and low importance</td>
+                  <td class="px-4 py-2">
+                    Loses potentially useful information
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <div
             class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
           >
             <pre
               class="text-sm"
-            ><code class="language-python"># Impute with mean (numerical)
-imputer = SimpleImputer(strategy="mean")       # also: "median", "most_frequent", "constant"
-X_train_imp = imputer.fit_transform(X_train)
-X_test_imp  = imputer.transform(X_test)
+            ><code class="language-python"># ========== SIMPLE IMPUTER (mean / median / most_frequent / constant) ==========
+from sklearn.impute import SimpleImputer
 
-# KNN Imputer (uses neighbours)
+# Numerical: mean or median
+num_imputer = SimpleImputer(strategy="median")
+X_train_imp = num_imputer.fit_transform(X_train[num_cols])
+X_test_imp  = num_imputer.transform(X_test[num_cols])
+
+# Categorical: most_frequent or constant
+cat_imputer = SimpleImputer(strategy="constant", fill_value="Unknown")
+X_train_cat = cat_imputer.fit_transform(X_train[cat_cols])
+X_test_cat  = cat_imputer.transform(X_test[cat_cols])
+
+# ========== KNN IMPUTER (uses similar rows) ==========
 from sklearn.impute import KNNImputer
-knn_imp = KNNImputer(n_neighbors=5)
-X_train_imp = knn_imp.fit_transform(X_train)
-X_test_imp  = knn_imp.transform(X_test)</code></pre>
+knn_imp = KNNImputer(n_neighbors=5, weights="distance")
+X_train_imp = knn_imp.fit_transform(X_train_scaled)   # ⚠️ scale first!
+X_test_imp  = knn_imp.transform(X_test_scaled)
+
+# ========== ITERATIVE IMPUTER / MICE (models each feature) ==========
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.ensemble import RandomForestRegressor
+
+mice_imp = IterativeImputer(
+    estimator=RandomForestRegressor(n_estimators=50, random_state=42),
+    max_iter=10,
+    random_state=42
+)
+X_train_imp = mice_imp.fit_transform(X_train)
+X_test_imp  = mice_imp.transform(X_test)
+
+# ========== FORWARD / BACK FILL (time series) ==========
+df["value"] = df["value"].ffill()           # forward fill
+df["value"] = df["value"].bfill()           # backward fill
+df["value"] = df["value"].ffill().bfill()   # forward then back for edges
+
+# ========== INTERPOLATION (time series / smooth data) ==========
+df["value"] = df["value"].interpolate(method="linear")
+df["value"] = df["value"].interpolate(method="polynomial", order=2)
+df["value"] = df["value"].interpolate(method="time")  # time-index aware
+
+# ========== MISSING INDICATOR (add "was_missing" flag) ==========
+from sklearn.impute import MissingIndicator
+indicator = MissingIndicator(features="missing-only")
+mask = indicator.fit_transform(X_train)
+# Combine with imputed data:
+import numpy as np
+X_train_with_flags = np.hstack([X_train_imp, mask])
+
+# Or inside a pipeline with SimpleImputer:
+imputer = SimpleImputer(strategy="median", add_indicator=True)
+X_train_imp = imputer.fit_transform(X_train)
+# Result includes original imputed columns + binary indicator columns
+
+# ========== DROP ROWS / COLUMNS ==========
+df_clean = df.dropna(subset=["important_col"])          # drop rows
+df_clean = df.drop(columns=["mostly_empty_col"])        # drop columns
+df_clean = df.dropna(thresh=len(df)*0.5, axis=1)        # drop cols with >50% missing</code></pre>
+          </div>
+
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-4">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Quick Decision:</strong>
+              <strong>&lt;5% missing?</strong> → Mean/Median is fine.
+              <strong>Skewed/outliers?</strong> → Median.
+              <strong>Categorical?</strong> → Most Frequent or Constant.
+              <strong>Correlated features?</strong> → KNN or Iterative.
+              <strong>Time series?</strong> → Forward fill or Interpolation.
+              <strong>Missingness is informative?</strong> → Add Indicator
+              column.
+            </p>
           </div>
 
           <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
