@@ -1,0 +1,1174 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-amber-50 to-orange-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent"
+      >
+        Model Assumptions & Data Transformations
+      </h1>
+      <p class="text-xl text-gray-600">
+        Understanding what your models expect — and how to fix violations
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <div
+      class="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-amber-500"
+    >
+      <p class="text-lg text-gray-700 leading-relaxed">
+        Many machine learning models — especially linear regression, logistic
+        regression, and classical statistical tests — make
+        <strong>assumptions</strong> about your data. When these assumptions are
+        violated, your model's predictions, coefficients, and p-values can
+        become unreliable. This page covers what those assumptions are, how to
+        diagnose violations, and the transformations you can apply to fix them.
+      </p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PART 1: THE ASSUMPTIONS                      -->
+    <!-- ============================================ -->
+    <div
+      class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-2xl p-6 mb-10 text-white"
+    >
+      <h2 class="text-3xl font-bold flex items-center">
+        <span class="text-4xl mr-3">📐</span>
+        Part 1 — Key Model Assumptions
+      </h2>
+      <p class="mt-2 opacity-90">
+        The rules your data should follow for certain models to work correctly
+      </p>
+    </div>
+
+    <!-- 1. Linearity -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >1</span
+            >
+            Linearity
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            <strong>Linear regression</strong> assumes the relationship between
+            each feature and the target is <strong>linear</strong>. If the true
+            relationship is curved (quadratic, exponential, etc.), a straight
+            line will systematically miss patterns.
+          </p>
+
+          <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-6">
+            <p class="text-sm text-amber-800">
+              <strong>Which models need this?</strong> Linear Regression,
+              Logistic Regression. Tree-based models (Random Forest, XGBoost) do
+              <em>not</em> require linearity.
+            </p>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">How to Check</h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># Scatter plot: feature vs target</span>
+<span class="text-gray-400"># Look for a straight-line pattern (good) vs curves (violation)</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">3</span>, figsize=(<span class="text-yellow-400">15</span>, <span class="text-yellow-400">4</span>))
+
+<span class="text-purple-400">for</span> i, col <span class="text-purple-400">in</span> <span class="text-blue-400">enumerate</span>([<span class="text-green-400">'feature_1'</span>, <span class="text-green-400">'feature_2'</span>, <span class="text-green-400">'feature_3'</span>]):
+    axes[i].scatter(df[col], df[<span class="text-green-400">'target'</span>], alpha=<span class="text-yellow-400">0.4</span>)
+    axes[i].set_xlabel(col)
+    axes[i].set_ylabel(<span class="text-green-400">'target'</span>)
+    axes[i].set_title(f<span class="text-green-400">'{col} vs target'</span>)
+
+plt.tight_layout()
+plt.show()</code></pre>
+
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-gray-400"># Residuals vs Fitted plot (after fitting the model)</span>
+<span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LinearRegression
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_train)
+residuals = y_train - y_pred
+
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">5</span>))
+plt.scatter(y_pred, residuals, alpha=<span class="text-yellow-400">0.4</span>)
+plt.axhline(y=<span class="text-yellow-400">0</span>, color=<span class="text-green-400">'red'</span>, linestyle=<span class="text-green-400">'--'</span>)
+plt.xlabel(<span class="text-green-400">'Fitted Values'</span>)
+plt.ylabel(<span class="text-green-400">'Residuals'</span>)
+plt.title(<span class="text-green-400">'Residuals vs Fitted — look for random scatter'</span>)
+plt.show()
+
+<span class="text-gray-400"># ✅ Good: random cloud around 0</span>
+<span class="text-gray-400"># ❌ Bad: U-shape or pattern = non-linear relationship</span></code></pre>
+
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+            <p class="text-sm text-orange-800">
+              <strong>Fix:</strong> Apply a non-linear transformation (log,
+              sqrt, polynomial features) to the feature or target, or switch to
+              a non-linear model.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Normality -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >2</span
+            >
+            Normality of Residuals / Features
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Linear regression assumes the <strong>residuals</strong> (errors)
+            are normally distributed. Many statistical tests (t-test, ANOVA)
+            also assume the <strong>data itself</strong> follows a normal
+            distribution. Heavily skewed features can also hurt model
+            performance even for models that don't strictly require normality.
+          </p>
+
+          <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-6">
+            <p class="text-sm text-amber-800">
+              <strong>Which models need this?</strong> Linear Regression
+              (residuals), statistical tests (t-test, ANOVA). KNN and SVMs can
+              also benefit from normally distributed features. Tree-based models
+              are unaffected.
+            </p>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Visual Checks</h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">import</span> scipy.stats <span class="text-purple-400">as</span> stats
+
+<span class="text-gray-400"># 1. Histogram — does it look bell-shaped?</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
+
+axes[<span class="text-yellow-400">0</span>].hist(df[<span class="text-green-400">'feature'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, alpha=<span class="text-yellow-400">0.7</span>)
+axes[<span class="text-yellow-400">0</span>].set_title(<span class="text-green-400">'Histogram'</span>)
+
+<span class="text-gray-400"># 2. Q-Q Plot — points should fall on the diagonal line</span>
+stats.probplot(df[<span class="text-green-400">'feature'</span>], dist=<span class="text-green-400">"norm"</span>, plot=axes[<span class="text-yellow-400">1</span>])
+axes[<span class="text-yellow-400">1</span>].set_title(<span class="text-green-400">'Q-Q Plot'</span>)
+
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># ✅ Good: points hug the red line</span>
+<span class="text-gray-400"># ❌ Bad: S-curve or banana shape = not normal</span></code></pre>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Statistical Tests for Normality
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> scipy.stats <span class="text-purple-400">import</span> shapiro, normaltest
+
+<span class="text-gray-400"># Shapiro-Wilk test (best for n < 5000)</span>
+stat, p_value = shapiro(df[<span class="text-green-400">'feature'</span>])
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Shapiro-Wilk: stat={stat:.4f}, p={p_value:.4f}"</span>)
+<span class="text-purple-400">if</span> p_value > <span class="text-yellow-400">0.05</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"✅ Cannot reject normality (data looks normal)"</span>)
+<span class="text-purple-400">else</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"❌ Reject normality (data is NOT normal)"</span>)
+
+<span class="text-gray-400"># D'Agostino-Pearson test (better for larger samples)</span>
+stat, p_value = normaltest(df[<span class="text-green-400">'feature'</span>])
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"D'Agostino: stat={stat:.4f}, p={p_value:.4f}"</span>)
+
+<span class="text-gray-400"># Skewness and Kurtosis — quick numeric check</span>
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Skewness: {df['feature'].skew():.3f}"</span>)   <span class="text-gray-400"># Near 0 = symmetric</span>
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Kurtosis: {df['feature'].kurtosis():.3f}"</span>) <span class="text-gray-400"># Near 0 = normal tails</span></code></pre>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+              <p class="text-sm text-green-800">
+                <strong>Skewness guide:</strong><br />
+                |skew| &lt; 0.5 → approximately symmetric<br />
+                0.5–1.0 → moderately skewed<br />
+                &gt; 1.0 → highly skewed (needs transformation)
+              </p>
+            </div>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+              <p class="text-sm text-blue-800">
+                <strong>Kurtosis guide:</strong><br />
+                Near 0 → normal tails<br />
+                &gt; 0 (leptokurtic) → heavy tails, sharp peak<br />
+                &lt; 0 (platykurtic) → light tails, flat peak
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Homoscedasticity -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >3</span
+            >
+            Homoscedasticity (Constant Variance)
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Linear regression assumes the
+            <strong>spread of residuals is constant</strong> across all levels
+            of the predicted values. When the spread fans out (or narrows), it's
+            called <strong>heteroscedasticity</strong> — and it makes your
+            standard errors wrong, which breaks confidence intervals and
+            p-values.
+          </p>
+
+          <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-6">
+            <p class="text-sm text-amber-800">
+              <strong>Which models need this?</strong> Linear Regression,
+              Logistic Regression. Not required by tree-based models or KNN.
+            </p>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Visual Check: Scale-Location Plot
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-gray-400"># Residuals vs Fitted plot — check for fanning</span>
+y_pred = model.predict(X_train)
+residuals = y_train - y_pred
+
+plt.figure(figsize=(<span class="text-yellow-400">8</span>, <span class="text-yellow-400">5</span>))
+plt.scatter(y_pred, np.sqrt(np.abs(residuals)), alpha=<span class="text-yellow-400">0.4</span>)
+plt.xlabel(<span class="text-green-400">'Fitted Values'</span>)
+plt.ylabel(<span class="text-green-400">'√|Residuals|'</span>)
+plt.title(<span class="text-green-400">'Scale-Location Plot'</span>)
+plt.show()
+
+<span class="text-gray-400"># ✅ Good: flat, random band</span>
+<span class="text-gray-400"># ❌ Bad: cone/fan shape = heteroscedasticity</span></code></pre>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Statistical Test: Breusch-Pagan
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">import</span> statsmodels.api <span class="text-purple-400">as</span> sm
+<span class="text-purple-400">from</span> statsmodels.stats.diagnostic <span class="text-purple-400">import</span> het_breuschpagan
+
+<span class="text-gray-400"># Fit with statsmodels (adds intercept automatically with add_constant)</span>
+X_with_const = sm.add_constant(X_train)
+ols_model = sm.OLS(y_train, X_with_const).fit()
+
+<span class="text-gray-400"># Breusch-Pagan test</span>
+bp_stat, bp_pvalue, _, _ = het_breuschpagan(ols_model.resid, X_with_const)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Breusch-Pagan p-value: {bp_pvalue:.4f}"</span>)
+<span class="text-purple-400">if</span> bp_pvalue > <span class="text-yellow-400">0.05</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"✅ Homoscedasticity holds"</span>)
+<span class="text-purple-400">else</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"❌ Heteroscedasticity detected"</span>)</code></pre>
+
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+            <p class="text-sm text-orange-800">
+              <strong>Fix:</strong> Apply a log or Box-Cox transform to the
+              <em>target</em> variable, use Weighted Least Squares (WLS), or use
+              robust standard errors.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Multicollinearity -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >4</span
+            >
+            Multicollinearity
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            When two or more features are
+            <strong>highly correlated with each other</strong>, the model can't
+            tell which one is actually driving the prediction. This makes
+            individual coefficient estimates
+            <strong>unstable and uninterpretable</strong>, even though the
+            overall model R² might still look fine.
+          </p>
+
+          <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-6">
+            <p class="text-sm text-amber-800">
+              <strong>Which models are affected?</strong> Linear Regression and
+              Logistic Regression (coefficients become unreliable). Tree-based
+              models handle collinearity naturally but may produce misleading
+              feature importance scores.
+            </p>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Detection: Correlation Matrix
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-gray-400"># Correlation heatmap — look for values above |0.8|</span>
+corr = df.select_dtypes(include=<span class="text-green-400">'number'</span>).corr()
+
+plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">8</span>))
+sns.heatmap(corr, annot=<span class="text-purple-400">True</span>, fmt=<span class="text-green-400">'.2f'</span>, cmap=<span class="text-green-400">'RdBu_r'</span>,
+            center=<span class="text-yellow-400">0</span>, vmin=-<span class="text-yellow-400">1</span>, vmax=<span class="text-yellow-400">1</span>)
+plt.title(<span class="text-green-400">'Correlation Matrix'</span>)
+plt.show()
+
+<span class="text-gray-400"># Flag highly correlated pairs</span>
+high_corr = corr.abs().unstack()
+high_corr = high_corr[high_corr < <span class="text-yellow-400">1.0</span>]  <span class="text-gray-400"># remove self-correlation</span>
+high_corr = high_corr[high_corr > <span class="text-yellow-400">0.8</span>].drop_duplicates()
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Highly correlated pairs:"</span>)
+<span class="text-blue-400">print</span>(high_corr.sort_values(ascending=<span class="text-purple-400">False</span>))</code></pre>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Detection: Variance Inflation Factor (VIF)
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> statsmodels.stats.outliers_influence <span class="text-purple-400">import</span> variance_inflation_factor
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># VIF measures how much a feature is explained by OTHER features</span>
+<span class="text-gray-400"># VIF = 1     → No collinearity</span>
+<span class="text-gray-400"># VIF = 1-5   → Moderate (usually OK)</span>
+<span class="text-gray-400"># VIF = 5-10  → High (concerning)</span>
+<span class="text-gray-400"># VIF > 10    → Severe (must address)</span>
+
+X_numeric = df.select_dtypes(include=<span class="text-green-400">'number'</span>).drop(columns=[<span class="text-green-400">'target'</span>])
+X_with_const = sm.add_constant(X_numeric)
+
+vif_data = pd.DataFrame({
+    <span class="text-green-400">'Feature'</span>: X_with_const.columns,
+    <span class="text-green-400">'VIF'</span>: [variance_inflation_factor(X_with_const.values, i)
+           <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> <span class="text-blue-400">range</span>(X_with_const.shape[<span class="text-yellow-400">1</span>])]
+})
+<span class="text-blue-400">print</span>(vif_data.sort_values(<span class="text-green-400">'VIF'</span>, ascending=<span class="text-purple-400">False</span>))</code></pre>
+
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+            <p class="text-sm text-orange-800">
+              <strong>Fix:</strong> Drop one of the correlated features, combine
+              them (PCA or averaging), or use regularization (Ridge/Lasso) which
+              handles collinearity by shrinking coefficients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Independence of Observations -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >5</span
+            >
+            Independence of Observations
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Most models assume each data point is <strong>independent</strong> —
+            one observation doesn't influence another. This is commonly violated
+            in <strong>time-series data</strong> (today's stock price depends on
+            yesterday's) or <strong>clustered data</strong> (students within the
+            same classroom).
+          </p>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Detection: Durbin-Watson Test
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> statsmodels.stats.stattools <span class="text-purple-400">import</span> durbin_watson
+
+<span class="text-gray-400"># Durbin-Watson test for autocorrelation in residuals</span>
+<span class="text-gray-400"># Value near 2 → no autocorrelation ✅</span>
+<span class="text-gray-400"># Value near 0 → positive autocorrelation ❌</span>
+<span class="text-gray-400"># Value near 4 → negative autocorrelation ❌</span>
+
+dw_stat = durbin_watson(ols_model.resid)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Durbin-Watson: {dw_stat:.4f}"</span>)
+<span class="text-purple-400">if</span> <span class="text-yellow-400">1.5</span> < dw_stat < <span class="text-yellow-400">2.5</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"✅ No significant autocorrelation"</span>)
+<span class="text-purple-400">else</span>:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">"❌ Possible autocorrelation — check data ordering"</span>)</code></pre>
+
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+            <p class="text-sm text-orange-800">
+              <strong>Fix:</strong> Use time-series specific models (ARIMA), add
+              lag features, or use clustered standard errors for grouped data.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PART 2: DATA TRANSFORMATIONS                 -->
+    <!-- ============================================ -->
+    <div
+      class="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-2xl p-6 mb-10 text-white"
+    >
+      <h2 class="text-3xl font-bold flex items-center">
+        <span class="text-4xl mr-3">🔧</span>
+        Part 2 — Data Transformations
+      </h2>
+      <p class="mt-2 opacity-90">
+        Methods to make your data more "well-behaved" when assumptions are
+        violated
+      </p>
+    </div>
+
+    <!-- 6. Log Transform -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >6</span
+            >
+            Log Transformation
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            The most common transformation for
+            <strong>right-skewed</strong> data (long tail on the right). It
+            compresses large values and spreads out small values, making the
+            distribution more symmetric.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+              <p class="text-sm text-green-800">
+                <strong>Best for:</strong><br />
+                • Income, prices, population<br />
+                • Counts (page views, sales)<br />
+                • Any feature with a right skew
+              </p>
+            </div>
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+              <p class="text-sm text-red-800">
+                <strong>Limitations:</strong><br />
+                • Cannot handle zero values (use log1p)<br />
+                • Cannot handle negative values<br />
+                • Doesn't fix left-skewed data
+              </p>
+            </div>
+          </div>
+
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-gray-400"># Log transform — use log1p to safely handle zeros</span>
+df[<span class="text-green-400">'income_log'</span>] = np.log1p(df[<span class="text-green-400">'income'</span>])  <span class="text-gray-400"># log(1 + x)</span>
+
+<span class="text-gray-400"># Compare before and after</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
+
+axes[<span class="text-yellow-400">0</span>].hist(df[<span class="text-green-400">'income'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, alpha=<span class="text-yellow-400">0.7</span>)
+axes[<span class="text-yellow-400">0</span>].set_title(f<span class="text-green-400">"Original (skew={df['income'].skew():.2f})"</span>)
+
+axes[<span class="text-yellow-400">1</span>].hist(df[<span class="text-green-400">'income_log'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, alpha=<span class="text-yellow-400">0.7</span>, color=<span class="text-green-400">'green'</span>)
+axes[<span class="text-yellow-400">1</span>].set_title(f<span class="text-green-400">"Log Transformed (skew={df['income_log'].skew():.2f})"</span>)
+
+plt.tight_layout()
+plt.show()
+
+<span class="text-gray-400"># To reverse the transformation (for interpreting predictions):</span>
+<span class="text-gray-400"># original = np.expm1(predicted_log)   # inverse of log1p</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Square Root Transform -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >7</span
+            >
+            Square Root Transformation
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            A <strong>milder</strong> version of the log transform. Good for
+            <strong>moderate right skew</strong> and particularly common with
+            <strong>count data</strong>. Unlike log, it can handle zero values
+            directly.
+          </p>
+
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-gray-400"># Square root transform</span>
+df[<span class="text-green-400">'count_sqrt'</span>] = np.sqrt(df[<span class="text-green-400">'count'</span>])
+
+<span class="text-gray-400"># Compare</span>
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Original skew:   {df['count'].skew():.3f}"</span>)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Sqrt skew:       {df['count_sqrt'].skew():.3f}"</span>)
+
+<span class="text-gray-400"># Reverse: original = transformed ** 2</span></code></pre>
+
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>When to use sqrt vs log:</strong> Start with log. If log
+              over-corrects (makes data left-skewed), try sqrt instead. If the
+              data has zeros, sqrt is convenient since it doesn't require log1p.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Box-Cox Transform -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >8</span
+            >
+            Box-Cox & Yeo-Johnson Transforms
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            Instead of guessing which transform to use,
+            <strong>Box-Cox</strong> and
+            <strong>Yeo-Johnson</strong> automatically find the best power
+            parameter (λ) that makes your data as close to normal as possible.
+            Box-Cox requires <strong>strictly positive</strong> data;
+            Yeo-Johnson works with <strong>any data</strong> (including zeros
+            and negatives).
+          </p>
+
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> scipy.stats <span class="text-purple-400">import</span> boxcox
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> PowerTransformer
+
+<span class="text-gray-400"># === Box-Cox (data must be strictly positive) ===</span>
+df[<span class="text-green-400">'feature_boxcox'</span>], best_lambda = boxcox(df[<span class="text-green-400">'feature'</span>])
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Best λ: {best_lambda:.4f}"</span>)
+<span class="text-gray-400"># λ ≈ 0  → log transform</span>
+<span class="text-gray-400"># λ ≈ 0.5 → square root transform</span>
+<span class="text-gray-400"># λ ≈ 1  → no transform needed</span>
+
+<span class="text-gray-400"># === Yeo-Johnson (handles zeros and negatives) ===</span>
+pt = PowerTransformer(method=<span class="text-green-400">'yeo-johnson'</span>)
+df[<span class="text-green-400">'feature_yj'</span>] = pt.fit_transform(df[[<span class="text-green-400">'feature'</span>]])
+
+<span class="text-gray-400"># Compare all transformations</span>
+fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">3</span>, figsize=(<span class="text-yellow-400">15</span>, <span class="text-yellow-400">4</span>))
+
+axes[<span class="text-yellow-400">0</span>].hist(df[<span class="text-green-400">'feature'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>)
+axes[<span class="text-yellow-400">0</span>].set_title(f<span class="text-green-400">"Original (skew={df['feature'].skew():.2f})"</span>)
+
+axes[<span class="text-yellow-400">1</span>].hist(df[<span class="text-green-400">'feature_boxcox'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, color=<span class="text-green-400">'orange'</span>)
+axes[<span class="text-yellow-400">1</span>].set_title(f<span class="text-green-400">"Box-Cox (skew={df['feature_boxcox'].skew():.2f})"</span>)
+
+axes[<span class="text-yellow-400">2</span>].hist(df[<span class="text-green-400">'feature_yj'</span>], bins=<span class="text-yellow-400">30</span>, edgecolor=<span class="text-green-400">'black'</span>, color=<span class="text-green-400">'purple'</span>)
+axes[<span class="text-yellow-400">2</span>].set_title(f<span class="text-green-400">"Yeo-Johnson (skew={df['feature_yj'].skew():.2f})"</span>)
+
+plt.tight_layout()
+plt.show()</code></pre>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Using PowerTransformer in a Pipeline
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> sklearn.pipeline <span class="text-purple-400">import</span> Pipeline
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> PowerTransformer
+<span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LinearRegression
+
+<span class="text-gray-400"># PowerTransformer in a pipeline — fits and transforms automatically</span>
+pipe = Pipeline([
+    (<span class="text-green-400">'transform'</span>, PowerTransformer(method=<span class="text-green-400">'yeo-johnson'</span>)),
+    (<span class="text-green-400">'model'</span>, LinearRegression())
+])
+
+pipe.fit(X_train, y_train)
+score = pipe.score(X_test, y_test)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"R² with Yeo-Johnson: {score:.4f}"</span>)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Reciprocal and Power Transforms -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >9</span
+            >
+            Other Useful Transforms
+          </h2>
+        </div>
+        <div class="p-6">
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-gray-400"># Reciprocal transform — for severe right skew</span>
+df[<span class="text-green-400">'feature_recip'</span>] = <span class="text-yellow-400">1</span> / df[<span class="text-green-400">'feature'</span>]  <span class="text-gray-400"># data must be non-zero</span>
+
+<span class="text-gray-400"># Cube root — works with negative values too</span>
+df[<span class="text-green-400">'feature_cbrt'</span>] = np.cbrt(df[<span class="text-green-400">'feature'</span>])
+
+<span class="text-gray-400"># Polynomial features — capture non-linear relationships</span>
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> PolynomialFeatures
+
+poly = PolynomialFeatures(degree=<span class="text-yellow-400">2</span>, include_bias=<span class="text-purple-400">False</span>)
+X_poly = poly.fit_transform(X_train)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Features before: {X_train.shape[1]}, after: {X_poly.shape[1]}"</span>)
+<span class="text-gray-400"># Adds x², x³, x₁·x₂ interaction terms</span></code></pre>
+
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>Warning:</strong> Polynomial features increase
+              dimensionality quickly. With 10 features and degree=2, you go from
+              10 to 65 features. Use with feature selection or regularization.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PART 3: DECISION GUIDE                       -->
+    <!-- ============================================ -->
+    <div
+      class="bg-gradient-to-r from-teal-500 to-emerald-500 rounded-xl shadow-2xl p-6 mb-10 text-white"
+    >
+      <h2 class="text-3xl font-bold flex items-center">
+        <span class="text-4xl mr-3">🧭</span>
+        Part 3 — Putting It All Together
+      </h2>
+      <p class="mt-2 opacity-90">
+        A practical workflow for checking assumptions and applying fixes
+      </p>
+    </div>
+
+    <!-- 10. Which Models Need What -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >10</span
+            >
+            Which Models Require Which Assumptions?
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="overflow-x-auto mb-6">
+            <table class="min-w-full border border-gray-200 text-sm">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Assumption
+                  </th>
+                  <th class="border border-gray-200 p-3 text-center font-bold">
+                    Linear Regression
+                  </th>
+                  <th class="border border-gray-200 p-3 text-center font-bold">
+                    Logistic Regression
+                  </th>
+                  <th class="border border-gray-200 p-3 text-center font-bold">
+                    KNN / SVM
+                  </th>
+                  <th class="border border-gray-200 p-3 text-center font-bold">
+                    Trees / Random Forest
+                  </th>
+                  <th class="border border-gray-200 p-3 text-center font-bold">
+                    Neural Networks
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Linearity
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ Log-odds linear
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Normality
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Residuals
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ Helps KNN
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ Helps
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Homoscedasticity
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">
+                    No Multicollinearity
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ Affects KNN
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ Misleading importance
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Independence
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Feature Scaling
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ⚠️ For regularized
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ❌ Not needed
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">
+                    ✅ Required
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Transformation Decision Flowchart -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >11</span
+            >
+            Transformation Decision Guide
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="space-y-4 mb-6">
+            <div class="bg-amber-50 border-2 border-amber-300 rounded-lg p-4">
+              <p class="font-bold text-amber-800 mb-2">
+                Step 1: Check skewness of each numeric feature
+              </p>
+              <p class="text-sm text-amber-700">
+                If |skew| &gt; 1.0 → the feature likely needs a transformation
+              </p>
+            </div>
+            <div class="flex justify-center">
+              <span class="text-2xl text-gray-400">↓</span>
+            </div>
+            <div class="bg-orange-50 border-2 border-orange-300 rounded-lg p-4">
+              <p class="font-bold text-orange-800 mb-2">
+                Step 2: Choose the right transform
+              </p>
+              <ul class="text-sm text-orange-700 space-y-1 list-disc ml-4">
+                <li>
+                  <strong>Right-skewed, all positive</strong> → try log first,
+                  then Box-Cox
+                </li>
+                <li>
+                  <strong>Right-skewed, has zeros</strong> → use log1p or sqrt
+                </li>
+                <li>
+                  <strong>Right-skewed, has negatives</strong> → use Yeo-Johnson
+                </li>
+                <li>
+                  <strong>Left-skewed</strong> → reflect first (max - x), then
+                  log; or use Yeo-Johnson
+                </li>
+                <li><strong>Moderate skew</strong> → try sqrt</li>
+                <li>
+                  <strong>Not sure</strong> → use Yeo-Johnson (it handles
+                  everything)
+                </li>
+              </ul>
+            </div>
+            <div class="flex justify-center">
+              <span class="text-2xl text-gray-400">↓</span>
+            </div>
+            <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4">
+              <p class="font-bold text-green-800 mb-2">
+                Step 3: Verify the transformation worked
+              </p>
+              <p class="text-sm text-green-700">
+                Re-check skewness, re-plot distributions, re-run normality tests
+              </p>
+            </div>
+            <div class="flex justify-center">
+              <span class="text-2xl text-gray-400">↓</span>
+            </div>
+            <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
+              <p class="font-bold text-blue-800 mb-2">
+                Step 4: Compare model performance
+              </p>
+              <p class="text-sm text-blue-700">
+                Train your model with and without the transformation. Keep
+                whichever gives better cross-validation scores.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            Complete Workflow Example
+          </h3>
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> scipy.stats <span class="text-purple-400">import</span> shapiro
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> PowerTransformer
+<span class="text-purple-400">from</span> sklearn.linear_model <span class="text-purple-400">import</span> LinearRegression
+<span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> cross_val_score
+
+<span class="text-gray-400"># ---- Step 1: Assess skewness of all numeric features ----</span>
+numeric_cols = df.select_dtypes(include=<span class="text-green-400">'number'</span>).columns
+skew_report = df[numeric_cols].skew().sort_values(ascending=<span class="text-purple-400">False</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"=== Skewness Report ==="</span>)
+<span class="text-blue-400">print</span>(skew_report)
+<span class="text-blue-400">print</span>()
+
+<span class="text-gray-400"># Flag features that need transformation</span>
+skewed_features = skew_report[skew_report.abs() > <span class="text-yellow-400">1.0</span>].index.tolist()
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"Features needing transformation: {skewed_features}"</span>)
+
+<span class="text-gray-400"># ---- Step 2: Apply Yeo-Johnson to skewed features ----</span>
+pt = PowerTransformer(method=<span class="text-green-400">'yeo-johnson'</span>)
+df[skewed_features] = pt.fit_transform(df[skewed_features])
+
+<span class="text-gray-400"># ---- Step 3: Verify ----</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"=== After Transformation ==="</span>)
+<span class="text-blue-400">print</span>(df[skewed_features].skew())
+
+<span class="text-gray-400"># ---- Step 4: Compare model performance ----</span>
+<span class="text-gray-400"># (run cross-validation before and after to decide)</span>
+X = df.drop(columns=[<span class="text-green-400">'target'</span>])
+y = df[<span class="text-green-400">'target'</span>]
+
+scores = cross_val_score(LinearRegression(), X, y, cv=<span class="text-yellow-400">5</span>, scoring=<span class="text-green-400">'r2'</span>)
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"R² after transform: {scores.mean():.4f} ± {scores.std():.4f}"</span>)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Transforming the Target Variable -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >12</span
+            >
+            Transforming the Target Variable
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+            When the <strong>target</strong> is skewed, transforming it can
+            improve both normality of residuals <em>and</em> homoscedasticity in
+            one step. But you must <strong>reverse the transform</strong> when
+            making predictions.
+          </p>
+
+          <pre
+            class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"
+          ><code><span class="text-purple-400">from</span> sklearn.compose <span class="text-purple-400">import</span> TransformedTargetRegressor
+
+<span class="text-gray-400"># TransformedTargetRegressor handles the transform + inverse automatically</span>
+model = TransformedTargetRegressor(
+    regressor=LinearRegression(),
+    func=np.log1p,       <span class="text-gray-400"># transform applied to y before fitting</span>
+    inverse_func=np.expm1 <span class="text-gray-400"># reverse applied to predictions</span>
+)
+
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)  <span class="text-gray-400"># predictions are in original scale!</span>
+
+<span class="text-gray-400"># Or use PowerTransformer for automatic lambda selection</span>
+model_auto = TransformedTargetRegressor(
+    regressor=LinearRegression(),
+    transformer=PowerTransformer(method=<span class="text-green-400">'yeo-johnson'</span>)
+)
+model_auto.fit(X_train, y_train)</code></pre>
+
+          <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+            <p class="text-sm text-red-800">
+              <strong>Common mistake:</strong> Manually transforming y with log,
+              fitting a model, predicting, and then forgetting to apply
+              <code>np.expm1()</code> to reverse it. Use
+              <code>TransformedTargetRegressor</code> to avoid this.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >13</span
+            >
+            Quick Reference: Transforms at a Glance
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-200 text-sm">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Transform
+                  </th>
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Formula
+                  </th>
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Handles Zeros?
+                  </th>
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Handles Negatives?
+                  </th>
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Strength
+                  </th>
+                  <th class="border border-gray-200 p-3 text-left font-bold">
+                    Inverse
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">Log</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.log(x)</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3">Strong</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.exp(x)</code>
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">Log1p</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.log1p(x)</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3">Strong</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.expm1(x)</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Square Root
+                  </td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.sqrt(x)</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3">Moderate</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>x ** 2</code>
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Cube Root
+                  </td>
+                  <td class="border border-gray-200 p-3">
+                    <code>np.cbrt(x)</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3">Mild</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>x ** 3</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Box-Cox
+                  </td>
+                  <td class="border border-gray-200 p-3">
+                    <code>boxcox(x)</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3">Auto-tuned</td>
+                  <td class="border border-gray-200 p-3">Use stored λ</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Yeo-Johnson
+                  </td>
+                  <td class="border border-gray-200 p-3">
+                    <code>PowerTransformer()</code>
+                  </td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3">Auto-tuned</td>
+                  <td class="border border-gray-200 p-3">
+                    <code>.inverse_transform()</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-200 p-3 font-medium">
+                    Reciprocal
+                  </td>
+                  <td class="border border-gray-200 p-3"><code>1 / x</code></td>
+                  <td class="border border-gray-200 p-3 text-center">❌</td>
+                  <td class="border border-gray-200 p-3 text-center">✅</td>
+                  <td class="border border-gray-200 p-3">Very strong</td>
+                  <td class="border border-gray-200 p-3"><code>1 / x</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing -->
+    <div
+      class="bg-gradient-to-r from-amber-600 to-orange-600 rounded-xl shadow-2xl p-6 text-white text-center"
+    >
+      <h3 class="text-2xl font-bold mb-2">Key Takeaway</h3>
+      <p class="text-lg opacity-90">
+        Not every model needs every assumption. Tree-based models are the most
+        forgiving. Linear models are the most demanding. Always check
+        assumptions <em>after</em> fitting, and compare model performance with
+        and without transformations to decide if they actually help.
+      </p>
+    </div>
+  </div>
+</div>

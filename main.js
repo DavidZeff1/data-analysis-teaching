@@ -94,6 +94,7 @@ const content = {
     basics: () => fetch("/ml/basics.html").then((r) => r.text()),
     eda: () => fetch("/ml/eda.html").then((r) => r.text()),
     stats: () => fetch("/ml/stats.html").then((r) => r.text()),
+    assumptions: () => fetch("/ml/assumptions.html").then((r) => r.text()),
     preprocessing: () => fetch("/ml/preprocessing.html").then((r) => r.text()),
     trees: () => fetch("/ml/trees.html").then((r) => r.text()),
     anomaly: () => fetch("/ml/anomaly.html").then((r) => r.text()),
