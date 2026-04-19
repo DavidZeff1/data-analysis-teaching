@@ -106,6 +106,7 @@ const content = {
     importance: () => fetch("/ml/importance.html").then((r) => r.text()),
     sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
     models: () => fetch("/ml/models.html").then((r) => r.text()),
+    boosting: () => fetch("/ml/boosting.html").then((r) => r.text()),
   },
 };
 
