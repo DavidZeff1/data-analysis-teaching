@@ -105,6 +105,7 @@ const content = {
     workflow: () => fetch("/ml/workflow.html").then((r) => r.text()),
     importance: () => fetch("/ml/importance.html").then((r) => r.text()),
     sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
+    models: () => fetch("/ml/models.html").then((r) => r.text()),
   },
 };
 

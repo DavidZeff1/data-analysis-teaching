@@ -1,0 +1,1597 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-indigo-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
+      >
+        ML Models Deep Dive
+      </h1>
+      <p class="text-xl text-gray-600">
+        How Every Model Learns — Feature Updates, Math &amp; Intuition
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- OVERVIEW / TAXONOMY                         -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">
+        The Big Picture — How Models Learn from Features
+      </h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Every ML model takes in <strong>features</strong> (input columns) and
+        learns <strong>parameters</strong> (weights, splits, centroids…) during
+        training. The key difference between models is
+        <em>how</em> those parameters are updated. This page walks through every
+        major model family, showing the update rules and the intuition behind
+        them.
+      </p>
+      <div class="grid md:grid-cols-3 gap-4 mt-6">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <h3 class="font-bold text-blue-800 mb-1">Gradient-Based</h3>
+          <p class="text-sm text-blue-700">
+            Linear/Logistic Regression, Neural Networks, Gradient Boosting —
+            update weights by following the gradient of a loss function.
+          </p>
+        </div>
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+          <h3 class="font-bold text-green-800 mb-1">Split / Partition-Based</h3>
+          <p class="text-sm text-green-700">
+            Decision Trees, Random Forests — learn by recursively finding the
+            best feature &amp; threshold to split data.
+          </p>
+        </div>
+        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+          <h3 class="font-bold text-purple-800 mb-1">Distance / Instance-Based</h3>
+          <p class="text-sm text-purple-700">
+            KNN, SVM, K-Means — rely on distances between data points; some
+            store no explicit parameters at all.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. LINEAR REGRESSION                       -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >1</span
+            >
+            Linear Regression
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                A weight $w_j$ for every feature $x_j$ plus a bias $w_0$. The
+                prediction is:
+              </p>
+              <p class="text-center text-lg mt-3 mb-3">
+                $$\hat{y} = w_0 + w_1 x_1 + w_2 x_2 + \dots + w_n x_n$$
+              </p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <h3 class="text-xl font-bold text-blue-800 mb-3">
+                ⚙️ How Features Update Weights
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Loss function:</strong> Mean Squared Error (MSE)
+              </p>
+              <p class="text-center text-sm mb-2">
+                $$L = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$$
+              </p>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Two methods to solve:</strong>
+              </p>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>Closed-form (OLS):</strong>
+                  $\mathbf{w} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$
+                  — computes the exact optimal weights in one step.
+                </li>
+                <li>
+                  <strong>Gradient Descent:</strong> iteratively updates each
+                  weight in the direction that reduces error.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Weight Update Rule (Gradient Descent)
+          </h3>
+          <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              For each weight $w_j$ at iteration $t$:
+            </p>
+            <p class="text-center text-lg">
+              $$w_j^{(t+1)} = w_j^{(t)} - \alpha \cdot \frac{\partial L}{\partial w_j} = w_j^{(t)} - \alpha \cdot \frac{2}{n}\sum_{i=1}^{n}(\hat{y}_i - y_i) \cdot x_{ij}$$
+            </p>
+            <p class="text-sm text-gray-600 mt-2">
+              Where $\alpha$ is the <strong>learning rate</strong>. Each feature
+              $x_{ij}$ scales the error — features with larger values contribute
+              more to the gradient, which is why
+              <strong>feature scaling matters</strong>.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">import numpy as np
+
+# --- Manual Gradient Descent for Linear Regression ---
+np.random.seed(42)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X.ravel() + np.random.randn(100) * 0.5
+
+# Add bias column (column of 1s)
+X_b = np.c_[np.ones((100, 1)), X]  # shape: (100, 2)
+
+# Initialize weights randomly
+w = np.random.randn(2)
+alpha = 0.1   # learning rate
+n = len(y)
+
+print("=== Gradient Descent: Weight Updates ===")
+for epoch in range(5):
+    y_pred = X_b @ w                          # predictions
+    error = y_pred - y                         # residuals
+    gradient = (2 / n) * X_b.T @ error        # ∂L/∂w for each weight
+    w = w - alpha * gradient                   # update weights
+    loss = np.mean(error ** 2)
+    print(f"Epoch {epoch+1}: w0={w[0]:.4f}, w1={w[1]:.4f}, MSE={loss:.4f}")
+
+print(f"\nFinal: intercept ≈ {w[0]:.2f}, slope ≈ {w[1]:.2f}")
+# Expected: intercept ≈ 4, slope ≈ 3</code></pre>
+          </div>
+
+          <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+            <p class="text-sm text-blue-800">
+              <strong>💡 Key Insight:</strong> The gradient
+              $\frac{\partial L}{\partial w_j}$ involves multiplying the error
+              by the feature value $x_{ij}$. This means a feature that is
+              consistently large when the error is large will receive a
+              <strong>bigger weight update</strong>. This is the fundamental link
+              between features and weight updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. LOGISTIC REGRESSION                     -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-purple-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >2</span
+            >
+            Logistic Regression
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed mb-2">
+                Same structure as linear regression — weights and bias — but the
+                linear output is passed through a <strong>sigmoid function</strong>
+                to produce a probability:
+              </p>
+              <p class="text-center text-lg">
+                $$P(y=1|\mathbf{x}) = \sigma(z) = \frac{1}{1 + e^{-z}}, \quad z = w_0 + \sum w_j x_j$$
+              </p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+              <h3 class="text-xl font-bold text-purple-800 mb-3">
+                ⚙️ How Features Update Weights
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Loss function:</strong> Binary Cross-Entropy (Log Loss)
+              </p>
+              <p class="text-center text-sm mb-2">
+                $$L = -\frac{1}{n}\sum\left[y_i \ln(\hat{p}_i) + (1-y_i)\ln(1-\hat{p}_i)\right]$$
+              </p>
+              <p class="text-sm text-gray-700">
+                No closed-form solution exists — <strong>gradient descent</strong>
+                (or variants like L-BFGS, Newton's method) is always used.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Weight Update Rule
+          </h3>
+          <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              The gradient looks <em>identical</em> to linear regression, but
+              $\hat{y}_i$ is now the <em>sigmoid</em> output:
+            </p>
+            <p class="text-center text-lg">
+              $$w_j^{(t+1)} = w_j^{(t)} - \alpha \cdot \frac{1}{n}\sum_{i=1}^{n}(\sigma(z_i) - y_i) \cdot x_{ij}$$
+            </p>
+            <p class="text-sm text-gray-600 mt-2">
+              The error $(\sigma(z_i) - y_i)$ is multiplied by the feature
+              value. Features that are large when the model is confidently wrong
+              receive the <strong>largest corrections</strong>.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">import numpy as np
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+# --- Manual Gradient Descent for Logistic Regression ---
+np.random.seed(42)
+X = np.random.randn(200, 2)                # 2 features
+y = (X[:, 0] + X[:, 1] > 0).astype(int)    # simple linear boundary
+
+X_b = np.c_[np.ones((200, 1)), X]          # add bias column
+w = np.zeros(3)
+alpha = 0.5
+n = len(y)
+
+print("=== Gradient Descent: Logistic Regression ===")
+for epoch in range(6):
+    z = X_b @ w
+    p = sigmoid(z)
+    error = p - y
+    gradient = (1 / n) * X_b.T @ error
+    w = w - alpha * gradient
+    loss = -np.mean(y * np.log(p + 1e-8) + (1 - y) * np.log(1 - p + 1e-8))
+    acc = np.mean((p >= 0.5) == y)
+    print(f"Epoch {epoch+1}: w={w.round(3)}, loss={loss:.4f}, acc={acc:.2%}")
+
+print(f"\nFinal weights: bias={w[0]:.3f}, w1={w[1]:.3f}, w2={w[2]:.3f}")</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+              <p class="text-sm text-green-800">
+                <strong>✅ Same as Linear Regression:</strong> The gradient is
+                <code class="bg-green-100 text-green-800 px-1 rounded"
+                  >(prediction - true) × feature</code
+                >. The only difference is that "prediction" goes through the
+                sigmoid.
+              </p>
+            </div>
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ Regularisation:</strong> L1 (Lasso) adds
+                $\lambda|w_j|$ to the loss → pushes small weights to exactly 0
+                (feature selection). L2 (Ridge) adds $\lambda w_j^2$ → shrinks
+                all weights proportionally.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. DECISION TREES                          -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500 to-green-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-green-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >3</span
+            >
+            Decision Trees
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                <strong>No weights.</strong> Instead, the model learns a set of
+                <strong>if-then rules</strong> — a sequence of (feature, threshold)
+                pairs that partition the data into regions. Each leaf stores the
+                most common class (classification) or the mean value (regression).
+              </p>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+              <h3 class="text-xl font-bold text-green-800 mb-3">
+                ⚙️ How Features Create Splits
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>No gradient descent!</strong> Instead, a
+                <strong>greedy search</strong> evaluates every possible
+                (feature, threshold) pair and picks the one that maximises the
+                reduction in impurity.
+              </p>
+              <p class="text-sm text-gray-700">
+                <strong>Impurity measures:</strong>
+              </p>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>Gini: $G = 1 - \sum p_i^2$</li>
+                <li>Entropy: $H = -\sum p_i \log_2 p_i$</li>
+                <li>MSE (regression): $\frac{1}{n}\sum(y_i - \bar{y})^2$</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 "Update" Rule — Finding the Best Split
+          </h3>
+          <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              At every node the algorithm does the following:
+            </p>
+            <ol class="list-decimal ml-6 text-gray-700 space-y-2">
+              <li>
+                <strong>For each feature $j$</strong>, sort the values and
+                consider every midpoint as a candidate threshold $t$.
+              </li>
+              <li>
+                <strong>For each $(j, t)$</strong>, split data into left
+                ($x_j \le t$) and right ($x_j > t$) and compute the
+                <strong>weighted impurity</strong>:
+                <p class="text-center mt-1">
+                  $$\text{Impurity}_{split} = \frac{n_L}{n} G_L + \frac{n_R}{n} G_R$$
+                </p>
+              </li>
+              <li>
+                Pick the $(j^*, t^*)$ that gives the
+                <strong>largest impurity decrease</strong> (information gain).
+              </li>
+              <li>
+                Repeat recursively until a stopping criterion is met
+                (max_depth, min_samples_leaf, etc.)
+              </li>
+            </ol>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.tree import DecisionTreeClassifier, export_text
+from sklearn.datasets import load_iris
+
+# Load data
+data = load_iris()
+X, y = data.data, data.target
+
+# Train a shallow tree to inspect the splits
+tree = DecisionTreeClassifier(max_depth=3, random_state=42)
+tree.fit(X, y)
+
+# Print the learned rules — these ARE the "parameters"
+print("=== Learned Rules (the model's 'weights') ===")
+print(export_text(tree, feature_names=list(data.feature_names)))
+
+# Which features were used for splitting?
+print("\n=== Feature Importances ===")
+for name, imp in zip(data.feature_names, tree.feature_importances_):
+    print(f"  {name:20s} → {imp:.4f}")
+# A feature with 0 importance was NEVER used in any split</code></pre>
+          </div>
+
+          <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded">
+            <p class="text-sm text-green-800">
+              <strong>💡 Key Insight:</strong> Unlike gradient-based models,
+              decision trees do <strong>not update weights iteratively</strong>.
+              Features "participate" by being chosen (or not) as split points.
+              A feature's importance is the total impurity reduction it provides
+              across all nodes — if it's never selected, it has zero importance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. RANDOM FORESTS                          -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-emerald-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >4</span
+            >
+            Random Forests
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                A collection of $B$ decision trees, each trained on a
+                <strong>bootstrap sample</strong> of the data. Final prediction
+                is the <strong>majority vote</strong> (classification) or
+                <strong>average</strong> (regression) of all trees.
+              </p>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+              <h3 class="text-xl font-bold text-emerald-800 mb-3">
+                ⚙️ How Features Are Used Differently
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                At each split in each tree, only a <strong>random subset</strong>
+                of features is considered (typically $\sqrt{p}$ for classification,
+                $p/3$ for regression). This is the key difference from a single
+                decision tree.
+              </p>
+              <p class="text-sm text-gray-700">
+                This forces the forest to use <strong>diverse features</strong>
+                across trees, reducing correlation between trees and lowering
+                variance.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Feature "Update" Mechanism
+          </h3>
+          <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded mb-4">
+            <ol class="list-decimal ml-6 text-gray-700 space-y-2">
+              <li>
+                For tree $b = 1, \dots, B$:
+                <ul class="list-disc ml-6 mt-1 space-y-1">
+                  <li>Draw a bootstrap sample of size $n$ (with replacement).</li>
+                  <li>
+                    At each node, randomly select $m$ features out of $p$ total.
+                  </li>
+                  <li>Find the best split <em>among those $m$ features only</em>.</li>
+                  <li>Grow the tree fully (or until stopping criteria).</li>
+                </ul>
+              </li>
+              <li>
+                To predict: $\hat{y} = \frac{1}{B}\sum_{b=1}^{B} T_b(\mathbf{x})$
+                (regression) or majority vote (classification).
+              </li>
+            </ol>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+rf = RandomForestClassifier(n_estimators=100, max_features='sqrt',
+                            random_state=42, oob_score=True)
+rf.fit(X, y)
+
+print(f"OOB Accuracy: {rf.oob_score_:.4f}")
+
+# How often each feature was CHOSEN for a split (across all trees)
+print("\n=== Feature Importance (mean impurity decrease) ===")
+top_idx = np.argsort(rf.feature_importances_)[::-1][:5]
+for i in top_idx:
+    print(f"  {data.feature_names[i]:30s} → {rf.feature_importances_[i]:.4f}")
+
+# Inspect how many trees used each feature
+from collections import Counter
+feature_usage = Counter()
+for tree in rf.estimators_:
+    used_features = set(tree.tree_.feature[tree.tree_.feature >= 0])
+    for f in used_features:
+        feature_usage[f] += 1
+
+print(f"\n=== Feature Usage (out of {len(rf.estimators_)} trees) ===")
+for idx in top_idx:
+    print(f"  {data.feature_names[idx]:30s} → used in {feature_usage[idx]} trees")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded">
+            <p class="text-sm text-emerald-800">
+              <strong>💡 Key Insight:</strong> Random feature subsampling means
+              even strong features won't appear in every tree's split. This
+              gives weaker features a chance to contribute, improving
+              generalisation. Feature importance is the
+              <strong>average impurity decrease</strong> across all trees where
+              that feature was used.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. GRADIENT BOOSTED TREES                  -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >5</span
+            >
+            Gradient Boosted Trees (GBM / XGBoost / LightGBM)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Like Random Forests, it builds many trees — but
+                <strong>sequentially</strong>, not in parallel. Each new tree
+                corrects the <strong>errors (residuals)</strong> of the previous
+                ensemble. The final prediction is the sum of all trees' outputs.
+              </p>
+              <p class="text-center text-lg mt-3">
+                $$\hat{y} = \sum_{m=1}^{M} \eta \cdot T_m(\mathbf{x})$$
+              </p>
+              <p class="text-sm text-gray-600 mt-1">
+                Where $\eta$ is the learning rate and $T_m$ is tree $m$.
+              </p>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <h3 class="text-xl font-bold text-orange-800 mb-3">
+                ⚙️ How Features Get Updated
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                Each tree is fit to the <strong>negative gradient</strong> of
+                the loss with respect to the <em>current predictions</em> — i.e.
+                the pseudo-residuals. Features participate by being selected
+                for splits in these residual-fitting trees.
+              </p>
+              <p class="text-sm text-gray-700">
+                This is effectively <strong>gradient descent in function
+                space</strong> — each tree is a step in the direction that
+                reduces the loss most.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Update Rule — Additive Training
+          </h3>
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              At each boosting round $m$:
+            </p>
+            <ol class="list-decimal ml-6 text-gray-700 space-y-2">
+              <li>
+                Compute pseudo-residuals:
+                $r_i^{(m)} = -\frac{\partial L(y_i, F_{m-1}(x_i))}{\partial F_{m-1}(x_i)}$
+              </li>
+              <li>
+                Fit a new shallow tree $T_m$ to these residuals $r_i^{(m)}$
+                — the tree learns which features best explain the
+                <em>remaining errors</em>.
+              </li>
+              <li>
+                Update the ensemble:
+                $F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \cdot T_m(\mathbf{x})$
+              </li>
+            </ol>
+            <p class="text-sm text-gray-600 mt-3">
+              For MSE loss, pseudo-residuals are simply $(y_i - \hat{y}_i)$.
+              For log loss, they are $(y_i - \sigma(\hat{y}_i))$ — identical to
+              logistic regression's gradient!
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+gbm = GradientBoostingClassifier(
+    n_estimators=100,       # number of boosting rounds
+    learning_rate=0.1,      # η — shrinkage per tree
+    max_depth=3,            # shallow trees (weak learners)
+    subsample=0.8,          # stochastic gradient boosting
+    random_state=42
+)
+gbm.fit(X_train, y_train)
+
+print(f"Train Accuracy: {gbm.score(X_train, y_train):.4f}")
+print(f"Test  Accuracy: {gbm.score(X_test, y_test):.4f}")
+
+# Watch how training loss decreases with each tree
+import matplotlib.pyplot as plt
+import numpy as np
+
+train_loss = gbm.train_score_
+test_loss = np.array([
+    gbm.loss_(y_test, y_pred)
+    for y_pred in gbm.staged_decision_function(X_test)
+])
+
+print(f"\nLoss after tree 1:   {train_loss[0]:.4f}")
+print(f"Loss after tree 50:  {train_loss[49]:.4f}")
+print(f"Loss after tree 100: {train_loss[99]:.4f}")
+# ↑ Shows how each tree corrects the remaining error</code></pre>
+          </div>
+
+          <div class="mt-4 grid md:grid-cols-2 gap-4">
+            <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+              <p class="text-sm text-orange-800">
+                <strong>💡 Key Insight:</strong> In boosting,
+                later trees focus on the <strong>hardest examples</strong> — the
+                ones previous trees got wrong. Features that help distinguish
+                these hard cases become increasingly important in later rounds.
+              </p>
+            </div>
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ Overfitting Risk:</strong> Unlike Random Forests,
+                adding more trees can overfit. The
+                <code class="bg-amber-100 text-amber-800 px-1 rounded"
+                  >learning_rate</code
+                >
+                controls how much each tree contributes — lower ≈ more trees
+                needed but better generalisation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 6. K-NEAREST NEIGHBOURS                    -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >6</span
+            >
+            K-Nearest Neighbours (KNN)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                <strong>Nothing.</strong> KNN is a "lazy learner" — it stores
+                the entire training set and makes predictions at query time by
+                finding the $k$ closest points.
+              </p>
+              <p class="text-gray-700 mt-2">
+                <strong>Classification:</strong> majority vote of $k$ neighbours.
+                <br />
+                <strong>Regression:</strong> average of $k$ neighbours' targets.
+              </p>
+            </div>
+            <div class="bg-cyan-50 p-4 rounded-lg border border-cyan-200">
+              <h3 class="text-xl font-bold text-cyan-800 mb-3">
+                ⚙️ How Features Affect Predictions
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                Features affect predictions entirely through the
+                <strong>distance metric</strong> (typically Euclidean):
+              </p>
+              <p class="text-center text-sm mb-2">
+                $$d(\mathbf{a}, \mathbf{b}) = \sqrt{\sum_{j=1}^{p}(a_j - b_j)^2}$$
+              </p>
+              <p class="text-sm text-gray-700">
+                Features with <strong>larger scales dominate the distance</strong>.
+                This is why <strong>feature scaling is essential</strong> for KNN.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 "Update" Rule — There Is None!
+          </h3>
+          <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              KNN has <strong>no training phase</strong> that updates parameters.
+              Instead, all the "learning" happens at prediction time:
+            </p>
+            <ol class="list-decimal ml-6 text-gray-700 space-y-1">
+              <li>Compute distance from the query point to every training point.</li>
+              <li>Select the $k$ closest points.</li>
+              <li>Aggregate their labels / values.</li>
+            </ol>
+            <p class="text-sm text-gray-600 mt-2">
+              The feature "weights" are implicit: scaling determines which
+              features contribute most to the distance calculation.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+data = load_iris()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Without scaling — features with larger ranges dominate
+knn_raw = KNeighborsClassifier(n_neighbors=5)
+knn_raw.fit(X_train, y_train)
+print(f"Without scaling: {knn_raw.score(X_test, y_test):.4f}")
+
+# With scaling — all features contribute equally to distance
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+knn_scaled = KNeighborsClassifier(n_neighbors=5)
+knn_scaled.fit(X_train_s, y_train)
+print(f"With scaling:    {knn_scaled.score(X_test_s, y_test):.4f}")
+
+# Feature influence: compare raw ranges
+import numpy as np
+print("\n=== Feature Ranges (unscaled) ===")
+for i, name in enumerate(data.feature_names):
+    rng = X_train[:, i].max() - X_train[:, i].min()
+    print(f"  {name:20s} range = {rng:.2f}")
+print("→ Features with larger ranges dominate unscaled KNN!")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+            <p class="text-sm text-cyan-800">
+              <strong>💡 Key Insight:</strong> Since KNN has no trainable
+              parameters, feature engineering and scaling are the
+              <strong>only ways to influence the model</strong>. Removing
+              irrelevant features often improves KNN more than tuning $k$,
+              because irrelevant features add noise to the distance calculation (the "curse of dimensionality").
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 7. SUPPORT VECTOR MACHINES                 -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >7</span
+            >
+            Support Vector Machines (SVM)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Weights $\mathbf{w}$ and bias $b$ defining a hyperplane
+                $\mathbf{w} \cdot \mathbf{x} + b = 0$ that
+                <strong>maximises the margin</strong> — the distance between the
+                decision boundary and the nearest training points (support vectors).
+              </p>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-lg border border-rose-200">
+              <h3 class="text-xl font-bold text-rose-800 mb-3">
+                ⚙️ How Features Update Weights
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Optimisation objective:</strong>
+              </p>
+              <p class="text-center text-sm mb-2">
+                $$\min_{\mathbf{w}, b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \max(0, 1 - y_i(\mathbf{w}\cdot\mathbf{x}_i + b))$$
+              </p>
+              <p class="text-sm text-gray-700">
+                The first term maximises margin; the second penalises
+                misclassifications (hinge loss). $C$ controls the trade-off.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Weight Update Rule
+          </h3>
+          <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              Using sub-gradient descent, at each step for sample $i$:
+            </p>
+            <p class="text-center text-lg mb-2">
+              $$ \text{If } y_i(\mathbf{w}\cdot\mathbf{x}_i + b) \geq 1: \quad \mathbf{w} \leftarrow \mathbf{w} - \alpha \cdot \mathbf{w} $$
+            </p>
+            <p class="text-center text-lg">
+              $$ \text{If } y_i(\mathbf{w}\cdot\mathbf{x}_i + b) < 1: \quad \mathbf{w} \leftarrow \mathbf{w} - \alpha(\mathbf{w} - C \cdot y_i \mathbf{x}_i) $$
+            </p>
+            <p class="text-sm text-gray-600 mt-3">
+              <strong>Only misclassified or margin-violating points</strong>
+              (support vectors) contribute to the weight update. Points far from
+              the boundary have zero influence — this is what makes SVMs
+              sparse and robust.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# SVM requires scaling!
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+# Linear SVM — we can inspect the weights directly
+svm = SVC(kernel='linear', C=1.0, random_state=42)
+svm.fit(X_train_s, y_train)
+
+print(f"Accuracy: {svm.score(X_test_s, y_test):.4f}")
+print(f"Number of support vectors: {svm.n_support_} (out of {len(y_train)} samples)")
+
+# Feature weights — only for linear kernel
+weights = svm.coef_[0]
+top_idx = np.argsort(np.abs(weights))[::-1][:5]
+print("\n=== Top 5 Features by |weight| ===")
+for i in top_idx:
+    print(f"  {data.feature_names[i]:30s} → w = {weights[i]:+.4f}")
+
+# The kernel trick — non-linear boundaries without changing features
+svm_rbf = SVC(kernel='rbf', C=1.0, gamma='scale')
+svm_rbf.fit(X_train_s, y_train)
+print(f"\nRBF Kernel Accuracy: {svm_rbf.score(X_test_s, y_test):.4f}")
+print(f"Support vectors: {svm_rbf.n_support_}")</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+              <p class="text-sm text-rose-800">
+                <strong>💡 Key Insight:</strong> With a linear kernel, the weight
+                vector $\mathbf{w}$ is a linear combination of support vectors
+                only: $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$. Most
+                training points have $\alpha_i = 0$ and don't affect the model.
+              </p>
+            </div>
+            <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+              <p class="text-sm text-purple-800">
+                <strong>🧮 Kernel Trick:</strong> With RBF/polynomial kernels,
+                features are implicitly mapped to a higher-dimensional space.
+                The model learns in that transformed space without you needing to
+                create the features manually.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 8. K-MEANS CLUSTERING                      -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-teal-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >8</span
+            >
+            K-Means Clustering (Unsupervised)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                $k$ <strong>centroids</strong> — each is a point in feature space
+                with the same number of dimensions as the features. Each data
+                point is assigned to the nearest centroid.
+              </p>
+            </div>
+            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+              <h3 class="text-xl font-bold text-teal-800 mb-3">
+                ⚙️ How Features Update Centroids
+              </h3>
+              <p class="text-sm text-gray-700">
+                Centroids are updated by computing the
+                <strong>mean of all points</strong> assigned to each cluster.
+                Each feature dimension of the centroid moves to the average of
+                that feature across assigned points.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Update Rule — Expectation-Maximisation Style
+          </h3>
+          <div class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              K-Means alternates between two steps until convergence:
+            </p>
+            <ol class="list-decimal ml-6 text-gray-700 space-y-2">
+              <li>
+                <strong>Assignment step (E):</strong> Assign each point to the
+                nearest centroid:
+                $c_i = \arg\min_k \|\mathbf{x}_i - \boldsymbol{\mu}_k\|^2$
+              </li>
+              <li>
+                <strong>Update step (M):</strong> Recompute each centroid as the
+                mean of its assigned points:
+                $$\boldsymbol{\mu}_k = \frac{1}{|C_k|}\sum_{i \in C_k} \mathbf{x}_i$$
+              </li>
+            </ol>
+            <p class="text-sm text-gray-600 mt-2">
+              Each feature dimension of $\boldsymbol{\mu}_k$ is independently
+              updated to the mean of that feature for allocated points. Features
+              with larger ranges have disproportionate influence on distance
+              — scaling is critical.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+
+# Generate example data
+np.random.seed(42)
+X = np.vstack([
+    np.random.randn(100, 2) + [2, 2],
+    np.random.randn(100, 2) + [-2, -2],
+    np.random.randn(100, 2) + [2, -2],
+])
+
+scaler = StandardScaler()
+X_s = scaler.fit_transform(X)
+
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+kmeans.fit(X_s)
+
+print("=== Learned Centroids (in scaled space) ===")
+for i, c in enumerate(kmeans.cluster_centers_):
+    print(f"  Cluster {i}: [{c[0]:+.4f}, {c[1]:+.4f}]")
+
+print(f"\nInertia (sum of squared distances to centroids): {kmeans.inertia_:.2f}")
+print(f"Iterations to converge: {kmeans.n_iter_}")
+
+# Manual walkthrough of 1 update step
+centroid = kmeans.cluster_centers_[0].copy()
+cluster_mask = kmeans.labels_ == 0
+cluster_points = X_s[cluster_mask]
+new_centroid = cluster_points.mean(axis=0)
+print(f"\n=== Centroid 0 Update ===")
+print(f"  Current:  [{centroid[0]:+.4f}, {centroid[1]:+.4f}]")
+print(f"  Recomputed mean: [{new_centroid[0]:+.4f}, {new_centroid[1]:+.4f}]")
+print(f"  (They match because K-Means has already converged)")</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 9. NAIVE BAYES                             -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-pink-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >9</span
+            >
+            Naive Bayes
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                For each class $c$ and each feature $j$: the
+                <strong>conditional distribution parameters</strong>
+                $P(x_j | y=c)$. For Gaussian NB this means the
+                <strong>mean $\mu_{jc}$</strong> and
+                <strong>variance $\sigma_{jc}^2$</strong> of feature $j$ given
+                class $c$.
+              </p>
+            </div>
+            <div class="bg-pink-50 p-4 rounded-lg border border-pink-200">
+              <h3 class="text-xl font-bold text-pink-800 mb-3">
+                ⚙️ How Features Update Parameters
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                Prediction via <strong>Bayes' theorem</strong>:
+              </p>
+              <p class="text-center text-sm mb-2">
+                $$P(y=c|\mathbf{x}) \propto P(y=c) \prod_{j=1}^{p} P(x_j | y=c)$$
+              </p>
+              <p class="text-sm text-gray-700">
+                The "naive" assumption: features are
+                <strong>conditionally independent</strong> given the class.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 "Update" Rule — Simple Statistics
+          </h3>
+          <div class="bg-pink-50 border-l-4 border-pink-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              No gradient descent, no iterations. Training is a single pass
+              through the data:
+            </p>
+            <ol class="list-decimal ml-6 text-gray-700 space-y-2">
+              <li>
+                <strong>For each class $c$:</strong>
+                $P(y=c) = \frac{n_c}{n}$ (class prior).
+              </li>
+              <li>
+                <strong>For each feature $j$ and class $c$:</strong>
+                $$\mu_{jc} = \frac{1}{n_c}\sum_{i: y_i=c} x_{ij}, \quad \sigma_{jc}^2 = \frac{1}{n_c}\sum_{i: y_i=c} (x_{ij} - \mu_{jc})^2$$
+              </li>
+            </ol>
+            <p class="text-sm text-gray-600 mt-2">
+              That's it — each feature's parameters are just the per-class mean
+              and variance. A feature is "important" if its distribution
+              <strong>differs significantly between classes</strong>.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.naive_bayes import GaussianNB
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+data = load_iris()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+nb = GaussianNB()
+nb.fit(X_train, y_train)
+
+print(f"Accuracy: {nb.score(X_test, y_test):.4f}")
+
+# Inspect what the model learned — per-class mean and variance for each feature
+print("\n=== Learned Parameters (Gaussian NB) ===")
+print(f"Classes: {nb.classes_}")
+print(f"Class priors: {nb.class_prior_.round(3)}")
+
+print("\n--- Per-class means (μ_jc) ---")
+for c_idx, c in enumerate(nb.classes_):
+    means = nb.theta_[c_idx]
+    print(f"  Class {data.target_names[c]}: {np.round(means, 2)}")
+
+print("\n--- Per-class variances (σ²_jc) ---")
+for c_idx, c in enumerate(nb.classes_):
+    variances = nb.var_[c_idx]
+    print(f"  Class {data.target_names[c]}: {np.round(variances, 2)}")
+
+# A feature is useful when its per-class means DIFFER
+print("\n=== Feature Discriminating Power ===")
+for j, name in enumerate(data.feature_names):
+    mean_spread = nb.theta_[:, j].max() - nb.theta_[:, j].min()
+    print(f"  {name:20s} → max class-mean spread: {mean_spread:.2f}")</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 10. NEURAL NETWORKS (MLP)                  -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >10</span
+            >
+            Neural Networks (Multi-Layer Perceptron)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">What It Learns</h3>
+              <p class="text-gray-700 leading-relaxed">
+                <strong>Weight matrices</strong> $\mathbf{W}^{(l)}$ and
+                <strong>bias vectors</strong> $\mathbf{b}^{(l)}$ for each layer
+                $l$. Each neuron computes:
+              </p>
+              <p class="text-center text-lg mt-2">
+                $$a_j^{(l)} = \sigma\left(\sum_k w_{jk}^{(l)} a_k^{(l-1)} + b_j^{(l)}\right)$$
+              </p>
+              <p class="text-sm text-gray-600 mt-1">
+                Where $\sigma$ is an activation function (ReLU, sigmoid, etc.)
+              </p>
+            </div>
+            <div class="bg-violet-50 p-4 rounded-lg border border-violet-200">
+              <h3 class="text-xl font-bold text-violet-800 mb-3">
+                ⚙️ How Features Update Weights
+              </h3>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Backpropagation:</strong> Compute the gradient of the
+                loss with respect to every weight, layer by layer, using the
+                chain rule. Then update via gradient descent.
+              </p>
+              <p class="text-sm text-gray-700">
+                Features in the input layer directly multiply with first-layer
+                weights. Deeper layers learn <strong>hierarchical
+                combinations</strong> of features.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 Weight Update Rule — Backpropagation
+          </h3>
+          <div class="bg-violet-50 border-l-4 border-violet-400 p-4 rounded mb-4">
+            <p class="text-gray-800 mb-2">
+              For each weight $w_{jk}^{(l)}$:
+            </p>
+            <p class="text-center text-lg mb-2">
+              $$w_{jk}^{(l)} \leftarrow w_{jk}^{(l)} - \alpha \cdot \frac{\partial L}{\partial w_{jk}^{(l)}}$$
+            </p>
+            <p class="text-gray-700 mb-2">
+              The gradient is computed via the <strong>chain rule</strong>:
+            </p>
+            <p class="text-center text-sm mb-2">
+              $$\frac{\partial L}{\partial w_{jk}^{(l)}} = \frac{\partial L}{\partial a_j^{(l)}} \cdot \frac{\partial a_j^{(l)}}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{jk}^{(l)}} = \delta_j^{(l)} \cdot a_k^{(l-1)}$$
+            </p>
+            <p class="text-sm text-gray-600">
+              Where $\delta_j^{(l)}$ is the "error signal" propagated
+              backwards. For the <strong>first layer</strong>,
+              $a_k^{(0)} = x_k$ — the raw feature values. So first-layer weight
+              updates are directly proportional to input feature values, just
+              like linear regression.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.neural_network import MLPClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+mlp = MLPClassifier(
+    hidden_layer_sizes=(64, 32),   # 2 hidden layers
+    activation='relu',
+    solver='adam',                  # adaptive gradient descent
+    max_iter=500,
+    random_state=42
+)
+mlp.fit(X_train_s, y_train)
+
+print(f"Accuracy: {mlp.score(X_test_s, y_test):.4f}")
+print(f"Iterations: {mlp.n_iter_}")
+
+# Inspect the learned weight matrices
+for i, (W, b) in enumerate(zip(mlp.coefs_, mlp.intercepts_)):
+    print(f"\nLayer {i+1}: weight shape = {W.shape}, bias shape = {b.shape}")
+
+# First layer weights tell us how features connect to hidden neurons
+first_layer_weights = mlp.coefs_[0]  # shape: (30, 64)
+feature_importance = np.abs(first_layer_weights).mean(axis=1)
+top_idx = np.argsort(feature_importance)[::-1][:5]
+print("\n=== Top 5 Features by Average |First-Layer Weight| ===")
+for i in top_idx:
+    print(f"  {data.feature_names[i]:30s} → avg |w| = {feature_importance[i]:.4f}")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-violet-50 border-l-4 border-violet-400 p-4 rounded">
+            <p class="text-sm text-violet-800">
+              <strong>💡 Key Insight:</strong> Neural networks learn
+              <strong>non-linear feature combinations</strong> automatically.
+              The first layer acts like feature transformation; deeper layers
+              combine those transformations. This is why NNs can discover
+              patterns that linear models can't, but it also makes them
+              <strong>harder to interpret</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- COMPARISON TABLE                           -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-700 to-gray-800 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            📊 Feature Update Comparison Across All Models
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="overflow-x-auto">
+            <table
+              class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden"
+            >
+              <thead class="bg-gray-100 text-gray-800">
+                <tr>
+                  <th class="px-4 py-3 text-left font-bold">Model</th>
+                  <th class="px-4 py-3 text-left font-bold">Parameters</th>
+                  <th class="px-4 py-3 text-left font-bold">Update Method</th>
+                  <th class="px-4 py-3 text-left font-bold">How Features Participate</th>
+                  <th class="px-4 py-3 text-left font-bold">Needs Scaling?</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr class="bg-white hover:bg-blue-50">
+                  <td class="px-4 py-3 font-semibold text-blue-700">Linear Regression</td>
+                  <td class="px-4 py-3">Weights $w_j$ + bias</td>
+                  <td class="px-4 py-3">OLS / Gradient Descent</td>
+                  <td class="px-4 py-3">Gradient = error × feature value</td>
+                  <td class="px-4 py-3">Recommended</td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-purple-50">
+                  <td class="px-4 py-3 font-semibold text-purple-700">Logistic Regression</td>
+                  <td class="px-4 py-3">Weights $w_j$ + bias</td>
+                  <td class="px-4 py-3">Gradient Descent</td>
+                  <td class="px-4 py-3">Gradient = (sigmoid(z) − y) × feature</td>
+                  <td class="px-4 py-3"><strong>Required</strong></td>
+                </tr>
+                <tr class="bg-white hover:bg-green-50">
+                  <td class="px-4 py-3 font-semibold text-green-700">Decision Tree</td>
+                  <td class="px-4 py-3">Split rules (feature, threshold)</td>
+                  <td class="px-4 py-3">Greedy search (info gain)</td>
+                  <td class="px-4 py-3">Chosen/not-chosen for each split</td>
+                  <td class="px-4 py-3">No</td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-emerald-50">
+                  <td class="px-4 py-3 font-semibold text-emerald-700">Random Forest</td>
+                  <td class="px-4 py-3">Many trees of split rules</td>
+                  <td class="px-4 py-3">Random subspace + bagging</td>
+                  <td class="px-4 py-3">Random subset tested per split per tree</td>
+                  <td class="px-4 py-3">No</td>
+                </tr>
+                <tr class="bg-white hover:bg-orange-50">
+                  <td class="px-4 py-3 font-semibold text-orange-700">Gradient Boosting</td>
+                  <td class="px-4 py-3">Sequential shallow trees</td>
+                  <td class="px-4 py-3">Fit to residuals (functional GD)</td>
+                  <td class="px-4 py-3">Best features for explaining remaining errors</td>
+                  <td class="px-4 py-3">No</td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-cyan-50">
+                  <td class="px-4 py-3 font-semibold text-cyan-700">KNN</td>
+                  <td class="px-4 py-3">None (stores training data)</td>
+                  <td class="px-4 py-3">No update (lazy learner)</td>
+                  <td class="px-4 py-3">Features affect distance calculation</td>
+                  <td class="px-4 py-3"><strong>Required</strong></td>
+                </tr>
+                <tr class="bg-white hover:bg-rose-50">
+                  <td class="px-4 py-3 font-semibold text-rose-700">SVM</td>
+                  <td class="px-4 py-3">Weights + support vectors</td>
+                  <td class="px-4 py-3">Quadratic programming / SGD</td>
+                  <td class="px-4 py-3">Only support vectors influence weights</td>
+                  <td class="px-4 py-3"><strong>Required</strong></td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-teal-50">
+                  <td class="px-4 py-3 font-semibold text-teal-700">K-Means</td>
+                  <td class="px-4 py-3">Centroids</td>
+                  <td class="px-4 py-3">EM-style (assign + update)</td>
+                  <td class="px-4 py-3">Centroid moves to feature-wise mean of cluster</td>
+                  <td class="px-4 py-3"><strong>Required</strong></td>
+                </tr>
+                <tr class="bg-white hover:bg-pink-50">
+                  <td class="px-4 py-3 font-semibold text-pink-700">Naive Bayes</td>
+                  <td class="px-4 py-3">Per-class mean + variance</td>
+                  <td class="px-4 py-3">Single pass (counting)</td>
+                  <td class="px-4 py-3">Per-class statistics computed per feature</td>
+                  <td class="px-4 py-3">No</td>
+                </tr>
+                <tr class="bg-gray-50 hover:bg-violet-50">
+                  <td class="px-4 py-3 font-semibold text-violet-700">Neural Network</td>
+                  <td class="px-4 py-3">Weight matrices + biases</td>
+                  <td class="px-4 py-3">Backpropagation + SGD/Adam</td>
+                  <td class="px-4 py-3">Chain rule: gradient flows back through layers</td>
+                  <td class="px-4 py-3"><strong>Required</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FEATURE SCALING IMPACT                     -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-amber-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >⚡</span
+            >
+            Why Feature Scaling Matters for Updates
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 text-lg leading-relaxed mb-4">
+            The update rule for gradient-based models is
+            <code class="bg-gray-100 text-gray-800 px-2 py-1 rounded"
+              >w -= α × gradient</code
+            >, and the gradient is proportional to the feature value. This
+            creates a direct connection between feature scale and learning
+            behaviour.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+              <h3 class="font-bold text-red-800 mb-2">❌ Without Scaling</h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>Features with large values → large gradients → weights zigzag</li>
+                <li>Features with small values → tiny gradients → weights barely change</li>
+                <li>The loss landscape becomes an elongated ellipsoid</li>
+                <li>Convergence is slow and may require very small learning rates</li>
+              </ul>
+            </div>
+            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+              <h3 class="font-bold text-green-800 mb-2">✅ With Scaling</h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>All features contribute equally to the gradient magnitude</li>
+                <li>The loss landscape becomes more spherical</li>
+                <li>Gradient descent converges much faster</li>
+                <li>Weights become directly comparable (coefficient interpretation)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.linear_model import SGDClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Without scaling — SGD struggles with different feature magnitudes
+sgd_raw = SGDClassifier(loss='log_loss', max_iter=100, random_state=42)
+sgd_raw.fit(X_train, y_train)
+print(f"Without scaling: {sgd_raw.score(X_test, y_test):.4f}")
+
+# With scaling — gradients are well-behaved
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+sgd_scaled = SGDClassifier(loss='log_loss', max_iter=100, random_state=42)
+sgd_scaled.fit(X_train_s, y_train)
+print(f"With scaling:    {sgd_scaled.score(X_test_s, y_test):.4f}")
+
+# Compare weight magnitudes
+import numpy as np
+print(f"\nWeight range (unscaled): [{sgd_raw.coef_[0].min():.4f}, {sgd_raw.coef_[0].max():.4f}]")
+print(f"Weight range (scaled):   [{sgd_scaled.coef_[0].min():.4f}, {sgd_scaled.coef_[0].max():.4f}]")
+print("→ Scaled weights are more uniform and interpretable!")</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CHOOSING THE RIGHT MODEL                   -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            🎯 Quick Decision Guide
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+              <h3 class="font-bold text-gray-800 mb-3">📏 Small Dataset (&lt; 10k rows)</h3>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Logistic/Linear Regression</strong> — fast, interpretable, good baseline</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>SVM (RBF)</strong> — handles non-linearity well on small data</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Naive Bayes</strong> — excellent for text classification</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+              <h3 class="font-bold text-gray-800 mb-3">📊 Medium/Large Dataset (10k+ rows)</h3>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-blue-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Random Forest</strong> — robust, minimal tuning, good default</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-blue-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>XGBoost/LightGBM</strong> — often best performance, competition winner</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-blue-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Neural Networks</strong> — if you have lots of data and complex patterns</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+              <h3 class="font-bold text-gray-800 mb-3">🔍 Need Interpretability</h3>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-purple-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Decision Tree</strong> — fully explainable rules</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-purple-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Logistic Regression</strong> — coefficients = feature importance</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-purple-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>Naive Bayes</strong> — probabilistic interpretation</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+              <h3 class="font-bold text-gray-800 mb-3">🏷️ Unsupervised Learning</h3>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-teal-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>K-Means</strong> — grouping data into clusters</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-teal-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>DBSCAN</strong> — density-based clustering (handles noise)</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-teal-500 mr-2 mt-0.5">▸</span>
+                  <span><strong>PCA</strong> — dimensionality reduction</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- THE UNIVERSAL PATTERN                      -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div
+        class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 rounded-xl shadow-lg"
+      >
+        <h2 class="text-3xl font-bold mb-4">
+          🧠 The Universal Pattern: Features → Errors → Updates
+        </h2>
+        <p class="text-lg leading-relaxed mb-4 text-indigo-100">
+          Across all trainable models, the update loop follows the same
+          high-level pattern — only the details differ.
+        </p>
+        <div class="grid md:grid-cols-4 gap-4 text-center text-sm">
+          <div class="bg-white/15 backdrop-blur-sm p-4 rounded-lg">
+            <div class="text-3xl mb-2">📥</div>
+            <p class="font-bold mb-1">1. Forward Pass</p>
+            <p class="text-indigo-200">Features flow through the model to produce a prediction</p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-sm p-4 rounded-lg">
+            <div class="text-3xl mb-2">📉</div>
+            <p class="font-bold mb-1">2. Compute Error</p>
+            <p class="text-indigo-200">Compare prediction to truth using a loss function</p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-sm p-4 rounded-lg">
+            <div class="text-3xl mb-2">🔄</div>
+            <p class="font-bold mb-1">3. Compute Update</p>
+            <p class="text-indigo-200">Calculate how to adjust parameters to reduce error</p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-sm p-4 rounded-lg">
+            <div class="text-3xl mb-2">✅</div>
+            <p class="font-bold mb-1">4. Apply Update</p>
+            <p class="text-indigo-200">Update weights/splits/centroids and repeat</p>
+          </div>
+        </div>
+        <p class="mt-6 text-indigo-200 text-sm">
+          <strong class="text-white">The key variable:</strong> In gradient-based
+          models, the update is <code class="bg-white/20 px-1 rounded">error × feature_value</code>.
+          In tree-based models, the update is <code class="bg-white/20 px-1 rounded">select the feature that reduces impurity most</code>.
+          In instance-based models, features affect <code class="bg-white/20 px-1 rounded">distance calculations</code> at prediction time.
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
