@@ -1,0 +1,1724 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-amber-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent"
+      >
+        Boosting Models In Depth
+      </h1>
+      <p class="text-xl text-gray-600">
+        AdaBoost, Gradient Boosting, XGBoost, LightGBM &amp; CatBoost — From
+        Theory to Production
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- OVERVIEW — WHAT IS BOOSTING?               -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-amber-700 mb-4">
+        What Is Boosting?
+      </h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Boosting is an <strong>ensemble meta-algorithm</strong> that converts a
+        collection of <strong>weak learners</strong> (models slightly better than
+        random guessing) into a single <strong>strong learner</strong>. The key
+        idea: build models <em>sequentially</em>, where each new model focuses
+        on the mistakes of the previous ensemble.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+          <h3 class="font-bold text-amber-800 mb-2">
+            🔑 Boosting vs Bagging
+          </h3>
+          <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <li>
+              <strong>Bagging</strong> (Random Forest): trains trees
+              <em>in parallel</em> on random subsets → reduces
+              <strong>variance</strong>.
+            </li>
+            <li>
+              <strong>Boosting</strong>: trains trees
+              <em>sequentially</em>, each correcting the last → reduces
+              <strong>bias</strong>.
+            </li>
+            <li>
+              Bagging averages equally; boosting weights models by
+              performance.
+            </li>
+            <li>
+              Boosting typically achieves <strong>lower error</strong> but is
+              more prone to overfitting if not tuned carefully.
+            </li>
+          </ul>
+        </div>
+        <div class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+          <h3 class="font-bold text-orange-800 mb-2">
+            📐 The Boosting Family
+          </h3>
+          <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <li>
+              <strong>AdaBoost</strong> — re-weights misclassified samples.
+            </li>
+            <li>
+              <strong>Gradient Boosting (GBM)</strong> — fits trees to
+              pseudo-residuals (gradients).
+            </li>
+            <li>
+              <strong>XGBoost</strong> — regularised GBM with 2nd-order
+              gradients, system-level optimisations.
+            </li>
+            <li>
+              <strong>LightGBM</strong> — histogram-based, leaf-wise growth
+              for speed.
+            </li>
+            <li>
+              <strong>CatBoost</strong> — native categorical handling, ordered
+              boosting.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. ADABOOST                                -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-rose-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-rose-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >1</span
+            >
+            AdaBoost (Adaptive Boosting)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                Core Idea
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                AdaBoost maintains a <strong>weight distribution</strong> over
+                training samples. After each weak learner is trained, samples
+                that were <em>misclassified</em> receive
+                <strong>higher weight</strong>, forcing the next learner to focus
+                on them. The final prediction is a
+                <strong>weighted majority vote</strong> of all weak learners.
+              </p>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-lg border border-rose-200">
+              <h3 class="text-xl font-bold text-rose-800 mb-3">
+                ⚙️ Key Parameters
+              </h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>n_estimators</strong> — number of weak learners
+                  (typically 50–500).
+                </li>
+                <li>
+                  <strong>learning_rate</strong> — shrinks contribution of
+                  each learner (trade-off with n_estimators).
+                </li>
+                <li>
+                  <strong>estimator</strong> — base learner (default:
+                  decision stump, depth=1).
+                </li>
+                <li>
+                  <strong>algorithm</strong> — 'SAMME' (discrete) or
+                  'SAMME.R' (real, uses probabilities).
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 The AdaBoost Algorithm — Step by Step
+          </h3>
+          <div
+            class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded mb-4"
+          >
+            <ol class="list-decimal ml-6 text-gray-700 space-y-3">
+              <li>
+                <strong>Initialise sample weights:</strong>
+                $w_i = \frac{1}{n}$ for all $i = 1, \dots, n$.
+              </li>
+              <li>
+                <strong>For each round $m = 1, \dots, M$:</strong>
+                <ul class="list-disc ml-6 mt-1 space-y-1">
+                  <li>
+                    Train weak learner $h_m$ on the weighted dataset.
+                  </li>
+                  <li>
+                    Compute weighted error:
+                    $\epsilon_m = \frac{\sum_{i: h_m(x_i) \ne y_i} w_i}{\sum_i w_i}$
+                  </li>
+                  <li>
+                    Compute learner weight:
+                    $\alpha_m = \frac{1}{2} \ln\!\left(\frac{1 - \epsilon_m}{\epsilon_m}\right)$
+                  </li>
+                  <li>
+                    Update sample weights:
+                    $w_i \leftarrow w_i \cdot \exp\!\left(-\alpha_m \cdot y_i \cdot h_m(x_i)\right)$
+                  </li>
+                  <li>Normalise weights so they sum to 1.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Final prediction:</strong>
+                $H(\mathbf{x}) = \text{sign}\!\left(\sum_{m=1}^{M} \alpha_m \cdot h_m(\mathbf{x})\right)$
+              </li>
+            </ol>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# AdaBoost with decision stumps (default)
+ada = AdaBoostClassifier(
+    estimator=DecisionTreeClassifier(max_depth=1),  # stump
+    n_estimators=200,
+    learning_rate=0.5,
+    algorithm='SAMME',
+    random_state=42
+)
+ada.fit(X_train, y_train)
+
+print(f"Train Accuracy: {ada.score(X_train, y_train):.4f}")
+print(f"Test  Accuracy: {ada.score(X_test, y_test):.4f}")
+
+# Watch how accuracy improves with each round
+from sklearn.metrics import accuracy_score
+staged_acc = [
+    accuracy_score(y_test, y_pred)
+    for y_pred in ada.staged_predict(X_test)
+]
+print(f"\nAccuracy after  10 rounds: {staged_acc[9]:.4f}")
+print(f"Accuracy after  50 rounds: {staged_acc[49]:.4f}")
+print(f"Accuracy after 200 rounds: {staged_acc[-1]:.4f}")
+
+# Feature importance across all stumps
+print("\n=== Top 5 Features ===")
+top_idx = np.argsort(ada.feature_importances_)[::-1][:5]
+for i in top_idx:
+    print(f"  {data.feature_names[i]:30s} → {ada.feature_importances_[i]:.4f}")</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div
+              class="bg-green-50 border-l-4 border-green-400 p-4 rounded"
+            >
+              <p class="text-sm text-green-800">
+                <strong>✅ Strengths:</strong> Simple to implement, no need
+                to tune many hyperparameters, works well with decision stumps,
+                built-in feature selection through stump splits, resistant to
+                overfitting in low-noise settings.
+              </p>
+            </div>
+            <div
+              class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded"
+            >
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ Weaknesses:</strong> Sensitive to noisy data
+                and outliers (misclassified noisy samples get exponentially more
+                weight), slower to converge than gradient-based methods on
+                complex datasets.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. GRADIENT BOOSTING (GBM)                 -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-orange-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >2</span
+            >
+            Gradient Boosting (GBM)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                Core Idea
+              </h3>
+              <p class="text-gray-700 leading-relaxed mb-2">
+                Instead of re-weighting samples (like AdaBoost), Gradient
+                Boosting fits each new tree to the
+                <strong>negative gradient</strong> (pseudo-residuals) of the
+                loss function. This is
+                <strong>gradient descent in function space</strong> — each tree
+                is a step that reduces the loss.
+              </p>
+              <p class="text-center text-lg mt-3">
+                $$F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \cdot h_m(\mathbf{x})$$
+              </p>
+              <p class="text-sm text-gray-600 mt-1">
+                Where $\eta$ is the learning rate and $h_m$ is the tree fitted
+                to residuals.
+              </p>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <h3 class="text-xl font-bold text-orange-800 mb-3">
+                ⚙️ Key Parameters
+              </h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>n_estimators</strong> — number of boosting rounds
+                  (100–1000+).
+                </li>
+                <li>
+                  <strong>learning_rate</strong> ($\eta$) — shrinkage per tree
+                  (0.01–0.3).
+                </li>
+                <li>
+                  <strong>max_depth</strong> — depth of each tree (3–8
+                  typically).
+                </li>
+                <li>
+                  <strong>subsample</strong> — fraction of data for each tree
+                  (stochastic GB).
+                </li>
+                <li>
+                  <strong>min_samples_leaf</strong> — minimum samples in leaf.
+                </li>
+                <li>
+                  <strong>loss</strong> — 'log_loss' (classification), 'squared_error'
+                  (regression).
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 The Gradient Boosting Algorithm
+          </h3>
+          <div
+            class="bg-orange-50 border-l-4 border-orange-400 p-4 rounded mb-4"
+          >
+            <ol class="list-decimal ml-6 text-gray-700 space-y-3">
+              <li>
+                <strong>Initialise</strong> with a constant prediction:
+                $F_0(\mathbf{x}) = \arg\min_\gamma \sum_{i=1}^{n} L(y_i, \gamma)$
+                <p class="text-sm text-gray-600 mt-1">
+                  (For MSE this is the mean; for log loss this is the log-odds.)
+                </p>
+              </li>
+              <li>
+                <strong>For each round $m = 1, \dots, M$:</strong>
+                <ul class="list-disc ml-6 mt-1 space-y-1">
+                  <li>
+                    Compute pseudo-residuals (negative gradient):
+                    $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F = F_{m-1}}$$
+                  </li>
+                  <li>
+                    Fit a regression tree $h_m$ to
+                    $\{(x_i, r_{im})\}_{i=1}^{n}$.
+                  </li>
+                  <li>
+                    For each leaf region $R_{jm}$, compute the optimal
+                    leaf value:
+                    $\gamma_{jm} = \arg\min_\gamma \sum_{x_i \in R_{jm}} L(y_i, F_{m-1}(x_i) + \gamma)$
+                  </li>
+                  <li>
+                    Update:
+                    $F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \sum_j \gamma_{jm} \cdot \mathbb{1}(x \in R_{jm})$
+                  </li>
+                </ul>
+              </li>
+            </ol>
+            <div class="mt-4 bg-white p-3 rounded border border-orange-200">
+              <p class="text-sm text-gray-700">
+                <strong>For MSE loss:</strong> pseudo-residuals are simply
+                $(y_i - \hat{y}_i)$. <br />
+                <strong>For log loss:</strong> pseudo-residuals are
+                $(y_i - \sigma(\hat{y}_i))$ — the probability error.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+gbm = GradientBoostingClassifier(
+    n_estimators=200,
+    learning_rate=0.1,
+    max_depth=3,
+    subsample=0.8,        # stochastic gradient boosting
+    min_samples_leaf=5,
+    random_state=42
+)
+gbm.fit(X_train, y_train)
+
+print(f"Train Accuracy: {gbm.score(X_train, y_train):.4f}")
+print(f"Test  Accuracy: {gbm.score(X_test, y_test):.4f}")
+
+# --- Watch how training loss decreases ---
+train_loss = gbm.train_score_
+print(f"\nLoss after tree   1: {train_loss[0]:.4f}")
+print(f"Loss after tree  50: {train_loss[49]:.4f}")
+print(f"Loss after tree 100: {train_loss[99]:.4f}")
+print(f"Loss after tree 200: {train_loss[199]:.4f}")
+
+# --- Early stopping with staged predictions ---
+from sklearn.metrics import accuracy_score
+staged_acc = [
+    accuracy_score(y_test, pred)
+    for pred in gbm.staged_predict(X_test)
+]
+best_round = np.argmax(staged_acc) + 1
+print(f"\nBest round: {best_round} (accuracy = {max(staged_acc):.4f})")
+
+# --- Feature importance ---
+print("\n=== Top 5 Features ===")
+top_idx = np.argsort(gbm.feature_importances_)[::-1][:5]
+for i in top_idx:
+    print(f"  {data.feature_names[i]:30s} → {gbm.feature_importances_[i]:.4f}")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-orange-50 border-l-4 border-orange-400 p-4 rounded">
+            <p class="text-sm text-orange-800">
+              <strong>💡 Key Insight:</strong> The learning rate creates a
+              trade-off: lower $\eta$ means each tree contributes less, so
+              you need <em>more</em> trees, but the model generalises
+              better. A common strategy:
+              <code class="bg-orange-100 text-orange-800 px-1 rounded"
+                >learning_rate=0.01–0.1</code
+              >
+              with
+              <code class="bg-orange-100 text-orange-800 px-1 rounded"
+                >n_estimators=500–2000</code
+              >
+              and early stopping.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. XGBOOST                                 -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-blue-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >3</span
+            >
+            XGBoost (Extreme Gradient Boosting)
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                What Makes XGBoost Special
+              </h3>
+              <p class="text-gray-700 leading-relaxed mb-3">
+                XGBoost extends Gradient Boosting with
+                <strong>2nd-order Taylor expansion</strong> of the loss
+                (using both gradient and Hessian),
+                <strong>built-in regularisation</strong> (L1 &amp; L2 on leaf
+                weights), and system-level engineering (cache-aware access,
+                parallel tree construction, out-of-core computing).
+              </p>
+              <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                <p class="text-sm text-gray-700">
+                  <strong>Objective with regularisation:</strong>
+                </p>
+                <p class="text-center text-sm mt-1">
+                  $$\mathcal{L} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{m=1}^{M}\left[\gamma T_m + \frac{1}{2}\lambda \sum_{j=1}^{T_m} w_j^2\right]$$
+                </p>
+                <p class="text-xs text-gray-600 mt-1">
+                  $T_m$ = number of leaves in tree $m$, $w_j$ = leaf weight,
+                  $\gamma$ = tree complexity penalty, $\lambda$ = L2 regularisation.
+                </p>
+              </div>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <h3 class="text-xl font-bold text-blue-800 mb-3">
+                ⚙️ Key Parameters
+              </h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>n_estimators</strong> — boosting rounds (use
+                  early_stopping_rounds).
+                </li>
+                <li>
+                  <strong>learning_rate</strong> (eta) — step size shrinkage.
+                </li>
+                <li>
+                  <strong>max_depth</strong> — max tree depth (6 default).
+                </li>
+                <li>
+                  <strong>min_child_weight</strong> — min sum of Hessian in
+                  child (like min_samples but gradient-aware).
+                </li>
+                <li>
+                  <strong>gamma</strong> ($\gamma$) — minimum loss reduction
+                  for a split.
+                </li>
+                <li>
+                  <strong>reg_alpha</strong> ($\alpha$) — L1 regularisation.
+                </li>
+                <li>
+                  <strong>reg_lambda</strong> ($\lambda$) — L2 regularisation.
+                </li>
+                <li>
+                  <strong>subsample</strong> — row sampling per tree.
+                </li>
+                <li>
+                  <strong>colsample_bytree</strong> — column sampling per
+                  tree.
+                </li>
+                <li>
+                  <strong>scale_pos_weight</strong> — for imbalanced classes.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🔄 XGBoost's Split-Finding with 2nd-Order Gradients
+          </h3>
+          <div
+            class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-4"
+          >
+            <p class="text-gray-800 mb-2">
+              For each candidate split, XGBoost computes the
+              <strong>gain</strong> using both the gradient $g_i$ and Hessian
+              $h_i$:
+            </p>
+            <p class="text-center text-lg mb-3">
+              $$\text{Gain} = \frac{1}{2}\left[\frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda}\right] - \gamma$$
+            </p>
+            <p class="text-sm text-gray-700 mb-2">
+              Where $G = \sum g_i$, $H = \sum h_i$ for each side of the split.
+            </p>
+            <p class="text-sm text-gray-700">
+              After finding the best split structure, each leaf weight is:
+              $$w_j^* = -\frac{G_j}{H_j + \lambda}$$
+            </p>
+            <p class="text-sm text-gray-600 mt-2">
+              The Hessian acts as a <em>natural learning rate</em> — leaves
+              with uncertain predictions (high Hessian) get smaller weights.
+              $\gamma$ prunes splits that don't reduce loss enough.
+            </p>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">import xgboost as xgb
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# --- Using the Sklearn API ---
+xgb_clf = xgb.XGBClassifier(
+    n_estimators=500,
+    learning_rate=0.05,
+    max_depth=4,
+    min_child_weight=3,
+    gamma=0.1,               # min loss reduction for split
+    reg_alpha=0.01,           # L1 regularisation
+    reg_lambda=1.0,           # L2 regularisation
+    subsample=0.8,
+    colsample_bytree=0.8,
+    objective='binary:logistic',
+    eval_metric='logloss',
+    random_state=42,
+    verbosity=0
+)
+
+# Early stopping — monitors validation loss
+xgb_clf.fit(
+    X_train, y_train,
+    eval_set=[(X_test, y_test)],
+    verbose=False
+)
+
+print(f"Best iteration: {xgb_clf.best_iteration}")
+print(f"Test Accuracy:  {accuracy_score(y_test, xgb_clf.predict(X_test)):.4f}")
+
+# --- Using the native DMatrix API (faster, more control) ---
+dtrain = xgb.DMatrix(X_train, label=y_train, feature_names=list(data.feature_names))
+dtest  = xgb.DMatrix(X_test,  label=y_test,  feature_names=list(data.feature_names))
+
+params = {
+    'max_depth': 4,
+    'eta': 0.05,
+    'objective': 'binary:logistic',
+    'eval_metric': 'logloss',
+    'gamma': 0.1,
+    'lambda': 1.0,
+    'alpha': 0.01,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'seed': 42
+}
+
+evals_result = {}
+model = xgb.train(
+    params,
+    dtrain,
+    num_boost_round=500,
+    evals=[(dtrain, 'train'), (dtest, 'test')],
+    early_stopping_rounds=20,
+    evals_result=evals_result,
+    verbose_eval=False
+)
+
+print(f"\nNative API — best round: {model.best_iteration}")
+preds = (model.predict(dtest) > 0.5).astype(int)
+print(f"Test Accuracy: {accuracy_score(y_test, preds):.4f}")
+
+# --- Feature importance (3 types) ---
+print("\n=== Feature Importance (gain) ===")
+importance = model.get_score(importance_type='gain')
+sorted_imp = sorted(importance.items(), key=lambda x: x[1], reverse=True)[:5]
+for feat, score in sorted_imp:
+    print(f"  {feat:30s} → gain = {score:.2f}")</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-4 mt-4">
+            <div
+              class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded"
+            >
+              <p class="text-sm text-blue-800">
+                <strong>💡 Importance Types:</strong>
+                <code class="bg-blue-100 px-1 rounded">weight</code> = how
+                often a feature is used in splits;
+                <code class="bg-blue-100 px-1 rounded">gain</code> = average
+                loss reduction when used;
+                <code class="bg-blue-100 px-1 rounded">cover</code> = average
+                number of samples affected.
+              </p>
+            </div>
+            <div
+              class="bg-green-50 border-l-4 border-green-400 p-4 rounded"
+            >
+              <p class="text-sm text-green-800">
+                <strong>✅ Early Stopping:</strong> Always use
+                <code class="bg-green-100 px-1 rounded"
+                  >early_stopping_rounds</code
+                >
+                with a validation set. This finds the optimal number of trees
+                automatically and prevents overfitting.
+              </p>
+            </div>
+            <div
+              class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded"
+            >
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ GPU Acceleration:</strong> Set
+                <code class="bg-amber-100 px-1 rounded"
+                  >tree_method='gpu_hist'</code
+                >
+                and
+                <code class="bg-amber-100 px-1 rounded">device='cuda'</code>
+                for massive speedups on large datasets.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. LIGHTGBM                                -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-emerald-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >4</span
+            >
+            LightGBM
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                What Makes LightGBM Different
+              </h3>
+              <p class="text-gray-700 leading-relaxed mb-3">
+                LightGBM introduces two key innovations:
+                <strong>Gradient-based One-Side Sampling (GOSS)</strong> —
+                keeps samples with large gradients (poorly predicted) and
+                randomly samples those with small gradients; and
+                <strong>Exclusive Feature Bundling (EFB)</strong> — bundles
+                mutually exclusive features to reduce dimensionality.
+              </p>
+              <p class="text-gray-700">
+                It also uses <strong>histogram-based</strong> splitting
+                (binning continuous features into discrete bins) and
+                <strong>leaf-wise tree growth</strong> (grows the leaf with
+                the highest loss reduction) instead of level-wise.
+              </p>
+            </div>
+            <div
+              class="bg-emerald-50 p-4 rounded-lg border border-emerald-200"
+            >
+              <h3 class="text-xl font-bold text-emerald-800 mb-3">
+                ⚙️ Key Parameters
+              </h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>num_leaves</strong> — max leaves per tree (default
+                  31). <em>Main complexity control</em>.
+                </li>
+                <li>
+                  <strong>max_depth</strong> — limits depth (-1 = unlimited).
+                </li>
+                <li>
+                  <strong>learning_rate</strong> — step size shrinkage.
+                </li>
+                <li>
+                  <strong>n_estimators</strong> — number of boosting rounds.
+                </li>
+                <li>
+                  <strong>min_child_samples</strong> — min data per leaf.
+                </li>
+                <li>
+                  <strong>subsample (bagging_fraction)</strong> — row sampling.
+                </li>
+                <li>
+                  <strong>colsample_bytree (feature_fraction)</strong> —
+                  column sampling.
+                </li>
+                <li>
+                  <strong>reg_alpha / reg_lambda</strong> — L1 / L2
+                  regularisation.
+                </li>
+                <li>
+                  <strong>min_split_gain</strong> — minimum gain for a split.
+                </li>
+                <li>
+                  <strong>cat_features</strong> — indices of categorical
+                  features (native handling!).
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🌿 Leaf-Wise vs Level-Wise Growth
+          </h3>
+          <div
+            class="bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded mb-4"
+          >
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="font-bold text-gray-800 mb-2">
+                  Level-Wise (XGBoost default)
+                </h4>
+                <p class="text-sm text-gray-700 mb-2">
+                  Grows all leaves at the same depth simultaneously. Produces
+                  balanced trees. Wastes computation on leaves with low loss
+                  reduction.
+                </p>
+                <div class="bg-white p-2 rounded text-center text-sm font-mono text-gray-600">
+                  Depth 0: [root] → Depth 1: [L, R] → Depth 2: [LL, LR, RL, RR]
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-2">
+                  Leaf-Wise (LightGBM default)
+                </h4>
+                <p class="text-sm text-gray-700 mb-2">
+                  Always splits the leaf with the <em>highest gain</em>.
+                  Produces asymmetric trees. More efficient — achieves lower
+                  loss with fewer splits. Can overfit on small data.
+                </p>
+                <div class="bg-white p-2 rounded text-center text-sm font-mono text-gray-600">
+                  Split best leaf → split next best → ... (not balanced!)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">import lightgbm as lgb
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+data = load_breast_cancer()
+X, y = data.data, data.target
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# --- Sklearn API ---
+lgb_clf = lgb.LGBMClassifier(
+    n_estimators=500,
+    learning_rate=0.05,
+    num_leaves=31,            # main complexity parameter
+    max_depth=-1,             # unlimited; controlled by num_leaves
+    min_child_samples=20,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    reg_alpha=0.01,
+    reg_lambda=1.0,
+    random_state=42,
+    verbosity=-1
+)
+
+lgb_clf.fit(
+    X_train, y_train,
+    eval_set=[(X_test, y_test)],
+    callbacks=[lgb.early_stopping(20), lgb.log_evaluation(0)]
+)
+
+print(f"Best iteration: {lgb_clf.best_iteration_}")
+print(f"Test Accuracy:  {accuracy_score(y_test, lgb_clf.predict(X_test)):.4f}")
+
+# --- Native API (more control) ---
+dtrain = lgb.Dataset(X_train, label=y_train,
+                     feature_name=list(data.feature_names))
+dtest  = lgb.Dataset(X_test, label=y_test, reference=dtrain,
+                     feature_name=list(data.feature_names))
+
+params = {
+    'objective': 'binary',
+    'metric': 'binary_logloss',
+    'learning_rate': 0.05,
+    'num_leaves': 31,
+    'min_child_samples': 20,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'reg_alpha': 0.01,
+    'reg_lambda': 1.0,
+    'verbose': -1,
+    'seed': 42
+}
+
+callbacks = [lgb.early_stopping(20), lgb.log_evaluation(0)]
+model = lgb.train(
+    params, dtrain,
+    num_boost_round=500,
+    valid_sets=[dtest],
+    callbacks=callbacks
+)
+
+print(f"\nNative API — best round: {model.best_iteration}")
+
+# --- Feature importance ---
+print("\n=== Top 5 Features (gain) ===")
+imp = model.feature_importance(importance_type='gain')
+names = model.feature_name()
+top_idx = np.argsort(imp)[::-1][:5]
+for i in top_idx:
+    print(f"  {names[i]:30s} → {imp[i]:.2f}")</code></pre>
+          </div>
+
+          <div class="mt-4 bg-emerald-50 border-l-4 border-emerald-400 p-4 rounded">
+            <p class="text-sm text-emerald-800">
+              <strong>💡 Key Insight:</strong> In LightGBM,
+              <code class="bg-emerald-100 px-1 rounded">num_leaves</code> is
+              the <em>primary</em> complexity control. Rule of thumb:
+              <code class="bg-emerald-100 px-1 rounded"
+                >num_leaves ≤ 2^max_depth</code
+              >. If you set
+              <code class="bg-emerald-100 px-1 rounded">num_leaves=31</code>
+              (default), consider
+              <code class="bg-emerald-100 px-1 rounded">max_depth ≈ 5-7</code>
+              to prevent overly deep asymmetric trees.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. CATBOOST                                -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-violet-600 p-6">
+          <h2 class="text-3xl font-bold text-white flex items-center">
+            <span
+              class="bg-white text-violet-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold"
+              >5</span
+            >
+            CatBoost
+          </h2>
+        </div>
+        <div class="p-6">
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                What Makes CatBoost Unique
+              </h3>
+              <p class="text-gray-700 leading-relaxed mb-3">
+                CatBoost (Categorical Boosting) tackles two problems:
+              </p>
+              <ul class="list-disc ml-5 text-gray-700 space-y-2">
+                <li>
+                  <strong>Target leakage in categorical encoding:</strong>
+                  Traditional target encoding uses the full training set, leaking
+                  information. CatBoost uses
+                  <strong>Ordered Target Encoding</strong> — for each sample,
+                  it only uses <em>prior</em> observations to compute the encoding.
+                </li>
+                <li>
+                  <strong>Prediction shift:</strong>
+                  Standard boosting uses the same data to compute gradients and
+                  fit trees → bias. CatBoost uses
+                  <strong>Ordered Boosting</strong> — builds each tree on a
+                  random permutation where residuals are computed from models
+                  trained on preceding data only.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="bg-violet-50 p-4 rounded-lg border border-violet-200"
+            >
+              <h3 class="text-xl font-bold text-violet-800 mb-3">
+                ⚙️ Key Parameters
+              </h3>
+              <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                <li>
+                  <strong>iterations</strong> — number of trees (=
+                  n_estimators).
+                </li>
+                <li>
+                  <strong>learning_rate</strong> — auto-tuned if not set.
+                </li>
+                <li>
+                  <strong>depth</strong> — tree depth (default 6). Builds
+                  <em>symmetric</em> (oblivious) trees.
+                </li>
+                <li>
+                  <strong>l2_leaf_reg</strong> — L2 regularisation on leaves.
+                </li>
+                <li>
+                  <strong>cat_features</strong> — list of categorical column
+                  indices/names.
+                </li>
+                <li>
+                  <strong>auto_class_weights</strong> — 'Balanced' for
+                  imbalanced data.
+                </li>
+                <li>
+                  <strong>one_hot_max_size</strong> — max cardinality for
+                  one-hot (else target encoding).
+                </li>
+                <li>
+                  <strong>grow_policy</strong> — 'SymmetricTree' (default),
+                  'Depthwise', 'Lossguide'.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            🌳 Oblivious Decision Trees
+          </h3>
+          <div
+            class="bg-violet-50 border-l-4 border-violet-400 p-4 rounded mb-4"
+          >
+            <p class="text-gray-800 mb-2">
+              By default, CatBoost uses <strong>symmetric (oblivious) trees</strong>:
+              the <em>same</em> split condition is used at every node of the
+              same depth level.
+            </p>
+            <div class="grid md:grid-cols-2 gap-4 mt-3">
+              <div class="bg-white p-3 rounded border border-violet-200">
+                <p class="text-sm text-gray-700">
+                  <strong>Regular tree:</strong> Each node can split on a
+                  different feature/threshold → expressive but complex.
+                </p>
+              </div>
+              <div class="bg-white p-3 rounded border border-violet-200">
+                <p class="text-sm text-gray-700">
+                  <strong>Oblivious tree:</strong> Same split at each level →
+                  less expressive per tree but faster inference (can be
+                  implemented as table lookup), more regularised, less
+                  overfitting.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from catboost import CatBoostClassifier, Pool
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import numpy as np
+import pandas as pd
+
+data = load_breast_cancer()
+X = pd.DataFrame(data.data, columns=data.feature_names)
+y = data.target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+cat_clf = CatBoostClassifier(
+    iterations=500,
+    learning_rate=0.05,
+    depth=6,
+    l2_leaf_reg=3.0,
+    random_seed=42,
+    verbose=0,
+    eval_metric='Logloss',
+    early_stopping_rounds=30
+)
+
+cat_clf.fit(
+    X_train, y_train,
+    eval_set=(X_test, y_test),
+    verbose=0
+)
+
+print(f"Best iteration: {cat_clf.best_iteration_}")
+print(f"Test Accuracy:  {accuracy_score(y_test, cat_clf.predict(X_test)):.4f}")
+
+# --- Feature importance ---
+print("\n=== Top 5 Features ===")
+imp = cat_clf.feature_importances_
+names = cat_clf.feature_names_
+top_idx = np.argsort(imp)[::-1][:5]
+for i in top_idx:
+    print(f"  {names[i]:30s} → {imp[i]:.2f}")
+
+# --- With categorical features (example with mixed data) ---
+# CatBoost handles categoricals natively — no encoding needed!
+# Just pass cat_features parameter:
+#
+# cat_clf = CatBoostClassifier(cat_features=['colour', 'city', 'product_type'])
+# cat_clf.fit(X_train, y_train)
+#
+# Internally: Ordered Target Encoding is applied per-split
+# using only prior observations to avoid target leakage.</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div
+              class="bg-green-50 border-l-4 border-green-400 p-4 rounded"
+            >
+              <p class="text-sm text-green-800">
+                <strong>✅ Strengths:</strong> Best out-of-the-box performance
+                (often needs no tuning), native categorical handling (no
+                manual encoding needed), robust to overfitting via ordered
+                boosting, fast GPU training.
+              </p>
+            </div>
+            <div
+              class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded"
+            >
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ Considerations:</strong> Slower training than
+                LightGBM on large data, oblivious trees may need more trees to
+                reach same expressiveness, larger model files.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- COMPARISON TABLE                           -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-700 to-gray-800 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            📊 Side-by-Side Comparison
+          </h2>
+        </div>
+        <div class="p-6 overflow-x-auto">
+          <table
+            class="min-w-full divide-y divide-gray-300 border border-gray-300"
+          >
+            <thead class="bg-gray-100">
+              <tr>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase"
+                >
+                  Feature
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-rose-700 uppercase"
+                >
+                  AdaBoost
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase"
+                >
+                  GBM (sklearn)
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-blue-700 uppercase"
+                >
+                  XGBoost
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-emerald-700 uppercase"
+                >
+                  LightGBM
+                </th>
+                <th
+                  class="px-4 py-3 text-left text-xs font-bold text-violet-700 uppercase"
+                >
+                  CatBoost
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200 text-sm">
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Training Speed
+                </td>
+                <td class="px-4 py-3">⚡ Fast</td>
+                <td class="px-4 py-3">⚡ Moderate</td>
+                <td class="px-4 py-3">⚡⚡ Fast</td>
+                <td class="px-4 py-3">⚡⚡⚡ Fastest</td>
+                <td class="px-4 py-3">⚡⚡ Fast (GPU)</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Accuracy
+                </td>
+                <td class="px-4 py-3">⭐⭐ Good</td>
+                <td class="px-4 py-3">⭐⭐⭐ Great</td>
+                <td class="px-4 py-3">⭐⭐⭐ Excellent</td>
+                <td class="px-4 py-3">⭐⭐⭐ Excellent</td>
+                <td class="px-4 py-3">⭐⭐⭐ Excellent</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Overfitting Control
+                </td>
+                <td class="px-4 py-3">Moderate</td>
+                <td class="px-4 py-3">Moderate</td>
+                <td class="px-4 py-3">Strong (L1/L2 + γ)</td>
+                <td class="px-4 py-3">Moderate</td>
+                <td class="px-4 py-3">Strong (ordered)</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Categorical Support
+                </td>
+                <td class="px-4 py-3">❌ Manual encode</td>
+                <td class="px-4 py-3">❌ Manual encode</td>
+                <td class="px-4 py-3">⚠️ Basic (enable_categorical)</td>
+                <td class="px-4 py-3">✅ Native</td>
+                <td class="px-4 py-3">✅ Best-in-class</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Missing Values
+                </td>
+                <td class="px-4 py-3">❌ Must impute</td>
+                <td class="px-4 py-3">❌ Must impute</td>
+                <td class="px-4 py-3">✅ Native</td>
+                <td class="px-4 py-3">✅ Native</td>
+                <td class="px-4 py-3">✅ Native</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  GPU Training
+                </td>
+                <td class="px-4 py-3">❌</td>
+                <td class="px-4 py-3">❌</td>
+                <td class="px-4 py-3">✅</td>
+                <td class="px-4 py-3">✅</td>
+                <td class="px-4 py-3">✅</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Early Stopping
+                </td>
+                <td class="px-4 py-3">❌</td>
+                <td class="px-4 py-3">✅ (via staged_predict)</td>
+                <td class="px-4 py-3">✅ Built-in</td>
+                <td class="px-4 py-3">✅ Built-in</td>
+                <td class="px-4 py-3">✅ Built-in</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Tree Growth
+                </td>
+                <td class="px-4 py-3">Stumps (depth=1)</td>
+                <td class="px-4 py-3">Level-wise</td>
+                <td class="px-4 py-3">Level-wise</td>
+                <td class="px-4 py-3">Leaf-wise</td>
+                <td class="px-4 py-3">Symmetric (oblivious)</td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-semibold text-gray-800">
+                  Best For
+                </td>
+                <td class="px-4 py-3 text-xs">Simple tasks, teaching</td>
+                <td class="px-4 py-3 text-xs">Small-medium data</td>
+                <td class="px-4 py-3 text-xs">Kaggle, structured data</td>
+                <td class="px-4 py-3 text-xs">Large data, speed</td>
+                <td class="px-4 py-3 text-xs">Categorical-heavy data</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- HYPERPARAMETER TUNING                      -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            🎛️ Hyperparameter Tuning Guide
+          </h2>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">
+            Universal Tuning Strategy for Boosting Models
+          </h3>
+          <div
+            class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded mb-6"
+          >
+            <ol class="list-decimal ml-6 text-gray-700 space-y-3">
+              <li>
+                <strong>Fix learning_rate = 0.1</strong> and find the optimal
+                n_estimators using early stopping.
+              </li>
+              <li>
+                <strong>Tune tree structure:</strong>
+                <code class="bg-indigo-100 px-1 rounded">max_depth</code> /
+                <code class="bg-indigo-100 px-1 rounded">num_leaves</code>,
+                <code class="bg-indigo-100 px-1 rounded">min_child_weight</code> /
+                <code class="bg-indigo-100 px-1 rounded">min_child_samples</code>.
+              </li>
+              <li>
+                <strong>Tune sampling:</strong>
+                <code class="bg-indigo-100 px-1 rounded">subsample</code>,
+                <code class="bg-indigo-100 px-1 rounded">colsample_bytree</code>.
+              </li>
+              <li>
+                <strong>Tune regularisation:</strong>
+                <code class="bg-indigo-100 px-1 rounded">reg_alpha</code>,
+                <code class="bg-indigo-100 px-1 rounded">reg_lambda</code>,
+                <code class="bg-indigo-100 px-1 rounded">gamma</code> (XGBoost) /
+                <code class="bg-indigo-100 px-1 rounded">min_split_gain</code>
+                (LightGBM).
+              </li>
+              <li>
+                <strong>Lower learning_rate</strong> (e.g., 0.01–0.05) and
+                re-run with more trees + early stopping for final model.
+              </li>
+            </ol>
+          </div>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python">from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import uniform, randint
+import xgboost as xgb
+import lightgbm as lgb
+
+# ==============================================
+# XGBoost Tuning with RandomizedSearchCV
+# ==============================================
+
+xgb_param_dist = {
+    'max_depth': randint(3, 10),
+    'learning_rate': uniform(0.01, 0.3),
+    'n_estimators': randint(100, 1000),
+    'min_child_weight': randint(1, 10),
+    'gamma': uniform(0, 0.5),
+    'subsample': uniform(0.6, 0.4),
+    'colsample_bytree': uniform(0.6, 0.4),
+    'reg_alpha': uniform(0, 1),
+    'reg_lambda': uniform(0.5, 2),
+}
+
+xgb_search = RandomizedSearchCV(
+    xgb.XGBClassifier(
+        objective='binary:logistic',
+        eval_metric='logloss',
+        verbosity=0,
+        random_state=42
+    ),
+    param_distributions=xgb_param_dist,
+    n_iter=100,
+    cv=5,
+    scoring='roc_auc',
+    n_jobs=-1,
+    random_state=42
+)
+xgb_search.fit(X_train, y_train)
+
+print("=== Best XGBoost Params ===")
+for k, v in sorted(xgb_search.best_params_.items()):
+    print(f"  {k:25s} = {v}")
+print(f"  Best AUC: {xgb_search.best_score_:.4f}")
+
+# ==============================================
+# LightGBM Tuning
+# ==============================================
+
+lgb_param_dist = {
+    'num_leaves': randint(20, 150),
+    'learning_rate': uniform(0.01, 0.3),
+    'n_estimators': randint(100, 1000),
+    'min_child_samples': randint(5, 50),
+    'subsample': uniform(0.6, 0.4),
+    'colsample_bytree': uniform(0.6, 0.4),
+    'reg_alpha': uniform(0, 1),
+    'reg_lambda': uniform(0, 2),
+}
+
+lgb_search = RandomizedSearchCV(
+    lgb.LGBMClassifier(verbosity=-1, random_state=42),
+    param_distributions=lgb_param_dist,
+    n_iter=100,
+    cv=5,
+    scoring='roc_auc',
+    n_jobs=-1,
+    random_state=42
+)
+lgb_search.fit(X_train, y_train)
+
+print("\n=== Best LightGBM Params ===")
+for k, v in sorted(lgb_search.best_params_.items()):
+    print(f"  {k:25s} = {v}")
+print(f"  Best AUC: {lgb_search.best_score_:.4f}")</code></pre>
+          </div>
+
+          <div class="mt-4 grid md:grid-cols-2 gap-4">
+            <div
+              class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded"
+            >
+              <p class="text-sm text-indigo-800">
+                <strong>💡 Optuna:</strong> For production tuning, consider
+                <a href="https://optuna.org/" class="underline" target="_blank"
+                  >Optuna</a
+                >
+                — it uses Bayesian optimisation with pruning, much more
+                efficient than random search. Works great with all boosting
+                libraries.
+              </p>
+            </div>
+            <div
+              class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded"
+            >
+              <p class="text-sm text-amber-800">
+                <strong>⚠️ Overfitting Signal:</strong> If train accuracy is
+                much higher than validation accuracy →
+                <strong>increase regularisation</strong> (lower max_depth /
+                num_leaves, increase min_child_weight, increase lambda,
+                lower subsample).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- HANDLING IMBALANCED DATA                   -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            ⚖️ Handling Imbalanced Data with Boosting
+          </h2>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700 mb-4">
+            Boosting models offer multiple strategies for dealing with class
+            imbalance — from built-in parameters to custom loss functions.
+          </p>
+
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner mb-4"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># ==============================================
+# Strategy 1: scale_pos_weight (XGBoost)
+# ==============================================
+# Set to ratio of negative / positive samples
+import numpy as np
+
+n_pos = np.sum(y_train == 1)
+n_neg = np.sum(y_train == 0)
+
+xgb_model = xgb.XGBClassifier(
+    scale_pos_weight=n_neg / n_pos,  # e.g., 10 if 10:1 ratio
+    objective='binary:logistic',
+    eval_metric='aucpr',             # use PR-AUC for imbalanced!
+    verbosity=0
+)
+
+# ==============================================
+# Strategy 2: is_unbalance / class_weight (LightGBM)
+# ==============================================
+lgb_model = lgb.LGBMClassifier(
+    is_unbalance=True,   # auto-adjusts weights
+    # OR: class_weight='balanced'  (sklearn-style)
+    verbosity=-1
+)
+
+# ==============================================
+# Strategy 3: auto_class_weights (CatBoost)
+# ==============================================
+from catboost import CatBoostClassifier
+
+cat_model = CatBoostClassifier(
+    auto_class_weights='Balanced',
+    eval_metric='PRAUC',
+    verbose=0
+)
+
+# ==============================================
+# Strategy 4: Custom focal loss (for extreme imbalance)
+# ==============================================
+# Focal loss down-weights easy-to-classify samples,
+# focusing on hard-to-classify minority examples
+
+# XGBoost with focal loss (custom objective)
+def focal_loss(y_pred, dtrain, gamma=2.0, alpha=0.25):
+    y_true = dtrain.get_label()
+    p = 1.0 / (1.0 + np.exp(-y_pred))
+    grad = alpha * (1 - p)**gamma * (gamma * p * np.log(p + 1e-8) + p - 1) * y_true + \
+           (1 - alpha) * p**gamma * (-gamma * (1 - p) * np.log(1 - p + 1e-8) + p) * (1 - y_true)
+    hess = np.abs(grad) * (1 - np.abs(grad))
+    return grad, hess
+
+# Usage: xgb.train(params, dtrain, obj=focal_loss)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- COMMON PITFALLS                            -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-red-500 to-red-600 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            ⚠️ Common Pitfalls &amp; Solutions
+          </h2>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+            <h3 class="font-semibold text-red-900 mb-2">
+              ❌ Not using early stopping
+            </h3>
+            <p class="text-sm text-gray-700 mb-2">
+              <strong>Issue:</strong> Setting a fixed
+              <code class="bg-red-100 px-1 rounded">n_estimators</code>
+              without validation monitoring often leads to overfitting (too
+              many trees) or underfitting (too few).
+            </p>
+            <p class="text-sm text-green-700">
+              <strong>Solution:</strong> Always set a large
+              <code class="bg-green-100 px-1 rounded">n_estimators</code>
+              and use
+              <code class="bg-green-100 px-1 rounded"
+                >early_stopping_rounds</code
+              >
+              with a validation set. The model will stop when performance
+              stops improving.
+            </p>
+          </div>
+
+          <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+            <h3 class="font-semibold text-red-900 mb-2">
+              ❌ Data leakage in time-series
+            </h3>
+            <p class="text-sm text-gray-700 mb-2">
+              <strong>Issue:</strong> Using random train/test splits on
+              temporal data lets the model ""see the future"", producing
+              overly optimistic results.
+            </p>
+            <p class="text-sm text-green-700">
+              <strong>Solution:</strong> Always split by time:
+              <code class="bg-green-100 px-1 rounded"
+                >TimeSeriesSplit</code
+              >
+              for cross-validation, or a fixed cutoff date. Also use
+              <code class="bg-green-100 px-1 rounded"
+                >monotone_constraints</code
+              >
+              in XGBoost/LightGBM to enforce economic logic.
+            </p>
+          </div>
+
+          <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+            <h3 class="font-semibold text-red-900 mb-2">
+              ❌ High-cardinality categorical encoding mistakes
+            </h3>
+            <p class="text-sm text-gray-700 mb-2">
+              <strong>Issue:</strong> One-hot encoding 1000+ categories
+              creates sparse, high-dimensional data that slows training and
+              hurts performance.
+            </p>
+            <p class="text-sm text-green-700">
+              <strong>Solution:</strong> Use CatBoost's native categorical
+              handling, or LightGBM's
+              <code class="bg-green-100 px-1 rounded"
+                >cat_features</code
+              >,
+              or manual target/frequency encoding with proper cross-validated
+              schemes to prevent leakage.
+            </p>
+          </div>
+
+          <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+            <h3 class="font-semibold text-red-900 mb-2">
+              ❌ Ignoring feature engineering
+            </h3>
+            <p class="text-sm text-gray-700 mb-2">
+              <strong>Issue:</strong> Relying solely on the model to discover
+              patterns. Boosting can find complex interactions, but explicit
+              features still help.
+            </p>
+            <p class="text-sm text-green-700">
+              <strong>Solution:</strong> Create interaction features,
+              aggregation features, time-based features, ratio features.
+              Then let the model select the most useful ones via
+              feature importance.
+            </p>
+          </div>
+
+          <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
+            <h3 class="font-semibold text-red-900 mb-2">
+              ❌ Not scaling the evaluation metric
+            </h3>
+            <p class="text-sm text-gray-700 mb-2">
+              <strong>Issue:</strong> Using accuracy as the metric on
+              imbalanced data. A model predicting the majority class always
+              gets 95% accuracy on 95/5 split.
+            </p>
+            <p class="text-sm text-green-700">
+              <strong>Solution:</strong> Use
+              <code class="bg-green-100 px-1 rounded">roc_auc</code>,
+              <code class="bg-green-100 px-1 rounded">aucpr</code>,
+              <code class="bg-green-100 px-1 rounded">f1</code>, or a
+              custom business metric. Set
+              <code class="bg-green-100 px-1 rounded"
+                >eval_metric</code
+              >
+              accordingly in Early Stopping.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- WHEN TO CHOOSE WHICH                       -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div
+        class="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-8 rounded-xl shadow-lg"
+      >
+        <h2 class="text-3xl font-bold mb-6">
+          🎯 Quick Reference: When to Choose Which
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">Choose XGBoost when:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>✓ Structured/tabular data competitions</li>
+              <li>✓ Medium-sized datasets (&lt;1M rows)</li>
+              <li>✓ Need fine-grained regularisation control</li>
+              <li>✓ Custom objectives are needed</li>
+              <li>✓ Wide ecosystem &amp; community support</li>
+            </ul>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">Choose LightGBM when:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>✓ Large datasets (&gt;1M rows)</li>
+              <li>✓ Training speed is critical</li>
+              <li>✓ High-dimensional data</li>
+              <li>✓ Need to iterate quickly on experiments</li>
+              <li>✓ Memory efficiency matters</li>
+            </ul>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">Choose CatBoost when:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>✓ Many categorical features</li>
+              <li>✓ Want best out-of-the-box (no tuning)</li>
+              <li>✓ Worried about target leakage</li>
+              <li>✓ Need ranked/recommendation models</li>
+              <li>✓ Smaller datasets (ordered boosting shines)</li>
+            </ul>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">Choose sklearn GBM when:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>✓ Small data, simple problems</li>
+              <li>✓ No external dependencies allowed</li>
+              <li>✓ Learning/teaching purposes</li>
+              <li>✓ Already in a sklearn pipeline</li>
+            </ul>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">Choose AdaBoost when:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>✓ Simple baseline needed</li>
+              <li>✓ Low-dimensional, clean data</li>
+              <li>✓ Teaching boosting concepts</li>
+              <li>✓ With non-tree base learners</li>
+            </ul>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-2">💡 General Advice:</h3>
+            <ul class="space-y-1 ml-2">
+              <li>→ Start with LightGBM for speed</li>
+              <li>→ Try CatBoost if categoricals exist</li>
+              <li>→ Use XGBoost for final competition push</li>
+              <li>→ Always use early stopping</li>
+              <li>→ Tune with Optuna, not GridSearch</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- INSTALLATION REFERENCE                     -->
+    <!-- ========================================== -->
+
+    <section class="mb-10">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-gray-600 to-gray-700 p-6">
+          <h2 class="text-3xl font-bold text-white">
+            📦 Installation &amp; Imports
+          </h2>
+        </div>
+        <div class="p-6">
+          <div
+            class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-lg overflow-x-auto shadow-inner"
+          >
+            <pre
+              class="text-sm"
+            ><code class="language-python"># Installation
+# pip install xgboost lightgbm catboost
+
+# All imports in one place
+from sklearn.ensemble import (
+    AdaBoostClassifier,
+    GradientBoostingClassifier,
+    GradientBoostingRegressor,
+)
+import xgboost as xgb
+import lightgbm as lgb
+from catboost import CatBoostClassifier, CatBoostRegressor, Pool
+
+# Common utilities
+from sklearn.model_selection import (
+    train_test_split,
+    cross_val_score,
+    RandomizedSearchCV,
+)
+from sklearn.metrics import (
+    accuracy_score,
+    roc_auc_score,
+    f1_score,
+    classification_report,
+    mean_squared_error,
+)
+import numpy as np
+import pandas as pd</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
