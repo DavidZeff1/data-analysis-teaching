@@ -107,6 +107,7 @@ const content = {
     sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
     models: () => fetch("/ml/models.html").then((r) => r.text()),
     boosting: () => fetch("/ml/boosting.html").then((r) => r.text()),
+    featureselectionengineering: () => fetch("/ml/featureselectionengineering.html").then((r) => r.text()),
   },
 };
 
