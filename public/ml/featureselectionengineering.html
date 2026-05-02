@@ -438,9 +438,11 @@ oe = OrdinalEncoder(
             </h3>
             <p class="text-sm text-slate-600 mb-2">
               High-cardinality features (zip codes, item ids). Replace each
-              level with a smoothed estimate of the target.
-              <strong>High leakage risk</strong> — use CV-fold encoding.
+              level with a smoothed estimate of the target. Smoothing pulls the estimate for rare categories towards the global mean to prevent overfitting.
             </p>
+            <div class="bg-rose-50 border-l-2 border-rose-400 p-2 mb-2 text-xs text-rose-800">
+              <strong>High leakage risk:</strong> If you use the target to encode the feature, the model can memorize it. You must use <em>CV-fold encoding</em> (calculating the mean on out-of-fold samples) so the encoded value for a row never includes its own target.
+            </div>
             <pre
               class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
             ><code>from category_encoders import TargetEncoder
@@ -638,6 +640,9 @@ X_test["price"]  = X_test["price"].clip(q_lo, q_hi)   # use train bounds</code><
           cyclical components (hour, weekday, month) should be encoded as
           sin/cos pairs so the model learns that 23:00 is close to 00:00.
         </p>
+        <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mb-4 text-sm text-indigo-900">
+          <strong>Why both Sin and Cos?</strong> A single sine wave has duplicate values (e.g., sin(0) and sin(180) are both 0). By using <em>both</em> sine and cosine, you map the time onto a 2D circle, ensuring every hour has a unique coordinate pair.
+        </div>
 
         <pre
           class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
@@ -689,19 +694,36 @@ df["amount_roll7"]  = df.groupby("user_id")["amount"].shift(1).rolling(7).mean()
           8. Text Features
         </h2>
         <p class="mb-4">
-          Even when text is not the main signal, simple length / count /
-          token-ratio features often help.
+          When incorporating text into tabular data, you have three tiers of features: <strong>cheap structural stats</strong>, <strong>keyword matching (TF-IDF)</strong>, and <strong>semantic embeddings</strong>.
         </p>
+
+        <div class="grid md:grid-cols-2 gap-5 mb-6">
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">TF-IDF (Bag of Words)</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              Great for capturing specific keywords (e.g., "broken", "scam"). It creates a sparse matrix of word frequencies, penalizing words that appear in every document. <em>Use this when exact vocabulary matters.</em>
+            </p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">Embeddings (LLMs)</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              Converts text into dense vectors (e.g., 384 dimensions) that capture <em>context and semantic meaning</em>. "Terrible" and "Awful" will have similar vectors. <em>Use this when sentiment or abstract meaning is the primary signal.</em>
+            </p>
+            <div class="bg-emerald-50 text-emerald-800 text-xs p-2 rounded border-l-2 border-emerald-400 mt-2">
+              <strong>Pro-tip:</strong> 384 dimensions can overwhelm a tabular model like XGBoost. Apply <strong>PCA</strong> or <strong>UMAP</strong> to reduce embeddings down to 10-20 features before concatenating them with your other tabular features!
+            </div>
+          </div>
+        </div>
 
         <pre
           class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
-        ><code># Cheap structural features
+        ><code># 1. Cheap structural features
 df["text_len"]     = df["review"].str.len()
 df["word_count"]   = df["review"].str.split().str.len()
 df["upper_ratio"]  = df["review"].str.findall(r"[A-Z]").str.len() / df["text_len"]
 df["exclam"]       = df["review"].str.count("!")
 
-# Bag-of-words / TF-IDF
+# 2. Bag-of-words / TF-IDF
 from sklearn.feature_extraction.text import TfidfVectorizer
 tfidf = TfidfVectorizer(
     ngram_range=(1, 2),
@@ -712,10 +734,19 @@ tfidf = TfidfVectorizer(
 X_train_tfidf = tfidf.fit_transform(X_train["review"])
 X_test_tfidf  = tfidf.transform(X_test["review"])
 
-# Embeddings (sentence-transformers) — for semantic similarity / classification
-# from sentence_transformers import SentenceTransformer
-# model = SentenceTransformer("all-MiniLM-L6-v2")
-# emb = model.encode(df["review"].tolist())
+# 3. Embeddings (sentence-transformers)
+from sentence_transformers import SentenceTransformer
+from sklearn.decomposition import PCA
+
+# Generate 384-dimensional embeddings
+model = SentenceTransformer("all-MiniLM-L6-v2")
+train_emb = model.encode(X_train["review"].tolist())
+test_emb  = model.encode(X_test["review"].tolist())
+
+# Reduce dimensionality for tabular models
+pca = PCA(n_components=15)
+X_train_emb_reduced = pca.fit_transform(train_emb)
+X_test_emb_reduced  = pca.transform(test_emb)
 </code></pre>
       </section>
 
@@ -794,8 +825,8 @@ X_poly = poly.fit_transform(X_train[["x1","x2","x3"]])
               Expensive · Most accurate
             </p>
             <p class="text-sm text-slate-700">
-              Train a model on different subsets and pick the best. RFE,
-              sequential search.
+              Train a model iteratively on subsets and evaluate. e.g. RFE,
+              sequential search. <strong>Warning:</strong> Prone to overfitting if the search is not strictly cross-validated.
             </p>
           </div>
         </div>
@@ -883,8 +914,8 @@ sfs.fit(X_train_s, y_train)
         <p class="text-sm text-slate-600 mb-3">
           After fitting your candidate model, these give a model-faithful view
           of what actually matters. Permutation importance measures the drop in
-          score when a feature is shuffled; SHAP decomposes individual
-          predictions.
+          score when a feature is shuffled (breaking its relationship with the target). 
+          <strong>SHAP</strong> (SHapley Additive exPlanations) is more advanced: based on coalitional game theory, it calculates the marginal contribution of each feature to a specific prediction, giving both global importance and local interpretability.
         </p>
         <pre
           class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
@@ -932,6 +963,15 @@ imp = pd.Series(result.importances_mean, index=X_val.columns).sort_values()
           is the only sane way to keep all of this leak-free, reproducible, and
           deployable.
         </p>
+        
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg">
+          <h4 class="font-bold text-blue-900 mb-1">Why is this so important?</h4>
+          <ul class="list-disc list-inside text-sm text-blue-800 space-y-1">
+            <li><strong>Leakage Prevention:</strong> When using <code>cross_val_score</code>, the pipeline ensures that <code>fit()</code> for imputers, scalers, and selectors is <em>only</em> called on the training folds, not the validation fold.</li>
+            <li><strong>ColumnTransformer Magic:</strong> Allows applying different steps to numeric vs. categorical columns simultaneously, safely concatenating the results back together without losing track of column order.</li>
+            <li><strong>Deployment:</strong> You can <code>pickle</code> the single <code>clf</code> object and call <code>.predict()</code> on raw incoming JSON/CSV data in production.</li>
+          </ul>
+        </div>
 
         <pre
           class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
