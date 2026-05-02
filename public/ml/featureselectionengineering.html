@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feature Selection & Engineering — Python ML Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      pre code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.85rem;
+        line-height: 1.55;
+      }
+      .anchor {
+        scroll-margin-top: 5rem;
+      }
+      .kbd {
+        font-family: "JetBrains Mono", monospace;
+        background: #1f2937;
+        color: #f9fafb;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 0.85em;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased leading-relaxed">
+    <!-- Top Nav -->
+    <nav
+      class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <span class="font-bold text-slate-900">FE & FS · Python ML</span>
+        <div class="hidden md:flex gap-5 text-sm text-slate-600">
+          <a href="#workflow" class="hover:text-indigo-600">Workflow</a>
+          <a href="#eda" class="hover:text-indigo-600">EDA</a>
+          <a href="#engineering" class="hover:text-indigo-600">Engineering</a>
+          <a href="#selection" class="hover:text-indigo-600">Selection</a>
+          <a href="#pipeline" class="hover:text-indigo-600">Pipelines</a>
+          <a href="#pitfalls" class="hover:text-indigo-600">Pitfalls</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header
+      class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 text-white"
+    >
+      <div class="max-w-6xl mx-auto px-6 py-16">
+        <p
+          class="text-indigo-200 uppercase tracking-widest text-xs font-semibold mb-3"
+        >
+          Comprehensive Practitioner Guide
+        </p>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+          Feature Engineering & Feature Selection in Python
+        </h1>
+        <p class="text-lg md:text-xl text-indigo-100 max-w-3xl">
+          An end-to-end, opinionated walkthrough for building robust ML features
+          with pandas, scikit-learn, category_encoders, and friends — from raw
+          data to a leak-free production pipeline.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm">pandas</span>
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm"
+            >scikit-learn</span
+          >
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm">numpy</span>
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm"
+            >category_encoders</span
+          >
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm"
+            >feature-engine</span
+          >
+          <span class="bg-white/15 px-3 py-1 rounded-full text-sm">SHAP</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+      <!-- TOC -->
+      <section
+        class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
+      >
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Contents</h2>
+        <ol
+          class="grid md:grid-cols-2 gap-x-8 gap-y-2 list-decimal list-inside text-slate-700"
+        >
+          <li>
+            <a class="hover:text-indigo-600" href="#workflow"
+              >The high-level workflow</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#eda"
+              >Exploratory data analysis</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#missing"
+              >Handling missing values</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#categorical"
+              >Encoding categorical features</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#scaling"
+              >Scaling & normalization</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#numerical"
+              >Numerical transformations</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#datetime"
+              >Datetime features</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#text">Text features</a>
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#interactions"
+              >Interactions & polynomials</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#selection"
+              >Feature selection methods</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#pipeline"
+              >Putting it in a Pipeline</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#pitfalls"
+              >Common pitfalls & leakage</a
+            >
+          </li>
+          <li>
+            <a class="hover:text-indigo-600" href="#checklist"
+              >Final checklist</a
+            >
+          </li>
+        </ol>
+      </section>
+
+      <!-- 1. Workflow -->
+      <section id="workflow" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          1. The High-Level Workflow
+        </h2>
+        <p class="mb-6">
+          Feature engineering and selection are not one-shot steps — they are an
+          <strong>iterative loop</strong> that runs alongside model development.
+          The order matters because some steps cause data leakage if done wrong.
+        </p>
+
+        <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <ol class="space-y-3">
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >1</span
+              >
+              <div>
+                <strong>Understand the problem & target.</strong> Classification
+                vs regression, business metric, class imbalance, time component.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >2</span
+              >
+              <div>
+                <strong>EDA.</strong> Distributions, missingness, cardinality,
+                outliers, target relationship.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >3</span
+              >
+              <div>
+                <strong>Split the data first.</strong> Train/val/test (or CV
+                folds) <em>before</em> any transformation that learns from data.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >4</span
+              >
+              <div>
+                <strong>Clean & impute.</strong> Decide a strategy per column;
+                fit on train only.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >5</span
+              >
+              <div>
+                <strong>Engineer features.</strong> Encode categoricals,
+                transform numerics, extract from text/datetime, build
+                interactions.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >6</span
+              >
+              <div>
+                <strong>Select features.</strong> Filter → embedded → wrapper,
+                in roughly that order of cost.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >7</span
+              >
+              <div>
+                <strong>Train, evaluate, interpret.</strong> Use CV, look at
+                SHAP/permutation importance, sanity-check.
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span
+                class="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm"
+                >8</span
+              >
+              <div>
+                <strong>Iterate.</strong> Errors and importances suggest new
+                features; loop back to step 5.
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div
+          class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg"
+        >
+          <p class="text-sm">
+            <strong class="text-amber-900">Golden rule:</strong> any
+            transformation whose parameters depend on the data (mean, std,
+            target stats, vocabulary, learned encoder weights) must be
+            <code class="bg-amber-100 px-1.5 py-0.5 rounded text-xs">fit</code>
+            on the training set only and then
+            <code class="bg-amber-100 px-1.5 py-0.5 rounded text-xs"
+              >transform</code
+            >
+            applied to validation/test. Use
+            <code class="bg-amber-100 px-1.5 py-0.5 rounded text-xs"
+              >Pipeline</code
+            >
+            to make this automatic.
+          </p>
+        </div>
+      </section>
+
+      <!-- 2. EDA -->
+      <section id="eda" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          2. Exploratory Data Analysis
+        </h2>
+        <p class="mb-4">
+          Before touching any transformer, profile the data. You're answering:
+          <em
+            >what types are these columns, how missing are they, how skewed, how
+            do they relate to the target?</em
+          >
+        </p>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>import pandas as pd
+import numpy as np
+
+df = pd.read_csv("data.csv")
+
+# Shape and dtypes
+print(df.shape)
+print(df.dtypes.value_counts())
+
+# Missingness per column, sorted
+miss = df.isna().mean().sort_values(ascending=False)
+print(miss[miss > 0])
+
+# Cardinality of object/categorical columns
+cat_cols = df.select_dtypes(include=["object", "category"]).columns
+print(df[cat_cols].nunique().sort_values(ascending=False))
+
+# Numeric stats + skewness
+num_cols = df.select_dtypes(include=np.number).columns
+print(df[num_cols].describe().T)
+print(df[num_cols].skew().sort_values(ascending=False))
+
+# Target relationship (regression: corr; classification: groupby mean)
+# print(df[num_cols].corrwith(df["target"]).sort_values())
+# print(df.groupby("target")[num_cols].mean())
+</code></pre>
+
+        <div class="grid md:grid-cols-3 gap-4 mt-6">
+          <div class="bg-white rounded-lg border border-slate-200 p-4">
+            <h3 class="font-bold text-slate-900 mb-1">Profiling tools</h3>
+            <p class="text-sm text-slate-600">
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >ydata-profiling</code
+              >,
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >sweetviz</code
+              >,
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >dtale</code
+              >
+              generate one-shot HTML reports.
+            </p>
+          </div>
+          <div class="bg-white rounded-lg border border-slate-200 p-4">
+            <h3 class="font-bold text-slate-900 mb-1">Plot the target</h3>
+            <p class="text-sm text-slate-600">
+              Histogram for regression, value_counts for classification.
+              Imbalanced? Plan for stratified splits and class weights.
+            </p>
+          </div>
+          <div class="bg-white rounded-lg border border-slate-200 p-4">
+            <h3 class="font-bold text-slate-900 mb-1">
+              Find duplicates & leaks
+            </h3>
+            <p class="text-sm text-slate-600">
+              Check
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >df.duplicated()</code
+              >
+              and any feature suspiciously correlated with the target.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Missing -->
+      <section id="missing" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          3. Handling Missing Values
+        </h2>
+        <p class="mb-4">
+          There is no universal best answer — the right strategy depends on
+          <em>why</em> the value is missing (MCAR, MAR, MNAR) and how much is
+          missing.
+        </p>
+
+        <div
+          class="overflow-x-auto bg-white rounded-lg border border-slate-200"
+        >
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="text-left p-3">Strategy</th>
+                <th class="text-left p-3">When to use</th>
+                <th class="text-left p-3">Watch out</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3 font-mono text-xs">drop rows</td>
+                <td class="p-3">Few rows missing & MCAR</td>
+                <td class="p-3">Loses data, biases sample</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">drop column</td>
+                <td class="p-3">&gt;60–80% missing or low signal</td>
+                <td class="p-3">
+                  Discarding info; consider a "is_missing" flag instead
+                </td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">mean / median</td>
+                <td class="p-3">Numeric, MCAR, low missingness</td>
+                <td class="p-3">Shrinks variance, distorts distribution</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">most_frequent / "Missing"</td>
+                <td class="p-3">Categorical</td>
+                <td class="p-3">Concentrates rare-category mass</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">KNNImputer</td>
+                <td class="p-3">Mixed numeric, modest dataset</td>
+                <td class="p-3">Slow, sensitive to scaling</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">IterativeImputer</td>
+                <td class="p-3">Missing values themselves predictable</td>
+                <td class="p-3">Experimental, costly</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">model handles it</td>
+                <td class="p-3">XGBoost, LightGBM, CatBoost</td>
+                <td class="p-3">
+                  Still add a missing indicator if missingness is informative
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto mt-6"
+        ><code>from sklearn.impute import SimpleImputer, KNNImputer
+from sklearn.experimental import enable_iterative_imputer  # noqa
+from sklearn.impute import IterativeImputer
+
+num_imputer = SimpleImputer(strategy="median", add_indicator=True)
+cat_imputer = SimpleImputer(strategy="constant", fill_value="Missing")
+
+# add_indicator=True appends a 0/1 column flagging the imputed rows —
+# extremely useful when missingness is itself a signal.
+X_train_num = num_imputer.fit_transform(X_train[num_cols])
+X_test_num  = num_imputer.transform(X_test[num_cols])
+</code></pre>
+      </section>
+
+      <!-- 4. Categorical -->
+      <section id="categorical" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          4. Encoding Categorical Features
+        </h2>
+        <p class="mb-4">
+          The right encoder depends on the cardinality, whether the categories
+          are ordinal, and the model family.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-5">
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">One-Hot Encoding</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              Default for low-cardinality nominal features (≲ 15 levels) with
+              linear / distance-based models.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(
+    handle_unknown="ignore",
+    sparse_output=False,
+    drop="if_binary",
+)</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">Ordinal Encoding</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              When order is meaningful (sizes, ratings) <strong>or</strong> when
+              feeding tree-based models.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder(
+    categories=[["S","M","L","XL"]],
+    handle_unknown="use_encoded_value",
+    unknown_value=-1,
+)</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">
+              Target / Mean Encoding
+            </h3>
+            <p class="text-sm text-slate-600 mb-2">
+              High-cardinality features (zip codes, item ids). Replace each
+              level with a smoothed estimate of the target.
+              <strong>High leakage risk</strong> — use CV-fold encoding.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from category_encoders import TargetEncoder
+te = TargetEncoder(smoothing=10.0)
+te.fit(X_train[["zip"]], y_train)
+X_train_enc = te.transform(X_train[["zip"]])</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">
+              Frequency / Count Encoding
+            </h3>
+            <p class="text-sm text-slate-600 mb-2">
+              Replace each category with how often it appears. Cheap, handles
+              new categories at zero, surprisingly effective for trees.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>freq = X_train["city"].value_counts(normalize=True)
+X_train["city_freq"] = X_train["city"].map(freq)
+X_test["city_freq"]  = X_test["city"].map(freq).fillna(0)</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">Hashing Encoder</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              Massive cardinality, online/streaming setting. Trades collisions
+              for fixed memory.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from sklearn.feature_extraction import FeatureHasher
+fh = FeatureHasher(n_features=64, input_type="string")</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">Native handling</h3>
+            <p class="text-sm text-slate-600 mb-2">
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >CatBoost</code
+              >
+              handles categoricals internally with ordered target stats.
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >LightGBM</code
+              >
+              accepts a
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >categorical_feature</code
+              >
+              argument. Skip encoding entirely when possible.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="mt-6 bg-rose-50 border-l-4 border-rose-400 p-4 rounded-r-lg text-sm"
+        >
+          <strong class="text-rose-900">Avoid:</strong> label-encoding nominal
+          categories before feeding a linear / KNN / NN model — you're inventing
+          an order that doesn't exist.
+        </div>
+      </section>
+
+      <!-- 5. Scaling -->
+      <section id="scaling" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          5. Scaling & Normalization
+        </h2>
+        <p class="mb-4">
+          Required for linear models, SVMs, KNN, k-means, PCA, and neural nets.
+          <strong>Not needed</strong> for tree-based models (RF, GBM, XGBoost,
+          LightGBM).
+        </p>
+
+        <div
+          class="overflow-x-auto bg-white rounded-lg border border-slate-200"
+        >
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="text-left p-3">Scaler</th>
+                <th class="text-left p-3">Output</th>
+                <th class="text-left p-3">Best for</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3 font-mono text-xs">StandardScaler</td>
+                <td class="p-3">mean 0, std 1</td>
+                <td class="p-3">Roughly Gaussian features</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">MinMaxScaler</td>
+                <td class="p-3">[0, 1]</td>
+                <td class="p-3">Bounded features, NN inputs</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">RobustScaler</td>
+                <td class="p-3">median 0, IQR 1</td>
+                <td class="p-3">Heavy outliers</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">MaxAbsScaler</td>
+                <td class="p-3">[-1, 1], preserves zeros</td>
+                <td class="p-3">Sparse data</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-xs">Normalizer</td>
+                <td class="p-3">unit row norm</td>
+                <td class="p-3">Cosine-similarity setups, text</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto mt-6"
+        ><code>from sklearn.preprocessing import StandardScaler, RobustScaler
+
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s  = scaler.transform(X_test)   # never refit on test
+</code></pre>
+      </section>
+
+      <!-- 6. Numerical transforms -->
+      <section id="numerical" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          6. Numerical Transformations
+        </h2>
+
+        <div class="space-y-5">
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">
+              Log / Box-Cox / Yeo-Johnson
+            </h3>
+            <p class="text-sm text-slate-600 mb-3">
+              Tame right-skewed distributions (incomes, counts, prices).
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >log1p</code
+              >
+              handles zeros; Yeo-Johnson handles negatives.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from sklearn.preprocessing import PowerTransformer
+pt = PowerTransformer(method="yeo-johnson", standardize=True)
+X_train_t = pt.fit_transform(X_train[skewed_cols])</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">
+              Binning / Discretization
+            </h3>
+            <p class="text-sm text-slate-600 mb-3">
+              Convert a continuous feature into ordinal buckets. Helps linear
+              models capture non-monotone effects; usually pointless for trees.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>from sklearn.preprocessing import KBinsDiscretizer
+binner = KBinsDiscretizer(n_bins=5, encode="ordinal", strategy="quantile")
+X_train["age_bin"] = binner.fit_transform(X_train[["age"]])</code></pre>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <h3 class="font-bold text-slate-900 mb-2">Outlier handling</h3>
+            <p class="text-sm text-slate-600 mb-3">
+              Cap (winsorize) extreme tails or remove rows beyond IQR or z-score
+              thresholds. Don't blindly delete — check whether outliers are
+              signal.
+            </p>
+            <pre
+              class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto"
+            ><code>q_lo, q_hi = X_train["price"].quantile([0.01, 0.99])
+X_train["price"] = X_train["price"].clip(q_lo, q_hi)
+X_test["price"]  = X_test["price"].clip(q_lo, q_hi)   # use train bounds</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Datetime -->
+      <section id="datetime" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          7. Datetime Features
+        </h2>
+        <p class="mb-4">
+          A raw timestamp is rarely useful. Decompose it, and remember that
+          cyclical components (hour, weekday, month) should be encoded as
+          sin/cos pairs so the model learns that 23:00 is close to 00:00.
+        </p>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>import numpy as np
+
+df["ts"] = pd.to_datetime(df["ts"])
+
+df["year"]      = df["ts"].dt.year
+df["month"]     = df["ts"].dt.month
+df["day"]       = df["ts"].dt.day
+df["dayofweek"] = df["ts"].dt.dayofweek
+df["hour"]      = df["ts"].dt.hour
+df["is_weekend"]= (df["dayofweek"] >= 5).astype(int)
+df["quarter"]   = df["ts"].dt.quarter
+df["days_since_signup"] = (df["ts"] - df["signup_ts"]).dt.days
+
+# Cyclical encoding
+df["hour_sin"] = np.sin(2*np.pi*df["hour"]/24)
+df["hour_cos"] = np.cos(2*np.pi*df["hour"]/24)
+df["mon_sin"]  = np.sin(2*np.pi*df["month"]/12)
+df["mon_cos"]  = np.cos(2*np.pi*df["month"]/12)
+
+# Time-series specific (per group)
+df = df.sort_values(["user_id", "ts"])
+df["amount_lag1"]   = df.groupby("user_id")["amount"].shift(1)
+df["amount_roll7"]  = df.groupby("user_id")["amount"].shift(1).rolling(7).mean()
+</code></pre>
+
+        <div
+          class="mt-4 bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-sm"
+        >
+          <strong class="text-amber-900">Time-series leak alert:</strong> always
+          <code class="bg-amber-100 px-1.5 py-0.5 rounded text-xs"
+            >.shift(1)</code
+          >
+          before rolling/expanding aggregations so a row never sees its own
+          target. Split chronologically with
+          <code class="bg-amber-100 px-1.5 py-0.5 rounded text-xs"
+            >TimeSeriesSplit</code
+          >, never random.
+        </div>
+      </section>
+
+      <!-- 8. Text -->
+      <section id="text" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          8. Text Features
+        </h2>
+        <p class="mb-4">
+          Even when text is not the main signal, simple length / count /
+          token-ratio features often help.
+        </p>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code># Cheap structural features
+df["text_len"]     = df["review"].str.len()
+df["word_count"]   = df["review"].str.split().str.len()
+df["upper_ratio"]  = df["review"].str.findall(r"[A-Z]").str.len() / df["text_len"]
+df["exclam"]       = df["review"].str.count("!")
+
+# Bag-of-words / TF-IDF
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf = TfidfVectorizer(
+    ngram_range=(1, 2),
+    min_df=5, max_df=0.95,
+    sublinear_tf=True,
+    stop_words="english",
+)
+X_train_tfidf = tfidf.fit_transform(X_train["review"])
+X_test_tfidf  = tfidf.transform(X_test["review"])
+
+# Embeddings (sentence-transformers) — for semantic similarity / classification
+# from sentence_transformers import SentenceTransformer
+# model = SentenceTransformer("all-MiniLM-L6-v2")
+# emb = model.encode(df["review"].tolist())
+</code></pre>
+      </section>
+
+      <!-- 9. Interactions -->
+      <section id="interactions" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          9. Interactions, Ratios & Polynomials
+        </h2>
+        <p class="mb-4">
+          Linear models benefit hugely from manually crafted interactions (trees
+          discover them automatically). Domain knowledge wins here.
+        </p>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code># Domain-driven (always try these first)
+df["price_per_sqm"]   = df["price"] / df["area_sqm"]
+df["debt_to_income"]  = df["debt"] / (df["income"] + 1)
+df["age_x_income"]    = df["age"] * df["income"]
+
+# Brute-force polynomial expansion (use sparingly)
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
+X_poly = poly.fit_transform(X_train[["x1","x2","x3"]])
+# columns explode quickly — pair with feature selection</code></pre>
+
+        <p class="mt-4 text-sm text-slate-600">
+          Group-level aggregations are another rich source: per-customer mean
+          spend, per-zip default rate (computed on train only and merged in).
+        </p>
+      </section>
+
+      <!-- 10. Selection -->
+      <section id="selection" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          10. Feature Selection Methods
+        </h2>
+        <p class="mb-6">
+          Three families, used in roughly increasing order of cost and accuracy.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-5 mb-8">
+          <div
+            class="bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200 rounded-lg p-5"
+          >
+            <h3 class="font-bold text-emerald-900 mb-1">Filter</h3>
+            <p class="text-xs text-emerald-700 uppercase mb-2">
+              Cheap · Model-agnostic
+            </p>
+            <p class="text-sm text-slate-700">
+              Score each feature by a univariate statistic and drop the bottom
+              N.
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-sky-50 to-sky-100 border border-sky-200 rounded-lg p-5"
+          >
+            <h3 class="font-bold text-sky-900 mb-1">Embedded</h3>
+            <p class="text-xs text-sky-700 uppercase mb-2">
+              Built into the model
+            </p>
+            <p class="text-sm text-slate-700">
+              L1 regularization, tree feature importance — selection happens
+              during training.
+            </p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-violet-50 to-violet-100 border border-violet-200 rounded-lg p-5"
+          >
+            <h3 class="font-bold text-violet-900 mb-1">Wrapper</h3>
+            <p class="text-xs text-violet-700 uppercase mb-2">
+              Expensive · Most accurate
+            </p>
+            <p class="text-sm text-slate-700">
+              Train a model on different subsets and pick the best. RFE,
+              sequential search.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mb-3">
+          10.1 Filter methods
+        </h3>
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>from sklearn.feature_selection import (
+    VarianceThreshold, SelectKBest,
+    f_classif, f_regression,
+    chi2, mutual_info_classif, mutual_info_regression,
+)
+
+# Drop near-constant features
+vt = VarianceThreshold(threshold=0.01)
+X_train_v = vt.fit_transform(X_train)
+
+# ANOVA F-test (numeric features, classification target)
+skb = SelectKBest(score_func=f_classif, k=30)
+X_train_k = skb.fit_transform(X_train, y_train)
+
+# Mutual information — captures non-linear dependence
+mi = mutual_info_classif(X_train, y_train, random_state=0)
+
+# Drop highly correlated pairs (numeric only)
+import numpy as np
+corr = X_train.corr().abs()
+upper = corr.where(np.triu(np.ones(corr.shape), k=1).astype(bool))
+to_drop = [c for c in upper.columns if any(upper[c] > 0.95)]
+X_train = X_train.drop(columns=to_drop)
+</code></pre>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-3">
+          10.2 Embedded methods
+        </h3>
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>from sklearn.linear_model import LassoCV, LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_selection import SelectFromModel
+
+# L1 regularization shrinks irrelevant coefficients to zero
+lasso = LassoCV(cv=5, random_state=0).fit(X_train_s, y_train)
+selector = SelectFromModel(lasso, prefit=True, threshold="median")
+X_train_sel = selector.transform(X_train_s)
+
+# Tree-based importance
+rf = RandomForestClassifier(n_estimators=500, n_jobs=-1, random_state=0)
+rf.fit(X_train, y_train)
+importances = pd.Series(rf.feature_importances_, index=X_train.columns)
+importances.sort_values(ascending=False).head(20)
+</code></pre>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-3">
+          10.3 Wrapper methods
+        </h3>
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>from sklearn.feature_selection import RFECV, SequentialFeatureSelector
+from sklearn.linear_model import LogisticRegression
+
+# Recursive feature elimination with cross-validation
+rfecv = RFECV(
+    estimator=LogisticRegression(max_iter=1000),
+    step=1, cv=5, scoring="roc_auc", n_jobs=-1,
+)
+rfecv.fit(X_train_s, y_train)
+print("optimal #features:", rfecv.n_features_)
+
+# Sequential forward selection (greedy)
+sfs = SequentialFeatureSelector(
+    LogisticRegression(max_iter=1000),
+    n_features_to_select=20,
+    direction="forward",
+    scoring="roc_auc", cv=5, n_jobs=-1,
+)
+sfs.fit(X_train_s, y_train)
+</code></pre>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-3">
+          10.4 Permutation importance & SHAP
+        </h3>
+        <p class="text-sm text-slate-600 mb-3">
+          After fitting your candidate model, these give a model-faithful view
+          of what actually matters. Permutation importance measures the drop in
+          score when a feature is shuffled; SHAP decomposes individual
+          predictions.
+        </p>
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>from sklearn.inspection import permutation_importance
+result = permutation_importance(
+    model, X_val, y_val,
+    n_repeats=10, random_state=0, n_jobs=-1, scoring="roc_auc",
+)
+imp = pd.Series(result.importances_mean, index=X_val.columns).sort_values()
+
+# import shap
+# explainer = shap.TreeExplainer(model)
+# shap_values = explainer.shap_values(X_val)
+# shap.summary_plot(shap_values, X_val)
+</code></pre>
+
+        <div
+          class="mt-6 bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-lg text-sm"
+        >
+          <strong class="text-indigo-900">Practical recipe:</strong> drop
+          near-constants and highly correlated columns (filter), fit a
+          regularized linear model and a tree-based model and look at both
+          rankings (embedded), confirm with permutation importance on a
+          validation set. Wrapper methods only when you need the last 1–2% of
+          accuracy.
+        </div>
+      </section>
+
+      <!-- 11. Pipeline -->
+      <section id="pipeline" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          11. Putting It in a Pipeline
+        </h2>
+        <p class="mb-4">
+          A scikit-learn
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >Pipeline</code
+          >
+          +
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >ColumnTransformer</code
+          >
+          is the only sane way to keep all of this leak-free, reproducible, and
+          deployable.
+        </p>
+
+        <pre
+          class="bg-slate-900 text-slate-100 rounded-lg p-5 overflow-x-auto"
+        ><code>import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.feature_selection import SelectFromModel
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+
+# 1. Split first
+X = df.drop(columns="target")
+y = df["target"]
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42
+)
+
+num_cols = X.select_dtypes(include=np.number).columns.tolist()
+cat_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
+
+# 2. Per-column-type preprocessing
+num_pipe = Pipeline([
+    ("impute", SimpleImputer(strategy="median", add_indicator=True)),
+    ("scale",  StandardScaler()),
+])
+cat_pipe = Pipeline([
+    ("impute", SimpleImputer(strategy="constant", fill_value="Missing")),
+    ("ohe",    OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+])
+
+preprocess = ColumnTransformer([
+    ("num", num_pipe, num_cols),
+    ("cat", cat_pipe, cat_cols),
+], remainder="drop")
+
+# 3. Selection + model in the same pipeline
+clf = Pipeline([
+    ("prep",   preprocess),
+    ("select", SelectFromModel(
+        LogisticRegression(penalty="l1", solver="liblinear", C=0.5),
+    )),
+    ("model",  GradientBoostingClassifier(random_state=0)),
+])
+
+# 4. Cross-validate — the whole pipeline is refit per fold
+scores = cross_val_score(clf, X_tr, y_tr, cv=5, scoring="roc_auc", n_jobs=-1)
+print(f"CV ROC-AUC: {scores.mean():.3f} ± {scores.std():.3f}")
+
+# 5. Fit on all training data, evaluate once on the held-out test
+clf.fit(X_tr, y_tr)
+print("Test ROC-AUC:", clf.score(X_te, y_te))
+</code></pre>
+
+        <p class="mt-4 text-sm text-slate-600">
+          Tune everything jointly with
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >GridSearchCV</code
+          >
+          /
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >RandomizedSearchCV</code
+          >
+          — including imputer strategy, scaler, number of selected features, and
+          model hyperparameters. Reference them as
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >"prep__num__impute__strategy"</code
+          >,
+          <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+            >"select__threshold"</code
+          >, etc.
+        </p>
+      </section>
+
+      <!-- 12. Pitfalls -->
+      <section id="pitfalls" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          12. Common Pitfalls & Data Leakage
+        </h2>
+
+        <div class="space-y-4">
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Fitting on the full dataset before splitting
+            </h3>
+            <p class="text-sm text-slate-700">
+              Calling
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >scaler.fit(X)</code
+              >
+              before
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >train_test_split</code
+              >
+              leaks test statistics into training. Always split first.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Target encoding without out-of-fold
+            </h3>
+            <p class="text-sm text-slate-700">
+              Plain mean encoding leaks the target. Use K-fold target encoding
+              (encode each fold using stats computed on the other folds) or
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >category_encoders.TargetEncoder</code
+              >
+              with smoothing inside a CV pipeline.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Selecting features on the entire dataset
+            </h3>
+            <p class="text-sm text-slate-700">
+              Running
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >SelectKBest</code
+              >
+              on all data and then doing CV over what's left is a classic leak.
+              Put selection <em>inside</em> the pipeline.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Using future information in time series
+            </h3>
+            <p class="text-sm text-slate-700">
+              Rolling means, group statistics, or random splits on time-ordered
+              data all leak the future. Use
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >TimeSeriesSplit</code
+              >
+              and lag/shift before any rolling op.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Imputing with target-derived statistics
+            </h3>
+            <p class="text-sm text-slate-700">
+              Don't fill missing values using group means computed from the
+              target on the full dataset.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">⚠️ Overengineering</h3>
+            <p class="text-sm text-slate-700">
+              Hundreds of polynomial / interaction features can overfit and slow
+              training. Always validate that a new feature actually moves CV
+              score.
+            </p>
+          </div>
+          <div class="bg-rose-50 border border-rose-200 rounded-lg p-5">
+            <h3 class="font-bold text-rose-900 mb-1">
+              ⚠️ Ignoring train/test distribution drift
+            </h3>
+            <p class="text-sm text-slate-700">
+              Categories present only in test crash a fitted
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >OneHotEncoder</code
+              >
+              unless you set
+              <code class="bg-white px-1.5 py-0.5 rounded text-xs"
+                >handle_unknown="ignore"</code
+              >. Validate that key feature distributions match.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. Checklist -->
+      <section id="checklist" class="anchor">
+        <h2
+          class="text-3xl font-bold text-slate-900 border-b-2 border-indigo-500 pb-2 mb-6"
+        >
+          13. Final Checklist
+        </h2>
+        <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <ul class="space-y-2 text-slate-700">
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Data was split
+              <em>before</em> any fitting.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Every
+              transformer is wrapped in a
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >Pipeline</code
+              >
+              /
+              <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs"
+                >ColumnTransformer</code
+              >.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Missing values
+              handled with a documented strategy per column type.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Categorical
+              encoder chosen for the model family (OHE for linear/NN,
+              ordinal/native for trees, target for high-cardinality).
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Numeric features
+              scaled (linear/SVM/KNN/NN) — skipped (trees).
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Skewed features
+              transformed (log / Yeo-Johnson) when relevant.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Datetime
+              decomposed and cyclical components encoded as sin/cos.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Domain-driven
+              interactions / ratios attempted before brute-force polynomials.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Near-constant
+              and highly correlated features removed.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> Feature
+              selection cross-validated, importance verified with permutation /
+              SHAP.
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> No target
+              leakage; CV scheme matches the production setting (time-aware if
+              temporal).
+            </li>
+            <li class="flex gap-3">
+              <span class="text-emerald-500 font-bold">✓</span> The full
+              pipeline can be pickled and reapplied to new raw data with one
+              call.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 mt-16">
+      <div
+        class="max-w-6xl mx-auto px-6 py-8 text-sm flex flex-col md:flex-row md:justify-between gap-3"
+      >
+        <span>Feature Engineering & Selection — Python ML reference</span>
+        <span>Built with Tailwind CSS · scikit-learn · pandas</span>
+      </div>
+    </footer>
+  </body>
+</html>
