@@ -108,6 +108,8 @@ const content = {
     models: () => fetch("/ml/models.html").then((r) => r.text()),
     boosting: () => fetch("/ml/boosting.html").then((r) => r.text()),
     featureselectionengineering: () => fetch("/ml/featureselectionengineering.html").then((r) => r.text()),
+    stratification: () => fetch("/ml/stratification.html").then((r) => r.text()),
+    datasplits: () => fetch("/ml/datasplits.html").then((r) => r.text()),
   },
 };
 

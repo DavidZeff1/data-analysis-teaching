@@ -1,0 +1,130 @@
+<div class="space-y-8">
+
+    <!-- SECTION 1: FOUNDATIONS -->
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">The Definitive Guide to Stratification in Machine Learning</h2>
+        <p class="mb-4 text-lg text-gray-700">
+            In machine learning, your model is only as good as the data it learns from. But what happens if you randomly split an imbalanced dataset and by pure chance, all the rare cases end up in the test set? The model never learns them! <strong>Stratification</strong> is the technique used to preserve the distribution of classes or categories when splitting data, ensuring representative training and testing sets.
+        </p>
+
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg mb-6 border-l-4 border-blue-500">
+            <h3 class="font-semibold text-lg mb-3 text-blue-900">📖 What Is Stratification?</h3>
+            <p class="text-gray-700 mb-2">Stratified sampling means dividing the population into homogeneous subgroups (strata) before sampling. In a machine learning context, it means <strong>forcing the train and test splits to have the exact same proportion of target classes as the original dataset.</strong></p>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                <li>If your full dataset is 90% Class A and 10% Class B...</li>
+                <li>...a stratified 80/20 train/test split ensures that the training set is 90% Class A and 10% Class B, and the test set is also 90% Class A and 10% Class B.</li>
+            </ul>
+        </div>
+
+        <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500 mb-6">
+            <h3 class="font-semibold text-lg mb-3 text-red-900">🚨 The Danger of Random Splitting</h3>
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">📉 The Missing Minority</h4>
+                    <p class="text-sm text-gray-700">Imagine predicting a rare disease that occurs in 1% of patients. With a naive random split, you might accidentally put all 1% of positive cases into the training set. The test set will only have negative cases, meaning <strong>you can't actually evaluate if the model detects the disease!</strong></p>
+                </div>
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="font-semibold text-gray-900 mb-1">🎲 Variance in Performance Evaluation</h4>
+                    <p class="text-sm text-gray-700">Without stratification, one fold in cross-validation might be "lucky" and get easy examples, while another gets hard ones. This leads to unstable, unreliable metrics that don't reflect true real-world performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: IMPLEMENTATION IN SCIKIT-LEARN -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Implementing Stratification in Scikit-Learn</h2>
+        
+        <p class="mb-4 text-gray-700">Scikit-learn makes stratification incredibly easy. For standard train-test splits, it's just a single parameter.</p>
+
+        <h3 class="text-2xl font-bold mb-3 text-gray-900">1. Stratified Train-Test Split</h3>
+        <p class="text-gray-700 mb-4">Use the `stratify` parameter in `train_test_split`. Pass it the array containing the class labels (usually your `y` variable).</p>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> train_test_split
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+
+<span class="text-gray-400"># Assuming X contains features and y contains the target class (0 or 1)</span>
+X = df.drop(columns=[<span class="text-green-400">'target'</span>])
+y = df[<span class="text-green-400">'target'</span>]
+
+<span class="text-gray-400"># Naive random split (DANGEROUS for imbalanced data)</span>
+X_train_naive, X_test_naive, y_train_naive, y_test_naive = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>
+)
+
+<span class="text-gray-400"># Stratified split (SAFE & BEST PRACTICE)</span>
+<span class="text-gray-400"># By passing stratify=y, sklearn guarantees the proportions match</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, random_state=<span class="text-yellow-400">42</span>, stratify=y
+)
+
+print(<span class="text-green-400">f"Original y class proportions:\n{y.value_counts(normalize=True)}"</span>)
+print(<span class="text-green-400">f"\nStratified Train proportions:\n{y_train.value_counts(normalize=True)}"</span>)
+print(<span class="text-green-400">f"\nStratified Test proportions:\n{y_test.value_counts(normalize=True)}"</span>)</code></pre>
+
+        <h3 class="text-2xl font-bold mb-3 text-gray-900">2. Stratified K-Fold Cross Validation</h3>
+        <p class="text-gray-700 mb-4">When using Cross-Validation, standard `KFold` splits the data blindly. Always use `StratifiedKFold` for classification problems.</p>
+
+        <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-6"><code><span class="text-purple-400">from</span> sklearn.model_selection <span class="text-purple-400">import</span> StratifiedKFold, cross_val_score
+<span class="text-purple-400">from</span> sklearn.ensemble <span class="text-purple-400">import</span> RandomForestClassifier
+
+<span class="text-gray-400"># Initialize the Stratified K-Fold</span>
+skf = StratifiedKFold(n_splits=<span class="text-yellow-400">5</span>, shuffle=True, random_state=<span class="text-yellow-400">42</span>)
+
+model = RandomForestClassifier()
+
+<span class="text-gray-400"># Provide 'skf' to the 'cv' parameter. </span>
+<span class="text-gray-400"># Note: cross_val_score uses StratifiedKFold automatically for classification estimators,</span>
+<span class="text-gray-400"># but explicitly defining it ensures shuffle is enabled!</span>
+scores = cross_val_score(model, X, y, cv=skf, scoring=<span class="text-green-400">'roc_auc'</span>)
+
+print(<span class="text-green-400">f"AUC scores per fold: {scores}"</span>)
+print(<span class="text-green-400">f"Mean AUC: {scores.mean():.3f}"</span>)</code></pre>
+    </section>
+
+    <!-- SECTION 3: ADVANCED SCENARIOS -->
+    <section class="pt-6 border-t-2 border-gray-200">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900">Advanced Stratification Scenarios</h2>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-amber-50 p-5 rounded-lg border border-amber-200">
+                <h4 class="font-semibold text-amber-900 mb-2">📈 Stratifying Regression (Continuous Data)</h4>
+                <p class="text-sm text-gray-700 mb-3">You can't directly stratify a continuous target because every value might be unique! To stratify regression splits, you must temporarily bin (discretize) the target, stratify on those bins, and then discard the bins.</p>
+                <div class="bg-gray-900 p-3 rounded text-xs text-gray-200 overflow-x-auto">
+<code><span class="text-gray-400"># Create temporary bins for continuous target</span>
+y_binned = pd.cut(y, bins=<span class="text-yellow-400">10</span>, labels=False)
+
+<span class="text-gray-400"># Stratify split using the bins</span>
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y, test_size=<span class="text-yellow-400">0.2</span>, 
+    stratify=y_binned  <span class="text-gray-400"># Use bins!</span>
+)</code>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 p-5 rounded-lg border border-purple-200">
+                <h4 class="font-semibold text-purple-900 mb-2">🎭 Multi-label Stratification</h4>
+                <p class="text-sm text-gray-700 mb-3">If a record can have multiple labels simultaneously (e.g., a movie is both "Action" and "Comedy"), standard scikit-learn `train_test_split` won't work. You need an external library like <strong>scikit-multilearn</strong>.</p>
+                <div class="bg-gray-900 p-3 rounded text-xs text-gray-200 overflow-x-auto">
+<code><span class="text-gray-400"># pip install scikit-multilearn</span>
+<span class="text-purple-400">from</span> skmultilearn.model_selection <span class="text-purple-400">import</span> iterative_train_test_split
+
+<span class="text-gray-400"># Requires specialized splitting logic</span>
+X_tr, y_tr, X_te, y_te = iterative_train_test_split(
+    X_matrix, y_matrix, test_size=<span class="text-yellow-400">0.2</span>
+)</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+            <h3 class="font-semibold text-lg mb-2 text-green-900">✅ Stratification Best Practices Checklist</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700 text-sm">
+                <li><strong>Always use for Classification:</strong> Unless your dataset is massive and perfectly balanced (e.g., 50/50), default to `stratify=y`. There is rarely a downside.</li>
+                <li><strong>Highly Imbalanced Data:</strong> If a class is < 5%, stratification is absolutely mandatory.</li>
+                <li><strong>Group Information:</strong> If you have multiple rows belonging to the same patient/user, use `GroupKFold` or `StratifiedGroupKFold` to prevent data leakage (a patient's data leaking into both train and test).</li>
+            </ul>
+        </div>
+    </section>
+
+</div>
