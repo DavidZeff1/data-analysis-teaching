@@ -1,0 +1,269 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-cyan-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent"
+      >
+        Cosine Similarity
+      </h1>
+      <p class="text-xl text-gray-600">
+        Measuring the Angle Between Vectors — The Workhorse of Recommenders, Search &amp; NLP
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-teal-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- WHAT IS IT                                 -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">What Is Cosine Similarity?</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Cosine similarity measures how <strong>aligned in direction</strong> two vectors are, ignoring their
+        magnitude. Two vectors pointing the same way score $1$; perpendicular vectors score $0$; opposite
+        vectors score $-1$.
+      </p>
+
+      <div class="bg-white border-2 border-gray-200 p-5 rounded-lg mb-4">
+        <p class="font-mono text-center text-base">
+          $\cos(\theta) = \dfrac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\|\,\|\mathbf{b}\|}
+          = \dfrac{\sum_{i=1}^{n} a_i b_i}{\sqrt{\sum_{i=1}^{n} a_i^2}\,\sqrt{\sum_{i=1}^{n} b_i^2}}$
+        </p>
+        <p class="text-xs text-gray-600 mt-3 text-center">
+          dot product divided by the product of L2 norms.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">$\cos \theta = 1$</h3>
+          <p class="text-sm text-gray-700">Same direction → identical orientation.</p>
+        </div>
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">$\cos \theta = 0$</h3>
+          <p class="text-sm text-gray-700">Orthogonal → no shared direction (no overlap).</p>
+        </div>
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">$\cos \theta = -1$</h3>
+          <p class="text-sm text-gray-700">Opposite directions. Rare for non-negative data (e.g. TF-IDF).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- WHY ANGLE NOT DISTANCE                     -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Why Angle Instead of Euclidean Distance?</h2>
+      <p class="text-gray-700 mb-4">
+        Euclidean distance is affected by magnitude. Cosine similarity is not — which is exactly what you want
+        when magnitude reflects size, not preference.
+      </p>
+
+      <div class="bg-teal-50 border-l-4 border-teal-400 p-5 rounded mb-4">
+        <h3 class="font-bold text-teal-800 mb-2">Example — comparing documents</h3>
+        <p class="text-sm text-gray-700 mb-2">
+          Two TF-IDF vectors: a short tweet and a long article that cover exactly the same topics in the same
+          proportions. Their <em>magnitudes</em> are very different (the article has more words), so
+          Euclidean distance flags them as far apart. Cosine similarity correctly reports them as
+          near-identical because their <em>directions</em> in word-space match.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+          <h3 class="font-semibold text-green-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✓</span> Use Cosine When…
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>You care about <strong>proportions</strong> not absolute values</li>
+            <li>Vectors are <strong>sparse / high-dimensional</strong> (text, user-item)</li>
+            <li>Magnitude reflects size, not meaning (long vs short documents)</li>
+            <li>You're working with <strong>embeddings</strong> (Word2Vec, sentence-transformers, OpenAI)</li>
+          </ul>
+        </div>
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+          <h3 class="font-semibold text-red-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✗</span> Prefer Euclidean When…
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Magnitude carries meaning (physical measurements, prices)</li>
+            <li>Features are low-dimensional and on the same scale</li>
+            <li>You're doing geometric clustering like K-Means on positions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- COMPUTING IT                               -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Computing It in Python</h2>
+
+      <h3 class="text-xl font-bold text-gray-900 mt-4 mb-3">From scratch with NumPy</h3>
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-purple-400">def</span> <span class="text-blue-400">cosine_similarity</span>(a, b):
+    <span class="text-purple-400">return</span> np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+a = np.array([<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">3</span>])
+b = np.array([<span class="text-yellow-400">2</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">6</span>])
+<span class="text-blue-400">print</span>(cosine_similarity(a, b))   <span class="text-gray-400"># 1.0 — same direction, different magnitude</span></code></pre>
+
+      <h3 class="text-xl font-bold text-gray-900 mt-4 mb-3">Pairwise similarity matrix with scikit-learn</h3>
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.metrics.pairwise <span class="text-purple-400">import</span> cosine_similarity
+
+<span class="text-gray-400"># X is a (n_samples, n_features) matrix — dense or sparse</span>
+sim = cosine_similarity(X)   <span class="text-gray-400"># shape (n_samples, n_samples)</span>
+<span class="text-gray-400"># Compare two specific matrices: cosine_similarity(X, Y)</span></code></pre>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-amber-800 mb-2">💡 Performance Tip</h3>
+        <p class="text-sm text-gray-700">
+          If you'll compute many similarities, <strong>L2-normalise once up front</strong> with
+          <code>sklearn.preprocessing.normalize(X)</code>. After that, cosine similarity is just the dot product
+          $\mathbf{a} \cdot \mathbf{b}$ — much faster, and works seamlessly on sparse matrices.
+        </p>
+      </div>
+
+      <h3 class="text-xl font-bold text-gray-900 mt-4 mb-3">Cosine distance vs cosine similarity</h3>
+      <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+        <p class="text-sm text-gray-700">
+          Many libraries use <strong>cosine distance</strong> = $1 - \cos(\theta)$ so smaller = more similar
+          (matching the convention of other distance metrics). Watch for which one a function returns:
+          <code>sklearn.metrics.pairwise.cosine_similarity</code> returns similarity; <code>scipy.spatial.distance.cosine</code>
+          returns distance.
+        </p>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TEXT EXAMPLE                               -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Worked Example — Comparing Documents</h2>
+      <p class="text-gray-700 mb-4">
+        A classic NLP pipeline: turn text into TF-IDF vectors, then use cosine similarity to find the most
+        similar documents to a query.
+      </p>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.feature_extraction.text <span class="text-purple-400">import</span> TfidfVectorizer
+<span class="text-purple-400">from</span> sklearn.metrics.pairwise <span class="text-purple-400">import</span> cosine_similarity
+
+docs = [
+    <span class="text-green-400">"the cat sat on the mat"</span>,
+    <span class="text-green-400">"a cat is sitting on a mat"</span>,
+    <span class="text-green-400">"machine learning models are powerful"</span>,
+    <span class="text-green-400">"deep learning is a subset of machine learning"</span>,
+]
+query = [<span class="text-green-400">"cats and mats"</span>]
+
+vec = TfidfVectorizer()
+X      = vec.fit_transform(docs)
+q_vec  = vec.transform(query)
+
+sims = cosine_similarity(q_vec, X).flatten()
+<span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> sims.argsort()[::-<span class="text-yellow-400">1</span>]:
+    <span class="text-blue-400">print</span>(<span class="text-green-400">f"{sims[i]:.3f}  {docs[i]}"</span>)</code></pre>
+
+      <p class="text-sm text-gray-700">
+        The two cat-and-mat documents score high against the query; the machine-learning ones score near zero,
+        even though they're longer.
+      </p>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- WHERE IT'S USED                            -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Where Cosine Similarity Shows Up</h2>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">🔍 Search &amp; Information Retrieval</h3>
+          <p class="text-sm text-gray-700">Rank documents by similarity to a query vector — the backbone of TF-IDF search and modern vector search engines.</p>
+        </div>
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">🎬 Recommender Systems</h3>
+          <p class="text-sm text-gray-700">Item-based and user-based collaborative filtering: similar users have similar rating vectors; similar items have similar user-rating patterns.</p>
+        </div>
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">🧠 Embeddings &amp; RAG</h3>
+          <p class="text-sm text-gray-700">The standard metric for comparing sentence-transformer / OpenAI / Cohere embeddings — and the default in vector DBs (Pinecone, Weaviate, pgvector, FAISS).</p>
+        </div>
+        <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded">
+          <h3 class="font-bold text-cyan-800 mb-1">📊 Clustering &amp; Deduplication</h3>
+          <p class="text-sm text-gray-700">Drop-in distance for clustering text/embedding data — pass <code>metric="cosine"</code> to <code>AgglomerativeClustering</code> or <code>DBSCAN</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- RECOMMENDER MINI-EXAMPLE                   -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Mini Recommender — Item-Based Collaborative Filtering</h2>
+      <p class="text-gray-700 mb-4">
+        Given a user-item rating matrix, find items similar to one the user already likes.
+      </p>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> sklearn.metrics.pairwise <span class="text-purple-400">import</span> cosine_similarity
+
+<span class="text-gray-400"># rows = users, cols = items, values = ratings (0 = not rated)</span>
+ratings = pd.DataFrame({
+    <span class="text-green-400">"Inception"</span>:    [<span class="text-yellow-400">5</span>, <span class="text-yellow-400">4</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">1</span>],
+    <span class="text-green-400">"Interstellar"</span>: [<span class="text-yellow-400">5</span>, <span class="text-yellow-400">5</span>, <span class="text-yellow-400">0</span>, <span class="text-yellow-400">2</span>],
+    <span class="text-green-400">"Toy Story"</span>:    [<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, <span class="text-yellow-400">5</span>, <span class="text-yellow-400">4</span>],
+    <span class="text-green-400">"Finding Nemo"</span>: [<span class="text-yellow-400">2</span>, <span class="text-yellow-400">1</span>, <span class="text-yellow-400">5</span>, <span class="text-yellow-400">5</span>],
+}, index=[<span class="text-green-400">"u1"</span>, <span class="text-green-400">"u2"</span>, <span class="text-green-400">"u3"</span>, <span class="text-green-400">"u4"</span>])
+
+<span class="text-gray-400"># Item-item similarity: transpose so each row is an item's user-rating vector</span>
+item_sim = pd.DataFrame(
+    cosine_similarity(ratings.T),
+    index=ratings.columns, columns=ratings.columns,
+)
+<span class="text-blue-400">print</span>(item_sim[<span class="text-green-400">"Inception"</span>].sort_values(ascending=<span class="text-yellow-400">False</span>))
+<span class="text-gray-400"># Interstellar will rank highest — same audience pattern.</span></code></pre>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PITFALLS                                   -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-cyan-700 mb-4">Pitfalls &amp; Variants</h2>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-amber-800 mb-2">⚠️ Watch out for</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><strong>Zero vectors</strong> are undefined ($\|0\| = 0$); filter them out or return 0.</li>
+          <li><strong>Mean-centring matters</strong> for rating data: raw cosine treats unrated items as 0 (a strong dislike). Use <em>adjusted cosine</em> (subtract each user's mean rating) for collaborative filtering.</li>
+          <li><strong>High dimensionality</strong> isn't a problem for cosine the way it is for Euclidean — that's one of its main attractions.</li>
+          <li><strong>Negative values</strong> in embeddings can yield negative similarities; clip or shift if your downstream code assumes $[0, 1]$.</li>
+          <li><strong>Cosine on TF</strong> (counts only) is dominated by stopwords — use TF-IDF or remove stopwords first.</li>
+        </ul>
+      </div>
+
+      <div class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded">
+        <h3 class="font-bold text-teal-800 mb-2">Cousins worth knowing</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><strong>Dot product</strong> — cosine without normalisation; faster, but magnitude leaks in.</li>
+          <li><strong>Jaccard similarity</strong> = $|A \cap B| / |A \cup B|$ — for binary sets (tags, watched/not-watched).</li>
+          <li><strong>Pearson correlation</strong> = cosine on mean-centred vectors. Use when each row has its own baseline (e.g. per-user rating scale).</li>
+          <li><strong>Manhattan / Euclidean</strong> — magnitude-aware distances; better when scale is meaningful.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

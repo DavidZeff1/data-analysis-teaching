@@ -1,0 +1,450 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-indigo-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+      >
+        Clustering
+      </h1>
+      <p class="text-xl text-gray-600">
+        K-Means, Hierarchical, DBSCAN &amp; GMM — Discovering Hidden Structure in Unlabeled Data
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- WHAT IS CLUSTERING                         -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">What Is Clustering?</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Clustering is an <strong>unsupervised learning</strong> technique that groups data points so that points
+        within the same group (a <em>cluster</em>) are more similar to each other than to those in other groups.
+        There are <strong>no labels</strong>; the algorithm finds structure on its own.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+          <h3 class="font-bold text-indigo-800 mb-2">🎯 Typical Use Cases</h3>
+          <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <li><strong>Customer segmentation</strong> for marketing</li>
+            <li><strong>Document / image grouping</strong> by topic or content</li>
+            <li><strong>Anomaly detection</strong> (points that fit no cluster)</li>
+            <li><strong>Image compression</strong> via colour quantization</li>
+            <li><strong>Exploratory analysis</strong> — finding natural groupings before modelling</li>
+          </ul>
+        </div>
+        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded">
+          <h3 class="font-bold text-purple-800 mb-2">🔑 Core Idea</h3>
+          <p class="text-sm text-gray-700 mb-2">
+            Every clustering algorithm needs two ingredients:
+          </p>
+          <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <li>A <strong>distance / similarity metric</strong> (Euclidean, cosine, Manhattan…)</li>
+            <li>An <strong>objective</strong> (minimise within-cluster distance, maximise density, etc.)</li>
+          </ul>
+          <p class="text-sm text-gray-600 italic mt-2">
+            Different metrics + objectives → very different cluster shapes.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+        <h3 class="font-bold text-amber-800 mb-2">⚠️ Always Scale First</h3>
+        <p class="text-sm text-gray-700">
+          Distance-based algorithms are dominated by features with the largest scale. Apply <code>StandardScaler</code>
+          or <code>MinMaxScaler</code> before clustering, otherwise a feature in dollars will overwhelm a feature in years.
+        </p>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- K-MEANS                                    -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">K-Means</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        K-Means partitions the data into <strong>K</strong> clusters by repeatedly moving cluster centres
+        (<em>centroids</em>) to minimise the total squared distance between each point and its nearest centroid.
+      </p>
+
+      <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-indigo-800 mb-2">The Algorithm</h3>
+        <ol class="list-decimal ml-6 space-y-1 text-sm text-gray-700">
+          <li>Pick <strong>K</strong> initial centroids (usually with <code>k-means++</code> for good seeding)</li>
+          <li><strong>Assign</strong> each point to its nearest centroid</li>
+          <li><strong>Update</strong> each centroid to the mean of its assigned points</li>
+          <li>Repeat 2–3 until assignments no longer change (or max iterations hit)</li>
+        </ol>
+      </div>
+
+      <div class="bg-white border-2 border-gray-200 p-4 rounded mb-4">
+        <p class="font-mono text-sm mb-2">
+          Objective (within-cluster sum of squares, WCSS / inertia):
+        </p>
+        <p class="font-mono text-base text-center">
+          $J = \sum_{k=1}^{K} \sum_{x_i \in C_k} \|x_i - \mu_k\|^2$
+        </p>
+        <p class="text-xs text-gray-600 mt-2 text-center">
+          where $\mu_k$ is the centroid of cluster $C_k$.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-4">
+        <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+          <h3 class="font-semibold text-green-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✓</span> Strengths
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Fast and scales to large datasets — $O(n \cdot k \cdot d \cdot i)$</li>
+            <li>Easy to understand and implement</li>
+            <li>Works well when clusters are spherical and similarly sized</li>
+          </ul>
+        </div>
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+          <h3 class="font-semibold text-red-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✗</span> Weaknesses
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Must choose <strong>K</strong> in advance</li>
+            <li>Assumes spherical, equal-variance clusters — fails on moons, rings, elongated shapes</li>
+            <li>Sensitive to outliers (they pull centroids)</li>
+            <li>Result depends on initial centroid placement (use <code>n_init</code>)</li>
+          </ul>
+        </div>
+      </div>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.cluster <span class="text-purple-400">import</span> KMeans
+<span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler
+
+<span class="text-gray-400"># Always scale first for distance-based methods</span>
+X_scaled = StandardScaler().fit_transform(X)
+
+kmeans = KMeans(
+    n_clusters=<span class="text-yellow-400">4</span>,
+    init=<span class="text-green-400">'k-means++'</span>,   <span class="text-gray-400"># smart seeding</span>
+    n_init=<span class="text-yellow-400">10</span>,           <span class="text-gray-400"># run 10 times, keep best</span>
+    max_iter=<span class="text-yellow-400">300</span>,
+    random_state=<span class="text-yellow-400">42</span>,
+)
+labels = kmeans.fit_predict(X_scaled)
+
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Inertia (WCSS):"</span>, kmeans.inertia_)
+<span class="text-blue-400">print</span>(<span class="text-green-400">"Centroids:"</span>, kmeans.cluster_centers_)</code></pre>
+
+      <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Picking K: the Elbow &amp; Silhouette Methods</h3>
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <h4 class="font-bold text-blue-800 mb-2">Elbow Method</h4>
+          <p class="text-sm text-gray-700">
+            Plot WCSS for $K = 1, 2, \dots, 10$. Pick the $K$ at the "elbow" where adding another cluster
+            stops producing a big drop in WCSS.
+          </p>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <h4 class="font-bold text-blue-800 mb-2">Silhouette Score</h4>
+          <p class="text-sm text-gray-700">
+            For each point, compare its average distance to its own cluster ($a$) vs the nearest other
+            cluster ($b$): $s = (b - a) / \max(a, b)$. Ranges from $-1$ to $1$ — higher is better. Pick $K$
+            with the highest average silhouette.
+          </p>
+        </div>
+      </div>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto"><code><span class="text-purple-400">from</span> sklearn.metrics <span class="text-purple-400">import</span> silhouette_score
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+wcss, sil = [], []
+ks = <span class="text-blue-400">range</span>(<span class="text-yellow-400">2</span>, <span class="text-yellow-400">11</span>)
+<span class="text-purple-400">for</span> k <span class="text-purple-400">in</span> ks:
+    km = KMeans(n_clusters=k, n_init=<span class="text-yellow-400">10</span>, random_state=<span class="text-yellow-400">42</span>).fit(X_scaled)
+    wcss.append(km.inertia_)
+    sil.append(silhouette_score(X_scaled, km.labels_))
+
+fig, ax = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">4</span>))
+ax[<span class="text-yellow-400">0</span>].plot(ks, wcss, <span class="text-green-400">'o-'</span>); ax[<span class="text-yellow-400">0</span>].set_title(<span class="text-green-400">"Elbow"</span>)
+ax[<span class="text-yellow-400">1</span>].plot(ks, sil, <span class="text-green-400">'o-'</span>);  ax[<span class="text-yellow-400">1</span>].set_title(<span class="text-green-400">"Silhouette"</span>)
+plt.show()</code></pre>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HIERARCHICAL                               -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">Hierarchical Clustering</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        Builds a <strong>tree of clusters</strong> (a <em>dendrogram</em>) instead of a flat partition.
+        You can cut the tree at any height to get any number of clusters — no need to pre-choose $K$.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-4">
+        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+          <h3 class="font-bold text-indigo-800 mb-2">Agglomerative (bottom-up)</h3>
+          <p class="text-sm text-gray-700">
+            Start with each point as its own cluster, then repeatedly merge the two closest clusters
+            until everything is one big cluster. This is what sklearn implements.
+          </p>
+        </div>
+        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded">
+          <h3 class="font-bold text-indigo-800 mb-2">Divisive (top-down)</h3>
+          <p class="text-sm text-gray-700">
+            Start with one cluster containing all points and recursively split. Less common in practice.
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-purple-800 mb-2">Linkage — how distance between clusters is measured</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><strong>Ward</strong> — minimises variance increase from merging (default; works well on roughly spherical clusters)</li>
+          <li><strong>Single</strong> — distance between closest pair (can produce long "chains")</li>
+          <li><strong>Complete</strong> — distance between farthest pair (compact clusters)</li>
+          <li><strong>Average</strong> — mean of all pairwise distances (a balance)</li>
+        </ul>
+      </div>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.cluster <span class="text-purple-400">import</span> AgglomerativeClustering
+<span class="text-purple-400">from</span> scipy.cluster.hierarchy <span class="text-purple-400">import</span> dendrogram, linkage
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+<span class="text-gray-400"># Build &amp; plot the dendrogram to choose a cut height</span>
+Z = linkage(X_scaled, method=<span class="text-green-400">'ward'</span>)
+plt.figure(figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">4</span>))
+dendrogram(Z, truncate_mode=<span class="text-green-400">'lastp'</span>, p=<span class="text-yellow-400">30</span>)
+plt.title(<span class="text-green-400">"Dendrogram"</span>); plt.show()
+
+<span class="text-gray-400"># Fit a flat clustering once you know how many groups you want</span>
+hc = AgglomerativeClustering(n_clusters=<span class="text-yellow-400">4</span>, linkage=<span class="text-green-400">'ward'</span>)
+labels = hc.fit_predict(X_scaled)</code></pre>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+          <h3 class="font-semibold text-green-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✓</span> Strengths
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>No need to pre-specify $K$ — explore via the dendrogram</li>
+            <li>Reveals nested cluster structure</li>
+            <li>Deterministic (no random init)</li>
+          </ul>
+        </div>
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+          <h3 class="font-semibold text-red-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✗</span> Weaknesses
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>$O(n^2)$ memory — impractical above ~10k points</li>
+            <li>Greedy merges can't be undone</li>
+            <li>Sensitive to choice of linkage and metric</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- DBSCAN                                     -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">DBSCAN (Density-Based)</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        DBSCAN groups together points in <strong>dense regions</strong> and marks points in low-density regions
+        as <strong>noise</strong>. It can discover clusters of arbitrary shape and does <em>not</em> need $K$.
+      </p>
+
+      <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-indigo-800 mb-2">Two Key Parameters</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><code>eps</code> ($\varepsilon$) — radius defining a point's neighbourhood</li>
+          <li><code>min_samples</code> — minimum points needed within $\varepsilon$ for a "core point"</li>
+        </ul>
+        <p class="text-sm text-gray-700 mt-3">
+          A point is a <strong>core point</strong> if at least <code>min_samples</code> other points lie within
+          $\varepsilon$. Clusters are formed by chaining core points and their neighbours. Points not reachable
+          from any core point are labelled <strong>noise</strong> (label = <code>-1</code>).
+        </p>
+      </div>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-amber-800 mb-2">💡 Choosing <code>eps</code></h3>
+        <p class="text-sm text-gray-700">
+          Compute each point's distance to its <code>min_samples</code>-th nearest neighbour, sort, and plot.
+          The "knee" of that curve is a good <code>eps</code>.
+        </p>
+      </div>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.cluster <span class="text-purple-400">import</span> DBSCAN
+<span class="text-purple-400">from</span> sklearn.neighbors <span class="text-purple-400">import</span> NearestNeighbors
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
+
+<span class="text-gray-400"># 1. Find a good eps from the k-distance plot</span>
+k = <span class="text-yellow-400">5</span>
+dists, _ = NearestNeighbors(n_neighbors=k).fit(X_scaled).kneighbors(X_scaled)
+plt.plot(np.sort(dists[:, k - <span class="text-yellow-400">1</span>])); plt.ylabel(<span class="text-green-400">"k-distance"</span>); plt.show()
+
+<span class="text-gray-400"># 2. Fit DBSCAN</span>
+db = DBSCAN(eps=<span class="text-yellow-400">0.5</span>, min_samples=<span class="text-yellow-400">5</span>).fit(X_scaled)
+labels = db.labels_
+n_clusters = <span class="text-blue-400">len</span>(<span class="text-blue-400">set</span>(labels)) - (<span class="text-yellow-400">1</span> <span class="text-purple-400">if</span> -<span class="text-yellow-400">1</span> <span class="text-purple-400">in</span> labels <span class="text-purple-400">else</span> <span class="text-yellow-400">0</span>)
+n_noise = <span class="text-blue-400">list</span>(labels).count(-<span class="text-yellow-400">1</span>)
+<span class="text-blue-400">print</span>(<span class="text-green-400">f"Clusters: {n_clusters}, noise points: {n_noise}"</span>)</code></pre>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+          <h3 class="font-semibold text-green-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✓</span> Strengths
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Finds non-convex clusters (moons, rings)</li>
+            <li>Identifies outliers natively (label <code>-1</code>)</li>
+            <li>No need to choose $K$</li>
+          </ul>
+        </div>
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+          <h3 class="font-semibold text-red-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✗</span> Weaknesses
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Struggles when clusters have very different densities</li>
+            <li>Sensitive to <code>eps</code> — small change → very different result</li>
+            <li>Degrades in high dimensions (distance becomes uniform)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- GMM                                        -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">Gaussian Mixture Models (GMM)</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        A GMM assumes the data is generated by a mixture of $K$ multivariate Gaussian distributions.
+        Each point gets a <strong>probability of belonging to each cluster</strong> — this is
+        <em>soft clustering</em>, in contrast to K-Means' hard assignments.
+      </p>
+
+      <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-purple-800 mb-2">Fit with Expectation-Maximisation (EM)</h3>
+        <ol class="list-decimal ml-6 space-y-1 text-sm text-gray-700">
+          <li><strong>E-step:</strong> compute the probability of each point belonging to each Gaussian</li>
+          <li><strong>M-step:</strong> update each Gaussian's mean, covariance and mixing weight using those probabilities</li>
+          <li>Repeat until the log-likelihood converges</li>
+        </ol>
+      </div>
+
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">from</span> sklearn.mixture <span class="text-purple-400">import</span> GaussianMixture
+
+gmm = GaussianMixture(
+    n_components=<span class="text-yellow-400">4</span>,
+    covariance_type=<span class="text-green-400">'full'</span>,  <span class="text-gray-400"># 'full', 'tied', 'diag', 'spherical'</span>
+    random_state=<span class="text-yellow-400">42</span>,
+).fit(X_scaled)
+
+hard_labels = gmm.predict(X_scaled)
+probs       = gmm.predict_proba(X_scaled)   <span class="text-gray-400"># soft assignments</span>
+
+<span class="text-gray-400"># Pick K with BIC / AIC (lower is better)</span>
+<span class="text-blue-400">print</span>(<span class="text-green-400">"BIC:"</span>, gmm.bic(X_scaled), <span class="text-green-400">"AIC:"</span>, gmm.aic(X_scaled))</code></pre>
+
+      <p class="text-sm text-gray-700">
+        GMM is more flexible than K-Means because clusters can be <strong>elongated</strong> and have
+        <strong>different sizes</strong> (via the covariance matrix). Use <strong>BIC</strong> across a range
+        of $K$ to pick the number of components.
+      </p>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- EVALUATING CLUSTERING                      -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">Evaluating a Clustering</h2>
+      <p class="text-gray-700 mb-4">
+        Without ground-truth labels you cannot use accuracy. Use <strong>internal metrics</strong> that score
+        cluster quality from the data itself, or <strong>external metrics</strong> if labels happen to exist.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <h3 class="font-bold text-blue-800 mb-2">Internal (no labels)</h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+            <li><strong>Silhouette</strong> — $[-1, 1]$, higher is better</li>
+            <li><strong>Calinski–Harabasz</strong> — ratio of between- to within-cluster dispersion; higher is better</li>
+            <li><strong>Davies–Bouldin</strong> — average similarity between each cluster and its most similar; <em>lower</em> is better</li>
+            <li><strong>WCSS / inertia</strong> — for the elbow method (K-Means only)</li>
+          </ul>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <h3 class="font-bold text-blue-800 mb-2">External (labels available)</h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700">
+            <li><strong>Adjusted Rand Index (ARI)</strong> — agreement between predicted and true clusters, corrected for chance</li>
+            <li><strong>Normalised Mutual Information (NMI)</strong> — information shared between two clusterings</li>
+            <li><strong>Homogeneity / Completeness / V-measure</strong> — purity-style scores</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CHEAT SHEET                                -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-indigo-700 mb-4">When to Use Which Algorithm</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm border border-gray-200">
+          <thead class="bg-indigo-100">
+            <tr>
+              <th class="px-3 py-2 text-left">Algorithm</th>
+              <th class="px-3 py-2 text-left">Choose When</th>
+              <th class="px-3 py-2 text-left">Avoid When</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-3 py-2 font-semibold">K-Means</td>
+              <td class="px-3 py-2">Large dataset, roughly spherical clusters, you know $K$</td>
+              <td class="px-3 py-2">Non-convex shapes, many outliers, very different cluster sizes</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="px-3 py-2 font-semibold">Hierarchical</td>
+              <td class="px-3 py-2">Small/medium data, want a dendrogram, nested structure</td>
+              <td class="px-3 py-2">Large data (memory blows up); need a fast online model</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-semibold">DBSCAN</td>
+              <td class="px-3 py-2">Arbitrary cluster shapes, want outliers flagged, $K$ unknown</td>
+              <td class="px-3 py-2">Very high dimensions, clusters of very different densities</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="px-3 py-2 font-semibold">GMM</td>
+              <td class="px-3 py-2">Need soft assignments, elliptical clusters, probabilistic model</td>
+              <td class="px-3 py-2">Cluster shapes are clearly non-Gaussian; very large $K$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+        <h3 class="font-bold text-amber-800 mb-2">⚠️ Common Pitfalls</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li>Forgetting to scale features — distance is meaningless on raw values</li>
+          <li>Choosing $K$ purely by elbow without checking silhouette or business meaning</li>
+          <li>Running clustering on high-dimensional raw data — reduce with PCA / UMAP first</li>
+          <li>Treating cluster labels as ground truth — they are <em>hypotheses</em> to validate</li>
+          <li>Comparing clusterings with different scalings or random seeds without fixing them</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

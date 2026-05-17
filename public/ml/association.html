@@ -1,0 +1,288 @@
+<div
+  class="prose max-w-none bg-gradient-to-br from-slate-50 to-rose-50 p-8 rounded-xl"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h1
+        class="text-5xl font-bold mb-4 bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent"
+      >
+        Association Rule Mining
+      </h1>
+      <p class="text-xl text-gray-600">
+        Itemsets, Support / Confidence / Lift, and the Apriori Algorithm — "People who bought X also bought Y"
+      </p>
+      <div
+        class="w-24 h-1 bg-gradient-to-r from-rose-500 to-pink-500 mx-auto mt-4 rounded-full"
+      ></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- WHAT IS IT                                 -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-rose-700 mb-4">What Is Association Rule Mining?</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">
+        Association rule mining is an <strong>unsupervised</strong> technique that finds rules of the form
+        <strong>"if $A$ then $B$"</strong> in transaction-style data. The classic example is
+        <em>market basket analysis</em>: discovering that customers who buy diapers also tend to buy beer.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+          <h3 class="font-bold text-rose-800 mb-2">🛒 Typical Use Cases</h3>
+          <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <li><strong>Retail</strong> — product bundling, cross-sell, store layout</li>
+            <li><strong>E-commerce</strong> — "frequently bought together"</li>
+            <li><strong>Web usage</strong> — pages viewed in the same session</li>
+            <li><strong>Bioinformatics</strong> — co-occurring gene mutations</li>
+            <li><strong>Fraud / risk</strong> — claim items that tend to appear together</li>
+          </ul>
+        </div>
+        <div class="bg-pink-50 border-l-4 border-pink-400 p-4 rounded">
+          <h3 class="font-bold text-pink-800 mb-2">📦 The Data Shape</h3>
+          <p class="text-sm text-gray-700 mb-2">
+            Input is a list of <strong>transactions</strong>, each a set of items:
+          </p>
+          <pre class="bg-white p-2 rounded text-xs font-mono">T1: {bread, milk, eggs}
+T2: {bread, butter}
+T3: {bread, milk, butter, beer}
+T4: {milk, beer}
+T5: {bread, milk, butter}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ITEMSETS                                   -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-rose-700 mb-4">Itemsets &amp; Rules</h2>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-4">
+        <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+          <h3 class="font-bold text-rose-800 mb-2">Itemset</h3>
+          <p class="text-sm text-gray-700">
+            Any set of items, e.g. $\{\text{bread}, \text{milk}\}$. A $k$-itemset contains $k$ items.
+            A <strong>frequent itemset</strong> is one that occurs in at least <code>min_support</code> of transactions.
+          </p>
+        </div>
+        <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded">
+          <h3 class="font-bold text-rose-800 mb-2">Association Rule</h3>
+          <p class="text-sm text-gray-700">
+            An implication $A \Rightarrow B$ where $A$ and $B$ are disjoint itemsets.
+            $A$ is the <strong>antecedent</strong> (LHS); $B$ is the <strong>consequent</strong> (RHS).
+            Example: $\{\text{bread}, \text{milk}\} \Rightarrow \{\text{butter}\}$.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- METRICS                                    -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-rose-700 mb-4">The Core Metrics: Support, Confidence, Lift</h2>
+      <p class="text-gray-700 mb-4">
+        Three numbers tell you how interesting a rule is. Each captures a different aspect.
+      </p>
+
+      <!-- Support -->
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-5 rounded mb-4">
+        <h3 class="font-bold text-blue-900 text-xl mb-2">1. Support — how common is the itemset?</h3>
+        <p class="text-sm text-gray-700 mb-2">
+          Fraction of transactions that contain the itemset.
+        </p>
+        <p class="font-mono text-center text-base bg-white p-3 rounded">
+          $\text{support}(A) = \dfrac{|\{T : A \subseteq T\}|}{|T|}$
+        </p>
+        <p class="text-sm text-gray-700 mt-3">
+          In the example above, <code>{bread, milk}</code> appears in T1, T3 and T5 out of 5 transactions →
+          $\text{support} = 3/5 = 0.6$.
+        </p>
+        <p class="text-sm italic text-gray-600 mt-2">
+          Use to filter out rare combinations: rules with tiny support are usually noise.
+        </p>
+      </div>
+
+      <!-- Confidence -->
+      <div class="bg-purple-50 border-l-4 border-purple-400 p-5 rounded mb-4">
+        <h3 class="font-bold text-purple-900 text-xl mb-2">2. Confidence — how reliable is the rule?</h3>
+        <p class="text-sm text-gray-700 mb-2">
+          Conditional probability that $B$ appears in a transaction <em>given</em> $A$ does.
+        </p>
+        <p class="font-mono text-center text-base bg-white p-3 rounded">
+          $\text{confidence}(A \Rightarrow B) = \dfrac{\text{support}(A \cup B)}{\text{support}(A)} = P(B \mid A)$
+        </p>
+        <p class="text-sm text-gray-700 mt-3">
+          For $\{\text{bread}\} \Rightarrow \{\text{milk}\}$: bread appears in 4 transactions; bread <em>and</em>
+          milk together in 3. Confidence $= 3/4 = 0.75$.
+        </p>
+        <p class="text-sm italic text-gray-600 mt-2">
+          ⚠️ Confidence alone is misleading: if the consequent is very popular on its own, any rule will look strong.
+          That's why we need lift.
+        </p>
+      </div>
+
+      <!-- Lift -->
+      <div class="bg-green-50 border-l-4 border-green-400 p-5 rounded mb-4">
+        <h3 class="font-bold text-green-900 text-xl mb-2">3. Lift — is the rule better than chance?</h3>
+        <p class="text-sm text-gray-700 mb-2">
+          Ratio of observed support to what we'd expect if $A$ and $B$ were independent.
+        </p>
+        <p class="font-mono text-center text-base bg-white p-3 rounded">
+          $\text{lift}(A \Rightarrow B) = \dfrac{\text{support}(A \cup B)}{\text{support}(A)\,\text{support}(B)}
+          = \dfrac{\text{confidence}(A \Rightarrow B)}{\text{support}(B)}$
+        </p>
+        <ul class="list-disc ml-6 text-sm text-gray-700 space-y-1 mt-3">
+          <li>$\text{lift} = 1$ → $A$ and $B$ are <strong>independent</strong> (the rule is uninteresting)</li>
+          <li>$\text{lift} &gt; 1$ → $A$ makes $B$ <strong>more likely</strong> (positive association)</li>
+          <li>$\text{lift} &lt; 1$ → $A$ makes $B$ <strong>less likely</strong> (negative association)</li>
+        </ul>
+      </div>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+        <h3 class="font-bold text-amber-800 mb-2">Other useful metrics</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><strong>Leverage</strong> = $\text{support}(A \cup B) - \text{support}(A)\text{support}(B)$ — additive form of lift; 0 means independence.</li>
+          <li><strong>Conviction</strong> = $\dfrac{1 - \text{support}(B)}{1 - \text{confidence}(A \Rightarrow B)}$ — measures how much $A$ "implies" $B$; 1 means independence, $\infty$ means a perfect rule.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- APRIORI                                    -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-rose-700 mb-4">The Apriori Algorithm</h2>
+      <p class="text-gray-700 mb-4">
+        Naively enumerating every possible itemset is exponential in the number of items. Apriori prunes the
+        search space with a single, powerful observation:
+      </p>
+
+      <div class="bg-rose-100 border-l-4 border-rose-600 p-5 rounded mb-4">
+        <p class="font-bold text-rose-900">The Apriori Property (downward closure):</p>
+        <p class="text-gray-800 italic mt-2">
+          If an itemset is frequent, then <em>all of its subsets</em> are also frequent.
+          Equivalently: if an itemset is <strong>infrequent</strong>, no superset of it can be frequent —
+          so we can stop exploring it.
+        </p>
+      </div>
+
+      <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded mb-4">
+        <h3 class="font-bold text-rose-800 mb-2">The Algorithm</h3>
+        <ol class="list-decimal ml-6 space-y-2 text-sm text-gray-700">
+          <li>Scan all transactions to find <strong>1-itemsets</strong> with support ≥ <code>min_support</code> → $L_1$.</li>
+          <li>From $L_k$, generate candidate $(k+1)$-itemsets by joining pairs that share $(k-1)$ items.</li>
+          <li><strong>Prune</strong> any candidate that has an infrequent subset (by the apriori property).</li>
+          <li>Scan the data once more to count support for surviving candidates → $L_{k+1}$.</li>
+          <li>Repeat until no new frequent itemsets are found.</li>
+          <li>From all frequent itemsets, generate rules $A \Rightarrow B$ that meet <code>min_confidence</code>.</li>
+        </ol>
+      </div>
+
+      <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3">Python implementation (mlxtend)</h3>
+      <pre class="bg-gray-900 text-gray-100 p-5 rounded-lg overflow-x-auto mb-4"><code><span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">from</span> mlxtend.preprocessing <span class="text-purple-400">import</span> TransactionEncoder
+<span class="text-purple-400">from</span> mlxtend.frequent_patterns <span class="text-purple-400">import</span> apriori, association_rules
+
+transactions = [
+    [<span class="text-green-400">'bread'</span>, <span class="text-green-400">'milk'</span>, <span class="text-green-400">'eggs'</span>],
+    [<span class="text-green-400">'bread'</span>, <span class="text-green-400">'butter'</span>],
+    [<span class="text-green-400">'bread'</span>, <span class="text-green-400">'milk'</span>, <span class="text-green-400">'butter'</span>, <span class="text-green-400">'beer'</span>],
+    [<span class="text-green-400">'milk'</span>, <span class="text-green-400">'beer'</span>],
+    [<span class="text-green-400">'bread'</span>, <span class="text-green-400">'milk'</span>, <span class="text-green-400">'butter'</span>],
+]
+
+<span class="text-gray-400"># 1. One-hot encode into a boolean DataFrame (rows = transactions, cols = items)</span>
+te = TransactionEncoder()
+df = pd.DataFrame(te.fit(transactions).transform(transactions), columns=te.columns_)
+
+<span class="text-gray-400"># 2. Find frequent itemsets</span>
+freq = apriori(df, min_support=<span class="text-yellow-400">0.4</span>, use_colnames=<span class="text-yellow-400">True</span>)
+
+<span class="text-gray-400"># 3. Derive rules and rank by lift</span>
+rules = association_rules(freq, metric=<span class="text-green-400">"confidence"</span>, min_threshold=<span class="text-yellow-400">0.6</span>)
+rules = rules.sort_values(<span class="text-green-400">"lift"</span>, ascending=<span class="text-yellow-400">False</span>)
+<span class="text-blue-400">print</span>(rules[[<span class="text-green-400">"antecedents"</span>, <span class="text-green-400">"consequents"</span>,
+             <span class="text-green-400">"support"</span>, <span class="text-green-400">"confidence"</span>, <span class="text-green-400">"lift"</span>]])</code></pre>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+          <h3 class="font-semibold text-green-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✓</span> Strengths
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Simple, interpretable rules</li>
+            <li>Pruning makes it tractable on real data</li>
+            <li>No need to specify the number of rules in advance</li>
+          </ul>
+        </div>
+        <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+          <h3 class="font-semibold text-red-900 mb-2 flex items-center">
+            <span class="text-2xl mr-2">✗</span> Weaknesses
+          </h3>
+          <ul class="list-disc ml-5 space-y-1 text-sm">
+            <li>Multiple passes over the data — slow on very large datasets</li>
+            <li>Candidate generation can still explode with low <code>min_support</code></li>
+            <li>For very large data prefer <strong>FP-Growth</strong> (one pass, tree-based)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TUNING & PITFALLS                          -->
+    <!-- ========================================== -->
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-3xl font-bold text-rose-700 mb-4">Tuning the Thresholds</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm border border-gray-200">
+          <thead class="bg-rose-100">
+            <tr>
+              <th class="px-3 py-2 text-left">Parameter</th>
+              <th class="px-3 py-2 text-left">Too low</th>
+              <th class="px-3 py-2 text-left">Too high</th>
+              <th class="px-3 py-2 text-left">Sensible start</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-3 py-2 font-semibold">min_support</td>
+              <td class="px-3 py-2">Combinatorial explosion of rules; lots of noise</td>
+              <td class="px-3 py-2">You miss valid but niche patterns</td>
+              <td class="px-3 py-2">0.01 – 0.05 for retail; raise until manageable</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="px-3 py-2 font-semibold">min_confidence</td>
+              <td class="px-3 py-2">Many spurious / weak rules</td>
+              <td class="px-3 py-2">Only obvious rules survive</td>
+              <td class="px-3 py-2">0.5 – 0.7</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-semibold">min_lift</td>
+              <td class="px-3 py-2">Includes rules no better than chance</td>
+              <td class="px-3 py-2">Only very strong dependencies survive</td>
+              <td class="px-3 py-2">&gt; 1 (filter); rank by lift afterwards</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-4 rounded">
+        <h3 class="font-bold text-amber-800 mb-2">⚠️ Common Pitfalls</h3>
+        <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+          <li><strong>Trusting high-confidence, low-lift rules</strong> — they just reflect a popular item, not an association.</li>
+          <li><strong>Setting <code>min_support</code> too low</strong> on a large catalogue — Apriori becomes intractable.</li>
+          <li><strong>Reading rules as causation</strong> — they describe co-occurrence, not "X causes Y".</li>
+          <li><strong>Forgetting to deduplicate transactions</strong> — repeated rows inflate support.</li>
+          <li><strong>Mixing item granularities</strong> (specific SKUs and broad categories together) — produces meaningless rules.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

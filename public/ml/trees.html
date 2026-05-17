@@ -437,26 +437,10 @@ brf = BalancedRandomForestClassifier(n_estimators=<span class="text-yellow-400">
             </div>
 
             <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-semibold mb-3 text-gray-900">2. Feature Importance Visualization</h3>
-                <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code><span class="text-purple-400">import</span> matplotlib.pyplot <span class="text-purple-400">as</span> plt
-<span class="text-purple-400">import</span> seaborn <span class="text-purple-400">as</span> sns
-
-<span class="text-gray-400"># Get feature importances</span>
-importances = rf.feature_importances_
-indices = np.argsort(importances)[::-<span class="text-yellow-400">1</span>]
-
-<span class="text-gray-400"># Plot</span>
-plt.figure(figsize=(<span class="text-yellow-400">12</span>, <span class="text-yellow-400">6</span>))
-plt.title(<span class="text-green-400">"Feature Importances"</span>)
-plt.bar(<span class="text-blue-400">range</span>(<span class="text-blue-400">len</span>(importances)), importances[indices])
-plt.xticks(<span class="text-blue-400">range</span>(<span class="text-blue-400">len</span>(importances)), [feature_names[i] <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> indices], rotation=<span class="text-yellow-400">90</span>)
-plt.tight_layout()
-plt.show()
-
-<span class="text-gray-400"># Permutation importance (more reliable)</span>
-<span class="text-purple-400">from</span> sklearn.inspection <span class="text-purple-400">import</span> permutation_importance
-perm_importance = permutation_importance(rf, X_test, y_test, n_repeats=<span class="text-yellow-400">10</span>)
-sorted_idx = perm_importance.importances_mean.argsort()[::-<span class="text-yellow-400">1</span>]</code></pre>
+                <h3 class="text-xl font-semibold mb-3 text-gray-900">2. Feature Importance</h3>
+                <p class="text-sm text-gray-700">
+                    Tree ensembles expose <code>rf.feature_importances_</code> (impurity-based) out of the box — see the short example near the top of this section. Impurity-based scores are biased toward high-cardinality features, so for serious interpretation prefer <strong>permutation importance</strong> or <strong>SHAP</strong>. Both, plus how to compare them, are covered end-to-end in the dedicated <strong>Feature Importance</strong> section.
+                </p>
             </div>
 
             <div class="bg-gray-50 p-6 rounded-lg">

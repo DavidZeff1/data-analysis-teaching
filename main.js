@@ -90,26 +90,35 @@ const content = {
     statistics: () => fetch("/math/statistics.html").then((r) => r.text()),
   },
   ml: {
+    // Foundations
     guide: () => fetch("/ml/guide.html").then((r) => r.text()),
     basics: () => fetch("/ml/basics.html").then((r) => r.text()),
+    sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
+    // Data understanding & prep
     eda: () => fetch("/ml/eda.html").then((r) => r.text()),
     stats: () => fetch("/ml/stats.html").then((r) => r.text()),
-    assumptions: () => fetch("/ml/assumptions.html").then((r) => r.text()),
-    preprocessing: () => fetch("/ml/preprocessing.html").then((r) => r.text()),
-    trees: () => fetch("/ml/trees.html").then((r) => r.text()),
-    anomaly: () => fetch("/ml/anomaly.html").then((r) => r.text()),
-    outliers: () => fetch("/ml/outliers.html").then((r) => r.text()),
     missingdata: () => fetch("/ml/missingdata.html").then((r) => r.text()),
-    evaluation: () => fetch("/ml/evaluation.html").then((r) => r.text()),
-    regression: () => fetch("/ml/regression.html").then((r) => r.text()),
-    workflow: () => fetch("/ml/workflow.html").then((r) => r.text()),
-    importance: () => fetch("/ml/importance.html").then((r) => r.text()),
-    sklearn: () => fetch("/ml/sklearn.html").then((r) => r.text()),
-    models: () => fetch("/ml/models.html").then((r) => r.text()),
-    boosting: () => fetch("/ml/boosting.html").then((r) => r.text()),
+    preprocessing: () => fetch("/ml/preprocessing.html").then((r) => r.text()),
+    outliers: () => fetch("/ml/outliers.html").then((r) => r.text()),
+    assumptions: () => fetch("/ml/assumptions.html").then((r) => r.text()),
     featureselectionengineering: () => fetch("/ml/featureselectionengineering.html").then((r) => r.text()),
-    stratification: () => fetch("/ml/stratification.html").then((r) => r.text()),
+    // Splitting & validation setup
     datasplits: () => fetch("/ml/datasplits.html").then((r) => r.text()),
+    stratification: () => fetch("/ml/stratification.html").then((r) => r.text()),
+    workflow: () => fetch("/ml/workflow.html").then((r) => r.text()),
+    // Supervised models
+    models: () => fetch("/ml/models.html").then((r) => r.text()),
+    regression: () => fetch("/ml/regression.html").then((r) => r.text()),
+    trees: () => fetch("/ml/trees.html").then((r) => r.text()),
+    boosting: () => fetch("/ml/boosting.html").then((r) => r.text()),
+    // Evaluation & interpretation
+    evaluation: () => fetch("/ml/evaluation.html").then((r) => r.text()),
+    importance: () => fetch("/ml/importance.html").then((r) => r.text()),
+    // Unsupervised & similarity
+    clustering: () => fetch("/ml/clustering.html").then((r) => r.text()),
+    anomaly: () => fetch("/ml/anomaly.html").then((r) => r.text()),
+    association: () => fetch("/ml/association.html").then((r) => r.text()),
+    similarity: () => fetch("/ml/similarity.html").then((r) => r.text()),
   },
 };
 

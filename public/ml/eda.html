@@ -155,46 +155,26 @@ plt.show()</code></pre>
             </div>
         </section>
         
-        <!-- 4. Outlier Detection and Handling -->
+        <!-- 4. Outlier Detection (overview only) -->
         <section class="mb-10">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-red-500 to-rose-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
                         <span class="bg-white text-red-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">4</span>
-                        Outlier Detection & Handling
+                        Spotting Outliers (Quick Look)
                     </h2>
                 </div>
                 <div class="p-6">
                     <p class="text-gray-700 mb-4 text-lg">
-                        Outliers can severely impact linear models (like Linear/Logistic Regression) and distance-based models (like KNN).
+                        During EDA you just want a <strong>quick read</strong> on whether outliers exist. Box plots from the previous section already show extreme values; a one-line IQR check confirms it:
                     </p>
-                    
-                    <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <div class="bg-rose-50 border border-rose-200 p-4 rounded">
-                            <h4 class="font-bold text-rose-800 mb-2">IQR Method (Robust)</h4>
-                            <p class="text-sm text-gray-700">Calculates the Interquartile Range (75th percentile - 25th percentile). Any value outside Q1 - 1.5*IQR or Q3 + 1.5*IQR is an outlier. Best for skewed data.</p>
-                        </div>
-                        <div class="bg-red-50 border border-red-200 p-4 rounded">
-                            <h4 class="font-bold text-red-800 mb-2">Z-Score Method</h4>
-                            <p class="text-sm text-gray-700">Measures how many standard deviations a value is from the mean. Values with a Z-score > 3 or < -3 are often considered outliers. Assumes data is normally distributed.</p>
-                        </div>
-                    </div>
-
-                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># Handling outliers via Capping (Winsorization) using IQR</span>
-Q1 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.25</span>)
-Q3 = df[<span class="text-green-400">'income'</span>].quantile(<span class="text-yellow-400">0.75</span>)
+                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-gray-400"># Quick sanity check: how many points lie outside the 1.5×IQR fence?</span>
+Q1, Q3 = df[<span class="text-green-400">'income'</span>].quantile([<span class="text-yellow-400">0.25</span>, <span class="text-yellow-400">0.75</span>])
 IQR = Q3 - Q1
-
-lower_bound = Q1 - <span class="text-yellow-400">1.5</span> * IQR
-upper_bound = Q3 + <span class="text-yellow-400">1.5</span> * IQR
-
-<span class="text-gray-400"># Option A: Remove them</span>
-df_clean = df[(df[<span class="text-green-400">'income'</span>] >= lower_bound) & (df[<span class="text-green-400">'income'</span>] <= upper_bound)]
-
-<span class="text-gray-400"># Option B: Cap them (Winsorize) - replace extremes with the bounds</span>
-df[<span class="text-green-400">'income_capped'</span>] = df[<span class="text-green-400">'income'</span>].clip(lower=lower_bound, upper=upper_bound)</code></pre>
-                    <div class="bg-gray-100 p-4 rounded text-sm text-gray-700 border-l-4 border-gray-400">
-                        <strong>Note:</strong> For multidimensional or complex outlier detection, you may use algorithms like <strong>Isolation Forest</strong> (see the Anomaly Detection section).
+out = ((df[<span class="text-green-400">'income'</span>] &lt; Q1 - <span class="text-yellow-400">1.5</span>*IQR) | (df[<span class="text-green-400">'income'</span>] &gt; Q3 + <span class="text-yellow-400">1.5</span>*IQR)).sum()
+<span class="text-blue-400">print</span>(f<span class="text-green-400">"{out} potential outliers ({out/len(df):.1%})"</span>)</code></pre>
+                    <div class="bg-rose-50 border-l-4 border-rose-400 p-4 rounded text-sm text-gray-700">
+                        <strong>Don't treat them here.</strong> Deciding whether to remove, cap, transform, or keep outliers — and doing it without leaking test data — is a topic of its own. See the dedicated <strong>Outlier Handling</strong> section for the full decision tree, and <strong>Anomaly Detection</strong> for multivariate / Isolation Forest approaches.
                     </div>
                 </div>
             </div>
@@ -231,55 +211,31 @@ plt.show()</code></pre>
             </div>
         </section>
 
-        <!-- 6. Feature Scaling and Transformation -->
+        <!-- 6. Feature Scaling & Transformation (pointer) -->
         <section class="mb-10">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 p-6">
                     <h2 class="text-3xl font-bold text-white flex items-center">
                         <span class="bg-white text-cyan-600 rounded-full w-10 h-10 flex items-center justify-center mr-3 text-xl font-bold">6</span>
-                        Feature Scaling & Transformation
+                        Noting Scale &amp; Skew (for later)
                     </h2>
                 </div>
                 <div class="p-6">
                     <p class="text-gray-700 mb-4 text-lg">
-                        ML models like SVM, KNN, and Neural Networks require features to be on the same scale (e.g., salary in $100,000s shouldn't dominate age in 10s).
+                        EDA is where you <em>notice</em> issues, not fix them. While inspecting distributions, flag columns that will need attention later:
                     </p>
-                    
-                    <div class="grid md:grid-cols-3 gap-4 mb-6">
-                         <div class="bg-cyan-50 border border-cyan-200 p-4 rounded">
-                            <h4 class="font-bold text-cyan-800 mb-2">Standardization</h4>
-                            <p class="text-sm text-gray-700"><code>StandardScaler</code> shifts data to have Mean=0 and Std=1. Best for normally distributed data.</p>
-                        </div>
-                        <div class="bg-blue-50 border border-blue-200 p-4 rounded">
-                            <h4 class="font-bold text-blue-800 mb-2">Normalization</h4>
-                            <p class="text-sm text-gray-700"><code>MinMaxScaler</code> scales data between 0 and 1. Good for image pixels or when you know exact bounded limits.</p>
-                        </div>
-                        <div class="bg-purple-50 border border-purple-200 p-4 rounded">
-                            <h4 class="font-bold text-purple-800 mb-2">Log Transformation</h4>
-                            <p class="text-sm text-gray-700">Applying <code>np.log1p()</code> squashes highly right-skewed data (like incomes or page views) into a more normal shape.</p>
-                        </div>
+                    <ul class="list-disc ml-6 text-gray-700 space-y-2 mb-4">
+                        <li><strong>Features on wildly different scales</strong> (salary in $, age in years) → will need scaling before SVM / KNN / neural nets / clustering.</li>
+                        <li><strong>Heavily skewed distributions</strong> (income, page views) → may benefit from a log / Box-Cox transformation before linear models.</li>
+                        <li><strong>Strongly correlated features</strong> (seen in the correlation heatmap above) → potential multicollinearity for linear models.</li>
+                    </ul>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 rounded text-sm text-gray-700">
+                        Do the actual fitting and transforming inside a pipeline so it happens after the train/test split. Scaling and encoding code lives in the <strong>Missing Values &amp; Categorical Encoding</strong> section; skew / normality transforms are covered in <strong>Assumptions &amp; Transforms</strong>.
                     </div>
-
-                    <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm mb-4"><code><span class="text-purple-400">from</span> sklearn.preprocessing <span class="text-purple-400">import</span> StandardScaler, MinMaxScaler
-<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
-
-<span class="text-gray-400"># 1. Standardization (Mean=0, Std=1)</span>
-scaler = StandardScaler()
-df[<span class="text-green-400">'age_scaled'</span>] = scaler.fit_transform(df[[<span class="text-green-400">'age'</span>]])
-
-<span class="text-gray-400"># 2. Log Transformation for highly skewed data</span>
-<span class="text-gray-400"># log1p is log(1+x), safe for zero values</span>
-df[<span class="text-green-400">'income_log'</span>] = np.log1p(df[<span class="text-green-400">'income'</span>])
-
-<span class="text-gray-400"># Visualizing the fix</span>
-fig, axes = plt.subplots(<span class="text-yellow-400">1</span>, <span class="text-yellow-400">2</span>, figsize=(<span class="text-yellow-400">10</span>, <span class="text-yellow-400">4</span>))
-sns.histplot(df[<span class="text-green-400">'income'</span>], ax=axes[<span class="text-yellow-400">0</span>]).set_title(<span class="text-green-400">'Original (Skewed)'</span>)
-sns.histplot(df[<span class="text-green-400">'income_log'</span>], ax=axes[<span class="text-yellow-400">1</span>]).set_title(<span class="text-green-400">'Log Transformed'</span>)
-plt.show()</code></pre>
                 </div>
             </div>
         </section>
-        
+
         <!-- Next Steps -->
         <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-2xl p-6 text-white text-center">
             <h3 class="text-2xl font-bold mb-2">What's Next?</h3>
