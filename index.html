@@ -3,7 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Analysis Teaching</title>
+    <title>Data Analysis Toolkit</title>
+    <meta
+      name="description"
+      content="A hands-on reference for SQL, Excel, Tableau, Power BI, statistics, Python, and machine learning."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- KaTeX for Math Rendering -->
     <link
@@ -31,162 +43,56 @@
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/sql.min.js"></script>
   </head>
-  <body class="bg-gray-100">
-    <nav class="bg-white shadow">
-      <div class="flex gap-1 p-2">
-        <button
-          class="tab px-4 py-2 rounded bg-blue-500 text-white"
-          data-tab="sql"
-        >
-          SQL
-        </button>
-        <button
-          class="tab px-4 py-2 rounded hover:bg-gray-200"
-          data-tab="excel"
-        >
-          Excel
-        </button>
-        <button
-          class="tab px-4 py-2 rounded hover:bg-gray-200"
-          data-tab="tableau"
-        >
-          Tableau
-        </button>
-        <button
-          class="tab px-4 py-2 rounded hover:bg-gray-200"
-          data-tab="powerbi"
-        >
-          Power BI
-        </button>
-        <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="math">
-          Math
-        </button>
-        <button
-          class="tab px-4 py-2 rounded hover:bg-gray-200"
-          data-tab="python"
-        >
-          Python
-        </button>
-        <button class="tab px-4 py-2 rounded hover:bg-gray-200" data-tab="ml">
-          Machine Learning
-        </button>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#sql/setup">
+          <span class="brand-mark">📊</span>
+          <span class="brand-text">Data Analysis Toolkit</span>
+        </a>
+        <nav class="tabs" aria-label="Topics">
+          <button class="tab is-active" data-tab="sql">SQL</button>
+          <button class="tab" data-tab="excel">Excel</button>
+          <button class="tab" data-tab="tableau">Tableau</button>
+          <button class="tab" data-tab="powerbi">Power BI</button>
+          <button class="tab" data-tab="math">Math</button>
+          <button class="tab" data-tab="python">Python</button>
+          <button class="tab" data-tab="ml">Machine Learning</button>
+        </nav>
         <a
+          class="gh-link"
           href="https://github.com/DavidZeff1/data-analysis-teaching"
           target="_blank"
-          class="ml-auto px-4 py-2 rounded hover:bg-gray-200 text-gray-700 flex items-center gap-2 font-medium"
+          rel="noopener"
+          aria-label="View source on GitHub"
         >
-          <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+          <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path
               d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
             ></path>
           </svg>
         </a>
       </div>
-    </nav>
-    <main class="p-4">
+    </header>
+
+    <main class="main-inner">
       <div id="sql" class="content">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="sql"
-            data-sub="setup"
-          >
-            Setup
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="select"
-          >
-            SELECT
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="where"
-          >
-            WHERE
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="join"
-          >
-            JOIN
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="groupby"
-          >
-            GROUP BY
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="having"
-          >
-            HAVING
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="subquery"
-          >
-            Subquery
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="cte"
-          >
-            CTEs
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="case"
-          >
-            CASE
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="union"
-          >
-            UNION
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="window"
-          >
-            Window Functions
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="questions"
-          >
-            Questions
-          </button>
-
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="analysis"
-          >
-            Analysis Workflow
-          </button>
-
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="sql"
-            data-sub="abtesting"
-          >
-            A/B Testing
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="SQL topics">
+          <button class="subtab is-active" data-tab="sql" data-sub="setup">Setup</button>
+          <button class="subtab" data-tab="sql" data-sub="select">SELECT</button>
+          <button class="subtab" data-tab="sql" data-sub="where">WHERE</button>
+          <button class="subtab" data-tab="sql" data-sub="join">JOIN</button>
+          <button class="subtab" data-tab="sql" data-sub="groupby">GROUP BY</button>
+          <button class="subtab" data-tab="sql" data-sub="having">HAVING</button>
+          <button class="subtab" data-tab="sql" data-sub="subquery">Subquery</button>
+          <button class="subtab" data-tab="sql" data-sub="cte">CTEs</button>
+          <button class="subtab" data-tab="sql" data-sub="case">CASE</button>
+          <button class="subtab" data-tab="sql" data-sub="union">UNION</button>
+          <button class="subtab" data-tab="sql" data-sub="window">Window Functions</button>
+          <button class="subtab" data-tab="sql" data-sub="questions">Questions</button>
+          <button class="subtab" data-tab="sql" data-sub="analysis">Analysis Workflow</button>
+          <button class="subtab" data-tab="sql" data-sub="abtesting">A/B Testing</button>
+        </nav>
         <div id="sql-setup" class="subcontent">Loading...</div>
         <div id="sql-select" class="subcontent hidden">Loading...</div>
         <div id="sql-where" class="subcontent hidden">Loading...</div>
@@ -199,98 +105,25 @@
         <div id="sql-union" class="subcontent hidden">Loading...</div>
         <div id="sql-window" class="subcontent hidden">Loading...</div>
         <div id="sql-questions" class="subcontent hidden">Loading...</div>
-
         <div id="sql-analysis" class="subcontent hidden">Loading...</div>
-
         <div id="sql-abtesting" class="subcontent hidden">Loading...</div>
       </div>
+
       <div id="excel" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="excel"
-            data-sub="setup"
-          >
-            Setup
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="formulas"
-          >
-            Formulas
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="references"
-          >
-            References
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="logical"
-          >
-            Logical
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="lookup"
-          >
-            Lookup
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="text"
-          >
-            Text
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="pivot"
-          >
-            Pivot Tables
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="charts"
-          >
-            Charts
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="powerquery"
-          >
-            Power Query
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="validation"
-          >
-            Data Validation
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="shortcuts"
-          >
-            Shortcuts
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="excel"
-            data-sub="chartdecision"
-          >
-            Chart Decision Tree
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="Excel topics">
+          <button class="subtab is-active" data-tab="excel" data-sub="setup">Setup</button>
+          <button class="subtab" data-tab="excel" data-sub="formulas">Formulas</button>
+          <button class="subtab" data-tab="excel" data-sub="references">References</button>
+          <button class="subtab" data-tab="excel" data-sub="logical">Logical</button>
+          <button class="subtab" data-tab="excel" data-sub="lookup">Lookup</button>
+          <button class="subtab" data-tab="excel" data-sub="text">Text</button>
+          <button class="subtab" data-tab="excel" data-sub="pivot">Pivot Tables</button>
+          <button class="subtab" data-tab="excel" data-sub="charts">Charts</button>
+          <button class="subtab" data-tab="excel" data-sub="powerquery">Power Query</button>
+          <button class="subtab" data-tab="excel" data-sub="validation">Data Validation</button>
+          <button class="subtab" data-tab="excel" data-sub="shortcuts">Shortcuts</button>
+          <button class="subtab" data-tab="excel" data-sub="chartdecision">Chart Decision Tree</button>
+        </nav>
         <div id="excel-setup" class="subcontent">Loading...</div>
         <div id="excel-shortcuts" class="subcontent hidden">Loading...</div>
         <div id="excel-formulas" class="subcontent hidden">Loading...</div>
@@ -304,58 +137,17 @@
         <div id="excel-validation" class="subcontent hidden">Loading...</div>
         <div id="excel-chartdecision" class="subcontent hidden">Loading...</div>
       </div>
+
       <div id="tableau" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="tableau"
-            data-sub="setup"
-          >
-            Setup
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="interface"
-          >
-            Interface
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="charts"
-          >
-            Charts
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="filters"
-          >
-            Filters
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="calculated"
-          >
-            Calculated Fields
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="dashboards"
-          >
-            Dashboards
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="tableau"
-            data-sub="maps"
-          >
-            Maps
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="Tableau topics">
+          <button class="subtab is-active" data-tab="tableau" data-sub="setup">Setup</button>
+          <button class="subtab" data-tab="tableau" data-sub="interface">Interface</button>
+          <button class="subtab" data-tab="tableau" data-sub="charts">Charts</button>
+          <button class="subtab" data-tab="tableau" data-sub="filters">Filters</button>
+          <button class="subtab" data-tab="tableau" data-sub="calculated">Calculated Fields</button>
+          <button class="subtab" data-tab="tableau" data-sub="dashboards">Dashboards</button>
+          <button class="subtab" data-tab="tableau" data-sub="maps">Maps</button>
+        </nav>
         <div id="tableau-setup" class="subcontent">Loading...</div>
         <div id="tableau-interface" class="subcontent hidden">Loading...</div>
         <div id="tableau-charts" class="subcontent hidden">Loading...</div>
@@ -364,58 +156,17 @@
         <div id="tableau-dashboards" class="subcontent hidden">Loading...</div>
         <div id="tableau-maps" class="subcontent hidden">Loading...</div>
       </div>
+
       <div id="powerbi" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="powerbi"
-            data-sub="setup"
-          >
-            Setup
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="interface"
-          >
-            Interface
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="visuals"
-          >
-            Visuals
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="filters"
-          >
-            Filters
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="dax"
-          >
-            DAX
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="modeling"
-          >
-            Data Modeling
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="powerbi"
-            data-sub="reports"
-          >
-            Reports
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="Power BI topics">
+          <button class="subtab is-active" data-tab="powerbi" data-sub="setup">Setup</button>
+          <button class="subtab" data-tab="powerbi" data-sub="interface">Interface</button>
+          <button class="subtab" data-tab="powerbi" data-sub="visuals">Visuals</button>
+          <button class="subtab" data-tab="powerbi" data-sub="filters">Filters</button>
+          <button class="subtab" data-tab="powerbi" data-sub="dax">DAX</button>
+          <button class="subtab" data-tab="powerbi" data-sub="modeling">Data Modeling</button>
+          <button class="subtab" data-tab="powerbi" data-sub="reports">Reports</button>
+        </nav>
         <div id="powerbi-setup" class="subcontent">Loading...</div>
         <div id="powerbi-interface" class="subcontent hidden">Loading...</div>
         <div id="powerbi-visuals" class="subcontent hidden">Loading...</div>
@@ -424,84 +175,26 @@
         <div id="powerbi-modeling" class="subcontent hidden">Loading...</div>
         <div id="powerbi-reports" class="subcontent hidden">Loading...</div>
       </div>
+
       <div id="math" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="math"
-            data-sub="statistics"
-          >
-            Statistics
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="Math topics">
+          <button class="subtab is-active" data-tab="math" data-sub="statistics">Statistics</button>
+        </nav>
         <div id="math-statistics" class="subcontent">Loading...</div>
       </div>
+
       <div id="python" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="python"
-            data-sub="pandas"
-          >
-            Pandas
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="seaborn"
-          >
-            Seaborn
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="basics"
-          >
-            Python Basics
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="streamlit"
-          >
-            Streamlit
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="geospatial"
-          >
-            Geospatial
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="maps"
-          >
-            Maps
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="geojson"
-          >
-            GeoJSON
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="folium"
-          >
-            Folium
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="python"
-            data-sub="nominatim"
-          >
-            Nominatim API
-          </button>
-        </div>
+        <nav class="subtab-bar" aria-label="Python topics">
+          <button class="subtab is-active" data-tab="python" data-sub="pandas">Pandas</button>
+          <button class="subtab" data-tab="python" data-sub="seaborn">Seaborn</button>
+          <button class="subtab" data-tab="python" data-sub="basics">Python Basics</button>
+          <button class="subtab" data-tab="python" data-sub="streamlit">Streamlit</button>
+          <button class="subtab" data-tab="python" data-sub="geospatial">Geospatial</button>
+          <button class="subtab" data-tab="python" data-sub="maps">Maps</button>
+          <button class="subtab" data-tab="python" data-sub="geojson">GeoJSON</button>
+          <button class="subtab" data-tab="python" data-sub="folium">Folium</button>
+          <button class="subtab" data-tab="python" data-sub="nominatim">Nominatim API</button>
+        </nav>
         <div id="python-pandas" class="subcontent">Loading...</div>
         <div id="python-seaborn" class="subcontent hidden">Loading...</div>
         <div id="python-basics" class="subcontent hidden">Loading...</div>
@@ -512,181 +205,44 @@
         <div id="python-folium" class="subcontent hidden">Loading...</div>
         <div id="python-nominatim" class="subcontent hidden">Loading...</div>
       </div>
+
       <div id="ml" class="content hidden">
-        <div class="flex flex-wrap gap-1 mb-4">
+        <nav class="subtab-bar" aria-label="Machine learning topics">
           <!-- Group 1: Foundations -->
-          <button
-            class="subtab px-3 py-1 rounded bg-green-500 text-white text-sm"
-            data-tab="ml"
-            data-sub="guide"
-          >
-            Selection Guide
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="basics"
-          >
-            Python for ML
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="sklearn"
-          >
-            Sklearn Cheat Sheet
-          </button>
-
+          <button class="subtab is-active" data-tab="ml" data-sub="guide">Selection Guide</button>
+          <button class="subtab" data-tab="ml" data-sub="basics">Python for ML</button>
+          <button class="subtab" data-tab="ml" data-sub="sklearn">Sklearn Cheat Sheet</button>
+          <span class="subtab-sep" aria-hidden="true"></span>
           <!-- Group 2: Data understanding & prep -->
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="eda"
-          >
-            EDA & Data Prep
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="stats"
-          >
-            Statistical Tests
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="missingdata"
-          >
-            Missing Data
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="preprocessing"
-          >
-            Missing Values & Categorical Encoding
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="outliers"
-          >
-            Outlier Handling
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="assumptions"
-          >
-            Assumptions & Transforms
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="featureselectionengineering"
-          >
-            Feature Eng & Selection
-          </button>
-
+          <button class="subtab" data-tab="ml" data-sub="eda">EDA &amp; Data Prep</button>
+          <button class="subtab" data-tab="ml" data-sub="stats">Statistical Tests</button>
+          <button class="subtab" data-tab="ml" data-sub="missingdata">Missing Data</button>
+          <button class="subtab" data-tab="ml" data-sub="preprocessing">Missing Values &amp; Categorical Encoding</button>
+          <button class="subtab" data-tab="ml" data-sub="outliers">Outlier Handling</button>
+          <button class="subtab" data-tab="ml" data-sub="assumptions">Assumptions &amp; Transforms</button>
+          <button class="subtab" data-tab="ml" data-sub="featureselectionengineering">Feature Eng &amp; Selection</button>
+          <span class="subtab-sep" aria-hidden="true"></span>
           <!-- Group 3: Splitting & validation setup -->
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="datasplits"
-          >
-            Data Splits
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="stratification"
-          >
-            Stratification
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="workflow"
-          >
-            Pipelines & Workflows
-          </button>
-
+          <button class="subtab" data-tab="ml" data-sub="datasplits">Data Splits</button>
+          <button class="subtab" data-tab="ml" data-sub="stratification">Stratification</button>
+          <button class="subtab" data-tab="ml" data-sub="workflow">Pipelines &amp; Workflows</button>
+          <span class="subtab-sep" aria-hidden="true"></span>
           <!-- Group 4: Supervised models -->
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="models"
-          >
-            ML Models Deep Dive
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="regression"
-          >
-            Linear & Logistic Regression
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="trees"
-          >
-            Trees & Forests
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="boosting"
-          >
-            Boosting Models
-          </button>
-
+          <button class="subtab" data-tab="ml" data-sub="models">ML Models Deep Dive</button>
+          <button class="subtab" data-tab="ml" data-sub="regression">Linear &amp; Logistic Regression</button>
+          <button class="subtab" data-tab="ml" data-sub="trees">Trees &amp; Forests</button>
+          <button class="subtab" data-tab="ml" data-sub="boosting">Boosting Models</button>
+          <span class="subtab-sep" aria-hidden="true"></span>
           <!-- Group 5: Evaluation & interpretation -->
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="evaluation"
-          >
-            Evaluating Classification
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="importance"
-          >
-            Feature Importance
-          </button>
-
+          <button class="subtab" data-tab="ml" data-sub="evaluation">Evaluating Classification</button>
+          <button class="subtab" data-tab="ml" data-sub="importance">Feature Importance</button>
+          <span class="subtab-sep" aria-hidden="true"></span>
           <!-- Group 6: Unsupervised & similarity -->
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="clustering"
-          >
-            Clustering
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="anomaly"
-          >
-            Anomaly Detection
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="association"
-          >
-            Association Rules
-          </button>
-          <button
-            class="subtab px-3 py-1 rounded bg-gray-200 text-sm"
-            data-tab="ml"
-            data-sub="similarity"
-          >
-            Cosine Similarity
-          </button>
-        </div>
+          <button class="subtab" data-tab="ml" data-sub="clustering">Clustering</button>
+          <button class="subtab" data-tab="ml" data-sub="anomaly">Anomaly Detection</button>
+          <button class="subtab" data-tab="ml" data-sub="association">Association Rules</button>
+          <button class="subtab" data-tab="ml" data-sub="similarity">Cosine Similarity</button>
+        </nav>
         <div id="ml-guide" class="subcontent">Loading...</div>
         <div id="ml-basics" class="subcontent hidden">Loading...</div>
         <div id="ml-sklearn" class="subcontent hidden">Loading...</div>
@@ -712,6 +268,16 @@
         <div id="ml-similarity" class="subcontent hidden">Loading...</div>
       </div>
     </main>
+
+    <footer class="site-footer">
+      <p>
+        Data Analysis Toolkit — a hands-on reference for analysts.
+        <a href="https://github.com/DavidZeff1/data-analysis-teaching" target="_blank" rel="noopener">Source on GitHub</a>
+      </p>
+    </footer>
+
+    <button id="to-top" class="to-top" aria-label="Back to top" title="Back to top">↑</button>
+
     <script type="module" src="main.js"></script>
     <script defer src="/_vercel/insights/script.js"></script>
   </body>

@@ -1,1 +1,351 @@
 @import "tailwindcss";
+
+/* ===========================================================================
+   Data Analysis Toolkit — global readability + shell styling
+
+   How this stays compatible with the content fragments:
+   - Element defaults live in `@layer base` (below Tailwind's `utilities`
+     layer), so any utility class on a fragment element always wins.
+   - Defaults use :where() / :not([class]) to keep specificity at zero, so even
+     same-layer utilities override them. Plain, unclassed elements (inline
+     <code>, bare tables/links/lists) get the nice defaults for free.
+   - Shell components use their own class names that don't collide with any
+     Tailwind utility used in the fragments.
+   =========================================================================== */
+
+:root {
+  --bg: #eef2f7;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --accent-soft: #eef2ff;
+  --radius: 16px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
+  --maxw: 78rem;
+}
+
+/* ---------------------------------------------------------------- base ---- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Readability defaults for content inside loaded fragments.
+     :where() keeps these at zero specificity — utility classes always win. */
+  :where(.subcontent) p {
+    line-height: 1.7;
+  }
+
+  :where(.subcontent) a:not([class]) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+  }
+  :where(.subcontent) a:not([class]):hover {
+    color: var(--accent-strong);
+  }
+
+  /* Inline code (most fragment <code> tags are unclassed). */
+  :where(.subcontent) code:not([class]) {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+    font-size: 0.875em;
+    background: var(--accent-soft);
+    color: #be123c;
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+    border: 1px solid #e0e7ff;
+  }
+
+  /* Code blocks: keep highlight.js theming, just frame them nicely. */
+  :where(.subcontent) pre {
+    overflow-x: auto;
+    border-radius: 10px;
+    line-height: 1.55;
+  }
+  :where(.subcontent) pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font-size: 0.875em;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+  }
+
+  :where(.subcontent) img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  :where(.subcontent) hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  :where(.subcontent) blockquote:not([class]) {
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 10px 10px 0;
+    color: #334155;
+  }
+
+  /* Bare lists (when a fragment doesn't set list utilities). */
+  :where(.subcontent) ul:not([class]) {
+    list-style: disc;
+    padding-left: 1.4rem;
+    line-height: 1.7;
+  }
+  :where(.subcontent) ol:not([class]) {
+    list-style: decimal;
+    padding-left: 1.4rem;
+    line-height: 1.7;
+  }
+
+  /* Plain tables (rich pages always class their tables, so we skip those). */
+  :where(.subcontent) table:not([class]) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  :where(.subcontent) table:not([class]) th {
+    text-align: left;
+    background: #f8fafc;
+    font-weight: 600;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  :where(.subcontent) table:not([class]) td {
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  :where(.subcontent) table:not([class]) tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+  :where(.subcontent) table:not([class]) tbody tr:last-child td {
+    border-bottom: 0;
+  }
+}
+
+/* ---------------------------------------------------------- components ---- */
+@layer components {
+  /* --- Header ----------------------------------------------------------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0.6rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand-mark {
+    font-size: 1.25rem;
+  }
+  @media (max-width: 720px) {
+    .brand-text {
+      display: none;
+    }
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  .tab {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+  .tab:hover {
+    background: #eef2f7;
+    color: var(--text);
+  }
+  .tab.is-active {
+    color: #fff;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gh-link {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    color: var(--text-muted);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .gh-link:hover {
+    background: #eef2f7;
+    color: var(--text);
+  }
+
+  /* --- Main layout ------------------------------------------------------ */
+  .main-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  /* --- Subtab bar ------------------------------------------------------- */
+  .subtab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+  .subtab {
+    appearance: none;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #475569;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .subtab:hover {
+    border-color: #c7d2fe;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+  .subtab.is-active {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  .subtab-sep {
+    width: 1px;
+    height: 1.25rem;
+    background: var(--border);
+    margin: 0 0.25rem;
+  }
+
+  /* --- Content card ----------------------------------------------------- */
+  /* Every loaded fragment is framed in a clean white card. We never set
+     `display` here, so the .hidden utility still toggles visibility. */
+  .subcontent {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: clamp(1.25rem, 2.5vw, 2.25rem);
+  }
+
+  .load-error {
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+
+  /* --- Footer ----------------------------------------------------------- */
+  .site-footer {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 2.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .site-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* --- Back to top ------------------------------------------------------ */
+  .to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 40;
+  }
+  .to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .to-top:hover {
+    background: var(--accent-strong);
+  }
+}
