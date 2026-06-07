@@ -349,3 +349,324 @@
     background: var(--accent-strong);
   }
 }
+
+/* ===========================================================================
+   Lesson design system
+
+   A reusable, consistent layout for content pages (used by the Excel lessons).
+   Everything is scoped under `.lesson` so it never affects other pages, and it
+   lives in `@layer components` so utility classes can still override it.
+   =========================================================================== */
+@layer components {
+  /* Give lesson pages a soft canvas so the white section cards separate. */
+  .subcontent:has(.lesson) {
+    background: #f6f8fb;
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .lesson {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: #1f2937;
+  }
+
+  /* --- Hero header ------------------------------------------------------ */
+  .lesson-hero {
+    background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
+    border: 1px solid #d1fae5;
+    border-radius: 18px;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+  .lesson-hero h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    line-height: 1.15;
+  }
+  .lesson-hero p {
+    margin: 0.6rem 0 0;
+    color: #475569;
+    font-size: 1.02rem;
+    max-width: 65ch;
+  }
+  .lesson-hero .rule {
+    margin-top: 1rem;
+    height: 4px;
+    width: 5rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+  }
+
+  /* --- Section cards ---------------------------------------------------- */
+  .lesson .lcard {
+    background: #ffffff;
+    border: 1px solid #e6eaf0;
+    border-radius: 16px;
+    padding: clamp(1.1rem, 2.2vw, 1.6rem);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .lesson .lcard > h2 {
+    margin: 0 0 0.85rem;
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .lesson .lcard > h2 .ic {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  .lesson .lcard.accent {
+    border-left: 4px solid #10b981;
+  }
+  .lesson .lcard p {
+    margin: 0.5rem 0;
+    line-height: 1.7;
+  }
+  .lesson .lcard > :first-child {
+    margin-top: 0;
+  }
+  .lesson .lcard > :last-child {
+    margin-bottom: 0;
+  }
+  .lesson h3 {
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.35rem;
+  }
+
+  /* --- Lists ------------------------------------------------------------ */
+  .lesson .lcard ul,
+  .lesson .lcard ol {
+    margin: 0.5rem 0;
+    padding-left: 1.4rem;
+    line-height: 1.7;
+  }
+  .lesson .lcard ul {
+    list-style: disc;
+  }
+  .lesson .lcard ol {
+    list-style: decimal;
+  }
+  .lesson .lcard li {
+    margin: 0.25rem 0;
+  }
+  .lesson .lcard li::marker {
+    color: #94a3b8;
+  }
+
+  /* --- Callouts --------------------------------------------------------- */
+  .lesson .callout {
+    border-radius: 12px;
+    padding: 0.85rem 1.05rem;
+    border: 1px solid;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .lesson .callout p {
+    margin: 0;
+    line-height: 1.6;
+  }
+  .lesson .callout .callout-title {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .lesson .callout.tip {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1e3a5f;
+  }
+  .lesson .callout.tip .callout-title {
+    color: #1d4ed8;
+  }
+  .lesson .callout.ok {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #065f46;
+  }
+  .lesson .callout.ok .callout-title {
+    color: #047857;
+  }
+  .lesson .callout.warn {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #854d0e;
+  }
+  .lesson .callout.warn .callout-title {
+    color: #b45309;
+  }
+  .lesson .callout.danger {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+  .lesson .callout.danger .callout-title {
+    color: #b91c1c;
+  }
+  .lesson .callout.note {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+  }
+
+  /* --- Grids & tiles ---------------------------------------------------- */
+  .lesson .grid2,
+  .lesson .grid3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  @media (min-width: 640px) {
+    .lesson .grid2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    .lesson .grid3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .lesson .tile {
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+    border-radius: 10px;
+    padding: 0.8rem 0.9rem;
+  }
+  .lesson .tile h3 {
+    margin: 0 0 0.2rem;
+    font-size: 0.95rem;
+  }
+
+  /* Function-name badge used before code examples. */
+  .lesson .fn {
+    display: inline-block;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  /* Keyboard key. */
+  .lesson .kbd {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    padding: 0.1rem 0.42rem;
+    color: #334155;
+    white-space: nowrap;
+  }
+
+  /* Inline code inside lesson prose (override the global pink style). */
+  .lesson .lcard :where(p, li) code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85em;
+    background: #f1f5f9;
+    color: #be123c;
+    padding: 0.12em 0.38em;
+    border-radius: 5px;
+  }
+
+  /* Good / bad comparison cards. */
+  .lesson .cmp {
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid;
+  }
+  .lesson .cmp .h {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+  }
+  .lesson .cmp.good {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+  }
+  .lesson .cmp.good .h {
+    color: #047857;
+  }
+  .lesson .cmp.bad {
+    background: #fef2f2;
+    border-color: #fecaca;
+  }
+  .lesson .cmp.bad .h {
+    color: #b91c1c;
+  }
+
+  /* Code blocks: keep the dark theme used across the site, just round nicely. */
+  .lesson pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+  .lesson pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+
+  /* Tables. */
+  .lesson .scrollx {
+    overflow-x: auto;
+  }
+  .lesson .ltable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .lesson .ltable th,
+  .lesson .ltable td {
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem 0.7rem;
+    text-align: left;
+  }
+  .lesson .ltable thead th {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .lesson .ltable tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+  .lesson .ltable .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Formula anatomy chips. */
+  .lesson .anatomy {
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .lesson .anatomy .formula {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+    color: #0f172a;
+  }
+  .lesson .chip {
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.1rem 0.45rem;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85rem;
+  }
+}

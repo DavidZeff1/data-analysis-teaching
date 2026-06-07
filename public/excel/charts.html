@@ -1,246 +1,151 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Charts & Visualization</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">Why Charts Matter</h2>
-    <p>A table with numbers tells you data exists. A chart tells you what it <em>means</em>. Good visualizations:</p>
-    <ul class="list-disc ml-5 mt-2">
-      <li><strong>Reveal patterns</strong> - trends, outliers, clusters become visible</li>
-      <li><strong>Enable comparison</strong> - see differences between categories instantly</li>
-      <li><strong>Communicate insights</strong> - stakeholders understand charts faster than tables</li>
-      <li><strong>Drive decisions</strong> - well-designed charts influence action</li>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>📈</span> Charts &amp; Visualization</h1>
+    <p>A table tells you data exists. A chart tells you what it <em>means</em>. Learn which chart to pick and how to make it communicate clearly.</p>
+    <div class="rule"></div>
+  </header>
+
+  <section class="lcard">
+    <h2><span class="ic">💡</span> Why charts matter</h2>
+    <ul>
+      <li><strong>Reveal patterns</strong> — trends, outliers, and clusters become visible</li>
+      <li><strong>Enable comparison</strong> — see differences between categories instantly</li>
+      <li><strong>Communicate insights</strong> — people read charts faster than tables</li>
+      <li><strong>Drive decisions</strong> — well-designed charts influence action</li>
     </ul>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Creating a Chart</h2>
-    <div class="grid grid-cols-2 gap-4 mt-3">
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-        <p class="font-semibold text-blue-800 mb-2">Google Sheets:</p>
-        <ol class="list-decimal ml-5 text-sm">
-          <li>Select your data (including headers)</li>
-          <li>Insert → Chart</li>
-          <li>Use Chart Editor to customize</li>
-        </ol>
+  <section class="lcard">
+    <h2><span class="ic">🛠️</span> Creating a chart</h2>
+    <div class="grid2">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Google Sheets</div>
+        <ol style="margin:.3rem 0 0;padding-left:1.2rem;font-size:.88rem"><li>Select your data (with headers)</li><li>Insert → Chart</li><li>Customize in the Chart Editor</li></ol>
       </div>
-      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
-        <p class="font-semibold text-green-800 mb-2">Excel:</p>
-        <ol class="list-decimal ml-5 text-sm">
-          <li>Select your data (including headers)</li>
-          <li>Insert → Choose chart type</li>
-          <li>Use Chart Tools to customize</li>
-        </ol>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">Excel</div>
+        <ol style="margin:.3rem 0 0;padding-left:1.2rem;font-size:.88rem"><li>Select your data (with headers)</li><li>Insert → choose a chart type</li><li>Customize with Chart Tools</li></ol>
       </div>
     </div>
-    <p class="text-sm text-gray-600 mt-3"><strong>Pro tip:</strong> Create a pivot table first, then chart the pivot. The chart will update automatically when you change the pivot!</p>
-  </div>
+    <div class="callout tip" style="margin-top:.6rem"><p><strong>Pro tip:</strong> create a pivot table first, then chart the pivot — the chart updates automatically when you change the pivot.</p></div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Choosing the Right Chart Type</h2>
-    
-    <div class="space-y-4 mt-3">
-      <div class="bg-gray-50 rounded-lg p-4">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl">📊</div>
-          <div class="flex-1">
-            <div class="font-semibold">Column / Bar Chart</div>
-            <p class="text-sm text-gray-600">Compare values across categories</p>
-            <p class="text-sm mt-1"><strong>Use when:</strong> Comparing discrete categories (regions, products, segments)</p>
-            <p class="text-sm"><strong>Example:</strong> Sales by Region, Profit by Category</p>
-            <div class="flex gap-2 mt-2">
-              <div class="h-16 w-8 bg-blue-400 rounded-t self-end"></div>
-              <div class="h-24 w-8 bg-blue-500 rounded-t self-end"></div>
-              <div class="h-12 w-8 bg-blue-400 rounded-t self-end"></div>
-              <div class="h-20 w-8 bg-blue-500 rounded-t self-end"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-gray-50 rounded-lg p-4">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl">📈</div>
-          <div class="flex-1">
-            <div class="font-semibold">Line Chart</div>
-            <p class="text-sm text-gray-600">Show trends over time</p>
-            <p class="text-sm mt-1"><strong>Use when:</strong> Data has a time component (dates, months, years)</p>
-            <p class="text-sm"><strong>Example:</strong> Monthly sales trend, yearly growth</p>
-            <svg class="w-48 h-16 mt-2" viewBox="0 0 200 60">
-              <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="10,50 50,40 90,45 130,25 170,15 190,20"/>
-              <circle cx="10" cy="50" r="3" fill="#3B82F6"/>
-              <circle cx="50" cy="40" r="3" fill="#3B82F6"/>
-              <circle cx="90" cy="45" r="3" fill="#3B82F6"/>
-              <circle cx="130" cy="25" r="3" fill="#3B82F6"/>
-              <circle cx="170" cy="15" r="3" fill="#3B82F6"/>
-              <circle cx="190" cy="20" r="3" fill="#3B82F6"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-gray-50 rounded-lg p-4">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl">🥧</div>
-          <div class="flex-1">
-            <div class="font-semibold">Pie / Donut Chart</div>
-            <p class="text-sm text-gray-600">Show parts of a whole (percentages)</p>
-            <p class="text-sm mt-1"><strong>Use when:</strong> You have 2-5 categories that add up to 100%</p>
-            <p class="text-sm"><strong>Example:</strong> Market share by region, % of sales by category</p>
-            <p class="text-xs text-red-600 mt-1">⚠️ Avoid for many categories - hard to read!</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-gray-50 rounded-lg p-4">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl">⚬</div>
-          <div class="flex-1">
-            <div class="font-semibold">Scatter Plot</div>
-            <p class="text-sm text-gray-600">Show relationship between two variables</p>
-            <p class="text-sm mt-1"><strong>Use when:</strong> Exploring correlation between two measures</p>
-            <p class="text-sm"><strong>Example:</strong> Discount vs Profit (does discounting hurt profit?)</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-gray-50 rounded-lg p-4">
-        <div class="flex items-start gap-4">
-          <div class="text-3xl">📊📈</div>
-          <div class="flex-1">
-            <div class="font-semibold">Combo Chart</div>
-            <p class="text-sm text-gray-600">Combine bars and lines for two different metrics</p>
-            <p class="text-sm mt-1"><strong>Use when:</strong> Showing two related metrics on different scales</p>
-            <p class="text-sm"><strong>Example:</strong> Sales (bars) with Profit Margin (line)</p>
+  <section class="lcard">
+    <h2><span class="ic">🎨</span> Choosing the right chart type</h2>
+    <div class="tile" style="margin-top:.25rem">
+      <div style="display:flex;gap:1rem;align-items:flex-start">
+        <div style="font-size:1.8rem">📊</div>
+        <div style="flex:1">
+          <h3>Column / Bar chart</h3>
+          <p style="margin:0;font-size:.88rem">Compare values across categories. <strong>Use when:</strong> comparing discrete categories (regions, products). <strong>Example:</strong> Sales by Region.</p>
+          <div style="display:flex;gap:.5rem;margin-top:.5rem;height:6rem;align-items:flex-end">
+            <div style="height:64px;width:32px;background:#34d399;border-radius:4px 4px 0 0"></div>
+            <div style="height:96px;width:32px;background:#10b981;border-radius:4px 4px 0 0"></div>
+            <div style="height:48px;width:32px;background:#34d399;border-radius:4px 4px 0 0"></div>
+            <div style="height:80px;width:32px;background:#10b981;border-radius:4px 4px 0 0"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="tile" style="margin-top:.6rem">
+      <div style="display:flex;gap:1rem;align-items:flex-start">
+        <div style="font-size:1.8rem">📈</div>
+        <div style="flex:1">
+          <h3>Line chart</h3>
+          <p style="margin:0;font-size:.88rem">Show trends over time. <strong>Use when:</strong> data has a time component. <strong>Example:</strong> monthly sales trend.</p>
+          <svg style="width:12rem;height:4rem;margin-top:.5rem" viewBox="0 0 200 60">
+            <polyline fill="none" stroke="#10b981" stroke-width="2" points="10,50 50,40 90,45 130,25 170,15 190,20"/>
+            <circle cx="10" cy="50" r="3" fill="#10b981"/><circle cx="50" cy="40" r="3" fill="#10b981"/><circle cx="90" cy="45" r="3" fill="#10b981"/><circle cx="130" cy="25" r="3" fill="#10b981"/><circle cx="170" cy="15" r="3" fill="#10b981"/><circle cx="190" cy="20" r="3" fill="#10b981"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:.6rem">
+      <div class="tile"><h3>🥧 Pie / Donut</h3><p style="margin:0;font-size:.86rem">Parts of a whole. Use for 2–5 categories adding to 100%.</p><p style="margin:.3rem 0 0;font-size:.8rem;color:#b91c1c">⚠️ Avoid with many categories — hard to read.</p></div>
+      <div class="tile"><h3>⚬ Scatter plot</h3><p style="margin:0;font-size:.86rem">Relationship between two variables. <strong>Example:</strong> Discount vs Profit.</p></div>
+      <div class="tile"><h3>📊📈 Combo chart</h3><p style="margin:0;font-size:.86rem">Bars + line for two metrics on different scales. <strong>Example:</strong> Sales (bars) + Profit Margin (line).</p></div>
+      <div class="tile"><h3>📊 Stacked bar</h3><p style="margin:0;font-size:.86rem">Compare totals while showing their composition. <strong>Example:</strong> Sales by Region split by Category.</p></div>
+    </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Chart from Pivot Table (Best Practice)</h2>
-    <p class="mb-2">The best approach: Create a pivot table first, then chart it. Benefits:</p>
-    <ul class="list-disc ml-5 text-sm">
+  <section class="lcard">
+    <h2><span class="ic">🔗</span> Chart from a pivot table (best practice)</h2>
+    <p>Create a pivot first, then chart it. Benefits:</p>
+    <ul>
       <li>Chart updates automatically when you modify the pivot</li>
       <li>Easy to change what's displayed without rebuilding</li>
-      <li>Can use pivot's sorting and filtering</li>
+      <li>You inherit the pivot's sorting and filtering</li>
     </ul>
-    <div class="bg-gray-100 rounded p-3 mt-3 text-sm">
-      <ol class="list-decimal ml-5">
-        <li>Create a pivot table (e.g., Sales by Region)</li>
-        <li>Select the pivot table results (including headers)</li>
-        <li>Insert → Chart</li>
-        <li>The chart is now linked to your pivot!</li>
-      </ol>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Essential Customizations</h2>
-    
-    <div class="grid grid-cols-2 gap-3 mt-3">
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">📝 Title</div>
-        <p class="text-sm">Always add a clear, descriptive title that tells the story</p>
-        <p class="text-xs text-gray-500 mt-1">Good: "Sales by Region (2017)"<br>Bad: "Chart 1"</p>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">🏷️ Labels</div>
-        <p class="text-sm">Add data labels to important values so viewers don't guess</p>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">📐 Axes</div>
-        <p class="text-sm">Label axes with units. Start Y-axis at zero for bar charts (usually)</p>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">📚 Legend</div>
-        <p class="text-sm">Position where it doesn't overlap data. Remove if only one series</p>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">🎨 Colors</div>
-        <p class="text-sm">Use consistent colors across related charts. Consider color-blind friendly palettes</p>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <div class="font-semibold">📏 Gridlines</div>
-        <p class="text-sm">Reduce or remove for cleaner look. Keep only if needed for reading values</p>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Common Chart Mistakes</h2>
-    <div class="grid grid-cols-2 gap-3 mt-3">
-      <div class="bg-red-50 border border-red-200 rounded p-3">
-        <div class="font-semibold text-red-700">❌ Pie chart with 10+ slices</div>
-        <p class="text-xs">Impossible to read. Use bar chart instead.</p>
-      </div>
-      <div class="bg-red-50 border border-red-200 rounded p-3">
-        <div class="font-semibold text-red-700">❌ 3D effects</div>
-        <p class="text-xs">Distorts data perception. Keep it flat.</p>
-      </div>
-      <div class="bg-red-50 border border-red-200 rounded p-3">
-        <div class="font-semibold text-red-700">❌ Y-axis not starting at zero</div>
-        <p class="text-xs">Exaggerates differences. (Exception: stock prices)</p>
-      </div>
-      <div class="bg-red-50 border border-red-200 rounded p-3">
-        <div class="font-semibold text-red-700">❌ Too many data series</div>
-        <p class="text-xs">Chart becomes cluttered. Focus on key insights.</p>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Sparklines - Mini Charts</h2>
-    <p class="text-sm mb-2">Sparklines are tiny charts that fit inside a cell - great for dashboards:</p>
-    <div class="bg-gray-100 rounded p-3 text-sm">
-      <p><strong>Google Sheets:</strong> <code>=SPARKLINE(data_range, {"charttype","line"})</code></p>
-      <p><strong>Excel:</strong> Insert → Sparklines → Choose type</p>
-    </div>
-    <pre class="bg-gray-800 text-white p-2 rounded text-sm mt-2">=<span class="text-purple-400">SPARKLINE</span>(B2:M2)                           <span class="text-gray-400">// Line</span>
-=<span class="text-purple-400">SPARKLINE</span>(B2:M2, {<span class="text-green-400">"charttype"</span>,<span class="text-green-400">"bar"</span>})     <span class="text-gray-400">// Bar</span>
-=<span class="text-purple-400">SPARKLINE</span>(B2:M2, {<span class="text-green-400">"charttype"</span>,<span class="text-green-400">"column"</span>})  <span class="text-gray-400">// Column</span></pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Chart the pivot, not raw data</strong> - easier to manage and update</li>
-      <li><strong>One chart, one insight</strong> - don't try to show everything at once</li>
-      <li><strong>Time goes on X-axis</strong> - left to right, past to future</li>
-      <li><strong>Horizontal bars for long labels</strong> - product names, state names</li>
-      <li><strong>Less is more</strong> - remove unnecessary elements</li>
-      <li><strong>Tell a story</strong> - the chart should answer a question</li>
-      <li><strong>Test with colleagues</strong> - if they don't understand in 5 seconds, simplify</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a <strong>column chart</strong> showing total Sales by Category</li>
-      <li>Create a <strong>bar chart</strong> showing top 10 States by Sales (horizontal for readability)</li>
-      <li>Create a <strong>line chart</strong> showing Sales trend by Month (group your date data first)</li>
-      <li>Create a <strong>pie chart</strong> showing % of Sales by Region</li>
-      <li>Create a <strong>scatter plot</strong> with Discount on X-axis and Profit on Y-axis. What relationship do you see?</li>
-      <li>Create a <strong>stacked bar chart</strong> showing Sales by Region, with each bar split by Category</li>
-      <li>Create a <strong>line chart with multiple lines</strong> - Sales over time for each Region</li>
-      <li>Create a <strong>combo chart</strong>: Sales (bars) and Profit (line) by Sub-Category</li>
-      <li>Add <strong>data labels</strong> to your column chart showing the exact values</li>
-      <li>Create a chart from a pivot table, then modify the pivot and watch the chart update</li>
-      <li>Create <strong>sparklines</strong> showing mini sales trends for each Region in a summary table</li>
-      <li>Build a <strong>simple dashboard</strong> with 3-4 charts on one sheet telling a cohesive story about sales performance</li>
+    <ol>
+      <li>Create a pivot table (e.g. Sales by Region)</li>
+      <li>Select the pivot results (with headers)</li>
+      <li>Insert → Chart — it's now linked to your pivot</li>
     </ol>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Challenge: Executive Dashboard</h2>
-    <p>Create a one-page dashboard for a fictional executive that answers:</p>
-    <ul class="list-disc ml-5 text-sm mt-2">
-      <li>How are we doing overall? (KPI cards with totals)</li>
-      <li>Which regions are performing best? (Bar chart)</li>
-      <li>How is our trend? (Line chart by month)</li>
-      <li>What's our product mix? (Pie or stacked bar)</li>
+  <section class="lcard">
+    <h2><span class="ic">⚙️</span> Essential customizations</h2>
+    <div class="grid2">
+      <div class="tile"><h3>📝 Title</h3><p style="margin:0;font-size:.86rem">A clear title that tells the story. Good: "Sales by Region (2017)". Bad: "Chart 1".</p></div>
+      <div class="tile"><h3>🏷️ Labels</h3><p style="margin:0;font-size:.86rem">Add data labels to key values so viewers don't guess.</p></div>
+      <div class="tile"><h3>📐 Axes</h3><p style="margin:0;font-size:.86rem">Label axes with units. Start the Y-axis at zero for bar charts.</p></div>
+      <div class="tile"><h3>📚 Legend</h3><p style="margin:0;font-size:.86rem">Position it clear of the data. Remove it for a single series.</p></div>
+      <div class="tile"><h3>🎨 Colors</h3><p style="margin:0;font-size:.86rem">Be consistent across related charts. Prefer color-blind-friendly palettes.</p></div>
+      <div class="tile"><h3>📏 Gridlines</h3><p style="margin:0;font-size:.86rem">Reduce or remove for a cleaner look.</p></div>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🚫</span> Common chart mistakes</h2>
+    <div class="grid2">
+      <div class="cmp bad"><div class="h">❌ Pie chart with 10+ slices</div><p style="margin:0;font-size:.82rem">Impossible to read — use a bar chart.</p></div>
+      <div class="cmp bad"><div class="h">❌ 3D effects</div><p style="margin:0;font-size:.82rem">Distorts perception — keep it flat.</p></div>
+      <div class="cmp bad"><div class="h">❌ Y-axis not starting at zero</div><p style="margin:0;font-size:.82rem">Exaggerates differences (exception: stock prices).</p></div>
+      <div class="cmp bad"><div class="h">❌ Too many data series</div><p style="margin:0;font-size:.82rem">Cluttered — focus on the key insight.</p></div>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">⚡</span> Sparklines — mini charts</h2>
+    <p style="font-size:.9rem">Tiny charts that fit inside a single cell — perfect for dashboards.</p>
+    <div class="callout note"><p><strong>Google Sheets:</strong> <code>=SPARKLINE(range, {"charttype","line"})</code> &nbsp; <strong>Excel:</strong> Insert → Sparklines → choose a type.</p></div>
+    <pre>=<span class="text-purple-400">SPARKLINE</span>(B2:M2)                          <span class="text-gray-400">// line</span>
+=<span class="text-purple-400">SPARKLINE</span>(B2:M2, {<span class="text-green-400">"charttype"</span>,<span class="text-green-400">"bar"</span>})    <span class="text-gray-400">// bar</span>
+=<span class="text-purple-400">SPARKLINE</span>(B2:M2, {<span class="text-green-400">"charttype"</span>,<span class="text-green-400">"column"</span>}) <span class="text-gray-400">// column</span></pre>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Chart the pivot, not raw data</strong> — easier to manage and update</li>
+      <li><strong>One chart, one insight</strong> — don't show everything at once</li>
+      <li><strong>Time goes on the X-axis</strong> — left to right, past to future</li>
+      <li><strong>Horizontal bars for long labels</strong> — product/state names</li>
+      <li><strong>Less is more</strong> — remove unnecessary elements</li>
+      <li><strong>Tell a story</strong> — the chart should answer a question</li>
+      <li><strong>Test with colleagues</strong> — if they don't get it in 5 seconds, simplify</li>
     </ul>
-    <p class="mt-2 text-sm">Include titles, labels, and make it visually appealing. The executive should understand the business state in 30 seconds.</p>
-  </div>
+  </section>
+
+  <section class="lcard accent">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li><strong>Column chart</strong>: total Sales by Category</li>
+      <li><strong>Bar chart</strong>: top 10 States by Sales (horizontal)</li>
+      <li><strong>Line chart</strong>: Sales trend by Month (group dates first)</li>
+      <li><strong>Pie chart</strong>: % of Sales by Region</li>
+      <li><strong>Scatter plot</strong>: Discount (X) vs Profit (Y) — what do you see?</li>
+      <li><strong>Stacked bar</strong>: Sales by Region, split by Category</li>
+      <li><strong>Multi-line</strong>: Sales over time for each Region</li>
+      <li><strong>Combo chart</strong>: Sales (bars) + Profit (line) by Sub-Category</li>
+      <li>Add <strong>data labels</strong> to your column chart</li>
+      <li>Chart a pivot table, then modify the pivot and watch it update</li>
+      <li>Add <strong>sparklines</strong> for mini sales trends per Region</li>
+      <li>Build a <strong>3–4 chart dashboard</strong> telling one cohesive story</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: executive dashboard</div>
+      <p>Build a one-page dashboard answering: How are we doing overall? (KPI cards) · Which regions perform best? (bar) · What's the trend? (line by month) · What's our product mix? (pie/stacked bar). Add titles and labels — an executive should get it in 30 seconds.</p>
+    </div>
+  </section>
 </div>
