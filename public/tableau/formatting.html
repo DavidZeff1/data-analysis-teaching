@@ -1,9 +1,9 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🎛️</span> Formatting &amp; Custom Charts</h1>
-    <p>Tableau's defaults are functional, not finished — and almost every part of a view is editable if you know where the setting lives. This page is the map: the formatting hierarchy, every region of a chart and what controls it, the panels that sit beside it, and the techniques for building charts Show Me has never heard of.</p>
+    <p>Tableau's defaults are functional, not finished — and almost every part of a view is editable once you know where the setting lives. This is the map: the formatting hierarchy, a labelled tour of every region of a chart, the panels that sit beside it, and the techniques for building charts Show Me has never heard of.</p>
     <div class="lesson-meta">
-      <span>⏱️ 50 min</span>
+      <span>⏱️ 55 min</span>
       <span>🎨 Deep dive</span>
       <span>🔗 Needs: Chart Types, Measure Names &amp; Values</span>
     </div>
@@ -13,11 +13,10 @@
   <nav class="toc" aria-label="On this page">
     <span class="toc-label">On this page</span>
     <a href="#fm-hierarchy">The hierarchy</a>
-    <a href="#fm-pane">The Format pane</a>
     <a href="#fm-anatomy">Anatomy of a view</a>
+    <a href="#fm-pane">Header vs Pane</a>
     <a href="#fm-axes">Axes</a>
-    <a href="#fm-headers">Headers &amp; cells</a>
-    <a href="#fm-lines">Lines, shading, banding</a>
+    <a href="#fm-cleanup">The 60-second cleanup</a>
     <a href="#fm-side">Panels beside the chart</a>
     <a href="#fm-legends">Legends</a>
     <a href="#fm-color">Colour in depth</a>
@@ -33,39 +32,170 @@
 
   <section class="lcard" id="fm-hierarchy">
     <h2><span class="ic">🪜</span> The formatting hierarchy</h2>
-    <p>Before any specific setting: Tableau formats at four levels, and <strong>the most specific one wins</strong>. Knowing which level you're editing is the difference between changing one thing and changing everything.</p>
+    <p>Before any specific setting: Tableau formats at four nested levels, and <strong>the most specific one wins</strong>. Knowing which level you're editing is the difference between changing one thing and changing everything.</p>
 
-    <ol class="ladder">
-      <li><strong>Workbook</strong> <span class="mpath">Format <i>→</i> Workbook</span><div class="lr-d">Fonts and colours for every sheet, present and future. Set this first on any real project.</div></li>
-      <li><strong>Worksheet</strong> <span class="mpath">Format <i>→</i> Font / Lines / Shading…</span><div class="lr-d">Everything in this one sheet. The Format pane on the left.</div></li>
-      <li class="key"><strong>Field</strong> <span class="mpath">right-click a pill <i>→</i> Format</span><div class="lr-d">That field wherever it appears in this sheet — its headers and its panes.</div></li>
-      <li class="key"><strong>Single element</strong> <span class="mpath">right-click the thing itself <i>→</i> Format</span><div class="lr-d">One axis, one header, one annotation. Overrides everything above.</div></li>
-    </ol>
+    <div class="figure">
+      <svg viewBox="0 0 420 150" role="img" aria-label="Four nested boxes showing workbook containing worksheet containing field containing element" style="width:100%;height:auto">
+        <rect x="6" y="6" width="408" height="138" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="18" y="24" font-size="10" font-weight="700" fill="#4338ca" font-family="Inter, sans-serif">1 · Workbook</text>
+        <text x="18" y="37" font-size="7.5" fill="#6366f1" font-family="Inter, sans-serif">Format → Workbook · every sheet, now and in future</text>
 
-    <div class="callout tip" style="margin-top:.65rem">
-      <div class="callout-title">Work top-down, not bottom-up</div>
-      <p>Set fonts and the base palette at <strong>workbook</strong> level once. Then only reach for lower levels to make a deliberate exception. The alternative — formatting each sheet individually — produces a dashboard where ten charts are each slightly different, and nobody can say why.</p>
+        <rect x="26" y="46" width="368" height="90" rx="7" fill="#e0f2fe" stroke="#bae6fd"/>
+        <text x="38" y="63" font-size="9.5" font-weight="700" fill="#0369a1" font-family="Inter, sans-serif">2 · Worksheet</text>
+        <text x="38" y="75" font-size="7.5" fill="#0284c7" font-family="Inter, sans-serif">The Format pane · everything on this one sheet</text>
+
+        <rect x="46" y="84" width="328" height="44" rx="6" fill="#dcfce7" stroke="#bbf7d0"/>
+        <text x="58" y="100" font-size="9" font-weight="700" fill="#15803d" font-family="Inter, sans-serif">3 · Field</text>
+        <text x="58" y="111" font-size="7.5" fill="#16a34a" font-family="Inter, sans-serif">Right-click a pill → Format · that field, everywhere on this sheet</text>
+
+        <rect x="196" y="90" width="170" height="30" rx="5" fill="#fef3c7" stroke="#fde68a"/>
+        <text x="206" y="103" font-size="8.5" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">4 · Single element</text>
+        <text x="206" y="113" font-size="7" fill="#d97706" font-family="Inter, sans-serif">One axis, one header — overrides all</text>
+      </svg>
+      <p class="figcap">An inner box always beats the box containing it. Set the outer ones first and you'll rarely need the inner ones.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Work outside-in, not inside-out</div>
+      <p>Set fonts and the base palette at <strong>workbook</strong> level once. Then only reach inwards to make a deliberate exception. The alternative — formatting each sheet individually — produces a dashboard where ten charts are each slightly different and nobody can say why.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
-      <p><strong>Undoing formatting:</strong> the Format pane has a <strong>Clear</strong> button (an eraser) at the top that resets the current sheet's formatting to default. Right-clicking any individual element also offers <em>Reset</em>. Both are safer than hunting for the one setting you changed an hour ago.</p>
+      <p><strong>Undoing:</strong> the Format pane has a <strong>Clear</strong> button (an eraser) at the top that resets the sheet to default. Right-clicking any individual element also offers <em>Reset</em>. Both beat hunting for the one setting you changed an hour ago.</p>
     </div>
   </section>
 
-  <section class="lcard" id="fm-pane">
-    <h2><span class="ic">🗂️</span> The Format pane and its two-column logic</h2>
-    <p>Open it with <span class="mpath">Format <i>→</i> Font</span> (or right-click in the view → Format). It replaces the Data pane on the left. At the top are three tabs — <strong>Sheet</strong>, <strong>Rows</strong>, <strong>Columns</strong> — and inside each, settings are split into two columns that catch people out constantly.</p>
+  <section class="lcard" id="fm-anatomy">
+    <h2><span class="ic">🔬</span> Anatomy of a view</h2>
+    <p>Ten separately editable regions. This diagram plus the list below is the lookup you'll come back to.</p>
 
-    <div class="split">
-      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
-        <div class="h" style="color:#1d4ed8">Header</div>
-        <p style="margin:.3rem 0 0;font-size:.87rem">The <strong>labels</strong> — row and column headers, the field names down the side and across the top. Text, not data.</p>
-      </div>
-      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
-        <div class="h" style="color:#047857">Pane</div>
-        <p style="margin:.3rem 0 0;font-size:.87rem">The <strong>data area</strong> — where the marks and numbers live. Everything inside the chart itself.</p>
-      </div>
+    <div class="figure">
+      <svg viewBox="0 0 420 270" role="img" aria-label="Labelled diagram of a Tableau worksheet showing title, shelves, field label, row headers, marks, labels, gridlines, axis, legend and caption" style="width:100%;height:auto">
+        <rect x="8" y="8" width="404" height="254" rx="5" fill="#fff" stroke="#cbd5e1"/>
+
+        <!-- title band -->
+        <text x="34" y="25" font-size="10.5" font-weight="700" fill="#0f172a" font-family="Inter, sans-serif">West leads on revenue</text>
+        <line x1="8" y1="32" x2="412" y2="32" stroke="#e2e8f0"/>
+
+        <!-- shelves -->
+        <rect x="8" y="32" width="404" height="38" fill="#f8fafc"/>
+        <text x="18" y="46" font-size="7" fill="#64748b" font-family="Inter, sans-serif">Columns</text>
+        <rect x="56" y="38" width="58" height="11" rx="5.5" fill="#5b9450"/>
+        <text x="85" y="46.5" font-size="6.2" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <text x="18" y="62" font-size="7" fill="#64748b" font-family="Inter, sans-serif">Rows</text>
+        <rect x="56" y="54" width="40" height="11" rx="5.5" fill="#4a7dab"/>
+        <text x="76" y="62.5" font-size="6.2" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+        <line x1="8" y1="70" x2="412" y2="70" stroke="#e2e8f0"/>
+
+        <!-- marks card -->
+        <rect x="14" y="76" width="52" height="80" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="20" y="87" font-size="6.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">MARKS</text>
+        <rect x="19" y="91" width="42" height="10" rx="2" fill="#fff" stroke="#cbd5e1"/>
+        <text x="23" y="98.5" font-size="6" fill="#334155" font-family="Inter, sans-serif">Bar</text>
+        <rect x="19" y="105" width="26" height="8" rx="2" fill="#eef2f7"/><text x="22" y="111.5" font-size="5.5" fill="#64748b" font-family="Inter, sans-serif">Color</text>
+        <rect x="19" y="116" width="26" height="8" rx="2" fill="#eef2f7"/><text x="22" y="122.5" font-size="5.5" fill="#64748b" font-family="Inter, sans-serif">Size</text>
+        <rect x="19" y="127" width="26" height="8" rx="2" fill="#eef2f7"/><text x="22" y="133.5" font-size="5.5" fill="#64748b" font-family="Inter, sans-serif">Label</text>
+
+        <!-- field label -->
+        <rect x="72" y="76" width="52" height="11" fill="#eef2f7"/>
+        <text x="98" y="84" font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+
+        <!-- gridlines -->
+        <g stroke="#e2e8f0" stroke-dasharray="3 3">
+          <line x1="178" y1="88" x2="178" y2="176"/><line x1="230" y1="88" x2="230" y2="176"/>
+          <line x1="282" y1="88" x2="282" y2="176"/><line x1="334" y1="88" x2="334" y2="176"/>
+        </g>
+
+        <!-- row headers -->
+        <g font-size="7" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="122" y="102">Central</text><text x="122" y="124">East</text>
+          <text x="122" y="146">South</text><text x="122" y="168">West</text>
+        </g>
+
+        <!-- bars -->
+        <g fill="#4a7dab">
+          <rect x="126" y="92" width="88" height="14"/><rect x="126" y="114" width="120" height="14"/>
+          <rect x="126" y="136" width="68" height="14"/><rect x="126" y="158" width="128" height="14"/>
+        </g>
+        <!-- mark labels -->
+        <g font-size="6.2" fill="#475569" font-family="Inter, sans-serif">
+          <text x="218" y="102">$501K</text><text x="250" y="124">$679K</text>
+          <text x="198" y="146">$392K</text><text x="258" y="168">$725K</text>
+        </g>
+
+        <!-- axis -->
+        <line x1="126" y1="180" x2="336" y2="180" stroke="#cbd5e1"/>
+        <g font-size="6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="126" y="190">0</text><text x="178" y="190">200K</text><text x="230" y="190">400K</text>
+          <text x="282" y="190">600K</text><text x="334" y="190">800K</text>
+        </g>
+        <text x="231" y="204" font-size="6.8" fill="#475569" text-anchor="middle" font-family="Inter, sans-serif">Sales</text>
+
+        <!-- legend -->
+        <rect x="344" y="76" width="62" height="56" rx="3" fill="#fff" stroke="#e2e8f0"/>
+        <text x="350" y="87" font-size="6.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">REGION</text>
+        <g font-size="6" fill="#334155" font-family="Inter, sans-serif">
+          <rect x="350" y="92" width="7" height="7" rx="1.5" fill="#4e79a7"/><text x="361" y="98">Central</text>
+          <rect x="350" y="102" width="7" height="7" rx="1.5" fill="#f28e2b"/><text x="361" y="108">East</text>
+          <rect x="350" y="112" width="7" height="7" rx="1.5" fill="#59a14f"/><text x="361" y="118">South</text>
+          <rect x="350" y="122" width="7" height="7" rx="1.5" fill="#e15759"/><text x="361" y="128">West</text>
+        </g>
+
+        <!-- caption -->
+        <line x1="8" y1="214" x2="412" y2="214" stroke="#e2e8f0"/>
+        <rect x="8" y="214" width="404" height="48" fill="#f8fafc"/>
+        <text x="34" y="234" font-size="6.8" fill="#64748b" font-family="Inter, sans-serif">Data through 30 Dec 2017 · 9,994 line items · refreshed weekly</text>
+      </svg>
+      <span class="pin" style="top:7.5%;left:5.5%">1</span>
+      <span class="pin" style="top:16.5%;left:31%">2</span>
+      <span class="pin" style="top:30%;left:23.5%">3</span>
+      <span class="pin" style="top:61.5%;left:19%">4</span>
+      <span class="pin" style="top:23%;left:9.5%">5</span>
+      <span class="pin" style="top:44.5%;left:41%">6</span>
+      <span class="pin" style="top:36%;left:59.5%">7</span>
+      <span class="pin" style="top:53%;left:67%">8</span>
+      <span class="pin" style="top:70.5%;left:54%">9</span>
+      <span class="pin" style="top:26.5%;left:89%">10</span>
+      <span class="pin" style="top:87%;left:5.5%">11</span>
     </div>
-    <p class="muted" style="margin-top:.5rem">Changing the font under "Header" and wondering why your numbers didn't change is the standard first experience of this pane. There's also a <strong>Total</strong> column when totals are showing, so you can style them separately — usually bold, which reads well.</p>
+
+    <ol class="pinlist">
+      <li><span class="pin">1</span><div><b>Title</b> — double-click to edit, or <span class="mpath">Worksheet <i>→</i> Show Title</span>. Can contain live values</div></li>
+      <li><span class="pin">2</span><div><b>Shelves &amp; pills</b> — right-click a pill → Format to style that field everywhere on the sheet</div></li>
+      <li><span class="pin">3</span><div><b>Field label</b> — the grey "Region" bar. Right-click → <em>Hide Field Labels for Rows</em></div></li>
+      <li><span class="pin">4</span><div><b>Row headers</b> — Format pane → Font / Alignment, in the <em>Header</em> column</div></li>
+      <li><span class="pin">5</span><div><b>Marks card</b> — colour, size, labels, tooltip, and the mark type dropdown</div></li>
+      <li><span class="pin">6</span><div><b>Marks</b> — the bars themselves. Colour, opacity, borders all live on the Color card</div></li>
+      <li><span class="pin">7</span><div><b>Mark labels</b> — Marks card → Label, including <em>which</em> marks get labelled</div></li>
+      <li><span class="pin">8</span><div><b>Gridlines</b> — Format pane → <strong>Lines</strong>. Usually the first thing to delete</div></li>
+      <li><span class="pin">9</span><div><b>Axis</b> — right-click → <strong>Edit Axis</strong> for range, zero, log, ticks and titles</div></li>
+      <li><span class="pin">10</span><div><b>Legend</b> — sheet's <span class="mpath">▾ <i>→</i> Legends</span>. Retitle, recolour, rearrange or delete</div></li>
+      <li><span class="pin">11</span><div><b>Caption</b> — <span class="mpath">Worksheet <i>→</i> Show Caption</span>. Sources, definitions, as-of dates</div></li>
+    </ol>
+  </section>
+
+  <section class="lcard" id="fm-pane">
+    <h2><span class="ic">🗂️</span> The Format pane — and the Header/Pane split</h2>
+    <p>Open it with <span class="mpath">Format <i>→</i> Font</span>, or right-click in the view → Format. It replaces the Data pane on the left. Three tabs — <strong>Sheet</strong>, <strong>Rows</strong>, <strong>Columns</strong> — and inside each, settings split into two columns that catch people out constantly.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 120" role="img" aria-label="Diagram highlighting the header region and the pane region of a chart" style="width:100%;height:auto">
+        <rect x="8" y="8" width="128" height="104" fill="#dbeafe" stroke="#93c5fd" rx="4"/>
+        <rect x="136" y="8" width="276" height="104" fill="#dcfce7" stroke="#86efac" rx="4"/>
+        <text x="72" y="24" font-size="9" font-weight="700" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">HEADER</text>
+        <text x="274" y="24" font-size="9" font-weight="700" fill="#15803d" text-anchor="middle" font-family="Inter, sans-serif">PANE</text>
+        <g font-size="8" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="126" y="47">Central</text><text x="126" y="67">East</text>
+          <text x="126" y="87">South</text><text x="126" y="107">West</text>
+        </g>
+        <g fill="#4a7dab">
+          <rect x="142" y="38" width="110" height="12"/><rect x="142" y="58" width="150" height="12"/>
+          <rect x="142" y="78" width="86" height="12"/><rect x="142" y="98" width="160" height="12"/>
+        </g>
+        <text x="72" y="36" font-size="6.5" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">the labels</text>
+        <text x="274" y="36" font-size="6.5" fill="#15803d" text-anchor="middle" font-family="Inter, sans-serif">the data area</text>
+      </svg>
+      <p class="figcap">Changing the font under <em>Header</em> and wondering why the numbers didn't change is the standard first experience of this pane. There's a third <strong>Total</strong> column when totals are showing, so you can style those separately — usually bold.</p>
+    </div>
 
     <div class="scrollx" style="margin-top:.75rem">
       <table class="ltable">
@@ -73,174 +203,202 @@
         <tbody>
           <tr><td><strong>Font</strong></td><td>Typeface, size, weight, colour for headers, panes, totals, tooltips and titles</td><td>Drop pane text one size below headers — it reads calmer</td></tr>
           <tr><td><strong>Alignment</strong></td><td>Horizontal, vertical, <strong>direction</strong> (rotation), text wrap</td><td>Direction is how you rotate long column headers</td></tr>
-          <tr><td><strong>Shading</strong></td><td>Pane and header background, total shading, <strong>row/column banding</strong></td><td>Banding under the Rows tab, with Band Size</td></tr>
-          <tr><td><strong>Borders</strong></td><td>Cell, pane and header borders; row and column dividers</td><td>Set Row Divider to None on charts — keep it only on tables</td></tr>
-          <tr><td><strong>Lines</strong></td><td>Grid lines, zero lines, drop lines, trend lines, reference lines, axis rulers and ticks</td><td>Grid Lines → None is the biggest single improvement available</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="lcard" id="fm-anatomy">
-    <h2><span class="ic">🔬</span> Anatomy of a view — what controls what</h2>
-    <p>Every labelled region below is separately editable. This table is the lookup you'll come back to.</p>
-    <div class="scrollx">
-      <table class="ltable">
-        <thead><tr><th style="width:11rem">Part of the view</th><th>Where to change it</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Chart title</strong></td><td>Double-click it, or <span class="mpath">Worksheet <i>→</i> Show Title</span></td></tr>
-          <tr><td><strong>Caption</strong></td><td><span class="mpath">Worksheet <i>→</i> Show Caption</span>, then double-click to edit</td></tr>
-          <tr><td><strong>Axis (scale, title, ticks)</strong></td><td>Right-click the axis → <strong>Edit Axis</strong></td></tr>
-          <tr><td><strong>Axis text style</strong></td><td>Right-click the axis → <strong>Format</strong></td></tr>
-          <tr><td><strong>Show or hide an axis</strong></td><td>Right-click → untick <strong>Show Header</strong></td></tr>
-          <tr><td><strong>Row / column headers</strong></td><td>Format pane → Font / Alignment, <em>Header</em> column</td></tr>
-          <tr><td><strong>Field labels</strong> (the grey "Region" bar)</td><td>Right-click → <strong>Hide Field Labels for Rows/Columns</strong></td></tr>
-          <tr><td><strong>Gridlines &amp; zero line</strong></td><td>Format pane → <strong>Lines</strong></td></tr>
-          <tr><td><strong>Row banding</strong></td><td>Format pane → <strong>Shading</strong> → Rows tab</td></tr>
-          <tr><td><strong>Borders and dividers</strong></td><td>Format pane → <strong>Borders</strong></td></tr>
-          <tr><td><strong>Cell width / height</strong></td><td>Drag the header edge, or <span class="mpath">Format <i>→</i> Cell Size</span></td></tr>
-          <tr><td><strong>Mark colour, size, shape</strong></td><td>The Marks card</td></tr>
-          <tr><td><strong>Mark labels</strong></td><td>Marks card → <strong>Label</strong></td></tr>
-          <tr><td><strong>Tooltip</strong></td><td>Marks card → <strong>Tooltip</strong></td></tr>
-          <tr><td><strong>Number format</strong></td><td>Right-click field → <span class="mpath">Format <i>→</i> Numbers</span>, or Default Properties</td></tr>
-          <tr><td><strong>Legends</strong></td><td>Sheet's <span class="mpath">▾ <i>→</i> Legends</span></td></tr>
-          <tr><td><strong>Annotations</strong></td><td>Right-click in the view → <strong>Annotate</strong></td></tr>
-          <tr><td><strong>Reference lines</strong></td><td>Analytics pane, or right-click axis → Add Reference Line</td></tr>
-          <tr><td><strong>Everything, globally</strong></td><td><span class="mpath">Format <i>→</i> Workbook</span></td></tr>
+          <tr><td><strong>Shading</strong></td><td>Pane and header background, total shading, <strong>row/column banding</strong></td><td>Banding lives under the Rows tab, with a Band Size</td></tr>
+          <tr><td><strong>Borders</strong></td><td>Cell, pane and header borders; row and column dividers</td><td>Row Divider → None on charts; keep it only on tables</td></tr>
+          <tr><td><strong>Lines</strong></td><td>Grid, zero, drop, trend and reference lines; axis rulers and ticks</td><td>Grid Lines → None is the biggest single improvement available</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="lcard" id="fm-axes">
-    <h2><span class="ic">📏</span> Axes — full control</h2>
-    <p>Right-click any axis → <strong>Edit Axis</strong>. This dialog decides whether your chart tells the truth.</p>
+    <h2><span class="ic">📏</span> Axes — where a chart starts telling the truth or not</h2>
+    <p>Right-click any axis → <strong>Edit Axis</strong>. Two of these settings decide whether your chart is honest.</p>
 
+    <h3>Include zero</h3>
+    <div class="charts-grid">
+      <div class="cthumb tall pick">
+        <svg viewBox="0 0 130 76" role="img" aria-label="Bar chart starting at zero: bars look nearly equal">
+          <line x1="16" y1="66" x2="126" y2="66" stroke="#cbd5e1"/>
+          <g fill="#4a7dab">
+            <rect x="24" y="12" width="18" height="54"/><rect x="48" y="10" width="18" height="56"/>
+            <rect x="72" y="8" width="18" height="58"/><rect x="96" y="6" width="18" height="60"/>
+          </g>
+          <text x="12" y="70" font-size="6" fill="#94a3b8" text-anchor="end" font-family="Inter, sans-serif">0</text>
+        </svg>
+        <div class="ct-n">✓ Axis includes zero</div>
+        <div class="ct-d">Q1 100 · Q2 103 · Q3 107 · Q4 110. A 10% rise over the year, and it looks like one.</div>
+      </div>
+      <div class="cthumb tall warn-c">
+        <svg viewBox="0 0 130 76" role="img" aria-label="Same data with truncated axis: bars look dramatically different">
+          <line x1="16" y1="66" x2="126" y2="66" stroke="#cbd5e1"/>
+          <g fill="#c0392b">
+            <rect x="24" y="52" width="18" height="14"/><rect x="48" y="38" width="18" height="28"/>
+            <rect x="72" y="20" width="18" height="46"/><rect x="96" y="6" width="18" height="60"/>
+          </g>
+          <text x="12" y="70" font-size="6" fill="#b91c1c" text-anchor="end" font-family="Inter, sans-serif">95</text>
+        </svg>
+        <div class="ct-n">✗ Axis starts at 95</div>
+        <div class="ct-d"><strong>Identical data.</strong> Q4 now looks four times Q1. Nothing was falsified — the baseline was just moved.</div>
+      </div>
+    </div>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">Bars encode by length, so the baseline is part of the number</div>
+      <p>Cut it and every comparison is exaggerated. <strong>Bar and column charts must include zero, always.</strong> Line charts may start elsewhere when the variation is genuinely small — but say so on the axis.</p>
+    </div>
+
+    <h3 style="margin-top:1.2rem">Uniform vs independent ranges</h3>
+    <div class="charts-grid">
+      <div class="cthumb tall pick">
+        <svg viewBox="0 0 130 76" role="img" aria-label="Small multiples on a uniform axis, showing real size differences">
+          <g stroke="#e2e8f0"><line x1="8" y1="26" x2="122" y2="26"/><line x1="8" y1="50" x2="122" y2="50"/><line x1="8" y1="74" x2="122" y2="74"/></g>
+          <g fill="#4a7dab">
+            <rect x="10" y="8" width="14" height="18"/><rect x="28" y="14" width="14" height="12"/><rect x="46" y="11" width="14" height="15"/>
+            <rect x="10" y="44" width="14" height="6"/><rect x="28" y="46" width="14" height="4"/><rect x="46" y="45" width="14" height="5"/>
+            <rect x="10" y="60" width="14" height="14"/><rect x="28" y="64" width="14" height="10"/><rect x="46" y="62" width="14" height="12"/>
+          </g>
+          <g font-size="5.5" fill="#64748b" font-family="Inter, sans-serif">
+            <text x="66" y="18">West — big</text><text x="66" y="49">South — small</text><text x="66" y="70">East — mid</text>
+          </g>
+        </svg>
+        <div class="ct-n">✓ Uniform axis range</div>
+        <div class="ct-d">Every panel on one scale, so South visibly is the smallest. Comparison works.</div>
+      </div>
+      <div class="cthumb tall warn-c">
+        <svg viewBox="0 0 130 76" role="img" aria-label="Small multiples on independent axes, all panels look the same size">
+          <g stroke="#e2e8f0"><line x1="8" y1="26" x2="122" y2="26"/><line x1="8" y1="50" x2="122" y2="50"/><line x1="8" y1="74" x2="122" y2="74"/></g>
+          <g fill="#c0392b">
+            <rect x="10" y="8" width="14" height="18"/><rect x="28" y="14" width="14" height="12"/><rect x="46" y="11" width="14" height="15"/>
+            <rect x="10" y="32" width="14" height="18"/><rect x="28" y="38" width="14" height="12"/><rect x="46" y="35" width="14" height="15"/>
+            <rect x="10" y="56" width="14" height="18"/><rect x="28" y="62" width="14" height="12"/><rect x="46" y="59" width="14" height="15"/>
+          </g>
+          <g font-size="5.5" fill="#64748b" font-family="Inter, sans-serif">
+            <text x="66" y="18">West</text><text x="66" y="43">South</text><text x="66" y="67">East</text>
+          </g>
+        </svg>
+        <div class="ct-n">✗ Independent ranges</div>
+        <div class="ct-d"><strong>Same data.</strong> Each panel rescaled to fit, so South looks the size of West. The differences vanish.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.2rem">The rest of Edit Axis</h3>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:10rem">Setting</th><th>What it does</th><th>When to change it</th></tr></thead>
         <tbody>
-          <tr><td><strong>Automatic</strong></td><td>Tableau picks the range from the data in each pane</td><td>The default; fine for a single pane</td></tr>
-          <tr><td><strong>Uniform axis range</strong></td><td>Every pane shares one range</td><td><strong>Essential for small multiples</strong> — otherwise each panel is scaled differently and comparison is meaningless</td></tr>
-          <tr><td><strong>Independent ranges</strong></td><td>Each pane scales to its own data</td><td>Only when you care about <em>shape</em>, not magnitude — and say so</td></tr>
-          <tr><td><strong>Fixed</strong></td><td>You type the start and end</td><td>Locking a scale so it doesn't jump around as filters change</td></tr>
-          <tr><td><strong>Include zero</strong></td><td>Forces the axis to reach zero</td><td><strong>Always on for bar charts.</strong> Bars encode by length; a truncated baseline exaggerates differences</td></tr>
+          <tr><td><strong>Fixed</strong></td><td>You type the start and end</td><td>Locking a scale so it doesn't jump as filters change</td></tr>
           <tr><td><strong>Logarithmic</strong></td><td>Log scale, optionally symmetric for negatives</td><td>Data spanning several orders of magnitude</td></tr>
           <tr><td><strong>Reversed</strong></td><td>Flips the direction</td><td>Rankings, where 1 should be at the top</td></tr>
           <tr><td><strong>Titles &amp; subtitles</strong></td><td>Axis text, or blank to remove</td><td>Delete when the chart title already says it</td></tr>
-          <tr><td><strong>Tick marks</strong></td><td>Major and minor: automatic, fixed interval, or none</td><td>Fixed intervals when the automatic ones land on odd numbers</td></tr>
+          <tr><td><strong>Tick marks</strong></td><td>Major and minor: automatic, fixed interval, or none</td><td>Fixed intervals when automatic ones land on odd numbers</td></tr>
+          <tr><td><strong>Synchronize Axis</strong></td><td>On a dual axis, forces both onto one scale</td><td>Whenever the two measures share units</td></tr>
         </tbody>
       </table>
     </div>
-
-    <div class="callout danger" style="margin-top:.65rem">
-      <div class="callout-title">⚠️ The two axis settings that mislead</div>
-      <p><strong>A bar chart that doesn't start at zero.</strong> Bars say "this is twice as long, so it's twice as big". Cut the baseline and a 3% difference looks like 300%. Lines may start elsewhere when variation is small — bars may not, ever.</p>
-      <p style="margin-top:.4rem"><strong>Independent ranges on small multiples.</strong> Six panels that each look similar because each was scaled to fit. Set <em>Uniform</em> and the real differences appear.</p>
-    </div>
-
     <div class="callout note" style="margin-top:.5rem">
-      <p><strong>Dual axes:</strong> right-click the secondary axis → <strong>Synchronize Axis</strong> to force both onto one scale. Do that whenever the two measures share units. When they don't, leave them independent but make sure both axes are clearly titled — the reader has no other way to know which scale belongs to which series.</p>
+      <p>Right-click any axis or header → untick <strong>Show Header</strong> to hide it entirely. Essential for the placeholder-axis trick further down, and for hiding the redundant duplicate axis on a dual-axis chart.</p>
     </div>
   </section>
 
-  <section class="lcard" id="fm-headers">
-    <h2><span class="ic">🏷️</span> Headers, field labels and cell size</h2>
-    <div class="grid2">
-      <div class="tile">
-        <h3>Hide the field labels</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">The grey bar reading "Region" above your row headers is a <em>field label</em>, separate from the headers themselves. Right-click it → <strong>Hide Field Labels for Rows</strong>. Removing these is usually the second-biggest visual improvement after gridlines.</p>
-      </div>
-      <div class="tile">
-        <h3>Hide a header entirely</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Right-click any axis or header → untick <strong>Show Header</strong>. Essential for the placeholder-axis trick further down, and for hiding a redundant duplicate axis on a dual-axis chart.</p>
-      </div>
-      <div class="tile">
-        <h3>Rotate long labels</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Right-click a column header → <strong>Rotate Label</strong>, or Format pane → Alignment → <strong>Direction</strong>. Better still: switch to horizontal bars so the labels read straight.</p>
-      </div>
-      <div class="tile">
-        <h3>Cell size</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Drag the edge of a header, or use <span class="mpath">Format <i>→</i> Cell Size</span> for exact control. Taller rows in a dense text table make it far more readable.</p>
-      </div>
-    </div>
-    <div class="callout tip" style="margin-top:.6rem">
-      <div class="callout-title">Rename without changing the data</div>
-      <p>Double-click a pill in the view (or right-click → <strong>Edit Alias</strong> for a dimension member) to rename what's displayed. Aliases change the label only — the underlying field and every calculation referencing it are untouched. This is how "Office Supplies" becomes "Office" when the column is too narrow.</p>
-    </div>
-  </section>
+  <section class="lcard" id="fm-cleanup">
+    <h2><span class="ic">🧹</span> The 60-second cleanup</h2>
+    <p>Six removals, no additions. Do this on every sheet before showing anyone.</p>
 
-  <section class="lcard" id="fm-lines">
-    <h2><span class="ic">📐</span> Lines, shading, banding and borders</h2>
-    <p>The structural furniture of a view. Most improvements here are removals.</p>
-    <div class="scrollx">
-      <table class="ltable">
-        <thead><tr><th style="width:9rem">Element</th><th>Where</th><th>Recommendation</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Grid lines</strong></td><td>Lines → Grid Lines</td><td><strong>None</strong> on most charts; a very light grey on dense tables</td></tr>
-          <tr><td><strong>Zero line</strong></td><td>Lines → Zero Lines</td><td><strong>Keep it</strong>, slightly darker than gridlines, whenever values go negative</td></tr>
-          <tr><td><strong>Axis rulers</strong></td><td>Lines → Rows/Columns tab</td><td>A single thin ruler often replaces all your gridlines</td></tr>
-          <tr><td><strong>Drop lines</strong></td><td>Lines → Drop Lines</td><td>Off by default; useful on scatter plots to read a point's position</td></tr>
-          <tr><td><strong>Reference &amp; trend lines</strong></td><td>Lines → Reference Line / Trend Lines</td><td>Style them here rather than in each individual line's dialog</td></tr>
-          <tr><td><strong>Row banding</strong></td><td>Shading → Rows tab</td><td><strong>On for tables</strong> with more than ~6 rows; off for charts</td></tr>
-          <tr><td><strong>Band size</strong></td><td>Shading → Rows → Band Size</td><td>Set to the number of rows per group when you have nested dimensions</td></tr>
-          <tr><td><strong>Row / column dividers</strong></td><td>Borders → Row/Column Divider</td><td>Use dividers between <em>groups</em>, not between every row</td></tr>
-          <tr><td><strong>Pane / cell borders</strong></td><td>Borders → Pane, Cell</td><td>Usually None — the shading already separates things</td></tr>
-        </tbody>
-      </table>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Tableau's default</div>
+        <svg viewBox="0 0 190 108" role="img" aria-label="Default Tableau chart with gridlines, borders, field labels and a legend" style="width:100%;height:auto">
+          <rect x="2" y="2" width="186" height="104" fill="#fff" stroke="#94a3b8"/>
+          <rect x="2" y="2" width="186" height="12" fill="#eef2f7"/>
+          <text x="6" y="10.5" font-size="6" fill="#334155" font-family="Inter, sans-serif">Sheet 1</text>
+          <rect x="34" y="16" width="44" height="9" fill="#eef2f7" stroke="#cbd5e1"/>
+          <text x="56" y="22.5" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+          <g stroke="#cbd5e1"><line x1="80" y1="28" x2="80" y2="94"/><line x1="105" y1="28" x2="105" y2="94"/><line x1="130" y1="28" x2="130" y2="94"/><line x1="155" y1="28" x2="155" y2="94"/></g>
+          <g stroke="#cbd5e1"><line x1="34" y1="44" x2="188" y2="44"/><line x1="34" y1="60" x2="188" y2="60"/><line x1="34" y1="76" x2="188" y2="76"/></g>
+          <g font-size="5.5" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+            <text x="76" y="38">Central</text><text x="76" y="54">East</text><text x="76" y="70">South</text><text x="76" y="86">West</text>
+          </g>
+          <g fill="#4a7dab">
+            <rect x="80" y="31" width="42" height="9"/><rect x="80" y="47" width="57" height="9"/>
+            <rect x="80" y="63" width="33" height="9"/><rect x="80" y="79" width="61" height="9"/>
+          </g>
+          <line x1="80" y1="94" x2="170" y2="94" stroke="#94a3b8"/>
+          <g font-size="4.5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="80" y="101">0</text><text x="105" y="101">200K</text><text x="130" y="101">400K</text><text x="155" y="101">600K</text>
+          </g>
+          <text x="125" y="107" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        </svg>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">After the cleanup</div>
+        <svg viewBox="0 0 190 108" role="img" aria-label="Same chart with gridlines, borders and field labels removed, values labelled directly" style="width:100%;height:auto">
+          <text x="6" y="14" font-size="7.5" font-weight="700" fill="#0f172a" font-family="Inter, sans-serif">West leads on revenue</text>
+          <g font-size="5.5" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+            <text x="46" y="38">Central</text><text x="46" y="54">East</text><text x="46" y="70">South</text><text x="46" y="86">West</text>
+          </g>
+          <g fill="#cbd5e1">
+            <rect x="50" y="31" width="42" height="9"/><rect x="50" y="63" width="33" height="9"/>
+          </g>
+          <g fill="#4a7dab">
+            <rect x="50" y="47" width="57" height="9"/>
+          </g>
+          <rect x="50" y="79" width="61" height="9" fill="#1b4f72"/>
+          <g font-size="5.5" fill="#475569" font-family="Inter, sans-serif">
+            <text x="96" y="38">$501K</text><text x="111" y="54">$679K</text><text x="87" y="70">$392K</text><text x="115" y="86" font-weight="700" fill="#1b4f72">$725K</text>
+          </g>
+        </svg>
+      </div>
     </div>
-    <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">The 60-second cleanup that works on any chart</div>
-      <ol style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.2rem">
-        <li>Grid lines → None</li>
-        <li>Row and column dividers → None</li>
-        <li>Hide field labels for rows and columns</li>
-        <li>Delete axis titles the chart title already covers</li>
-        <li>Format numbers as $0K rather than raw decimals</li>
-        <li>Remove the legend if there's only one series</li>
-      </ol>
-      <p style="margin-top:.45rem">Six removals, no additions. Do them on every sheet before you show anyone.</p>
-    </div>
+
+    <ol class="steps" style="margin-top:.7rem">
+      <li><div class="s-t">Grid lines → None</div><p><span class="mpath">Format <i>→</i> Lines <i>→</i> Grid Lines <i>→</i> None</span></p></li>
+      <li><div class="s-t">Row and column dividers → None</div><p><span class="mpath">Format <i>→</i> Borders</span>. Keep dividers only between groups on a table.</p></li>
+      <li><div class="s-t">Hide field labels</div><p>Right-click the grey field bar → <em>Hide Field Labels for Rows</em> and <em>for Columns</em>.</p></li>
+      <li><div class="s-t">Label the marks, delete the axis</div><p>Values on the bars mean the axis is redundant — right-click it → untick <em>Show Header</em>.</p></li>
+      <li><div class="s-t">Colour one thing, grey the rest</div><p>The bar you're talking about gets the accent colour. Everything else goes neutral.</p></li>
+      <li><div class="s-t">Write the title as a finding</div><p>"West leads on revenue", not "Sheet 1" or "Sales by Region".</p></li>
+    </ol>
   </section>
 
   <section class="lcard" id="fm-side">
     <h2><span class="ic">📎</span> The panels beside your chart</h2>
-    <p>Tableau parks a stack of cards to the right of the view. Each is a separate object you can show, hide, retitle, restyle and — on a dashboard — move anywhere. Knowing the full list is how you decide what a viewer needs within reach.</p>
+    <p>Tableau parks a stack of cards to the right of the view. Each is a separate object you can show, hide, retitle, restyle and — on a dashboard — move anywhere.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:10rem">Panel</th><th>Appears when</th><th>What it gives the viewer</th></tr></thead>
         <tbody>
           <tr><td><strong>Colour legend</strong></td><td>A field is on Color</td><td>What each colour means — a key, or a value scale</td></tr>
-          <tr><td><strong>Size legend</strong></td><td>A measure is on Size</td><td>The value range that mark sizes map to</td></tr>
+          <tr><td><strong>Size legend</strong></td><td>A measure is on Size</td><td>The value range mark sizes map to</td></tr>
           <tr><td><strong>Shape legend</strong></td><td>A field is on Shape</td><td>Which symbol is which category</td></tr>
           <tr><td><strong>Measure Names legend</strong></td><td><a href="#tableau/measures">Measure Names</a> is on Color</td><td>Which colour is which metric</td></tr>
           <tr><td><strong>Filter card</strong></td><td>You choose <em>Show Filter</em></td><td>Control over what's included</td></tr>
           <tr><td><strong>Parameter control</strong></td><td>You choose <em>Show Parameter</em></td><td>A value they set — target, top N, metric choice</td></tr>
-          <tr><td><strong>Highlighter</strong></td><td>Right-click a dimension → <em>Show Highlighter</em></td><td>A search box that spotlights matching marks without filtering anything out</td></tr>
+          <tr><td><strong>Highlighter</strong></td><td>Right-click a dimension → <em>Show Highlighter</em></td><td>A search box that spotlights matches without filtering anything out</td></tr>
           <tr><td><strong>Page control</strong></td><td>A field is on the Pages shelf</td><td>Play, pause and step through values over time</td></tr>
-          <tr><td><strong>Caption</strong></td><td><span class="mpath">Worksheet <i>→</i> Show Caption</span></td><td>A written note under the chart — sources, definitions, caveats</td></tr>
+          <tr><td><strong>Caption</strong></td><td><span class="mpath">Worksheet <i>→</i> Show Caption</span></td><td>Sources, definitions and caveats under the chart</td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout ok" style="margin-top:.65rem">
       <div class="callout-title">The Highlighter is the underused one</div>
-      <p>Right-click a dimension → <strong>Show Highlighter</strong> and you get a search box beside the chart. Typing dims everything that doesn't match while <em>keeping it visible</em> — so a viewer can find one product line among fifty without losing the context of the rest. On a tangled multi-line chart it's better than a filter, because the comparison survives.</p>
+      <p>Typing in it dims everything that doesn't match while <strong>keeping it visible</strong> — so a viewer can find one product line among fifty without losing the context of the rest. On a tangled multi-line chart it beats a filter, because the comparison survives.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
-      <p>On a <strong>dashboard</strong>, these don't come across automatically. Select the sheet, open its <span class="mpath">▾ <i>→</i> Legends / Filters / Parameters</span> and add the ones you want — or drag them in from the Dashboard pane. They can be tiled into the layout or floated on top.</p>
+      <p>On a <strong>dashboard</strong> these don't come across automatically. Select the sheet, open its <span class="mpath">▾ <i>→</i> Legends / Filters / Parameters</span> and add the ones you want, or drag them from the Dashboard pane. Tile them into the layout or float them on top.</p>
     </div>
   </section>
 
   <section class="lcard" id="fm-legends">
     <h2><span class="ic">🗺️</span> Legends in detail</h2>
-    <p>A legend is the "colour-coded key beside the chart". It's also an object with a surprising number of settings.</p>
+    <p>The colour-coded key beside the chart — and an object with more settings than people expect.</p>
 
     <div class="with-legend">
       <div>
         <h3 style="margin-top:0">Discrete legend — a key</h3>
-        <p style="font-size:.88rem">When a <strong>dimension</strong> is on Color you get one swatch per member. Every member is independently recolourable, and the order is editable by dragging.</p>
+        <p style="font-size:.88rem">A <strong>dimension</strong> on Color gives one swatch per member. Every member is independently recolourable and the order is editable by dragging.</p>
         <h3 style="margin-top:.9rem">Continuous legend — a scale</h3>
-        <p style="font-size:.88rem">When a <strong>measure</strong> is on Color you get a gradient with end values. Readers estimate from it rather than look things up — which is why stepped colour is often clearer.</p>
+        <p style="font-size:.88rem">A <strong>measure</strong> on Color gives a gradient with end values. Readers have to <em>estimate</em> from it, which is why stepped colour is often clearer.</p>
       </div>
       <div class="legend-mock">
         <div class="lg-t">Category</div>
@@ -253,26 +411,25 @@
       </div>
     </div>
 
-    <h3 style="margin-top:1rem">Controlling a legend</h3>
-    <div class="scrollx">
+    <div class="scrollx" style="margin-top:.9rem">
       <table class="ltable">
         <thead><tr><th style="width:11rem">Task</th><th>How</th></tr></thead>
         <tbody>
           <tr><td>Show or hide it</td><td>Sheet's <span class="mpath">▾ <i>→</i> Legends <i>→</i> Show Color Legend</span></td></tr>
-          <tr><td>Rename it</td><td>Right-click the legend → <strong>Edit Title</strong>. "Margin band" beats "AGG(Margin Status)"</td></tr>
-          <tr><td>Reorder the items</td><td>Drag them within the legend, or sort the underlying dimension</td></tr>
+          <tr><td>Rename it</td><td>Right-click → <strong>Edit Title</strong>. "Margin band" beats "AGG(Margin Status)"</td></tr>
+          <tr><td>Reorder items</td><td>Drag them within the legend, or sort the underlying dimension</td></tr>
           <tr><td>Recolour one member</td><td>Right-click → Edit Colors → select the member → pick a colour</td></tr>
           <tr><td>Change layout</td><td>Right-click → <strong>Arrange Items</strong> — single column, single row, or square</td></tr>
           <tr><td>Format the text</td><td>Right-click → Format → font, shading, border</td></tr>
-          <tr><td>Move it on a dashboard</td><td>Drag it; or set it Floating for full positioning freedom</td></tr>
-          <tr><td>Turn it into a filter</td><td>Right-click a legend item → <strong>Keep Only</strong> / <strong>Exclude</strong>; or use a filter card instead</td></tr>
+          <tr><td>Move it on a dashboard</td><td>Drag it, or set it Floating for full positioning freedom</td></tr>
+          <tr><td>Use it as a filter</td><td>Right-click a legend item → <strong>Keep Only</strong> / <strong>Exclude</strong></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Delete the legend more often than you keep it</div>
-      <p>A single-series chart needs no legend. A two-series chart is usually better with <strong>direct labels</strong> on the lines — the reader's eye doesn't have to travel to a key and back. Keep legends for three or more categories, or when colour encodes a scale rather than an identity.</p>
+      <p>A single-series chart needs none. A two- or three-series line chart is usually better with <strong>direct labels</strong> — see the Labels section below. Keep legends for many categories, or when colour encodes a scale rather than an identity.</p>
     </div>
   </section>
 
@@ -298,36 +455,30 @@
       </div>
     </div>
 
-    <h3 style="margin-top:1.1rem">The Edit Colors dialog</h3>
-    <p class="muted">Click <strong>Color</strong> on the Marks card → <strong>Edit Colors</strong>. What you see depends on whether the field is discrete or continuous.</p>
-    <div class="split">
-      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
-        <div class="h" style="color:#1d4ed8">Discrete field</div>
-        <ul style="margin:.3rem 0 0;font-size:.86rem;padding-left:1.1rem">
-          <li>Pick a palette, then <strong>Assign Palette</strong> to apply it to all members at once</li>
-          <li>Or select one member and click a swatch to set it individually</li>
-          <li>Double-click a swatch for a full colour picker with hex entry</li>
-        </ul>
+    <h3 style="margin-top:1.2rem">Stepped colour — the conditional-formatting equivalent</h3>
+    <p>A continuous gradient asks the reader to judge shades. <strong>Stepped Color</strong> gives discrete bands instead, so equal values look equal and the legend becomes a set of ranges you can name in a meeting.</p>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Continuous gradient</div>
+        <svg viewBox="0 0 180 44" role="img" aria-label="Cells shaded on a smooth gradient, hard to read exact values" style="width:100%;height:auto">
+          <g><rect x="4" y="4" width="34" height="16" fill="#e3eef7"/><rect x="40" y="4" width="34" height="16" fill="#b9d3e8"/><rect x="76" y="4" width="34" height="16" fill="#88b4d6"/><rect x="112" y="4" width="34" height="16" fill="#5a93c2"/><rect x="148" y="4" width="28" height="16" fill="#2e6da4"/></g>
+          <g><rect x="4" y="22" width="34" height="16" fill="#c9dded"/><rect x="40" y="22" width="34" height="16" fill="#a4c6e0"/><rect x="76" y="22" width="34" height="16" fill="#7aabd0"/><rect x="112" y="22" width="34" height="16" fill="#4884b8"/><rect x="148" y="22" width="28" height="16" fill="#1f5c92"/></g>
+        </svg>
+        <p class="muted" style="margin:.35rem 0 0;font-size:.8rem">Ten shades, none of them nameable. Are cells 3 and 4 different, or is that the eye?</p>
       </div>
-      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
-        <div class="h" style="color:#047857">Continuous field</div>
-        <ul style="margin:.3rem 0 0;font-size:.86rem;padding-left:1.1rem">
-          <li><strong>Reversed</strong> — flip the direction</li>
-          <li><strong>Stepped Color</strong> — discrete bins instead of a gradient</li>
-          <li><strong>Include Totals</strong> — whether totals participate in the scale</li>
-          <li><strong>Advanced</strong> — fix the Start, End and <strong>Center</strong> values</li>
-        </ul>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Stepped, 4 bands</div>
+        <svg viewBox="0 0 180 44" role="img" aria-label="Cells shaded in four discrete colour bands" style="width:100%;height:auto">
+          <g stroke="#fff"><rect x="4" y="4" width="34" height="16" fill="#e3eef7"/><rect x="40" y="4" width="34" height="16" fill="#a4c6e0"/><rect x="76" y="4" width="34" height="16" fill="#a4c6e0"/><rect x="112" y="4" width="34" height="16" fill="#5a93c2"/><rect x="148" y="4" width="28" height="16" fill="#1f5c92"/></g>
+          <g stroke="#fff"><rect x="4" y="22" width="34" height="16" fill="#e3eef7"/><rect x="40" y="22" width="34" height="16" fill="#a4c6e0"/><rect x="76" y="22" width="34" height="16" fill="#5a93c2"/><rect x="112" y="22" width="34" height="16" fill="#5a93c2"/><rect x="148" y="22" width="28" height="16" fill="#1f5c92"/></g>
+        </svg>
+        <p class="muted" style="margin:.35rem 0 0;font-size:.8rem">Four bands you can label: under 100K, 100–300K, 300–600K, 600K+.</p>
       </div>
     </div>
+    <p class="figcap"><span class="mpath">Edit Colors <i>→</i> Stepped Color <i>→</i></span> set the number of steps.</p>
 
-    <div class="callout ok" style="margin-top:.65rem">
-      <div class="callout-title">Stepped Color is the Excel-conditional-formatting equivalent</div>
-      <p>A continuous gradient asks the reader to judge shades. <strong>Stepped Color</strong> with 5 steps gives you five discrete bands, so the legend becomes a set of ranges rather than a smear — much easier to read a value out of, and much easier to describe in a meeting.</p>
-      <div class="swatch stepped" style="margin-top:.5rem"><span style="background:#e8f1f8"></span><span style="background:#bcd6ea"></span><span style="background:#7fb3d5"></span><span style="background:#3d7ea8"></span><span style="background:#1b4f72"></span></div>
-      <p class="muted" style="margin:.15rem 0 0;font-size:.8rem">Five steps. Every cell in a band is identical, so equal values look equal.</p>
-    </div>
-
-    <div class="callout danger" style="margin-top:.6rem">
+    <div class="callout danger" style="margin-top:.7rem">
       <div class="callout-title">⚠️ Always set the diverging centre by hand</div>
       <p>Tableau centres a diverging palette on the <em>data's</em> midpoint, not on zero. Colour states by Profit when every state is profitable and the weakest ones still render red — the chart claims losses that don't exist.</p>
       <p style="margin-top:.4rem"><strong>Fix:</strong> <span class="mpath">Edit Colors <i>→</i> Advanced <i>→</i></span> tick <em>Center</em> and enter <strong>0</strong>. Fix Start and End too if you want the scale stable as filters change.</p>
@@ -337,27 +488,27 @@
     <div class="grid2">
       <div class="tile">
         <h3>Opacity</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">The slider on the Color card. Drop to 60–70% on scatter plots so overlapping points reveal density. Set to 0% to make marks invisible while still occupying space — the basis of several custom-chart tricks.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">The slider on the Color card. 60–70% on scatter plots reveals density where points overlap. 0% hides a mark while it still occupies space — the basis of several custom-chart tricks.</p>
       </div>
       <div class="tile">
         <h3>Borders</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Color card → <strong>Effects → Border</strong>. A thin white border between stacked bar segments or dense squares makes boundaries readable without adding gridlines.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">Color card → <strong>Effects → Border</strong>. A thin white border between stacked segments or dense squares makes boundaries readable without gridlines.</p>
       </div>
       <div class="tile">
         <h3>Halo</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Color card → <strong>Effects → Halo</strong>. A ring around each mark, so dark points stay visible on a dark map background.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">Color card → <strong>Effects → Halo</strong>. A ring around each mark so dark points stay visible on a dark map background.</p>
       </div>
       <div class="tile">
         <h3>Custom palettes</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> in <em>My Tableau Repository</em>, define a palette with hex values, and restart Tableau. It then appears in the palette dropdown on every workbook.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> in <em>My Tableau Repository</em>, define a palette with hex values, and restart Tableau. It then appears in every workbook.</p>
       </div>
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Colour one thing, grey the rest</div>
-      <p>The highest-impact colour decision in any chart. If one category is the story, give it your accent colour and make everything else a neutral grey. A chart where all twelve bars are different colours has no focal point — the reader has to work out what matters. Assign the greys explicitly in Edit Colors; it takes a minute and transforms the chart.</p>
+      <p>The highest-impact colour decision in any chart — you can see it in the cleanup example above. A chart where all twelve bars are different colours has no focal point, so the reader has to work out what matters. Assign the greys explicitly in Edit Colors.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
-      <p><strong>Accessibility:</strong> roughly 1 in 12 men can't reliably separate red from green. Never let that pair be the <em>only</em> signal — pair colour with position, a label, or a shape. Tableau's "Color Blind" categorical palette is a safe default for qualitative data.</p>
+      <p><strong>Accessibility:</strong> roughly 1 in 12 men can't reliably separate red from green. Never let that pair be the <em>only</em> signal — pair colour with position, a label or a shape. Tableau's "Color Blind" categorical palette is a safe default.</p>
     </div>
   </section>
 
@@ -368,11 +519,11 @@
         <h3>Size</h3>
         <p style="font-size:.88rem">The slider sets a uniform size; dropping a <em>measure</em> on Size makes it vary by value.</p>
         <ul style="font-size:.86rem;margin:.3rem 0 0">
-          <li><strong>Bars</strong> — the slider controls width, which is how bar-in-bar charts are made</li>
+          <li><strong>Bars</strong> — width, which is how bar-in-bar charts are made</li>
           <li><strong>Circles</strong> — area, not radius, so the mapping is perceptually honest</li>
           <li><strong>Lines</strong> — thickness</li>
         </ul>
-        <p style="font-size:.88rem;margin-top:.5rem">Right-click the size legend → <strong>Edit Sizes</strong> to set the value range the sizes map to, and how wide the smallest-to-largest spread is.</p>
+        <p style="font-size:.88rem;margin-top:.5rem">Right-click the size legend → <strong>Edit Sizes</strong> to set the value range sizes map to, and how wide the smallest-to-largest spread is.</p>
       </div>
       <div>
         <h3>Shape</h3>
@@ -381,34 +532,69 @@
           <li>Assign a specific shape per member, like colours</li>
           <li><strong>Custom shapes:</strong> drop PNGs into <em>My Tableau Repository → Shapes → &lt;your folder&gt;</em>, then click <strong>Reload Shapes</strong></li>
         </ul>
-        <p class="muted" style="font-size:.85rem;margin-top:.5rem">Shape is a weak channel — people distinguish maybe four or five reliably. Use it for a second, secondary dimension, never for the main comparison.</p>
+        <p class="muted" style="font-size:.85rem;margin-top:.5rem">Shape is a weak channel — people reliably distinguish four or five. Use it for a secondary dimension, never the main comparison.</p>
       </div>
     </div>
   </section>
 
   <section class="lcard" id="fm-labels">
-    <h2><span class="ic">🔖</span> Labels</h2>
-    <p>Click <strong>Label</strong> on the Marks card. Beyond the on/off checkbox there's a set of options that decide whether labels help or clutter.</p>
-    <div class="scrollx">
+    <h2><span class="ic">🔖</span> Labels — and the setting that replaces a legend</h2>
+    <p>Click <strong>Label</strong> on the Marks card. Beyond the on/off checkbox, <em>Marks to Label</em> decides whether labels help or clutter. Same chart, three settings:</p>
+
+    <div class="charts-grid">
+      <div class="cthumb tall warn-c">
+        <svg viewBox="0 0 130 70" role="img" aria-label="Line chart with every point labelled, cluttered">
+          <line x1="8" y1="60" x2="126" y2="60" stroke="#cbd5e1"/>
+          <polyline points="14,48 34,42 54,45 74,30 94,24 118,16" fill="none" stroke="#4e79a7" stroke-width="1.8"/>
+          <polyline points="14,54 34,50 54,52 74,44 94,40 118,34" fill="none" stroke="#f28e2b" stroke-width="1.8"/>
+          <g font-size="4.6" fill="#475569" font-family="Inter, sans-serif" text-anchor="middle">
+            <text x="14" y="45">41K</text><text x="34" y="39">47K</text><text x="54" y="42">44K</text><text x="74" y="27">58K</text><text x="94" y="21">63K</text><text x="118" y="13">71K</text>
+            <text x="14" y="61">33K</text><text x="34" y="58">37K</text><text x="54" y="59">35K</text><text x="74" y="52">42K</text><text x="94" y="48">46K</text><text x="118" y="42">52K</text>
+          </g>
+        </svg>
+        <div class="ct-n">Marks to Label: All</div>
+        <div class="ct-d">Twelve numbers competing with the lines. Precise, unreadable.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 130 70" role="img" aria-label="Line chart with only minimum and maximum labelled">
+          <line x1="8" y1="60" x2="126" y2="60" stroke="#cbd5e1"/>
+          <polyline points="14,48 34,42 54,45 74,30 94,24 118,16" fill="none" stroke="#4e79a7" stroke-width="1.8"/>
+          <polyline points="14,54 34,50 54,52 74,44 94,40 118,34" fill="none" stroke="#f28e2b" stroke-width="1.8"/>
+          <g font-size="5" fill="#475569" font-family="Inter, sans-serif" text-anchor="middle">
+            <text x="16" y="44">41K</text><text x="116" y="12">71K</text>
+          </g>
+        </svg>
+        <div class="ct-n">Min / Max</div>
+        <div class="ct-d">Start and end only. Often exactly the right amount of labelling.</div>
+      </div>
+      <div class="cthumb tall pick">
+        <svg viewBox="0 0 130 70" role="img" aria-label="Line chart with series names at the line ends and no legend">
+          <line x1="8" y1="60" x2="100" y2="60" stroke="#cbd5e1"/>
+          <polyline points="14,48 30,42 46,45 62,30 78,24 96,16" fill="none" stroke="#4e79a7" stroke-width="1.8"/>
+          <polyline points="14,54 30,50 46,52 62,44 78,40 96,34" fill="none" stroke="#f28e2b" stroke-width="1.8"/>
+          <g font-size="5.2" font-family="Inter, sans-serif">
+            <text x="100" y="18" fill="#4e79a7" font-weight="600">Technology</text>
+            <text x="100" y="36" fill="#f28e2b" font-weight="600">Furniture</text>
+          </g>
+        </svg>
+        <div class="ct-n">✓ Line Ends</div>
+        <div class="ct-d"><strong>Delete the legend.</strong> Each line names itself where it finishes — the eye never leaves the data.</div>
+      </div>
+    </div>
+
+    <div class="scrollx" style="margin-top:.75rem">
       <table class="ltable">
         <thead><tr><th style="width:11rem">Option</th><th>What it does</th></tr></thead>
         <tbody>
-          <tr><td><strong>Text</strong></td><td>Opens an editor — combine fields, static text and line breaks. "<code>&lt;SUM(Sales)&gt; in &lt;Region&gt;</code>"</td></tr>
-          <tr><td><strong>Marks to Label: All</strong></td><td>Every mark. Fine on a bar chart with eight bars, terrible on a scatter with two hundred points</td></tr>
-          <tr><td><strong>Min/Max</strong></td><td>Only the extremes — often exactly the right amount of labelling</td></tr>
-          <tr><td><strong>Line Ends</strong></td><td>Labels at the end of each line. <strong>This is how you replace a legend</strong> on a multi-line chart</td></tr>
+          <tr><td><strong>Text</strong></td><td>An editor — combine fields, static text and line breaks: "<code>&lt;SUM(Sales)&gt; in &lt;Region&gt;</code>"</td></tr>
           <tr><td><strong>Selected</strong> / <strong>Highlighted</strong></td><td>Labels appear only on interaction — clean by default, informative on demand</td></tr>
           <tr><td><strong>Alignment</strong></td><td>Position relative to the mark, plus rotation and wrapping</td></tr>
-          <tr><td><strong>Allow labels to overlap</strong></td><td>Off by default, which is why some labels silently disappear when space is tight</td></tr>
+          <tr><td><strong>Allow labels to overlap</strong></td><td>Off by default — which is why some labels silently disappear when space is tight</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">Line Ends is the setting worth remembering</div>
-      <p>On a chart with four lines, set Marks to Label → <strong>Line Ends</strong> and delete the colour legend. Each line is now named where it finishes, so the reader identifies it without moving their eyes off the data. It's a small change that makes multi-series line charts dramatically easier to read.</p>
-    </div>
-    <div class="callout warn" style="margin-top:.5rem">
-      <p>If a label you expected isn't showing, it's almost always the overlap rule. Either allow overlap, make the cells bigger, or reduce how many marks you're labelling — the third option is usually right.</p>
+    <div class="callout warn" style="margin-top:.55rem">
+      <p>If a label you expected isn't showing, it's almost always the overlap rule. Either allow overlap, make the cells bigger, or label fewer marks — the third is usually right.</p>
     </div>
   </section>
 
@@ -436,28 +622,27 @@ Orders  1,611
 
     <h3 style="margin-top:1rem">The editor</h3>
     <ul class="check">
-      <li><strong>Insert menu</strong> — drop in any field on the sheet, a parameter, the sheet name, or <em>All Fields</em></li>
-      <li><strong>Formatting</strong> — font, size, colour, bold and italic per line, like a tiny word processor</li>
-      <li><strong>Show tooltips</strong> — uncheck to disable entirely on decorative sheets</li>
+      <li><strong>Insert menu</strong> — any field on the sheet, a parameter, the sheet name, or <em>All Fields</em></li>
+      <li><strong>Formatting</strong> — font, size, colour, bold and italic per line</li>
       <li><strong>Responsive / On Hover / On Click</strong> — On Click is better on touch devices</li>
-      <li><strong>Include command buttons</strong> — the Keep Only / Exclude / sort controls. Turn off for published dashboards where you don't want viewers restructuring the view</li>
+      <li><strong>Include command buttons</strong> — the Keep Only / Exclude controls. Turn off on published dashboards where viewers shouldn't restructure the view</li>
       <li><strong>Allow selection by category</strong> — clicking a tooltip value selects all marks sharing it</li>
     </ul>
 
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">Viz in Tooltip — the best value feature in Tableau</div>
-      <p>In the tooltip editor, <span class="mpath">Insert <i>→</i> Sheets <i>→</i></span> pick another worksheet. Hovering a region now pops up a small chart of that region's monthly trend, filtered automatically to what you're hovering.</p>
-      <p style="margin-top:.4rem">You get a whole second level of detail without spending a pixel of dashboard space. Keep the embedded sheet small and simple — it renders on every hover — and set <code>maxwidth</code> and <code>maxheight</code> in the inserted tag to control its size.</p>
+      <p><span class="mpath">Insert <i>→</i> Sheets <i>→</i></span> pick another worksheet. Hovering a region now pops up a small chart of that region's monthly trend, filtered automatically to what you're hovering. A whole second level of detail for zero dashboard space.</p>
+      <p style="margin-top:.4rem">Keep the embedded sheet small and simple — it renders on every hover — and set <code>maxwidth</code> and <code>maxheight</code> in the inserted tag.</p>
     </div>
   </section>
 
   <section class="lcard" id="fm-annot">
     <h2><span class="ic">✍️</span> Annotations</h2>
-    <p>Right-click in the view → <strong>Annotate</strong>. Three kinds, and the difference is what they're anchored to.</p>
+    <p>Right-click in the view → <strong>Annotate</strong>. Three kinds, differing in what they're anchored to.</p>
     <div class="grid3">
       <div class="tile">
         <h3>Mark</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">Attached to a specific data point. Moves with it when the data changes, and disappears if that mark is filtered out.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Attached to a specific data point. Moves with it as data changes, and disappears if that mark is filtered out.</p>
       </div>
       <div class="tile">
         <h3>Point</h3>
@@ -465,24 +650,24 @@ Orders  1,611
       </div>
       <div class="tile">
         <h3>Area</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">A shaded region of the view. Good for calling out a whole period — "supply chain disruption".</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">A shaded region. Good for calling out a whole period — "supply chain disruption".</p>
       </div>
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Annotations can carry live values</div>
-      <p>In the annotation editor, right-click → <strong>Insert</strong> and pick a field. The text then updates with the data: "Peak of &lt;SUM(Sales)&gt; in &lt;MONTH(Order Date)&gt;". Format the box, line and shading by right-clicking the annotation → Format.</p>
-      <p style="margin-top:.4rem">One annotation pinned to the anomaly does more than a paragraph underneath the chart, because the reader's eye is already there. Use one or two per view, not six.</p>
+      <p>In the editor, right-click → <strong>Insert</strong> and pick a field: "Peak of &lt;SUM(Sales)&gt; in &lt;MONTH(Order Date)&gt;". Format the box, line and shading by right-clicking the annotation → Format.</p>
+      <p style="margin-top:.4rem">One annotation pinned to the anomaly does more than a paragraph underneath, because the reader's eye is already there. One or two per view, not six.</p>
     </div>
   </section>
 
   <section class="lcard" id="fm-titles">
     <h2><span class="ic">📰</span> Titles and captions — with live text</h2>
-    <p>Double-click the title to edit it. The <strong>Insert</strong> menu in that editor is the part people miss: titles can contain live values.</p>
+    <p>Double-click the title to edit. The <strong>Insert</strong> menu is the part people miss: titles can contain live values.</p>
     <div class="scrollx">
       <table class="ltable">
-        <thead><tr><th style="width:12rem">Insert</th><th>Produces</th></tr></thead>
+        <thead><tr><th style="width:13rem">Insert</th><th>Produces</th></tr></thead>
         <tbody>
-          <tr><td><code>&lt;Sheet Name&gt;</code></td><td>The worksheet's name — so renaming the sheet renames the title</td></tr>
+          <tr><td><code>&lt;Sheet Name&gt;</code></td><td>The worksheet's name — renaming the sheet renames the title</td></tr>
           <tr><td><code>&lt;Parameters.Select Measure&gt;</code></td><td>The current value of a parameter</td></tr>
           <tr><td><code>&lt;Region&gt;</code></td><td>The current filter selection for that field</td></tr>
           <tr><td><code>&lt;Page Name&gt;</code></td><td>The current value on the Pages shelf</td></tr>
@@ -497,18 +682,16 @@ Profit by Sub-Category — West
 Profit by Sub-Category — All</pre>
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">Dynamic titles solve the screenshot problem</div>
-      <p>Someone filters a dashboard to one region and screenshots it. Without a dynamic title, that image says "Sales by Sub-Category" and nothing about which region — and it will end up in a deck with no way to tell. Putting the filter value in the title makes every screenshot self-describing.</p>
+      <p>Someone filters to one region and screenshots it. Without a dynamic title that image says "Sales by Sub-Category" and nothing about which region — and it ends up in a deck with no way to tell. Putting the filter value in the title makes every screenshot self-describing.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
-      <p><strong>Captions</strong> (<span class="mpath">Worksheet <i>→</i> Show Caption</span>) sit below the view and auto-generate a description you can overwrite. Use them for definitions, data-as-of dates and caveats — the things that belong near the chart but shouldn't compete with it.</p>
+      <p><strong>Captions</strong> (<span class="mpath">Worksheet <i>→</i> Show Caption</span>) sit below the view and auto-generate a description you can overwrite. Use them for definitions, data-as-of dates and caveats — things that belong near the chart but shouldn't compete with it.</p>
     </div>
   </section>
 
   <section class="lcard" id="fm-numbers">
     <h2><span class="ic">🔢</span> Number formats, including custom strings</h2>
-    <p>Right-click a field → <span class="mpath">Format <i>→</i> Numbers</span> for this sheet, or <span class="mpath">Default Properties <i>→</i> Number Format</span> to set it on the field everywhere. Always prefer the second.</p>
-    <p class="muted">The built-in options cover Number, Currency, Percentage and Scientific. <strong>Custom</strong> takes a format string, and that's where the control is.</p>
-
+    <p>Right-click a field → <span class="mpath">Format <i>→</i> Numbers</span> for this sheet, or <span class="mpath">Default Properties <i>→</i> Number Format</span> to set it on the field everywhere. Prefer the second.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:14rem">Format string</th><th>1234567.891 displays as</th><th>Use for</th></tr></thead>
@@ -517,96 +700,119 @@ Profit by Sub-Category — All</pre>
           <tr><td><code>$#,##0.00</code></td><td>$1,234,567.89</td><td>Exact currency</td></tr>
           <tr><td><code>$#,##0,"K"</code></td><td>$1,235K</td><td>Thousands — one comma divides by 1,000</td></tr>
           <tr><td><code>$#,##0.0,,"M"</code></td><td>$1.2M</td><td>Millions — two commas</td></tr>
-          <tr><td><code>0.0%</code></td><td>—</td><td>Percentages (on a 0–1 value)</td></tr>
+          <tr><td><code>0.0%</code></td><td>—</td><td>Percentages, on a 0–1 value</td></tr>
           <tr><td><code>▲0.0%;▼0.0%;—</code></td><td>▲12.5% / ▼3.2% / —</td><td>Change indicators with direction built in</td></tr>
           <tr><td><code>$#,##0;($#,##0)</code></td><td>$1,234,568 / ($1,234,568)</td><td>Accounting-style negatives</td></tr>
           <tr><td><code>0.0"×"</code></td><td>1234567.9×</td><td>Multiples and ratios</td></tr>
         </tbody>
       </table>
     </div>
-
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">The four-part structure</div>
       <p>A custom format string has up to four sections separated by semicolons:</p>
       <p style="margin:.35rem 0"><code>positive ; negative ; zero ; text</code></p>
-      <p>So <code>▲0.0%;▼0.0%;—</code> means: positive gets an up triangle, negative gets a down triangle, zero shows a dash. Combine that with conditional colour on the Marks card and you have a KPI change indicator with no calculated field at all.</p>
+      <p>So <code>▲0.0%;▼0.0%;—</code> means positive gets an up triangle, negative a down triangle, zero a dash. Combine that with conditional colour and you have a KPI change indicator with no calculated field at all.</p>
     </div>
     <div class="callout warn" style="margin-top:.5rem">
-      <p><strong>Formatting is display only.</strong> Showing $1.2M doesn't round the underlying value — sorting, filtering and calculations still use the full number. That's usually what you want, but it does mean two rows can display as "$1.2M" and sort in an order that looks wrong. If exactness matters at the displayed precision, round in a calculation instead.</p>
+      <p><strong>Formatting is display only.</strong> Showing $1.2M doesn't round the underlying value — sorting, filtering and calculations still use the full number. That's usually right, but it means two rows can both display "$1.2M" and sort in an order that looks wrong. If exactness matters at the displayed precision, round in a calculation.</p>
     </div>
   </section>
 
   <section class="lcard" id="fm-custom">
     <h2><span class="ic">🛠️</span> Building genuinely custom charts</h2>
-    <p>Almost every "how did they build that?" Tableau chart comes from a small set of techniques. Here they are.</p>
+    <p>Almost every "how did they build that?" Tableau chart comes from a small set of techniques.</p>
 
     <div class="syn">
       <div class="syn-head"><span class="syn-name">The placeholder axis</span><span class="syn-tag">The single most important custom-chart trick</span></div>
       <div class="syn-body">
-        <p style="margin:0 0 .5rem;font-size:.9rem">Put a constant on a shelf to create a blank layer you can draw anything on.</p>
-<pre><span class="c">// Type these directly onto Rows or Columns</span>
-<span class="c">// (double-click the empty part of the shelf and type)</span>
-<span class="f">MIN</span>(<span class="n">0</span>)     <span class="c">// a flat axis at zero</span>
+        <p style="margin:0 0 .5rem;font-size:.9rem">Put a constant on a shelf to create a blank layer you can draw anything on. Double-click the empty part of a shelf and type:</p>
+<pre><span class="f">MIN</span>(<span class="n">0</span>)     <span class="c">// a flat axis at zero</span>
 <span class="f">AVG</span>(<span class="n">0</span>)     <span class="c">// same thing, different aggregation</span>
 <span class="f">MIN</span>(<span class="n">1</span>)     <span class="c">// a flat axis at one</span></pre>
-        <p style="margin:.55rem 0 0;font-size:.9rem">Add a second placeholder, make it a <strong>dual axis</strong>, then hide both headers. You now have two independent Marks cards stacked in the same space — one for the shape, one for labels or a second encoding. That's how KPI tiles, custom bullet charts and most "impossible" layouts are made.</p>
+        <p style="margin:.55rem 0 0;font-size:.9rem">Add a second placeholder, make it a <strong>dual axis</strong>, then hide both headers. You now have two independent Marks cards stacked in the same space — one for shape, one for labels or a second encoding. That's how KPI tiles, custom bullet charts and most "impossible" layouts get made.</p>
       </div>
     </div>
 
-    <div class="grid2" style="margin-top:.75rem">
+    <h3 style="margin-top:1rem">Worked example: a KPI tile from nothing</h3>
+    <div class="buildsteps">
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">1</span> A blank canvas</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Columns</span><span class="pill msr">MIN(0)</span></div>
+          <svg viewBox="0 0 120 40" role="img" aria-label="Empty axis with a single mark">
+            <line x1="8" y1="30" x2="112" y2="30" stroke="#cbd5e1"/>
+            <circle cx="60" cy="20" r="3" fill="#94a3b8"/>
+            <text x="60" y="39" font-size="5.5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">0</text>
+          </svg>
+        </div>
+        <p class="bs-d">One flat axis, one mark. Nothing to look at yet — that's the point.</p>
+      </figure>
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">2</span> Put the number on it</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Text</span><span class="pill msr">SUM(Sales)</span></div>
+          <svg viewBox="0 0 120 40" role="img" aria-label="Large value shown on the mark">
+            <line x1="8" y1="30" x2="112" y2="30" stroke="#cbd5e1"/>
+            <text x="60" y="22" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">$733K</text>
+          </svg>
+        </div>
+        <p class="bs-d">Mark type → <strong>Text</strong>, measure on Label, formatted large and bold.</p>
+      </figure>
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">3</span> Add the comparison</div>
+        <div class="bs-frame">
+          <svg viewBox="0 0 120 40" role="img" aria-label="Value with a green year over year change beneath">
+            <line x1="8" y1="34" x2="112" y2="34" stroke="#cbd5e1"/>
+            <text x="60" y="18" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">$733K</text>
+            <text x="60" y="28" font-size="7" fill="#15803d" text-anchor="middle" font-family="Inter, sans-serif">▲ 20.4% vs LY</text>
+          </svg>
+        </div>
+        <p class="bs-d">A second line in the Label editor with a year-over-year <a href="#tableau/tablecalcs">table calculation</a>, formatted <code>▲0.0%;▼0.0%;—</code>.</p>
+      </figure>
+      <figure class="bstep done">
+        <div class="bs-h"><span class="pin">4</span> Strip it bare</div>
+        <div class="bs-frame">
+          <svg viewBox="0 0 120 40" role="img" aria-label="Finished KPI tile with no axis, lines or borders">
+            <text x="60" y="16" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">$733K</text>
+            <text x="60" y="26" font-size="7" fill="#15803d" text-anchor="middle" font-family="Inter, sans-serif">▲ 20.4% vs LY</text>
+            <text x="60" y="36" font-size="6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">REVENUE</text>
+          </svg>
+        </div>
+        <p class="bs-d">Untick <em>Show Header</em>; Lines and Borders → None. Duplicate per metric and place four in a horizontal container.</p>
+      </figure>
+    </div>
+
+    <h3 style="margin-top:1.1rem">The rest of the toolkit</h3>
+    <div class="grid2">
       <div class="tile">
         <h3>Dual axis + different marks</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">The universal escape hatch. Bars behind a line, circles on top of bars, two layers of a map. Synchronise if the units match; hide the duplicate axis with <em>Show Header</em>.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">The universal escape hatch. Bars behind a line, circles on bars, two map layers. Synchronise if units match; hide the duplicate axis.</p>
       </div>
       <div class="tile">
         <h3>Size slider tricks</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">Bar-in-bar is one dual axis where both are bars, synchronised, with the front bar's Size slider dragged narrow. Lollipop is a very thin bar plus a circle.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Bar-in-bar is a dual axis with both as bars, synchronised, front bar's Size dragged narrow. Lollipop is a very thin bar plus a circle.</p>
       </div>
       <div class="tile">
         <h3>Transparent marks</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">Opacity 0% keeps a mark's position and labels while hiding the mark. Useful for floating text at a computed position.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Opacity 0% keeps a mark's position and labels while hiding the mark — floating text at a computed position.</p>
       </div>
       <div class="tile">
         <h3>Ad-hoc calculations</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">Double-click an empty area of any shelf and type a formula. It becomes a pill without cluttering the Data pane — ideal for experiments and placeholders.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Double-click an empty area of any shelf and type a formula. It becomes a pill without cluttering the Data pane.</p>
       </div>
       <div class="tile">
         <h3>Gantt marks</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">A Gantt bar starts at its value and extends by whatever is on Size. That makes it the right mark for ranges, durations and deviation bars.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">A Gantt bar starts at its value and extends by whatever is on Size — the right mark for ranges, durations and deviation bars.</p>
       </div>
       <div class="tile">
         <h3>Reference lines as chart parts</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">A bullet chart is a bar plus a reference line for target plus distribution bands for context. The "chart" is mostly reference lines.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">A bullet chart is a bar plus a reference line for target plus distribution bands. The "chart" is mostly reference lines.</p>
       </div>
     </div>
 
-    <h3 style="margin-top:1.1rem">Worked example: a KPI tile</h3>
-    <ol class="steps">
-      <li>
-        <div class="s-t">Create the blank canvas</div>
-        <p>New sheet. Type <code>MIN(0)</code> onto Columns. You get a single flat axis and one mark.</p>
-      </li>
-      <li>
-        <div class="s-t">Put the number on it</div>
-        <p>Set the mark type to <strong>Text</strong>, drag <span class="pill msr sm">SUM(Sales)</span> to Label, and format it large and bold.</p>
-      </li>
-      <li>
-        <div class="s-t">Add the comparison underneath</div>
-        <p>In the Label editor, add a second line with your year-over-year <a href="#tableau/tablecalcs">table calculation</a>, formatted with <code>▲0.0%;▼0.0%;—</code> and coloured conditionally.</p>
-      </li>
-      <li>
-        <div class="s-t">Strip everything</div>
-        <p>Right-click the axis → untick <strong>Show Header</strong>. Format → Lines → all None. Format → Borders → all None. Hide the title if the dashboard already labels it.</p>
-      </li>
-      <li>
-        <div class="s-t">Repeat and assemble</div>
-        <p>Duplicate the sheet for each metric, then place four of them in a horizontal container on the dashboard. That's the KPI row from the <a href="#tableau/dashboards">dashboard project</a> — and it's four placeholder axes.</p>
-      </li>
-    </ol>
-
     <div class="callout ok" style="margin-top:.65rem">
       <div class="callout-title">How to reverse-engineer any chart you see</div>
-      <p>Ask three questions in order: <strong>What's the mark type?</strong> <strong>How many axes are there?</strong> <strong>What's on Size, Color and Label?</strong> Nearly every custom Tableau chart resolves into a dual axis, an unusual mark type, and something clever on Size. On Tableau Public you can download most published workbooks and open them — which is the fastest way to learn a technique that isn't documented anywhere.</p>
+      <p>Three questions in order: <strong>What's the mark type? How many axes are there? What's on Size, Color and Label?</strong> Nearly every custom Tableau chart resolves into a dual axis, an unusual mark type, and something clever on Size. On Tableau Public you can download most published workbooks and open them — the fastest way to learn a technique nobody documented.</p>
     </div>
   </section>
 
@@ -632,25 +838,26 @@ Profit by Sub-Category — All</pre>
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <ol>
       <li>Set fonts and a base colour at <span class="mpath">Format <i>→</i> Workbook</span> and confirm every sheet picks them up</li>
-      <li>Run the <strong>60-second cleanup</strong> on an existing chart — six removals, nothing added</li>
-      <li>Build small multiples of monthly sales per region and switch the axis between <strong>Uniform and Independent</strong>; explain which is honest</li>
-      <li>Take a bar chart, uncheck <strong>Include zero</strong>, and describe how much the story changes</li>
-      <li>Add <strong>row banding</strong> to a text table and set the band size to match a nested group</li>
-      <li>Colour a map by Profit, then fix the palette with <span class="mpath">Advanced <i>→</i> Center = 0</span></li>
-      <li>Switch that same map to <strong>Stepped Color</strong> with 5 steps and say which you'd publish</li>
-      <li>Build a four-line chart, set <strong>Marks to Label → Line Ends</strong>, and delete the legend</li>
+      <li>Open the Format pane and change a font under <strong>Header</strong>, then under <strong>Pane</strong> — describe what moved</li>
+      <li>Run the <strong>60-second cleanup</strong> on an existing chart, following all six steps</li>
+      <li>Take a bar chart, uncheck <strong>Include zero</strong>, and screenshot before and after</li>
+      <li>Build small multiples per region and switch between <strong>Uniform and Independent</strong> ranges</li>
+      <li>Add <strong>row banding</strong> to a text table with a band size matching a nested group</li>
+      <li>Colour a map by Profit, then fix it with <span class="mpath">Advanced <i>→</i> Center = 0</span></li>
+      <li>Switch that map to <strong>Stepped Color</strong> with 4 steps and say which you'd publish</li>
+      <li>Build a multi-line chart and try all three <strong>Marks to Label</strong> settings, then delete the legend</li>
       <li>Write a custom <strong>tooltip</strong> with sales, share of total, margin and an instruction line</li>
       <li>Add a <strong>Viz in Tooltip</strong> showing each region's trend on hover</li>
-      <li>Add a <strong>mark annotation</strong> on the biggest month that includes the live value</li>
+      <li>Add a <strong>mark annotation</strong> on the biggest month, including the live value</li>
       <li>Write a <strong>dynamic title</strong> containing a parameter and a filter value, then change both</li>
-      <li>Apply the custom format <code>▲0.0%;▼0.0%;—</code> to a growth measure</li>
-      <li>Build a <strong>KPI tile</strong> from a <code>MIN(0)</code> placeholder axis and strip it completely bare</li>
+      <li>Apply <code>▲0.0%;▼0.0%;—</code> to a growth measure</li>
+      <li>Build a <strong>KPI tile</strong> from a <code>MIN(0)</code> placeholder axis, following the four steps</li>
       <li>Add a <strong>Highlighter</strong> on Sub-Category and compare the experience to a filter</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: rebuild one chart to production standard</div>
-      <p>Take any chart you've built in this section and finish it properly. Every axis deliberate, gridlines gone, numbers formatted in the right units, one accent colour with everything else grey, direct labels instead of a legend, a written tooltip, one annotation on the thing that matters, a dynamic title, and a caption stating the data's as-of date.</p>
-      <p style="margin-top:.4rem">Then put the before and after side by side. The data is identical — every difference is a formatting decision. That comparison is the most convincing argument there is for spending time on this, and it's the difference between a chart that answers a question and one someone will actually act on.</p>
+      <p>Take any chart from this section and finish it properly. Every axis deliberate, gridlines gone, numbers in the right units, one accent colour with everything else grey, direct labels instead of a legend, a written tooltip, one annotation on the thing that matters, a dynamic title, and a caption with the data's as-of date.</p>
+      <p style="margin-top:.4rem">Then put before and after side by side, as in the cleanup example above. The data is identical — every difference is a formatting decision. That comparison is the most convincing argument there is for spending time on this.</p>
     </div>
   </section>
 
