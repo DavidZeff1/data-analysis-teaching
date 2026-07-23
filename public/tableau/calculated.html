@@ -1,223 +1,338 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Calculated Fields</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">What Are Calculated Fields?</h2>
-    <p>Calculated fields let you create new data from existing fields using formulas. They're like Excel formulas but apply to your entire dataset. Use them for:</p>
-    <ul class="list-disc ml-5 mt-2">
-      <li><strong>Ratios and percentages</strong> - Profit margin, conversion rates</li>
-      <li><strong>Categorization</strong> - Group sales into "High/Medium/Low"</li>
-      <li><strong>Date calculations</strong> - Days to ship, year-over-year comparisons</li>
-      <li><strong>Text manipulation</strong> - Extract parts of strings, combine fields</li>
-      <li><strong>Conditional logic</strong> - Different calculations based on conditions</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Creating a Calculated Field</h2>
-    
-    <div class="bg-gray-100 rounded-lg p-4 mt-3">
-      <p class="font-semibold mb-2">Three ways to create:</p>
-      <ol class="list-decimal ml-5 text-sm space-y-1">
-        <li><strong>Menu:</strong> Analysis → Create Calculated Field</li>
-        <li><strong>Right-click:</strong> Right-click in Data pane → Create Calculated Field</li>
-        <li><strong>From field:</strong> Click dropdown on any field → Create → Calculated Field</li>
-      </ol>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🧮</span> Calculated Fields</h1>
+    <p>New data derived from existing fields. Ratios, categories, date maths, conditional logic — this is where Tableau stops being limited to the columns you were given and starts answering the questions you actually have.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Interface, Chart Types</span>
     </div>
-    
-    <div class="border border-gray-300 rounded-lg overflow-hidden mt-3">
-      <div class="bg-gray-100 px-3 py-2 border-b border-gray-300">
-        <input type="text" value="Profit Margin" class="w-full bg-white border border-gray-300 rounded px-2 py-1 text-sm">
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#ca-create">Creating one</a>
+    <a href="#ca-rowagg">Row vs aggregate</a>
+    <a href="#ca-basic">Basic maths</a>
+    <a href="#ca-logic">IF and CASE</a>
+    <a href="#ca-dates">Dates</a>
+    <a href="#ca-text">Text</a>
+    <a href="#ca-nulls">Nulls</a>
+    <a href="#ca-params">Parameters</a>
+    <a href="#ca-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="ca-create">
+    <h2><span class="ic">✏️</span> Creating a calculated field</h2>
+    <p class="muted">Three routes to the same dialog: <strong>Analysis → Create Calculated Field</strong>, right-click in the Data pane, or the dropdown on any field → Create → Calculated Field.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Name</span><span style="background:#fff;border:1px solid #cbd5e1;border-radius:4px;padding:.12rem .5rem;font-size:.78rem">Profit Margin</span></div>
       </div>
-      <div class="p-3 bg-white">
-        <div class="font-mono text-sm bg-gray-50 p-3 rounded border border-gray-200">
-          [Profit] / [Sales]
-        </div>
-        <div class="flex justify-between items-center mt-2">
-          <span class="text-green-600 text-sm">✓ The calculation is valid</span>
-          <div class="flex gap-2">
-            <button class="bg-gray-200 px-3 py-1 rounded text-sm">Cancel</button>
-            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">OK</button>
+      <div class="viz-body">
+        <div class="viz-canvas" style="flex-direction:column;align-items:stretch;justify-content:flex-start;gap:.5rem">
+          <div style="font-family:var(--l-mono);font-size:.82rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:.55rem .7rem">SUM([Profit]) / SUM([Sales])</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="color:#047857;font-size:.8rem">✓ The calculation is valid.</span>
+            <span style="font-size:.78rem;color:#64748b">Apply &nbsp; OK</span>
           </div>
         </div>
       </div>
+      <p class="viz-note">Tableau validates as you type. Red means it won't save — and the message underneath usually tells you exactly what's wrong.</p>
     </div>
-    <p class="text-sm text-gray-600 mt-2">Tableau validates your formula in real-time. A green checkmark means it's valid!</p>
-  </div>
 
-  <div>
-    <h2 class="font-bold text-lg">Basic Calculations</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Profit Margin (ratio)</span>
-[Profit] / [Sales]
+    <div class="grid2" style="margin-top:.7rem">
+      <div class="tile">
+        <h3>Syntax essentials</h3>
+        <ul style="font-size:.86rem;margin:.3rem 0 0">
+          <li>Field names go in <code>[square brackets]</code></li>
+          <li>Text uses <code>"double quotes"</code></li>
+          <li>Date parts use <code>'single quotes'</code></li>
+          <li><code>//</code> starts a comment</li>
+          <li>Function names are case-insensitive; field names are not</li>
+        </ul>
+      </div>
+      <div class="tile">
+        <h3>Habits worth forming</h3>
+        <ul style="font-size:.86rem;margin:.3rem 0 0">
+          <li>Name fields for <em>what they mean</em>, not how they're built</li>
+          <li>Comment anything non-obvious — you will forget</li>
+          <li>Break long logic into several small fields</li>
+          <li>Use the right-hand panel to look up functions</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<span class="text-gray-400">// Revenue after discount</span>
-[Sales] * (1 - [Discount])
+  <section class="lcard" id="ca-rowagg">
+    <h2><span class="ic">⚠️</span> Row-level vs aggregate — the distinction that matters</h2>
+    <p>Every calculation runs either <strong>on each row of the data</strong> or <strong>on the aggregated numbers in your view</strong>. Mixing them is the most common error in Tableau, and for ratios it produces genuinely wrong answers rather than errors.</p>
 
-<span class="text-gray-400">// Price per unit</span>
-[Sales] / [Quantity]
+    <div class="ba">
+      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
+        <div class="ba-h" style="color:#b91c1c">Row-level, then averaged</div>
+        <pre style="font-size:.76rem">AVG([Profit] / [Sales])</pre>
+        <p style="margin:.4rem 0 0;font-size:.84rem">Computes a margin for <em>every line item</em>, then averages those percentages. A $5 order counts as much as a $5,000 one.</p>
+        <p class="muted" style="margin:.3rem 0 0;font-size:.8rem">West region: <strong>4.2%</strong></p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Aggregate, then divided</div>
+        <pre style="font-size:.76rem">SUM([Profit]) / SUM([Sales])</pre>
+        <p style="margin:.4rem 0 0;font-size:.84rem">Totals both columns first, then divides. Every dollar weighted equally — the actual margin.</p>
+        <p class="muted" style="margin:.3rem 0 0;font-size:.8rem">West region: <strong>14.9%</strong></p>
+      </div>
+    </div>
 
-<span class="text-gray-400">// Profit per unit</span>
-[Profit] / [Quantity]
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">Neither errors — and they differ by a factor of three</div>
+      <p>For any ratio — margin, conversion rate, cost per unit — you almost always want <strong>SUM(a) / SUM(b)</strong>, not <code>AVG(a/b)</code>. The row-level version is an average of percentages, which weights a tiny order the same as an enormous one. It's the single most common way a Tableau dashboard ends up quietly reporting the wrong number.</p>
+    </div>
 
-<span class="text-gray-400">// Combined text fields</span>
-[City] + <span class="text-green-400">", "</span> + [State]
+<pre><span class="c">// ✗ Won't even save — mixing the two</span>
+<span class="f">SUM</span>([Profit]) / [Sales]
+<span class="c">//   "Cannot mix aggregate and non-aggregate arguments"</span>
 
-<span class="text-gray-400">// Math operators: + - * / ^</span>
-<span class="text-gray-400">// Use square brackets for field names</span></pre>
-  </div>
+<span class="c">// ✓ Both aggregated</span>
+<span class="f">SUM</span>([Profit]) / <span class="f">SUM</span>([Sales])
 
-  <div>
-    <h2 class="font-bold text-lg">IF Statements - Conditional Logic</h2>
-    <p class="text-sm text-gray-600 mb-2">Make decisions based on conditions:</p>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Basic IF</span>
-<span class="text-blue-400">IF</span> [Profit] > 0 <span class="text-blue-400">THEN</span> <span class="text-green-400">"Profitable"</span>
-<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Loss"</span>
-<span class="text-blue-400">END</span>
+<span class="c">// ✓ Both row-level — Tableau aggregates the result later</span>
+[Profit] / [Sales]</pre>
+    <div class="callout note" style="margin-top:.5rem"><p>A row-level field appears in the Data pane as a measure you can aggregate however you like. An aggregate calculation is <em>already</em> aggregated — you can't change it with the pill dropdown. That's a useful way to tell which you wrote.</p></div>
+  </section>
 
-<span class="text-gray-400">// Multiple conditions (ELSEIF)</span>
-<span class="text-blue-400">IF</span> [Sales] > 1000 <span class="text-blue-400">THEN</span> <span class="text-green-400">"High"</span>
-<span class="text-blue-400">ELSEIF</span> [Sales] > 500 <span class="text-blue-400">THEN</span> <span class="text-green-400">"Medium"</span>
-<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Low"</span>
-<span class="text-blue-400">END</span>
+  <section class="lcard" id="ca-basic">
+    <h2><span class="ic">➗</span> Basic calculations</h2>
+<pre><span class="c">// Ratios — aggregate both sides</span>
+<span class="f">SUM</span>([Profit]) / <span class="f">SUM</span>([Sales])           <span class="c">// profit margin</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">COUNTD</span>([Order ID])       <span class="c">// average order value</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">SUM</span>([Quantity])         <span class="c">// price per unit</span>
 
-<span class="text-gray-400">// IIF - Inline if (simpler for 2 outcomes)</span>
-<span class="text-purple-400">IIF</span>([Profit] > 0, <span class="text-green-400">"Profit"</span>, <span class="text-green-400">"Loss"</span>)</pre>
-  </div>
+<span class="c">// Row-level maths</span>
+[Sales] * (<span class="n">1</span> - [Discount])              <span class="c">// revenue after discount</span>
+[Sales] - [Profit]                       <span class="c">// cost of goods</span>
 
-  <div>
-    <h2 class="font-bold text-lg">CASE Statements - Multiple Exact Matches</h2>
-    <p class="text-sm text-gray-600 mb-2">When you're matching specific values, CASE is cleaner than multiple IFs:</p>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Rename regions</span>
-<span class="text-blue-400">CASE</span> [Region]
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"East"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Eastern US"</span>
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"West"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Western US"</span>
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"South"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Southern US"</span>
-    <span class="text-blue-400">ELSE</span> <span class="text-green-400">"Central US"</span>
-<span class="text-blue-400">END</span>
+<span class="c">// Aggregation functions</span>
+<span class="f">SUM</span>()  <span class="f">AVG</span>()  <span class="f">MIN</span>()  <span class="f">MAX</span>()  <span class="f">MEDIAN</span>()
+<span class="f">COUNT</span>()      <span class="c">// number of rows</span>
+<span class="f">COUNTD</span>()     <span class="c">// number of DISTINCT values</span>
+<span class="f">STDEV</span>()  <span class="f">VAR</span>()
 
-<span class="text-gray-400">// Assign sort order</span>
-<span class="text-blue-400">CASE</span> [Ship Mode]
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"Same Day"</span> <span class="text-blue-400">THEN</span> 1
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"First Class"</span> <span class="text-blue-400">THEN</span> 2
-    <span class="text-blue-400">WHEN</span> <span class="text-green-400">"Second Class"</span> <span class="text-blue-400">THEN</span> 3
-    <span class="text-blue-400">ELSE</span> 4
-<span class="text-blue-400">END</span></pre>
-  </div>
+<span class="c">// Rounding and absolutes</span>
+<span class="f">ROUND</span>([Sales], <span class="n">2</span>)
+<span class="f">ABS</span>([Profit])
+<span class="f">CEILING</span>([Sales])   <span class="f">FLOOR</span>([Sales])</pre>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">COUNT vs COUNTD on Superstore</div>
+      <p>Each row is one line item, so <code>COUNT([Order ID])</code> returns 9,994 — the number of <em>lines</em>, not orders. <code>COUNTD([Order ID])</code> returns 5,009, the actual number of orders. Reporting the first as "orders" overstates it by roughly 2×, and it's an easy mistake to ship.</p>
+    </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Date Calculations</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Days to ship</span>
-<span class="text-purple-400">DATEDIFF</span>(<span class="text-green-400">'day'</span>, [Order Date], [Ship Date])
+  <section class="lcard" id="ca-logic">
+    <h2><span class="ic">🔀</span> Conditional logic</h2>
+    <div class="split">
+      <div>
+        <h3>IF — for conditions</h3>
+<pre><span class="c">// Basic</span>
+<span class="k">IF</span> [Profit] &gt; <span class="n">0</span> <span class="k">THEN</span> <span class="s">"Profitable"</span>
+<span class="k">ELSE</span> <span class="s">"Loss"</span>
+<span class="k">END</span>
 
-<span class="text-gray-400">// Extract parts of dates</span>
-<span class="text-purple-400">YEAR</span>([Order Date])       <span class="text-gray-400">// Returns: 2017</span>
-<span class="text-purple-400">MONTH</span>([Order Date])      <span class="text-gray-400">// Returns: 3 (March)</span>
-<span class="text-purple-400">DATENAME</span>(<span class="text-green-400">'month'</span>, [Order Date])  <span class="text-gray-400">// Returns: "March"</span>
+<span class="c">// Several branches</span>
+<span class="k">IF</span> [Sales] &gt; <span class="n">1000</span> <span class="k">THEN</span> <span class="s">"High"</span>
+<span class="k">ELSEIF</span> [Sales] &gt; <span class="n">500</span> <span class="k">THEN</span> <span class="s">"Medium"</span>
+<span class="k">ELSE</span> <span class="s">"Low"</span>
+<span class="k">END</span>
 
-<span class="text-gray-400">// Is this year?</span>
-<span class="text-purple-400">YEAR</span>([Order Date]) = <span class="text-purple-400">YEAR</span>(<span class="text-purple-400">TODAY</span>())
+<span class="c">// IIF — compact, two outcomes</span>
+<span class="f">IIF</span>([Profit] &gt; <span class="n">0</span>, <span class="s">"Profit"</span>, <span class="s">"Loss"</span>)</pre>
+      </div>
+      <div>
+        <h3>CASE — for exact matches</h3>
+<pre><span class="k">CASE</span> [Region]
+  <span class="k">WHEN</span> <span class="s">"East"</span>  <span class="k">THEN</span> <span class="s">"Coastal"</span>
+  <span class="k">WHEN</span> <span class="s">"West"</span>  <span class="k">THEN</span> <span class="s">"Coastal"</span>
+  <span class="k">ELSE</span> <span class="s">"Inland"</span>
+<span class="k">END</span>
 
-<span class="text-gray-400">// Add/subtract time</span>
-<span class="text-purple-400">DATEADD</span>(<span class="text-green-400">'month'</span>, 3, [Order Date])  <span class="text-gray-400">// Add 3 months</span></pre>
-  </div>
+<span class="c">// Assign a custom sort order</span>
+<span class="k">CASE</span> [Ship Mode]
+  <span class="k">WHEN</span> <span class="s">"Same Day"</span>     <span class="k">THEN</span> <span class="n">1</span>
+  <span class="k">WHEN</span> <span class="s">"First Class"</span>  <span class="k">THEN</span> <span class="n">2</span>
+  <span class="k">WHEN</span> <span class="s">"Second Class"</span> <span class="k">THEN</span> <span class="n">3</span>
+  <span class="k">ELSE</span> <span class="n">4</span>
+<span class="k">END</span></pre>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">CASE when you can, IF when you must</div>
+      <p><code>CASE</code> is faster and far more readable, but it only compares one field against exact values. Anything involving ranges, multiple fields, or <code>AND</code>/<code>OR</code> needs <code>IF</code>. The sort-order trick above is worth remembering — it's how you get Ship Mode to sort by speed rather than alphabetically.</p>
+    </div>
 
-  <div>
-    <h2 class="font-bold text-lg">Aggregate Calculations</h2>
-    <p class="text-sm text-gray-600 mb-2">When your calculation involves aggregation (SUM, AVG), the entire formula must be aggregated:</p>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Profit margin (aggregated correctly)</span>
-<span class="text-purple-400">SUM</span>([Profit]) / <span class="text-purple-400">SUM</span>([Sales])
+    <h3 style="margin-top:1rem">Combining conditions</h3>
+<pre><span class="c">// AND / OR / NOT</span>
+<span class="k">IF</span> [Profit] &gt; <span class="n">0</span> <span class="k">AND</span> [Discount] = <span class="n">0</span> <span class="k">THEN</span> <span class="s">"Clean sale"</span>
+<span class="k">ELSEIF</span> [Profit] &lt; <span class="n">0</span> <span class="k">AND</span> [Discount] &gt; <span class="n">0.2</span> <span class="k">THEN</span> <span class="s">"Over-discounted"</span>
+<span class="k">ELSE</span> <span class="s">"Normal"</span>
+<span class="k">END</span>
 
-<span class="text-gray-400">// WRONG - mixing aggregated and non-aggregated</span>
-<span class="text-red-400">SUM([Profit]) / [Sales]</span>  <span class="text-gray-400">// ERROR!</span>
+<span class="c">// IN — cleaner than a chain of ORs</span>
+<span class="k">IF</span> [Region] <span class="k">IN</span> (<span class="s">"East"</span>, <span class="s">"West"</span>) <span class="k">THEN</span> <span class="s">"Coastal"</span> <span class="k">ELSE</span> <span class="s">"Inland"</span> <span class="k">END</span>
 
-<span class="text-gray-400">// Count of profitable orders</span>
-<span class="text-purple-400">COUNTD</span>(<span class="text-blue-400">IF</span> [Profit] > 0 <span class="text-blue-400">THEN</span> [Order ID] <span class="text-blue-400">END</span>)
+<span class="c">// A boolean field — returns True/False directly, no IF needed</span>
+[Profit] &lt; <span class="n">0</span></pre>
+  </section>
 
-<span class="text-gray-400">// Average discount for discounted items only</span>
-<span class="text-purple-400">AVG</span>(<span class="text-blue-400">IF</span> [Discount] > 0 <span class="text-blue-400">THEN</span> [Discount] <span class="text-blue-400">END</span>)</pre>
-  </div>
+  <section class="lcard" id="ca-dates">
+    <h2><span class="ic">📅</span> Date calculations</h2>
+<pre><span class="c">// Difference between two dates</span>
+<span class="f">DATEDIFF</span>(<span class="s">'day'</span>, [Order Date], [Ship Date])     <span class="c">// days to ship</span>
+<span class="f">DATEDIFF</span>(<span class="s">'month'</span>, [Order Date], <span class="f">TODAY</span>())     <span class="c">// months ago</span>
 
-  <div>
-    <h2 class="font-bold text-lg">String (Text) Functions</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Extract parts of text</span>
-<span class="text-purple-400">LEFT</span>([Order ID], 2)         <span class="text-gray-400">// First 2 characters: "CA"</span>
-<span class="text-purple-400">RIGHT</span>([Order ID], 6)        <span class="text-gray-400">// Last 6 characters</span>
-<span class="text-purple-400">MID</span>([Order ID], 4, 4)       <span class="text-gray-400">// Characters 4-7: "2017"</span>
+<span class="c">// Extract parts</span>
+<span class="f">YEAR</span>([Order Date])                  <span class="c">// 2017</span>
+<span class="f">MONTH</span>([Order Date])                 <span class="c">// 11 — a number</span>
+<span class="f">DATENAME</span>(<span class="s">'month'</span>, [Order Date])    <span class="c">// "November" — text</span>
+<span class="f">DATEPART</span>(<span class="s">'quarter'</span>, [Order Date])  <span class="c">// 4</span>
 
-<span class="text-gray-400">// Transform text</span>
-<span class="text-purple-400">UPPER</span>([Category])           <span class="text-gray-400">// "FURNITURE"</span>
-<span class="text-purple-400">LOWER</span>([Category])           <span class="text-gray-400">// "furniture"</span>
-<span class="text-purple-400">TRIM</span>([Customer Name])       <span class="text-gray-400">// Remove extra spaces</span>
+<span class="c">// Truncate to the start of a period — keeps it a real date</span>
+<span class="f">DATETRUNC</span>(<span class="s">'month'</span>, [Order Date])   <span class="c">// 1 Nov 2017</span>
+<span class="f">DATETRUNC</span>(<span class="s">'quarter'</span>, [Order Date])
 
-<span class="text-gray-400">// Find and check</span>
-<span class="text-purple-400">CONTAINS</span>([Product Name], <span class="text-green-400">"Chair"</span>)  <span class="text-gray-400">// TRUE/FALSE</span>
-<span class="text-purple-400">FIND</span>([Order ID], <span class="text-green-400">"-"</span>)       <span class="text-gray-400">// Position of first dash</span></pre>
-  </div>
+<span class="c">// Shift a date</span>
+<span class="f">DATEADD</span>(<span class="s">'month'</span>, <span class="n">3</span>, [Order Date])
+<span class="f">DATEADD</span>(<span class="s">'year'</span>, -<span class="n">1</span>, [Order Date])     <span class="c">// same date last year</span>
 
-  <div>
-    <h2 class="font-bold text-lg">Logical Functions</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// AND - all conditions must be true</span>
-<span class="text-blue-400">IF</span> [Profit] > 0 <span class="text-blue-400">AND</span> [Discount] = 0 <span class="text-blue-400">THEN</span> <span class="text-green-400">"Great"</span>
-<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Okay"</span>
-<span class="text-blue-400">END</span>
+<span class="c">// Is it in the current year?</span>
+<span class="f">YEAR</span>([Order Date]) = <span class="f">YEAR</span>(<span class="f">TODAY</span>())</pre>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">DATETRUNC vs DATENAME</div>
+      <p><code>DATETRUNC</code> returns a <strong>date</strong> — it sorts and charts correctly. <code>DATENAME</code> returns <strong>text</strong>, so "April" sorts before "January". Use DATETRUNC for anything on an axis, and DATENAME only for labels.</p>
+    </div>
+  </section>
 
-<span class="text-gray-400">// OR - any condition can be true</span>
-<span class="text-blue-400">IF</span> [Region] = <span class="text-green-400">"East"</span> <span class="text-blue-400">OR</span> [Region] = <span class="text-green-400">"West"</span> <span class="text-blue-400">THEN</span> <span class="text-green-400">"Coastal"</span>
-<span class="text-blue-400">ELSE</span> <span class="text-green-400">"Inland"</span>
-<span class="text-blue-400">END</span>
+  <section class="lcard" id="ca-text">
+    <h2><span class="ic">✂️</span> Text functions</h2>
+<pre><span class="c">// Extract</span>
+<span class="f">LEFT</span>([Order ID], <span class="n">2</span>)                <span class="c">// "CA"</span>
+<span class="f">RIGHT</span>([Order ID], <span class="n">6</span>)               <span class="c">// "152156"</span>
+<span class="f">MID</span>([Order ID], <span class="n">4</span>, <span class="n">4</span>)              <span class="c">// "2016"</span>
 
-<span class="text-gray-400">// NOT - reverse condition</span>
-<span class="text-blue-400">IF</span> <span class="text-blue-400">NOT</span> <span class="text-purple-400">ISNULL</span>([Customer Name]) <span class="text-blue-400">THEN</span> <span class="text-green-400">"Has Customer"</span>
-<span class="text-blue-400">END</span>
+<span class="c">// Transform</span>
+<span class="f">UPPER</span>([Category])   <span class="f">LOWER</span>([Category])   <span class="f">PROPER</span>([City])
+<span class="f">TRIM</span>([Customer Name])              <span class="c">// strip stray spaces</span>
+<span class="f">LEN</span>([Product Name])                <span class="c">// character count</span>
 
-<span class="text-gray-400">// ZN - replace NULL with zero</span>
-<span class="text-purple-400">ZN</span>([Profit])  <span class="text-gray-400">// Returns 0 if Profit is NULL</span></pre>
-  </div>
+<span class="c">// Search and test</span>
+<span class="f">CONTAINS</span>([Product Name], <span class="s">"Chair"</span>)  <span class="c">// True / False</span>
+<span class="f">STARTSWITH</span>([Order ID], <span class="s">"CA"</span>)
+<span class="f">FIND</span>([Order ID], <span class="s">"-"</span>)               <span class="c">// position of first dash</span>
+<span class="f">REPLACE</span>([Country], <span class="s">"United States"</span>, <span class="s">"USA"</span>)
 
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Field names use [brackets]</strong> - Tableau auto-suggests as you type</li>
-      <li><strong>Strings use "double quotes"</strong> - single quotes are for date parts only</li>
-      <li><strong>Calculations validate in real-time</strong> - green checkmark = valid</li>
-      <li><strong>New calculated fields appear in Data pane</strong> - with a small = icon</li>
-      <li><strong>Row-level vs Aggregate matters</strong> - mixing them causes errors</li>
-      <li><strong>Use // for comments</strong> - document complex calculations</li>
-      <li><strong>Right-click to edit</strong> - existing calculated fields can be modified anytime</li>
-    </ul>
-  </div>
+<span class="c">// Combine — + concatenates in Tableau, not &amp;</span>
+[City] + <span class="s">", "</span> + [State]
 
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a <strong>"Profit Margin"</strong> calculated field (Profit / Sales)</li>
-      <li>Create a <strong>"Profit Status"</strong> field: "Profit" if positive, "Loss" if negative, "Break Even" if zero</li>
-      <li>Create a <strong>"Days to Ship"</strong> calculation using DATEDIFF</li>
-      <li>Create a <strong>"Sales Tier"</strong>: High (>$1000), Medium ($100-$1000), Low (<$100)</li>
-      <li>Create a field that <strong>combines City and State</strong> with a comma</li>
-      <li>Create an <strong>"Order Year"</strong> field using YEAR()</li>
-      <li>Create a <strong>"Coastal Region"</strong> field that returns TRUE for East or West</li>
-      <li>Create a <strong>"Discounted?"</strong> field that returns "Yes" if Discount > 0</li>
-      <li>Create a field that extracts the <strong>state code from Order ID</strong> (first 2 characters)</li>
-      <li>Create an aggregated <strong>"Overall Profit Margin"</strong>: SUM(Profit) / SUM(Sales)</li>
+<span class="c">// Splitting on a delimiter (4th part, from the left)</span>
+<span class="f">SPLIT</span>([Order ID], <span class="s">"-"</span>, <span class="n">2</span>)             <span class="c">// "2016"</span></pre>
+    <div class="callout note" style="margin-top:.5rem"><p>You can often skip the calculation entirely: right-click a field in the Data pane → <strong>Split</strong> or <strong>Custom Split</strong>. Tableau writes the fields for you and they're easier to maintain.</p></div>
+  </section>
+
+  <section class="lcard" id="ca-nulls">
+    <h2><span class="ic">🕳️</span> Handling nulls</h2>
+<pre><span class="c">// ZN — turn Null into zero</span>
+<span class="f">ZN</span>([Profit])
+
+<span class="c">// IFNULL — substitute anything</span>
+<span class="f">IFNULL</span>([Region], <span class="s">"Unknown"</span>)
+
+<span class="c">// ISNULL — test for it</span>
+<span class="k">IF</span> <span class="f">ISNULL</span>([Customer Name]) <span class="k">THEN</span> <span class="s">"Missing"</span> <span class="k">ELSE</span> [Customer Name] <span class="k">END</span>
+
+<span class="c">// Guard against divide-by-zero — Tableau returns Null, not an error</span>
+<span class="k">IF</span> <span class="f">SUM</span>([Sales]) = <span class="n">0</span> <span class="k">THEN</span> <span class="k">NULL</span>
+<span class="k">ELSE</span> <span class="f">SUM</span>([Profit]) / <span class="f">SUM</span>([Sales]) <span class="k">END</span></pre>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">Null is not zero — decide deliberately</div>
+      <p><code>ZN()</code> is convenient and often wrong. A missing sales figure means "we don't know"; zero means "they bought nothing". <code>AVG</code> skips nulls but counts zeros, so converting them silently drags your averages down. Only use <code>ZN</code> when zero is genuinely the right answer.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ca-params">
+    <h2><span class="ic">🎛️</span> Parameters — let the viewer decide</h2>
+    <p>A parameter is a single value a user can change. On its own it does nothing; combined with a calculated field it becomes the most flexible control in Tableau.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Create the parameter</div>
+        <p>Right-click in the Data pane → Create Parameter. Name it <code>Threshold</code>, type Float, and set a range.</p>
+      </li>
+      <li>
+        <div class="s-t">Use it in a calculation</div>
+        <p><code>IF [Sales] &gt; [Threshold] THEN "Above" ELSE "Below" END</code></p>
+      </li>
+      <li>
+        <div class="s-t">Show the control</div>
+        <p>Right-click the parameter → Show Parameter. A slider or input box appears beside the view.</p>
+      </li>
+      <li>
+        <div class="s-t">Drag the calculation onto Color</div>
+        <p>Now moving the slider re-colours the whole chart live. That's a "what if" analysis in four steps.</p>
+      </li>
     </ol>
-  </div>
+<pre><span class="c">// A measure swapper — one chart, four metrics</span>
+<span class="c">// Parameter "Select Measure": string list of Sales/Profit/Quantity/Discount</span>
+<span class="k">CASE</span> [Select Measure]
+  <span class="k">WHEN</span> <span class="s">"Sales"</span>    <span class="k">THEN</span> <span class="f">SUM</span>([Sales])
+  <span class="k">WHEN</span> <span class="s">"Profit"</span>   <span class="k">THEN</span> <span class="f">SUM</span>([Profit])
+  <span class="k">WHEN</span> <span class="s">"Quantity"</span> <span class="k">THEN</span> <span class="f">SUM</span>([Quantity])
+  <span class="k">ELSE</span> <span class="f">AVG</span>([Discount])
+<span class="k">END</span></pre>
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">The measure swapper is worth building once</div>
+      <p>Drop that calculation on Rows and give viewers the parameter control. One chart now serves four questions, and your dashboard needs a quarter of the space. It's the single highest-value parameter pattern in Tableau.</p>
+    </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Challenge: Customer Segment Score</h2>
-    <p>Create a calculated field that scores orders based on multiple criteria:</p>
-    <ul class="list-disc ml-5 text-sm mt-2">
-      <li>+3 points if Profit > $100</li>
-      <li>+2 points if no discount applied</li>
-      <li>+1 point if Ship Mode is "First Class" or "Same Day"</li>
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Ratios use SUM(a)/SUM(b)</strong>, never <code>AVG(a/b)</code></li>
+      <li><strong>You can't mix aggregate and row-level</strong> in one expression</li>
+      <li><strong>COUNTD for orders, COUNT for line items</strong></li>
+      <li><strong>CASE for exact matches, IF for everything else</strong></li>
+      <li><strong>DATETRUNC keeps it a date; DATENAME makes it text</strong></li>
+      <li><strong>Null ≠ zero</strong> — <code>ZN()</code> is a decision, not a cleanup</li>
+      <li><strong><code>+</code> concatenates text</strong> in Tableau, not <code>&amp;</code></li>
+      <li><strong>Name fields for meaning</strong>, and comment the non-obvious</li>
+      <li><strong>Parameters + CASE</strong> = one chart, many questions</li>
     </ul>
-    <p class="mt-2 text-sm">Then use this score to color a visualization!</p>
-  </div>
+  </section>
+
+  <section class="lcard accent" id="ca-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Create <strong>Profit Margin</strong> as <code>SUM([Profit])/SUM([Sales])</code> and format it as a percentage</li>
+      <li>Also create <code>AVG([Profit]/[Sales])</code> and put both in one view — explain the difference</li>
+      <li>Create <strong>Profit Status</strong>: "Profit", "Loss" or "Break Even"</li>
+      <li>Create <strong>Days to Ship</strong> with DATEDIFF, then average it by Ship Mode</li>
+      <li>Create a <strong>Sales Tier</strong>: High / Medium / Low</li>
+      <li>Create <strong>Coastal Region</strong> using CASE, and use it on Color</li>
+      <li>Create a <strong>Ship Mode Sort Order</strong> with CASE and sort by it instead of alphabetically</li>
+      <li>Create <strong>Average Order Value</strong> — remember COUNTD</li>
+      <li>Create <strong>Order Month</strong> with DATETRUNC and confirm it charts in the right order</li>
+      <li>Extract the <strong>state code from Order ID</strong> using LEFT</li>
+      <li>Create a <strong>Discount Band</strong>: None / Low / Medium / High</li>
+      <li>Build a <strong>parameter-driven threshold</strong> that recolours a chart as you move a slider</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: an order quality score</div>
+      <p>Build a score from several criteria — 3 points for profit over $100, 2 for no discount, 1 for fast shipping — then bucket the total into Excellent / Good / Poor. Colour a scatter of Sales vs Profit by that score. The interesting part isn't the calculation; it's deciding what deserves points and defending it. Then check whether high-scoring orders cluster anywhere: a particular segment, region, or category. If they do, you've found something actionable.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/maps"><span class="pl">← Previous</span><span class="pt">Maps</span></a>
+    <a class="next" href="#tableau/tablecalcs"><span class="pl">Next →</span><span class="pt">Table Calculations</span></a>
+  </nav>
 </div>

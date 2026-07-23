@@ -1,317 +1,333 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Dashboards</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">What Are Dashboards?</h2>
-    <p>Dashboards combine multiple worksheets into a single interactive view. They tell a complete data story by showing related visualizations together. Well-designed dashboards:</p>
-    <ul class="list-disc ml-5 mt-2">
-      <li><strong>Answer business questions</strong> - "How is sales performance this quarter?"</li>
-      <li><strong>Enable exploration</strong> - Click one chart to filter others</li>
-      <li><strong>Provide context</strong> - See the big picture and details together</li>
-      <li><strong>Drive action</strong> - Clear insights lead to decisions</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Creating a Dashboard</h2>
-    
-    <div class="bg-gray-100 rounded-lg p-4 mt-3">
-      <p class="font-semibold mb-2">Three ways to create:</p>
-      <ol class="list-decimal ml-5 text-sm space-y-1">
-        <li><strong>Menu:</strong> Dashboard → New Dashboard</li>
-        <li><strong>Icon:</strong> Click the dashboard icon at the bottom (next to sheet tabs)</li>
-        <li><strong>Right-click:</strong> Right-click in the tab area → New Dashboard</li>
-      </ol>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🏁</span> Dashboards</h1>
+    <p>Everything in this section, assembled into one interactive screen. A dashboard isn't a collection of charts — it's an argument made visually, where the viewer can follow up on their own questions by clicking. This is the section capstone.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 2–3 hours</span>
+      <span>🏆 Capstone</span>
+      <span>🔗 Needs: everything before this</span>
     </div>
-  </div>
+    <div class="rule"></div>
+  </header>
 
-  <div>
-    <h2 class="font-bold text-lg">Dashboard Layout</h2>
-    
-    <div class="border-2 border-gray-400 rounded-lg overflow-hidden text-sm bg-white">
-      <div class="flex">
-        <!-- Left sidebar -->
-        <div class="w-44 bg-gray-100 border-r border-gray-300 p-2">
-          <div class="text-xs font-bold text-gray-600 mb-2">Dashboard</div>
-          <div class="text-xs text-gray-500 mb-1">Size</div>
-          <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs mb-3">
-            Desktop (1200 × 800)
-          </div>
-          
-          <div class="text-xs font-bold text-gray-600 mb-2">Sheets</div>
-          <div class="space-y-1 mb-3">
-            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1 cursor-move">
-              <span class="text-gray-400">📊</span> Sales by Region
-            </div>
-            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1 cursor-move">
-              <span class="text-gray-400">📈</span> Sales Trend
-            </div>
-            <div class="bg-white border border-gray-300 rounded px-2 py-1 text-xs flex items-center gap-1 cursor-move">
-              <span class="text-gray-400">📊</span> Profit by Category
-            </div>
-          </div>
-          
-          <div class="text-xs font-bold text-gray-600 mb-2">Objects</div>
-          <div class="grid grid-cols-2 gap-1 text-xs">
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Horizontal</div>
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Vertical</div>
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Text</div>
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Image</div>
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Blank</div>
-            <div class="bg-gray-200 rounded px-2 py-1 text-center cursor-move">Navigation</div>
-          </div>
-        </div>
-        
-        <!-- Dashboard canvas -->
-        <div class="flex-1 bg-gray-200 p-3">
-          <div class="bg-white border border-gray-300 rounded h-64 p-2">
-            <!-- Title -->
-            <div class="text-center font-bold text-gray-700 mb-2 text-sm">📊 Sales Performance Dashboard</div>
-            
-            <!-- Top row - 2 charts -->
-            <div class="flex gap-2 mb-2">
-              <!-- Chart 1 -->
-              <div class="flex-1 border border-gray-200 rounded p-2 bg-gray-50">
-                <div class="text-xs text-gray-500 mb-1">Sales by Region</div>
-                <div class="flex items-end gap-1 h-16">
-                  <div class="flex-1 bg-blue-400 rounded-t" style="height: 70%"></div>
-                  <div class="flex-1 bg-blue-500 rounded-t" style="height: 100%"></div>
-                  <div class="flex-1 bg-blue-400 rounded-t" style="height: 55%"></div>
-                  <div class="flex-1 bg-blue-500 rounded-t" style="height: 85%"></div>
-                </div>
-                <div class="flex justify-between text-xs mt-1 text-gray-400">
-                  <span>C</span><span>E</span><span>S</span><span>W</span>
-                </div>
-              </div>
-              
-              <!-- Chart 2 -->
-              <div class="flex-1 border border-gray-200 rounded p-2 bg-gray-50">
-                <div class="text-xs text-gray-500 mb-1">Sales Trend</div>
-                <svg class="w-full h-16" viewBox="0 0 100 50">
-                  <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="0,40 20,35 40,38 60,25 80,20 100,15"/>
-                </svg>
-              </div>
-            </div>
-            
-            <!-- Bottom row - 1 wide chart -->
-            <div class="border border-gray-200 rounded p-2 bg-gray-50">
-              <div class="text-xs text-gray-500 mb-1">Profit by Category</div>
-              <div class="flex gap-2 h-10">
-                <div class="flex items-center flex-1">
-                  <span class="text-xs w-12 text-gray-500">Furn</span>
-                  <div class="flex-1 bg-green-400 rounded h-3" style="width: 60%"></div>
-                </div>
-                <div class="flex items-center flex-1">
-                  <span class="text-xs w-12 text-gray-500">Office</span>
-                  <div class="flex-1 bg-green-500 rounded h-3" style="width: 80%"></div>
-                </div>
-                <div class="flex items-center flex-1">
-                  <span class="text-xs w-12 text-gray-500">Tech</span>
-                  <div class="flex-1 bg-green-600 rounded h-3" style="width: 95%"></div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Filter -->
-            <div class="mt-2 flex gap-2">
-              <div class="bg-gray-100 rounded px-2 py-1 text-xs">Category: All ▼</div>
-              <div class="bg-gray-100 rounded px-2 py-1 text-xs">Year: 2017 ▼</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#db-brief">The brief</a>
+    <a href="#db-plan">Plan before you build</a>
+    <a href="#db-create">Creating one</a>
+    <a href="#db-layout">Layout &amp; containers</a>
+    <a href="#db-actions">Actions</a>
+    <a href="#db-objects">Objects</a>
+    <a href="#db-device">Devices</a>
+    <a href="#db-publish">Publishing</a>
+    <a href="#db-review">Self-review</a>
+    <a href="#db-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="db-brief">
+    <h2><span class="ic">📋</span> The brief</h2>
+    <div class="callout tip">
+      <div class="callout-title">Your task</div>
+      <p>Build a <strong>one-screen sales dashboard</strong> that lets a regional manager answer, without asking you: how are we doing, where is it working, what's going wrong, and what should I look at next?</p>
     </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Building a Dashboard Step-by-Step</h2>
-    
-    <div class="space-y-3 mt-3">
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
-        <div>
-          <p class="font-semibold">Set the Size</p>
-          <p class="text-sm text-gray-600">Dashboard → Size. Choose Fixed (1200×800 is common), Automatic (fits container), or Range.</p>
-        </div>
-      </div>
-      
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
-        <div>
-          <p class="font-semibold">Drag Sheets onto Canvas</p>
-          <p class="text-sm text-gray-600">Drag worksheets from the Sheets panel. Blue highlighting shows where it will land.</p>
-        </div>
-      </div>
-      
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
-        <div>
-          <p class="font-semibold">Arrange with Containers</p>
-          <p class="text-sm text-gray-600">Use Horizontal and Vertical containers for structured layouts. Drag edges to resize.</p>
-        </div>
-      </div>
-      
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
-        <div>
-          <p class="font-semibold">Add Interactivity</p>
-          <p class="text-sm text-gray-600">Click a sheet → Use the funnel icon or "Use as Filter" to make it filter other sheets.</p>
-        </div>
-      </div>
-      
-      <div class="flex items-start gap-3">
-        <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">5</div>
-        <div>
-          <p class="font-semibold">Add Context</p>
-          <p class="text-sm text-gray-600">Drag Text objects for titles and descriptions. Add filters that viewers can interact with.</p>
-        </div>
-      </div>
+    <p style="margin-top:.7rem">The constraint — one screen, no scrolling — is the exercise. What you leave off is as much a decision as what you include, and it's the harder one.</p>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">The test every element must pass</div>
+      <p><strong>"What would someone do differently after seeing this?"</strong> If the honest answer is "nothing", it doesn't belong. Most weak dashboards fail by addition — every chart individually defensible, the whole thing unreadable.</p>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Filter Actions - Making Dashboards Interactive</h2>
-    <p class="text-sm text-gray-600 mb-2">The most powerful dashboard feature: clicking one chart filters the others.</p>
-    
-    <div class="bg-gray-100 rounded-lg p-4">
-      <div class="flex items-center gap-4 mb-3">
-        <div class="border border-gray-300 rounded p-2 bg-white">
-          <div class="text-xs text-gray-500 mb-1">Click "West"...</div>
-          <div class="flex gap-1">
-            <div class="w-4 bg-gray-300 h-8 rounded"></div>
-            <div class="w-4 bg-blue-500 h-12 rounded ring-2 ring-orange-400"></div>
-            <div class="w-4 bg-gray-300 h-6 rounded"></div>
-            <div class="w-4 bg-gray-300 h-10 rounded"></div>
-          </div>
-        </div>
-        <div class="text-2xl text-gray-400">→</div>
-        <div class="border border-gray-300 rounded p-2 bg-white">
-          <div class="text-xs text-gray-500 mb-1">...other charts filter to West!</div>
-          <svg class="w-20 h-12" viewBox="0 0 80 40">
-            <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="0,30 20,25 40,20 60,15 80,10"/>
-          </svg>
-        </div>
-      </div>
-      
-      <div class="text-sm">
-        <p class="font-semibold mb-1">Two ways to enable:</p>
-        <ol class="list-decimal ml-5 space-y-1">
-          <li><strong>Quick method:</strong> Click the sheet on dashboard → Click the funnel icon (☐⃰) that appears</li>
-          <li><strong>Custom method:</strong> Dashboard → Actions → Add Action → Filter</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Dashboard Objects</h2>
-    <p class="text-sm text-gray-600 mb-2">Beyond worksheets, you can add these elements:</p>
-    
-    <div class="grid grid-cols-2 gap-2">
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-8 h-6 border border-gray-300 flex bg-white"><div class="flex-1 border-r border-gray-300"></div><div class="flex-1"></div></div>
-        <div class="text-sm"><strong>Horizontal</strong> - Side-by-side layout container</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-6 h-8 border border-gray-300 flex flex-col bg-white"><div class="flex-1 border-b border-gray-300"></div><div class="flex-1"></div></div>
-        <div class="text-sm"><strong>Vertical</strong> - Stacked layout container</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-xs text-gray-400 bg-white">Aa</div>
-        <div class="text-sm"><strong>Text</strong> - Titles, descriptions, instructions</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-gray-400 bg-white">🖼</div>
-        <div class="text-sm"><strong>Image</strong> - Logos, icons, pictures</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-8 h-6 border border-dashed border-gray-300 bg-white"></div>
-        <div class="text-sm"><strong>Blank</strong> - Spacing and padding</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-8 h-6 border border-gray-300 flex items-center justify-center text-xs text-gray-400 bg-white">🔘</div>
-        <div class="text-sm"><strong>Navigation</strong> - Buttons to other dashboards</div>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Layout Best Practices</h2>
-    
-    <div class="grid grid-cols-2 gap-4 mt-3">
-      <div class="bg-green-50 border border-green-200 rounded p-3">
-        <div class="font-semibold text-green-700 mb-2">✓ Do</div>
-        <ul class="text-sm space-y-1">
-          <li>• Most important viz goes top-left</li>
-          <li>• Use consistent colors across charts</li>
-          <li>• Limit to 3-4 charts per dashboard</li>
-          <li>• Include clear titles on everything</li>
-          <li>• Leave some white space</li>
-          <li>• Test interactivity thoroughly</li>
-        </ul>
-      </div>
-      <div class="bg-red-50 border border-red-200 rounded p-3">
-        <div class="font-semibold text-red-700 mb-2">✗ Don't</div>
-        <ul class="text-sm space-y-1">
-          <li>• Cram too many charts together</li>
-          <li>• Use different color schemes per chart</li>
-          <li>• Forget to add context/filters</li>
-          <li>• Make charts too small to read</li>
-          <li>• Ignore mobile viewers</li>
-          <li>• Skip testing the filter actions</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Device Designer - Responsive Dashboards</h2>
-    <p class="text-sm text-gray-600 mb-2">Create different layouts for desktop, tablet, and phone:</p>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm">Dashboard → Device Layouts → Add Phone/Tablet
-
-<span class="text-gray-400">// Each device gets its own layout
-// Same data, different arrangement
-// Sheets can be hidden on certain devices</span></pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Start with your story</strong> - What question does this dashboard answer?</li>
-      <li><strong>Build worksheets first</strong> - Create all your charts before the dashboard</li>
-      <li><strong>The funnel icon is your friend</strong> - Fastest way to add filter actions</li>
-      <li><strong>Use containers for structure</strong> - Makes resizing and reorganizing easier</li>
-      <li><strong>Test, test, test</strong> - Click everything to make sure filters work as expected</li>
-      <li><strong>Less is more</strong> - A focused dashboard beats a cluttered one</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create three worksheets: <strong>Sales by Region</strong> (bar), <strong>Sales over Time</strong> (line), <strong>Profit by Category</strong> (bar)</li>
-      <li>Create a new dashboard and <strong>add all 3 charts</strong></li>
-      <li>Add a <strong>title using the Text object</strong></li>
-      <li>Make the Region chart <strong>act as a filter</strong> for the other charts</li>
-      <li>Add an <strong>interactive Category filter</strong> that viewers can use</li>
-      <li>Add a <strong>Year filter</strong> to let viewers select time periods</li>
-      <li>Experiment with <strong>Horizontal and Vertical containers</strong> to change the layout</li>
-      <li>Try different <strong>dashboard sizes</strong> (fixed, automatic, range)</li>
-      <li>Add a <strong>company logo</strong> using the Image object</li>
-      <li>Create a <strong>second dashboard</strong> and add navigation buttons between them</li>
+  <section class="lcard" id="db-plan">
+    <h2><span class="ic">✏️</span> Plan on paper first</h2>
+    <p>Ten minutes of sketching saves an hour of dragging. Decide the question, the charts that answer it, and the layout — before opening Tableau.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Write the question in one sentence</div>
+        <p>"How is regional sales performance trending, and which products are hurting margin?" If you can't write it, the dashboard doesn't have a point yet.</p>
+      </li>
+      <li>
+        <div class="s-t">List the four or five things that answer it</div>
+        <p>Headline numbers · trend over time · breakdown by region · the exception chart. Anything beyond five, cut.</p>
+      </li>
+      <li>
+        <div class="s-t">Sketch the layout</div>
+        <p>Top-left gets the most attention, bottom-right the least. Put the headline where the eye lands first.</p>
+      </li>
+      <li>
+        <div class="s-t">Build each worksheet separately</div>
+        <p>Get every chart working and formatted on its own sheet <em>first</em>. Assembling half-finished charts into a dashboard is much harder than assembling finished ones.</p>
+      </li>
+      <li>
+        <div class="s-t">Then assemble, and only then add interactivity</div>
+        <p>Layout, then actions. Adding filter actions to a layout you're still rearranging wastes time.</p>
+      </li>
     </ol>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Challenge: Executive Dashboard</h2>
-    <p>Build a complete sales dashboard that answers:</p>
-    <ul class="list-disc ml-5 text-sm mt-2">
-      <li>How are we performing overall? (KPI cards with totals)</li>
-      <li>Which regions are strongest/weakest?</li>
-      <li>How is the trend over time?</li>
-      <li>What product categories drive profit?</li>
+  <section class="lcard" id="db-create">
+    <h2><span class="ic">🛠️</span> Creating a dashboard</h2>
+    <p class="muted">The dashboard icon beside the sheet tabs at the bottom, or <strong>Dashboard → New Dashboard</strong>.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Size</span><span class="pill dim sq">Fixed · Desktop 1200 × 800</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Sheets</div>
+          <div class="mk-row"><span class="mk-i">📊</span>KPIs</div>
+          <div class="mk-row"><span class="mk-i">📈</span>Trend</div>
+          <div class="mk-row"><span class="mk-i">📊</span>By Region</div>
+          <div class="mk-row"><span class="mk-i">🗺️</span>Map</div>
+          <div class="mk-t" style="margin-top:.5rem">Objects</div>
+          <div class="mk-row"><span class="mk-i">Text</span></div>
+          <div class="mk-row"><span class="mk-i">Blank</span></div>
+        </div>
+        <div class="viz-canvas" style="align-items:stretch">
+          <div style="flex:1;background:#f6f8fb;border:1px solid #e2e8f0;border-radius:6px;padding:.4rem;display:flex;flex-direction:column;gap:.35rem;font-size:.72rem">
+            <div style="background:#0f172a;color:#fff;text-align:center;padding:.3rem;border-radius:4px;font-weight:700">Regional Sales Performance · 2017</div>
+            <div style="display:flex;gap:.35rem">
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.3rem;text-align:center"><strong>$733K</strong><br><span style="color:#64748b;font-size:.66rem">Revenue</span></div>
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.3rem;text-align:center"><strong>$93K</strong><br><span style="color:#64748b;font-size:.66rem">Profit</span></div>
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.3rem;text-align:center"><strong>12.7%</strong><br><span style="color:#64748b;font-size:.66rem">Margin</span></div>
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.3rem;text-align:center"><strong>1,687</strong><br><span style="color:#64748b;font-size:.66rem">Orders</span></div>
+            </div>
+            <div style="display:flex;gap:.35rem;flex:1">
+              <div style="flex:2;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.5rem;color:#64748b">📈 Monthly trend</div>
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.5rem;color:#64748b">📊 By region</div>
+            </div>
+            <div style="display:flex;gap:.35rem;flex:1">
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.5rem;color:#64748b">🔻 Loss-making sub-categories</div>
+              <div style="flex:1;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:.5rem;color:#64748b">🗺️ Margin by state</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="viz-note">Title → KPI row → performance → exceptions. Four zones, decreasing in prominence as the eye moves down.</p>
+    </div>
+
+    <div class="grid3" style="margin-top:.7rem">
+      <div class="tile">
+        <h3>Fixed size</h3>
+        <p style="margin:0;font-size:.85rem">Exact pixels. Predictable everywhere — the safe choice, and what to use for anything you publish.</p>
+      </div>
+      <div class="tile">
+        <h3>Automatic</h3>
+        <p style="margin:0;font-size:.85rem">Fills the browser window. Flexible, but layouts can break at sizes you never tested.</p>
+      </div>
+      <div class="tile">
+        <h3>Range</h3>
+        <p style="margin:0;font-size:.85rem">Flexes between a minimum and maximum. A reasonable compromise.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-layout">
+    <h2><span class="ic">📐</span> Layout: tiled, floating and containers</h2>
+    <div class="split">
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">Tiled — use this</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">Objects snap into a grid and resize together. Predictable, and it survives being viewed at a different size.</p>
+      </div>
+      <div class="cmp" style="background:#fffbeb;border-color:#fde68a">
+        <div class="h" style="color:#b45309">Floating — sparingly</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">Free positioning, layered on top. Useful for a logo or an overlay; a maintenance problem if you build the whole layout this way.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">Containers are the actual skill</h3>
+    <p>A <strong>Horizontal</strong> container arranges its contents side by side; a <strong>Vertical</strong> container stacks them. Nesting them gives you a real layout system rather than a pile of dragged objects.</p>
+    <ul class="check">
+      <li><strong>Build the containers first, then drop sheets in</strong> — retrofitting containers is painful</li>
+      <li><strong>Use the Layout pane</strong> (top left, next to Dashboard) to see the nesting tree and select precisely</li>
+      <li><strong>Select a container → Distribute Contents Evenly</strong> for instant equal sizing</li>
+      <li><strong>Set inner padding</strong> on containers rather than adding Blank objects for spacing</li>
+      <li><strong>Blank objects are for deliberate gaps</strong>, not for pushing things around</li>
     </ul>
-    <p class="mt-2 text-sm">Make it interactive - clicking a region should filter everything else. Add filters for Segment and Year. An executive should understand the business state in 30 seconds!</p>
-  </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Selecting the right thing</div>
+      <p>Clicking a chart selects the chart; clicking its thin border selects its container. When you can't grab what you want, use the <strong>Layout pane's tree</strong> — click the item there and Tableau selects it on the canvas. This is the single most useful thing to know about dashboard building, and it's not discoverable.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-actions">
+    <h2><span class="ic">⚡</span> Actions — what makes it a dashboard</h2>
+    <p>Without actions you have a poster. With them, viewers answer their own follow-up questions.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:9rem">Action</th><th>Effect</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Filter</strong></td><td>Selecting marks filters other sheets</td><td>The default — click a region, everything narrows</td></tr>
+          <tr><td><strong>Highlight</strong></td><td>Emphasises matching marks, dims the rest</td><td>Keeping context while focusing — often better than filtering</td></tr>
+          <tr><td><strong>Go to URL</strong></td><td>Opens a link using field values</td><td>Jumping to a source system record</td></tr>
+          <tr><td><strong>Go to Sheet</strong></td><td>Navigates to another dashboard</td><td>Overview → detail drill-through</td></tr>
+          <tr><td><strong>Change Parameter</strong></td><td>Clicking sets a parameter's value</td><td>Click a bar to select the metric shown elsewhere</td></tr>
+          <tr><td><strong>Change Set Values</strong></td><td>Clicking redefines a <a href="#tableau/organizing">set</a></td><td>"Compare whatever I select against the rest"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1rem">Adding one</h3>
+    <div class="split">
+      <div class="tile">
+        <h3>⚡ Quick way</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Select a sheet on the dashboard → click the <strong>funnel icon</strong> in its top-right corner. That sheet now filters every other sheet using the same data source.</p>
+      </div>
+      <div class="tile">
+        <h3>🎛️ Controlled way</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem"><strong>Dashboard → Actions → Add Action</strong>. Choose source and target sheets, the trigger, and — importantly — what happens on deselect.</p>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Always set "Clearing the selection will…"</div>
+      <p>Three options, and the default causes most action-related confusion:</p>
+      <ul style="margin:.35rem 0 0;font-size:.87rem;padding-left:1.1rem">
+        <li><strong>Show all values</strong> — deselecting returns everything. Usually what you want.</li>
+        <li><strong>Exclude all values</strong> — the target goes blank until something is selected. Deliberate, occasionally right.</li>
+        <li><strong>Leave the filter</strong> — the selection sticks. Viewers get stuck in a filtered state with no obvious way out.</li>
+      </ul>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Prefer Highlight over Filter more often than you think</div>
+      <p>Filtering removes context — click West and you can no longer see how it compares to East. Highlighting keeps everything visible while drawing attention. For comparison dashboards, highlight is usually the better interaction.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-objects">
+    <h2><span class="ic">🧱</span> Dashboard objects</h2>
+    <div class="grid2">
+      <div class="tile"><h3>Text</h3><p style="margin:0;font-size:.85rem">Titles, framing, instructions. Use it to state the finding, not just to label.</p></div>
+      <div class="tile"><h3>Image</h3><p style="margin:0;font-size:.85rem">Logos and icons. Can be given a target URL.</p></div>
+      <div class="tile"><h3>Blank</h3><p style="margin:0;font-size:.85rem">Deliberate whitespace. Prefer container padding where you can.</p></div>
+      <div class="tile"><h3>Navigation</h3><p style="margin:0;font-size:.85rem">A styled button to another dashboard. Much clearer than a Go-to-Sheet action.</p></div>
+      <div class="tile"><h3>Download</h3><p style="margin:0;font-size:.85rem">One-click PDF or image export for viewers.</p></div>
+      <div class="tile"><h3>Extension</h3><p style="margin:0;font-size:.85rem">Third-party add-ins. Powerful, but a dependency — check before relying on one.</p></div>
+      <div class="tile"><h3>Ask Data / Show Me</h3><p style="margin:0;font-size:.85rem">Natural-language querying, where your Tableau version supports it.</p></div>
+      <div class="tile"><h3>Web Page</h3><p style="margin:0;font-size:.85rem">Embeds a live URL, which can respond to a URL action.</p></div>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Write the title as a finding</div>
+      <p>"Sales Dashboard" labels the object. <strong>"West leads on revenue but Central converts it best"</strong> tells the reader what you concluded and gives everything below it a purpose. Use a Text object, make it the largest thing on the screen, and update it when the story changes.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-device">
+    <h2><span class="ic">📱</span> Device layouts</h2>
+    <p><strong>Dashboard → Device Preview → Add Layout</strong> creates a separate arrangement for phone or tablet from the same sheets. Tableau serves whichever matches the viewer's screen.</p>
+    <ul class="check">
+      <li>Same data and worksheets — only the arrangement differs</li>
+      <li>Sheets can be hidden entirely on smaller layouts</li>
+      <li>Phone layouts should stack vertically; side-by-side never works at that width</li>
+      <li>Cut to the two or three most important charts rather than shrinking all six</li>
+    </ul>
+    <div class="callout note" style="margin-top:.55rem"><p>If your dashboard will mostly be viewed on a laptop, a phone layout is optional. If it's going to executives, build one — that's exactly the audience checking it on a phone between meetings.</p></div>
+  </section>
+
+  <section class="lcard" id="db-publish">
+    <h2><span class="ic">📤</span> Publishing to Tableau Public</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Check what you're about to make public</div>
+        <p>Tableau Public is <strong>publicly visible and downloadable</strong>, including the underlying data. Never publish anything confidential. This is not reversible in any meaningful sense.</p>
+      </li>
+      <li>
+        <div class="s-t">Server → Tableau Public → Save to Tableau Public</div>
+        <p>Sign in and give the workbook a clear name — this becomes its public title.</p>
+      </li>
+      <li>
+        <div class="s-t">Set the thumbnail</div>
+        <p>Whatever sheet is active when you save becomes the preview image in your profile. Make it the dashboard, not a working sheet.</p>
+      </li>
+      <li>
+        <div class="s-t">Write a description</div>
+        <p>On the Tableau Public site, add a note on what the dashboard shows and what you found. A portfolio piece with a written finding reads very differently from a bare chart.</p>
+      </li>
+    </ol>
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">This is your portfolio</div>
+      <p>Tableau Public profiles are one of the few places you can show real analytical work publicly, and hiring managers do look at them. Three well-finished dashboards with written findings beat twenty half-built experiments.</p>
+    </div>
+  </section>
+
+  <section class="lcard accent" id="db-review">
+    <h2><span class="ic">✅</span> Self-review</h2>
+    <div class="split">
+      <div>
+        <h3>Correctness</h3>
+        <ul class="check">
+          <li>Orders counted with COUNTD, not COUNT</li>
+          <li>Ratios use SUM(a)/SUM(b)</li>
+          <li>Any Top N combined with a filter uses a context filter</li>
+          <li>Diverging colour palettes centred on zero</li>
+          <li>No unknown locations on the map</li>
+          <li>Totals reconcile against a plain SUM(Sales)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Communication</h3>
+        <ul class="check">
+          <li>Fits on one screen with no scrolling</li>
+          <li>The title states a finding</li>
+          <li>Every chart title says what it shows</li>
+          <li>Gridlines and borders removed</li>
+          <li>Numbers formatted as $0K, not raw decimals</li>
+          <li>Every action tested, including deselect</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">The five-second test</div>
+      <p>Show it to someone who hasn't seen the data and ask what they take away. If it isn't roughly your intended message, the dashboard needs changing — not the viewer. Then ask them to find one specific number; if they can't, your layout is wrong.</p>
+    </div>
+  </section>
+
+  <section class="lcard accent" id="db-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build four worksheets: <strong>KPI text, monthly trend, sales by region, profit by sub-category</strong></li>
+      <li>Create a dashboard at <strong>fixed 1200 × 800</strong> and add all four</li>
+      <li>Arrange them with <strong>horizontal and vertical containers</strong>, not free dragging</li>
+      <li>Add a <strong>Text title</strong> stating a finding rather than a label</li>
+      <li>Make the region chart <strong>filter</strong> the others via the funnel icon</li>
+      <li>Set <strong>"Clearing the selection will show all values"</strong> and test deselecting</li>
+      <li>Change that action to <strong>Highlight</strong> instead and decide which you prefer</li>
+      <li>Add an interactive <strong>Category filter</strong> applied to selected worksheets</li>
+      <li>Turn on <strong>Only Relevant Values</strong> on that filter</li>
+      <li>Add a <strong>map</strong> and make clicking a state filter everything else</li>
+      <li>Remove all <strong>gridlines and borders</strong>, and format every number as $0K</li>
+      <li>Create a <strong>phone layout</strong> showing only the KPIs and the trend</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: the discount dashboard</div>
+      <p>Build a dashboard answering one question: <strong>"Is our discounting policy costing us money, and where?"</strong> Include the headline margin impact, a scatter of discount against profit ratio by sub-category with a trend line, a map of margin by state, and a sorted bar of the worst offenders. Make selecting a sub-category filter the map and vice versa. Then add a Text object with your recommendation and the dollar figure attached to it.</p>
+      <p style="margin-top:.4rem">That last step is what separates a dashboard from an analysis. Anyone can show the data; the value is in saying what to do about it — and being willing to put a number on it.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🚀</span> Where to go next</h2>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Rebuild it in Power BI</h3>
+        <p style="margin:0;font-size:.86rem">The same dashboard in <a href="#powerbi/reports">Power BI</a>. Building one thing twice teaches you more about both tools than two separate tutorials.</p>
+      </div>
+      <div class="tile">
+        <h3>Or in Excel</h3>
+        <p style="margin:0;font-size:.86rem">The <a href="#excel/dashboard">Excel dashboard project</a> uses the same data and brief. Comparing the two is a genuinely useful exercise in tool selection.</p>
+      </div>
+      <div class="tile">
+        <h3>Go deeper on calculations</h3>
+        <p style="margin:0;font-size:.86rem">Revisit <a href="#tableau/lod">LOD expressions</a> and build a cohort retention dashboard — the hardest and most valuable thing in this section.</p>
+      </div>
+      <div class="tile">
+        <h3>Build a portfolio</h3>
+        <p style="margin:0;font-size:.86rem">Three finished, published dashboards on different datasets, each with a written finding. That's a portfolio worth linking to.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a class="only" href="#tableau/analytics"><span class="pl">← Previous</span><span class="pt">Analytics &amp; Formatting</span></a>
+  </nav>
 </div>

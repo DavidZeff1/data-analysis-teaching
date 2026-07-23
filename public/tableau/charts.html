@@ -1,290 +1,355 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Chart Types</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">Choosing the Right Chart</h2>
-    <p>The chart type you choose should match your analytical question. Each visualization is best suited for specific types of comparisons and patterns. Tableau's "Show Me" panel helps, but understanding when to use each chart makes you more effective.</p>
-  </div>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>📊</span> Chart Types</h1>
+    <p>Every chart in Tableau is a specific arrangement of pills on shelves. Once you can read a chart as "this pill here, that pill there", you can build any of them from memory — and Show Me stops being a crutch.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 35 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Interface</span>
+    </div>
+    <div class="rule"></div>
+  </header>
 
-  <div>
-    <h2 class="font-bold text-lg">Bar Chart - Comparing Categories</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Comparing values across discrete categories</p>
-    
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <p class="font-semibold text-sm mb-2">How to Build:</p>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Horizontal bar chart</span>
-Rows: <span class="text-blue-400">Category</span>
-Columns: <span class="text-green-400">SUM(Sales)</span>
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#ct-recipe">The recipe pattern</a>
+    <a href="#ct-bar">Bar</a>
+    <a href="#ct-line">Line</a>
+    <a href="#ct-scatter">Scatter</a>
+    <a href="#ct-stacked">Stacked &amp; composition</a>
+    <a href="#ct-heat">Highlight table</a>
+    <a href="#ct-dual">Dual axis</a>
+    <a href="#ct-advanced">Beyond Show Me</a>
+    <a href="#ct-showme">Show Me</a>
+    <a href="#ct-practice">Practice</a>
+  </nav>
 
-<span class="text-gray-400">// Vertical bar chart (column chart)</span>
-Rows: <span class="text-green-400">SUM(Sales)</span>
-Columns: <span class="text-blue-400">Category</span>
+  <section class="lcard" id="ct-recipe">
+    <h2><span class="ic">🧾</span> Every chart is a recipe</h2>
+    <p>Charts in Tableau aren't types you select — they're what emerges from where you put things. The same three pills in different positions produce different charts.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Columns</th><th>Rows</th><th>Marks</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill msr sm">SUM(Sales)</span></td><td><span class="pill dim sm">Category</span></td><td>Bar</td><td>Horizontal bar chart</td></tr>
+          <tr><td><span class="pill dim sm">Category</span></td><td><span class="pill msr sm">SUM(Sales)</span></td><td>Bar</td><td>Vertical column chart</td></tr>
+          <tr><td><span class="pill msr sm">MONTH(Order Date)</span></td><td><span class="pill msr sm">SUM(Sales)</span></td><td>Line</td><td>Time series</td></tr>
+          <tr><td><span class="pill msr sm">SUM(Sales)</span></td><td><span class="pill msr sm">SUM(Profit)</span></td><td>Circle + Detail</td><td>Scatter plot</td></tr>
+          <tr><td><span class="pill dim sm">Category</span></td><td><span class="pill dim sm">Region</span></td><td>Square + Color</td><td>Highlight table</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The pattern behind the pattern</div>
+      <p><strong>Two dimensions</strong> → a table or crosstab. <strong>One dimension + one measure</strong> → a bar chart. <strong>A date + a measure</strong> → a line. <strong>Two measures</strong> → a scatter. Learn those four and you can predict what Tableau will build before you drop the pill.</p>
+    </div>
+  </section>
 
-<span class="text-gray-400">// Sorted by value</span>
-Click sort icon in toolbar
-<span class="text-gray-400">OR right-click axis → Sort</span></pre>
+  <section class="lcard" id="ct-bar">
+    <h2><span class="ic">📊</span> Bar chart — comparing categories</h2>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill msr">SUM(Sales)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Sub-Category</span></div>
       </div>
-      <div class="flex items-end gap-2 bg-gray-50 rounded p-3">
-        <div class="text-center">
-          <div class="bg-blue-500 w-12 rounded-t" style="height: 100px;"></div>
-          <div class="text-xs mt-1">Tech</div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Bar ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span></div>
+          <div class="mk-row"><span class="mk-i">Label</span></div>
         </div>
-        <div class="text-center">
-          <div class="bg-blue-500 w-12 rounded-t" style="height: 70px;"></div>
-          <div class="text-xs mt-1">Furn</div>
-        </div>
-        <div class="text-center">
-          <div class="bg-blue-500 w-12 rounded-t" style="height: 60px;"></div>
-          <div class="text-xs mt-1">Office</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
-      <p class="text-sm"><strong>When to use:</strong> Comparing sales by region, profit by product, count by category. Use horizontal bars when labels are long (state names, product names).</p>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Line Chart - Trends Over Time</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Showing how values change over a continuous period</p>
-    
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <p class="font-semibold text-sm mb-2">How to Build:</p>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Basic line chart</span>
-Columns: <span class="text-blue-400">Order Date</span> (continuous)
-Rows: <span class="text-green-400">SUM(Sales)</span>
-
-<span class="text-gray-400">// Change date granularity</span>
-Right-click date pill → select:
-  Year, Quarter, Month, Week, Day
-
-<span class="text-gray-400">// Multiple lines (by category)</span>
-Color: <span class="text-blue-400">Category</span>
-
-<span class="text-gray-400">// Tip: Green date pill = continuous</span>
-<span class="text-gray-400">// Blue date pill = discrete</span></pre>
-      </div>
-      <div class="bg-gray-50 rounded p-3">
-        <svg class="w-full h-24" viewBox="0 0 200 80">
-          <polyline fill="none" stroke="#3B82F6" stroke-width="2" points="10,60 40,50 70,55 100,40 130,35 160,25 190,20"/>
-          <polyline fill="none" stroke="#10B981" stroke-width="2" points="10,70 40,65 70,60 100,55 130,50 160,45 190,40"/>
-          <circle cx="190" cy="20" r="3" fill="#3B82F6"/>
-          <circle cx="190" cy="40" r="3" fill="#10B981"/>
-        </svg>
-        <div class="flex justify-end gap-3 text-xs mt-1">
-          <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-blue-500"></span> Technology</span>
-          <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-green-500"></span> Furniture</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
-      <p class="text-sm"><strong>When to use:</strong> Sales trends, growth over time, seasonality patterns. Time should always go on the X-axis (left to right = past to future).</p>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Scatter Plot - Relationships Between Variables</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Exploring correlation between two numeric measures</p>
-    
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <p class="font-semibold text-sm mb-2">How to Build:</p>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales vs Profit by Product</span>
-Columns: <span class="text-green-400">SUM(Sales)</span>
-Rows: <span class="text-green-400">SUM(Profit)</span>
-Detail: <span class="text-blue-400">Sub-Category</span>
-
-<span class="text-gray-400">// Add trend line</span>
-Analytics pane → drag "Trend Line"
-
-<span class="text-gray-400">// Size by quantity</span>
-Size: <span class="text-green-400">SUM(Quantity)</span>
-
-<span class="text-gray-400">// Color by category</span>
-Color: <span class="text-blue-400">Category</span></pre>
-      </div>
-      <div class="bg-gray-50 rounded p-3 relative">
-        <svg class="w-full h-24" viewBox="0 0 200 80">
-          <circle cx="30" cy="50" r="6" fill="#3B82F6" opacity="0.7"/>
-          <circle cx="50" cy="60" r="4" fill="#10B981" opacity="0.7"/>
-          <circle cx="80" cy="40" r="8" fill="#3B82F6" opacity="0.7"/>
-          <circle cx="100" cy="30" r="5" fill="#F59E0B" opacity="0.7"/>
-          <circle cx="130" cy="45" r="7" fill="#10B981" opacity="0.7"/>
-          <circle cx="150" cy="25" r="9" fill="#F59E0B" opacity="0.7"/>
-          <circle cx="170" cy="20" r="6" fill="#3B82F6" opacity="0.7"/>
-          <line x1="20" y1="65" x2="180" y2="15" stroke="#999" stroke-dasharray="4"/>
-        </svg>
-        <div class="text-xs text-gray-500 text-center">Each dot = one sub-category</div>
-      </div>
-    </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
-      <p class="text-sm"><strong>When to use:</strong> Finding correlations (discount vs profit), identifying outliers, comparing two metrics simultaneously. Great for "Does X affect Y?" questions.</p>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Pie & Donut Charts - Parts of a Whole</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Showing composition when you have 2-5 categories</p>
-    
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <p class="font-semibold text-sm mb-2">How to Build:</p>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Using Show Me</span>
-1. Select <span class="text-blue-400">Region</span> and <span class="text-green-400">Sales</span>
-2. Click Show Me → Pie chart
-
-<span class="text-gray-400">// Manual method</span>
-Marks type: Pie
-Angle: <span class="text-green-400">SUM(Sales)</span>
-Color: <span class="text-blue-400">Region</span>
-Label: <span class="text-blue-400">Region</span>, <span class="text-green-400">SUM(Sales)</span>
-
-<span class="text-gray-400">// Show percentages</span>
-Right-click pill → Quick Table Calc
-  → Percent of Total</pre>
-      </div>
-      <div class="bg-gray-50 rounded p-3 flex items-center justify-center">
-        <div class="relative w-24 h-24">
-          <svg viewBox="0 0 100 100" class="w-full h-full">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#3B82F6" stroke-width="20" stroke-dasharray="75 175" transform="rotate(-90 50 50)"/>
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#10B981" stroke-width="20" stroke-dasharray="50 200" stroke-dashoffset="-75" transform="rotate(-90 50 50)"/>
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#F59E0B" stroke-width="20" stroke-dasharray="45 205" stroke-dashoffset="-125" transform="rotate(-90 50 50)"/>
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#EF4444" stroke-width="20" stroke-dasharray="30 220" stroke-dashoffset="-170" transform="rotate(-90 50 50)"/>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 78" role="img" aria-label="Sorted horizontal bar chart">
+            <line x1="58" y1="4" x2="58" y2="74" stroke="#cbd5e1" stroke-width="1.2"/>
+            <g fill="#4a7dab">
+              <rect x="59" y="7" width="176" height="10"/><rect x="59" y="21" width="175" height="10"/>
+              <rect x="59" y="35" width="119" height="10"/><rect x="59" y="49" width="110" height="10"/>
+              <rect x="59" y="63" width="108" height="10"/>
+            </g>
+            <g font-size="6.5" fill="#475569" font-family="Inter, sans-serif" text-anchor="end">
+              <text x="55" y="15">Phones</text><text x="55" y="29">Chairs</text>
+              <text x="55" y="43">Storage</text><text x="55" y="57">Tables</text><text x="55" y="71">Binders</text>
+            </g>
           </svg>
         </div>
       </div>
+      <p class="viz-note">Horizontal when labels are long — sub-category and state names never fit under vertical columns.</p>
     </div>
-    
-    <div class="bg-red-50 border border-red-200 rounded p-3 mt-3">
-      <p class="text-sm"><strong>⚠️ Warning:</strong> Pie charts are hard to read with more than 5 slices. For many categories, use a bar chart instead. Humans are bad at comparing angles!</p>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Sort it, every time</div>
+      <p>Tableau sorts alphabetically by default. Click the sort icon on the axis, or right-click the dimension → Sort → By Field for something that survives being put on a dashboard. See <a href="#tableau/organizing">Sorting, Groups &amp; Sets</a>.</p>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Dual Axis - Two Measures, One View</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Comparing two related metrics with different scales</p>
-    
-    <div>
-      <p class="font-semibold text-sm mb-2">How to Build:</p>
-      <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales (bars) and Profit (line)</span>
-Columns: <span class="text-blue-400">Order Date</span>
-Rows: <span class="text-green-400">SUM(Sales)</span>
-
-<span class="text-gray-400">// Add second measure</span>
-Drag <span class="text-green-400">SUM(Profit)</span> to right Y-axis
-  <span class="text-gray-400">(or right-click → Dual Axis)</span>
-
-<span class="text-gray-400">// Synchronize axes (important!)</span>
-Right-click right axis → Synchronize Axis
-
-<span class="text-gray-400">// Different mark types</span>
-Click SUM(Sales) in Marks → Bar
-Click SUM(Profit) in Marks → Line</pre>
+  <section class="lcard" id="ct-line">
+    <h2><span class="ic">📈</span> Line chart — trends over time</h2>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill msr">MONTH(Order Date)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill msr">SUM(Sales)</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Line ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span><span class="pill dim sm">Category</span></div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 70" role="img" aria-label="Multi-line time series">
+            <line x1="14" y1="62" x2="252" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <polyline points="20,50 55,44 90,48 125,32 160,28 195,18 240,14" fill="none" stroke="#4e79a7" stroke-width="2"/>
+            <polyline points="20,56 55,52 90,54 125,45 160,42 195,36 240,30" fill="none" stroke="#f28e2b" stroke-width="2"/>
+            <polyline points="20,58 55,57 90,53 125,50 160,47 195,44 240,40" fill="none" stroke="#59a14f" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note">A dimension on Color splits one line into several. Keep it under about five, or the chart becomes spaghetti.</p>
     </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
-      <p class="text-sm"><strong>When to use:</strong> Sales vs Profit over time, Revenue vs Orders, any two metrics you want to compare on the same time axis.</p>
-    </div>
-  </div>
+<pre><span class="c">// Changing the date granularity</span>
+Right-click the date pill → Year / Quarter / Month / Week / Day
 
-  <div>
-    <h2 class="font-bold text-lg">Highlight Table (Heatmap)</h2>
-    <p class="text-sm text-gray-600 mb-2">Best for: Showing patterns across two dimensions with color intensity</p>
-    
-    <div class="grid grid-cols-2 gap-4">
+<span class="c">// Blue (discrete) vs green (continuous) matters here:</span>
+<span class="c">//   Blue MONTH   → 12 buckets, all years combined (seasonality)</span>
+<span class="c">//   Green MONTH  → one continuous timeline (trend)</span>
+
+<span class="c">// Both at once — a small-multiples grid:</span>
+Columns: MONTH(Order Date) <span class="c">// green, continuous</span>
+Rows:    SUM(Sales)
+Rows:    YEAR(Order Date)  <span class="c">// blue, discrete → one row per year</span></pre>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Too many lines? Use small multiples</div>
+      <p>Instead of seventeen coloured lines, drag the dimension to Rows so each gets its own miniature chart on a shared scale. Far easier to read, and Tableau builds it as fast as the tangled version.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ct-scatter">
+    <h2><span class="ic">⚬</span> Scatter plot — relationships</h2>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill msr">SUM(Sales)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill msr">SUM(Profit)</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Circle ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span><span class="pill dim sm">Category</span></div>
+          <div class="mk-row"><span class="mk-i">Size</span><span class="pill msr sm">Qty</span></div>
+          <div class="mk-row"><span class="mk-i">Detail</span><span class="pill dim sm">Sub-Cat</span></div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 70" role="img" aria-label="Scatter plot with trend line">
+            <line x1="18" y1="62" x2="252" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <line x1="18" y1="4" x2="18" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <line x1="26" y1="56" x2="240" y2="16" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <g opacity=".78">
+              <circle cx="45" cy="52" r="5" fill="#4e79a7"/><circle cx="72" cy="46" r="4" fill="#f28e2b"/>
+              <circle cx="98" cy="50" r="7" fill="#59a14f"/><circle cx="126" cy="36" r="5" fill="#4e79a7"/>
+              <circle cx="152" cy="40" r="6" fill="#f28e2b"/><circle cx="182" cy="26" r="8" fill="#59a14f"/>
+              <circle cx="214" cy="30" r="5" fill="#4e79a7"/><circle cx="112" cy="60" r="6" fill="#e15759"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note"><strong>Detail is what makes it a scatter.</strong> Without a dimension there, two measures produce a single dot — the grand total.</p>
+    </div>
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">The Superstore scatter worth building</div>
+      <p>Put Discount on Columns, Profit Ratio on Rows and Sub-Category on Detail. Add a trend line from the Analytics pane. The negative relationship is the most actionable finding in this dataset — see <a href="#tableau/analytics">Analytics &amp; Formatting</a> for how to quantify it.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ct-stacked">
+    <h2><span class="ic">🧱</span> Composition — stacked bars and pies</h2>
+    <div class="split">
       <div>
-        <p class="font-semibold text-sm mb-2">How to Build:</p>
-        <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Sales by Region and Category</span>
-Rows: <span class="text-blue-400">Region</span>
-Columns: <span class="text-blue-400">Category</span>
-Color: <span class="text-green-400">SUM(Sales)</span>
-Label: <span class="text-green-400">SUM(Sales)</span>
+        <h3>Stacked bar</h3>
+<pre>Columns: <span class="f">SUM</span>([Sales])
+Rows:    [Region]
+Color:   [Category]
 
-Marks type: Square (cleaner look)</pre>
+<span class="c">// For 100% stacked, add a table calc:</span>
+Right-click <span class="f">SUM</span>(Sales) →
+  Quick Table Calculation → Percent of Total
+  Compute Using → Table (across)</pre>
+        <p class="muted" style="margin-top:.4rem">Shows totals and their mix at once. Only the bottom segment sits on a common baseline, so keep it to three or four categories.</p>
       </div>
-      <div class="bg-gray-50 rounded p-3">
-        <table class="text-xs w-full">
-          <tr>
-            <td></td>
-            <td class="text-center font-semibold">Furn</td>
-            <td class="text-center font-semibold">Office</td>
-            <td class="text-center font-semibold">Tech</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">East</td>
-            <td class="bg-blue-300 text-center p-1">$208K</td>
-            <td class="bg-blue-400 text-center p-1">$222K</td>
-            <td class="bg-blue-500 text-white text-center p-1">$248K</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">West</td>
-            <td class="bg-blue-500 text-white text-center p-1">$252K</td>
-            <td class="bg-blue-300 text-center p-1">$195K</td>
-            <td class="bg-blue-600 text-white text-center p-1">$278K</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">South</td>
-            <td class="bg-blue-200 text-center p-1">$117K</td>
-            <td class="bg-blue-200 text-center p-1">$135K</td>
-            <td class="bg-blue-300 text-center p-1">$139K</td>
-          </tr>
-        </table>
+      <div>
+        <h3>Pie chart</h3>
+<pre>Marks type: Pie
+Angle:  <span class="f">SUM</span>([Sales])
+Color:  [Region]
+Label:  [Region], <span class="f">SUM</span>([Sales])
+
+<span class="c">// Size is on the Size slider, not a shelf —</span>
+<span class="c">// pies default to tiny. Drag it up.</span></pre>
+        <div class="callout danger" style="margin-top:.4rem">
+          <p style="font-size:.85rem">Two to five slices with clearly different sizes, or use a bar chart. Nobody can rank eight similar angles — see the <a href="#excel/chartdecision">Chart Decision Tree</a>.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Choosing Charts - Quick Reference</h2>
-    <table class="w-full text-sm border border-gray-300 mt-2">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-3 py-2 text-left">Question</th>
-          <th class="border px-3 py-2 text-left">Chart Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td class="border px-3 py-2">How do categories compare?</td><td class="border px-3 py-2">Bar chart</td></tr>
-        <tr><td class="border px-3 py-2">How does it change over time?</td><td class="border px-3 py-2">Line chart</td></tr>
-        <tr><td class="border px-3 py-2">What's the composition?</td><td class="border px-3 py-2">Pie chart (≤5 categories) or Stacked bar</td></tr>
-        <tr><td class="border px-3 py-2">Is there a correlation?</td><td class="border px-3 py-2">Scatter plot</td></tr>
-        <tr><td class="border px-3 py-2">How do two dimensions interact?</td><td class="border px-3 py-2">Heatmap / Highlight table</td></tr>
-        <tr><td class="border px-3 py-2">Where is it located?</td><td class="border px-3 py-2">Map</td></tr>
-        <tr><td class="border px-3 py-2">Compare two metrics over time?</td><td class="border px-3 py-2">Dual axis</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <section class="lcard" id="ct-heat">
+    <h2><span class="ic">🔥</span> Highlight table — two dimensions at once</h2>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill dim">Category</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Square ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span><span class="pill msr sm">SUM(Sales)</span></div>
+          <div class="mk-row"><span class="mk-i">Label</span><span class="pill msr sm">SUM(Sales)</span></div>
+        </div>
+        <div class="viz-canvas">
+          <table class="ltable" style="font-size:.74rem;width:auto">
+            <thead><tr><th></th><th>Furniture</th><th>Office</th><th>Technology</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Central</strong></td><td style="background:#c7d9ea;text-align:center">163,797</td><td style="background:#c7d9ea;text-align:center">167,026</td><td style="background:#bcd2e6;text-align:center">170,416</td></tr>
+              <tr><td><strong>East</strong></td><td style="background:#9dbdd8;text-align:center">208,291</td><td style="background:#9dbdd8;text-align:center">205,516</td><td style="background:#5b8db8;color:#fff;text-align:center">264,974</td></tr>
+              <tr><td><strong>South</strong></td><td style="background:#e0eaf3;text-align:center">117,299</td><td style="background:#dae6f1;text-align:center">125,651</td><td style="background:#d0e0ee;text-align:center">148,772</td></tr>
+              <tr><td><strong>West</strong></td><td style="background:#6a97be;color:#fff;text-align:center">252,613</td><td style="background:#8fb3d3;text-align:center">220,853</td><td style="background:#6b98bf;color:#fff;text-align:center">251,992</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="viz-note">Two dimensions on the shelves, one measure on Color. Precise values plus visual pattern in the same object.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Use <strong>Square</strong> rather than the default Text mark — it fills the whole cell, so the colour reads as a block rather than a tinted number.</p></div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Show Me is helpful</strong> - it highlights which charts work with your selected fields</li>
-      <li><strong>Dates on Columns usually = line chart</strong> - time flows left to right</li>
-      <li><strong>Dimension on Rows + Measure on Columns = bar chart</strong></li>
-      <li><strong>Two measures + Detail = scatter plot</strong></li>
-      <li><strong>Right-click everything</strong> - there are always more options</li>
-      <li><strong>Sort descending</strong> - almost always sort bar charts by value</li>
-      <li><strong>Dual axis needs synchronizing</strong> - or the comparison is misleading</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a <strong>bar chart</strong>: Profit by Sub-Category, sorted descending</li>
-      <li>Create a <strong>line chart</strong>: Sales by Month, with separate lines for each Region</li>
-      <li>Create a <strong>scatter plot</strong>: Discount (X) vs Profit (Y), colored by Category</li>
-      <li>Create a <strong>dual axis chart</strong>: Sales (bars) and Quantity (line) over time</li>
-      <li>Create a <strong>heatmap</strong>: Sales by State and Category</li>
-      <li>Create a <strong>pie chart</strong>: Sales by Region with percentages</li>
-      <li>Try the <strong>Show Me panel</strong> - select Category and Sales, click through different chart types</li>
-      <li>Create a <strong>stacked bar chart</strong>: Sales by Region, stacked by Segment</li>
-      <li>Add a <strong>trend line</strong> to your scatter plot (Analytics pane)</li>
-      <li>Create a <strong>bar-in-bar chart</strong>: Sales and Profit by Category (dual axis, both as bars)</li>
+  <section class="lcard" id="ct-dual">
+    <h2><span class="ic">⚖️</span> Dual axis — two measures, one view</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Build the first measure</div>
+        <p><span class="pill msr sm">MONTH(Order Date)</span> on Columns, <span class="pill msr sm">SUM(Sales)</span> on Rows.</p>
+      </li>
+      <li>
+        <div class="s-t">Add the second to the same shelf</div>
+        <p>Drag <span class="pill msr sm">SUM(Profit)</span> onto Rows next to Sales. You get two stacked charts.</p>
+      </li>
+      <li>
+        <div class="s-t">Turn on Dual Axis</div>
+        <p>Right-click the second pill → <strong>Dual Axis</strong>. The two charts overlay, and the Marks card splits into one section per measure.</p>
+      </li>
+      <li>
+        <div class="s-t">Set different mark types</div>
+        <p>Click SUM(Sales) in the Marks card → Bar. Click SUM(Profit) → Line. Now you have bars with a line over them.</p>
+      </li>
+      <li>
+        <div class="s-t">Decide about synchronising</div>
+        <p>Right-click the right axis → <strong>Synchronize Axis</strong> to put both on one scale.</p>
+      </li>
     </ol>
-  </div>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">⚠️ Unsynchronised axes can lie</div>
+      <p>With independent scales, Tableau fits each measure to the available height. Profit ($286K) and Sales ($2.3M) will appear to track each other closely even when they don't — because the axes were stretched to make them fit.</p>
+      <p style="margin-top:.4rem"><strong>Synchronise when the measures share units</strong> (Sales and Profit are both dollars). <strong>Don't when they don't</strong> (Sales and Profit <em>Ratio</em>) — but then label both axes clearly, because the reader has no other way to tell.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ct-advanced">
+    <h2><span class="ic">🎓</span> Charts Show Me won't build for you</h2>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Bar-in-bar</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Actual vs target in one bar. Dual axis with both as Bars, synchronised, then narrow the front bar with the Size slider.</p>
+      </div>
+      <div class="tile">
+        <h3>Lollipop chart</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Dual axis on the same measure: one as Bar sized very thin, one as Circle. Cleaner than bars when you have many categories.</p>
+      </div>
+      <div class="tile">
+        <h3>Bullet chart</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Show Me has one, but building it manually — a bar plus a reference line for target plus distribution bands — gives far more control.</p>
+      </div>
+      <div class="tile">
+        <h3>Pareto chart</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Sorted bars with a cumulative-percentage line on a dual axis. Needs two <a href="#tableau/tablecalcs">table calculations</a> and is worth the effort.</p>
+      </div>
+      <div class="tile">
+        <h3>Small multiples</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Put a dimension on Rows <em>and</em> Columns alongside your measures. One small chart per combination, shared scale.</p>
+      </div>
+      <div class="tile">
+        <h3>Donut chart</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Two pies on a dual axis — the front one white and smaller. Fiddly, but it lets you put a KPI in the middle.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Dual axis is the universal escape hatch</div>
+      <p>Most "how did they build that?" Tableau charts are a dual axis with different mark types and some size trickery. When a chart you want isn't in Show Me, the answer is usually two measures on one axis.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ct-showme">
+    <h2><span class="ic">💡</span> Show Me — useful, with a caveat</h2>
+    <p>Select fields, open Show Me (top right), and available chart types light up while impossible ones grey out. Hovering any option tells you what fields it needs — genuinely the fastest way to learn the requirements of each chart.</p>
+    <div class="grid2">
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ Good for</h3>
+        <ul style="font-size:.86rem;margin:.3rem 0 0">
+          <li>Learning what each chart needs</li>
+          <li>Quickly trying alternatives</li>
+          <li>Getting unstuck</li>
+        </ul>
+      </div>
+      <div class="tile" style="background:#fffbeb;border-color:#fde68a">
+        <h3>⚠️ Limits</h3>
+        <ul style="font-size:.86rem;margin:.3rem 0 0">
+          <li>Rearranges your shelves, sometimes destructively</li>
+          <li>Only knows standard charts</li>
+          <li>Optimises for "valid", not "clear"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.55rem"><p>Use it while you're learning; build by hand once you know the recipes. Placing pills deliberately gives you a view you can reason about and fix — Show Me's arrangement is sometimes surprising.</p></div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Charts are recipes</strong>, not types you pick</li>
+      <li><strong>Dimension + measure = bar; date + measure = line; two measures = scatter</strong></li>
+      <li><strong>Scatter plots need something on Detail</strong> — otherwise one dot</li>
+      <li><strong>Always sort bar charts</strong> by value</li>
+      <li><strong>Horizontal bars for long labels</strong></li>
+      <li><strong>Blue vs green dates</strong> decide seasonality vs trend</li>
+      <li><strong>Dual axis: synchronise when units match</strong>, label clearly when they don't</li>
+      <li><strong>Too many lines → small multiples</strong></li>
+      <li><strong>Dual axis is how the fancy charts are made</strong></li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="ct-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li><strong>Bar chart</strong>: Profit by Sub-Category, sorted descending — how many lose money?</li>
+      <li><strong>Line chart</strong>: Sales by Month with a separate line per Region</li>
+      <li>Switch that date pill between <strong>blue and green Month</strong> and explain both results</li>
+      <li><strong>Scatter</strong>: Discount vs Profit Ratio, coloured by Category, with Sub-Category on Detail</li>
+      <li><strong>Dual axis</strong>: Sales as bars and Profit as a line over time — synchronise the axes and explain whether you should</li>
+      <li><strong>Highlight table</strong>: Sales by State and Category using Square marks</li>
+      <li><strong>Stacked bar</strong>: Sales by Region split by Segment</li>
+      <li>Convert that to <strong>100% stacked</strong> with a Percent of Total table calculation</li>
+      <li><strong>Pie chart</strong>: Sales by Region — then rebuild it as a bar chart and say which reads better</li>
+      <li><strong>Small multiples</strong>: monthly sales trend with one row per Region</li>
+      <li><strong>Bar-in-bar</strong>: Sales vs Profit by Category on a dual axis, both as bars</li>
+      <li>Select Category and Sales, then click through every enabled option in <strong>Show Me</strong></li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: the same question, four ways</div>
+      <p>Take one question — "how do our categories perform across regions?" — and answer it with a grouped bar chart, a stacked bar, a highlight table and small multiples. Put all four side by side and decide which you'd actually present, and why. The answer depends on whether the audience needs precise values, overall pattern, or a single comparison, and being able to articulate that choice is more valuable than knowing how to build any one of them.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/interface"><span class="pl">← Previous</span><span class="pt">Interface Basics</span></a>
+    <a class="next" href="#tableau/organizing"><span class="pl">Next →</span><span class="pt">Sorting, Groups &amp; Sets</span></a>
+  </nav>
 </div>

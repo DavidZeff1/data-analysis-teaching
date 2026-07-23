@@ -1,0 +1,311 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🗃️</span> Sorting, Groups &amp; Sets</h1>
+    <p>Raw fields rarely match the way you want to analyse them. Seventeen sub-categories are too many to read; a continuous Sales column needs buckets; "our top 20 customers" needs to be a thing you can filter by. Groups, sets, hierarchies and bins are how you reshape dimensions without touching the data.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Interface, Chart Types</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#or-sort">Sorting</a>
+    <a href="#or-hier">Hierarchies</a>
+    <a href="#or-group">Groups</a>
+    <a href="#or-bin">Bins</a>
+    <a href="#or-set">Sets</a>
+    <a href="#or-combine">Combined sets</a>
+    <a href="#or-which">Which to use</a>
+    <a href="#or-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="or-sort">
+    <h2><span class="ic">🔠</span> Sorting — and why the default is wrong</h2>
+    <p>Tableau sorts alphabetically by default. Alphabetical order almost never reflects what matters, and it forces the reader to do the ranking your chart should have done for them.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Default (alphabetical)</div>
+        <table>
+          <tr><th>Sub-Category</th><th>Sales</th></tr>
+          <tr><td>Accessories</td><td>167,380</td></tr>
+          <tr><td>Appliances</td><td>107,532</td></tr>
+          <tr><td>Art</td><td>27,119</td></tr>
+          <tr><td>Binders</td><td>203,413</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Which is biggest? You have to read every number.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Sorted descending</div>
+        <table>
+          <tr><th>Sub-Category</th><th>Sales</th></tr>
+          <tr><td>Phones</td><td>330,007</td></tr>
+          <tr><td>Chairs</td><td>328,449</td></tr>
+          <tr><td>Storage</td><td>223,844</td></tr>
+          <tr><td>Tables</td><td>206,966</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">The answer is the first row. No reading required.</p>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:.75rem">
+      <div class="tile">
+        <h3>⚡ Quick sort</h3>
+        <p style="margin:0;font-size:.86rem">The sort icon on the axis, or in the toolbar. One click, applies to the current view only.</p>
+      </div>
+      <div class="tile">
+        <h3>🎯 Sort by field</h3>
+        <p style="margin:0;font-size:.86rem">Right-click the dimension pill → Sort → By Field. Sort Sub-Category by <em>Profit</em> while displaying Sales.</p>
+      </div>
+      <div class="tile">
+        <h3>✋ Manual sort</h3>
+        <p style="margin:0;font-size:.86rem">Drag headers into the order you want. Right for Small/Medium/Large, wrong for anything measured.</p>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Quick sort breaks inside dashboards</div>
+      <p>A toolbar quick sort is computed within the view and can behave unpredictably when a dashboard filter changes what's present. For anything you're publishing, use <strong>Sort → By Field</strong>, which is an explicit, stable definition. If you need the sort to respond to filters in a specific way, sort by a <a href="#tableau/tablecalcs">table calculation</a> instead.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-hier">
+    <h2><span class="ic">🌳</span> Hierarchies — drill-down for free</h2>
+    <p>Drag one dimension onto another in the Data pane and Tableau creates a hierarchy. A <strong>+</strong> then appears on the pill in your view: click it to drill down a level.</p>
+    <div class="split">
+      <div>
+        <div class="fieldlist">
+          <div class="fl-h">Dimensions</div>
+          <div class="fl-i d">▾ 📁 Product</div>
+          <div class="fl-i d" style="padding-left:1.1rem">Category</div>
+          <div class="fl-i d" style="padding-left:1.1rem">Sub-Category</div>
+          <div class="fl-i d" style="padding-left:1.1rem">Product Name</div>
+          <div class="fl-i d">▾ 📁 Location</div>
+          <div class="fl-i d" style="padding-left:1.1rem">Region</div>
+          <div class="fl-i d" style="padding-left:1.1rem">State</div>
+          <div class="fl-i d" style="padding-left:1.1rem">City</div>
+        </div>
+      </div>
+      <div>
+        <h3>Why bother</h3>
+        <ul style="font-size:.88rem;margin:.35rem 0 0">
+          <li>One pill in the view instead of three</li>
+          <li>Viewers can explore without you building extra sheets</li>
+          <li>Order Date already ships as one — Year → Quarter → Month → Day</li>
+        </ul>
+        <p class="muted" style="margin-top:.5rem">Superstore's Product and Location hierarchies are worth building the moment you connect. They take ten seconds and you'll use them constantly.</p>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.55rem"><p>On a dashboard, drilling changes the view for everyone looking at it. If you want controlled exploration instead, use a parameter or a filter action — see <a href="#tableau/dashboards">Dashboards</a>.</p></div>
+  </section>
+
+  <section class="lcard" id="or-group">
+    <h2><span class="ic">📦</span> Groups — combine members together</h2>
+    <p>A group merges several values of a dimension into one. Select the members in the view (Ctrl-click), then click the paperclip icon — or right-click the field → Create → Group.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">17 sub-categories</div>
+        <table>
+          <tr><td>Phones</td><td>Chairs</td></tr>
+          <tr><td>Storage</td><td>Tables</td></tr>
+          <tr><td>Binders</td><td>Machines</td></tr>
+          <tr><td>…11 more</td><td></td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Too many bars to compare meaningfully.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Grouped into 4</div>
+        <table>
+          <tr><td>Top performers</td><td>3 items</td></tr>
+          <tr><td>Steady</td><td>6 items</td></tr>
+          <tr><td>Underperforming</td><td>5 items</td></tr>
+          <tr><td>Loss-making</td><td>3 items</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">A chart someone can actually act on.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.85rem">What groups are good for</h3>
+    <ul class="check">
+      <li><strong>Consolidating the long tail</strong> — an "Other" bucket for everything below a threshold</li>
+      <li><strong>Fixing inconsistent data</strong> — merging "USA", "U.S.A." and "United States" into one member</li>
+      <li><strong>Ad-hoc business groupings</strong> — combining regions into "Coastal" and "Inland"</li>
+      <li><strong>Simplifying a colour legend</strong> — twelve colours become four</li>
+    </ul>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Groups are static — that's the trade-off</div>
+      <p>A group is a fixed list of members. If a new sub-category appears in the data next quarter, it lands in "Other" (or nowhere) until someone edits the group by hand. For anything rule-based — "everything under $10k" — use a <strong>calculated field</strong> or a <strong>set</strong> instead, so it updates itself.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-bin">
+    <h2><span class="ic">📊</span> Bins — turn a measure into buckets</h2>
+    <p>Bins convert a continuous measure into a discrete dimension by slicing it into equal-width ranges. This is how you build a histogram.</p>
+    <p class="muted">Right-click a measure → Create → Bins → set the bin size.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill dim">Sales (bin)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill msr">CNT(Orders)</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Bar ▾</div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 70" role="img" aria-label="Right-skewed histogram of sales">
+            <line x1="14" y1="62" x2="252" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <g fill="#4a7dab">
+              <rect x="20" y="10" width="24" height="52"/><rect x="46" y="26" width="24" height="36"/>
+              <rect x="72" y="38" width="24" height="24"/><rect x="98" y="46" width="24" height="16"/>
+              <rect x="124" y="51" width="24" height="11"/><rect x="150" y="55" width="24" height="7"/>
+              <rect x="176" y="58" width="24" height="4"/><rect x="202" y="59" width="24" height="3"/>
+              <rect x="228" y="60" width="24" height="2"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note">Superstore's sales distribution is heavily right-skewed — most orders are small, a few are enormous. That shape is why the mean ($230) is four times the median ($54).</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Bin size changes the story</div>
+      <p>Too wide and you flatten real structure into one block; too narrow and you get noise. Try a few sizes before settling. Better still, create a <strong>parameter</strong> for the bin size and let the viewer adjust it — it takes two minutes and makes the histogram genuinely explorable.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-set">
+    <h2><span class="ic">🎯</span> Sets — a dynamic in/out membership</h2>
+    <p>A set splits a dimension's members into <strong>In</strong> and <strong>Out</strong>. Unlike a group, a set can be defined by a rule and re-evaluates itself as the data changes.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Dynamic set — a rule</div>
+        <p style="margin:.2rem 0 .4rem;font-size:.86rem">Right-click a dimension → Create → Set → <strong>Top</strong> tab.</p>
+        <ul style="margin:0;font-size:.85rem;padding-left:1.1rem">
+          <li>Top 20 customers by Sales</li>
+          <li>Sub-categories with negative Profit</li>
+          <li>States above the average</li>
+        </ul>
+        <p style="margin:.4rem 0 0;font-size:.82rem;color:#64748b">Membership recalculates automatically as data or filters change.</p>
+      </div>
+      <div class="cmp" style="background:#f5f3ff;border-color:#ddd6fe">
+        <div class="h" style="color:#6d28d9">Fixed set — a list</div>
+        <p style="margin:.2rem 0 .4rem;font-size:.86rem">Select marks in the view → the set icon in the tooltip.</p>
+        <ul style="margin:0;font-size:.85rem;padding-left:1.1rem">
+          <li>A hand-picked list of key accounts</li>
+          <li>Regions in a specific pilot programme</li>
+        </ul>
+        <p style="margin:.4rem 0 0;font-size:.82rem;color:#64748b">Stays exactly as you defined it until you edit it.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">Three ways to use a set</h3>
+    <ol class="steps">
+      <li>
+        <div class="s-t">As a filter</div>
+        <p>Drop the set on the Filters shelf and keep only In. Equivalent to a Top N filter, but reusable across every sheet.</p>
+      </li>
+      <li>
+        <div class="s-t">On Color — the comparison view</div>
+        <p>Drop the set on Color and you get In vs Out side by side. "Our top 20 customers versus everyone else" in one drag — the single most useful thing sets do.</p>
+      </li>
+      <li>
+        <div class="s-t">Inside a calculation</div>
+        <p>A set returns TRUE/FALSE, so it works directly in logic: <code>IF [Top 20 Customers] THEN [Sales] END</code>.</p>
+      </li>
+    </ol>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Set Actions — genuinely powerful interactivity</div>
+      <p>Dashboard → Actions → <strong>Change Set Values</strong>. Now clicking marks in one chart <em>redefines the set</em>, and every view using it updates. That's how you build a dashboard where a user selects any group of products and instantly sees them compared against the rest — without writing a parameter or a single calculation.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-combine">
+    <h2><span class="ic">➕</span> Combined sets</h2>
+    <p>Select two sets in the Data pane, right-click → <strong>Create Combined Set</strong>. You get the standard set operations, and they answer questions that are awkward any other way.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Operation</th><th>Returns</th><th>Useful for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Union</strong> (all members)</td><td>In either set</td><td>Everyone who is a top customer <em>or</em> a recent customer</td></tr>
+          <tr><td><strong>Intersection</strong> (shared)</td><td>In both sets</td><td>High spend <em>and</em> high frequency — your genuine best accounts</td></tr>
+          <tr><td><strong>Except</strong> (A not B)</td><td>In A but not B</td><td>Top customers in 2016 who <em>stopped</em> buying in 2017 — churn</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">The churn analysis in three steps</div>
+      <p>Build "Customers in 2016" and "Customers in 2017" as two sets, then combine with <strong>Except</strong>. The result is your lapsed customers — a list a sales team can act on this afternoon. No calculations required.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-which">
+    <h2><span class="ic">🤔</span> Which one do I need?</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>You want to…</th><th>Use</th><th>Because</th></tr></thead>
+        <tbody>
+          <tr><td>Merge specific members by hand</td><td><strong>Group</strong></td><td>Simple, visual, no rules needed</td></tr>
+          <tr><td>Bucket a measure into ranges</td><td><strong>Bin</strong></td><td>Turns a measure into a dimension</td></tr>
+          <tr><td>Flag a rule-based subset</td><td><strong>Set</strong></td><td>Updates itself as data changes</td></tr>
+          <tr><td>Compare a subset against the rest</td><td><strong>Set on Color</strong></td><td>In/Out is exactly that comparison</td></tr>
+          <tr><td>Enable drill-down</td><td><strong>Hierarchy</strong></td><td>One pill, multiple levels</td></tr>
+          <tr><td>Apply arbitrary logic</td><td><strong>Calculated field</strong></td><td>Full control; see <a href="#tableau/calculated">Calculated Fields</a></td></tr>
+          <tr><td>Let the viewer choose a value</td><td><strong>Parameter</strong></td><td>An input control, not a data feature</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.55rem"><p><strong>Group vs set in one line:</strong> a group answers "these things belong together"; a set answers "these things meet a condition". If the answer could change when the data does, you want a set.</p></div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Always sort by value</strong> unless the categories have a natural order</li>
+      <li><strong>Sort → By Field beats the quick-sort button</strong> for anything published</li>
+      <li><strong>Build hierarchies immediately</strong> — Product and Location take seconds</li>
+      <li><strong>Groups are static; sets are dynamic</strong></li>
+      <li><strong>A set on Color</strong> is the fastest "these vs the rest" comparison there is</li>
+      <li><strong>Bins turn measures into dimensions</strong> — that's how histograms happen</li>
+      <li><strong>Combined sets answer churn and overlap questions</strong> with no calculations</li>
+      <li><strong>If a rule defines it, don't hand-pick it</strong> — hand-picked lists go stale</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="or-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build Sales by Sub-Category and <strong>sort descending</strong> — then sort by <em>Profit</em> instead while still displaying Sales</li>
+      <li>Create a <strong>Product hierarchy</strong> (Category → Sub-Category → Product Name) and drill through it</li>
+      <li>Create a <strong>Location hierarchy</strong> (Region → State → City)</li>
+      <li>Group the bottom-performing sub-categories into an <strong>"Other"</strong> bucket</li>
+      <li>Group the four regions into <strong>Coastal</strong> and <strong>Inland</strong></li>
+      <li>Create <strong>bins on Sales</strong> and build a histogram — try three different bin sizes</li>
+      <li>Create a dynamic set: <strong>Top 20 Customers by Sales</strong></li>
+      <li>Put that set on <strong>Color</strong> in a sales-over-time view — what share do they represent?</li>
+      <li>Create a set of <strong>loss-making sub-categories</strong> using a condition</li>
+      <li>Build two sets — customers in 2016, customers in 2017 — and combine with <strong>Except</strong> to find churn</li>
+      <li>Use a set inside a calculated field: <code>IF [Top 20 Customers] THEN [Sales] END</code></li>
+      <li>Add a <strong>Set Action</strong> so clicking a bar in one chart redefines the set</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: how concentrated is the customer base?</div>
+      <p>Build a view answering "what share of revenue comes from our top 10% of customers?" Create a dynamic Top N set driven by a <strong>parameter</strong>, put it on Color, and show the In/Out revenue split as a percentage. Then move the parameter from 5% to 50% and watch the curve. If the top 10% drive far more than 10% of revenue, that concentration is both an opportunity and a risk — and it's the kind of finding that changes how a business thinks about its accounts.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/charts"><span class="pl">← Previous</span><span class="pt">Chart Types</span></a>
+    <a class="next" href="#tableau/filters"><span class="pl">Next →</span><span class="pt">Filters</span></a>
+  </nav>
+</div>

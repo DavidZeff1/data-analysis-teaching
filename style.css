@@ -1467,3 +1467,239 @@
     margin-top: -0.5rem;
   }
 }
+
+/* ===========================================================================
+   Lesson design system — part 3: Tableau components
+
+   Tableau is taught through its interface: which *pill* goes on which *shelf*.
+   These components let a lesson show that arrangement directly instead of
+   describing it in prose. Scoped under `.lesson` like everything else.
+   =========================================================================== */
+@layer components {
+  /* --- Pills -------------------------------------------------------------
+     Tableau colours fields by role: blue for discrete dimensions, green for
+     continuous measures. That colour coding is the core mental model, so the
+     pills here mirror it exactly. */
+  .lesson .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: #fff;
+    background: #64748b;
+    border-radius: 999px;
+    padding: 0.16rem 0.6rem;
+    white-space: nowrap;
+    line-height: 1.35;
+  }
+  .lesson .pill.dim {
+    background: #4a7dab; /* discrete dimension — blue */
+  }
+  .lesson .pill.msr {
+    background: #5b9450; /* continuous measure — green */
+  }
+  .lesson .pill.filt {
+    background: #8b7355;
+  }
+  /* A calculated field shows an = sign in Tableau's field list. */
+  .lesson .pill.calc::before {
+    content: "=";
+    font-weight: 700;
+    opacity: 0.75;
+  }
+  /* Continuous pills are drawn with square ends in some Tableau surfaces;
+     this variant marks a discrete date/bin explicitly in prose. */
+  .lesson .pill.sq {
+    border-radius: 4px;
+  }
+  .lesson .pill.sm {
+    font-size: 0.7rem;
+    padding: 0.08rem 0.45rem;
+  }
+
+  /* --- Worksheet mock ----------------------------------------------------- */
+  .lesson .viz {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    margin: 0.65rem 0;
+    font-size: 0.8rem;
+  }
+  .lesson .viz-shelves {
+    background: #f8fafc;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 0.4rem 0.55rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .lesson .shelf {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    min-height: 1.6rem;
+  }
+  .lesson .shelf .sl {
+    flex: 0 0 4.2rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #64748b;
+    text-align: right;
+    padding-right: 0.3rem;
+  }
+  /* The empty drop zone Tableau shows on an unused shelf. */
+  .lesson .shelf .drop {
+    border: 1px dashed #cbd5e1;
+    border-radius: 4px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-style: italic;
+    padding: 0.12rem 0.6rem;
+  }
+
+  .lesson .viz-body {
+    display: flex;
+    align-items: stretch;
+    min-height: 6rem;
+  }
+  .lesson .viz-marks {
+    flex: 0 0 8.5rem;
+    background: #f8fafc;
+    border-right: 1px solid #e2e8f0;
+    padding: 0.45rem 0.5rem;
+  }
+  .lesson .viz-marks .mk-t {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+  .lesson .viz-marks .mk-type {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.74rem;
+    color: #334155;
+    margin-bottom: 0.35rem;
+  }
+  .lesson .viz-marks .mk-row {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0.22rem 0;
+    font-size: 0.72rem;
+    color: #64748b;
+  }
+  .lesson .viz-marks .mk-row .mk-i {
+    flex: 0 0 3.1rem;
+    background: #eef2f7;
+    border-radius: 3px;
+    padding: 0.06rem 0.3rem;
+    text-align: center;
+  }
+  .lesson .viz-canvas {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.6rem 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+  }
+  .lesson .viz-canvas svg {
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+  }
+  .lesson .viz-note {
+    font-size: 0.78rem;
+    color: var(--l-dim);
+    margin: 0.35rem 0 0;
+  }
+
+  /* --- Field list (data pane) --------------------------------------------- */
+  .lesson .fieldlist {
+    background: #f8fafc;
+    border: 1px solid var(--l-line);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  .lesson .fieldlist .fl-h {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    margin: 0.35rem 0 0.2rem;
+  }
+  .lesson .fieldlist .fl-h:first-child {
+    margin-top: 0;
+  }
+  .lesson .fieldlist .fl-i {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.1rem 0;
+    color: #334155;
+  }
+  .lesson .fieldlist .fl-i.d {
+    color: #2f5d80;
+  }
+  .lesson .fieldlist .fl-i.m {
+    color: #3d6b34;
+  }
+
+  /* --- Order-of-operations ladder ----------------------------------------
+     Tableau's filter/calculation pipeline is a numbered sequence where the
+     *position* is the lesson. A ladder reads better than a paragraph. */
+  .lesson .ladder {
+    list-style: none;
+    counter-reset: rung;
+    padding: 0;
+    margin: 0.6rem 0;
+    border-left: 2px solid #e2e8f0;
+  }
+  .lesson .ladder > li {
+    counter-increment: rung;
+    position: relative;
+    padding: 0.35rem 0 0.35rem 2.4rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .lesson .ladder > li::before {
+    content: counter(rung);
+    position: absolute;
+    left: -0.75rem;
+    top: 0.42rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: #cbd5e1;
+    color: #fff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lesson .ladder > li.key::before {
+    background: #4f46e5;
+  }
+  .lesson .ladder > li.key {
+    background: #eef2ff;
+    border-radius: 0 8px 8px 0;
+    font-weight: 500;
+  }
+  .lesson .ladder .lr-d {
+    font-size: 0.82rem;
+    color: var(--l-dim);
+  }
+}

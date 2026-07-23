@@ -2,10 +2,28 @@
   <header class="lesson-hero">
     <h1><span>✂️</span> Text Functions</h1>
     <p>Real-world data is messy. Text functions let you extract, clean, combine, and reformat strings so your data is ready for analysis.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>🧹 Data cleaning</span>
+      <span>🔗 Needs: Formulas</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#tx-why">Why they matter</a>
+    <a href="#tx-extract">Extracting</a>
+    <a href="#tx-find">Finding</a>
+    <a href="#tx-dynamic">Dynamic extraction</a>
+    <a href="#tx-join">Combining</a>
+    <a href="#tx-clean">Cleaning</a>
+    <a href="#tx-replace">Replacing</a>
+    <a href="#tx-format">Formatting</a>
+    <a href="#tx-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="tx-why">
     <h2><span class="ic">💡</span> Why they matter</h2>
     <ul>
       <li><strong>Extract information</strong> — state codes from order IDs, first names from full names</li>
@@ -15,7 +33,7 @@
     </ul>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-extract">
     <h2><span class="ic">📐</span> Extracting parts of text</h2>
     <div><span class="fn">LEFT</span> — characters from the beginning</div>
     <pre>=<span class="text-purple-400">LEFT</span>(B2, 2)   <span class="text-gray-400">// "CA-2016-152156" → "CA"</span>
@@ -30,7 +48,7 @@
 =<span class="text-purple-400">MID</span>(B2, 1, 2)  <span class="text-gray-400">// same as LEFT(B2, 2) → "CA"</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-find">
     <h2><span class="ic">🎯</span> Finding text position</h2>
     <pre>=<span class="text-purple-400">FIND</span>(<span class="text-green-400">"-"</span>, B2)     <span class="text-gray-400">// position of first dash → 3</span>
 =<span class="text-purple-400">FIND</span>(<span class="text-green-400">" "</span>, G2)     <span class="text-gray-400">// position of space → 7</span>
@@ -41,7 +59,7 @@
 =<span class="text-purple-400">SEARCH</span>(<span class="text-green-400">"ca"</span>, <span class="text-green-400">"CA-2016"</span>)  <span class="text-gray-400">// 1</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-dynamic">
     <h2><span class="ic">⚙️</span> Dynamic extraction (FIND + LEFT/RIGHT/MID)</h2>
     <p>Combine FIND with the extractors to pull variable-length text:</p>
     <pre><span class="text-gray-400">// First name (everything before the space)</span>
@@ -56,7 +74,7 @@
 =<span class="text-purple-400">MID</span>(B2, <span class="text-purple-400">FIND</span>(<span class="text-green-400">"-"</span>, B2) + 1, 4)  <span class="text-gray-400">// "2016"</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-join">
     <h2><span class="ic">🔗</span> Combining text</h2>
     <pre><span class="text-gray-400">// CONCAT function</span>
 =<span class="text-purple-400">CONCAT</span>(J2, <span class="text-green-400">", "</span>, K2)   <span class="text-gray-400">// "Henderson, Kentucky"</span>
@@ -80,7 +98,7 @@
 =<span class="text-purple-400">PROPER</span>(G2)  <span class="text-gray-400">// "CLAIRE GUTE" → "Claire Gute"</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-clean">
     <h2><span class="ic">🧹</span> Cleaning data</h2>
     <pre><span class="text-gray-400">// Remove leading/trailing/extra spaces</span>
 =<span class="text-purple-400">TRIM</span>(<span class="text-green-400">"  Claire   Gute  "</span>)  <span class="text-gray-400">// → "Claire Gute"</span>
@@ -94,7 +112,7 @@
     <div class="callout tip" style="margin-top:.5rem"><p>Invisible spaces are the #1 cause of lookups failing to match. <code>TRIM</code> before comparing.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-replace">
     <h2><span class="ic">🔁</span> Replacing &amp; substituting</h2>
     <pre><span class="text-gray-400">// SUBSTITUTE — replace text (all occurrences)</span>
 =<span class="text-purple-400">SUBSTITUTE</span>(I2, <span class="text-green-400">"United States"</span>, <span class="text-green-400">"USA"</span>)
@@ -107,7 +125,7 @@
 =<span class="text-purple-400">REPLACE</span>(B2, 1, 2, <span class="text-green-400">"NY"</span>)   <span class="text-gray-400">// → "NY-2016-152156"</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="tx-format">
     <h2><span class="ic">💲</span> Formatting numbers as text</h2>
     <pre>=<span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"$#,##0.00"</span>)    <span class="text-gray-400">// 1234.5 → "$1,234.50"</span>
 =<span class="text-purple-400">TEXT</span>(R2, <span class="text-green-400">"0%"</span>)           <span class="text-gray-400">// 0.15 → "15%"</span>
@@ -138,7 +156,7 @@
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="tx-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <ol>
       <li>Extract the <strong>state code</strong> (first 2 chars) from Order ID</li>
@@ -159,4 +177,9 @@
       <p>IDs like "FUR-BO-10001798" pack in info: first 3 = category (FUR/OFF/TEC), chars 5–6 = sub-category, last 8 = product number. Extract each part and decode the category code to its full name.</p>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/lookup"><span class="pl">← Previous</span><span class="pt">Lookup Functions</span></a>
+    <a class="next" href="#excel/dates"><span class="pl">Next →</span><span class="pt">Dates &amp; Time</span></a>
+  </nav>
 </div>

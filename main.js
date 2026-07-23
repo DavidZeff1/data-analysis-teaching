@@ -45,13 +45,22 @@ const content = {
     shortcuts: () => fetch("/excel/shortcuts.html").then((r) => r.text()),
   },
   tableau: {
+    // Foundations
     setup: () => fetch("/tableau/setup.html").then((r) => r.text()),
+    connections: () => fetch("/tableau/connections.html").then((r) => r.text()),
     interface: () => fetch("/tableau/interface.html").then((r) => r.text()),
+    // Building views
     charts: () => fetch("/tableau/charts.html").then((r) => r.text()),
+    organizing: () => fetch("/tableau/organizing.html").then((r) => r.text()),
     filters: () => fetch("/tableau/filters.html").then((r) => r.text()),
-    calculated: () => fetch("/tableau/calculated.html").then((r) => r.text()),
-    dashboards: () => fetch("/tableau/dashboards.html").then((r) => r.text()),
     maps: () => fetch("/tableau/maps.html").then((r) => r.text()),
+    // Calculations
+    calculated: () => fetch("/tableau/calculated.html").then((r) => r.text()),
+    tablecalcs: () => fetch("/tableau/tablecalcs.html").then((r) => r.text()),
+    lod: () => fetch("/tableau/lod.html").then((r) => r.text()),
+    // Communicating
+    analytics: () => fetch("/tableau/analytics.html").then((r) => r.text()),
+    dashboards: () => fetch("/tableau/dashboards.html").then((r) => r.text()),
   },
   powerbi: {
     setup: () => fetch("/powerbi/setup.html").then((r) => r.text()),

@@ -2,16 +2,33 @@
   <header class="lesson-hero">
     <h1><span>🧮</span> Basic Formulas</h1>
     <p>Formulas turn a spreadsheet from a grid of numbers into a calculator that updates itself. Master the building blocks here before moving on.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 20 min</span>
+      <span>🌱 Beginner</span>
+      <span>🔗 Needs: Setup</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#fo-what">What formulas are</a>
+    <a href="#fo-anatomy">Anatomy</a>
+    <a href="#fo-live">Why they're live</a>
+    <a href="#fo-agg">Aggregate functions</a>
+    <a href="#fo-math">Arithmetic</a>
+    <a href="#fo-errors">Errors</a>
+    <a href="#fo-mistakes">Common mistakes</a>
+    <a href="#fo-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="fo-what">
     <h2><span class="ic">💡</span> What are formulas?</h2>
     <p>Formulas are instructions that tell Excel to perform calculations. Every formula starts with an equals sign <code>=</code>, which signals "this is a calculation, not text."</p>
     <p>They can be as simple as <code>=5+3</code> or as complex as analyzing thousands of rows. The key idea: formulas can reference cells, so when your data changes, your results update automatically.</p>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="fo-anatomy">
     <h2><span class="ic">🔬</span> Anatomy of a formula</h2>
     <div class="anatomy">
       <div class="formula">=SUM(R2:R9995)</div>
@@ -24,9 +41,33 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="fo-live">
+    <h2><span class="ic">⚡</span> The point: results that keep themselves current</h2>
+    <p>A formula stores the <em>instruction</em>, not the answer. Change any cell it depends on and the answer recalculates instantly — that's the entire reason spreadsheets exist.</p>
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">V2</span><span class="sheet-fx">fx</span><code>=R2*S2</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">R</th><th class="hl">S</th><th class="hl">V</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Sales</td><td>Quantity</td><td>Line total</td></tr>
+            <tr><th>2</th><td class="num">261.96</td><td class="num">2</td><td class="num sel">523.92</td></tr>
+            <tr><th>3</th><td class="num">731.94</td><td class="num">3</td><td class="num">2,195.82</td></tr>
+            <tr><th>4</th><td class="num">14.62</td><td class="num">2</td><td class="num">29.24</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Edit R2 and V2 updates on its own. The cell shows the result; the formula bar shows the instruction behind it.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">See every formula at once</div>
+      <p>Press <span class="kbd">Ctrl</span> <span class="kbd">`</span> (the backtick, left of the 1 key) to flip the whole sheet between showing results and showing formulas. It's the fastest way to audit someone else's workbook — or your own.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="fo-agg">
     <h2><span class="ic">∑</span> Essential aggregate functions</h2>
-    <p style="font-size:.9rem;color:#64748b">These take a range of cells and return a single value.</p>
+    <p class="muted">These take a range of cells and return a single value.</p>
 
     <div style="margin-top:.5rem"><span class="fn">SUM</span> — add all values in a range</div>
     <pre>=<span class="text-purple-400">SUM</span>(R2:R9995)         <span class="text-gray-400">// Total of all Sales</span>
@@ -57,7 +98,7 @@
 =<span class="text-purple-400">ROUNDDOWN</span>(3.99, 0)       <span class="text-gray-400">// Always down: 3</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="fo-math">
     <h2><span class="ic">➗</span> Basic arithmetic</h2>
     <p>Use standard math operators directly in formulas:</p>
     <pre>=R2 + U2          <span class="text-gray-400">// Addition: Sales + Profit</span>
@@ -69,13 +110,40 @@
     <div class="callout tip" style="margin-top:.5rem"><p><strong>Order of operations (PEMDAS):</strong> Parentheses → Exponents → Multiplication/Division → Addition/Subtraction.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="fo-errors">
+    <h2><span class="ic">🚨</span> Reading error messages</h2>
+    <p>Errors aren't failures — they're a diagnosis. Each one tells you specifically what went wrong.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:7rem">Error</th><th>Means</th><th>Usual fix</th></tr></thead>
+        <tbody>
+          <tr><td><span class="err">#DIV/0!</span></td><td>Divided by zero or an empty cell</td><td>Wrap it: <code>=IFERROR(R2/S2, 0)</code></td></tr>
+          <tr><td><span class="err">#VALUE!</span></td><td>Doing maths on text</td><td>Check with <code>=ISNUMBER(R2)</code></td></tr>
+          <tr><td><span class="err">#NAME?</span></td><td>Misspelled function name</td><td>Check the spelling; <code>=SUME(</code> won't autocomplete</td></tr>
+          <tr><td><span class="err">#REF!</span></td><td>A referenced cell was deleted</td><td>Undo, or rewrite the reference</td></tr>
+          <tr><td><span class="err">#N/A</span></td><td>A lookup found nothing</td><td>See <a href="#excel/lookup">Lookup</a></td></tr>
+          <tr><td><span class="err">#NUM!</span></td><td>An impossible number</td><td>e.g. the square root of a negative</td></tr>
+          <tr><td><code>#####</code></td><td>Not an error at all</td><td>The column is too narrow — widen it</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="lcard" id="fo-mistakes">
     <h2><span class="ic">⚠️</span> Common mistakes to avoid</h2>
     <div class="grid2">
-      <div class="cmp bad"><div class="h">❌ Wrong</div><code>SUM(R:R)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Missing equals sign</p></div>
+      <div class="cmp bad"><div class="h">❌ Wrong</div><code>SUM(R:R)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Missing equals sign — Excel stores it as text</p></div>
       <div class="cmp good"><div class="h">✓ Correct</div><code>=SUM(R:R)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Starts with =</p></div>
-      <div class="cmp bad"><div class="h">❌ Wrong</div><code>=SUM(R2-R9995)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Minus instead of colon</p></div>
+      <div class="cmp bad"><div class="h">❌ Wrong</div><code>=SUM(R2-R9995)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Minus instead of colon — subtracts two cells</p></div>
       <div class="cmp good"><div class="h">✓ Correct</div><code>=SUM(R2:R9995)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Colon defines a range</p></div>
+      <div class="cmp bad"><div class="h">❌ Wrong</div><code>=SUM(R:R)/COUNT(R:R)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Reinventing a function that exists</p></div>
+      <div class="cmp good"><div class="h">✓ Correct</div><code>=AVERAGE(R:R)</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">Shorter, clearer, handles blanks properly</p></div>
+      <div class="cmp bad"><div class="h">❌ Wrong</div><code>=R2*0.07</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">A rate buried in a formula — invisible when it changes</p></div>
+      <div class="cmp good"><div class="h">✓ Correct</div><code>=R2*$X$1</code><p style="margin:.25rem 0 0;font-size:.8rem;color:#64748b">The rate lives in a labelled cell you can edit once</p></div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Never type a number you could calculate</div>
+      <p>Pasting a total as a hard-coded value breaks the link to the data. Six months later nobody knows whether it's still right — and it usually isn't. If a number came from the data, it should be a formula pointing at the data.</p>
     </div>
   </section>
 
@@ -92,9 +160,9 @@
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="fo-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
-    <p style="font-size:.9rem;color:#64748b">Create a new sheet called "Summary" and calculate the following — compare your answers to verify.</p>
+    <p class="muted">Create a new sheet called "Summary" and calculate the following — compare your answers to verify.</p>
     <ol>
       <li>Total <strong>Sales</strong> for all orders (≈ $2.3 million)</li>
       <li>Total <strong>Profit</strong> for all orders (≈ $286,000)</li>
@@ -112,4 +180,9 @@
       <p>Since Profit = Sales − Cost, you can derive Cost = Sales − Profit. Calculate the total Cost of goods sold for all orders.</p>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/setup"><span class="pl">← Previous</span><span class="pt">Practice Setup</span></a>
+    <a class="next" href="#excel/references"><span class="pl">Next →</span><span class="pt">Cell References</span></a>
+  </nav>
 </div>

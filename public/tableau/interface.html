@@ -1,266 +1,267 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Interface Basics</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">The Big Picture</h2>
-    <p>Tableau's interface is built around a simple concept: <strong>drag fields onto shelves to build visualizations</strong>. There's no coding, no formulas to memorize - just drag and drop. The key is understanding what each area does.</p>
-  </div>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🧭</span> Interface Basics</h1>
+    <p>Tableau has one core mechanic: <strong>drag a field onto a shelf</strong>. Everything else is variation. Learn what each shelf does and what the blue/green colour coding means, and the rest of the tool stops feeling arbitrary.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>🌱 Beginner</span>
+      <span>🔗 Needs: Setup</span>
+    </div>
+    <div class="rule"></div>
+  </header>
 
-  <div>
-    <h2 class="font-bold text-lg">Dimensions vs Measures</h2>
-    <p>This is the most important concept in Tableau. Every field in your data is either a Dimension or a Measure:</p>
-    
-    <div class="grid grid-cols-2 gap-4 mt-3">
-      <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <div class="w-4 h-4 bg-blue-500 rounded"></div>
-          <span class="font-bold text-blue-800">Dimensions (Blue)</span>
-        </div>
-        <p class="text-sm mb-2">Categorical, descriptive data that answers "what" or "who"</p>
-        <ul class="text-sm space-y-1">
-          <li>• Region, Category, Customer Name</li>
-          <li>• Dates (can be used either way)</li>
-          <li>• IDs, codes, labels</li>
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#if-dimmeas">Dimensions vs Measures</a>
+    <a href="#if-discont">Discrete vs Continuous</a>
+    <a href="#if-workspace">The workspace</a>
+    <a href="#if-shelves">Shelves</a>
+    <a href="#if-marks">The Marks card</a>
+    <a href="#if-first">Your first view</a>
+    <a href="#if-keys">Shortcuts</a>
+    <a href="#if-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="if-dimmeas">
+    <h2><span class="ic">🔵🟢</span> Dimensions vs Measures</h2>
+    <p>The most important concept in Tableau, and it's colour-coded so you never have to guess. Every field is one or the other.</p>
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8"><span class="pill dim">Dimensions</span> — blue</div>
+        <p style="margin:.35rem 0;font-size:.88rem">Categorical. Answers <strong>what</strong> or <strong>who</strong>.</p>
+        <ul style="margin:.2rem 0 0;font-size:.86rem;padding-left:1.1rem">
+          <li>Region, Category, Customer Name</li>
+          <li>Dates (usable either way)</li>
+          <li>IDs, codes, labels</li>
         </ul>
-        <p class="text-xs text-blue-700 mt-2 font-semibold">Used for: Grouping, filtering, labeling</p>
+        <p style="margin:.45rem 0 0;font-size:.84rem;color:#1d4ed8"><strong>They slice the data</strong> — adding one creates more rows or columns.</p>
       </div>
-      <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <div class="w-4 h-4 bg-green-500 rounded"></div>
-          <span class="font-bold text-green-800">Measures (Green)</span>
-        </div>
-        <p class="text-sm mb-2">Numeric data that can be aggregated - answers "how much"</p>
-        <ul class="text-sm space-y-1">
-          <li>• Sales, Profit, Quantity</li>
-          <li>• Automatically summed/averaged</li>
-          <li>• Can do math operations</li>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857"><span class="pill msr">Measures</span> — green</div>
+        <p style="margin:.35rem 0;font-size:.88rem">Numeric and aggregatable. Answers <strong>how much</strong>.</p>
+        <ul style="margin:.2rem 0 0;font-size:.86rem;padding-left:1.1rem">
+          <li>Sales, Profit, Quantity, Discount</li>
+          <li>Automatically summed or averaged</li>
         </ul>
-        <p class="text-xs text-green-700 mt-2 font-semibold">Used for: Calculations, sizing, coloring by value</p>
+        <p style="margin:.45rem 0 0;font-size:.84rem;color:#047857"><strong>They fill the data</strong> — adding one gives every slice a number.</p>
       </div>
     </div>
-  </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The one-sentence rule</div>
+      <p><strong>Dimensions slice; measures fill.</strong> "Sales by Region" is one measure sliced by one dimension. Nearly every chart you will ever build is some arrangement of that sentence.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Watch out for numeric IDs</div>
+      <p>Tableau sees any numeric column as a measure, including things like Postal Code and Row ID. Summing postcodes is meaningless. Drag those fields up into the Dimensions area to fix it once, permanently.</p>
+    </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">The Workspace</h2>
-    <div class="border-2 border-gray-400 rounded-lg overflow-hidden text-sm bg-white">
-      <!-- Top bar -->
-      <div class="bg-gray-700 text-white px-3 py-1 text-xs">
-        File &nbsp; Data &nbsp; Worksheet &nbsp; Dashboard &nbsp; Analysis &nbsp; Map &nbsp; Format &nbsp; Server &nbsp; Window &nbsp; Help
+  <section class="lcard" id="if-discont">
+    <h2><span class="ic">🔀</span> Discrete vs Continuous — the second colour rule</h2>
+    <p>This trips up nearly everyone, because it's a <em>separate</em> distinction from dimension/measure. Blue means <strong>discrete</strong>; green means <strong>continuous</strong>.</p>
+    <div class="grid2">
+      <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
+        <h3><span class="pill dim sq">Discrete</span> — distinct values</h3>
+        <ul style="font-size:.86rem;margin:.35rem 0 0">
+          <li>Creates <strong>headers</strong> — separate labelled panes</li>
+          <li>Finite, separable values</li>
+          <li>Can be sorted and grouped</li>
+        </ul>
       </div>
-      
-      <div class="flex">
-        <!-- Left sidebar - Data Pane -->
-        <div class="w-48 bg-gray-100 border-r border-gray-300 p-2">
-          <div class="text-xs font-bold text-gray-600 mb-2">📊 Data</div>
-          <div class="text-xs text-gray-500 mb-1">Dimensions</div>
-          <div class="text-blue-600 text-xs ml-2 mb-0.5">📁 Category</div>
-          <div class="text-blue-600 text-xs ml-2 mb-0.5">📁 Region</div>
-          <div class="text-blue-600 text-xs ml-2 mb-0.5">📁 Customer Name</div>
-          <div class="text-blue-600 text-xs ml-2 mb-0.5">📅 Order Date</div>
-          <div class="text-xs text-gray-500 mt-2 mb-1">Measures</div>
-          <div class="text-green-600 text-xs ml-2 mb-0.5"># Sales</div>
-          <div class="text-green-600 text-xs ml-2 mb-0.5"># Profit</div>
-          <div class="text-green-600 text-xs ml-2 mb-0.5"># Quantity</div>
-          <div class="border-t border-gray-300 mt-3 pt-2">
-            <div class="text-xs font-bold text-gray-600 mb-1">🎨 Marks</div>
-            <div class="flex flex-wrap gap-1 text-xs">
-              <span class="bg-gray-200 px-1 rounded">Color</span>
-              <span class="bg-gray-200 px-1 rounded">Size</span>
-              <span class="bg-gray-200 px-1 rounded">Label</span>
-              <span class="bg-gray-200 px-1 rounded">Detail</span>
-              <span class="bg-gray-200 px-1 rounded">Tooltip</span>
-            </div>
-          </div>
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3><span class="pill msr">Continuous</span> — an unbroken range</h3>
+        <ul style="font-size:.86rem;margin:.35rem 0 0">
+          <li>Creates an <strong>axis</strong> — a continuous scale</li>
+          <li>Any value in between is meaningful</li>
+          <li>Used for lines and positions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Where it bites: dates</div>
+      <p>Right-click a date pill and you get two lists. Picking <strong>Year</strong> from the top (blue, discrete) gives you separate columns per year — good for comparing 2016 against 2017. Picking <strong>Year</strong> from the bottom (green, continuous) gives you one unbroken time axis — good for showing a trend. Same field, same word, completely different chart. When a line chart mysteriously splits into disconnected chunks, this is why.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="if-workspace">
+    <h2><span class="ic">🖥️</span> The workspace</h2>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Pages</span><span class="drop">Drop field here</span></div>
+        <div class="shelf"><span class="sl">Filters</span><span class="pill filt">Order Date: 2017</span></div>
+        <div class="shelf"><span class="sl">Columns</span><span class="pill msr">SUM(Sales)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Category</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Automatic ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span><span class="pill dim sm">Region</span></div>
+          <div class="mk-row"><span class="mk-i">Size</span></div>
+          <div class="mk-row"><span class="mk-i">Label</span></div>
+          <div class="mk-row"><span class="mk-i">Detail</span></div>
+          <div class="mk-row"><span class="mk-i">Tooltip</span></div>
         </div>
-        
-        <!-- Main area -->
-        <div class="flex-1">
-          <!-- Shelves -->
-          <div class="bg-gray-50 border-b border-gray-300 p-2">
-            <div class="flex items-center gap-2 text-xs mb-1">
-              <span class="text-gray-500 w-16">Columns</span>
-              <span class="bg-green-500 text-white px-2 py-0.5 rounded">SUM(Sales)</span>
-            </div>
-            <div class="flex items-center gap-2 text-xs">
-              <span class="text-gray-500 w-16">Rows</span>
-              <span class="bg-blue-500 text-white px-2 py-0.5 rounded">Category</span>
-            </div>
-          </div>
-          
-          <!-- Canvas -->
-          <div class="h-48 bg-white p-4 flex items-end justify-center gap-4">
-            <div class="text-center">
-              <div class="bg-blue-500 w-16 rounded-t" style="height: 120px;"></div>
-              <div class="text-xs mt-1">Furniture</div>
-            </div>
-            <div class="text-center">
-              <div class="bg-blue-500 w-16 rounded-t" style="height: 80px;"></div>
-              <div class="text-xs mt-1">Office Supplies</div>
-            </div>
-            <div class="text-center">
-              <div class="bg-blue-500 w-16 rounded-t" style="height: 140px;"></div>
-              <div class="text-xs mt-1">Technology</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Right - Show Me -->
-        <div class="w-24 bg-gray-50 border-l border-gray-300 p-2">
-          <div class="text-xs font-bold text-gray-600 mb-2">Show Me</div>
-          <div class="grid grid-cols-3 gap-1">
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">📊</div>
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">📈</div>
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">🥧</div>
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">🗺</div>
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">⚬</div>
-            <div class="w-5 h-5 bg-gray-200 rounded text-xs flex items-center justify-center">📋</div>
-          </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 76" role="img" aria-label="Horizontal bar chart of sales by category">
+            <line x1="62" y1="4" x2="62" y2="72" stroke="#cbd5e1" stroke-width="1.2"/>
+            <g fill="#4a7dab">
+              <rect x="63" y="10" width="132" height="14"/>
+              <rect x="63" y="34" width="128" height="14"/>
+              <rect x="63" y="58" width="149" height="14"/>
+            </g>
+            <g font-size="7" fill="#475569" font-family="Inter, sans-serif" text-anchor="end">
+              <text x="58" y="20">Furniture</text>
+              <text x="58" y="44">Office Supplies</text>
+              <text x="58" y="68">Technology</text>
+            </g>
+          </svg>
         </div>
       </div>
-      
-      <!-- Bottom tabs -->
-      <div class="bg-gray-200 border-t border-gray-300 px-2 py-1 flex gap-1">
-        <span class="bg-white px-3 py-0.5 text-xs rounded-t border border-b-0 border-gray-300">Sheet 1</span>
-        <span class="text-gray-500 px-2 py-0.5 text-xs">+</span>
-      </div>
+      <p class="viz-note">Pills carry their colour with them: blue Category creates row headers, green SUM(Sales) creates the axis.</p>
     </div>
-  </div>
 
-  <div>
-    <h2 class="font-bold text-lg">Key Areas Explained</h2>
-    
-    <div class="space-y-3 mt-3">
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-gray-700">�� Data Pane (Left)</div>
-        <p class="text-sm">Lists all fields from your data source. Dimensions are at the top (blue), Measures below (green). Drag fields from here onto shelves or the canvas.</p>
-      </div>
-      
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-gray-700">📐 Columns & Rows Shelves</div>
-        <p class="text-sm">These determine what appears on your X and Y axes. <strong>Columns = horizontal (X)</strong>, <strong>Rows = vertical (Y)</strong>. Think of it as: "For each [Row field], show me [Column field]"</p>
-      </div>
-      
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-gray-700">🎨 Marks Card</div>
-        <p class="text-sm">Controls how data points look. Drag fields here to change Color, Size, Labels, or add Detail. This is where visualizations become powerful.</p>
-      </div>
-      
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-gray-700">🖼 Canvas</div>
-        <p class="text-sm">Your visualization appears here. You can also drag fields directly onto the canvas - Tableau will guess where to put them.</p>
-      </div>
-      
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-gray-700">📋 Show Me Panel (Right)</div>
-        <p class="text-sm">Suggests chart types based on your selected fields. Click a chart type to instantly change your visualization. Highlights which charts work with your current data.</p>
-      </div>
+    <div class="grid2" style="margin-top:.75rem">
+      <div class="tile"><h3>📋 Data pane (left)</h3><p style="margin:0;font-size:.86rem">Every field in your source, dimensions above measures. Drag from here onto shelves or straight onto the canvas.</p></div>
+      <div class="tile"><h3>📐 Columns &amp; Rows</h3><p style="margin:0;font-size:.86rem">Your X and Y axes. <strong>Columns = horizontal</strong>, <strong>Rows = vertical</strong> — the naming confuses everyone at first.</p></div>
+      <div class="tile"><h3>🎨 Marks card</h3><p style="margin:0;font-size:.86rem">How the data points <em>look</em>. Colour, size, labels, tooltips. Where charts become expressive.</p></div>
+      <div class="tile"><h3>🔍 Filters &amp; Pages</h3><p style="margin:0;font-size:.86rem">Filters limit what's shown. Pages steps through values one at a time — useful for animating over time.</p></div>
+      <div class="tile"><h3>🖼️ Canvas</h3><p style="margin:0;font-size:.86rem">The view itself. You can drop fields directly here and Tableau guesses where they belong.</p></div>
+      <div class="tile"><h3>📊 Show Me (top right)</h3><p style="margin:0;font-size:.86rem">Suggests chart types for the fields you've selected, greying out the ones that won't work.</p></div>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">The Marks Card - Your Design Toolkit</h2>
-    <p class="text-sm text-gray-600 mb-2">The Marks card controls the visual properties of your data points:</p>
-    
-    <div class="grid grid-cols-2 gap-2 text-sm">
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="w-4 h-4 rounded bg-gradient-to-r from-blue-400 to-red-400"></div>
-        <div><strong>Color</strong> - Color marks by a field (dimension or measure)</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-gray-400 mr-1"></span><span class="w-4 h-4 rounded-full bg-gray-400"></span></div>
-        <div><strong>Size</strong> - Make marks bigger/smaller by a measure</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <span class="text-gray-600 font-mono text-xs bg-gray-200 px-1 rounded">Abc</span>
-        <div><strong>Label</strong> - Show text on marks (values, names)</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <span class="w-4 h-4 bg-gray-300 rounded"></span>
-        <div><strong>Detail</strong> - Add granularity without visual change</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <span class="text-gray-400">💬</span>
-        <div><strong>Tooltip</strong> - Info shown when hovering</div>
-      </div>
-      <div class="flex items-center gap-2 bg-gray-50 rounded p-2">
-        <span class="text-gray-600">◆ ● ■</span>
-        <div><strong>Shape</strong> - Change mark shapes (scatter plots)</div>
-      </div>
+  <section class="lcard" id="if-shelves">
+    <h2><span class="ic">📚</span> What each shelf does</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:8rem">Shelf</th><th>Effect</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Columns</strong></td><td>Horizontal axis or column headers</td><td>Dates for a time series</td></tr>
+          <tr><td><strong>Rows</strong></td><td>Vertical axis or row headers</td><td>Measures for a bar chart</td></tr>
+          <tr><td><strong>Filters</strong></td><td>Restricts which rows are included</td><td>Only 2017, only West</td></tr>
+          <tr><td><strong>Pages</strong></td><td>One "frame" per value, with a playback control</td><td>Animate sales month by month</td></tr>
+          <tr><td><strong>Marks → Color</strong></td><td>Colours marks by a field</td><td>Profit as red/green</td></tr>
+          <tr><td><strong>Marks → Size</strong></td><td>Scales marks by a measure</td><td>Bubble size on a map</td></tr>
+          <tr><td><strong>Marks → Label</strong></td><td>Prints text on the marks</td><td>Values on bar ends</td></tr>
+          <tr><td><strong>Marks → Detail</strong></td><td>Adds granularity <em>without</em> visual change</td><td>Splits a scatter into one dot per sub-category</td></tr>
+          <tr><td><strong>Marks → Tooltip</strong></td><td>Adds fields to the hover panel</td><td>Extra context, free of charge</td></tr>
+        </tbody>
+      </table>
     </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Building Your First View</h2>
-    <p class="mb-2">Let's build a bar chart showing Sales by Category:</p>
-    
-    <div class="bg-gray-100 rounded-lg p-4">
-      <div class="space-y-3">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
-          <div>
-            <p class="font-semibold">Drag Category to Rows</p>
-            <p class="text-sm text-gray-600">This creates row headers for each category</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
-          <div>
-            <p class="font-semibold">Drag Sales to Columns</p>
-            <p class="text-sm text-gray-600">Tableau automatically sums Sales and creates bars</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
-          <div>
-            <p class="font-semibold">Done! You have a bar chart</p>
-            <p class="text-sm text-gray-600">Horizontal bars showing total sales per category</p>
-          </div>
-        </div>
-      </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Detail is the one worth understanding early</div>
+      <p>Every other Marks target changes appearance. <strong>Detail changes granularity</strong> — it splits the data into more marks without colouring or resizing anything. That's how a scatter plot goes from one dot to one dot per sub-category. If a chart shows a single mark when you expected many, you need something on Detail.</p>
     </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
-      <p class="font-semibold text-yellow-800">💡 Pro Tip</p>
-      <p class="text-sm">Double-click any measure to instantly create a view. Tableau will make its best guess at a useful visualization!</p>
+  </section>
+
+  <section class="lcard" id="if-marks">
+    <h2><span class="ic">🎨</span> Mark types</h2>
+    <p>The dropdown at the top of the Marks card. <strong>Automatic</strong> picks based on your fields and is right most of the time — but knowing the manual options unlocks charts Show Me won't suggest.</p>
+    <div class="grid3">
+      <div class="tile"><h3>Bar</h3><p style="margin:0;font-size:.84rem">Comparison. The default for a dimension plus a measure.</p></div>
+      <div class="tile"><h3>Line</h3><p style="margin:0;font-size:.84rem">Trends. Automatic when a continuous date is present.</p></div>
+      <div class="tile"><h3>Circle / Shape</h3><p style="margin:0;font-size:.84rem">Scatter plots and dot plots.</p></div>
+      <div class="tile"><h3>Square</h3><p style="margin:0;font-size:.84rem">Highlight tables and heatmaps.</p></div>
+      <div class="tile"><h3>Area</h3><p style="margin:0;font-size:.84rem">Volume over time, stacked composition.</p></div>
+      <div class="tile"><h3>Text</h3><p style="margin:0;font-size:.84rem">Crosstabs and KPI numbers.</p></div>
+      <div class="tile"><h3>Map / Polygon</h3><p style="margin:0;font-size:.84rem">Filled geographic regions.</p></div>
+      <div class="tile"><h3>Pie</h3><p style="margin:0;font-size:.84rem">Unlocks an Angle target. Use sparingly.</p></div>
+      <div class="tile"><h3>Gantt Bar</h3><p style="margin:0;font-size:.84rem">Durations — the basis of timeline charts.</p></div>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Essential Keyboard Shortcuts</h2>
-    <div class="grid grid-cols-2 gap-2 text-sm mt-2">
-      <div class="bg-gray-50 rounded p-2"><kbd class="bg-gray-200 px-2 py-0.5 rounded">Ctrl+Z</kbd> Undo (use liberally!)</div>
-      <div class="bg-gray-50 rounded p-2"><kbd class="bg-gray-200 px-2 py-0.5 rounded">Ctrl+Y</kbd> Redo</div>
-      <div class="bg-gray-50 rounded p-2"><kbd class="bg-gray-200 px-2 py-0.5 rounded">Ctrl+W</kbd> Swap rows and columns</div>
-      <div class="bg-gray-50 rounded p-2"><kbd class="bg-gray-200 px-2 py-0.5 rounded">Ctrl+Shift+F</kbd> Fit to window</div>
-    </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Rows = Y-axis</strong>, <strong>Columns = X-axis</strong> - this confuses beginners!</li>
-      <li><strong>Blue dimensions group</strong>, <strong>green measures calculate</strong></li>
-      <li><strong>Drag and drop everything</strong> - the fastest way to learn is to experiment</li>
-      <li><strong>Right-click for options</strong> - almost everything has a context menu</li>
-      <li><strong>Undo is your friend</strong> - Ctrl+Z works for almost any change</li>
-      <li><strong>Show Me suggests charts</strong> - when you're unsure, let Tableau help</li>
-      <li><strong>Double-click to auto-create</strong> - fastest way to explore data</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a bar chart showing <strong>Sales by Region</strong></li>
-      <li>Drag Segment to Color to <strong>color the bars by customer segment</strong></li>
-      <li>Press Ctrl+W to <strong>swap rows and columns</strong> (make it vertical)</li>
-      <li>Drag Sales to Label to <strong>show values on the bars</strong></li>
-      <li>Click different chart types in <strong>Show Me</strong> to see alternatives</li>
-      <li>Double-click Profit to see what Tableau <strong>auto-creates</strong></li>
-      <li>Create a view with Category on Rows and Region on Columns - what happens?</li>
-      <li>Drag Order Date to Columns - notice how Tableau <strong>auto-groups by year</strong></li>
-      <li>Right-click Order Date and change to Month - see the <strong>granularity change</strong></li>
-      <li>Clear the sheet (Worksheet → Clear → Sheet) and start fresh</li>
+  <section class="lcard" id="if-first">
+    <h2><span class="ic">🏗️</span> Building your first view</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Drag <span class="pill dim sm">Category</span> to Rows</div>
+        <p>Three row headers appear — Furniture, Office Supplies, Technology. No numbers yet, because you've sliced without filling.</p>
+      </li>
+      <li>
+        <div class="s-t">Drag <span class="pill msr sm">Sales</span> to Columns</div>
+        <p>Tableau aggregates to <code>SUM(Sales)</code> automatically and draws horizontal bars. You have a chart.</p>
+      </li>
+      <li>
+        <div class="s-t">Sort it</div>
+        <p>Hover the Sales axis and click the descending sort icon. Now the biggest category is on top and the chart answers its own question.</p>
+      </li>
+      <li>
+        <div class="s-t">Add a second dimension to Color</div>
+        <p>Drag <span class="pill dim sm">Region</span> onto Color. The bars split into stacked segments — one chart now carries two dimensions.</p>
+      </li>
+      <li>
+        <div class="s-t">Swap the axes</div>
+        <p>Press <span class="kbd">Ctrl</span> <span class="kbd">W</span> to flip rows and columns. Vertical columns instead of horizontal bars — same data, different emphasis.</p>
+      </li>
     </ol>
-  </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">The fastest way to learn: double-click everything</div>
+      <p>Double-clicking a field drops it where Tableau thinks it belongs. Double-click Sales, then Category, then Region, and watch what happens at each step. You'll build an intuition for the shelves far quicker by watching Tableau's guesses than by planning each drag.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="if-keys">
+    <h2><span class="ic">⌨️</span> Shortcuts worth knowing</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Action</th><th>Windows</th><th>Mac</th></tr></thead>
+        <tbody>
+          <tr><td>Undo — use constantly</td><td><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Z</span></span></td><td><span class="keys"><span class="kbd">⌘</span><span class="plus">+</span><span class="kbd">Z</span></span></td></tr>
+          <tr><td>Redo</td><td><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Y</span></span></td><td><span class="keys"><span class="kbd">⌘</span><span class="plus">+</span><span class="kbd">Y</span></span></td></tr>
+          <tr><td>Swap rows and columns</td><td><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">W</span></span></td><td><span class="keys"><span class="kbd">⌘</span><span class="plus">+</span><span class="kbd">W</span></span></td></tr>
+          <tr><td>Fit the view to the window</td><td><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">F</span></span></td><td><span class="keys"><span class="kbd">⌘</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">F</span></span></td></tr>
+          <tr><td>Duplicate the sheet</td><td colspan="2">Right-click the sheet tab → Duplicate</td></tr>
+          <tr><td>Copy a pill to another shelf</td><td colspan="2">Hold <span class="kbd">Ctrl</span> / <span class="kbd">⌥</span> while dragging</td></tr>
+          <tr><td>Clear the sheet</td><td colspan="2">Worksheet → Clear → Sheet</td></tr>
+          <tr><td>Remove a pill</td><td colspan="2">Drag it off the shelf, or click its ▾ → Remove</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Duplicate before you experiment</div>
+      <p>Right-click a sheet tab → Duplicate before trying something ambitious. Undo is good but not infinite, and a working sheet you can return to is worth the two seconds.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Dimensions slice, measures fill</strong> — the sentence that explains most charts</li>
+      <li><strong>Blue is discrete, green is continuous</strong> — headers vs axes</li>
+      <li><strong>Rows = Y, Columns = X</strong> — counterintuitive, worth memorising</li>
+      <li><strong>Detail adds granularity without appearance</strong></li>
+      <li><strong>Dates come in blue and green versions</strong> — the cause of most surprised line charts</li>
+      <li><strong>Double-click to explore</strong> — watching Tableau's guesses teaches the shelves</li>
+      <li><strong>Right-click everything</strong> — nearly every option lives in a context menu</li>
+      <li><strong>Numeric IDs aren't measures</strong> — drag them into Dimensions</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="if-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build a bar chart of <strong>Sales by Region</strong> and sort it descending</li>
+      <li>Drag <strong>Segment to Color</strong> and describe what changed</li>
+      <li>Press <span class="kbd">Ctrl</span> <span class="kbd">W</span> to swap the axes</li>
+      <li>Drag <strong>Sales to Label</strong> so values print on the bars</li>
+      <li>Put <strong>Category on Rows and Region on Columns</strong> — what kind of view is that?</li>
+      <li>Drag <strong>Order Date to Columns</strong> and note that Tableau defaults to YEAR</li>
+      <li>Right-click the date pill and switch between the <strong>blue Month and the green Month</strong>; explain the difference in one sentence</li>
+      <li>Double-click <strong>Profit</strong> on an empty sheet and see what Tableau builds unprompted</li>
+      <li>Build a scatter of Sales vs Profit, then drag <strong>Sub-Category to Detail</strong> — watch one dot become seventeen</li>
+      <li>Click through <strong>Show Me</strong> with Category and Sales selected; note which options are greyed out and why</li>
+      <li>Find <strong>Postal Code</strong> in Measures and move it to Dimensions</li>
+      <li>Clear the sheet and rebuild Sales by Region from memory, without looking back</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: one dataset, six views, ten minutes</div>
+      <p>Give yourself ten minutes and build six different views of Superstore — no planning, no perfectionism. Then look at them together and pick the one that tells you something you didn't already know. Speed of iteration is Tableau's actual advantage, and it's a skill you build by deliberately working faster than feels comfortable.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/connections"><span class="pl">← Previous</span><span class="pt">Connecting Data</span></a>
+    <a class="next" href="#tableau/charts"><span class="pl">Next →</span><span class="pt">Chart Types</span></a>
+  </nav>
 </div>

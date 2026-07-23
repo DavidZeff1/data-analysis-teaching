@@ -1,9 +1,55 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🚀</span> Practice Setup</h1>
-    <p>Get a free spreadsheet and the Sample Superstore dataset loaded in a couple of minutes. Every exercise in the Excel section uses this same data.</p>
+    <p>Get a free spreadsheet and the Sample Superstore dataset loaded in a couple of minutes. Every exercise in the Excel section uses this same data, so setting it up once carries you through all seventeen lessons.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 10 min</span>
+      <span>🆓 No software needed</span>
+      <span>📍 Start here</span>
+    </div>
     <div class="rule"></div>
   </header>
+
+  <section class="lcard accent">
+    <h2><span class="ic">🗺️</span> How this section is organised</h2>
+    <p class="muted">Five stages, building on each other. You can jump around, but this is the order that makes each lesson easiest.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:9rem">Stage</th><th>Lessons</th><th>What you'll be able to do</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Foundations</strong></td>
+            <td><a href="#excel/formulas">Formulas</a> · <a href="#excel/references">References</a></td>
+            <td>Write calculations that update themselves and copy correctly</td>
+          </tr>
+          <tr>
+            <td><strong>2. The toolkit</strong></td>
+            <td><a href="#excel/logical">Logical</a> · <a href="#excel/aggregation">SUMIFS</a> · <a href="#excel/lookup">Lookup</a> · <a href="#excel/text">Text</a> · <a href="#excel/dates">Dates</a> · <a href="#excel/arrays">Arrays</a></td>
+            <td>Answer almost any business question with a formula</td>
+          </tr>
+          <tr>
+            <td><strong>3. Whole datasets</strong></td>
+            <td><a href="#excel/tables">Tables</a> · <a href="#excel/validation">Cleaning</a> · <a href="#excel/powerquery">Power Query</a> · <a href="#excel/pivot">Pivots</a></td>
+            <td>Take a messy 10,000-row file and make it trustworthy</td>
+          </tr>
+          <tr>
+            <td><strong>4. Communicating</strong></td>
+            <td><a href="#excel/charts">Charts</a> · <a href="#excel/chartdecision">Chart choice</a> · <a href="#excel/dashboard">Dashboard</a></td>
+            <td>Turn findings into something a decision-maker can act on</td>
+          </tr>
+          <tr>
+            <td><strong>5. Reference</strong></td>
+            <td><a href="#excel/shortcuts">Shortcuts</a></td>
+            <td>Work at the speed of thought instead of the mouse</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Do the exercises</div>
+      <p>Every lesson ends with graded practice on this same dataset, plus a harder challenge. Reading about <code>SUMIFS</code> takes four minutes; being able to write one under pressure takes the exercises. The <a href="#excel/dashboard">final project</a> pulls all of it together into one deliverable.</p>
+    </div>
+  </section>
 
   <section class="lcard">
     <h2><span class="ic">1️⃣</span> Open Google Sheets (free)</h2>
@@ -87,18 +133,36 @@
 
   <section class="lcard accent">
     <h2><span class="ic">🧭</span> Quick column reference</h2>
-    <p style="font-size:.88rem;color:#64748b">Keep this handy. Columns may shift if your import differs — always verify.</p>
-    <div class="scrollx">
-      <table class="ltable">
-        <tbody>
-          <tr><td>A: Row ID</td><td>B: Order ID</td><td>C: Order Date</td><td>D: Ship Date</td></tr>
-          <tr><td>E: Ship Mode</td><td>F: Customer ID</td><td>G: Customer Name</td><td>H: Segment</td></tr>
-          <tr><td>I: Country</td><td>J: City</td><td>K: State</td><td>L: Postal Code</td></tr>
-          <tr><td>M: Region</td><td>N: Product ID</td><td>O: Category</td><td>P: Sub-Category</td></tr>
-          <tr><td>Q: Product Name</td><td>R: Sales</td><td>S: Quantity</td><td>T: Discount</td></tr>
-          <tr><td>U: Profit</td><td></td><td></td><td></td></tr>
-        </tbody>
-      </table>
+    <p class="muted">Every lesson refers to columns by letter. Keep this handy — and always verify, since columns shift if your import differs.</p>
+    <div class="sheet">
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Row ID</td><td>Order ID</td><td>Order Date</td><td>Ship Date</td><td>Ship Mode</td><td>Customer ID</td><td>Customer Name</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th></th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Segment</td><td>Country</td><td>City</td><td>State</td><td>Postal Code</td><td>Region</td><td>Product ID</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th></th><th>O</th><th>P</th><th>Q</th><th class="hl">R</th><th class="hl">S</th><th class="hl">T</th><th class="hl">U</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Category</td><td>Sub-Category</td><td>Product Name</td><td class="hl">Sales</td><td class="hl">Quantity</td><td class="hl">Discount</td><td class="hl">Profit</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Blue columns are the four measures — everything else is a dimension you can group or filter by.</p>
+    </div>
+    <div class="callout note" style="margin-top:.6rem">
+      <p><strong>Numbers to check yourself against:</strong> 9,994 data rows · total Sales $2,297,201 · total Profit $286,397 · four regions · three categories · seventeen sub-categories · dates from January 2014 to December 2017. If your totals match these, your import is correct.</p>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a class="only next" href="#excel/formulas"><span class="pl">Next →</span><span class="pt">Basic Formulas</span></a>
+  </nav>
 </div>

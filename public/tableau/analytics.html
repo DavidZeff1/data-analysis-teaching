@@ -1,0 +1,305 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🔍</span> Analytics &amp; Formatting</h1>
+    <p>Two things that turn a chart into a finding: statistical context that shows whether a number is unusual, and formatting restrained enough that the data is what people see. The Analytics pane handles the first, and a short list of deletions handles the second.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>📊 Communication</span>
+      <span>🔗 Needs: Chart Types</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#an-pane">The Analytics pane</a>
+    <a href="#an-ref">Reference lines</a>
+    <a href="#an-trend">Trend lines</a>
+    <a href="#an-forecast">Forecasting</a>
+    <a href="#an-cluster">Clustering</a>
+    <a href="#an-tooltip">Tooltips</a>
+    <a href="#an-format">Formatting</a>
+    <a href="#an-color">Colour</a>
+    <a href="#an-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="an-pane">
+    <h2><span class="ic">📈</span> The Analytics pane</h2>
+    <p>Next to the Data pane, top left, there's a second tab called <strong>Analytics</strong>. Most people never open it, which is a shame — everything in it is drag-and-drop and it answers the question "is this number actually unusual?"</p>
+    <div class="grid3">
+      <div class="tile">
+        <h3>Summarize</h3>
+        <p style="margin:0;font-size:.85rem">Constant line, average line, median with quartiles, box plot, totals</p>
+      </div>
+      <div class="tile">
+        <h3>Model</h3>
+        <p style="margin:0;font-size:.85rem">Average with confidence interval, trend line, forecast, cluster</p>
+      </div>
+      <div class="tile">
+        <h3>Custom</h3>
+        <p style="margin:0;font-size:.85rem">Reference line, reference band, distribution band, box plot — with full control</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Drag, then choose the scope</div>
+      <p>When you drag an item onto the view, Tableau shows three drop zones: <strong>Table</strong>, <strong>Pane</strong> and <strong>Cell</strong>. Table draws one line across everything; Pane draws one per pane (per region, per year). Choosing Pane when you meant Table is the usual reason a reference line looks wrong.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="an-ref">
+    <h2><span class="ic">📏</span> Reference lines — the fastest way to add meaning</h2>
+    <p>A bar chart tells you West sold $725K. A reference line tells you that's above average — which is the thing the reader actually wanted to know.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill msr">SUM(Sales)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Bar ▾</div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 78" role="img" aria-label="Bar chart with an average reference line">
+            <line x1="46" y1="4" x2="46" y2="72" stroke="#cbd5e1" stroke-width="1.2"/>
+            <g fill="#4a7dab">
+              <rect x="47" y="8" width="118" height="12"/><rect x="47" y="26" width="160" height="12"/>
+              <rect x="47" y="44" width="92" height="12"/><rect x="47" y="62" width="171" height="12"/>
+            </g>
+            <g font-size="7" fill="#475569" font-family="Inter, sans-serif" text-anchor="end">
+              <text x="43" y="17">Central</text><text x="43" y="35">East</text>
+              <text x="43" y="53">South</text><text x="43" y="71">West</text>
+            </g>
+            <line x1="182" y1="2" x2="182" y2="76" stroke="#b91c1c" stroke-width="1.4" stroke-dasharray="4 3"/>
+            <text x="186" y="8" font-size="6.5" fill="#b91c1c" font-family="Inter, sans-serif">Avg 574K</text>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note">Two regions are above the line and two below — a comparison you could not make from the bars alone.</p>
+    </div>
+
+    <div class="scrollx" style="margin-top:.7rem">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Type</th><th>Shows</th><th>Good for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Constant</strong></td><td>A fixed value you type</td><td>A target, budget or SLA threshold</td></tr>
+          <tr><td><strong>Average</strong></td><td>The mean of what's displayed</td><td>Above/below performance at a glance</td></tr>
+          <tr><td><strong>Median</strong></td><td>The middle value</td><td>Skewed data — Superstore's sales are very skewed</td></tr>
+          <tr><td><strong>Reference band</strong></td><td>A shaded range between two values</td><td>An acceptable operating range</td></tr>
+          <tr><td><strong>Distribution band</strong></td><td>Percentiles, quartiles or standard deviations</td><td>Showing what "normal" looks like</td></tr>
+          <tr><td><strong>Parameter-driven</strong></td><td>A value the viewer controls</td><td>"What if the target were 10% higher?"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.55rem"><p>Right-click the line → Edit to change its label, and set Formatting → Fill Above/Below to shade the good and bad sides. A shaded region reads faster than a line and a legend.</p></div>
+  </section>
+
+  <section class="lcard" id="an-trend">
+    <h2><span class="ic">📉</span> Trend lines</h2>
+    <p>Drag <strong>Trend Line</strong> onto a scatter plot or time series. Tableau fits a model and — importantly — tells you whether it means anything.</p>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Model types</h3>
+        <ul style="font-size:.86rem;margin:.35rem 0 0">
+          <li><strong>Linear</strong> — a straight line; the default and usually right</li>
+          <li><strong>Logarithmic</strong> — rapid change that flattens out</li>
+          <li><strong>Exponential</strong> — compounding growth</li>
+          <li><strong>Polynomial</strong> — curves; degree 2–3 only</li>
+          <li><strong>Power</strong> — proportional relationships</li>
+        </ul>
+      </div>
+      <div class="tile">
+        <h3>Read the statistics</h3>
+        <p style="margin:.35rem 0 0;font-size:.86rem">Hover the line, or right-click → <strong>Describe Trend Model</strong>:</p>
+        <ul style="font-size:.86rem;margin:.3rem 0 0">
+          <li><strong>R²</strong> — how much variation the line explains, 0 to 1</li>
+          <li><strong>p-value</strong> — below 0.05 is conventionally "unlikely to be chance"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">A trend line is not evidence of causation</div>
+      <p>Superstore shows a strong negative relationship between discount and profit. That is a real, actionable pattern — but the chart cannot tell you whether discounting <em>causes</em> the losses, or whether products that were already unprofitable simply get discounted more. Present it as "these move together", investigate before claiming more, and be very careful about extending the line beyond the data you have.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Beware the high-degree polynomial</div>
+      <p>A degree-8 polynomial will hug your points beautifully and predict nothing. A high R² achieved by adding curves is a warning sign, not a result. Stay linear unless you have a substantive reason not to.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="an-forecast">
+    <h2><span class="ic">🔮</span> Forecasting</h2>
+    <p>Drag <strong>Forecast</strong> onto a time series and Tableau extends it using exponential smoothing, with a shaded confidence interval.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Build a proper time series first</div>
+        <p>A continuous date on Columns and a measure on Rows. Forecasting needs a date dimension — it won't appear otherwise.</p>
+      </li>
+      <li>
+        <div class="s-t">Drag Forecast from the Analytics pane</div>
+        <p>Tableau picks a model automatically, detecting trend and seasonality from the history.</p>
+      </li>
+      <li>
+        <div class="s-t">Check the model</div>
+        <p>Right-click → Forecast → <strong>Describe Forecast</strong>. It states the model chosen, whether seasonality was detected, and the quality metrics.</p>
+      </li>
+      <li>
+        <div class="s-t">Show the confidence interval</div>
+        <p>Never present the forecast line alone. The shaded band is the honest part — it shows how much the estimate could be wrong.</p>
+      </li>
+    </ol>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">What Tableau's forecast can and can't do</div>
+      <p>It extrapolates the pattern in your history. It has no knowledge of a price change, a competitor, or a pandemic. It needs a reasonable amount of history — ideally two full cycles — to detect seasonality at all. Treat it as "if nothing changes, roughly this", never as a plan.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="an-cluster">
+    <h2><span class="ic">🧬</span> Clustering</h2>
+    <p>Drag <strong>Cluster</strong> onto a scatter plot and Tableau runs k-means, assigning each mark to a group. The result becomes a dimension you can use anywhere.</p>
+<pre><span class="c">// A worked example: segment sub-categories</span>
+Columns: <span class="f">SUM</span>([Sales])
+Rows:    <span class="f">SUM</span>([Profit])
+Detail:  [Sub-Category]
+
+<span class="c">// Then drag Cluster onto the view.</span>
+<span class="c">// Tableau groups them into natural clusters —</span>
+<span class="c">// high volume/high margin, high volume/low margin, and so on.</span></pre>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Then name them</div>
+      <p>Right-click the cluster field → <strong>Save as Dimension</strong>, then rename the members from "Cluster 1" to something meaningful — "Volume drivers", "Margin drivers", "Problem products". An unnamed cluster is a curiosity; a named one is a segmentation the business can use.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Clustering finds structure in the variables you supply, and will happily produce clusters in random data. Sanity-check that the groups make business sense before presenting them. Tableau's Describe Clusters dialog shows which variables drove the split.</p></div>
+  </section>
+
+  <section class="lcard" id="an-tooltip">
+    <h2><span class="ic">💬</span> Tooltips — the free extra dimension</h2>
+    <p>Every mark already has a hover surface. It costs no space on the chart and almost nobody uses it well.</p>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h">❌ Default</div>
+        <pre style="font-size:.75rem">Region: West
+SUM(Sales): 725,457.82</pre>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">Repeats what the axis already said, with unhelpful precision.</p>
+      </div>
+      <div class="cmp good">
+        <div class="h">✓ Written deliberately</div>
+        <pre style="font-size:.75rem">&lt;b&gt;West&lt;/b&gt;
+Sales: $725K  (31.6% of total)
+Profit: $108K  (14.9% margin)
+Orders: 3,203
+&lt;i&gt;Click to filter the dashboard&lt;/i&gt;</pre>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">Context, share, margin, and an instruction.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Viz in Tooltip — the best-value feature in Tableau</div>
+      <p>In the tooltip editor, click <strong>Insert → Sheets</strong> and pick another worksheet. Hovering a region now shows a small chart of that region's monthly trend, filtered automatically. You get a second level of detail without spending a pixel of dashboard space. Keep the embedded sheet small and simple — it renders on every hover.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="an-format">
+    <h2><span class="ic">🎨</span> Formatting — mostly deleting things</h2>
+    <p>Tableau's defaults are functional, not finished. Nearly every improvement is a removal.</p>
+    <ul class="check">
+      <li><strong>Fade or remove gridlines</strong> — Format → Lines → Grid Lines → None. The single biggest visual improvement available.</li>
+      <li><strong>Remove row and column dividers</strong> on anything that isn't a table</li>
+      <li><strong>Delete the legend</strong> when there's one series, or when colour is already labelled</li>
+      <li><strong>Format numbers properly</strong> — $725K beats 725457.82. Right-click the measure → Format → Currency (Custom), 0 decimals, display units in thousands</li>
+      <li><strong>Shorten axis titles</strong>, or hide them when the chart title already says it</li>
+      <li><strong>Write the title as a finding</strong> — "West leads on revenue but trails on margin", not "Sales by Region"</li>
+      <li><strong>Left-align text, right-align numbers</strong> — numbers compare by digit position</li>
+      <li><strong>Keep fonts consistent</strong> — set them once at workbook level via Format → Workbook</li>
+    </ul>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Format → Workbook sets everything at once</div>
+      <p>Rather than styling each sheet, use <strong>Format → Workbook</strong> to set fonts and colours globally. Every existing and future sheet picks them up. On a ten-sheet dashboard this is the difference between a coherent product and ten slightly different charts.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem">
+      <p><strong>Annotations</strong> (right-click → Annotate) pin an explanation to a specific mark, area or point. One well-placed annotation on the anomaly in your chart does more than a paragraph beneath it — the reader's eye is already there.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="an-color">
+    <h2><span class="ic">🌈</span> Colour with intent</h2>
+    <p>Colour is the most-abused channel in Tableau because it's the easiest to apply. Three rules cover almost everything.</p>
+    <div class="grid3">
+      <div class="tile">
+        <h3>Sequential</h3>
+        <div style="display:flex;margin:.4rem 0 .3rem;border-radius:4px;overflow:hidden;height:1.1rem">
+          <div style="flex:1;background:#dbeafe"></div><div style="flex:1;background:#93c5fd"></div>
+          <div style="flex:1;background:#3b82f6"></div><div style="flex:1;background:#1d4ed8"></div>
+        </div>
+        <p style="margin:0;font-size:.84rem">Low → high on one scale. Sales, quantity, population.</p>
+      </div>
+      <div class="tile">
+        <h3>Diverging</h3>
+        <div style="display:flex;margin:.4rem 0 .3rem;border-radius:4px;overflow:hidden;height:1.1rem">
+          <div style="flex:1;background:#b91c1c"></div><div style="flex:1;background:#fca5a5"></div>
+          <div style="flex:1;background:#a7f3d0"></div><div style="flex:1;background:#047857"></div>
+        </div>
+        <p style="margin:0;font-size:.84rem">A meaningful midpoint. Profit/loss, above/below target.</p>
+      </div>
+      <div class="tile">
+        <h3>Categorical</h3>
+        <div style="display:flex;margin:.4rem 0 .3rem;border-radius:4px;overflow:hidden;height:1.1rem">
+          <div style="flex:1;background:#4e79a7"></div><div style="flex:1;background:#f28e2b"></div>
+          <div style="flex:1;background:#59a14f"></div><div style="flex:1;background:#b07aa1"></div>
+        </div>
+        <p style="margin:0;font-size:.84rem">Unordered groups. Cap it at about seven before colours stop being distinguishable.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Set the diverging midpoint to zero — manually</div>
+      <p>For profit, Tableau centres the palette on the data's midpoint, not on zero. A view where everything is profitable will still show red. Click Color → Edit Colors → <strong>Advanced</strong> → tick Center and set it to <strong>0</strong>. Otherwise your colours claim losses that don't exist.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Grey is your most useful colour</div>
+      <p>When one category is the story, colour that one and make everything else grey. A chart where every bar is a different colour has no focal point — the reader has to find the message themselves. Roughly 1 in 12 men also can't separate red from green, so never let that pair be the only signal.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>A number needs context</strong> — a reference line supplies it in one drag</li>
+      <li><strong>Watch the Table / Pane / Cell drop zone</strong> — it decides the scope</li>
+      <li><strong>Use median on skewed data</strong>, not mean — Superstore is very skewed</li>
+      <li><strong>Report R² and p-value</strong> when you show a trend line</li>
+      <li><strong>Correlation isn't causation</strong> — say "move together", not "causes"</li>
+      <li><strong>Always show the forecast's confidence band</strong></li>
+      <li><strong>Tooltips are free space</strong> — and Viz in Tooltip is free depth</li>
+      <li><strong>Most formatting is deleting</strong> — gridlines first</li>
+      <li><strong>Centre diverging palettes on zero</strong> by hand</li>
+      <li><strong>Colour one thing, grey the rest</strong></li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="an-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build Sales by Region and add an <strong>average reference line</strong></li>
+      <li>Add a <strong>constant line</strong> at a $600K target and shade below it in red</li>
+      <li>Build Sales by Sub-Category and add a <strong>median with quartiles</strong> — compare mean vs median and explain the gap</li>
+      <li>Build a Discount vs Profit scatter and add a <strong>linear trend line</strong></li>
+      <li><strong>Describe the trend model</strong> — report R² and the p-value in one sentence</li>
+      <li>Build a monthly sales line and add a <strong>forecast</strong> with its confidence band</li>
+      <li>Run <strong>Describe Forecast</strong> — did Tableau detect seasonality?</li>
+      <li>Build a Sales vs Profit scatter by Sub-Category and add <strong>clustering</strong>; save it as a dimension and name the clusters</li>
+      <li>Write a <strong>custom tooltip</strong> including sales, margin and order count</li>
+      <li>Add a <strong>Viz in Tooltip</strong> showing each region's monthly trend on hover</li>
+      <li>Take any finished chart and <strong>remove gridlines, borders and the legend</strong>; format the numbers as $0K</li>
+      <li>Rewrite that chart's title as a <strong>finding</strong> rather than a description</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: quantify the discount problem</div>
+      <p>Build a scatter of Discount vs Profit Ratio by Sub-Category with a trend line, and find the discount level where average profit crosses zero. Add a reference line there and shade the loss region. Then write the one-sentence recommendation a manager could act on — including how much profit would have been recovered last year if discounts had been capped at that level. A chart plus a number plus a recommendation is a complete piece of analysis; any one alone is not.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/lod"><span class="pl">← Previous</span><span class="pt">LOD Expressions</span></a>
+    <a class="next" href="#tableau/dashboards"><span class="pl">Next →</span><span class="pt">Dashboards</span></a>
+  </nav>
+</div>

@@ -1,0 +1,361 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>📐</span> Table Calculations</h1>
+    <p>Running totals, percent of total, rank, moving averages, year-over-year growth. Table calculations work on the numbers <em>already in your view</em> rather than the underlying rows — and understanding that one distinction is what separates people who fight Tableau from people who fly in it.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 35 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Calculated Fields</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#tc-idea">The key idea</a>
+    <a href="#tc-quick">Quick table calcs</a>
+    <a href="#tc-direction">Compute Using</a>
+    <a href="#tc-common">The common ones</a>
+    <a href="#tc-writing">Writing them by hand</a>
+    <a href="#tc-window">Window functions</a>
+    <a href="#tc-debug">Debugging</a>
+    <a href="#tc-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="tc-idea">
+    <h2><span class="ic">🔑</span> The key idea: a second pass over the view</h2>
+    <p>Every other calculation you've written runs against the <strong>data source</strong>. A table calculation runs against the <strong>result table Tableau has already built</strong> — the aggregated numbers sitting in your view right now.</p>
+
+    <div class="flow">
+      <div class="fnode"><div class="fi">1</div><div class="ft">Data source</div><div class="fd">9,994 rows</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">2</div><div class="ft">Filters &amp; aggregation</div><div class="fd">SUM by Region</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">3</div><div class="ft">The view</div><div class="fd">4 numbers</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode done"><div class="fi">4</div><div class="ft">Table calc</div><div class="fd">Runs on those 4</div></div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.7rem">
+      <div class="callout-title">Why this matters immediately</div>
+      <p>A table calculation <strong>cannot see rows that aren't in your view</strong>. Filter out the South region and a "percent of total" calculation now totals only Central, East and West — the percentages change. That's not a bug; it's the definition. It's also the single most common source of confusion, and the reason <a href="#tableau/lod">LOD expressions</a> exist.</p>
+    </div>
+
+    <div class="ba" style="margin-top:.75rem">
+      <div class="ba-side">
+        <div class="ba-h">What the view holds</div>
+        <table>
+          <tr><th>Region</th><th>SUM(Sales)</th></tr>
+          <tr><td>Central</td><td>501,240</td></tr>
+          <tr><td>East</td><td>678,781</td></tr>
+          <tr><td>South</td><td>391,722</td></tr>
+          <tr><td>West</td><td>725,458</td></tr>
+        </table>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">After "% of Total"</div>
+        <table>
+          <tr><th>Region</th><th>% of Total</th></tr>
+          <tr><td>Central</td><td>21.8%</td></tr>
+          <tr><td>East</td><td>29.5%</td></tr>
+          <tr><td>South</td><td>17.1%</td></tr>
+          <tr><td>West</td><td>31.6%</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="muted">The calculation never touched the 9,994 rows. It divided each of four numbers by their sum.</p>
+  </section>
+
+  <section class="lcard" id="tc-quick">
+    <h2><span class="ic">⚡</span> Quick Table Calculations — start here</h2>
+    <p>You rarely need to write these from scratch. Right-click any measure pill in the view → <strong>Quick Table Calculation</strong> → pick one.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill dim sq">MONTH(Order Date)</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill msr">SUM(Sales) △</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Line ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span></div>
+          <div class="mk-row"><span class="mk-i">Size</span></div>
+          <div class="mk-row"><span class="mk-i">Label</span></div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 70" role="img" aria-label="Running total line rising steadily">
+            <line x1="14" y1="62" x2="252" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <line x1="14" y1="6" x2="14" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <polyline points="20,58 45,54 70,50 95,43 120,38 145,30 170,25 195,17 220,11 245,7" fill="none" stroke="#5b9450" stroke-width="2.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note">The small <strong>△</strong> on the pill is Tableau telling you a table calculation is applied. Always look for it — it changes what the numbers mean.</p>
+    </div>
+
+    <div class="callout note" style="margin-top:.5rem">
+      <p>A pill showing <strong>△</strong> has a table calc; the axis title also changes to something like "Running Sum of Sales". If a number looks wrong, check for that triangle first.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-direction">
+    <h2><span class="ic">🧭</span> Compute Using — the part everyone gets wrong</h2>
+    <p>A table calculation needs to know <strong>which direction to move</strong> through the table. Get this wrong and you'll get a plausible-looking number that answers a different question.</p>
+
+    <p class="muted">Right-click the pill → <strong>Compute Using</strong>, or Edit Table Calculation for full control.</p>
+
+    <div class="grid2">
+      <div class="tile">
+        <h3>Table (across)</h3>
+        <p style="margin:0;font-size:.86rem">Moves left → right along each row, restarting on every new row. Use for "% of this row's total".</p>
+      </div>
+      <div class="tile">
+        <h3>Table (down)</h3>
+        <p style="margin:0;font-size:.86rem">Moves top → bottom down each column, restarting on every new column.</p>
+      </div>
+      <div class="tile">
+        <h3>Table (across then down)</h3>
+        <p style="margin:0;font-size:.86rem">Treats the entire table as one continuous sequence. Use for "% of the grand total".</p>
+      </div>
+      <div class="tile">
+        <h3>Pane (down)</h3>
+        <p style="margin:0;font-size:.86rem">Restarts at each pane boundary — e.g. per year rather than across the whole table.</p>
+      </div>
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ Specific Dimensions</h3>
+        <p style="margin:0;font-size:.86rem">Tick exactly which dimensions the calculation walks along. Explicit, survives rearranging the view, and the option you should reach for once you understand it.</p>
+      </div>
+      <div class="tile" style="background:#fffbeb;border-color:#fde68a">
+        <h3>⚠️ Cell</h3>
+        <p style="margin:0;font-size:.86rem">Each cell on its own. Almost never useful — if you land here by accident, your numbers will all be 100% or 1.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">The same calculation, two directions</h3>
+    <p class="muted">A "% of Total" on Sales, in a Region × Category table. Same view, same calc, completely different meaning.</p>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Compute using: Table (across)</div>
+        <table>
+          <tr><th></th><th>Furn</th><th>Office</th><th>Tech</th></tr>
+          <tr><td>Central</td><td>32.7%</td><td>33.3%</td><td>34.0%</td></tr>
+          <tr><td>East</td><td>30.7%</td><td>30.3%</td><td>39.0%</td></tr>
+          <tr><td>West</td><td>34.8%</td><td>30.4%</td><td>34.7%</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Each <strong>row</strong> sums to 100%. Answers: "what's this region's category mix?"</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Compute using: Table (down)</div>
+        <table>
+          <tr><th></th><th>Furn</th><th>Office</th><th>Tech</th></tr>
+          <tr><td>Central</td><td>22.1%</td><td>23.2%</td><td>20.4%</td></tr>
+          <tr><td>East</td><td>28.1%</td><td>28.6%</td><td>31.7%</td></tr>
+          <tr><td>West</td><td>34.0%</td><td>30.7%</td><td>30.1%</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Each <strong>column</strong> sums to 100%. Answers: "which regions sell this category?"</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">How to check you got it right</div>
+      <p>Ask what should add up to 100% — rows, columns, or the whole table — then verify that it actually does. If nothing sums to 100%, your Compute Using is wrong. This takes five seconds and catches almost every mistake.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-common">
+    <h2><span class="ic">🧰</span> The ones you'll actually use</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Calculation</th><th>Answers</th><th>Typical Compute Using</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Running Total</strong></td><td>Cumulative sales to date</td><td>Along the date</td></tr>
+          <tr><td><strong>Percent of Total</strong></td><td>What share is this?</td><td>Whatever should sum to 100%</td></tr>
+          <tr><td><strong>Rank</strong></td><td>Where does this place?</td><td>The dimension being ranked</td></tr>
+          <tr><td><strong>Difference</strong></td><td>Change vs the previous period</td><td>Along the date</td></tr>
+          <tr><td><strong>Percent Difference</strong></td><td>Growth rate vs previous</td><td>Along the date</td></tr>
+          <tr><td><strong>Moving Average</strong></td><td>The trend under the noise</td><td>Along the date</td></tr>
+          <tr><td><strong>Percentile</strong></td><td>Relative standing 0–1</td><td>The dimension compared</td></tr>
+          <tr><td><strong>YTD Total</strong></td><td>Year to date, resetting each January</td><td>Along date, restarting each year</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1rem">Year-over-year growth in four clicks</h3>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Build the base view</div>
+        <p><span class="pill dim sq">YEAR(Order Date)</span> on Columns, <span class="pill msr">SUM(Sales)</span> on Rows.</p>
+      </li>
+      <li>
+        <div class="s-t">Add the calculation</div>
+        <p>Right-click <span class="pill msr sm">SUM(Sales)</span> → Quick Table Calculation → <strong>Percent Difference</strong>.</p>
+      </li>
+      <li>
+        <div class="s-t">Check the direction</div>
+        <p>Compute Using should be <strong>Table (across)</strong> — along the years. 2014 will be blank, because there's no prior year to compare to. That blank is correct.</p>
+      </li>
+      <li>
+        <div class="s-t">Format it</div>
+        <p>Right-click the axis → Format → Percentage, 1 decimal. You now have a growth-rate view that updates with any filter.</p>
+      </li>
+    </ol>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Moving averages are underrated</div>
+      <p>Daily or monthly sales are noisy enough that trends are hard to see. A <strong>3-month moving average</strong> on top of the raw line shows the underlying direction while keeping the actual values visible. Add both to the view and make the moving average a thicker, darker line.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-writing">
+    <h2><span class="ic">✍️</span> Writing them by hand</h2>
+    <p>Quick Table Calcs cover most cases. When you need more control, write the function directly.</p>
+<pre><span class="c">// Running total of sales</span>
+<span class="f">RUNNING_SUM</span>(<span class="f">SUM</span>([Sales]))
+
+<span class="c">// Percent of total</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">TOTAL</span>(<span class="f">SUM</span>([Sales]))
+
+<span class="c">// Rank — descending by default</span>
+<span class="f">RANK</span>(<span class="f">SUM</span>([Sales]))
+<span class="f">RANK_DENSE</span>(<span class="f">SUM</span>([Sales]))      <span class="c">// ties share a rank, no gaps</span>
+<span class="f">RANK_UNIQUE</span>(<span class="f">SUM</span>([Sales]))     <span class="c">// ties broken arbitrarily</span>
+
+<span class="c">// Difference from the previous period</span>
+<span class="f">ZN</span>(<span class="f">SUM</span>([Sales])) - <span class="f">LOOKUP</span>(<span class="f">ZN</span>(<span class="f">SUM</span>([Sales])), -<span class="n">1</span>)
+
+<span class="c">// Percent difference (year-over-year growth)</span>
+(<span class="f">SUM</span>([Sales]) - <span class="f">LOOKUP</span>(<span class="f">SUM</span>([Sales]), -<span class="n">1</span>))
+    / <span class="f">LOOKUP</span>(<span class="f">SUM</span>([Sales]), -<span class="n">1</span>)
+
+<span class="c">// 3-period moving average (2 back, 0 forward)</span>
+<span class="f">WINDOW_AVG</span>(<span class="f">SUM</span>([Sales]), -<span class="n">2</span>, <span class="n">0</span>)
+
+<span class="c">// Share of the window's maximum — useful for index charts</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">WINDOW_MAX</span>(<span class="f">SUM</span>([Sales]))</pre>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Table calcs always wrap an aggregate</div>
+      <p><code>RUNNING_SUM([Sales])</code> is invalid — it must be <code>RUNNING_SUM(SUM([Sales]))</code>. The inner aggregate produces the view's numbers; the table calc then walks over them. If Tableau complains about mixing aggregate and non-aggregate arguments, this is nearly always why.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">LOOKUP — the time-travel function</h3>
+    <p><code>LOOKUP(expression, offset)</code> fetches a value from another position in the table. It's the engine behind every "compared to last period" calculation.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Expression</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>LOOKUP(SUM([Sales]), -1)</code></td><td>The previous period's value</td></tr>
+          <tr><td><code>LOOKUP(SUM([Sales]), 1)</code></td><td>The next period's value</td></tr>
+          <tr><td><code>LOOKUP(SUM([Sales]), -12)</code></td><td>Twelve periods back — same month last year</td></tr>
+          <tr><td><code>LOOKUP(SUM([Sales]), FIRST())</code></td><td>The first value in the window — the base for an index</td></tr>
+          <tr><td><code>LOOKUP(SUM([Sales]), LAST())</code></td><td>The last value in the window</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Offsets that fall outside the window return <code>Null</code>, which is why the first period of a year-over-year view is always blank. Wrap in <code>ZN()</code> only if you genuinely want zero — a blank is usually the more honest answer.</p></div>
+  </section>
+
+  <section class="lcard" id="tc-window">
+    <h2><span class="ic">🪟</span> WINDOW functions and partitioning</h2>
+    <p>Every table calculation operates over a <strong>window</strong> — the set of cells it can see. <em>Compute Using</em> defines that window, and the <code>WINDOW_*</code> family lets you aggregate across it.</p>
+<pre><span class="f">WINDOW_SUM</span>(<span class="f">SUM</span>([Sales]))        <span class="c">// total across the window</span>
+<span class="f">WINDOW_AVG</span>(<span class="f">SUM</span>([Sales]))        <span class="c">// average across the window</span>
+<span class="f">WINDOW_MAX</span>(<span class="f">SUM</span>([Sales]))        <span class="c">// biggest in the window</span>
+<span class="f">WINDOW_MIN</span>(<span class="f">SUM</span>([Sales]))
+<span class="f">WINDOW_MEDIAN</span>(<span class="f">SUM</span>([Sales]))
+<span class="f">WINDOW_STDEV</span>(<span class="f">SUM</span>([Sales]))
+
+<span class="c">// Optional start/end offsets narrow the window</span>
+<span class="f">WINDOW_AVG</span>(<span class="f">SUM</span>([Sales]), -<span class="n">2</span>, <span class="n">0</span>)   <span class="c">// this period + 2 before</span>
+<span class="f">WINDOW_SUM</span>(<span class="f">SUM</span>([Sales]), <span class="f">FIRST</span>(), <span class="n">0</span>)  <span class="c">// same as RUNNING_SUM</span>
+
+<span class="c">// Positional helpers</span>
+<span class="f">INDEX</span>()    <span class="c">// position in the window: 1, 2, 3…</span>
+<span class="f">SIZE</span>()     <span class="c">// how many rows are in the window</span>
+<span class="f">FIRST</span>()    <span class="c">// offset to the first row (0 when you're on it)</span>
+<span class="f">LAST</span>()     <span class="c">// offset to the last row</span></pre>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">A genuinely useful trick: INDEX() as a Top N filter</div>
+      <p>Put <code>INDEX() &lt;= 10</code> on the Filters shelf with the view sorted descending. Unlike a Top N filter, this one is applied <em>after</em> other filters — so "top 10 within whatever the user selected" works without touching context filters. It's the standard fix for dashboards where the Top N should respond to a filter card.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-debug">
+    <h2><span class="ic">🔧</span> When the numbers look wrong</h2>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h">Everything shows 100% or 1</div>
+        <p style="margin:0;font-size:.84rem">Compute Using is set to <strong>Cell</strong>. Each cell is its own window, so it's 100% of itself. Change the direction.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Percentages don't sum to 100%</div>
+        <p style="margin:0;font-size:.84rem">Wrong direction. Decide what should total 100% — a row, a column, the table — and set Compute Using to match.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">The first period is blank</div>
+        <p style="margin:0;font-size:.84rem">Correct behaviour for any "vs previous" calc. There's nothing before the first row.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Numbers change when I filter</div>
+        <p style="margin:0;font-size:.84rem">Also correct — table calcs only see the view. If you need percentages against the <em>unfiltered</em> total, you need an <a href="#tableau/lod">LOD expression</a> instead.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Rearranging pills broke it</div>
+        <p style="margin:0;font-size:.84rem">"Table (across)" is defined by layout, so moving pills changes it. Switch to <strong>Specific Dimensions</strong> to make the calc independent of arrangement.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Totals look wrong</div>
+        <p style="margin:0;font-size:.84rem">Grand totals compute their own table calc rather than summing the displayed values. Analysis → Totals → <em>Total All Using</em> lets you control this.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">The debugging habit that works</div>
+      <p>Duplicate the sheet and switch it to a plain text table (Show Me → Text Table), with both the raw measure and the table calc side by side. Seeing the input and the output in the same grid makes the direction obvious immediately — far faster than staring at a line chart and guessing.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Table calcs run on the view, not the data</strong> — that's the whole concept</li>
+      <li><strong>They can't see filtered-out rows</strong> — by design</li>
+      <li><strong>Compute Using is half the calculation</strong> — the function is the other half</li>
+      <li><strong>The △ on a pill</strong> means a table calc is applied — always check for it</li>
+      <li><strong>Always wrap an aggregate</strong> — <code>SUM([Sales])</code>, never bare <code>[Sales]</code></li>
+      <li><strong>Ask what should total 100%</strong> — then verify it does</li>
+      <li><strong>Specific Dimensions beats Table (across)</strong> — it survives layout changes</li>
+      <li><strong>LOOKUP(…, -1) is "the previous one"</strong> — the basis of all period comparisons</li>
+      <li><strong>Need it independent of filters?</strong> That's an <a href="#tableau/lod">LOD</a>, not a table calc</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="tc-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build Sales by Month, then add a <strong>Running Total</strong></li>
+      <li>Build Sales by Region and add <strong>Percent of Total</strong> — verify it sums to 100%</li>
+      <li>Build a Region × Category table and switch Percent of Total between <strong>across and down</strong>; explain in one sentence what each answers</li>
+      <li>Build Sales by Year and add <strong>Percent Difference</strong> for year-over-year growth</li>
+      <li><strong>Rank</strong> Sub-Categories by Profit, and try all three RANK variants on tied values</li>
+      <li>Add a <strong>3-month moving average</strong> to a monthly sales line, keeping the raw line visible</li>
+      <li>Write <code>LOOKUP(SUM([Sales]), -1)</code> by hand and confirm it matches the built-in Difference calc</li>
+      <li>Use <code>INDEX() &lt;= 10</code> as a filter for a <strong>Top 10 Sub-Categories</strong> view</li>
+      <li>Build a <strong>YTD Total</strong> that restarts each January (hint: Compute Using restarting every Year)</li>
+      <li>Create an <strong>index chart</strong>: each region's sales relative to its own first month, using <code>LOOKUP(…, FIRST())</code></li>
+      <li>Add a Region filter to your Percent of Total view and watch the percentages change — explain why</li>
+      <li>Build a text table showing raw Sales and the table calc <strong>side by side</strong> as a debugging view</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: a Pareto chart</div>
+      <p>Show that a small share of sub-categories drives most of the sales. Sort sub-categories by Sales descending, add a running total of Sales as a percent of the overall total, and plot it as a line over the bars on a dual axis. Add a reference line at 80%. How many sub-categories does it take to reach it? That single chart is often the most actionable thing in a retail dataset — and it's two table calculations stacked on each other.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/calculated"><span class="pl">← Previous</span><span class="pt">Calculated Fields</span></a>
+    <a class="next" href="#tableau/lod"><span class="pl">Next →</span><span class="pt">LOD Expressions</span></a>
+  </nav>
+</div>

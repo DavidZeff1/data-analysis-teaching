@@ -1,0 +1,332 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🔬</span> LOD Expressions</h1>
+    <p>Level of Detail expressions let a calculation aggregate at a <em>different granularity</em> than the view it sits in. They solve the problems that make people give up on Tableau — customer-level metrics inside a regional chart, percentages that ignore filters, cohort analysis. They're also the most-asked Tableau interview topic.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 35 min</span>
+      <span>🎓 Advanced</span>
+      <span>🔗 Needs: Calculated Fields, Table Calculations</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#lo-problem">The problem</a>
+    <a href="#lo-syntax">Syntax</a>
+    <a href="#lo-fixed">FIXED</a>
+    <a href="#lo-include">INCLUDE</a>
+    <a href="#lo-exclude">EXCLUDE</a>
+    <a href="#lo-order">Order of operations</a>
+    <a href="#lo-vs">LOD vs table calc</a>
+    <a href="#lo-recipes">Recipes</a>
+    <a href="#lo-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="lo-problem">
+    <h2><span class="ic">🧩</span> The problem LODs solve</h2>
+    <p>Tableau aggregates to whatever dimensions are in your view. Put Region on Rows and you get four numbers. That's usually what you want — until it isn't.</p>
+
+    <div class="callout danger">
+      <div class="callout-title">A question you cannot answer without LODs</div>
+      <p><em>"What is the average <strong>customer's</strong> total spend, per region?"</em></p>
+      <p style="margin-top:.4rem">You need to sum sales <strong>per customer</strong> first, then average those totals <strong>per region</strong>. Two levels of aggregation in one number. <code>AVG([Sales])</code> gives you the average line item, which is a completely different — and much smaller — figure.</p>
+    </div>
+
+    <div class="ba" style="margin-top:.75rem">
+      <div class="ba-side">
+        <div class="ba-h">What AVG([Sales]) gives you</div>
+        <table>
+          <tr><th>Region</th><th>AVG(Sales)</th></tr>
+          <tr><td>Central</td><td>$216</td></tr>
+          <tr><td>East</td><td>$238</td></tr>
+          <tr><td>West</td><td>$226</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">The average <strong>line item</strong>. Not what was asked.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">What the LOD gives you</div>
+        <table>
+          <tr><th>Region</th><th>Avg per customer</th></tr>
+          <tr><td>Central</td><td>$1,363</td></tr>
+          <tr><td>East</td><td>$1,449</td></tr>
+          <tr><td>West</td><td>$1,459</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Total spend per <strong>customer</strong>, then averaged.</p>
+      </div>
+    </div>
+<pre><span class="c">// Step 1 — a calculated field that sums per customer,</span>
+<span class="c">//          regardless of what's in the view</span>
+<span class="c">// Name: Customer Total</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) }
+
+<span class="c">// Step 2 — drop it on the view and set the aggregation to AVG</span>
+<span class="f">AVG</span>([Customer Total])</pre>
+  </section>
+
+  <section class="lcard" id="lo-syntax">
+    <h2><span class="ic">📝</span> The syntax</h2>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">{ KEYWORD [dimensions] : AGGREGATE(expression) }</span>
+      </div>
+      <div class="syn-body">
+        <ul class="syn-args">
+          <li><b>{ }</b> <span>Curly braces mark it as an LOD — always required</span></li>
+          <li><b>KEYWORD</b> <span><code>FIXED</code>, <code>INCLUDE</code> or <code>EXCLUDE</code></span></li>
+          <li><b>[dimensions]</b> <span>The granularity to aggregate at. Comma-separated; can be empty</span></li>
+          <li><b>:</b> <span>Separates the dimensions from the calculation</span></li>
+          <li><b>AGGREGATE(…)</b> <span>SUM, AVG, MIN, MAX, COUNTD — required, not optional</span></li>
+        </ul>
+<pre>{ <span class="k">FIXED</span> [Region] : <span class="f">SUM</span>([Sales]) }
+{ <span class="k">FIXED</span> [Region], [Category] : <span class="f">SUM</span>([Sales]) }   <span class="c">// two dimensions</span>
+{ <span class="k">FIXED</span> : <span class="f">SUM</span>([Sales]) }                     <span class="c">// no dimensions = grand total</span>
+{ <span class="k">INCLUDE</span> [Customer Name] : <span class="f">SUM</span>([Sales]) }
+{ <span class="k">EXCLUDE</span> [Category] : <span class="f">SUM</span>([Sales]) }</pre>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Read it out loud</div>
+      <p><code>{ FIXED [Region] : SUM([Sales]) }</code> reads as <strong>"the sum of sales, fixed at the region level"</strong>. Whatever else is in the view, that number is computed per region and nothing else.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-fixed">
+    <h2><span class="ic">📌</span> FIXED — ignore the view entirely</h2>
+    <p>The one you'll use 90% of the time. <code>FIXED</code> computes at exactly the dimensions you name and <strong>ignores every other dimension in the view</strong>.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span><span class="pill dim">Category</span></div>
+        <div class="shelf"><span class="sl">Text</span><span class="pill msr calc">{FIXED [Region] : SUM([Sales])}</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Text ▾</div>
+        </div>
+        <div class="viz-canvas">
+          <table class="ltable" style="font-size:.76rem">
+            <thead><tr><th>Region</th><th>Category</th><th class="num">FIXED Region</th></tr></thead>
+            <tbody>
+              <tr><td>Central</td><td>Furniture</td><td class="num">501,240</td></tr>
+              <tr><td>Central</td><td>Office Supplies</td><td class="num">501,240</td></tr>
+              <tr><td>Central</td><td>Technology</td><td class="num">501,240</td></tr>
+              <tr><td>East</td><td>Furniture</td><td class="num">678,781</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="viz-note">Category is in the view, but the FIXED expression ignores it — every Central row shows the whole Central total. That repetition is exactly what makes "% of region" possible.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">What that unlocks</h3>
+<pre><span class="c">// Each category's share of ITS OWN region</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">MIN</span>({ <span class="k">FIXED</span> [Region] : <span class="f">SUM</span>([Sales]) })
+
+<span class="c">// Share of the grand total — no dimensions at all</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">MIN</span>({ <span class="k">FIXED</span> : <span class="f">SUM</span>([Sales]) })
+
+<span class="c">// A customer's lifetime value, usable at any level</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) }
+
+<span class="c">// The date each customer first ordered — the basis of cohort analysis</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">MIN</span>([Order Date]) }
+
+<span class="c">// How many orders has each customer placed?</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">COUNTD</span>([Order ID]) }</pre>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Why the MIN() wrapper?</div>
+      <p>An LOD returns one value per group, but Tableau still needs an aggregate to combine it into the view. <code>MIN</code>, <code>MAX</code> and <code>AVG</code> all return the same answer here because every row in the group holds the identical value — <code>MIN</code> is just the convention. Omit it and you'll get "cannot mix aggregate and non-aggregate arguments".</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-include">
+    <h2><span class="ic">➕</span> INCLUDE — go finer than the view</h2>
+    <p>Adds dimensions to whatever is already in the view, computes there, then aggregates back up. Use it when you need a <em>more detailed</em> level than you're displaying.</p>
+<pre><span class="c">// Average order size, shown at whatever level the view is at</span>
+<span class="f">AVG</span>({ <span class="k">INCLUDE</span> [Order ID] : <span class="f">SUM</span>([Sales]) })
+
+<span class="c">// Reads as: sum sales per order (plus whatever's in the view),</span>
+<span class="c">// then average those order totals.</span></pre>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">INCLUDE vs FIXED — the practical difference</div>
+      <p><code>INCLUDE</code> <strong>adapts</strong> to the view: drag Region in and it computes per order <em>within each region</em>. <code>FIXED</code> ignores the view entirely. If you want a number that responds to how you slice the dashboard, use <code>INCLUDE</code>; if you want a constant reference value, use <code>FIXED</code>.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-exclude">
+    <h2><span class="ic">➖</span> EXCLUDE — go coarser than the view</h2>
+    <p>Removes dimensions from the view's granularity. The classic use is showing a total alongside its own breakdown.</p>
+<pre><span class="c">// Regional total, displayed in a view broken down by Category</span>
+{ <span class="k">EXCLUDE</span> [Category] : <span class="f">SUM</span>([Sales]) }
+
+<span class="c">// Each category's share of its region — an alternative to the FIXED version</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">MIN</span>({ <span class="k">EXCLUDE</span> [Category] : <span class="f">SUM</span>([Sales]) })
+
+<span class="c">// How far is this month above or below the yearly average?</span>
+<span class="f">SUM</span>([Sales]) - <span class="f">AVG</span>({ <span class="k">EXCLUDE</span> [Month of Order Date] : <span class="f">SUM</span>([Sales]) })</pre>
+    <div class="callout note" style="margin-top:.5rem"><p><code>EXCLUDE</code> is relative — it strips named dimensions from whatever's in the view. That makes it flexible but harder to reason about, which is why most people reach for <code>FIXED</code>. Both are correct; <code>FIXED</code> is easier to debug.</p></div>
+  </section>
+
+  <section class="lcard" id="lo-order">
+    <h2><span class="ic">🪜</span> Order of operations — where FIXED surprises people</h2>
+    <p>Tableau evaluates things in a fixed sequence. <code>FIXED</code> is computed <strong>before dimension filters</strong>, which is either exactly what you want or a nasty surprise.</p>
+
+    <ol class="ladder">
+      <li>Extract filters<div class="lr-d">Applied when the data was extracted</div></li>
+      <li>Data source filters<div class="lr-d">Set on the connection</div></li>
+      <li class="key">Context filters<div class="lr-d">Right-click a filter → Add to Context. <strong>These DO affect FIXED.</strong></div></li>
+      <li class="key"><strong>FIXED</strong> LOD expressions<div class="lr-d">Computed here — before ordinary filters</div></li>
+      <li>Dimension filters<div class="lr-d">Your normal filter cards. <strong>FIXED ignores these.</strong></div></li>
+      <li class="key">INCLUDE / EXCLUDE LODs<div class="lr-d">Computed after dimension filters, so they respect them</div></li>
+      <li>Measure filters<div class="lr-d">Filters on aggregated values</div></li>
+      <li>Table calculations<div class="lr-d">Run last, on the finished view</div></li>
+    </ol>
+
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">⚠️ The behaviour that confuses everyone</div>
+      <p>Filter your dashboard to the West region. A <code>{FIXED : SUM([Sales])}</code> grand total still shows <strong>$2,297,201</strong> — all four regions — because it was computed before your filter ran.</p>
+      <p style="margin-top:.4rem"><strong>Sometimes that's the goal</strong> ("what share of company-wide sales is West?"). When it isn't, right-click the Region filter → <strong>Add to Context</strong>, and the FIXED expression will then respect it.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:.65rem">
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ Want the LOD to ignore filters</h3>
+        <p style="margin:0;font-size:.86rem">Use <code>FIXED</code> and leave the filters alone. Good for "% of company total" or a constant benchmark line.</p>
+      </div>
+      <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
+        <h3>✓ Want the LOD to respect filters</h3>
+        <p style="margin:0;font-size:.86rem">Either add the filter to <strong>Context</strong>, or use <code>INCLUDE</code> / <code>EXCLUDE</code>, which sit after dimension filters in the sequence.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-vs">
+    <h2><span class="ic">⚖️</span> LOD or table calculation?</h2>
+    <p>They overlap, and choosing wrongly is the source of a lot of frustration. The deciding question: <strong>does the number need to see data that isn't in the view?</strong></p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Aspect</th><th>LOD expression</th><th>Table calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Where it runs</td><td>In the database, before the view</td><td>On the finished view, in Tableau</td></tr>
+          <tr><td>Can see rows not in the view</td><td style="color:#16a34a">✓ Yes</td><td style="color:#dc2626">✗ No</td></tr>
+          <tr><td>Affected by dimension filters</td><td>FIXED: no · INCLUDE/EXCLUDE: yes</td><td>Always yes</td></tr>
+          <tr><td>Depends on view layout</td><td style="color:#16a34a">✓ No — stable</td><td style="color:#d97706">Yes — Compute Using</td></tr>
+          <tr><td>Running totals, rank, moving avg</td><td style="color:#dc2626">✗ Can't</td><td style="color:#16a34a">✓ Built for it</td></tr>
+          <tr><td>Different granularity than the view</td><td style="color:#16a34a">✓ Built for it</td><td style="color:#dc2626">✗ Can't</td></tr>
+          <tr><td>Performance on big data</td><td>Usually faster (pushed to the database)</td><td>Fine — the view is already small</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">The rule of thumb</div>
+      <p><strong>Anything positional</strong> — running total, rank, "compared to the previous row", moving average — is a <a href="#tableau/tablecalcs">table calculation</a>. <strong>Anything about granularity</strong> — per customer, per order, ignoring a filter — is an LOD.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-recipes">
+    <h2><span class="ic">📖</span> Recipes worth memorising</h2>
+
+    <div class="syn">
+      <div class="syn-head"><span class="syn-name">Customer cohort analysis</span><span class="syn-tag">Group customers by when they first bought</span></div>
+      <div class="syn-body">
+<pre><span class="c">// Acquisition date — the customer's first ever order</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">MIN</span>([Order Date]) }
+
+<span class="c">// Cohort year — turn that into a grouping dimension</span>
+<span class="f">YEAR</span>({ <span class="k">FIXED</span> [Customer Name] : <span class="f">MIN</span>([Order Date]) })
+
+<span class="c">// Is this order the customer's first?</span>
+<span class="k">IF</span> [Order Date] = { <span class="k">FIXED</span> [Customer Name] : <span class="f">MIN</span>([Order Date]) }
+<span class="k">THEN</span> <span class="s">"New"</span> <span class="k">ELSE</span> <span class="s">"Returning"</span> <span class="k">END</span></pre>
+        <p class="muted" style="margin-top:.5rem">Put Cohort Year on Rows and Order Year on Columns and you have a retention grid — the analysis every subscription business runs, and it's three lines of calculation.</p>
+      </div>
+    </div>
+
+    <div class="syn">
+      <div class="syn-head"><span class="syn-name">Customer segmentation</span><span class="syn-tag">Classify by total behaviour, not per row</span></div>
+      <div class="syn-body">
+<pre><span class="c">// Bucket customers by lifetime spend</span>
+<span class="k">IF</span> { <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) } &gt; <span class="n">5000</span> <span class="k">THEN</span> <span class="s">"VIP"</span>
+<span class="k">ELSEIF</span> { <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) } &gt; <span class="n">1000</span> <span class="k">THEN</span> <span class="s">"Regular"</span>
+<span class="k">ELSE</span> <span class="s">"Occasional"</span>
+<span class="k">END</span>
+
+<span class="c">// Repeat customers only</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">COUNTD</span>([Order ID]) } &gt; <span class="n">1</span></pre>
+        <p class="muted" style="margin-top:.5rem">Because it's FIXED, the segment stays stable no matter how you slice the view — a customer doesn't stop being a VIP because you filtered to one region.</p>
+      </div>
+    </div>
+
+    <div class="syn">
+      <div class="syn-head"><span class="syn-name">Percent of total that ignores filters</span><span class="syn-tag">The table-calc problem, solved</span></div>
+      <div class="syn-body">
+<pre><span class="c">// Share of company-wide sales, even when filtered</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">MIN</span>({ <span class="k">FIXED</span> : <span class="f">SUM</span>([Sales]) })
+
+<span class="c">// Compare with the table-calc version, which uses only</span>
+<span class="c">// what survived the filters:</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">TOTAL</span>(<span class="f">SUM</span>([Sales]))</pre>
+        <p class="muted" style="margin-top:.5rem">Put both on the same view with a filter active and the difference becomes obvious in one glance. Which is "right" depends entirely on the question you're answering.</p>
+      </div>
+    </div>
+
+    <div class="syn">
+      <div class="syn-head"><span class="syn-name">Comparison against a benchmark</span><span class="syn-tag">Every row measured against a constant</span></div>
+      <div class="syn-body">
+<pre><span class="c">// How does this sub-category compare to the overall average?</span>
+<span class="f">SUM</span>([Profit]) - <span class="f">MIN</span>({ <span class="k">FIXED</span> : <span class="f">AVG</span>([Profit]) })
+
+<span class="c">// Above or below its own region's average?</span>
+<span class="f">SUM</span>([Sales]) - <span class="f">MIN</span>({ <span class="k">FIXED</span> [Region] : <span class="f">AVG</span>([Sales]) })
+
+<span class="c">// Percent of the best-performing region</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">MAX</span>({ <span class="k">FIXED</span> [Region] : <span class="f">SUM</span>([Sales]) })</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>An LOD changes the granularity</strong> a number is computed at — nothing else</li>
+      <li><strong>FIXED ignores the view</strong>; INCLUDE goes finer; EXCLUDE goes coarser</li>
+      <li><strong>Read it as a sentence</strong> — "sum of sales, fixed at customer level"</li>
+      <li><strong>FIXED runs before dimension filters</strong> — Context filters are how you override that</li>
+      <li><strong>Wrap LODs in MIN/MAX/AVG</strong> when combining them with other aggregates</li>
+      <li><strong>Positional → table calc, granularity → LOD</strong></li>
+      <li><strong><code>{FIXED : …}</code> with no dimensions</strong> is a grand total that survives filtering</li>
+      <li><strong>FIXED makes segments stable</strong> — a VIP stays a VIP whatever you filter to</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="lo-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Create <strong>Customer Total</strong> = <code>{FIXED [Customer Name] : SUM([Sales])}</code> and show its AVG by Region</li>
+      <li>Compare that against plain <code>AVG([Sales])</code> in the same view — explain the gap in one sentence</li>
+      <li>Build a <strong>% of grand total</strong> using <code>{FIXED : SUM([Sales])}</code></li>
+      <li>Add a Region filter and confirm those percentages <strong>don't change</strong> — then explain why</li>
+      <li>Add the Region filter <strong>to Context</strong> and watch them change</li>
+      <li>Build each category's <strong>share of its own region</strong> using <code>{FIXED [Region] : SUM([Sales])}</code></li>
+      <li>Create <strong>Customer Acquisition Date</strong> with <code>MIN([Order Date])</code> fixed per customer</li>
+      <li>Turn that into a <strong>Cohort Year</strong> dimension and build a cohort × order-year grid</li>
+      <li>Create a <strong>New vs Returning</strong> flag and chart the split over time</li>
+      <li>Segment customers into <strong>VIP / Regular / Occasional</strong> by lifetime spend</li>
+      <li>Find customers with <strong>more than one order</strong> using COUNTD inside a FIXED</li>
+      <li>Show each sub-category's profit as a <strong>difference from the overall average</strong></li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: are we growing by acquiring or by keeping?</div>
+      <p>Build a view splitting each year's revenue into <strong>new-customer revenue</strong> and <strong>returning-customer revenue</strong>, using a FIXED acquisition date to classify each order. Then answer the question a board actually cares about: is revenue growth coming from customers we already had, or from ones we bought? Add the count of distinct customers per cohort and you can see retention decay directly. This analysis is genuinely difficult without LODs, and near-trivial with them — which is the best possible argument for learning them.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/tablecalcs"><span class="pl">← Previous</span><span class="pt">Table Calculations</span></a>
+    <a class="next" href="#tableau/analytics"><span class="pl">Next →</span><span class="pt">Analytics &amp; Formatting</span></a>
+  </nav>
+</div>

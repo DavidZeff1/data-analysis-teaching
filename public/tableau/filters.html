@@ -1,254 +1,258 @@
-<div class="space-y-4">
-  <h1 class="text-2xl font-bold">Filters</h1>
-  
-  <div>
-    <h2 class="font-bold text-lg">What Are Filters?</h2>
-    <p>Filters limit the data shown in your visualization. Instead of seeing all 10,000 rows, you can focus on specific regions, time periods, or product categories. Filters are essential for:</p>
-    <ul class="list-disc ml-5 mt-2">
-      <li><strong>Focusing analysis</strong> - Zoom in on what matters</li>
-      <li><strong>Comparing segments</strong> - Look at one region or customer type at a time</li>
-      <li><strong>Creating interactivity</strong> - Let viewers choose what they see</li>
-      <li><strong>Improving performance</strong> - Less data = faster visualizations</li>
-    </ul>
-  </div>
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🔽</span> Filters</h1>
+    <p>Filters decide what data reaches your view. That sounds simple until you meet Tableau's order of operations — where a Top 10 filter and a Region filter interact in a way that produces confidently wrong answers.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Interface, Chart Types</span>
+    </div>
+    <div class="rule"></div>
+  </header>
 
-  <div>
-    <h2 class="font-bold text-lg">Types of Filters</h2>
-    
-    <div class="space-y-3 mt-3">
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-        <div class="font-semibold text-blue-800">Dimension Filters</div>
-        <p class="text-sm">Keep or exclude specific category values</p>
-        <p class="text-xs text-gray-600 mt-1">Example: "Show only East and West regions" or "Exclude returns"</p>
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#fi-types">Types of filter</a>
+    <a href="#fi-adding">Adding filters</a>
+    <a href="#fi-dialog">The filter dialog</a>
+    <a href="#fi-cards">Interactive cards</a>
+    <a href="#fi-order">Order of operations</a>
+    <a href="#fi-context">Context filters</a>
+    <a href="#fi-scope">Applying to sheets</a>
+    <a href="#fi-perf">Performance</a>
+    <a href="#fi-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="fi-types">
+    <h2><span class="ic">🗂️</span> Six kinds of filter</h2>
+    <p class="muted">They look similar on the shelf but behave very differently — especially in what order they run.</p>
+    <div class="grid2">
+      <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
+        <h3><span class="pill dim sm">Dimension</span> filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Keep or exclude category values. "Only East and West."</p>
       </div>
-      
-      <div class="bg-green-50 border border-green-200 rounded-lg p-3">
-        <div class="font-semibold text-green-800">Measure Filters</div>
-        <p class="text-sm">Filter by numeric range or threshold</p>
-        <p class="text-xs text-gray-600 mt-1">Example: "Show only orders where Sales > $500" or "Profit between $100 and $1000"</p>
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3><span class="pill msr sm">Measure</span> filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Filter on an aggregated number. "Only sub-categories with Sales over $100K." Runs <em>after</em> aggregation.</p>
       </div>
-      
-      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-        <div class="font-semibold text-yellow-800">Date Filters</div>
-        <p class="text-sm">Filter by time period - absolute or relative</p>
-        <p class="text-xs text-gray-600 mt-1">Example: "Last 2 years" or "January 2017 to December 2017"</p>
+      <div class="tile" style="background:#fffbeb;border-color:#fde68a">
+        <h3>Date filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Absolute ranges, relative ranges ("last 12 months"), or discrete periods.</p>
       </div>
-      
-      <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
-        <div class="font-semibold text-purple-800">Context Filters</div>
-        <p class="text-sm">Special filters that apply first - used for "Top N within..."</p>
-        <p class="text-xs text-gray-600 mt-1">Example: "Top 10 products within the East region only"</p>
+      <div class="tile" style="background:#f5f3ff;border-color:#ddd6fe">
+        <h3>Context filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Promoted to run <em>first</em>, creating a temporary subset everything else works from.</p>
+      </div>
+      <div class="tile">
+        <h3>Data source filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Set on the Data Source page. Apply to every sheet in the workbook and are easy to forget.</p>
+      </div>
+      <div class="tile">
+        <h3>Extract filters</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Limit what gets pulled into an extract at all. The most efficient filter, because the data never arrives.</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Adding Filters</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Method 1: Drag to Filters shelf</span>
-Drag <span class="text-blue-400">Region</span> from Data pane to Filters shelf
-→ Dialog appears to select which values to include
+  <section class="lcard" id="fi-adding">
+    <h2><span class="ic">➕</span> Three ways to add one</h2>
+<pre><span class="c">// 1. Drag to the Filters shelf — full control</span>
+Drag [Region] from the Data pane onto Filters
+→ a dialog opens for choosing values
 
-<span class="text-gray-400">// Method 2: Right-click in the view</span>
-Right-click a bar or mark → Exclude
-<span class="text-gray-400">OR</span>
+<span class="c">// 2. From the view — fastest for exploring</span>
 Right-click a bar or mark → Keep Only
+Right-click a bar or mark → Exclude
 
-<span class="text-gray-400">// Method 3: Right-click field in Data pane</span>
-Right-click <span class="text-blue-400">Region</span> → Show Filter
-→ Creates an interactive filter card on the sheet</pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Filter Dialog Options</h2>
-    <p class="text-sm text-gray-600 mb-2">When you add a dimension to the Filters shelf, you see these tabs:</p>
-    
-    <div class="border border-gray-300 rounded-lg overflow-hidden">
-      <div class="bg-gray-100 px-3 py-2 flex gap-4 text-sm border-b border-gray-300">
-        <span class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">General</span>
-        <span class="text-gray-600">Wildcard</span>
-        <span class="text-gray-600">Condition</span>
-        <span class="text-gray-600">Top</span>
-      </div>
-      <div class="p-3">
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p class="font-semibold">General Tab</p>
-            <p class="text-xs text-gray-600">Check/uncheck specific values to include</p>
-            <div class="mt-2 space-y-1">
-              <div class="flex items-center gap-2"><input type="checkbox" checked class="w-3 h-3"><span class="text-xs">Central</span></div>
-              <div class="flex items-center gap-2"><input type="checkbox" checked class="w-3 h-3"><span class="text-xs">East</span></div>
-              <div class="flex items-center gap-2"><input type="checkbox" class="w-3 h-3"><span class="text-xs">South</span></div>
-              <div class="flex items-center gap-2"><input type="checkbox" checked class="w-3 h-3"><span class="text-xs">West</span></div>
-            </div>
-          </div>
-          <div class="space-y-3">
-            <div>
-              <p class="font-semibold">Wildcard Tab</p>
-              <p class="text-xs text-gray-600">Filter by text patterns (contains, starts with)</p>
-            </div>
-            <div>
-              <p class="font-semibold">Condition Tab</p>
-              <p class="text-xs text-gray-600">Filter by formula (SUM(Sales) > 10000)</p>
-            </div>
-            <div>
-              <p class="font-semibold">Top Tab</p>
-              <p class="text-xs text-gray-600">Top N or Bottom N by a measure</p>
-            </div>
-          </div>
-        </div>
-      </div>
+<span class="c">// 3. Show Filter — makes it interactive</span>
+Right-click [Region] in the Data pane → Show Filter
+→ a filter card appears beside the view</pre>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">"Exclude" quietly becomes a trap</div>
+      <p>Excluding specific members creates a rule that says "everything except these". When new values appear in the data next quarter, they're <em>included</em> automatically — possibly without anyone noticing. Prefer explicitly keeping what you want, or a condition that re-evaluates itself.</p>
     </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Interactive Filter Cards</h2>
-    <p class="text-sm text-gray-600 mb-2">Make filters visible and interactive by right-clicking the filter pill → "Show Filter"</p>
-    
-    <div class="grid grid-cols-2 gap-4 mt-3">
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-sm mb-2">Filter Card Styles</div>
-        <p class="text-xs text-gray-600 mb-2">Right-click the filter card to change style:</p>
-        <ul class="text-sm space-y-1">
-          <li>• <strong>Single Value (list)</strong> - Radio buttons</li>
-          <li>• <strong>Single Value (dropdown)</strong> - Dropdown menu</li>
-          <li>• <strong>Multiple Values (list)</strong> - Checkboxes</li>
-          <li>• <strong>Multiple Values (dropdown)</strong> - Multi-select</li>
-          <li>• <strong>Wildcard</strong> - Text search</li>
-          <li>• <strong>Slider</strong> - For numbers/dates</li>
+  <section class="lcard" id="fi-dialog">
+    <h2><span class="ic">🎛️</span> The filter dialog's four tabs</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:8rem">Tab</th><th>What it does</th><th>Updates with new data?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>General</strong></td><td>Tick and untick specific values</td><td style="color:#dc2626">No — a fixed list</td></tr>
+          <tr><td><strong>Wildcard</strong></td><td>Match text patterns — contains, starts with, ends with</td><td style="color:#16a34a">Yes</td></tr>
+          <tr><td><strong>Condition</strong></td><td>Filter by a formula, e.g. <code>SUM([Sales]) &gt; 100000</code></td><td style="color:#16a34a">Yes</td></tr>
+          <tr><td><strong>Top</strong></td><td>Top or bottom N by a measure</td><td style="color:#16a34a">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Prefer Condition and Top over General</div>
+      <p>The General tab produces a hard-coded list of members. Condition and Top define <em>rules</em>, so they stay correct as data changes. A dashboard that silently stops including a new region six months from now is a real and common failure — and it always traces back to a General-tab filter.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem">
+      <p>The <strong>Top</strong> tab can be driven by a <strong>parameter</strong>, letting viewers choose Top 5, 10 or 20 themselves. That's the standard way to make a "Top N" dashboard flexible without building three sheets.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="fi-cards">
+    <h2><span class="ic">🎚️</span> Interactive filter cards</h2>
+    <p>Right-click a filter pill → <strong>Show Filter</strong>. Then right-click the card itself to choose how it behaves.</p>
+    <div class="split">
+      <div>
+        <h3>Card styles</h3>
+        <ul style="font-size:.87rem;margin:.3rem 0 0">
+          <li><strong>Single value (list)</strong> — radio buttons; one at a time</li>
+          <li><strong>Single value (dropdown)</strong> — compact, good for many values</li>
+          <li><strong>Multiple values (list)</strong> — checkboxes</li>
+          <li><strong>Multiple values (dropdown)</strong> — compact multi-select</li>
+          <li><strong>Wildcard match</strong> — a search box</li>
+          <li><strong>Slider</strong> — for numbers and dates</li>
         </ul>
       </div>
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="font-semibold text-sm mb-2">Example Filter Cards</div>
-        <div class="space-y-2">
-          <div class="bg-white rounded border border-gray-300 p-2">
-            <div class="text-xs font-semibold mb-1">Region</div>
-            <div class="flex flex-wrap gap-1">
-              <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">East</span>
-              <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">West</span>
-              <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">South</span>
-              <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Central</span>
-            </div>
-          </div>
-          <div class="bg-white rounded border border-gray-300 p-2">
-            <div class="text-xs font-semibold mb-1">Order Date</div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs">2014</span>
-              <div class="flex-1 h-1 bg-gray-300 rounded relative">
-                <div class="absolute left-1/4 right-1/4 h-1 bg-blue-500 rounded"></div>
-              </div>
-              <span class="text-xs">2017</span>
-            </div>
-          </div>
-        </div>
+      <div>
+        <h3>Options worth setting</h3>
+        <ul style="font-size:.87rem;margin:.3rem 0 0">
+          <li><strong>Show "All" value</strong> — give viewers a way back</li>
+          <li><strong>Only Relevant Values</strong> — the card only lists values that survive other filters. Prevents empty results.</li>
+          <li><strong>Apply button</strong> — waits for the viewer to finish selecting before re-querying. Essential on slow data.</li>
+          <li><strong>Customize → hide the title</strong> when the label is obvious</li>
+        </ul>
       </div>
     </div>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Filter Examples</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Show only specific categories</span>
-Drag <span class="text-blue-400">Category</span> to Filters
-→ Check: Furniture, Technology
-→ Uncheck: Office Supplies
-
-<span class="text-gray-400">// Show sales above a threshold</span>
-Drag <span class="text-green-400">Sales</span> to Filters
-→ Choose "Range of values"
-→ Set minimum to 500
-
-<span class="text-gray-400">// Show last 2 years</span>
-Drag <span class="text-blue-400">Order Date</span> to Filters
-→ Choose "Relative dates"
-→ Last 2 years
-
-<span class="text-gray-400">// Top 10 products by sales</span>
-Drag <span class="text-blue-400">Product Name</span> to Filters
-→ Go to "Top" tab
-→ By field: Top 10 by Sales Sum</pre>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Filter Order of Operations</h2>
-    <p class="text-sm text-gray-600 mb-2">Tableau applies filters in a specific order. This matters for "Top N" calculations!</p>
-    
-    <div class="bg-gray-100 rounded-lg p-4">
-      <ol class="text-sm space-y-2">
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">1</span>
-          <span>Extract Filters (when using extracts)</span>
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">2</span>
-          <span>Data Source Filters</span>
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-xs">3</span>
-          <span><strong>Context Filters</strong> ← Use for "Top N within..."</span>
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs">4</span>
-          <span>Dimension Filters</span>
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">5</span>
-          <span>Measure Filters</span>
-        </li>
-        <li class="flex items-center gap-2">
-          <span class="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">6</span>
-          <span>Table Calculation Filters</span>
-        </li>
-      </ol>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">"Only Relevant Values" prevents a common frustration</div>
+      <p>Without it, filtering to the West region still shows every state in the country in your State filter — most of which produce a blank chart. With it, only the states actually in the West are listed. Right-click the card → Only Relevant Values. It costs one click and removes a whole class of confused user.</p>
     </div>
-    
-    <div class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3">
-      <p class="font-semibold text-yellow-800">💡 Context Filters Explained</p>
-      <p class="text-sm mt-1">If you want "Top 10 products in the East region", you need to make Region a Context Filter first. Otherwise, Tableau calculates Top 10 across ALL regions, then filters to East.</p>
-      <p class="text-sm mt-1">To add to context: Right-click the filter → "Add to Context"</p>
-    </div>
-  </div>
+  </section>
 
-  <div>
-    <h2 class="font-bold text-lg">Applying Filters to Multiple Sheets</h2>
-    
-    <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">// Apply filter to all sheets using this data</span>
-Right-click filter pill → Apply to Worksheets
-  → All Using This Data Source
+  <section class="lcard" id="fi-order">
+    <h2><span class="ic">🪜</span> Order of operations — the thing to actually learn</h2>
+    <p>Tableau applies filters in a strict sequence. Almost every "why is this number wrong?" question in Tableau is answered somewhere in this ladder.</p>
 
-<span class="text-gray-400">// Apply to selected sheets only</span>
-Right-click filter pill → Apply to Worksheets
-  → Selected Worksheets
-  → Check the sheets you want</pre>
-    
-    <p class="text-sm text-gray-600 mt-2">This is essential for dashboards - you want one filter to control multiple charts!</p>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Key Intuitions</h2>
-    <ul class="list-disc ml-5 space-y-1">
-      <li><strong>Filters on the shelf are hidden</strong> - use "Show Filter" for interactive ones</li>
-      <li><strong>"Exclude" is tempting but risky</strong> - if data changes, you might exclude the wrong things</li>
-      <li><strong>Context filters for "Top N within"</strong> - this trips up even experienced users</li>
-      <li><strong>Date filters have powerful options</strong> - relative dates are great for "always current" views</li>
-      <li><strong>Apply to Worksheets for consistency</strong> - especially important for dashboards</li>
-      <li><strong>Filter cards let users explore</strong> - essential for self-service analytics</li>
-    </ul>
-  </div>
-
-  <div>
-    <h2 class="font-bold text-lg">Practice Exercises</h2>
-    <ol class="list-decimal ml-5 space-y-2">
-      <li>Create a bar chart of Sales by Category, then <strong>filter to show only "Consumer" segment</strong></li>
-      <li>Create an <strong>interactive Region filter</strong> (Show Filter) - try different filter card styles</li>
-      <li>Filter to show <strong>only orders from 2017</strong></li>
-      <li>Filter to show only products with <strong>Sales > $5000</strong></li>
-      <li>Create a <strong>Top 10 Customers by Sales</strong> filter</li>
-      <li>Show <strong>Top 10 Products within the East region</strong> (hint: Context filter!)</li>
-      <li>Create a <strong>date range slider</strong> filter for Order Date</li>
-      <li>Add a Category filter and <strong>apply it to all worksheets</strong></li>
-      <li>Use the <strong>Wildcard filter</strong> to find all products containing "Chair"</li>
-      <li>Create a filter that shows orders where <strong>Profit is negative</strong> (losses only)</li>
+    <ol class="ladder">
+      <li>Extract filters<div class="lr-d">Applied when the extract was built — the data isn't even there</div></li>
+      <li>Data source filters<div class="lr-d">Workbook-wide, set on the Data Source page</div></li>
+      <li class="key">Context filters<div class="lr-d">Creates a temporary subset. <strong>Everything below sees only this.</strong></div></li>
+      <li>FIXED <a href="#tableau/lod">LOD expressions</a><div class="lr-d">Computed before dimension filters — which is why they seem to ignore them</div></li>
+      <li>Dimension filters<div class="lr-d">Ordinary filter cards. <strong>Top N filters run here.</strong></div></li>
+      <li>INCLUDE / EXCLUDE LODs<div class="lr-d">These do respect dimension filters</div></li>
+      <li>Measure filters<div class="lr-d">Filters on aggregated values, e.g. SUM(Sales) &gt; 100K</div></li>
+      <li class="key">Table calculations &amp; their filters<div class="lr-d">Run last, on the finished view — see <a href="#tableau/tablecalcs">Table Calculations</a></div></li>
     </ol>
-  </div>
+  </section>
+
+  <section class="lcard" id="fi-context">
+    <h2><span class="ic">🎯</span> Context filters — the classic Top N bug</h2>
+    <div class="callout danger">
+      <div class="callout-title">The situation</div>
+      <p>You want <strong>the top 10 products in the East region</strong>. You add a Top 10 filter on Product Name and a Region filter set to East. You get fewer than 10 products — sometimes only three or four — and they look wrong.</p>
+    </div>
+
+    <div class="ba" style="margin-top:.7rem">
+      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
+        <div class="ba-h" style="color:#b91c1c">What actually happens</div>
+        <p style="margin:0;font-size:.86rem">Both filters sit at level 5, and Tableau computes Top 10 across <strong>all regions</strong> first. It then filters those ten to East — and only the ones that happen to be in East survive.</p>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Result: "the East-region members of the national top 10". Not what you asked for.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">The fix</div>
+        <p style="margin:0;font-size:.86rem">Right-click the Region filter → <strong>Add to Context</strong>. It turns grey and moves to level 3, so the Top 10 is computed <em>within</em> East.</p>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Result: the actual top 10 products in the East region. Always 10 of them.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.9rem">When to reach for a context filter</h3>
+    <ul class="check">
+      <li><strong>Top N within a subset</strong> — the case above, and by far the most common</li>
+      <li><strong>Percent of total within a subset</strong> — same logic</li>
+      <li><strong>Making FIXED LODs respect a filter</strong> — context runs before them</li>
+      <li><strong>Performance on very large data</strong> — occasionally, by shrinking the working set early</li>
+    </ul>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">Don't add everything to context</div>
+      <p>Context filters build a temporary table, which costs time on each change. Use them where the order genuinely matters, not as a default. Two or three per workbook is plenty.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="fi-scope">
+    <h2><span class="ic">🔗</span> Applying a filter to several sheets</h2>
+    <p>By default a filter affects only its own worksheet. On a dashboard that's rarely what you want.</p>
+<pre>Right-click the filter pill → Apply to Worksheets →
+
+  Only This Worksheet          <span class="c">// the default</span>
+  All Using This Data Source   <span class="c">// every sheet on this connection</span>
+  Selected Worksheets…         <span class="c">// pick exactly which — usually best</span>
+  All Using Related Data Sources</pre>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Prefer "Selected Worksheets"</div>
+      <p>"All Using This Data Source" also hits sheets you build later, including ones that shouldn't be filtered — a KPI card showing company-wide totals, for instance. Choosing explicitly takes ten extra seconds and prevents a confusing bug much later.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>A filter applied to multiple sheets shows a small icon on the pill. On a dashboard, that one filter card now drives every connected chart — which is exactly how you build coordinated interactivity.</p></div>
+  </section>
+
+  <section class="lcard" id="fi-perf">
+    <h2><span class="ic">⚡</span> Filters and performance</h2>
+    <p>Filters are the biggest single lever on how fast a workbook feels, and the differences between them are large.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Approach</th><th>Cost</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Extract filter</td><td style="color:#16a34a">Cheapest</td><td>The rows never enter the workbook</td></tr>
+          <tr><td>Data source filter</td><td style="color:#16a34a">Very cheap</td><td>Applied before anything else</td></tr>
+          <tr><td>Dimension filter on a list</td><td style="color:#16a34a">Cheap</td><td>Efficient, especially on indexed columns</td></tr>
+          <tr><td>Context filter</td><td style="color:#d97706">Moderate</td><td>Builds a temporary table on each change</td></tr>
+          <tr><td>Measure filter</td><td style="color:#d97706">Moderate</td><td>Requires aggregating first</td></tr>
+          <tr><td>Filter on a table calculation</td><td style="color:#dc2626">Expensive</td><td>Runs last, after everything else</td></tr>
+          <tr><td>"Only Relevant Values" on many cards</td><td style="color:#dc2626">Expensive</td><td>Each card re-queries when any other changes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Filter early, filter once</div>
+      <p>If a dashboard only ever shows the last two years, exclude older data at the <em>extract</em> level rather than filtering it in every view. The general principle: remove data as early in the pipeline as you can, because everything downstream then has less work to do.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Order of operations explains most wrong numbers</strong> — learn the ladder</li>
+      <li><strong>Top N + another filter = context filter</strong>, every time</li>
+      <li><strong>Condition and Top beat the General tab</strong> — rules don't go stale</li>
+      <li><strong>"Exclude" silently admits new values</strong> — prefer keeping what you want</li>
+      <li><strong>Show Filter is what makes a dashboard interactive</strong></li>
+      <li><strong>Only Relevant Values</strong> stops viewers picking combinations with no data</li>
+      <li><strong>Apply to Selected Worksheets</strong>, not "All Using This Data Source"</li>
+      <li><strong>Filter as early in the pipeline as possible</strong></li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="fi-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Build Sales by Category, then filter to the <strong>Consumer segment only</strong></li>
+      <li>Add an <strong>interactive Region filter</strong> and try each card style</li>
+      <li>Filter to <strong>2017 orders only</strong> using a date filter</li>
+      <li>Use a <strong>relative date</strong> filter for "last 12 months" and explain why it might show nothing</li>
+      <li>Add a <strong>measure filter</strong> for sub-categories with Sales over $100K</li>
+      <li>Create a <strong>Top 10 Customers by Sales</strong> filter</li>
+      <li>Now add a Region filter set to East — count the products, and explain the result</li>
+      <li>Fix it with <strong>Add to Context</strong> and confirm you get exactly 10</li>
+      <li>Use a <strong>wildcard filter</strong> to find products containing "Chair"</li>
+      <li>Turn on <strong>Only Relevant Values</strong> on a State filter and observe the difference</li>
+      <li>Apply a Category filter to <strong>selected worksheets</strong> across three sheets</li>
+      <li>Create a <strong>parameter-driven Top N</strong> filter that viewers can set to 5, 10 or 20</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: prove the order of operations to yourself</div>
+      <p>Build one sheet showing the top 5 sub-categories by Sales, with a Region filter card. Duplicate it, and add the Region filter to context on the copy. Put both on a dashboard side by side with the same filter driving them, then click through each region. The two charts will disagree — sometimes dramatically. Being able to explain <em>why</em>, out loud, means you understand Tableau's evaluation order better than most people who use it daily.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/organizing"><span class="pl">← Previous</span><span class="pt">Sorting, Groups &amp; Sets</span></a>
+    <a class="next" href="#tableau/maps"><span class="pl">Next →</span><span class="pt">Maps</span></a>
+  </nav>
 </div>

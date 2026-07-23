@@ -2,15 +2,32 @@
   <header class="lesson-hero">
     <h1><span>🔀</span> Logical Functions</h1>
     <p>Logical functions make decisions: they evaluate a condition (true or false?) and return different results based on the answer — like building "if-then" logic into your cells.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Formulas, References</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#lo-idea">The idea</a>
+    <a href="#lo-ops">Operators</a>
+    <a href="#lo-if">IF</a>
+    <a href="#lo-nested">Nested IF</a>
+    <a href="#lo-ifs">IFS</a>
+    <a href="#lo-andor">AND / OR</a>
+    <a href="#lo-iferror">IFERROR</a>
+    <a href="#lo-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="lo-idea">
     <h2><span class="ic">💡</span> The idea</h2>
     <p>Think of a flow chart: <em>"IF the profit is positive, THEN label it 'Profit', OTHERWISE label it 'Loss'."</em> Every logical function builds on testing a condition that resolves to TRUE or FALSE.</p>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-ops">
     <h2><span class="ic">⚖️</span> Comparison operators</h2>
     <p style="font-size:.9rem;color:#64748b">These compare two values and return TRUE or FALSE.</p>
     <div class="grid3" style="margin-top:.5rem">
@@ -23,7 +40,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-if">
     <h2><span class="ic">🏛️</span> IF — the foundation</h2>
     <p>IF is the most important logical function. It has three parts:</p>
     <div class="anatomy">
@@ -47,7 +64,7 @@
 =<span class="text-blue-400">IF</span>(T2>0, <span class="text-green-400">"Discounted"</span>, <span class="text-green-400">"Full Price"</span>)</pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-nested">
     <h2><span class="ic">🪆</span> Nested IF — multiple outcomes</h2>
     <p>Put an IF inside another to handle more than two outcomes:</p>
     <pre><span class="text-gray-400">// Categorize sales into three tiers</span>
@@ -59,7 +76,7 @@
     <div class="callout warn" style="margin-top:.5rem"><p>Nesting more than 3 levels gets confusing fast — reach for IFS instead.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-ifs">
     <h2><span class="ic">📋</span> IFS — cleaner multiple conditions</h2>
     <p>IFS evaluates conditions in order and returns the first TRUE result:</p>
     <pre>=<span class="text-blue-400">IFS</span>(
@@ -73,7 +90,7 @@
     <div class="callout warn" style="margin-top:.5rem"><p>IFS stops at the first TRUE, evaluating top-to-bottom. <strong>Order matters</strong> — put the most specific conditions first.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-andor">
     <h2><span class="ic">🔗</span> AND / OR — combining conditions</h2>
     <div class="grid2">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
@@ -109,7 +126,7 @@
 =<span class="text-blue-400">IF</span>(U2<=0, <span class="text-green-400">"Needs Review"</span>, <span class="text-green-400">"OK"</span>)</pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lo-iferror">
     <h2><span class="ic">🛡️</span> IFERROR — handle errors gracefully</h2>
     <p>Some formulas can error out (e.g. dividing by zero). IFERROR catches them:</p>
     <pre><span class="text-gray-400">// Without IFERROR — may show #DIV/0! when S2 is 0</span>
@@ -145,7 +162,7 @@
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="lo-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <p style="font-size:.9rem;color:#64748b">Add a new column to your data for each exercise.</p>
     <ol>
@@ -165,4 +182,9 @@
       <p>Build a star rating column: ⭐⭐⭐⭐⭐ Profit &gt; $100 AND no discount AND Same Day · ⭐⭐⭐⭐ Profit &gt; $50 AND no discount · ⭐⭐⭐ Profit &gt; $0 · ⭐⭐ Profit = $0 · ⭐ Profit &lt; $0.</p>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/references"><span class="pl">← Previous</span><span class="pt">Cell References</span></a>
+    <a class="next" href="#excel/aggregation"><span class="pl">Next →</span><span class="pt">SUMIFS &amp; COUNTIFS</span></a>
+  </nav>
 </div>

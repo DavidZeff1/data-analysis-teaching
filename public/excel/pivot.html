@@ -2,10 +2,26 @@
   <header class="lesson-hero">
     <h1><span>📊</span> Pivot Tables</h1>
     <p>The single most powerful tool for spreadsheet analysis. Summarize thousands of rows into meaningful totals — and reorganize them instantly by dragging fields.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Tables, Cleaning</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#pv-what">What they do</a>
+    <a href="#pv-create">Creating one</a>
+    <a href="#pv-zones">The four zones</a>
+    <a href="#pv-examples">Examples</a>
+    <a href="#pv-calc">Calculation types</a>
+    <a href="#pv-dates">Grouping dates</a>
+    <a href="#pv-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="pv-what">
     <h2><span class="ic">💡</span> What pivot tables do</h2>
     <ul>
       <li><strong>Summarize</strong> thousands of rows into totals</li>
@@ -17,7 +33,7 @@
     <div class="callout tip" style="margin-top:.5rem"><p>What would take dozens of SUMIF formulas can be done in seconds with a pivot table.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="pv-create">
     <h2><span class="ic">🛠️</span> Creating a pivot table</h2>
     <div class="grid2">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
@@ -41,7 +57,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="pv-zones">
     <h2><span class="ic">🎛️</span> The four drop zones</h2>
     <div class="grid2">
       <div class="tile" style="background:#eff6ff;border-color:#bfdbfe"><h3>📊 Rows</h3><p style="margin:0;font-size:.86rem">Categories as row labels (vertical). <span style="color:#64748b">e.g. Region, Category, Customer</span></p></div>
@@ -51,7 +67,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="pv-examples">
     <h2><span class="ic">📑</span> Example pivot tables</h2>
     <h3>Total Sales by Region</h3>
     <p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Rows: Region · Values: SUM of Sales</p>
@@ -72,14 +88,18 @@
     <p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Rows: Region · Columns: Category · Values: SUM of Sales</p>
     <div class="scrollx">
       <table class="ltable">
-        <thead><tr><th></th><th class="num">Furniture</th><th class="num">Office</th><th class="num">Technology</th></tr></thead>
+        <thead><tr><th></th><th class="num">Furniture</th><th class="num">Office Supplies</th><th class="num">Technology</th><th class="num">Total</th></tr></thead>
         <tbody>
-          <tr><td>Central</td><td class="num">$163K</td><td class="num">$167K</td><td class="num">$170K</td></tr>
-          <tr><td>East</td><td class="num">$208K</td><td class="num">$222K</td><td class="num">$248K</td></tr>
-          <tr><td>South</td><td class="num">$117K</td><td class="num">$135K</td><td class="num">$139K</td></tr>
-          <tr><td>West</td><td class="num">$252K</td><td class="num">$195K</td><td class="num">$278K</td></tr>
+          <tr><td>Central</td><td class="num">$163,797</td><td class="num">$167,026</td><td class="num">$170,416</td><td class="num">$501,240</td></tr>
+          <tr><td>East</td><td class="num">$208,291</td><td class="num">$205,516</td><td class="num">$264,974</td><td class="num">$678,781</td></tr>
+          <tr><td>South</td><td class="num">$117,299</td><td class="num">$125,651</td><td class="num">$148,772</td><td class="num">$391,722</td></tr>
+          <tr><td>West</td><td class="num">$252,613</td><td class="num">$220,853</td><td class="num">$251,992</td><td class="num">$725,458</td></tr>
+          <tr style="font-weight:700"><td>Grand Total</td><td class="num">$742,000</td><td class="num">$719,047</td><td class="num">$836,154</td><td class="num">$2,297,201</td></tr>
         </tbody>
       </table>
+    </div>
+    <div class="callout note" style="margin-top:.5rem">
+      <p><strong>Always check the corners.</strong> The Grand Total should equal <code>=SUM(R:R)</code> — $2,297,201. If a cross-tab's totals don't reconcile with the raw data, something is filtered out that you didn't intend.</p>
     </div>
     <div class="grid2" style="margin-top:.85rem">
       <div class="tile"><h3>Average Profit by Segment</h3><p style="margin:0;font-size:.85rem;color:#64748b">Rows: Segment · Values: AVERAGE of Profit</p></div>
@@ -87,7 +107,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="pv-calc">
     <h2><span class="ic">🔢</span> Changing the calculation type</h2>
     <p style="font-size:.9rem;color:#64748b">By default numbers are summed. To change it:</p>
     <div class="callout note">
@@ -104,7 +124,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="pv-dates">
     <h2><span class="ic">📅</span> Grouping dates</h2>
     <p>Add a date field to Rows, then group it by year, quarter, or month:</p>
     <div class="callout note">
@@ -141,6 +161,28 @@ Add a filter field → Filter by condition → Top 10</pre>
   </section>
 
   <section class="lcard">
+    <h2><span class="ic">⚠️</span> Three traps worth knowing</h2>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h">Counting rows instead of orders</div>
+        <p style="margin:0;font-size:.84rem">Each Superstore row is a <em>line item</em>, so "Count of Order ID" overstates orders by about 5×. Use <strong>Distinct Count</strong> in the Value Field Settings instead.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Averaging an average</div>
+        <p style="margin:0;font-size:.84rem">The average of four regional profit margins is not the overall margin — each region has a different sales base. Compute <code>SUM(Profit)/SUM(Sales)</code> instead.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Stale numbers</div>
+        <p style="margin:0;font-size:.84rem">A pivot shows a snapshot from the last refresh. Change the source and the pivot does <em>not</em> update until you right-click → Refresh. Build the source as a <a href="#excel/tables">Table</a> so new rows are at least included when you do.</p>
+      </div>
+      <div class="cmp good">
+        <div class="h">✓ Pivot to explore, formulas to report</div>
+        <p style="margin:0;font-size:.84rem">Find what matters with a pivot, then rebuild the handful of numbers that matter with <a href="#excel/aggregation">SUMIFS</a> — those cells stay where you put them and never need refreshing. That's how <a href="#excel/dashboard">the dashboard project</a> is built.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard">
     <h2><span class="ic">🧠</span> Key intuitions</h2>
     <ul>
       <li><strong>Pivots don't change your data</strong> — they create a summary view</li>
@@ -153,7 +195,7 @@ Add a filter field → Filter by condition → Top 10</pre>
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="pv-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <ol>
       <li>Total <strong>Sales by Region</strong></li>
@@ -174,4 +216,9 @@ Add a filter field → Filter by condition → Top 10</pre>
       <p>Build a pivot with Rows: Region → Category → Sub-Category, Columns: Year, Values: Sum of Sales &amp; Profit, filtered to Consumer. Use expand/collapse to find which sub-categories drive the most profit.</p>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/powerquery"><span class="pl">← Previous</span><span class="pt">Power Query</span></a>
+    <a class="next" href="#excel/charts"><span class="pl">Next →</span><span class="pt">Charts &amp; Visualization</span></a>
+  </nav>
 </div>

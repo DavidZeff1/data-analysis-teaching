@@ -1,11 +1,27 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>📌</span> Cell References</h1>
-    <p>Understanding how references behave when you copy a formula is the single most important skill for working efficiently in spreadsheets.</p>
+    <p>Understanding how references behave when you copy a formula is the single most important skill for working efficiently in spreadsheets. Get it wrong and you write a thousand formulas; get it right and you write one.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 20 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Formulas</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#re-why">Why they matter</a>
+    <a href="#re-types">The four types</a>
+    <a href="#re-f4">The F4 shortcut</a>
+    <a href="#re-example">Worked example</a>
+    <a href="#re-sheets">Other sheets</a>
+    <a href="#re-named">Named ranges</a>
+    <a href="#re-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="re-why">
     <h2><span class="ic">❓</span> Why references matter</h2>
     <p>A cell reference like <code>R2</code> is the address Excel looks up to find a value. References are powerful because:</p>
     <ul>
@@ -15,7 +31,7 @@
     </ul>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="re-types">
     <h2><span class="ic">🔑</span> Types of references</h2>
     <div class="grid2" style="margin-top:.25rem">
       <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
@@ -44,7 +60,7 @@
     </div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="re-f4">
     <h2><span class="ic">⌨️</span> The F4 shortcut</h2>
     <p>Instead of typing <code>$</code> manually, click a reference in your formula and press <span class="kbd">F4</span> to cycle:</p>
     <p style="font-family:'JetBrains Mono',monospace;font-size:.9rem">
@@ -52,7 +68,7 @@
     </p>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="re-example">
     <h2><span class="ic">📐</span> Worked example: % of total</h2>
     <p>A common task — calculating what percentage each row is of the total. The total stays fixed (absolute), each row's Sales changes (relative).</p>
     <div class="scrollx">
@@ -71,7 +87,7 @@
     <p style="font-size:.86rem;color:#64748b;margin-top:.5rem"><code>$R$9995</code> (the total) stays fixed while R2, R3, R4 change for each row.</p>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="re-sheets">
     <h2><span class="ic">🔗</span> Referencing other sheets</h2>
     <pre>=Sheet2!A1                        <span class="text-gray-400">// Cell A1 on Sheet2</span>
 ='Summary Sheet'!B5               <span class="text-gray-400">// Quotes needed if the name has spaces</span>
@@ -79,7 +95,7 @@
 =Sheet1!$A$1 + Sheet2!$A$1        <span class="text-gray-400">// Add values from two sheets</span></pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="re-named">
     <h2><span class="ic">🏷️</span> Named ranges</h2>
     <p>Give ranges meaningful names instead of memorizing addresses:</p>
     <ol>
@@ -103,7 +119,7 @@
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="re-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <ol>
       <li>Calculate each row's <strong>Sales as a % of total Sales</strong>, using an absolute reference for the total. Copy down and verify.</li>
@@ -116,4 +132,9 @@
       <li>Calculate <strong>Profit Per Unit</strong> (Profit ÷ Quantity) per row.</li>
     </ol>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/formulas"><span class="pl">← Previous</span><span class="pt">Basic Formulas</span></a>
+    <a class="next" href="#excel/logical"><span class="pl">Next →</span><span class="pt">Logical Functions</span></a>
+  </nav>
 </div>

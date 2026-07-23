@@ -2,10 +2,27 @@
   <header class="lesson-hero">
     <h1><span>🔍</span> Lookup Functions</h1>
     <p>Look up a value in one place and pull back related information from another — the backbone of connecting datasets and building reports.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: References, Logical</span>
+    </div>
     <div class="rule"></div>
   </header>
 
-  <section class="lcard">
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#lk-what">What they do</a>
+    <a href="#lk-vlookup">VLOOKUP</a>
+    <a href="#lk-limits">Limitations</a>
+    <a href="#lk-index">INDEX + MATCH</a>
+    <a href="#lk-xlookup">XLOOKUP</a>
+    <a href="#lk-which">Which to use</a>
+    <a href="#lk-errors">Errors</a>
+    <a href="#lk-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="lk-what">
     <h2><span class="ic">💡</span> What they do</h2>
     <p>Lookup functions search for a value and return matching information. They're essential for:</p>
     <ul>
@@ -16,7 +33,7 @@
     <p>Think of a book's index: you look up a term (the search value) and find the page number (the return value).</p>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-vlookup">
     <h2><span class="ic">⬇️</span> VLOOKUP — vertical lookup</h2>
     <p>The most common lookup. It searches <em>down</em> the first column of a range and returns a value from a chosen column.</p>
     <div class="anatomy">
@@ -39,7 +56,7 @@
 =<span class="text-blue-400">VLOOKUP</span>(A2, $F$2:$G$9995, 2, <span class="text-blue-400">FALSE</span>)</pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-limits">
     <h2><span class="ic">🚧</span> VLOOKUP limitations</h2>
     <div class="callout danger">
       <div class="callout-title">⚠️ VLOOKUP can only look right</div>
@@ -53,7 +70,7 @@
     </ul>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-index">
     <h2><span class="ic">🧩</span> INDEX + MATCH — the flexible alternative</h2>
     <div class="grid2">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
@@ -75,7 +92,7 @@
 =<span class="text-blue-400">INDEX</span>(F:F, <span class="text-blue-400">MATCH</span>(<span class="text-green-400">"Claire Gute"</span>, G:G, 0))</pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-xlookup">
     <h2><span class="ic">✨</span> XLOOKUP — the modern solution</h2>
     <p>Available in Google Sheets and Excel 365, XLOOKUP combines the best of both:</p>
     <pre>=<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:G)
@@ -91,7 +108,7 @@
 =<span class="text-blue-400">XLOOKUP</span>(<span class="text-green-400">"CG-12520"</span>, F:F, G:H)</pre>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-which">
     <h2><span class="ic">⚖️</span> Which should you use?</h2>
     <div class="scrollx">
       <table class="ltable">
@@ -109,7 +126,7 @@
     <div class="callout tip" style="margin-top:.5rem"><p><strong>Recommendation:</strong> use XLOOKUP when available; otherwise learn INDEX/MATCH for flexibility.</p></div>
   </section>
 
-  <section class="lcard">
+  <section class="lcard" id="lk-errors">
     <h2><span class="ic">🛡️</span> Handling errors</h2>
     <p>Lookups return <code>#N/A</code> when nothing is found. Wrap them in IFERROR:</p>
     <pre>=<span class="text-blue-400">IFERROR</span>(<span class="text-blue-400">VLOOKUP</span>(A2, F:G, 2, <span class="text-blue-400">FALSE</span>), <span class="text-green-400">"Not Found"</span>)
@@ -136,7 +153,7 @@
     </ul>
   </section>
 
-  <section class="lcard accent">
+  <section class="lcard accent" id="lk-practice">
     <h2><span class="ic">🎯</span> Practice exercises</h2>
     <ol>
       <li>VLOOKUP the <strong>Customer Name</strong> for Customer ID "CG-12520"</li>
@@ -158,4 +175,9 @@
     <span class="text-blue-400">MATCH</span>(ColValue, ColHeaders, 0))</pre>
     </div>
   </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/aggregation"><span class="pl">← Previous</span><span class="pt">SUMIFS &amp; COUNTIFS</span></a>
+    <a class="next" href="#excel/text"><span class="pl">Next →</span><span class="pt">Text Functions</span></a>
+  </nav>
 </div>

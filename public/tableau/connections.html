@@ -1,0 +1,327 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🔌</span> Connecting Data</h1>
+    <p>Before you can visualise anything you have to get the data in — and get its shape right. Joins, relationships, unions, live vs extract: these decisions are made once at the start and quietly determine whether your numbers are correct for the rest of the project.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Setup</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#cn-sources">Data sources</a>
+    <a href="#cn-page">The Data Source page</a>
+    <a href="#cn-rel">Relationships</a>
+    <a href="#cn-join">Joins</a>
+    <a href="#cn-dup">The duplication trap</a>
+    <a href="#cn-union">Unions</a>
+    <a href="#cn-live">Live vs Extract</a>
+    <a href="#cn-clean">Cleaning at the source</a>
+    <a href="#cn-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="cn-sources">
+    <h2><span class="ic">🔗</span> What Tableau can connect to</h2>
+    <div class="grid3">
+      <div class="tile">
+        <h3>📄 Files</h3>
+        <p style="margin:0;font-size:.86rem">Excel, CSV, JSON, PDF, spatial files, statistical files. What you'll use while learning.</p>
+      </div>
+      <div class="tile">
+        <h3>🗄️ Databases</h3>
+        <p style="margin:0;font-size:.86rem">SQL Server, PostgreSQL, MySQL, Snowflake, BigQuery, Redshift. What you'll use at work.</p>
+      </div>
+      <div class="tile">
+        <h3>☁️ Cloud services</h3>
+        <p style="margin:0;font-size:.86rem">Google Sheets, Salesforce, Google Analytics — plus a generic web-data connector.</p>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.6rem">
+      <p><strong>Tableau Public limitation:</strong> the free version connects to files, Google Sheets and a few web sources — not to databases. That's fine for everything in this course, and the concepts transfer unchanged to Tableau Desktop.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-page">
+    <h2><span class="ic">🖥️</span> The Data Source page</h2>
+    <p>Click <strong>Data Source</strong> in the bottom-left corner at any time to come back here. This is where structure is decided — worth visiting deliberately rather than clicking straight through to Sheet 1.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Canvas</span><span class="pill dim sq">Orders</span><span class="muted" style="font-size:.75rem">—— relationship ——</span><span class="pill dim sq">Returns</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Connections</div>
+          <div class="mk-type">Superstore.xls</div>
+          <div class="mk-row"><span class="mk-i">Sheets</span></div>
+          <div class="mk-row" style="padding-left:.2rem">Orders</div>
+          <div class="mk-row" style="padding-left:.2rem">People</div>
+          <div class="mk-row" style="padding-left:.2rem">Returns</div>
+        </div>
+        <div class="viz-canvas" style="align-items:flex-start">
+          <table class="ltable" style="font-size:.74rem">
+            <thead><tr><th>Order ID</th><th>Region</th><th class="num">Sales</th><th class="num">Profit</th></tr></thead>
+            <tbody>
+              <tr><td>CA-2016-152156</td><td>South</td><td class="num">261.96</td><td class="num">41.91</td></tr>
+              <tr><td>CA-2016-138688</td><td>West</td><td class="num">14.62</td><td class="num">6.87</td></tr>
+              <tr><td>US-2015-108966</td><td>South</td><td class="num">957.58</td><td class="num">-383.03</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="viz-note">Left: available tables. Top: the canvas where you define how they connect. Bottom: a live preview of the resulting rows.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Three things to do before you leave this page</div>
+      <ul class="check" style="margin:.3rem 0 0">
+        <li><strong>Check every data type</strong> — the icon above each column header. Dates read as text will not group by month.</li>
+        <li><strong>Rename cryptic fields</strong> — double-click a header. <code>cust_nm_1</code> becomes <code>Customer Name</code> once, for everyone, forever.</li>
+        <li><strong>Hide fields you'll never use</strong> — a shorter field list makes every later step faster.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-rel">
+    <h2><span class="ic">🪢</span> Relationships — the modern default</h2>
+    <p>Since 2020.2, dragging a second table onto the canvas creates a <strong>relationship</strong> (a flexible noodle line) rather than a join. This is the default, and usually the right choice.</p>
+
+    <div class="grid2">
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ What a relationship does</h3>
+        <ul style="font-size:.86rem;margin:.35rem 0 0">
+          <li>Keeps tables <strong>separate</strong> and at their own granularity</li>
+          <li>Tableau writes the right join <em>per visualisation</em>, based on the fields you use</li>
+          <li>No duplicated rows from one-to-many fan-out</li>
+          <li>Aggregates stay correct automatically</li>
+        </ul>
+      </div>
+      <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
+        <h3>When to use it</h3>
+        <p style="margin:.35rem 0 0;font-size:.86rem">Almost always. Especially when tables have different granularity — Orders (one row per line item) related to Returns (one row per returned order), or to Targets (one row per region per month).</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Why this was a big deal</div>
+      <p>Before relationships, connecting a monthly Targets table to line-item Orders would duplicate every target across thousands of rows, and <code>SUM(Target)</code> would come out wildly inflated. People lost entire afternoons to it. Relationships solve that by keeping the tables apart until the moment a specific view needs them combined.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-join">
+    <h2><span class="ic">⛓️</span> Joins — when you need row-level control</h2>
+    <p>Double-click a table on the canvas to open the physical layer, where you can build a traditional join. Joins merge tables into one flat table <em>immediately</em>, before any visualisation.</p>
+
+    <div class="charts-grid">
+      <div class="cthumb">
+        <svg viewBox="0 0 100 44" role="img" aria-label="Inner join Venn diagram"><circle cx="40" cy="22" r="17" fill="#c7d2fe" stroke="#6366f1"/><circle cx="60" cy="22" r="17" fill="#c7d2fe" stroke="#6366f1"/><path d="M50,7.2 A17,17 0 0,1 50,36.8 A17,17 0 0,1 50,7.2" fill="#4f46e5"/></svg>
+        <div class="ct-n">Inner</div>
+        <div class="ct-d">Only rows matching in <strong>both</strong> tables. Silently drops unmatched rows — check your row count.</div>
+      </div>
+      <div class="cthumb">
+        <svg viewBox="0 0 100 44" role="img" aria-label="Left join Venn diagram"><circle cx="40" cy="22" r="17" fill="#4f46e5" stroke="#6366f1"/><circle cx="60" cy="22" r="17" fill="#c7d2fe" stroke="#6366f1"/></svg>
+        <div class="ct-n">Left</div>
+        <div class="ct-d">Everything from the left table, matches from the right, <code>Null</code> where none. The safe default.</div>
+      </div>
+      <div class="cthumb">
+        <svg viewBox="0 0 100 44" role="img" aria-label="Right join Venn diagram"><circle cx="40" cy="22" r="17" fill="#c7d2fe" stroke="#6366f1"/><circle cx="60" cy="22" r="17" fill="#4f46e5" stroke="#6366f1"/></svg>
+        <div class="ct-n">Right</div>
+        <div class="ct-d">The mirror image. Rare — most people swap the tables and use a left join instead.</div>
+      </div>
+      <div class="cthumb">
+        <svg viewBox="0 0 100 44" role="img" aria-label="Full outer join Venn diagram"><circle cx="40" cy="22" r="17" fill="#4f46e5" stroke="#6366f1"/><circle cx="60" cy="22" r="17" fill="#4f46e5" stroke="#6366f1"/></svg>
+        <div class="ct-n">Full outer</div>
+        <div class="ct-d">Every row from both sides. Useful for reconciliation — finding what exists in one system but not the other.</div>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Left join is almost always the right starting point</div>
+      <p>It guarantees you keep every row of your main table. If the join key is broken you'll see <code>Null</code>s — visible, diagnosable evidence. An inner join in the same situation silently deletes rows, and your totals come out low with no indication why.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-dup">
+    <h2><span class="ic">⚠️</span> The duplication trap</h2>
+    <p>The most expensive mistake in Tableau, and it produces numbers that look perfectly reasonable.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Two tables, different granularity</div>
+        <table>
+          <tr><th colspan="2">Orders (3 rows)</th></tr>
+          <tr><th>Region</th><th>Sales</th></tr>
+          <tr><td>West</td><td>100</td></tr>
+          <tr><td>West</td><td>200</td></tr>
+          <tr><td>East</td><td>150</td></tr>
+        </table>
+        <table style="margin-top:.4rem">
+          <tr><th colspan="2">Targets (2 rows)</th></tr>
+          <tr><th>Region</th><th>Target</th></tr>
+          <tr><td>West</td><td>500</td></tr>
+          <tr><td>East</td><td>400</td></tr>
+        </table>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
+        <div class="ba-h" style="color:#b91c1c">After a JOIN — target duplicated</div>
+        <table>
+          <tr><th>Region</th><th>Sales</th><th>Target</th></tr>
+          <tr><td>West</td><td>100</td><td>500</td></tr>
+          <tr><td>West</td><td>200</td><td>500</td></tr>
+          <tr><td>East</td><td>150</td><td>400</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem"><code>SUM(Target)</code> = <strong>1,400</strong>. The real total is <strong>900</strong>. The West target got counted twice because West had two order rows.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.85rem">Three ways to avoid it</h3>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Use a relationship instead of a join</div>
+        <p>The modern fix, and the reason relationships exist. Tableau keeps the tables separate and aggregates each at its own granularity. <code>SUM(Target)</code> returns 900.</p>
+      </li>
+      <li>
+        <div class="s-t">Or aggregate before joining</div>
+        <p>If you must join, roll the finer table up to the coarser table's granularity first so the join is one-to-one.</p>
+      </li>
+      <li>
+        <div class="s-t">Or de-duplicate with an LOD</div>
+        <p><code>MIN({FIXED [Region] : MIN([Target])})</code> pulls one value per region regardless of how many times the row repeats. See <a href="#tableau/lod">LOD Expressions</a>.</p>
+      </li>
+    </ol>
+
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">Always check the row count after joining</div>
+      <p>Drop <code>Number of Records</code> (or <code>COUNT(*)</code>) into a view before and after. If it grew, you have fan-out. Superstore's Orders table has <strong>9,994 rows</strong> — if it's larger after you connect Returns, something duplicated.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-union">
+    <h2><span class="ic">📚</span> Unions — stacking, not widening</h2>
+    <p>A join adds <em>columns</em>. A union adds <em>rows</em>. Use it when the same data arrives split across several files or tabs — one per month, one per region.</p>
+    <div class="flow">
+      <div class="fnode"><div class="ft">Sales_2016</div><div class="fd">2,102 rows</div></div>
+      <div class="farrow">+</div>
+      <div class="fnode"><div class="ft">Sales_2017</div><div class="fd">3,312 rows</div></div>
+      <div class="farrow">=</div>
+      <div class="fnode done"><div class="ft">Union</div><div class="fd">5,414 rows</div></div>
+    </div>
+    <p class="muted" style="margin-top:.5rem">Drag a table below an existing one on the canvas, or right-click → Convert to Union. Use a <strong>wildcard union</strong> to pick up every sheet or file matching a pattern — new files then join automatically on refresh.</p>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">Columns match by name</div>
+      <p>"Order Date" and "OrderDate" become two separate columns, each half full of <code>Null</code>. Tableau adds a <code>Table Name</code> field showing each row's origin — useful both for debugging and for extracting the month or region encoded in a filename.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-live">
+    <h2><span class="ic">⚡</span> Live vs Extract</h2>
+    <p>A choice you make on the Data Source page, top right. It affects speed, freshness and what features are available.</p>
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Live</div>
+        <ul style="margin:.3rem 0 0;font-size:.86rem;padding-left:1.1rem">
+          <li>Queries the source every interaction</li>
+          <li>Always current</li>
+          <li>Speed depends entirely on the database</li>
+          <li>Needs a constant connection</li>
+        </ul>
+        <p style="margin:.4rem 0 0;font-size:.84rem;color:#64748b"><strong>Use when</strong> data changes constantly and freshness matters more than speed.</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">Extract (.hyper)</div>
+        <ul style="margin:.3rem 0 0;font-size:.86rem;padding-left:1.1rem">
+          <li>A compressed local snapshot</li>
+          <li>Usually much faster</li>
+          <li>Works offline</li>
+          <li>Needs refreshing to update</li>
+        </ul>
+        <p style="margin:.4rem 0 0;font-size:.84rem;color:#64748b"><strong>Use when</strong> the source is slow, remote, or you're publishing to Tableau Public — which requires an extract.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Extracts can be filtered and aggregated</div>
+      <p>You don't have to extract everything. <strong>Edit → Filters</strong> limits which rows are pulled; <strong>Aggregate data for visible dimensions</strong> pre-rolls it up. A 50-million-row table becomes a fast few-thousand-row extract when you only ever look at monthly regional totals.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="cn-clean">
+    <h2><span class="ic">🧹</span> Cleaning at the source</h2>
+    <p>Fixes made on the Data Source page apply everywhere, forever. Fixes made in a worksheet apply to that worksheet. Prefer the former.</p>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Rename fields</h3>
+        <p style="margin:0;font-size:.86rem">Double-click a column header. Do this for anything cryptic — the names appear on every axis and tooltip you ever build.</p>
+      </div>
+      <div class="tile">
+        <h3>Fix data types</h3>
+        <p style="margin:0;font-size:.86rem">Click the icon above a header. Text that should be a date, numbers stored as strings, IDs that shouldn't be summed.</p>
+      </div>
+      <div class="tile">
+        <h3>Hide unused fields</h3>
+        <p style="margin:0;font-size:.86rem">Right-click → Hide. Superstore's Row ID and Country (always "United States") add nothing.</p>
+      </div>
+      <div class="tile">
+        <h3>Split columns</h3>
+        <p style="margin:0;font-size:.86rem">Right-click → Split, or Custom Split. Turns "CA-2016-152156" into usable parts without a calculated field.</p>
+      </div>
+      <div class="tile">
+        <h3>Data source filters</h3>
+        <p style="margin:0;font-size:.86rem">Top-right → Filters → Add. Excludes rows from <em>everything</em> — test records, cancelled orders, irrelevant years.</p>
+      </div>
+      <div class="tile">
+        <h3>Set geographic roles</h3>
+        <p style="margin:0;font-size:.86rem">Right-click → Geographic Role. Needed before a field will work on a <a href="#tableau/maps">map</a>.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Data source filters are invisible later</div>
+      <p>They're powerful and easy to forget. Six months on, someone asks why the totals don't match the source system and the answer is a filter set on this page that nobody remembers. Document them — a text object on the dashboard, or a note in the workbook description.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Relationships by default</strong> — joins only when you need row-level control</li>
+      <li><strong>Joins add columns; unions add rows</strong></li>
+      <li><strong>Left join is the safe join</strong> — <code>Null</code>s are visible, dropped rows aren't</li>
+      <li><strong>Always check the row count after connecting</strong> — growth means fan-out</li>
+      <li><strong>Different granularity is the danger</strong> — that's where duplication comes from</li>
+      <li><strong>Fix names and types once, at the source</strong></li>
+      <li><strong>Extract for speed, live for freshness</strong> — Tableau Public requires an extract</li>
+      <li><strong>Document data source filters</strong> — they're invisible from the worksheet</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="cn-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p class="muted">The Superstore workbook ships with three tables: Orders, Returns and People.</p>
+    <ol>
+      <li>Open the <strong>Data Source page</strong> and note the row count of Orders (it should be 9,994)</li>
+      <li><strong>Relate</strong> Returns to Orders on Order ID, then confirm the row count hasn't changed</li>
+      <li>Build a view of <strong>Sales by Region</strong> and confirm the total is still $2,297,201</li>
+      <li>Now <strong>join</strong> Returns instead of relating it — check the row count again and explain any change</li>
+      <li>Create a <strong>Returned?</strong> calculation flagging orders that appear in Returns</li>
+      <li>Relate the <strong>People</strong> table and show Sales by regional manager</li>
+      <li><strong>Rename</strong> three fields to something clearer and <strong>hide</strong> Row ID and Country</li>
+      <li>Check every <strong>data type</strong>, especially the two date fields</li>
+      <li><strong>Split</strong> Order ID on the dash and see what the parts contain</li>
+      <li>Add a <strong>data source filter</strong> excluding 2014, then verify your totals drop</li>
+      <li>Switch the connection to an <strong>Extract</strong> and note whether interaction feels faster</li>
+      <li>Add an <strong>extract filter</strong> for 2016–2017 only and compare the extract's size</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: build the fan-out yourself</div>
+      <p>Make a small two-column Targets table by hand — one row per region with a monthly target — and connect it to Orders. First as a <strong>join</strong>: sum the targets and watch the number come out roughly 2,500 times too large. Then as a <strong>relationship</strong>: watch it come out right. Finally, build a Sales vs Target view with a bullet chart. Having caused the bug deliberately once, you'll recognise it instantly when it happens for real.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/setup"><span class="pl">← Previous</span><span class="pt">Practice Setup</span></a>
+    <a class="next" href="#tableau/interface"><span class="pl">Next →</span><span class="pt">Interface Basics</span></a>
+  </nav>
+</div>
