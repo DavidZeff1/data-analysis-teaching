@@ -1,0 +1,324 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🗂️</span> Tables, Sorting &amp; Filtering</h1>
+    <p>Before you analyse 10,000 rows, you need to be able to move around them, narrow them down, and see what stands out. Excel Tables turn a raw grid into a named, self-expanding object — and they quietly fix a whole class of formula bugs.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Setup, References</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#tb-nav">Navigating fast</a>
+    <a href="#tb-freeze">Freeze panes</a>
+    <a href="#tb-tables">Excel Tables</a>
+    <a href="#tb-struct">Structured references</a>
+    <a href="#tb-sort">Sorting</a>
+    <a href="#tb-filter">Filtering</a>
+    <a href="#tb-cf">Conditional formatting</a>
+    <a href="#tb-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="tb-nav">
+    <h2><span class="ic">🧭</span> Moving around 10,000 rows</h2>
+    <p>Scrolling is the slowest possible way to navigate a dataset. These four moves will save you more time than any formula on this site.</p>
+    <div class="grid2">
+      <div class="tile">
+        <h3><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">↓</span></span> Jump to the edge</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Leaps to the last filled cell in that direction. <span class="kbd">Ctrl</span> <span class="kbd">↓</span> tells you instantly how many rows you have.</p>
+      </div>
+      <div class="tile">
+        <h3><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">↓</span></span> Select to the edge</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Same jump, but selecting everything on the way. This is how you select a whole column of data without touching the mouse.</p>
+      </div>
+      <div class="tile">
+        <h3><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Shift</span><span class="plus">+</span><span class="kbd">*</span></span> Select the whole block</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Grabs the entire contiguous data region around the cursor, headers included.</p>
+      </div>
+      <div class="tile">
+        <h3><span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Home</span></span> Back to A1</h3>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Instant reset. On a Mac: <span class="kbd">Ctrl</span> <span class="kbd">Fn</span> <span class="kbd">←</span>.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The status bar is a free calculator</div>
+      <p>Select any range of numbers and look at the bottom-right of the window: count, sum and average appear instantly. Right-click the status bar to add min, max and numerical count. It's the fastest way to sanity-check a total without writing a formula.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tb-freeze">
+    <h2><span class="ic">❄️</span> Freeze panes — keep the headers visible</h2>
+    <p>Scroll to row 5,000 in the Superstore data and you'll have no idea which column is which. Freezing pins the header row in place.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Click the cell below and right of what you want frozen</div>
+        <p>To freeze just the header row, click <code>A2</code>. To freeze the header row <em>and</em> the first column, click <code>B2</code>.</p>
+      </li>
+      <li>
+        <div class="s-t">Apply it</div>
+        <p><strong>Excel:</strong> View → Freeze Panes → Freeze Panes. <strong>Google Sheets:</strong> View → Freeze → 1 row.</p>
+      </li>
+      <li>
+        <div class="s-t">Check the line</div>
+        <p>A thin grey line marks the frozen boundary. Scroll down — the headers should stay put.</p>
+      </li>
+    </ol>
+    <div class="callout note" style="margin-top:.5rem"><p>Excel Tables (next section) do this automatically: scroll down inside a Table and the column letters A, B, C are replaced by your actual field names.</p></div>
+  </section>
+
+  <section class="lcard" id="tb-tables">
+    <h2><span class="ic">📦</span> Excel Tables — press <span class="kbd">Ctrl</span> <span class="kbd">T</span></h2>
+    <p>An "Excel Table" isn't just a range with borders. It's a named object that knows where its data ends — and that one property fixes several problems at once.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">A plain range</div>
+        <table>
+          <tr><th>Order ID</th><th>Region</th><th>Sales</th></tr>
+          <tr><td>CA-2016-152156</td><td>South</td><td>261.96</td></tr>
+          <tr><td>CA-2016-138688</td><td>West</td><td>14.62</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Formulas point at <code>R2:R9995</code>. Add a row and every formula silently misses it.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">A Table named <code>Orders</code></div>
+        <table>
+          <tr><th>Order ID ▾</th><th>Region ▾</th><th>Sales ▾</th></tr>
+          <tr><td>CA-2016-152156</td><td>South</td><td>261.96</td></tr>
+          <tr><td>CA-2016-138688</td><td>West</td><td>14.62</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Formulas point at <code>Orders[Sales]</code>. Add a row and it's included automatically.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.9rem">What you get for free</h3>
+    <ul class="check">
+      <li><strong>Auto-expanding ranges</strong> — new rows join the Table, so formulas, pivots and charts pick them up without editing</li>
+      <li><strong>Filter buttons on every header</strong>, added automatically</li>
+      <li><strong>Sticky headers</strong> — scroll down and column letters become field names</li>
+      <li><strong>Formulas fill down on their own</strong> — type one in a new column and the whole column populates</li>
+      <li><strong>Readable formulas</strong> — <code>SUM(Orders[Sales])</code> instead of <code>SUM(R2:R9995)</code></li>
+      <li><strong>Banded rows</strong> that stay correct when you sort or filter</li>
+      <li><strong>A Total row</strong> you can toggle on with <span class="kbd">Ctrl</span> <span class="kbd">Shift</span> <span class="kbd">T</span></li>
+    </ul>
+
+    <ol class="steps" style="margin-top:.9rem">
+      <li>
+        <div class="s-t">Click any cell in your data</div>
+        <p>You don't need to select the whole range — Excel detects it.</p>
+      </li>
+      <li>
+        <div class="s-t">Press <span class="kbd">Ctrl</span> <span class="kbd">T</span></div>
+        <p>Confirm the detected range and make sure <em>"My table has headers"</em> is ticked. In Google Sheets, the equivalent is Format → Convert to table.</p>
+      </li>
+      <li>
+        <div class="s-t">Name it immediately</div>
+        <p>Table Design → Table Name, top-left. Call it <code>Orders</code>, not <code>Table1</code>. This name appears in every formula you write from now on.</p>
+      </li>
+    </ol>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">One Table needs one clean block</div>
+      <p>No blank rows or columns inside the data, exactly one header row, and no merged cells. If your sheet has a title row above the headers, delete it or move it to another sheet before pressing <span class="kbd">Ctrl</span> <span class="kbd">T</span>.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tb-struct">
+    <h2><span class="ic">🏷️</span> Structured references</h2>
+    <p>Once your data is a Table, you can refer to it by name. Formulas stop being cryptic and start reading like sentences.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Structured reference</th><th>Means</th></tr></thead>
+        <tbody>
+          <tr><td><code>Orders[Sales]</code></td><td>Every data cell in the Sales column</td></tr>
+          <tr><td><code>Orders[[#Headers],[Sales]]</code></td><td>Just the header cell</td></tr>
+          <tr><td><code>Orders[#All]</code></td><td>Headers, data and totals together</td></tr>
+          <tr><td><code>Orders[@Sales]</code></td><td>Sales <em>on this row</em> — used inside the Table</td></tr>
+          <tr><td><code>Orders[[Sales]:[Profit]]</code></td><td>A span of adjacent columns</td></tr>
+        </tbody>
+      </table>
+    </div>
+<pre><span class="c">// Before: what does R even mean?</span>
+=<span class="f">SUMIFS</span>(<span class="r">R2:R9995</span>, <span class="r">M2:M9995</span>, <span class="s">"West"</span>)
+
+<span class="c">// After: it reads as English</span>
+=<span class="f">SUMIFS</span>(Orders[Sales], Orders[Region], <span class="s">"West"</span>)
+
+<span class="c">// A calculated column, typed once in the first row</span>
+=Orders[@Profit] / Orders[@Sales]
+
+<span class="c">// Totals that grow with the data</span>
+=<span class="f">SUM</span>(Orders[Sales])
+=<span class="f">COUNTA</span>(Orders[Order ID])</pre>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Why this matters more than it looks</div>
+      <p>Half the "my formula broke" problems in spreadsheets come from ranges that no longer cover the data — a new month is appended and <code>R2:R9995</code> quietly excludes it. Structured references cannot have that bug, because the Table always knows its own extent. It also makes the <a href="#excel/aggregation">SUMIFS range-size mismatch</a> impossible.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tb-sort">
+    <h2><span class="ic">🔠</span> Sorting</h2>
+    <div class="split">
+      <div>
+        <h3>Single column</h3>
+        <p style="font-size:.9rem">Click the filter arrow on a header → Sort A→Z or Z→A. On a numeric column, sorting descending is the fastest way to find the biggest values.</p>
+      </div>
+      <div>
+        <h3>Multiple levels</h3>
+        <p style="font-size:.9rem"><strong>Data → Sort</strong> lets you stack rules: Region A→Z, <em>then</em> Sales largest→smallest. The top rule wins; later rules break ties within it.</p>
+      </div>
+    </div>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">⚠️ The mistake that corrupts data</div>
+      <p>If you select a <strong>single column</strong> and sort it, only that column moves — every row's values get shuffled apart from each other, and the dataset is destroyed in a way that's hard to spot and impossible to undo after saving. Always select the whole data block first, or use a Table, where sorting always moves entire rows.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Sorting <em>changes</em> your data's order permanently. If you only want to look, filter instead — or use <a href="#excel/arrays">SORT()</a>, which produces a sorted view and leaves the source untouched.</p></div>
+  </section>
+
+  <section class="lcard" id="tb-filter">
+    <h2><span class="ic">🔽</span> Filtering</h2>
+    <p>Filtering hides rows without deleting anything. Press <span class="kbd">Ctrl</span> <span class="kbd">Shift</span> <span class="kbd">L</span> to toggle filter arrows on any dataset.</p>
+
+    <div class="grid3">
+      <div class="tile">
+        <h3>☑️ By value</h3>
+        <p style="margin:0;font-size:.85rem">Tick and untick from the list. It shows every distinct value in the column — a fast way to spot inconsistent spellings.</p>
+      </div>
+      <div class="tile">
+        <h3>🔢 By condition</h3>
+        <p style="margin:0;font-size:.85rem">Number Filters → Greater Than, Between, Top 10. Text Filters → Contains, Begins With.</p>
+      </div>
+      <div class="tile">
+        <h3>🎨 By colour</h3>
+        <p style="margin:0;font-size:.85rem">If you've applied conditional formatting, you can filter to just the highlighted rows.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The filter list is a free data-quality audit</div>
+      <p>Open the filter on a text column and read the distinct values. "USA", "U.S.A." and "United States" sitting in the same list is a problem you'd otherwise discover much later, when your totals don't add up. See <a href="#excel/validation">Cleaning &amp; Validation</a> for the fix.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Filtering changes what your formulas should count</h3>
+    <p>This trips people up constantly: <code>SUM</code> ignores filtering entirely and totals the hidden rows too. Use <code>SUBTOTAL</code> when you want the visible rows only.</p>
+<pre>=<span class="f">SUM</span>(<span class="r">R2:R9995</span>)              <span class="c">// always the full total, filter or no filter</span>
+=<span class="f">SUBTOTAL</span>(<span class="n">109</span>, <span class="r">R2:R9995</span>)    <span class="c">// sums only the VISIBLE rows</span>
+=<span class="f">SUBTOTAL</span>(<span class="n">103</span>, <span class="r">B2:B9995</span>)    <span class="c">// counts only the visible rows</span>
+
+<span class="c">// The function numbers: add 100 to ignore hidden rows.</span>
+<span class="c">//   101 AVERAGE   102 COUNT   103 COUNTA</span>
+<span class="c">//   104 MAX       105 MIN     109 SUM</span></pre>
+    <div class="callout note" style="margin-top:.5rem"><p>A Table's Total row uses <code>SUBTOTAL</code> automatically, so it always reflects what you're actually looking at. In Google Sheets, the same job is done by <code>=SUBTOTAL(109, R2:R9995)</code> too.</p></div>
+  </section>
+
+  <section class="lcard" id="tb-cf">
+    <h2><span class="ic">🎨</span> Conditional formatting — seeing patterns</h2>
+    <p>Colour is the fastest channel your eyes have. Conditional formatting applies it by rule, so the highlighting updates whenever the data does.</p>
+
+    <div class="grid2">
+      <div class="tile">
+        <h3>🔴 Highlight cells</h3>
+        <p style="margin:0;font-size:.86rem">"Greater than", "Less than", "Text contains", "Duplicate values". The quickest win: highlight every negative Profit in red.</p>
+      </div>
+      <div class="tile">
+        <h3>🌡️ Colour scales</h3>
+        <p style="margin:0;font-size:.86rem">A gradient across the range — low values one colour, high another. Turns a column of numbers into a heatmap.</p>
+      </div>
+      <div class="tile">
+        <h3>📊 Data bars</h3>
+        <p style="margin:0;font-size:.86rem">An in-cell bar proportional to the value. A bar chart with no chart, right inside the table.</p>
+      </div>
+      <div class="tile">
+        <h3>🔺 Icon sets</h3>
+        <p style="margin:0;font-size:.86rem">Arrows or traffic lights by threshold. Use sparingly — three states is usually enough.</p>
+      </div>
+    </div>
+
+    <div class="sheet" style="margin-top:.85rem">
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th>P</th><th class="hl">R</th><th class="hl">U</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Sub-Category</td><td>Sales</td><td>Profit</td></tr>
+            <tr><th>2</th><td>Phones</td><td class="num hl">330,007</td><td class="num good">44,516</td></tr>
+            <tr><th>3</th><td>Chairs</td><td class="num hl">328,449</td><td class="num good">26,590</td></tr>
+            <tr><th>4</th><td>Tables</td><td class="num hl">206,966</td><td class="num bad">−17,725</td></tr>
+            <tr><th>5</th><td>Bookcases</td><td class="num hl">114,880</td><td class="num bad">−3,473</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Two rules: a colour scale on Sales, and red fill where Profit &lt; 0. The loss-making sub-categories jump straight out.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">Custom formula rules — where it gets powerful</h3>
+    <p>Choose "Use a formula to determine which cells to format" and you can highlight based on <em>any</em> logic, including other columns.</p>
+<pre><span class="c">// Highlight the ENTIRE row when that row lost money.</span>
+<span class="c">// Select A2:U9995 first, then use:</span>
+=$U2 &lt; 0
+<span class="c">//   $U locks the column so every cell in the row is judged</span>
+<span class="c">//   by column U; the free row number lets it walk down.</span>
+
+<span class="c">// Rows that were discounted AND lost money</span>
+=<span class="k">AND</span>($T2 &gt; <span class="n">0</span>, $U2 &lt; <span class="n">0</span>)
+
+<span class="c">// Duplicate Order IDs</span>
+=<span class="f">COUNTIF</span>($B:$B, $B2) &gt; <span class="n">1</span>
+
+<span class="c">// Anything above the overall average</span>
+=$R2 &gt; <span class="f">AVERAGE</span>($R:$R)</pre>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">The <code>$</code> rule for whole-row highlighting</div>
+      <p>Write the formula as if it applies to the <strong>top-left cell of your selection</strong>. Lock the column with <code>$</code> and leave the row free — <code>$U2</code>. Get this backwards and you'll get a diagonal stripe of colour instead of highlighted rows.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Keep it restrained</div>
+      <p>If everything is highlighted, nothing is. Two or three rules per sheet is plenty. Conditional formatting on tens of thousands of rows also slows a workbook noticeably — apply it to the range you're actually reading, not to whole columns.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong><span class="kbd">Ctrl</span> + arrows</strong> is how experienced users move — never scroll to row 9,995</li>
+      <li><strong>Press <span class="kbd">Ctrl</span> <span class="kbd">T</span> on every dataset</strong>, then name the Table</li>
+      <li><strong>Structured references can't go stale</strong> — the Table always knows its own size</li>
+      <li><strong>Sorting rearranges data; filtering only hides it</strong></li>
+      <li><strong>Never sort one column alone</strong> — select everything or use a Table</li>
+      <li><strong><code>SUM</code> ignores filters, <code>SUBTOTAL</code> respects them</strong></li>
+      <li><strong>The filter dropdown lists every distinct value</strong> — a free consistency check</li>
+      <li><strong>Conditional formatting is a rule, not a paint stroke</strong> — it re-evaluates as data changes</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="tb-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Use <span class="kbd">Ctrl</span> <span class="kbd">↓</span> to find the <strong>last row</strong> of the dataset without scrolling</li>
+      <li><strong>Freeze the header row</strong> and scroll to row 5,000 — confirm the headers stay</li>
+      <li>Convert the data to a <strong>Table</strong> and name it <code>Orders</code></li>
+      <li>Add a <strong>calculated column</strong> for Profit Margin using <code>Orders[@Profit]/Orders[@Sales]</code> — watch it fill the whole column</li>
+      <li>Rewrite a SUMIFS you built earlier using <strong>structured references</strong></li>
+      <li>Turn on the Table's <strong>Total row</strong> and switch it between Sum, Average and Count</li>
+      <li><strong>Sort</strong> by Region A→Z, then by Sales largest→smallest within each region</li>
+      <li><strong>Filter</strong> to West-region orders with Sales over $500</li>
+      <li>Compare <code>SUM</code> and <code>SUBTOTAL(109, …)</code> while a filter is active — explain the difference</li>
+      <li>Open the filter on <strong>Ship Mode</strong> and list every distinct value — are there exactly four?</li>
+      <li>Apply a <strong>colour scale</strong> to Sales and <strong>red fill</strong> to negative Profit</li>
+      <li>Use a <strong>custom formula rule</strong> to highlight entire rows where Profit is negative</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: an exception report</div>
+      <p>Highlight every row that is <em>simultaneously</em> discounted, loss-making, and above-average in Sales — the orders where you gave away margin on your biggest deals. Use one custom formula rule combining three conditions with <code>AND</code>. Then filter by colour to isolate exactly those rows, and total their Sales and Profit. How much money is sitting in that pattern?</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/arrays"><span class="pl">← Previous</span><span class="pt">Dynamic Arrays</span></a>
+    <a class="next" href="#excel/validation"><span class="pl">Next →</span><span class="pt">Cleaning &amp; Validation</span></a>
+  </nav>
+</div>

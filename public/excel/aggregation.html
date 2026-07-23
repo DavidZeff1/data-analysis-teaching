@@ -1,0 +1,361 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🎚️</span> SUMIFS &amp; COUNTIFS</h1>
+    <p>Conditional aggregation is the single most-used analyst skill in spreadsheets: <em>total the Sales, but only for the West region, only in 2017, only where the discount was zero.</em> Master this and you can answer most business questions without a pivot table.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 30 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Formulas, References, Logical</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#ag-idea">The idea</a>
+    <a href="#ag-sumif">SUMIF</a>
+    <a href="#ag-sumifs">SUMIFS</a>
+    <a href="#ag-criteria">Writing criteria</a>
+    <a href="#ag-family">The whole family</a>
+    <a href="#ag-summary">Building a summary table</a>
+    <a href="#ag-vs">vs. pivot tables</a>
+    <a href="#ag-traps">Traps</a>
+    <a href="#ag-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="ag-idea">
+    <h2><span class="ic">💡</span> The idea: filter, then aggregate</h2>
+    <p><code>SUM</code> adds everything. <code>SUMIF</code> adds only the rows that pass a test. Everything on this page is a variation of that one move:</p>
+    <div class="flow">
+      <div class="fnode"><div class="fi">1</div><div class="ft">All rows</div><div class="fd">9,994 line items</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">2</div><div class="ft">Apply criteria</div><div class="fd">Region = "West"</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">3</div><div class="ft">Matching rows</div><div class="fd">3,203 line items</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode done"><div class="fi">4</div><div class="ft">Aggregate</div><div class="fd">SUM → $725,458</div></div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The mental model</div>
+      <p>Read <code>=SUMIFS(R:R, M:M, "West")</code> as: <strong>"Add up column R, for every row where column M says West."</strong> Every function here reads the same way — only the verb changes.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-sumif">
+    <h2><span class="ic">➕</span> SUMIF — one condition</h2>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">SUMIF</span>
+        <span class="syn-tag">Add values that meet a single condition</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=SUMIF( <b>range</b>, <b>criteria</b>, <i>[sum_range]</i> )</div>
+        <ul class="syn-args">
+          <li><b>range</b> <span>The column to test — where the condition is checked</span></li>
+          <li><b>criteria</b> <span>What to look for: <code>"West"</code>, <code>"&gt;500"</code>, a cell reference</span></li>
+          <li><b>sum_range</b> <span>The column to add. Leave it out and Excel adds <em>range</em> itself</span></li>
+        </ul>
+<pre><span class="c">// Total Sales in the West region</span>
+=<span class="f">SUMIF</span>(<span class="r">M:M</span>, <span class="s">"West"</span>, <span class="r">R:R</span>)      <span class="c">// $725,458</span>
+
+<span class="c">// Total Sales over $500 — note: no sum_range needed,</span>
+<span class="c">// because we test and add the SAME column</span>
+=<span class="f">SUMIF</span>(<span class="r">R:R</span>, <span class="s">"&gt;500"</span>)
+
+<span class="c">// Total Profit for the Technology category</span>
+=<span class="f">SUMIF</span>(<span class="r">O:O</span>, <span class="s">"Technology"</span>, <span class="r">U:U</span>)
+
+<span class="c">// Criteria from a cell — the flexible version</span>
+=<span class="f">SUMIF</span>(<span class="r">M:M</span>, <span class="r">$X$1</span>, <span class="r">R:R</span>)         <span class="c">// type a region in X1</span></pre>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">What it's doing, row by row</h3>
+    <p class="muted">Excel walks down the <em>range</em>, and every time the criteria matches, it grabs the same row from <em>sum_range</em>.</p>
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">X2</span><span class="sheet-fx">fx</span><code>=SUMIF(M:M, "West", R:R)</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">M</th><th>…</th><th class="hl">R</th><th>X</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Region</td><td>…</td><td>Sales</td><td>West total</td></tr>
+            <tr><th>2</th><td class="good">West</td><td>…</td><td class="num good">261.96</td><td class="sel num" rowspan="4">725,458</td></tr>
+            <tr><th>3</th><td>East</td><td>…</td><td class="num">731.94</td></tr>
+            <tr><th>4</th><td class="good">West</td><td>…</td><td class="num good">14.62</td></tr>
+            <tr><th>5</th><td>South</td><td>…</td><td class="num">957.58</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Green rows match the criteria, so only their Sales values are added.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-sumifs">
+    <h2><span class="ic">🎯</span> SUMIFS — many conditions</h2>
+    <p><code>SUMIFS</code> (with the S) accepts up to 127 conditions. Note the argument order flips: the column you're adding comes <strong>first</strong>.</p>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">SUMIFS</span>
+        <span class="syn-tag">Add values that meet ALL of several conditions</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=SUMIFS( <b>sum_range</b>, <b>range1</b>, <b>criteria1</b>, <i>[range2, criteria2, …]</i> )</div>
+        <ul class="syn-args">
+          <li><b>sum_range</b> <span>The column to add — <strong>first</strong>, unlike SUMIF</span></li>
+          <li><b>range1</b> <span>First column to test</span></li>
+          <li><b>criteria1</b> <span>What must be true in range1</span></li>
+          <li><b>range2, criteria2</b> <span>Add as many pairs as you need — all must pass</span></li>
+        </ul>
+<pre><span class="c">// Sales in the West, for Technology only</span>
+=<span class="f">SUMIFS</span>(<span class="r">R:R</span>, <span class="r">M:M</span>, <span class="s">"West"</span>, <span class="r">O:O</span>, <span class="s">"Technology"</span>)
+
+<span class="c">// Sales in the West, Technology, over $500, no discount</span>
+=<span class="f">SUMIFS</span>(<span class="r">R:R</span>,
+    <span class="r">M:M</span>, <span class="s">"West"</span>,
+    <span class="r">O:O</span>, <span class="s">"Technology"</span>,
+    <span class="r">R:R</span>, <span class="s">"&gt;500"</span>,
+    <span class="r">T:T</span>, <span class="n">0</span>)
+
+<span class="c">// Profit for Consumer orders shipped Same Day</span>
+=<span class="f">SUMIFS</span>(<span class="r">U:U</span>, <span class="r">H:H</span>, <span class="s">"Consumer"</span>, <span class="r">E:E</span>, <span class="s">"Same Day"</span>)</pre>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Conditions are AND, never OR</div>
+      <p>Every criteria pair must be true for a row to count. To get OR behaviour ("West <em>or</em> East"), add two SUMIFS together: <code>=SUMIFS(R:R,M:M,"West") + SUMIFS(R:R,M:M,"East")</code>.</p>
+    </div>
+    <div class="callout danger" style="margin-top:.5rem">
+      <div class="callout-title">⚠️ The #1 SUMIFS bug: ranges must be the same size</div>
+      <p><code>=SUMIFS(R2:R9995, M2:M5000, "West")</code> returns <span class="err">#VALUE!</span> — the sum range and criteria range have different heights. Use full columns (<code>R:R</code>, <code>M:M</code>) or an <a href="#excel/tables">Excel Table</a> to make this impossible.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-criteria">
+    <h2><span class="ic">✍️</span> Writing criteria correctly</h2>
+    <p class="muted">Criteria is where almost every mistake happens. Here is every form you'll need.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead>
+          <tr><th>Goal</th><th>Criteria</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exactly equals text</td><td><code>"West"</code></td><td>Not case-sensitive; <code>"west"</code> works too</td></tr>
+          <tr><td>Exactly equals a number</td><td><code>500</code></td><td>No quotes needed for a plain number</td></tr>
+          <tr><td>Greater / less than</td><td><code>"&gt;500"</code>, <code>"&lt;=0"</code></td><td>Operator <strong>and</strong> value inside one pair of quotes</td></tr>
+          <tr><td>Not equal to</td><td><code>"&lt;&gt;West"</code></td><td>Everything except West</td></tr>
+          <tr><td>Compare to a cell</td><td><code>"&gt;"&amp;X1</code></td><td>Operator in quotes, then <code>&amp;</code>, then the reference</td></tr>
+          <tr><td>Starts with</td><td><code>"Off*"</code></td><td><code>*</code> = any number of characters</td></tr>
+          <tr><td>Contains</td><td><code>"*Chair*"</code></td><td>Matches anywhere in the text</td></tr>
+          <tr><td>Single character</td><td><code>"?A-2017*"</code></td><td><code>?</code> = exactly one character</td></tr>
+          <tr><td>Is blank / not blank</td><td><code>""</code> / <code>"&lt;&gt;"</code></td><td>Useful for data-quality checks</td></tr>
+          <tr><td>A date</td><td><code>"&gt;="&amp;DATE(2017,1,1)</code></td><td>Never type a date as text — see <a href="#excel/dates">Dates &amp; Time</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2" style="margin-top:.85rem">
+      <div class="cmp bad">
+        <div class="h">❌ Wrong</div>
+        <code>=SUMIF(R:R, &gt;500)</code>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">Operators must be inside quotes.</p>
+      </div>
+      <div class="cmp good">
+        <div class="h">✓ Correct</div>
+        <code>=SUMIF(R:R, "&gt;500")</code>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">The whole condition is one text string.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">❌ Wrong</div>
+        <code>=SUMIF(R:R, "&gt;X1")</code>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">Looks for the literal text "&gt;X1".</p>
+      </div>
+      <div class="cmp good">
+        <div class="h">✓ Correct</div>
+        <code>=SUMIF(R:R, "&gt;"&amp;X1)</code>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b"><code>&amp;</code> joins the operator to the cell's value.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-family">
+    <h2><span class="ic">👨‍👩‍👧‍👦</span> The whole family</h2>
+    <p class="muted">Same criteria rules, different verb. Learn one, you know them all.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead>
+          <tr><th>Function</th><th>Answers</th><th>Example on Superstore</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="fn">SUMIFS</span></td><td>How much in total?</td><td><code>=SUMIFS(R:R, M:M, "West")</code></td></tr>
+          <tr><td><span class="fn">COUNTIFS</span></td><td>How many rows?</td><td><code>=COUNTIFS(M:M, "West")</code></td></tr>
+          <tr><td><span class="fn">AVERAGEIFS</span></td><td>What's the typical value?</td><td><code>=AVERAGEIFS(R:R, M:M, "West")</code></td></tr>
+          <tr><td><span class="fn">MAXIFS</span></td><td>What's the biggest?</td><td><code>=MAXIFS(R:R, M:M, "West")</code></td></tr>
+          <tr><td><span class="fn">MINIFS</span></td><td>What's the smallest?</td><td><code>=MINIFS(U:U, M:M, "West")</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.6rem">
+      <p><strong>Argument-order gotcha:</strong> the singular forms (<code>SUMIF</code>, <code>COUNTIF</code>, <code>AVERAGEIF</code>) put the criteria range first. The plural <code>…IFS</code> forms put the value range first — except <code>COUNTIFS</code>, which has no value range at all. When in doubt, use the <code>…IFS</code> version for everything; it handles one condition perfectly well.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">COUNTIFS deserves a special mention</h3>
+    <p>It's the fastest way to profile a dataset — how many rows are in each bucket?</p>
+<pre><span class="c">// How many orders were discounted?</span>
+=<span class="f">COUNTIFS</span>(<span class="r">T:T</span>, <span class="s">"&gt;0"</span>)
+
+<span class="c">// How many loss-making orders in the West?</span>
+=<span class="f">COUNTIFS</span>(<span class="r">M:M</span>, <span class="s">"West"</span>, <span class="r">U:U</span>, <span class="s">"&lt;0"</span>)
+
+<span class="c">// How many rows are missing a Customer Name? (data quality check)</span>
+=<span class="f">COUNTIFS</span>(<span class="r">G:G</span>, <span class="s">""</span>)
+
+<span class="c">// Percentage of orders that lost money</span>
+=<span class="f">COUNTIFS</span>(<span class="r">U:U</span>, <span class="s">"&lt;0"</span>) / <span class="f">COUNTA</span>(<span class="r">U:U</span>)</pre>
+  </section>
+
+  <section class="lcard" id="ag-summary">
+    <h2><span class="ic">📐</span> The real skill: a summary table you can copy</h2>
+    <p>Typing <code>"West"</code> into a formula works once. The professional move is to put the labels in cells, then write <strong>one formula</strong> with mixed references that fills the whole grid. This is where <a href="#excel/references">absolute vs relative references</a> pays off.</p>
+
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">Y3</span><span class="sheet-fx">fx</span><code>=SUMIFS($R:$R, $M:$M, $X3, $O:$O, Y$2)</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">X</th><th class="hl">Y</th><th class="hl">Z</th><th class="hl">AA</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>2</th><td>Region</td><td>Furniture</td><td>Office Supplies</td><td>Technology</td></tr>
+            <tr><th>3</th><td class="hd">Central</td><td class="sel num">163,797</td><td class="num">167,026</td><td class="num">170,416</td></tr>
+            <tr><th>4</th><td class="hd">East</td><td class="num">208,291</td><td class="num">205,516</td><td class="num">264,974</td></tr>
+            <tr><th>5</th><td class="hd">South</td><td class="num">117,299</td><td class="num">125,651</td><td class="num">148,772</td></tr>
+            <tr><th>6</th><td class="hd">West</td><td class="num">252,613</td><td class="num">220,853</td><td class="num">251,992</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">One formula, written once in Y3 and copied across and down the whole block.</p>
+    </div>
+
+    <h3 style="margin-top:.85rem">Why the <code>$</code> signs go exactly there</h3>
+    <div class="grid2">
+      <div class="tile">
+        <h3><code>$X3</code> — column locked, row free</h3>
+        <p style="margin:0;font-size:.86rem">Copying <strong>right</strong> keeps pointing at column X (the region labels). Copying <strong>down</strong> moves to the next region.</p>
+      </div>
+      <div class="tile">
+        <h3><code>Y$2</code> — row locked, column free</h3>
+        <p style="margin:0;font-size:.86rem">Copying <strong>down</strong> keeps pointing at row 2 (the category headers). Copying <strong>right</strong> moves to the next category.</p>
+      </div>
+      <div class="tile">
+        <h3><code>$R:$R</code> and <code>$M:$M</code> — fully locked</h3>
+        <p style="margin:0;font-size:.86rem">The source data never moves, so lock it completely.</p>
+      </div>
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ The result</h3>
+        <p style="margin:0;font-size:.86rem">A 4×3 cross-tab from a single formula — and it recalculates instantly when the data changes.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Build it in this order</div>
+      <p>Type the row labels down column X and the column headers across row 2 <em>first</em>. Then write the formula in the top-left cell of the block, check that one number is right, and only then copy it across and down.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-vs">
+    <h2><span class="ic">⚖️</span> SUMIFS or a pivot table?</h2>
+    <p>They answer the same questions. The difference is control versus speed.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead>
+          <tr><th>Situation</th><th style="text-align:center">SUMIFS</th><th style="text-align:center">Pivot table</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exploring — "what's in this data?"</td><td style="text-align:center;color:#dc2626">Slow</td><td style="text-align:center;color:#16a34a">✓ Seconds</td></tr>
+          <tr><td>A fixed report layout you designed</td><td style="text-align:center;color:#16a34a">✓ Exact control</td><td style="text-align:center;color:#d97706">Layout fights you</td></tr>
+          <tr><td>A dashboard cell that must sit <em>here</em></td><td style="text-align:center;color:#16a34a">✓</td><td style="text-align:center;color:#dc2626">❌</td></tr>
+          <tr><td>Updates automatically with new data</td><td style="text-align:center;color:#16a34a">✓ Always live</td><td style="text-align:center;color:#d97706">Needs a refresh</td></tr>
+          <tr><td>Drill into the underlying rows</td><td style="text-align:center;color:#dc2626">❌</td><td style="text-align:center;color:#16a34a">✓ Double-click</td></tr>
+          <tr><td>Ten thousand formulas on 500k rows</td><td style="text-align:center;color:#dc2626">Sluggish</td><td style="text-align:center;color:#16a34a">✓ Fast</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">How analysts actually work</div>
+      <p>Explore with a <a href="#excel/pivot">pivot table</a> to find what matters, then rebuild the handful of numbers that matter as SUMIFS formulas in your report or dashboard — because those cells stay exactly where you put them and never need refreshing.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ag-traps">
+    <h2><span class="ic">🕳️</span> Traps that waste hours</h2>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h">Trailing spaces</div>
+        <p style="margin:0;font-size:.84rem"><code>"West "</code> in the data won't match <code>"West"</code>. Symptom: a total of 0 that should be large. Fix: <code>TRIM</code> the column first — see <a href="#excel/validation">Cleaning</a>.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Mismatched range sizes</div>
+        <p style="margin:0;font-size:.84rem"><code>R2:R9995</code> against <code>M2:M5000</code> gives <span class="err">#VALUE!</span>. Use whole columns or a Table.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Numbers stored as text</div>
+        <p style="margin:0;font-size:.84rem"><code>"&gt;500"</code> silently skips text values that look like numbers. Check with <code>=ISNUMBER(R2)</code>.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Expecting OR</div>
+        <p style="margin:0;font-size:.84rem">Extra criteria narrow the result, never widen it. Adding conditions can only make the number smaller.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Wildcards in numbers</div>
+        <p style="margin:0;font-size:.84rem"><code>*</code> and <code>?</code> only work on text. On numeric columns they match nothing.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Forgetting the S</div>
+        <p style="margin:0;font-size:.84rem"><code>SUMIF</code> and <code>SUMIFS</code> take arguments in a different order. Mixing them up returns a plausible-looking wrong number.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Always sanity-check the total</div>
+      <p>Your region subtotals should add up to <code>=SUM(R:R)</code>. If they don't, you have a value that matches none of your criteria — usually a typo or a stray space in the data.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>Read it as a sentence</strong> — "add this column, where that column says X"</li>
+      <li><strong>Use the <code>…IFS</code> versions by default</strong> — same power, one consistent argument order</li>
+      <li><strong>Criteria go in quotes when they contain an operator</strong> — <code>"&gt;500"</code>, not <code>&gt;500</code></li>
+      <li><strong>Join operators to cells with <code>&amp;</code></strong> — <code>"&gt;"&amp;X1</code></li>
+      <li><strong>All conditions must pass</strong> — it's AND; add two formulas for OR</li>
+      <li><strong>Ranges must be the same height</strong> — whole columns or Tables avoid the problem entirely</li>
+      <li><strong>Mixed references build whole tables</strong> — <code>$X3</code> and <code>Y$2</code> from one formula</li>
+      <li><strong>Zero usually means a text mismatch</strong>, not "no data"</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="ag-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p class="muted">Work on a new sheet called "Analysis". Compare against a pivot table to check your answers.</p>
+    <ol>
+      <li>Total <strong>Sales</strong> for the West region</li>
+      <li>Total <strong>Profit</strong> for the Technology category</li>
+      <li><strong>Count</strong> how many orders used the Same Day ship mode</li>
+      <li>Total Sales for <strong>Technology in the West</strong> (two conditions)</li>
+      <li><strong>Average</strong> Sales for Consumer segment orders</li>
+      <li>Total Sales for orders <strong>over $500</strong> with <strong>no discount</strong></li>
+      <li><strong>Count</strong> the loss-making orders (Profit &lt; 0), then express it as a % of all orders</li>
+      <li><strong>Largest</strong> single sale in the East region (MAXIFS)</li>
+      <li>Total Sales for products whose Sub-Category <strong>contains "Chair"</strong> (wildcard)</li>
+      <li>Total Sales for the <strong>West or East</strong> regions combined (two SUMIFS added)</li>
+      <li>Build the <strong>Region × Category</strong> grid from the example above using one copyable formula</li>
+      <li>Add a <strong>Grand Total</strong> row and column, and verify it equals <code>=SUM(R:R)</code></li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: an interactive report</div>
+      <p>Put a Region in cell <code>X1</code> and a Category in <code>X2</code>. Below them, build five cells that all react to those two inputs: Total Sales, Total Profit, Profit Margin, Order Count, and Average Order Value. Change either input and the whole panel should update. Wrap the margin in <code>IFERROR</code> so an empty selection shows "—" instead of <span class="err">#DIV/0!</span>.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/logical"><span class="pl">← Previous</span><span class="pt">Logical Functions</span></a>
+    <a class="next" href="#excel/lookup"><span class="pl">Next →</span><span class="pt">Lookup Functions</span></a>
+  </nav>
+</div>

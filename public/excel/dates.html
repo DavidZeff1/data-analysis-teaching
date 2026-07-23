@@ -1,0 +1,369 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>📅</span> Dates &amp; Time</h1>
+    <p>Almost every business question has a time dimension — this month vs last, year over year, how long did shipping take. Dates look like text but behave like numbers, and understanding that one fact fixes most date problems before they start.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Formulas, Logical</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#dt-secret">Dates are numbers</a>
+    <a href="#dt-parts">Pulling dates apart</a>
+    <a href="#dt-math">Date arithmetic</a>
+    <a href="#dt-periods">Months &amp; quarters</a>
+    <a href="#dt-workdays">Working days</a>
+    <a href="#dt-format">Formatting</a>
+    <a href="#dt-broken">Broken dates</a>
+    <a href="#dt-analysis">Time-based analysis</a>
+    <a href="#dt-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="dt-secret">
+    <h2><span class="ic">🔑</span> The secret: every date is just a number</h2>
+    <p>A spreadsheet stores a date as the <strong>number of days since 1 January 1900</strong>. What you see on screen is only formatting laid over that number.</p>
+    <div class="sheet">
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>What you see</td><td>What's stored</td><td>Formula</td></tr>
+            <tr><th>2</th><td>1/1/1900</td><td class="num sel">1</td><td>day one</td></tr>
+            <tr><th>3</th><td>11/8/2016</td><td class="num">42,682</td><td>=A3*1</td></tr>
+            <tr><th>4</th><td>11/9/2016</td><td class="num">42,683</td><td>=A3+1</td></tr>
+            <tr><th>5</th><td>6:00 AM</td><td class="num">0.25</td><td>a quarter of a day</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Times are the decimal part: 0.5 is noon, 0.75 is 6pm. A date-time is just both halves together.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:.75rem">
+      <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
+        <h3>✓ Everything that follows makes sense now</h3>
+        <ul style="font-size:.86rem;margin:.4rem 0 0">
+          <li>Subtracting two dates gives you days — it's just subtraction</li>
+          <li><code>=C2+30</code> is "30 days later"</li>
+          <li>Sorting dates works because you're sorting numbers</li>
+          <li><code>&gt;</code> and <code>&lt;</code> mean "after" and "before"</li>
+        </ul>
+      </div>
+      <div class="tile" style="background:#fffbeb;border-color:#fde68a">
+        <h3>⚠️ And so do the problems</h3>
+        <ul style="font-size:.86rem;margin:.4rem 0 0">
+          <li>A "date" that won't do maths is <strong>text</strong>, not a date</li>
+          <li>Left-aligned by default = text. Right-aligned = a real date</li>
+          <li><code>=ISNUMBER(C2)</code> is the definitive test</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1rem">Today, right now</h3>
+<pre>=<span class="f">TODAY</span>()                <span class="c">// today's date, updates every day</span>
+=<span class="f">NOW</span>()                  <span class="c">// date AND time, updates on every recalculation</span>
+=<span class="f">TODAY</span>() - <span class="r">C2</span>           <span class="c">// how many days ago was this order placed?</span></pre>
+    <div class="callout note" style="margin-top:.5rem"><p>These are <em>volatile</em> — they change on their own. If you need a date frozen in place, type it, or press <span class="kbd">Ctrl</span> <span class="kbd">;</span> to stamp today's date as a fixed value.</p></div>
+  </section>
+
+  <section class="lcard" id="dt-parts">
+    <h2><span class="ic">🔨</span> Pulling a date apart, and putting one together</h2>
+    <div class="split">
+      <div>
+        <h3>Extract the pieces</h3>
+<pre><span class="c">// Order Date is in column C</span>
+=<span class="f">YEAR</span>(<span class="r">C2</span>)        <span class="c">// 2016</span>
+=<span class="f">MONTH</span>(<span class="r">C2</span>)       <span class="c">// 11  (a number, not a name)</span>
+=<span class="f">DAY</span>(<span class="r">C2</span>)         <span class="c">// 8</span>
+=<span class="f">WEEKDAY</span>(<span class="r">C2</span>)     <span class="c">// 3   (1 = Sunday by default)</span>
+=<span class="f">WEEKNUM</span>(<span class="r">C2</span>)     <span class="c">// 46  (week of the year)</span>
+=<span class="f">HOUR</span>(<span class="r">C2</span>)        <span class="c">// 0   (no time component here)</span></pre>
+      </div>
+      <div>
+        <h3>Build one from pieces</h3>
+<pre><span class="c">// DATE(year, month, day)</span>
+=<span class="f">DATE</span>(<span class="n">2017</span>, <span class="n">1</span>, <span class="n">1</span>)         <span class="c">// 1 Jan 2017</span>
+
+<span class="c">// It handles overflow gracefully</span>
+=<span class="f">DATE</span>(<span class="n">2017</span>, <span class="n">13</span>, <span class="n">1</span>)        <span class="c">// 1 Jan 2018</span>
+=<span class="f">DATE</span>(<span class="n">2017</span>, <span class="n">1</span>, <span class="n">0</span>)         <span class="c">// 31 Dec 2016</span>
+
+<span class="c">// First day of the month a date falls in</span>
+=<span class="f">DATE</span>(<span class="f">YEAR</span>(<span class="r">C2</span>), <span class="f">MONTH</span>(<span class="r">C2</span>), <span class="n">1</span>)</pre>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Always use DATE() for date criteria</div>
+      <p>Writing <code>"&gt;1/1/2017"</code> in a SUMIFS is fragile — it depends on your regional date settings. <code>"&gt;="&amp;DATE(2017,1,1)</code> is unambiguous everywhere.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="dt-math">
+    <h2><span class="ic">➖</span> Date arithmetic</h2>
+    <p>Because dates are numbers, you subtract them like numbers. The Superstore data has both an Order Date (C) and a Ship Date (D), which makes shipping lag a one-character formula.</p>
+
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">V2</span><span class="sheet-fx">fx</span><code>=D2-C2</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">C</th><th class="hl">D</th><th>E</th><th class="hl">V</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Order Date</td><td>Ship Date</td><td>Ship Mode</td><td>Days to ship</td></tr>
+            <tr><th>2</th><td>11/8/2016</td><td>11/11/2016</td><td>Second Class</td><td class="sel num">3</td></tr>
+            <tr><th>3</th><td>6/12/2016</td><td>6/16/2016</td><td>Standard Class</td><td class="num">4</td></tr>
+            <tr><th>4</th><td>10/11/2015</td><td>10/12/2015</td><td>First Class</td><td class="num">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">If the result shows as a date instead of a number, the cell inherited date formatting — set it to Number.</p>
+    </div>
+
+<pre><span class="c">// Days between two dates</span>
+=<span class="r">D2</span> - <span class="r">C2</span>                 <span class="c">// 3</span>
+
+<span class="c">// Days ago</span>
+=<span class="f">TODAY</span>() - <span class="r">C2</span>
+
+<span class="c">// Add / subtract days</span>
+=<span class="r">C2</span> + <span class="n">30</span>                 <span class="c">// 30 days after the order</span>
+=<span class="r">C2</span> - <span class="n">7</span>                  <span class="c">// a week before</span>
+
+<span class="c">// Add months or years properly — EDATE respects month lengths</span>
+=<span class="f">EDATE</span>(<span class="r">C2</span>, <span class="n">3</span>)            <span class="c">// 3 months later</span>
+=<span class="f">EDATE</span>(<span class="r">C2</span>, <span class="n">-12</span>)          <span class="c">// same date last year</span></pre>
+    <div class="callout warn" style="margin-top:.5rem">
+      <p>Don't add 30 to mean "a month" or 365 to mean "a year" — months differ in length and leap years exist. Use <code>EDATE</code>.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">DATEDIF — ages and elapsed periods</h3>
+    <p class="muted">A hidden legacy function with no autocomplete. It still works, and it's the cleanest way to get whole years or months elapsed.</p>
+<pre>=<span class="f">DATEDIF</span>(<span class="r">C2</span>, <span class="f">TODAY</span>(), <span class="s">"y"</span>)   <span class="c">// complete years elapsed</span>
+=<span class="f">DATEDIF</span>(<span class="r">C2</span>, <span class="f">TODAY</span>(), <span class="s">"m"</span>)   <span class="c">// complete months elapsed</span>
+=<span class="f">DATEDIF</span>(<span class="r">C2</span>, <span class="r">D2</span>, <span class="s">"d"</span>)        <span class="c">// days (same as D2-C2)</span>
+=<span class="f">DATEDIF</span>(<span class="r">C2</span>, <span class="f">TODAY</span>(), <span class="s">"ym"</span>)  <span class="c">// leftover months after whole years</span></pre>
+  </section>
+
+  <section class="lcard" id="dt-periods">
+    <h2><span class="ic">🗓️</span> Months, quarters and period boundaries</h2>
+    <p>Grouping daily rows into months is the most common date task in analysis. There are two approaches, and they serve different purposes.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">A label — for reading</div>
+<pre>=<span class="f">TEXT</span>(<span class="r">C2</span>, <span class="s">"mmm yyyy"</span>)
+<span class="c">// "Nov 2016" — but it's TEXT now,</span>
+<span class="c">// so it sorts alphabetically: Apr, Aug, Dec…</span>
+
+=<span class="f">TEXT</span>(<span class="r">C2</span>, <span class="s">"yyyy-mm"</span>)
+<span class="c">// "2016-11" — text, but sorts correctly!</span></pre>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">A real date — for grouping &amp; charts</div>
+<pre>=<span class="f">DATE</span>(<span class="f">YEAR</span>(<span class="r">C2</span>), <span class="f">MONTH</span>(<span class="r">C2</span>), <span class="n">1</span>)
+<span class="c">// 1 Nov 2016 — a genuine date.</span>
+<span class="c">// Sorts correctly, charts correctly,</span>
+<span class="c">// and you can format it to show "Nov 2016".</span></pre>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Rule of thumb</div>
+      <p>Use <code>=DATE(YEAR(...), MONTH(...), 1)</code> to <em>group</em>, then apply a <code>mmm yyyy</code> number format to make it <em>read</em> nicely. You get correct sorting and a friendly label. Reach for <code>TEXT</code> only when you need an actual string, and prefer <code>"yyyy-mm"</code> so it still sorts.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Start and end of periods</h3>
+<pre><span class="c">// Last day of the month C2 falls in</span>
+=<span class="f">EOMONTH</span>(<span class="r">C2</span>, <span class="n">0</span>)             <span class="c">// 30 Nov 2016</span>
+
+<span class="c">// Last day of NEXT month</span>
+=<span class="f">EOMONTH</span>(<span class="r">C2</span>, <span class="n">1</span>)             <span class="c">// 31 Dec 2016</span>
+
+<span class="c">// First day of the month — day after the previous month ends</span>
+=<span class="f">EOMONTH</span>(<span class="r">C2</span>, <span class="n">-1</span>) + <span class="n">1</span>        <span class="c">// 1 Nov 2016</span>
+
+<span class="c">// Quarter number (1–4)</span>
+=<span class="f">ROUNDUP</span>(<span class="f">MONTH</span>(<span class="r">C2</span>) / <span class="n">3</span>, <span class="n">0</span>)  <span class="c">// 4</span>
+
+<span class="c">// A readable quarter label that sorts correctly</span>
+=<span class="f">YEAR</span>(<span class="r">C2</span>) &amp; <span class="s">"-Q"</span> &amp; <span class="f">ROUNDUP</span>(<span class="f">MONTH</span>(<span class="r">C2</span>)/<span class="n">3</span>, <span class="n">0</span>)   <span class="c">// "2016-Q4"</span></pre>
+  </section>
+
+  <section class="lcard" id="dt-workdays">
+    <h2><span class="ic">💼</span> Working days</h2>
+    <p>"Four days to ship" means something different over a weekend. These two functions skip Saturdays, Sundays, and any holidays you supply.</p>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">NETWORKDAYS</span>
+        <span class="syn-tag">Count business days between two dates</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=NETWORKDAYS( <b>start_date</b>, <b>end_date</b>, <i>[holidays]</i> )</div>
+        <ul class="syn-args">
+          <li><b>start_date</b> <span>First day, counted inclusively</span></li>
+          <li><b>end_date</b> <span>Last day, also counted</span></li>
+          <li><b>holidays</b> <span>Optional range of dates to also skip</span></li>
+        </ul>
+<pre>=<span class="f">NETWORKDAYS</span>(<span class="r">C2</span>, <span class="r">D2</span>)              <span class="c">// business days to ship</span>
+=<span class="f">NETWORKDAYS</span>(<span class="r">C2</span>, <span class="r">D2</span>, <span class="r">$Z$2:$Z$12</span>)  <span class="c">// minus a holiday list</span></pre>
+      </div>
+    </div>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">WORKDAY</span>
+        <span class="syn-tag">Find the date N business days from now</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=WORKDAY( <b>start_date</b>, <b>days</b>, <i>[holidays]</i> )</div>
+<pre>=<span class="f">WORKDAY</span>(<span class="f">TODAY</span>(), <span class="n">5</span>)              <span class="c">// promised delivery date</span>
+=<span class="f">WORKDAY</span>(<span class="r">C2</span>, <span class="n">-3</span>)                 <span class="c">// 3 business days before the order</span></pre>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Need a different weekend (say, Friday–Saturday)? Use <code>NETWORKDAYS.INTL</code> and <code>WORKDAY.INTL</code>, which take an extra weekend-pattern argument.</p></div>
+
+    <h3 style="margin-top:.9rem">Weekday names, and flagging weekends</h3>
+<pre>=<span class="f">TEXT</span>(<span class="r">C2</span>, <span class="s">"dddd"</span>)                    <span class="c">// "Tuesday"</span>
+=<span class="f">TEXT</span>(<span class="r">C2</span>, <span class="s">"ddd"</span>)                     <span class="c">// "Tue"</span>
+
+<span class="c">// Was it ordered on a weekend?</span>
+=<span class="k">IF</span>(<span class="f">WEEKDAY</span>(<span class="r">C2</span>, <span class="n">2</span>) &gt; <span class="n">5</span>, <span class="s">"Weekend"</span>, <span class="s">"Weekday"</span>)
+<span class="c">//   the 2 makes Monday=1 … Sunday=7, which is easier to reason about</span></pre>
+  </section>
+
+  <section class="lcard" id="dt-format">
+    <h2><span class="ic">🎨</span> Formatting: changing the mask, not the value</h2>
+    <p>Number formats change how a date <em>looks</em> without touching the underlying number. Select cells and press <span class="kbd">Ctrl</span> <span class="kbd">1</span> → Custom.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Format code</th><th>8 November 2016 displays as</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td><code>m/d/yyyy</code></td><td>11/8/2016</td><td>Compact US default</td></tr>
+          <tr><td><code>dd/mm/yyyy</code></td><td>08/11/2016</td><td>Compact non-US</td></tr>
+          <tr><td><code>yyyy-mm-dd</code></td><td>2016-11-08</td><td>ISO — unambiguous, sorts as text correctly</td></tr>
+          <tr><td><code>mmm yyyy</code></td><td>Nov 2016</td><td>Monthly grouping labels</td></tr>
+          <tr><td><code>mmmm d, yyyy</code></td><td>November 8, 2016</td><td>Report headers</td></tr>
+          <tr><td><code>ddd d mmm</code></td><td>Tue 8 Nov</td><td>Schedules</td></tr>
+          <tr><td><code>"Q"q yyyy</code></td><td>Q4 2016</td><td>Quarterly reports</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Formatting vs TEXT() — know which you want</div>
+      <p><strong>Number formatting</strong> keeps the value a date: it still sorts, filters, and charts correctly. <strong><code>=TEXT(C2,"mmm yyyy")</code></strong> produces a real string — good for building labels, fatal if you then try to do date maths on it.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="dt-broken">
+    <h2><span class="ic">🚑</span> When dates won't behave</h2>
+    <p>Imported data almost always arrives with some dates as text. Here's how to spot it and fix it.</p>
+
+    <ol class="steps">
+      <li>
+        <div class="s-t">Diagnose it</div>
+        <p>Real dates align <strong>right</strong>; text aligns <strong>left</strong>. Confirm with <code>=ISNUMBER(C2)</code> — <code>FALSE</code> means it's text. A quick count of the damage: <code>=SUMPRODUCT(--NOT(ISNUMBER(C2:C9995)))</code>.</p>
+      </li>
+      <li>
+        <div class="s-t">Try the one-click fix first</div>
+        <p>Select the column → <strong>Data → Text to Columns → Next → Next → </strong> choose <em>Date</em> and the right order (MDY / DMY) → Finish. This converts the whole column in place and solves it most of the time.</p>
+      </li>
+      <li>
+        <div class="s-t">Or convert with a formula</div>
+        <p><code>=DATEVALUE(C2)</code> parses a text date into a serial number — then format it as a date. For a text date-time, <code>=DATEVALUE(LEFT(C2,10))</code> takes just the date part.</p>
+      </li>
+      <li>
+        <div class="s-t">Rebuild it if the format is unusual</div>
+        <p>For something like <code>20161108</code>, take it apart and reassemble: <code>=DATE(LEFT(C2,4), MID(C2,5,2), RIGHT(C2,2))</code>.</p>
+      </li>
+      <li>
+        <div class="s-t">Verify, then replace the original</div>
+        <p>Check the converted column sorts correctly and that <code>MIN</code>/<code>MAX</code> give sensible first and last dates. Then paste-special as values over the original column.</p>
+      </li>
+    </ol>
+
+    <div class="grid2" style="margin-top:.85rem">
+      <div class="cmp bad">
+        <div class="h">❌ Day/month swapped</div>
+        <p style="margin:0;font-size:.84rem">03/04/2017 is 3 April in the UK and 4 March in the US. Any row where the day is 13 or higher gives it away — those can only be days. Fix at import with Text to Columns, choosing the correct order.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">❌ A date shows as 42682</div>
+        <p style="margin:0;font-size:.84rem">The value is right, the format was lost. Just apply a date format — nothing is broken.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">❌ Two-digit years</div>
+        <p style="margin:0;font-size:.84rem">Excel reads 00–29 as 2000–2029 and 30–99 as 1930–1999. "65" becomes 1965. Always import four-digit years.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">❌ Dates look equal but don't match</div>
+        <p style="margin:0;font-size:.84rem">One has a time attached. <code>=INT(C2)</code> strips the time and leaves the date.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="dt-analysis">
+    <h2><span class="ic">📈</span> Putting it to work</h2>
+    <p>Dates only matter because of the questions they let you answer. These combine with <a href="#excel/aggregation">SUMIFS</a>.</p>
+<pre><span class="c">// Total Sales in 2017</span>
+=<span class="f">SUMIFS</span>(<span class="r">R:R</span>, <span class="r">C:C</span>, <span class="s">"&gt;="</span>&amp;<span class="f">DATE</span>(<span class="n">2017</span>,<span class="n">1</span>,<span class="n">1</span>), <span class="r">C:C</span>, <span class="s">"&lt;="</span>&amp;<span class="f">DATE</span>(<span class="n">2017</span>,<span class="n">12</span>,<span class="n">31</span>))
+
+<span class="c">// Total Sales in a single month (Nov 2017)</span>
+=<span class="f">SUMIFS</span>(<span class="r">R:R</span>, <span class="r">C:C</span>, <span class="s">"&gt;="</span>&amp;<span class="f">DATE</span>(<span class="n">2017</span>,<span class="n">11</span>,<span class="n">1</span>), <span class="r">C:C</span>, <span class="s">"&lt;="</span>&amp;<span class="f">EOMONTH</span>(<span class="f">DATE</span>(<span class="n">2017</span>,<span class="n">11</span>,<span class="n">1</span>), <span class="n">0</span>))
+
+<span class="c">// Rolling 90 days from today</span>
+=<span class="f">SUMIFS</span>(<span class="r">R:R</span>, <span class="r">C:C</span>, <span class="s">"&gt;="</span>&amp;<span class="f">TODAY</span>()-<span class="n">90</span>, <span class="r">C:C</span>, <span class="s">"&lt;="</span>&amp;<span class="f">TODAY</span>())
+
+<span class="c">// Year-over-year growth, with 2017 in X2 and 2016 in X3</span>
+=(<span class="r">X2</span> - <span class="r">X3</span>) / <span class="r">X3</span>
+
+<span class="c">// Average shipping lag by ship mode</span>
+=<span class="f">AVERAGEIFS</span>(<span class="r">V:V</span>, <span class="r">E:E</span>, <span class="s">"Standard Class"</span>)   <span class="c">// V holds =D2-C2</span></pre>
+
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">Add a date helper block once, reuse it forever</div>
+      <p>Rather than nesting date functions into every formula, add four helper columns next to your data — <strong>Year</strong>, <strong>Month Start</strong>, <strong>Quarter</strong>, <strong>Days to Ship</strong>. Every later analysis, pivot table and chart becomes a one-line formula. This is what "prepare your data" actually means in practice.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>A date is a number wearing a costume</strong> — the format is the costume</li>
+      <li><strong>Right-aligned = real date, left-aligned = text</strong> — the fastest visual check there is</li>
+      <li><strong>Subtracting dates gives days</strong>, because it's plain subtraction</li>
+      <li><strong><code>EDATE</code> for months, <code>EOMONTH</code> for period ends</strong> — never <code>+30</code></li>
+      <li><strong>Group with <code>DATE(YEAR, MONTH, 1)</code></strong>, label with a number format</li>
+      <li><strong><code>DATE()</code> in criteria</strong> — typed date strings depend on regional settings</li>
+      <li><strong><code>TEXT()</code> creates strings</strong> — a one-way trip out of date maths</li>
+      <li><strong>Fix broken dates at import</strong>, not with formulas layered on top</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="dt-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p class="muted">Order Date is column C, Ship Date is column D.</p>
+    <ol>
+      <li>Add a <strong>Days to Ship</strong> column (Ship Date − Order Date)</li>
+      <li>Add <strong>Order Year</strong>, <strong>Order Month</strong> (number) and <strong>Order Month Name</strong> columns</li>
+      <li>Add a <strong>Month Start</strong> column using <code>DATE(YEAR, MONTH, 1)</code>, formatted as <code>mmm yyyy</code></li>
+      <li>Add a <strong>Quarter label</strong> column that sorts correctly (e.g. "2016-Q4")</li>
+      <li>Add a <strong>Day of Week</strong> name column, then flag weekend orders</li>
+      <li>Calculate <strong>business days to ship</strong> with NETWORKDAYS and compare it to calendar days</li>
+      <li>Find the <strong>earliest and latest</strong> order dates in the dataset (MIN and MAX)</li>
+      <li>Total <strong>Sales in 2017</strong> using SUMIFS with DATE criteria</li>
+      <li>Total <strong>Sales in November 2017</strong> using EOMONTH for the upper bound</li>
+      <li>Calculate <strong>year-over-year growth</strong> from 2016 to 2017 as a percentage</li>
+      <li>Find the <strong>average days to ship for each Ship Mode</strong> — does Same Day actually ship same day?</li>
+      <li>Flag any order where <strong>Ship Date is before Order Date</strong> (a data-quality error)</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: a monthly trend table</div>
+      <p>Build a 12-row × 4-column table: month name down the side, one column per year (2014–2017), each cell showing that month's total Sales via SUMIFS. Write <strong>one</strong> formula with mixed references and fill the whole block. Then chart it as four lines and answer: is the seasonal shape the same every year, and which month is consistently strongest?</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/text"><span class="pl">← Previous</span><span class="pt">Text Functions</span></a>
+    <a class="next" href="#excel/arrays"><span class="pl">Next →</span><span class="pt">Dynamic Arrays</span></a>
+  </nav>
+</div>

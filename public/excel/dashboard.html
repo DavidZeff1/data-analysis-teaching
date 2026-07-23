@@ -1,0 +1,420 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🏁</span> Dashboard Project</h1>
+    <p>Everything in this section, assembled into one deliverable. You'll build a single-screen sales dashboard from the raw Superstore file — and, more importantly, practise the part nobody teaches: deciding what belongs on it.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 2–3 hours</span>
+      <span>🏆 Capstone</span>
+      <span>🔗 Needs: everything before this</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#db-brief">The brief</a>
+    <a href="#db-arch">Sheet architecture</a>
+    <a href="#db-1">1. Prepare</a>
+    <a href="#db-2">2. Calculate</a>
+    <a href="#db-3">3. Layout</a>
+    <a href="#db-4">4. KPI row</a>
+    <a href="#db-5">5. Charts</a>
+    <a href="#db-6">6. Interactivity</a>
+    <a href="#db-7">7. Polish</a>
+    <a href="#db-review">Self-review</a>
+    <a href="#db-extend">Going further</a>
+  </nav>
+
+  <section class="lcard" id="db-brief">
+    <h2><span class="ic">📋</span> The brief</h2>
+    <div class="callout tip">
+      <div class="callout-title">Your task</div>
+      <p>The head of sales has ten minutes before a board meeting. Build them <strong>one screen</strong> that answers: how are we doing, where is the growth, and what needs attention? No scrolling, no explanation from you — the dashboard has to speak for itself.</p>
+    </div>
+    <p style="margin-top:.7rem">That constraint is the whole exercise. A dashboard isn't "all the charts I can make from this data" — it's a deliberate selection, and everything you leave off is as much a decision as what you keep.</p>
+
+    <h3 style="margin-top:1rem">The four questions it must answer</h3>
+    <div class="grid2">
+      <div class="tile"><h3>1. How are we doing overall?</h3><p style="margin:0;font-size:.86rem">Headline numbers: revenue, profit, margin, order count — each with a comparison so the number means something.</p></div>
+      <div class="tile"><h3>2. Which parts of the business perform?</h3><p style="margin:0;font-size:.86rem">Breakdown by region and category. Where does the money come from, and where does it actually stay?</p></div>
+      <div class="tile"><h3>3. Which way are we heading?</h3><p style="margin:0;font-size:.86rem">The trend over time, at a granularity that shows the shape without noise.</p></div>
+      <div class="tile"><h3>4. What needs attention?</h3><p style="margin:0;font-size:.86rem">The exceptions — loss-making sub-categories, the discount/profit relationship. This is where the value is.</p></div>
+    </div>
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">The rule that makes dashboards good</div>
+      <p><strong>Every element must earn its place by changing a decision.</strong> Before adding a chart, ask "what would someone do differently after seeing this?" If the honest answer is "nothing", leave it out. Most weak dashboards fail by addition, not omission.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-arch">
+    <h2><span class="ic">🏗️</span> Sheet architecture</h2>
+    <p>Before touching a single formula, set up the separation that keeps this maintainable. Four layers, each on its own sheet.</p>
+    <div class="flow">
+      <div class="fnode"><div class="fi">1</div><div class="ft">Raw</div><div class="fd">Never edited</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">2</div><div class="ft">Data</div><div class="fd">Cleaned + helpers</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">3</div><div class="ft">Calc</div><div class="fd">Summary tables</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode done"><div class="fi">4</div><div class="ft">Dashboard</div><div class="fd">Charts &amp; KPIs only</div></div>
+    </div>
+    <div class="scrollx" style="margin-top:.7rem">
+      <table class="ltable">
+        <thead><tr><th>Sheet</th><th>Contains</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td><code>Raw</code></td><td>The imported file, untouched</td><td>Never edit it. It's your ability to start over.</td></tr>
+          <tr><td><code>Data</code></td><td>The cleaned Table plus helper columns</td><td>One Table named <code>Orders</code>. Every derived field lives here.</td></tr>
+          <tr><td><code>Calc</code></td><td>Pivot tables and SUMIFS summary blocks</td><td>The numbers the charts read. Hide this sheet at the end.</td></tr>
+          <tr><td><code>Dashboard</code></td><td>KPI cards, charts, one control</td><td>No raw numbers typed by hand. Everything references <code>Calc</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Why bother with the separation?</div>
+      <p>When someone asks "can we see this by quarter instead of month?", you change one summary block on <code>Calc</code> and the chart follows. In a workbook where charts read directly from raw data, that same request means rebuilding the chart. The layers are what make the thing changeable — and dashboards always get change requests.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-1">
+    <h2><span class="ic">1️⃣</span> Prepare the data</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Import and duplicate</div>
+        <p>Load the Superstore CSV into <code>Raw</code> (see <a href="#excel/setup">Setup</a>). Duplicate the sheet and rename the copy <code>Data</code>. You now have a safety net.</p>
+      </li>
+      <li>
+        <div class="s-t">Run the quality checks</div>
+        <p>Apply the <a href="#excel/validation">data quality report</a>: row count, blanks, untrimmed text, non-numeric values, dates that parse. Fix anything it flags before going further — a dashboard built on unclean data is worse than no dashboard, because it looks authoritative.</p>
+      </li>
+      <li>
+        <div class="s-t">Convert to a Table</div>
+        <p><span class="kbd">Ctrl</span> <span class="kbd">T</span>, then name it <code>Orders</code> in Table Design. Everything downstream will reference it by name, so it survives new rows being added.</p>
+      </li>
+      <li>
+        <div class="s-t">Add the helper columns</div>
+        <p>Six columns that every later formula will lean on. Type each once in the first data row — a Table fills the rest automatically.</p>
+<pre><span class="c">// Order Year</span>
+=<span class="f">YEAR</span>([@[Order Date]])
+
+<span class="c">// Month Start — a real date, so it sorts and charts correctly</span>
+=<span class="f">DATE</span>(<span class="f">YEAR</span>([@[Order Date]]), <span class="f">MONTH</span>([@[Order Date]]), <span class="n">1</span>)
+
+<span class="c">// Profit Margin, guarded against a zero sale</span>
+=<span class="f">IFERROR</span>([@Profit] / [@Sales], <span class="n">0</span>)
+
+<span class="c">// Days to Ship</span>
+=[@[Ship Date]] - [@[Order Date]]
+
+<span class="c">// Discounted? — for the exception analysis</span>
+=<span class="k">IF</span>([@Discount] &gt; <span class="n">0</span>, <span class="s">"Discounted"</span>, <span class="s">"Full Price"</span>)
+
+<span class="c">// Loss flag</span>
+=<span class="k">IF</span>([@Profit] &lt; <span class="n">0</span>, <span class="n">1</span>, <span class="n">0</span>)</pre>
+      </li>
+      <li>
+        <div class="s-t">Format the Month Start column</div>
+        <p><span class="kbd">Ctrl</span> <span class="kbd">1</span> → Custom → <code>mmm yyyy</code>. It stays a real date but reads as "Nov 2016".</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="lcard" id="db-2">
+    <h2><span class="ic">2️⃣</span> Build the Calc layer</h2>
+    <p>Six summary blocks. Build each one, sanity-check it, and label it clearly — you'll be pointing charts at these by name.</p>
+
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Block</th><th>Shape</th><th>Built with</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A. Headline KPIs</strong></td><td>4 numbers + 4 prior-year comparisons</td><td>SUMIFS with date criteria</td></tr>
+          <tr><td><strong>B. Sales by Region</strong></td><td>4 rows × 2 columns (Sales, Profit)</td><td>SUMIFS or a pivot</td></tr>
+          <tr><td><strong>C. Region × Category</strong></td><td>4 × 3 cross-tab</td><td>One SUMIFS with mixed references</td></tr>
+          <tr><td><strong>D. Monthly trend</strong></td><td>48 rows (month, Sales, Profit)</td><td>Pivot grouped by month, or SUMIFS on Month Start</td></tr>
+          <tr><td><strong>E. Sub-Category profit</strong></td><td>17 rows, sorted by profit</td><td>Pivot sorted ascending — losses at the top</td></tr>
+          <tr><td><strong>F. Discount bands</strong></td><td>Discount bucket → avg margin</td><td>AVERAGEIFS across bands</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1rem">Block A — the KPI formulas</h3>
+<pre><span class="c">// Current-year totals (put the year in a cell, say Calc!$B$1)</span>
+=<span class="f">SUMIFS</span>(Orders[Sales], Orders[Order Year], <span class="r">$B$1</span>)
+=<span class="f">SUMIFS</span>(Orders[Profit], Orders[Order Year], <span class="r">$B$1</span>)
+
+<span class="c">// Prior year — same formula, one year back</span>
+=<span class="f">SUMIFS</span>(Orders[Sales], Orders[Order Year], <span class="r">$B$1</span> - <span class="n">1</span>)
+
+<span class="c">// Growth vs last year</span>
+=<span class="f">IFERROR</span>(<span class="r">B3</span>/<span class="r">B4</span> - <span class="n">1</span>, <span class="s">"—"</span>)
+
+<span class="c">// Overall margin</span>
+=<span class="f">IFERROR</span>(<span class="r">B5</span>/<span class="r">B3</span>, <span class="s">"—"</span>)
+
+<span class="c">// Distinct orders — COUNTA counts line items, not orders</span>
+=<span class="f">COUNTA</span>(<span class="f">UNIQUE</span>(<span class="f">FILTER</span>(Orders[Order ID], Orders[Order Year]=<span class="r">$B$1</span>)))</pre>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">The order-count trap</div>
+      <p>Each Superstore row is one <em>line item</em>, so counting rows overstates orders by roughly 5×. Count distinct Order IDs instead. If you're on an older Excel without UNIQUE, a pivot table's "Distinct Count" option does the same job. Getting this wrong is the most common error in this project.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Block C — the cross-tab, from one formula</h3>
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">C4</span><span class="sheet-fx">fx</span><code>=SUMIFS(Orders[Sales], Orders[Region], $B4, Orders[Category], C$3)</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">B</th><th class="hl">C</th><th class="hl">D</th><th class="hl">E</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>3</th><td>Region</td><td>Furniture</td><td>Office Supplies</td><td>Technology</td></tr>
+            <tr><th>4</th><td class="hd">Central</td><td class="sel num">163,797</td><td class="num">167,026</td><td class="num">170,416</td></tr>
+            <tr><th>5</th><td class="hd">East</td><td class="num">208,291</td><td class="num">205,516</td><td class="num">264,974</td></tr>
+            <tr><th>6</th><td class="hd">South</td><td class="num">117,299</td><td class="num">125,651</td><td class="num">148,772</td></tr>
+            <tr><th>7</th><td class="hd">West</td><td class="num">252,613</td><td class="num">220,853</td><td class="num">251,992</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Written once in C4, copied across and down. Reconcile the grand total against <code>=SUM(Orders[Sales])</code> — it should come to $2,297,201.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-3">
+    <h2><span class="ic">3️⃣</span> Lay out the dashboard</h2>
+    <p>Design the grid before you place anything in it. People read a screen top-left first and give it progressively less attention as they move down and right — so put the most important thing where the most attention already is.</p>
+
+    <div class="sheet">
+      <div class="sheet-scroll">
+        <table>
+          <tbody>
+            <tr><td colspan="4" style="background:#0f172a;color:#fff;text-align:center;padding:.5rem;font-weight:700">Superstore Sales Performance &nbsp;·&nbsp; 2017 &nbsp;·&nbsp; [Region: All ▾]</td></tr>
+            <tr>
+              <td class="sel" style="text-align:center">Revenue<br><strong>$733,215</strong><br><span style="color:#059669;font-size:.7rem">▲ 20.4%</span></td>
+              <td class="sel" style="text-align:center">Profit<br><strong>$93,439</strong><br><span style="color:#059669;font-size:.7rem">▲ 14.6%</span></td>
+              <td class="sel" style="text-align:center">Margin<br><strong>12.7%</strong><br><span style="color:#b91c1c;font-size:.7rem">▼ 0.6pp</span></td>
+              <td class="sel" style="text-align:center">Orders<br><strong>1,687</strong><br><span style="color:#059669;font-size:.7rem">▲ 17.1%</span></td>
+            </tr>
+            <tr>
+              <td colspan="2" class="hl" style="text-align:center;padding:1.2rem">📈 Monthly Sales &amp; Profit trend</td>
+              <td colspan="2" class="hl" style="text-align:center;padding:1.2rem">📊 Sales by Region &amp; Category</td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align:center;padding:1.2rem;background:#f8fafc">🔻 Sub-Categories losing money</td>
+              <td colspan="2" style="text-align:center;padding:1.2rem;background:#f8fafc">⚬ Discount vs Profit Margin</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Title bar → KPI row → performance charts → exception charts. Four zones, one screen.</p>
+    </div>
+
+    <ol class="steps" style="margin-top:.85rem">
+      <li>
+        <div class="s-t">Turn off the gridlines</div>
+        <p>View → uncheck Gridlines. Nothing makes a worksheet look more like a finished product in less time.</p>
+      </li>
+      <li>
+        <div class="s-t">Build a grid with row heights and column widths</div>
+        <p>Set every column on the Dashboard sheet to the same narrow width (say 3), then use merged blocks of those columns as your layout grid. It gives you far finer alignment control than working with default column widths.</p>
+      </li>
+      <li>
+        <div class="s-t">Set the background</div>
+        <p>Fill the whole sheet with a very light grey (<code>#F6F8FB</code>) and make each card white. The subtle contrast is what separates the cards without needing borders everywhere.</p>
+      </li>
+      <li>
+        <div class="s-t">Check it fits</div>
+        <p>Zoom to 100% and confirm the entire dashboard is visible on a typical laptop screen — roughly 1440×900. If it doesn't fit, cut something. Don't shrink everything.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="lcard" id="db-4">
+    <h2><span class="ic">4️⃣</span> The KPI row</h2>
+    <p>Four cards across the top. Each needs three things: the number, what it is, and how it compares. A number with no comparison is trivia.</p>
+    <div class="grid2">
+      <div class="tile">
+        <h3>The anatomy of a good KPI card</h3>
+        <ul style="font-size:.86rem;margin:.4rem 0 0">
+          <li><strong>Value</strong> — large, bold, rounded sensibly ($733K, not $733,215.42)</li>
+          <li><strong>Label</strong> — small, grey, above or below</li>
+          <li><strong>Comparison</strong> — vs last year, with direction and colour</li>
+          <li><strong>Optional sparkline</strong> — the 12-month shape in one cell</li>
+        </ul>
+      </div>
+      <div class="tile">
+        <h3>Formatting the comparison</h3>
+<pre><span class="c">// Custom number format for the change cell:</span>
+▲ 0.0%;▼ 0.0%;—
+
+<span class="c">// Positive shows ▲, negative ▼, zero shows a dash.</span>
+<span class="c">// Add conditional formatting for green/red.</span></pre>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Margin changes in points, not percent</div>
+      <p>Margin going from 13.3% to 12.7% is a fall of <strong>0.6 percentage points</strong>, not 0.6%. Writing "▼ 4.5%" (the relative change) is also defensible but must be labelled. Mixing the two is a classic way to mislead a board without meaning to.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Sparklines belong here</div>
+      <p>Select the cell under a KPI → Insert → Sparklines → Line → point it at the 12 monthly values on <code>Calc</code>. In Google Sheets: <code>=SPARKLINE(Calc!B2:B13)</code>. It adds trend context in the space of one cell, which on a dashboard is the best trade there is.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-5">
+    <h2><span class="ic">5️⃣</span> The four charts</h2>
+    <p class="muted">Each one is a deliberate choice — see <a href="#excel/chartdecision">the Chart Decision Tree</a> for the reasoning.</p>
+
+    <div class="grid2">
+      <div class="tile">
+        <h3>📈 Monthly trend — combo chart</h3>
+        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Why:</strong> the goal is change over time, so time goes on the x-axis. Sales as columns, Profit as a line on a secondary axis — two metrics on very different scales.</p>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b"><strong>Watch for:</strong> label both axes with units, or nobody can tell which scale belongs to which series.</p>
+      </div>
+      <div class="tile">
+        <h3>📊 Region &amp; Category — stacked bar</h3>
+        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Why:</strong> shows regional totals <em>and</em> their category mix at once. Horizontal, sorted by total, largest at the top.</p>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b"><strong>Watch for:</strong> only the bottom segment has a common baseline, so keep it to three categories.</p>
+      </div>
+      <div class="tile">
+        <h3>🔻 Loss-makers — sorted bar</h3>
+        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Why:</strong> comparison across categories, and the negative values are the point. Sort ascending so the biggest losses appear first.</p>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b"><strong>Watch for:</strong> colour the negative bars red and everything else a single neutral colour. This is the chart that drives action.</p>
+      </div>
+      <div class="tile">
+        <h3>⚬ Discount vs Margin — scatter</h3>
+        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Why:</strong> the question is whether two numeric variables move together. Discount on x, profit margin on y, a trendline through it.</p>
+        <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b"><strong>Watch for:</strong> plot the aggregated discount bands rather than 10,000 raw points — the pattern is clearer and the file stays fast.</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.7rem">
+      <div class="callout-title">Write titles that state the finding</div>
+      <p>"Sales by Region" describes the axes. <strong>"West leads on revenue but Central converts it best"</strong> tells the reader what you concluded. The second one does work; the first one just labels. If you can't write a finding-title, you may not have a finding — which is itself worth knowing.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Chart formatting checklist</h3>
+    <ul class="check">
+      <li>Delete the chart border and any background fill</li>
+      <li>Fade gridlines to a light grey, or remove them entirely</li>
+      <li>Remove the legend when there's only one series; use direct labels where you can</li>
+      <li>Use one colour for context and one accent colour for the point you're making</li>
+      <li>Bar and column charts start at zero — always</li>
+      <li>Format axis numbers as $0K or $0.0M, not raw digits</li>
+      <li>Match the fonts and colours across all four charts</li>
+    </ul>
+  </section>
+
+  <section class="lcard" id="db-6">
+    <h2><span class="ic">6️⃣</span> One control, not five</h2>
+    <p>Interactivity is tempting and easy to overdo. Add <strong>one</strong> filter — a Region selector — and make the entire dashboard respond to it.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Option A — a dropdown cell</div>
+        <p style="margin:.2rem 0 .4rem;font-size:.86rem">Data validation list on a cell, containing "All" plus each region. Then make the summary formulas respect it:</p>
+<pre><span class="c">// "All" means no region filter at all</span>
+=<span class="k">IF</span>(<span class="r">$B$1</span>=<span class="s">"All"</span>,
+   <span class="f">SUMIFS</span>(Orders[Sales], Orders[Order Year], <span class="r">$B$2</span>),
+   <span class="f">SUMIFS</span>(Orders[Sales], Orders[Order Year], <span class="r">$B$2</span>,
+                            Orders[Region], <span class="r">$B$1</span>))</pre>
+        <p style="margin:.35rem 0 0;font-size:.82rem;color:#64748b">Works everywhere, including Google Sheets. Requires the wrapper on each formula.</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">Option B — a slicer</div>
+        <p style="margin:.2rem 0 0;font-size:.86rem">If your Calc blocks are pivot tables: click one → Insert → Slicer → Region. Then use <strong>Report Connections</strong> to attach that one slicer to every pivot on the sheet.</p>
+        <p style="margin:.35rem 0 0;font-size:.82rem;color:#64748b">Far nicer to use, and no formula changes — but Excel only, and every block must be a pivot on the same source.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Then test the edges</div>
+      <p>Select each region in turn and confirm every number and chart moves. Check that the four regional totals still add up to the "All" figure. And check a selection with sparse data — does anything show <span class="err">#DIV/0!</span> or an empty chart? Wrap the ratios in <code>IFERROR</code> so it degrades to "—" instead of an error.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-7">
+    <h2><span class="ic">7️⃣</span> Polish and ship</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Hide the working sheets</div>
+        <p>Right-click <code>Raw</code> and <code>Calc</code> → Hide. The person opening this should see a dashboard, not your workings. (Keep them hidden, not deleted — you'll need them next month.)</p>
+      </li>
+      <li>
+        <div class="s-t">Protect the layout</div>
+        <p>Review → Protect Sheet on the Dashboard, leaving only the control cell unlocked. It stops a stray click from deleting a chart.</p>
+      </li>
+      <li>
+        <div class="s-t">Add a data-as-of stamp</div>
+        <p>A small line in the corner: "Data through 30 Dec 2017 · 9,994 line items · refreshed [date]". It takes one cell and prevents the most common dashboard question there is.</p>
+      </li>
+      <li>
+        <div class="s-t">Set the opening view</div>
+        <p>Put the cursor in A1 on the Dashboard sheet and save. The workbook opens exactly where you left it — a small detail that makes it feel finished.</p>
+      </li>
+      <li>
+        <div class="s-t">Do the five-second test</div>
+        <p>Show it to someone who hasn't seen the data. Ask them what they take away. If it isn't roughly what you intended, the dashboard is the thing that needs fixing.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="lcard accent" id="db-review">
+    <h2><span class="ic">✅</span> Self-review</h2>
+    <p class="muted">Go through these honestly before calling it done.</p>
+    <div class="split">
+      <div>
+        <h3>Correctness</h3>
+        <ul class="check">
+          <li>Regional totals sum to the grand total</li>
+          <li>Orders are counted distinctly, not as line items</li>
+          <li>Every ratio is wrapped in <code>IFERROR</code></li>
+          <li>Percentage changes use the right base year</li>
+          <li>No hard-typed numbers on the Dashboard sheet</li>
+          <li>Grand total reconciles to <code>=SUM(Orders[Sales])</code></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Communication</h3>
+        <ul class="check">
+          <li>It fits on one screen with no scrolling</li>
+          <li>Every chart title states a finding</li>
+          <li>Colour is used for meaning, not decoration</li>
+          <li>Bar charts start at zero</li>
+          <li>Axis units are labelled</li>
+          <li>Someone unfamiliar with it gets the point in five seconds</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">The question that separates a report from an analysis</div>
+      <p>When you're finished, write three sentences underneath: <strong>what you found, why it's happening, and what you'd do about it.</strong> If the dashboard doesn't support all three, it's a data display rather than an analysis. Doing this well is most of what the job actually is.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="db-extend">
+    <h2><span class="ic">🚀</span> Going further</h2>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Make it refreshable</h3>
+        <p style="margin:0;font-size:.86rem">Rebuild the <code>Data</code> layer in <a href="#excel/powerquery">Power Query</a> instead of by hand. Next quarter's file drops in and one Refresh updates the whole dashboard.</p>
+      </div>
+      <div class="tile">
+        <h3>Add a cohort view</h3>
+        <p style="margin:0;font-size:.86rem">Group customers by the year of their first order and track their spend since. It answers "are we growing by acquiring, or by keeping?" — a much better question than total revenue.</p>
+      </div>
+      <div class="tile">
+        <h3>Quantify the discount finding</h3>
+        <p style="margin:0;font-size:.86rem">You'll see margin collapse above about 20% discount. Work out what profit would have been if those orders had been capped at 20% — that number is a recommendation with a price tag attached.</p>
+      </div>
+      <div class="tile">
+        <h3>Rebuild it elsewhere</h3>
+        <p style="margin:0;font-size:.86rem">Make the same dashboard in <a href="#tableau/dashboards">Tableau</a>, <a href="#powerbi/reports">Power BI</a> or <a href="#python/streamlit">Streamlit</a>. Building one thing four ways teaches you more about each tool than four separate tutorials.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.7rem">
+      <div class="callout-title">What you've actually practised</div>
+      <p>Importing and profiling · cleaning and validating · Tables and structured references · conditional aggregation · date handling · pivot tables · chart selection · layout and visual hierarchy · interactivity · and the judgement to leave things out. That's the full analyst workflow — the tools change from job to job, but that sequence doesn't.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/chartdecision"><span class="pl">← Previous</span><span class="pt">Chart Decision Tree</span></a>
+    <a class="next" href="#excel/shortcuts"><span class="pl">Next →</span><span class="pt">Keyboard Shortcuts</span></a>
+  </nav>
+</div>

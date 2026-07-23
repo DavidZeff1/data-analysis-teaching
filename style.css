@@ -670,3 +670,800 @@
     font-size: 0.85rem;
   }
 }
+
+/* ===========================================================================
+   Lesson design system — part 2: teaching components
+
+   Everything below is scoped under `.lesson` and lives in `@layer components`,
+   so utility classes on a fragment element still win. These are the building
+   blocks the Excel lessons use to *show* a spreadsheet concept instead of only
+   describing it: grid mocks, before/after transforms, function syntax cards,
+   step flows, and inline chart thumbnails.
+   =========================================================================== */
+@layer components {
+  /* --- Shared tokens ---------------------------------------------------- */
+  .lesson {
+    --l-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+      monospace;
+    --l-line: #e2e8f0;
+    --l-ink: #0f172a;
+    --l-dim: #64748b;
+  }
+
+  /* Anchor targets sit below the sticky site header when linked to. */
+  .lesson [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  /* --- Hero additions --------------------------------------------------- */
+  /* A row of small facts under the hero title: time, level, what's needed. */
+  .lesson .lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .lesson .lesson-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    color: #334155;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* --- On-page table of contents ---------------------------------------- */
+  .lesson .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0.85rem 1rem;
+    background: #fff;
+    border: 1px solid #e6eaf0;
+    border-radius: 14px;
+  }
+  .lesson .toc-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+    align-self: center;
+    margin-right: 0.25rem;
+  }
+  .lesson .toc a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid var(--l-line);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .lesson .toc a:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #4338ca;
+  }
+
+  /* --- Code token palette ------------------------------------------------
+     Self-contained syntax colours for the dark <pre> blocks, so samples do
+     not depend on utility classes being generated. Matches the existing
+     Tailwind-coloured samples on older pages. */
+  .lesson pre .c { color: #94a3b8; font-style: italic; } /* comment  */
+  .lesson pre .f { color: #c4b5fd; }                     /* function */
+  .lesson pre .k { color: #60a5fa; }                     /* keyword  */
+  .lesson pre .s { color: #6ee7b7; }                     /* string   */
+  .lesson pre .n { color: #fdba74; }                     /* number   */
+  .lesson pre .r { color: #f9a8d4; }                     /* cell ref */
+
+  /* Copy button injected by main.js onto every lesson code block. */
+  .lesson .pre-wrap {
+    position: relative;
+  }
+  .lesson .pre-wrap .copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, 0.16);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 6px;
+    padding: 0.18rem 0.5rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+  }
+  .lesson .pre-wrap:hover .copy-btn,
+  .lesson .pre-wrap .copy-btn:focus-visible {
+    opacity: 1;
+  }
+  .lesson .pre-wrap .copy-btn:hover {
+    background: rgba(148, 163, 184, 0.3);
+    color: #fff;
+  }
+  .lesson .pre-wrap .copy-btn.is-done {
+    color: #6ee7b7;
+    border-color: rgba(110, 231, 183, 0.4);
+  }
+
+  /* --- Spreadsheet mock --------------------------------------------------
+     Renders a small, realistic grid with A/B/C column headers and numbered
+     rows, optionally above a formula bar. This is the workhorse component:
+     it lets a lesson show exactly what the learner should see on screen. */
+  .lesson .sheet {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    font-family: var(--l-mono);
+    font-size: 0.78rem;
+    margin: 0.6rem 0;
+  }
+  .lesson .sheet-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 0.35rem 0.5rem;
+  }
+  .lesson .sheet-ref {
+    min-width: 3.2rem;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0.1rem 0.35rem;
+    color: #334155;
+    font-weight: 600;
+  }
+  .lesson .sheet-fx {
+    color: #94a3b8;
+    font-style: italic;
+    border-right: 1px solid #cbd5e1;
+    padding-right: 0.5rem;
+  }
+  .lesson .sheet-bar code {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #0f172a;
+    font-size: 0.78rem;
+    font-family: inherit;
+  }
+  .lesson .sheet-scroll {
+    overflow-x: auto;
+  }
+  .lesson .sheet table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+  }
+  /* Column-letter header row and row-number gutter share the grey chrome. */
+  .lesson .sheet thead th,
+  .lesson .sheet tbody th {
+    background: #eef2f7;
+    color: #64748b;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid #cbd5e1;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.72rem;
+  }
+  .lesson .sheet tbody th {
+    width: 2.2rem;
+    position: sticky;
+    left: 0;
+  }
+  .lesson .sheet td {
+    border: 1px solid #e2e8f0;
+    padding: 0.25rem 0.55rem;
+    color: #1f2937;
+    background: #fff;
+  }
+  .lesson .sheet td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .lesson .sheet .hd td,
+  .lesson .sheet td.hd {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  /* Tinted column / row: "this is the part we're talking about". */
+  .lesson .sheet td.hl,
+  .lesson .sheet th.hl {
+    background: #eff6ff;
+  }
+  .lesson .sheet th.hl {
+    color: #1d4ed8;
+    background: #dbeafe;
+  }
+  /* The active cell — mimics Excel's selection outline. */
+  .lesson .sheet td.sel {
+    background: #eef2ff;
+    box-shadow: inset 0 0 0 2px #4f46e5;
+    font-weight: 600;
+    color: #312e81;
+  }
+  .lesson .sheet td.good {
+    background: #ecfdf5;
+    color: #047857;
+  }
+  .lesson .sheet td.bad {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+  .lesson .sheet-note {
+    font-size: 0.78rem;
+    color: var(--l-dim);
+    margin: 0.35rem 0 0;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* --- Before → after transform ------------------------------------------
+     Two panels with an arrow between them. Collapses to stacked on mobile,
+     where the arrow rotates to point downward. */
+  .lesson .ba {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    align-items: center;
+    margin: 0.6rem 0;
+  }
+  @media (min-width: 700px) {
+    .lesson .ba {
+      grid-template-columns: 1fr auto 1fr;
+    }
+  }
+  .lesson .ba-side {
+    min-width: 0;
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    background: #f8fafc;
+  }
+  .lesson .ba-side.after {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+  }
+  .lesson .ba-h {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+    margin-bottom: 0.4rem;
+  }
+  .lesson .ba-side.after .ba-h {
+    color: #047857;
+  }
+  .lesson .ba-arrow {
+    justify-self: center;
+    font-size: 1.4rem;
+    color: #94a3b8;
+    transform: rotate(90deg);
+  }
+  @media (min-width: 700px) {
+    .lesson .ba-arrow {
+      transform: none;
+    }
+  }
+  /* Compact tables inside the panels. */
+  .lesson .ba table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    font-family: var(--l-mono);
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .lesson .ba th,
+  .lesson .ba td {
+    border: 1px solid #e2e8f0;
+    padding: 0.22rem 0.5rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .lesson .ba th {
+    background: #f1f5f9;
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: #334155;
+  }
+
+  /* --- Function syntax card ----------------------------------------------
+     One consistent shape for "here is a function": name, one-line purpose,
+     colour-coded signature, argument glossary, then a runnable example. */
+  .lesson .syn {
+    border: 1px solid var(--l-line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+    background: #fff;
+  }
+  .lesson .syn-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--l-line);
+    padding: 0.5rem 0.85rem;
+  }
+  .lesson .syn-name {
+    font-family: var(--l-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #6d28d9;
+  }
+  .lesson .syn-tag {
+    font-size: 0.82rem;
+    color: var(--l-dim);
+  }
+  .lesson .syn-body {
+    padding: 0.7rem 0.85rem 0.85rem;
+  }
+  .lesson .syn-sig {
+    font-family: var(--l-mono);
+    font-size: 0.85rem;
+    color: var(--l-ink);
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  /* Argument names inside a signature get a soft highlight so the shape of
+     the call is readable at a glance. */
+  .lesson .syn-sig b {
+    font-weight: 600;
+    color: #1d4ed8;
+    background: #dbeafe;
+    border-radius: 4px;
+    padding: 0.05rem 0.28rem;
+  }
+  .lesson .syn-sig i {
+    font-style: normal;
+    color: #94a3b8;
+  }
+  .lesson .syn-args {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    font-size: 0.86rem;
+  }
+  .lesson .syn-args li {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+    align-items: baseline;
+  }
+  .lesson .syn-args li b {
+    font-family: var(--l-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1d4ed8;
+    flex: 0 0 auto;
+    min-width: 8.5rem;
+  }
+  .lesson .syn-args li span {
+    color: #475569;
+  }
+  .lesson .syn .pre-wrap,
+  .lesson .syn pre {
+    margin-top: 0.65rem;
+  }
+
+  /* --- Numbered steps ----------------------------------------------------
+     A vertical list with numbered discs and a connector line down the side. */
+  .lesson ol.steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0.6rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .lesson ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2.6rem;
+    margin: 0;
+  }
+  .lesson ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Connector line, hidden on the final step. */
+  .lesson ol.steps > li::after {
+    content: "";
+    position: absolute;
+    left: 0.85rem;
+    top: 1.9rem;
+    bottom: -0.9rem;
+    width: 2px;
+    background: #e2e8f0;
+  }
+  .lesson ol.steps > li:last-child::after {
+    display: none;
+  }
+  .lesson ol.steps .s-t {
+    font-weight: 700;
+    color: var(--l-ink);
+    line-height: 1.75rem;
+  }
+  .lesson ol.steps p {
+    margin: 0.15rem 0 0;
+    font-size: 0.9rem;
+    color: #475569;
+  }
+
+  /* --- Horizontal pipeline ----------------------------------------------- */
+  .lesson .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.4rem;
+    margin: 0.6rem 0;
+  }
+  .lesson .fnode {
+    flex: 1 1 8rem;
+    min-width: 7rem;
+    background: #f8fafc;
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.6rem 0.5rem;
+    text-align: center;
+  }
+  .lesson .fnode .fi {
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: 0 auto 0.35rem;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lesson .fnode.done .fi {
+    background: #059669;
+  }
+  .lesson .fnode .ft {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--l-ink);
+  }
+  .lesson .fnode .fd {
+    font-size: 0.75rem;
+    color: var(--l-dim);
+    margin-top: 0.1rem;
+  }
+  .lesson .farrow {
+    align-self: center;
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    flex: 0 0 auto;
+  }
+
+  /* --- Badges & chips ---------------------------------------------------- */
+  .lesson .badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.45rem;
+    border-radius: 5px;
+    vertical-align: middle;
+  }
+  .lesson .badge.basic {
+    background: #dcfce7;
+    color: #15803d;
+  }
+  .lesson .badge.uncommon {
+    background: #fef3c7;
+    color: #b45309;
+  }
+  .lesson .badge.advanced {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+  .lesson .badge.modern {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+  .lesson .badge.avoid {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+
+  /* Excel error codes, e.g. #N/A — always red, always monospace. */
+  .lesson .err {
+    font-family: var(--l-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 5px;
+    padding: 0.08rem 0.35rem;
+    white-space: nowrap;
+  }
+
+  /* --- Stat tiles --------------------------------------------------------- */
+  .lesson .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0.6rem;
+    margin: 0.5rem 0;
+  }
+  .lesson .stat {
+    background: #f8fafc;
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.7rem 0.8rem;
+  }
+  .lesson .stat .sv {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--l-ink);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+  .lesson .stat .sl {
+    font-size: 0.76rem;
+    color: var(--l-dim);
+    margin-top: 0.1rem;
+  }
+
+  /* --- Checklist ---------------------------------------------------------- */
+  .lesson ul.check {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+  .lesson ul.check li {
+    position: relative;
+    padding-left: 1.6rem;
+    margin: 0.35rem 0;
+    line-height: 1.6;
+  }
+  .lesson ul.check li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #059669;
+    font-weight: 700;
+  }
+
+  /* --- Accordion (details/summary) ---------------------------------------- */
+  .lesson details.acc {
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 0.1rem 0.85rem;
+    margin: 0.5rem 0;
+  }
+  .lesson details.acc > summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #334155;
+    padding: 0.6rem 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .lesson details.acc > summary::-webkit-details-marker {
+    display: none;
+  }
+  .lesson details.acc > summary::before {
+    content: "▸";
+    color: #94a3b8;
+    transition: transform 0.15s ease;
+  }
+  .lesson details.acc[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  .lesson details.acc > :not(summary) {
+    margin-bottom: 0.7rem;
+  }
+
+  /* --- Chart thumbnails ---------------------------------------------------
+     Small inline SVG previews so the chart guidance is visual, not just a
+     list of chart names. */
+  .lesson .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 0.6rem;
+    margin: 0.6rem 0;
+  }
+  .lesson .cthumb {
+    background: #fff;
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .lesson .cthumb svg {
+    width: 100%;
+    height: 3.6rem;
+    display: block;
+  }
+  .lesson .cthumb .ct-n {
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: var(--l-ink);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .lesson .cthumb .ct-d {
+    font-size: 0.78rem;
+    color: var(--l-dim);
+    line-height: 1.45;
+  }
+  .lesson .cthumb.pick {
+    border-color: #a7f3d0;
+    background: #f0fdf4;
+  }
+  .lesson .cthumb.warn-c {
+    border-color: #fde68a;
+    background: #fffbeb;
+  }
+
+  /* --- Filterable list (shortcuts search) --------------------------------- */
+  .lesson .filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .lesson .filter input {
+    flex: 1 1 auto;
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: #fff;
+    color: var(--l-ink);
+  }
+  .lesson .filter input:focus {
+    outline: 2px solid #c7d2fe;
+    outline-offset: 1px;
+    border-color: #6366f1;
+  }
+  .lesson .filter .fcount {
+    font-size: 0.8rem;
+    color: var(--l-dim);
+    white-space: nowrap;
+  }
+  .lesson [data-filter-scope] .is-filtered {
+    display: none;
+  }
+  .lesson .filter-empty {
+    display: none;
+    color: var(--l-dim);
+    font-size: 0.9rem;
+    padding: 0.75rem 0;
+  }
+  .lesson [data-filter-scope].is-empty .filter-empty {
+    display: block;
+  }
+
+  /* --- Keyboard shortcut rows --------------------------------------------- */
+  .lesson .keys {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    flex-wrap: wrap;
+  }
+  .lesson .keys .plus {
+    color: #94a3b8;
+    font-size: 0.72rem;
+  }
+
+  /* --- Prev / next pager --------------------------------------------------- */
+  .lesson .pager {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+  }
+  @media (min-width: 640px) {
+    .lesson .pager {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lesson .pager a {
+    display: block;
+    background: #fff;
+    border: 1px solid #e6eaf0;
+    border-radius: 12px;
+    padding: 0.7rem 0.95rem;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .lesson .pager a:hover {
+    border-color: #c7d2fe;
+    background: #f8faff;
+  }
+  .lesson .pager .pl {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+  }
+  .lesson .pager .pt {
+    display: block;
+    font-weight: 600;
+    color: #4338ca;
+    margin-top: 0.1rem;
+  }
+  .lesson .pager a.next {
+    text-align: right;
+  }
+  .lesson .pager a.only {
+    grid-column: 1 / -1;
+  }
+
+  /* --- Misc --------------------------------------------------------------- */
+  /* Two-column split that stacks on narrow screens; wider than .grid2 for
+     side-by-side code comparisons. */
+  .lesson .split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 820px) {
+    .lesson .split {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lesson .muted {
+    color: var(--l-dim);
+    font-size: 0.9rem;
+  }
+  .lesson .lcard > h2 + .muted {
+    margin-top: -0.5rem;
+  }
+}

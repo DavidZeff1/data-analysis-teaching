@@ -1,0 +1,346 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>✨</span> Dynamic Arrays</h1>
+    <p>One formula that returns <em>many</em> cells. Dynamic arrays replaced a generation of awkward workarounds — no more copying formulas down 10,000 rows, no more Ctrl+Shift+Enter. If you have Excel 365 or Google Sheets, this is the modern way to work.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>🆕 Modern Excel</span>
+      <span>🔗 Needs: Formulas, References, Logical</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#ar-spill">Spilling</a>
+    <a href="#ar-filter">FILTER</a>
+    <a href="#ar-sort">SORT</a>
+    <a href="#ar-unique">UNIQUE</a>
+    <a href="#ar-seq">SEQUENCE &amp; more</a>
+    <a href="#ar-combo">Combining them</a>
+    <a href="#ar-errors">Errors</a>
+    <a href="#ar-compat">Do I have this?</a>
+    <a href="#ar-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="ar-spill">
+    <h2><span class="ic">💧</span> The big idea: formulas that spill</h2>
+    <p>Traditionally, one formula filled one cell — so to get 500 results you wrote 500 formulas. A dynamic array formula returns a whole block of results from a single cell, and the results <strong>spill</strong> into the cells below and to the right.</p>
+
+    <div class="split">
+      <div>
+        <div class="ba-h">The old way</div>
+        <div class="sheet">
+          <div class="sheet-scroll">
+            <table>
+              <thead><tr><th></th><th>X</th></tr></thead>
+              <tbody>
+                <tr><th>2</th><td class="sel">=UPPER(G2)</td></tr>
+                <tr><th>3</th><td>=UPPER(G3)</td></tr>
+                <tr><th>4</th><td>=UPPER(G4)</td></tr>
+                <tr><th>5</th><td>…9,991 more</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="sheet-note">9,994 separate formulas to maintain.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ba-h" style="color:#047857">The dynamic array way</div>
+        <div class="sheet">
+          <div class="sheet-scroll">
+            <table>
+              <thead><tr><th></th><th class="hl">X</th></tr></thead>
+              <tbody>
+                <tr><th>2</th><td class="sel">=UPPER(G2:G9995)</td></tr>
+                <tr><th>3</th><td class="good">CLAIRE GUTE</td></tr>
+                <tr><th>4</th><td class="good">DARRIN VAN HUFF</td></tr>
+                <tr><th>5</th><td class="good">…spills automatically</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="sheet-note">One formula. Edit it once, everything updates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:.85rem">
+      <div class="tile">
+        <h3>🔵 The spill range</h3>
+        <p style="margin:0;font-size:.86rem">Click any spilled cell and you'll see the formula greyed out — only the top-left cell is real. A blue border outlines the whole spill range.</p>
+      </div>
+      <div class="tile">
+        <h3># — the spill operator</h3>
+        <p style="margin:0;font-size:.86rem">Refer to a whole spill range with <code>X2#</code>. It automatically grows and shrinks with the results — no more guessing at range sizes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="ar-filter">
+    <h2><span class="ic">🔎</span> FILTER — the one you'll use most</h2>
+    <p>Returns only the rows that meet a condition. Think of it as a live, formula-driven version of the filter dropdowns.</p>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">FILTER</span>
+        <span class="syn-tag">Return the rows matching a condition</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=FILTER( <b>array</b>, <b>include</b>, <i>[if_empty]</i> )</div>
+        <ul class="syn-args">
+          <li><b>array</b> <span>The rows or columns to return</span></li>
+          <li><b>include</b> <span>A condition producing TRUE/FALSE for each row</span></li>
+          <li><b>if_empty</b> <span>What to show when nothing matches — always supply this</span></li>
+        </ul>
+<pre><span class="c">// Every West-region row, all columns</span>
+=<span class="f">FILTER</span>(<span class="r">A2:U9995</span>, <span class="r">M2:M9995</span>=<span class="s">"West"</span>, <span class="s">"No matches"</span>)
+
+<span class="c">// Just the Customer Names of loss-making orders</span>
+=<span class="f">FILTER</span>(<span class="r">G2:G9995</span>, <span class="r">U2:U9995</span>&lt;<span class="n">0</span>, <span class="s">"None"</span>)
+
+<span class="c">// Two conditions — multiply for AND</span>
+=<span class="f">FILTER</span>(<span class="r">A2:U9995</span>, (<span class="r">M2:M9995</span>=<span class="s">"West"</span>) * (<span class="r">U2:U9995</span>&lt;<span class="n">0</span>), <span class="s">"None"</span>)
+
+<span class="c">// Two conditions — add for OR</span>
+=<span class="f">FILTER</span>(<span class="r">A2:U9995</span>, (<span class="r">M2:M9995</span>=<span class="s">"West"</span>) + (<span class="r">M2:M9995</span>=<span class="s">"East"</span>), <span class="s">"None"</span>)
+
+<span class="c">// Driven by a cell — type a region in X1 and the list rebuilds</span>
+=<span class="f">FILTER</span>(<span class="r">A2:U9995</span>, <span class="r">M2:M9995</span>=<span class="r">$X$1</span>, <span class="s">"No matches"</span>)</pre>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Remember: <code>*</code> is AND, <code>+</code> is OR</div>
+      <p>Conditions produce TRUE/FALSE, which behave as 1/0. Multiplying gives 1 only when both are true (AND); adding gives 1 or more when either is true (OR). Always wrap each condition in its own parentheses.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <p>The <em>include</em> range must be exactly as tall as the <em>array</em>, or you get <span class="err">#VALUE!</span>. Select both ranges over identical rows.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ar-sort">
+    <h2><span class="ic">↕️</span> SORT and SORTBY</h2>
+    <p>Sorting that updates itself. The original data stays untouched — you're producing a sorted <em>view</em>.</p>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">SORT</span>
+        <span class="syn-tag">Order an array by one of its own columns</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=SORT( <b>array</b>, <i>[sort_index]</i>, <i>[order]</i>, <i>[by_col]</i> )</div>
+        <ul class="syn-args">
+          <li><b>array</b> <span>What to sort</span></li>
+          <li><b>sort_index</b> <span>Which column of the array to sort on (1 = first)</span></li>
+          <li><b>order</b> <span><code>1</code> ascending (default), <code>-1</code> descending</span></li>
+        </ul>
+<pre><span class="c">// States and their sales, biggest first</span>
+=<span class="f">SORT</span>(<span class="r">X2:Y50</span>, <span class="n">2</span>, <span class="n">-1</span>)
+
+<span class="c">// Alphabetical list of customers</span>
+=<span class="f">SORT</span>(<span class="r">G2:G9995</span>)</pre>
+      </div>
+    </div>
+    <div class="syn">
+      <div class="syn-head">
+        <span class="syn-name">SORTBY</span>
+        <span class="syn-tag">Order an array by a <em>different</em> range</span>
+      </div>
+      <div class="syn-body">
+        <div class="syn-sig">=SORTBY( <b>array</b>, <b>by_array1</b>, <i>[order1]</i>, <i>[by_array2, order2, …]</i> )</div>
+<pre><span class="c">// Customer names, ordered by their profit (highest first)</span>
+=<span class="f">SORTBY</span>(<span class="r">G2:G9995</span>, <span class="r">U2:U9995</span>, <span class="n">-1</span>)
+
+<span class="c">// Sort by Region A–Z, then by Sales high–low within each region</span>
+=<span class="f">SORTBY</span>(<span class="r">A2:U9995</span>, <span class="r">M2:M9995</span>, <span class="n">1</span>, <span class="r">R2:R9995</span>, <span class="n">-1</span>)</pre>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p><strong>SORT vs SORTBY:</strong> use <code>SORT</code> when the sort key is one of the columns you're returning, and <code>SORTBY</code> when it isn't — or when you need several sort levels.</p></div>
+  </section>
+
+  <section class="lcard" id="ar-unique">
+    <h2><span class="ic">🎯</span> UNIQUE — the distinct list</h2>
+    <p>Every summary table starts with "what are the distinct values?" This used to take a pivot table or Remove Duplicates on a copy. Now it's one formula that stays live.</p>
+<pre><span class="c">// The list of regions, with no repeats</span>
+=<span class="f">UNIQUE</span>(<span class="r">M2:M9995</span>)          <span class="c">// Central, East, South, West</span>
+
+<span class="c">// Sorted, which is almost always what you want</span>
+=<span class="f">SORT</span>(<span class="f">UNIQUE</span>(<span class="r">M2:M9995</span>))
+
+<span class="c">// Unique combinations across two columns</span>
+=<span class="f">UNIQUE</span>(<span class="r">M2:N9995</span>)          <span class="c">// each Region + Product ID pair</span>
+
+<span class="c">// How many distinct customers are there?</span>
+=<span class="f">COUNTA</span>(<span class="f">UNIQUE</span>(<span class="r">G2:G9995</span>))
+
+<span class="c">// Values that appear EXACTLY once (the third argument)</span>
+=<span class="f">UNIQUE</span>(<span class="r">B2:B9995</span>, <span class="k">FALSE</span>, <span class="k">TRUE</span>)   <span class="c">// Order IDs with a single line item</span></pre>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">The pattern that replaces half of your pivot tables</div>
+      <p>Put <code>=SORT(UNIQUE(M2:M9995))</code> in X2 to generate the row labels, then <code>=SUMIFS($R:$R, $M:$M, X2#)</code> in Y2 to total each one. Both spill, both resize automatically, and a new region appearing in the data adds a row to your report on its own.</p>
+    </div>
+
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">Y2</span><span class="sheet-fx">fx</span><code>=SUMIFS($R:$R, $M:$M, X2#)</code></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th class="hl">X</th><th class="hl">Y</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>Region</td><td>Total Sales</td></tr>
+            <tr><th>2</th><td class="sel">Central</td><td class="num sel">501,240</td></tr>
+            <tr><th>3</th><td class="good">East</td><td class="num good">678,781</td></tr>
+            <tr><th>4</th><td class="good">South</td><td class="num good">391,722</td></tr>
+            <tr><th>5</th><td class="good">West</td><td class="num good">725,458</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Two formulas produced this entire table. Note <code>X2#</code> — the whole spill range, however long it turns out to be.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ar-seq">
+    <h2><span class="ic">🔢</span> SEQUENCE, RANDARRAY and the text splitters</h2>
+    <div class="split">
+      <div>
+<pre><span class="c">// SEQUENCE(rows, [cols], [start], [step])</span>
+=<span class="f">SEQUENCE</span>(<span class="n">12</span>)            <span class="c">// 1..12 down a column</span>
+=<span class="f">SEQUENCE</span>(<span class="n">1</span>, <span class="n">12</span>)         <span class="c">// 1..12 across a row</span>
+=<span class="f">SEQUENCE</span>(<span class="n">5</span>, <span class="n">1</span>, <span class="n">2014</span>)   <span class="c">// 2014..2018</span>
+
+<span class="c">// Twelve month-start dates for 2017 — a whole</span>
+<span class="c">// calendar axis from one formula</span>
+=<span class="f">DATE</span>(<span class="n">2017</span>, <span class="f">SEQUENCE</span>(<span class="n">12</span>), <span class="n">1</span>)</pre>
+      </div>
+      <div>
+<pre><span class="c">// Random values, handy for building test data</span>
+=<span class="f">RANDARRAY</span>(<span class="n">10</span>, <span class="n">1</span>, <span class="n">1</span>, <span class="n">100</span>, <span class="k">TRUE</span>)
+<span class="c">//   10 rows, 1 col, 1–100, whole numbers</span>
+
+<span class="c">// Split "Claire Gute" into two cells (Excel 365)</span>
+=<span class="f">TEXTSPLIT</span>(<span class="r">G2</span>, <span class="s">" "</span>)
+
+<span class="c">// Google Sheets equivalent</span>
+=<span class="f">SPLIT</span>(<span class="r">G2</span>, <span class="s">" "</span>)</pre>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p><code>TAKE</code>, <code>DROP</code>, <code>CHOOSECOLS</code> and <code>CHOOSEROWS</code> (Excel 365, 2022+) slice arrays further — e.g. <code>=TAKE(SORT(X2:Y50,2,-1), 10)</code> gives a live top-10 list.</p></div>
+  </section>
+
+  <section class="lcard" id="ar-combo">
+    <h2><span class="ic">🧩</span> Combining them: a live top-10 report</h2>
+    <p>The real power appears when you nest these. Each function takes an array and returns an array, so they stack cleanly.</p>
+<pre><span class="c">// Read this from the inside out:</span>
+=<span class="f">TAKE</span>( <span class="f">SORT</span>( <span class="f">FILTER</span>(<span class="r">X2:Y50</span>, <span class="r">Y2:Y50</span>&gt;<span class="n">0</span>, <span class="s">"none"</span>), <span class="n">2</span>, <span class="n">-1</span> ), <span class="n">10</span> )
+
+<span class="c">//   1. FILTER  → keep only profitable states</span>
+<span class="c">//   2. SORT    → order by column 2, descending</span>
+<span class="c">//   3. TAKE    → keep the first 10 rows</span></pre>
+    <p class="muted" style="margin-top:.5rem">Change the underlying data and this rebuilds itself. No refresh, no re-sorting, no re-copying formulas.</p>
+
+    <h3 style="margin-top:1rem">A self-updating filtered view</h3>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Add an input cell</div>
+        <p>Put a Region name in <code>X1</code>. Give it a dropdown with <a href="#excel/validation">data validation</a> so only valid values can be typed.</p>
+      </li>
+      <li>
+        <div class="s-t">Filter against it</div>
+        <p><code>=FILTER(A2:U9995, M2:M9995=$X$1, "No matches")</code> in <code>X3</code>. The whole matching dataset appears below.</p>
+      </li>
+      <li>
+        <div class="s-t">Summarise the spill range</div>
+        <p>Point summary formulas at the results, not the source: <code>=SUM(INDEX(X3#, 0, 18))</code> totals column 18 of whatever spilled.</p>
+      </li>
+      <li>
+        <div class="s-t">Change the input</div>
+        <p>Pick a different region and the table, the totals and any chart built on them all update at once. That's a dashboard with no macros and no refresh button.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="lcard" id="ar-errors">
+    <h2><span class="ic">🚧</span> Errors you'll meet</h2>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h"><span class="err">#SPILL!</span></div>
+        <p style="margin:0;font-size:.84rem">Something is in the way. The formula needs empty cells to expand into. Click the cell and Excel outlines the blocked area — clear it, or move the formula somewhere with room.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h"><span class="err">#CALC!</span></div>
+        <p style="margin:0;font-size:.84rem">FILTER matched nothing and you didn't supply <em>if_empty</em>. Always add a third argument.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h"><span class="err">#VALUE!</span></div>
+        <p style="margin:0;font-size:.84rem">Mismatched range heights — the array and the condition cover different numbers of rows.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h"><span class="err">#NAME?</span></div>
+        <p style="margin:0;font-size:.84rem">Your version doesn't have this function. See the compatibility note below.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Don't put anything below a spilling formula</div>
+      <p>Leave the space beneath a dynamic array empty. If the data grows and the spill range needs more room, anything sitting there turns the result into <span class="err">#SPILL!</span>. Put spilling formulas in their own area of the sheet, or on their own tab.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ar-compat">
+    <h2><span class="ic">✅</span> Do I have dynamic arrays?</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Where you're working</th><th style="text-align:center">Support</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Google Sheets</td><td style="text-align:center;color:#16a34a">✓ Full</td><td>Free — the easiest place to practise all of this</td></tr>
+          <tr><td>Excel 365 (desktop or web)</td><td style="text-align:center;color:#16a34a">✓ Full</td><td>The complete set, including TAKE and TEXTSPLIT</td></tr>
+          <tr><td>Excel 2021 / 2024</td><td style="text-align:center;color:#16a34a">✓ Core</td><td>FILTER, SORT, UNIQUE, SEQUENCE, XLOOKUP</td></tr>
+          <tr><td>Excel 2019 and earlier</td><td style="text-align:center;color:#dc2626">❌ None</td><td>Use SUMIFS, INDEX/MATCH and pivot tables instead</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:.5rem">Quick test: type <code>=SEQUENCE(3)</code> in an empty cell. Three numbers means you're set; <span class="err">#NAME?</span> means you're not.</p>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Sharing files matters</div>
+      <p>A workbook using FILTER opened in Excel 2019 shows <span class="err">#NAME?</span> everywhere. If colleagues are on older versions, stick to SUMIFS and INDEX/MATCH for anything you send them — both work everywhere and are covered in <a href="#excel/aggregation">SUMIFS &amp; COUNTIFS</a> and <a href="#excel/lookup">Lookup</a>.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>One formula, many results</strong> — write it once in the top-left cell</li>
+      <li><strong>Only the first cell is real</strong> — everything else is spilled output</li>
+      <li><strong><code>X2#</code> means "the whole spill"</strong> — and it resizes itself</li>
+      <li><strong><code>*</code> is AND, <code>+</code> is OR</strong> in FILTER conditions</li>
+      <li><strong>Always give FILTER an <em>if_empty</em></strong> — otherwise no matches means <span class="err">#CALC!</span></li>
+      <li><strong>They nest</strong> — FILTER → SORT → TAKE reads inside-out</li>
+      <li><strong>Leave room to spill</strong> — <span class="err">#SPILL!</span> just means "something's in the way"</li>
+      <li><strong><code>SORT(UNIQUE(...))</code> + <code>SUMIFS</code></strong> is a live pivot table you fully control</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="ar-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p class="muted">Google Sheets supports every one of these for free — use it if your Excel is older.</p>
+    <ol>
+      <li>List the <strong>unique Regions</strong>, sorted alphabetically</li>
+      <li>List the <strong>unique Sub-Categories</strong> and count how many there are</li>
+      <li><strong>FILTER</strong> all orders from the West region</li>
+      <li><strong>FILTER</strong> all loss-making orders (Profit &lt; 0) and count them</li>
+      <li><strong>FILTER</strong> West-region orders that also lost money (AND with <code>*</code>)</li>
+      <li><strong>FILTER</strong> orders from the West <em>or</em> East region (OR with <code>+</code>)</li>
+      <li><strong>SORT</strong> all orders by Sales, largest first, and show the top rows</li>
+      <li><strong>SORTBY</strong> Customer Names by their Profit, highest first</li>
+      <li>Build a live <strong>Region → Total Sales</strong> table with UNIQUE + SUMIFS, using the <code>#</code> operator</li>
+      <li>Do the same for <strong>Sub-Category</strong>, then sort it by sales descending</li>
+      <li>Use <strong>SEQUENCE</strong> to generate the twelve month-start dates of 2017</li>
+      <li>Put a Region in a cell and build a <strong>FILTER that responds to it</strong>, with a dropdown on the input</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: a one-formula top-10 board</div>
+      <p>Build a live top-10 table of Sub-Categories by profit: generate the distinct list with UNIQUE, total each with SUMIFS, then wrap the pair in SORT and TAKE so only the best ten appear, ranked. Add a second block for the <em>worst</em> ten by flipping the sort order. Nothing should need re-copying when the data changes.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/dates"><span class="pl">← Previous</span><span class="pt">Dates &amp; Time</span></a>
+    <a class="next" href="#excel/tables"><span class="pl">Next →</span><span class="pt">Tables &amp; Filtering</span></a>
+  </nav>
+</div>
