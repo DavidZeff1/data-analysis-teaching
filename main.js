@@ -51,6 +51,7 @@ const content = {
     interface: () => fetch("/tableau/interface.html").then((r) => r.text()),
     // Building views
     charts: () => fetch("/tableau/charts.html").then((r) => r.text()),
+    measures: () => fetch("/tableau/measures.html").then((r) => r.text()),
     organizing: () => fetch("/tableau/organizing.html").then((r) => r.text()),
     filters: () => fetch("/tableau/filters.html").then((r) => r.text()),
     maps: () => fetch("/tableau/maps.html").then((r) => r.text()),
@@ -60,6 +61,7 @@ const content = {
     lod: () => fetch("/tableau/lod.html").then((r) => r.text()),
     // Communicating
     analytics: () => fetch("/tableau/analytics.html").then((r) => r.text()),
+    formatting: () => fetch("/tableau/formatting.html").then((r) => r.text()),
     dashboards: () => fetch("/tableau/dashboards.html").then((r) => r.text()),
   },
   powerbi: {

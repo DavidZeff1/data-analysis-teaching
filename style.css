@@ -1703,3 +1703,101 @@
     color: var(--l-dim);
   }
 }
+
+/* ===========================================================================
+   Lesson design system — part 4: formatting & control components
+
+   A formatting lesson is mostly "go to this menu, change this thing", so menu
+   paths and colour ramps appear constantly and need to be scannable.
+   =========================================================================== */
+@layer components {
+  /* --- Menu path ---------------------------------------------------------
+     Format → Borders → Row Divider. Reads as one object rather than prose. */
+  .lesson .mpath {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    font-family: var(--l-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.1rem 0.45rem;
+    color: #334155;
+  }
+  .lesson .mpath i {
+    font-style: normal;
+    color: #94a3b8;
+  }
+
+  /* --- Colour ramp -------------------------------------------------------- */
+  .lesson .swatch {
+    display: flex;
+    height: 1.15rem;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.35rem 0;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  .lesson .swatch span {
+    flex: 1 1 0;
+  }
+  /* Stepped variant — visible dividers between discrete colour bins. */
+  .lesson .swatch.stepped span + span {
+    border-left: 1px solid #fff;
+  }
+
+  /* --- Legend mock --------------------------------------------------------
+     The panel Tableau parks to the right of a view. Shown inline so a lesson
+     can talk about what the viewer actually sees beside the chart. */
+  .lesson .legend-mock {
+    border: 1px solid var(--l-line);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    background: #fff;
+    font-size: 0.78rem;
+    min-width: 8rem;
+  }
+  .lesson .legend-mock .lg-t {
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+  }
+  .lesson .legend-mock .lg-i {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.09rem 0;
+    color: #334155;
+  }
+  .lesson .legend-mock .lg-i b {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 3px;
+    flex: 0 0 auto;
+  }
+  .lesson .legend-mock .lg-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #64748b;
+    margin-top: 0.15rem;
+  }
+
+  /* Puts a chart and its legend side by side, as Tableau lays them out. */
+  .lesson .with-legend {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .lesson .with-legend > :first-child {
+    flex: 1 1 16rem;
+    min-width: 0;
+  }
+}

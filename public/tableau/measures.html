@@ -1,0 +1,547 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🧮</span> Measure Names &amp; Measure Values</h1>
+    <p>Two fields Tableau generates for you that most people never really learn — and then wonder why they can't build a simple table with six metric columns in it. This is the mechanism for <em>any</em> view that shows more than one measure at once: scorecards, KPI rows, side-by-side bars, and crosstabs grouped by whatever you like.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 40 min</span>
+      <span>⭐ Core skill</span>
+      <span>🔗 Needs: Interface, Chart Types</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#mv-problem">The problem</a>
+    <a href="#mv-what">What they are</a>
+    <a href="#mv-pivot">The unpivot model</a>
+    <a href="#mv-add">Getting them into a view</a>
+    <a href="#mv-card">The Measure Values card</a>
+    <a href="#mv-table">Building the scorecard</a>
+    <a href="#mv-color">Colour-coding cells</a>
+    <a href="#mv-bars">Side-by-side bars</a>
+    <a href="#mv-axes">Shared vs dual vs separate</a>
+    <a href="#mv-format">Per-measure formats</a>
+    <a href="#mv-sort">Sorting</a>
+    <a href="#mv-totals">Totals</a>
+    <a href="#mv-choose">Letting viewers choose</a>
+    <a href="#mv-traps">Traps</a>
+    <a href="#mv-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="mv-problem">
+    <h2><span class="ic">🧩</span> The problem</h2>
+    <p>You want a table: <strong>Region down the side, and Sales, Profit, Margin, Orders and Average Order Value across the top.</strong> An ordinary business table. In a spreadsheet it takes thirty seconds.</p>
+    <p>In Tableau, you drag Region to Rows, then Sales to Columns, then Profit to Columns — and instead of two columns you get <strong>two separate charts with two separate axes</strong>, stacked side by side. Add three more measures and it gets worse.</p>
+
+    <div class="ba">
+      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
+        <div class="ba-h" style="color:#b91c1c">Five measure pills on Columns</div>
+        <p style="margin:0;font-size:.86rem">Five independent axes, five panes, each scaled to its own range. Not a table — five charts wearing a trenchcoat.</p>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">And no way to sort by one of them, or colour cells by value.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Measure Names on Columns</div>
+        <p style="margin:0;font-size:.86rem">One column per measure, one row per region, every cell formatted in its own units. Sortable, colourable, totalled.</p>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Two pills, any number of measures.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">Why this trips everyone up</div>
+      <p>Tableau's normal rule is <em>one pill, one thing</em>. Measure Names and Measure Values break that rule deliberately: they let a single shelf position carry an arbitrary number of measures. Until you know they exist, multi-metric views feel impossible — and once you do, they become routine.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-what">
+    <h2><span class="ic">🔍</span> What they actually are</h2>
+    <p>Scroll to the very bottom of the Data pane, below a dividing line. Tableau puts two fields there that aren't in your data — it generates them:</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8"><span class="pill dim">Measure Names</span> — a dimension</div>
+        <p style="margin:.35rem 0;font-size:.88rem">A <strong>dimension whose members are the names of your measures</strong>, as text.</p>
+        <div class="fieldlist" style="margin-top:.4rem">
+          <div class="fl-h">Its members</div>
+          <div class="fl-i">Sales</div>
+          <div class="fl-i">Profit</div>
+          <div class="fl-i">Quantity</div>
+          <div class="fl-i">Discount</div>
+          <div class="fl-i">Profit Margin <span class="muted">(your calc)</span></div>
+        </div>
+        <p style="margin:.45rem 0 0;font-size:.84rem;color:#1d4ed8">Being a dimension, it <strong>slices</strong> — put it on Columns and you get one column per measure.</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857"><span class="pill msr">Measure Values</span> — a measure</div>
+        <p style="margin:.35rem 0;font-size:.88rem">A single measure containing <strong>every measure's numbers, stacked into one column</strong>.</p>
+        <p style="margin:.35rem 0 0;font-size:.86rem">On its own it's meaningless — summing dollars, counts and percentages together gives nonsense. It only makes sense <em>sliced by Measure Names</em>, which separates the values back out.</p>
+        <p style="margin:.45rem 0 0;font-size:.84rem;color:#047857">They're a matched pair. Using one without the other is almost always a mistake.</p>
+      </div>
+    </div>
+
+    <div class="callout note" style="margin-top:.6rem">
+      <p>Every measure in your data source is automatically a member of Measure Names — including calculated fields you add later. Create a new margin calculation and it appears in the list without you doing anything.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-pivot">
+    <h2><span class="ic">🔄</span> The mental model: they unpivot your measures</h2>
+    <p>This is the single idea that makes everything else obvious. Measure Names and Measure Values perform an <strong>unpivot</strong> — the same reshape as <a href="#excel/powerquery">Power Query's Unpivot</a>, done on the fly, invisibly.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">How your data is stored — wide</div>
+        <table>
+          <tr><th>Region</th><th>Sales</th><th>Profit</th><th>Quantity</th></tr>
+          <tr><td>West</td><td>725,458</td><td>108,418</td><td>12,266</td></tr>
+          <tr><td>East</td><td>678,781</td><td>91,523</td><td>10,618</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">One column per measure. Tableau treats each as a separate field.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">How Tableau sees it with Measure Names</div>
+        <table>
+          <tr><th>Region</th><th>Measure Names</th><th>Measure Values</th></tr>
+          <tr><td>West</td><td>Sales</td><td>725,458</td></tr>
+          <tr><td>West</td><td>Profit</td><td>108,418</td></tr>
+          <tr><td>West</td><td>Quantity</td><td>12,266</td></tr>
+          <tr><td>East</td><td>Sales</td><td>678,781</td></tr>
+          <tr><td>East</td><td>Profit</td><td>91,523</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">One row per region <em>per measure</em>. Now "which measure" is just another dimension you can put anywhere.</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Everything follows from this</div>
+      <p>Once "which measure" is a <em>dimension</em>, you can do to it anything you'd do to any other dimension: put it on Columns to make table columns, on Rows to stack them, on Color to give each measure a colour, on Filters to choose which appear, and sort by it. That's the whole feature.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-add">
+    <h2><span class="ic">➕</span> Three ways to get them into a view</h2>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Drop a second measure onto an existing axis</div>
+        <p>Build Sales by Region, then drag Profit and hover over the <strong>Sales axis itself</strong> until a small green double-bar icon appears. Drop it there. Tableau silently swaps in Measure Names and Measure Values for you, and puts Measure Names on Color.</p>
+        <p class="muted">This is the accidental route — it's how most people meet these fields without realising what happened.</p>
+      </li>
+      <li>
+        <div class="s-t">Double-click Measure Values in the Data pane</div>
+        <p>Tableau drops it into the view and brings Measure Names along, adding it to the Filters shelf so you can pick which measures are included. Fastest route to a scorecard.</p>
+      </li>
+      <li>
+        <div class="s-t">Place both by hand — the one to learn</div>
+        <p>Drag <span class="pill dim sm">Measure Names</span> to Columns and <span class="pill msr sm">Measure Values</span> to Text. You now control exactly where each one sits, which is what you want for anything deliberate.</p>
+      </li>
+    </ol>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Know which one happened to you</div>
+      <p>If a chart suddenly grows a colour legend listing your measure names, route 1 fired. That's fine — but check the <strong>Measure Values card</strong> immediately, because Tableau will have included <em>every</em> measure in the data source, including ones you don't want.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-card">
+    <h2><span class="ic">🎛️</span> The Measure Values card — your control panel</h2>
+    <p>The moment Measure Values enters a view, a new card appears below the Marks card. It lists the measures currently included, <strong>in display order</strong>. This card is where you do most of the real work, and it's easy to miss.</p>
+
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill dim">Measure Names</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Text ▾</div>
+          <div class="mk-row"><span class="mk-i">Text</span><span class="pill msr sm">Measure Values</span></div>
+          <div class="mk-t" style="margin-top:.55rem">Measure Values</div>
+          <div class="mk-row" style="padding-left:.1rem"><span class="pill msr sm">SUM(Sales)</span></div>
+          <div class="mk-row" style="padding-left:.1rem"><span class="pill msr sm">SUM(Profit)</span></div>
+          <div class="mk-row" style="padding-left:.1rem"><span class="pill msr sm">AGG(Margin)</span></div>
+          <div class="mk-row" style="padding-left:.1rem"><span class="pill msr sm">CNTD(Order ID)</span></div>
+        </div>
+        <div class="viz-canvas">
+          <table class="ltable" style="font-size:.76rem;width:auto">
+            <thead><tr><th></th><th class="num">Sales</th><th class="num">Profit</th><th class="num">Margin</th><th class="num">Orders</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Central</strong></td><td class="num">$501,240</td><td class="num">$39,706</td><td class="num">7.9%</td><td class="num">1,175</td></tr>
+              <tr><td><strong>East</strong></td><td class="num">$678,781</td><td class="num">$91,523</td><td class="num">13.5%</td><td class="num">1,401</td></tr>
+              <tr><td><strong>South</strong></td><td class="num">$391,722</td><td class="num">$46,749</td><td class="num">11.9%</td><td class="num">828</td></tr>
+              <tr><td><strong>West</strong></td><td class="num">$725,458</td><td class="num">$108,418</td><td class="num">14.9%</td><td class="num">1,611</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="viz-note">The order of pills in the Measure Values card is the left-to-right order of the columns. Drag them to rearrange.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">What you can do on that card</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:13rem">Action</th><th>How</th><th>Why you'd want it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Add a measure</strong></td><td>Drag any measure from the Data pane onto the card</td><td>Adds a column without touching the shelves</td></tr>
+          <tr><td><strong>Remove a measure</strong></td><td>Drag the pill off the card</td><td>Tableau includes everything by default — you'll be removing a lot</td></tr>
+          <tr><td><strong>Reorder columns</strong></td><td>Drag pills up and down within the card</td><td>The only way to control column order</td></tr>
+          <tr><td><strong>Change aggregation</strong></td><td>Right-click a pill → Measure → Average / Median / Count…</td><td>Show <em>Average</em> Sales alongside <em>Total</em> Sales</td></tr>
+          <tr><td><strong>Add the same measure twice</strong></td><td>Drag it on again, then set a different aggregation</td><td>Sum <em>and</em> average of Sales as two columns</td></tr>
+          <tr><td><strong>Set number format</strong></td><td>Right-click a pill → Format</td><td>Per-column formatting — see below</td></tr>
+          <tr><td><strong>Add a table calculation</strong></td><td>Right-click a pill → Quick Table Calculation</td><td>A "% of total" column beside the raw values</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The duplicate-measure trick is genuinely useful</div>
+      <p>Drag <strong>Sales</strong> onto the card three times, then set the three pills to <em>Sum</em>, <em>Average</em> and <em>Count</em>. You get three columns — total, typical and volume — from one field. That's a summary table most people build with three separate calculated fields.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-table">
+    <h2><span class="ic">📋</span> Building the scorecard, step by step</h2>
+    <p>The view you actually wanted: <strong>grouped by whatever you like, with a set of metric columns beside it.</strong> Here's the whole thing.</p>
+
+    <ol class="steps">
+      <li>
+        <div class="s-t">Build the metrics you need first</div>
+        <p>Some columns aren't raw fields. Create these as calculated fields before you start, so they show up as members of Measure Names:</p>
+<pre><span class="c">// Profit Margin — aggregate, not row-level</span>
+<span class="f">SUM</span>([Profit]) / <span class="f">SUM</span>([Sales])
+
+<span class="c">// Average Order Value — COUNTD, not COUNT</span>
+<span class="f">SUM</span>([Sales]) / <span class="f">COUNTD</span>([Order ID])
+
+<span class="c">// Orders — a distinct count of order IDs</span>
+<span class="f">COUNTD</span>([Order ID])</pre>
+      </li>
+      <li>
+        <div class="s-t">Put your grouping dimensions on Rows</div>
+        <p>Drag <span class="pill dim sm">Region</span> to Rows. Then drag <span class="pill dim sm">Category</span> to Rows <em>after</em> it — you now have nested grouping, Region containing Category. Add a third if you want; the metric columns don't change.</p>
+      </li>
+      <li>
+        <div class="s-t">Put Measure Names on Columns</div>
+        <p>Drag <span class="pill dim sm">Measure Names</span> to Columns. You'll get a column for every measure in the source — far too many. That's expected.</p>
+      </li>
+      <li>
+        <div class="s-t">Put Measure Values on Text</div>
+        <p>Drag <span class="pill msr sm">Measure Values</span> onto <strong>Text</strong> in the Marks card. Set the mark type to <strong>Text</strong> if it isn't already. The numbers appear.</p>
+      </li>
+      <li>
+        <div class="s-t">Prune and order the columns</div>
+        <p>On the Measure Values card, drag off everything you don't want, then reorder what's left. Sales, Profit, Margin, Orders, AOV — in that order, because it reads as a narrowing story.</p>
+      </li>
+      <li>
+        <div class="s-t">Format each measure</div>
+        <p>Right-click each field in the <em>Data pane</em> → <span class="mpath">Default Properties <i>→</i> Number Format</span>. Set Sales and Profit to currency with no decimals, Margin to percentage with one, Orders to a plain number with a thousands separator. Because this is set on the field itself, every future view inherits it.</p>
+      </li>
+      <li>
+        <div class="s-t">Clean up the frame</div>
+        <p>Right-click the "Measure Names" field label above the columns → <strong>Hide Field Labels for Columns</strong>. Do the same for Rows if the dimension names are obvious. The table is now just headers and numbers.</p>
+      </li>
+    </ol>
+
+    <div class="sheet" style="margin-top:.85rem">
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th></th><th>Region</th><th>Category</th><th class="hl">Sales</th><th class="hl">Profit</th><th class="hl">Margin</th><th class="hl">Orders</th><th class="hl">AOV</th></tr></thead>
+          <tbody>
+            <tr><th>1</th><td class="hd" rowspan="3">Central</td><td>Furniture</td><td class="num">$163,797</td><td class="num bad">−$2,871</td><td class="num bad">−1.8%</td><td class="num">387</td><td class="num">$423</td></tr>
+            <tr><th>2</th><td>Office Supplies</td><td class="num">$167,026</td><td class="num good">$8,880</td><td class="num">5.3%</td><td class="num">759</td><td class="num">$220</td></tr>
+            <tr><th>3</th><td>Technology</td><td class="num">$170,416</td><td class="num good">$33,697</td><td class="num good">19.8%</td><td class="num">278</td><td class="num">$613</td></tr>
+            <tr><th>4</th><td class="hd" rowspan="3">East</td><td>Furniture</td><td class="num">$208,291</td><td class="num good">$3,046</td><td class="num">1.5%</td><td class="num">443</td><td class="num">$470</td></tr>
+            <tr><th>5</th><td>Office Supplies</td><td class="num">$205,516</td><td class="num good">$41,014</td><td class="num good">20.0%</td><td class="num">874</td><td class="num">$235</td></tr>
+            <tr><th>6</th><td>Technology</td><td class="num">$264,974</td><td class="num good">$47,463</td><td class="num good">17.9%</td><td class="num">334</td><td class="num">$793</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sheet-note">Two dimensions nested on Rows, five measures across the top, each in its own units. Add a third dimension and the columns come along unchanged.</p>
+    </div>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">This is the pattern to internalise</div>
+      <p><strong>Dimensions on Rows = your grouping. Measure Names on Columns = your metric columns. Measure Values on Text = the numbers.</strong> Swap the dimensions freely; the metric block stays put. That's the answer to "group by something and put a bunch of columns against it".</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-color">
+    <h2><span class="ic">🎨</span> Colour-coding the cells — Tableau's conditional formatting</h2>
+    <p>A table of numbers is precise but flat. Adding colour gives it the at-a-glance quality of Excel's conditional formatting, and the mechanism is the same idea: a rule, not a paint stroke.</p>
+
+    <h3>Option A — colour by the value itself</h3>
+    <p>Drag <span class="pill msr sm">Measure Values</span> onto <strong>Color</strong> as well as Text, and change the mark type to <strong>Square</strong>. Every cell is now shaded by its own number.</p>
+    <div class="callout danger" style="margin-top:.5rem">
+      <div class="callout-title">⚠️ And it will look wrong — here's why</div>
+      <p>All measures share <strong>one colour scale</strong>. Sales runs to 700,000 and Margin runs to 0.15, so on a single scale every margin cell is at the bottom of the range and every one comes out the same colour. The colour is technically correct and completely useless.</p>
+      <p style="margin-top:.4rem"><strong>The fix:</strong> right-click the Measure Values pill on Color → <span class="mpath">Use Separate Legends</span>. Tableau then gives each measure its own colour scale and its own legend, and the shading becomes meaningful per column.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Option B — colour by a rule you write</h3>
+    <p>Usually better, because you decide what "good" means rather than letting the data's range decide. Write a calculation and put <em>that</em> on Color:</p>
+<pre><span class="c">// Simple: red when we're losing money</span>
+<span class="f">SUM</span>([Profit]) &lt; <span class="n">0</span>
+
+<span class="c">// Banded: a three-state traffic light on margin</span>
+<span class="k">IF</span>    <span class="f">SUM</span>([Profit])/<span class="f">SUM</span>([Sales]) &lt; <span class="n">0</span>    <span class="k">THEN</span> <span class="s">"Losing money"</span>
+<span class="k">ELSEIF</span> <span class="f">SUM</span>([Profit])/<span class="f">SUM</span>([Sales]) &lt; <span class="n">0.10</span> <span class="k">THEN</span> <span class="s">"Thin margin"</span>
+<span class="k">ELSE</span>                                     <span class="s">"Healthy"</span>
+<span class="k">END</span>
+
+<span class="c">// Against a target the viewer controls</span>
+<span class="k">IF</span> <span class="f">SUM</span>([Sales]) &gt;= [Target Parameter] <span class="k">THEN</span> <span class="s">"On track"</span>
+<span class="k">ELSE</span> <span class="s">"Behind"</span> <span class="k">END</span></pre>
+    <p class="muted" style="margin-top:.5rem">A discrete calculation like the middle one gives you a clean three-colour legend beside the chart, with labels a reader understands — rather than a continuous ramp they have to interpret.</p>
+
+    <h3 style="margin-top:1rem">The legend beside the chart</h3>
+    <p>This is the panel Tableau parks to the right of the view. It's what turns colour into information rather than decoration.</p>
+    <div class="with-legend">
+      <div>
+        <table class="ltable" style="font-size:.78rem">
+          <thead><tr><th>Sub-Category</th><th class="num">Sales</th><th class="num">Profit</th><th class="num">Margin</th></tr></thead>
+          <tbody>
+            <tr><td>Phones</td><td class="num">$330,007</td><td class="num" style="background:#d7ecd9">$44,516</td><td class="num" style="background:#d7ecd9">13.5%</td></tr>
+            <tr><td>Chairs</td><td class="num">$328,449</td><td class="num" style="background:#eaf4eb">$26,590</td><td class="num" style="background:#fdf1d6">8.1%</td></tr>
+            <tr><td>Tables</td><td class="num">$206,966</td><td class="num" style="background:#f7d4d2">−$17,725</td><td class="num" style="background:#f7d4d2">−8.6%</td></tr>
+            <tr><td>Bookcases</td><td class="num">$114,880</td><td class="num" style="background:#f7d4d2">−$3,473</td><td class="num" style="background:#f7d4d2">−3.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend-mock">
+        <div class="lg-t">Margin band</div>
+        <div class="lg-i"><b style="background:#5b9450"></b> Healthy · 10%+</div>
+        <div class="lg-i"><b style="background:#e8b931"></b> Thin · 0–10%</div>
+        <div class="lg-i"><b style="background:#c0392b"></b> Losing money</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:.5rem">Three named states beat a continuous gradient here, because the reader doesn't have to translate a shade into a number — the categories already carry the judgement.</p>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Controlling that legend</div>
+      <p>Show or hide it from the sheet's <span class="mpath">▾ <i>→</i> Legends</span> menu. Rename it by right-clicking → <strong>Edit Title</strong> — "Margin band" reads better than "Margin Status". Assign your own colours with <span class="mpath">Edit Colors <i>→</i></span> select a member <i>→</i> pick. Full detail, including stepped colour and custom palettes, is in <a href="#tableau/formatting">Formatting &amp; Custom Charts</a>.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Option C — bars inside the table</h3>
+    <p>The closest equivalent to Excel's data bars. Build the text table, then add a second measure on a <strong>dual axis</strong> with a Bar mark behind the text — or more simply, make one column a bar chart by putting Measure Values on Size or building a separate narrow sheet beside the table on a dashboard. For a single metric, the standard approach is a <strong>highlight table</strong> (Square marks + Color), which is what Option A produces once you've fixed the separate-legends problem.</p>
+  </section>
+
+  <section class="lcard" id="mv-bars">
+    <h2><span class="ic">📊</span> Side-by-side bars</h2>
+    <p>Same two fields, different shelves. Instead of a table you get grouped bars — one cluster per category, one bar per measure.</p>
+    <div class="viz">
+      <div class="viz-shelves">
+        <div class="shelf"><span class="sl">Columns</span><span class="pill dim">Region</span><span class="pill dim">Measure Names</span></div>
+        <div class="shelf"><span class="sl">Rows</span><span class="pill msr">Measure Values</span></div>
+      </div>
+      <div class="viz-body">
+        <div class="viz-marks">
+          <div class="mk-t">Marks</div>
+          <div class="mk-type">Bar ▾</div>
+          <div class="mk-row"><span class="mk-i">Color</span><span class="pill dim sm">Measure Names</span></div>
+        </div>
+        <div class="viz-canvas">
+          <svg viewBox="0 0 260 72" role="img" aria-label="Side by side bar chart grouped by region">
+            <line x1="14" y1="62" x2="252" y2="62" stroke="#cbd5e1" stroke-width="1.2"/>
+            <g>
+              <rect x="24" y="30" width="13" height="32" fill="#4e79a7"/><rect x="38" y="46" width="13" height="16" fill="#f28e2b"/><rect x="52" y="40" width="13" height="22" fill="#59a14f"/>
+              <rect x="86" y="20" width="13" height="42" fill="#4e79a7"/><rect x="100" y="40" width="13" height="22" fill="#f28e2b"/><rect x="114" y="34" width="13" height="28" fill="#59a14f"/>
+              <rect x="148" y="40" width="13" height="22" fill="#4e79a7"/><rect x="162" y="50" width="13" height="12" fill="#f28e2b"/><rect x="176" y="46" width="13" height="16" fill="#59a14f"/>
+              <rect x="210" y="16" width="13" height="46" fill="#4e79a7"/><rect x="224" y="36" width="13" height="26" fill="#f28e2b"/><rect x="238" y="30" width="13" height="32" fill="#59a14f"/>
+            </g>
+            <g font-size="6.5" fill="#475569" font-family="Inter, sans-serif" text-anchor="middle">
+              <text x="45" y="70">Central</text><text x="107" y="70">East</text><text x="169" y="70">South</text><text x="231" y="70">West</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-note">Measure Names appears twice — on Columns to create the groups, and on Color so each measure is identifiable.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.55rem">
+      <div class="callout-title">This only works when the units match</div>
+      <p>All the bars share one axis. Sales, Profit and Cost together are fine — all dollars, comparable heights. Put Sales and Margin on the same axis and the margin bars are invisible slivers at zero. When units differ, use a <a href="#tableau/charts">dual axis</a>, separate rows, or go back to a text table.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-axes">
+    <h2><span class="ic">⚖️</span> Shared axis vs dual axis vs separate axes</h2>
+    <p>Three different ways to get multiple measures into one chart. They look similar and behave very differently, and choosing wrongly is a common source of misleading charts.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead>
+          <tr><th style="width:9rem"></th><th>Shared axis<br><span class="muted">(Measure Values)</span></th><th>Dual axis</th><th>Separate axes<br><span class="muted">(multiple pills)</span></th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>How many measures</strong></td><td>Any number</td><td>Exactly 2</td><td>Any number</td></tr>
+          <tr><td><strong>Number of axes</strong></td><td>One, shared</td><td>Two, overlaid</td><td>One per measure</td></tr>
+          <tr><td><strong>Marks cards</strong></td><td>One — same mark type for all</td><td>Two — different mark types possible</td><td>One per measure</td></tr>
+          <tr><td><strong>Units must match</strong></td><td style="color:#dc2626">Yes, strictly</td><td style="color:#d97706">No, but label carefully</td><td style="color:#16a34a">No</td></tr>
+          <tr><td><strong>Layout</strong></td><td>Bars grouped or stacked together</td><td>Overlaid on top of each other</td><td>Stacked panes, side by side</td></tr>
+          <tr><td><strong>Use it for</strong></td><td>Scorecards, side-by-side bars, many comparable metrics</td><td>Sales bars + margin line; bar-in-bar; bullet charts</td><td>Small multiples of different metrics over the same axis</td></tr>
+          <tr><td><strong>How to build</strong></td><td>Measure Names + Measure Values</td><td>Two pills, right-click the 2nd → Dual Axis</td><td>Two pills on the same shelf, left alone</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Deciding in one question</div>
+      <p><strong>Are all the measures in the same units?</strong> Yes → shared axis. No, and there are exactly two → dual axis with both axes labelled. No, and there are more than two → separate axes, or a text table. That question resolves it almost every time.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-format">
+    <h2><span class="ic">💲</span> Per-measure number formatting</h2>
+    <p>A scorecard mixing dollars, percentages and counts needs each column formatted differently. There are two places to set that, and the difference matters.</p>
+    <div class="split">
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">✓ On the field — do this</div>
+        <p style="margin:.3rem 0 .4rem;font-size:.86rem">Right-click the field in the <strong>Data pane</strong>:</p>
+        <p style="margin:0"><span class="mpath">Default Properties <i>→</i> Number Format</span></p>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Applies everywhere that field is ever used, in this and every future sheet. Set it once when you build the calculation and never think about it again.</p>
+      </div>
+      <div class="cmp" style="background:#fffbeb;border-color:#fde68a">
+        <div class="h" style="color:#b45309">⚠️ On the pill — local only</div>
+        <p style="margin:.3rem 0 .4rem;font-size:.86rem">Right-click a pill in the Measure Values card → <strong>Format</strong>.</p>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Applies to this view only. Useful for a one-off override — showing Sales in thousands on a cramped dashboard tile — but it won't follow the field elsewhere, and you'll redo it on the next sheet.</p>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Text tables handle mixed formats; shared axes can't</div>
+      <p>In a <strong>text table</strong>, each cell renders in its own measure's format — dollars, percentages and counts sit happily side by side. On a <strong>shared axis</strong> there is only one axis, so there's only one format, and mixing units was already a mistake for scale reasons. Another reason the text table is the right home for a mixed scorecard.</p>
+    </div>
+    <p class="muted" style="margin-top:.5rem">Custom format strings — <code>$#,##0,"K"</code>, <code>▲0.0%;▼0.0%;—</code> — are covered in detail in <a href="#tableau/formatting">Formatting &amp; Custom Charts</a>.</p>
+  </section>
+
+  <section class="lcard" id="mv-sort">
+    <h2><span class="ic">🔠</span> Sorting a multi-measure table</h2>
+    <p>Clicking a column header to sort — the thing everyone tries first — doesn't reliably work here, because the "columns" are members of a dimension rather than fields. Do it explicitly instead.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Right-click the dimension you want to reorder</div>
+        <p>The pill on Rows — Region, or Sub-Category. Not the measure.</p>
+      </li>
+      <li>
+        <div class="s-t">Choose Sort</div>
+        <p>Set <strong>Sort By</strong> to <em>Field</em>, direction to <em>Descending</em>, and then pick the specific measure — <em>Profit</em>, say — from the Field Name dropdown, with the right aggregation.</p>
+      </li>
+      <li>
+        <div class="s-t">Check it held</div>
+        <p>A small sort icon appears on the pill. Unlike a toolbar quick-sort, this definition survives filtering and being placed on a dashboard.</p>
+      </li>
+    </ol>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Sorting the measure columns themselves</div>
+      <p>The left-to-right order of the metric columns is <em>not</em> a sort — it's the order of the pills in the Measure Values card. To rearrange them, drag the pills. Tableau will not sort them for you, and there's no alphabetical option.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-totals">
+    <h2><span class="ic">➕</span> Totals and subtotals</h2>
+    <p><span class="mpath">Analysis <i>→</i> Totals <i>→</i> Show Grand Totals</span> adds a total row; <strong>Show Subtotals</strong> adds one per group when you have nested dimensions. Each metric column totals its own measure, which is what you want.</p>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">⚠️ Ratio columns need checking</div>
+      <p>A Margin column's grand total should be <strong>total profit ÷ total sales</strong> — not the sum of the four regional margins, and not their average. Whether Tableau gets this right depends on how you wrote the calculation:</p>
+      <ul style="margin:.4rem 0 0;font-size:.87rem;padding-left:1.1rem">
+        <li><code>SUM([Profit])/SUM([Sales])</code> — an aggregate expression, recomputed at the total level. <strong>Correct.</strong></li>
+        <li><code>AVG([Profit]/[Sales])</code> — a row-level ratio, averaged. Wrong at every level, including the total.</li>
+      </ul>
+      <p style="margin-top:.4rem">If a total still looks off, right-click it → <span class="mpath">Total Using</span> and set it explicitly. Leave it on <em>Automatic</em> for properly-written aggregate ratios — that's what makes them recompute rather than add up.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Grand totals default to the bottom and right. Move them with <span class="mpath">Analysis <i>→</i> Totals <i>→</i> Row Totals to Left</span> — worth doing when the total is the number people came for.</p></div>
+  </section>
+
+  <section class="lcard" id="mv-choose">
+    <h2><span class="ic">🎚️</span> Letting viewers choose the metrics</h2>
+    <p>Because Measure Names is an ordinary dimension, it can go on the Filters shelf — and a filter can be shown as a control.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">Put Measure Names on Filters</div>
+        <p>Tick the measures that should be available. This also prunes the columns down from "everything in the data source".</p>
+      </li>
+      <li>
+        <div class="s-t">Show the filter</div>
+        <p>Right-click the pill → <strong>Show Filter</strong>. Set it to <em>Multiple Values (list)</em> so viewers can tick metrics on and off.</p>
+      </li>
+      <li>
+        <div class="s-t">Watch the table reshape</div>
+        <p>Columns appear and disappear as they choose. One sheet now serves the person who wants two metrics and the one who wants seven.</p>
+      </li>
+    </ol>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Related, but different: the measure swapper</div>
+      <p>Measure Names controls <em>which of several</em> metrics appear. A <strong>parameter</strong> plus a CASE calculation swaps <em>which single</em> metric a chart displays — see <a href="#tableau/calculated">Calculated Fields</a>. Use Measure Names for tables, a parameter for single-metric charts where you want one axis that changes meaning.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mv-traps">
+    <h2><span class="ic">🕳️</span> Traps</h2>
+    <div class="grid2">
+      <div class="cmp bad">
+        <div class="h">Every measure appears at once</div>
+        <p style="margin:0;font-size:.84rem">Tableau includes all of them by default, including Row ID and Postal Code if those were left as measures. Prune the Measure Values card immediately, and fix the offending fields in the Data pane.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">One shared colour scale flattens everything</div>
+        <p style="margin:0;font-size:.84rem">Colouring by Measure Values puts all measures on one range. Right-click the Color pill → <strong>Use Separate Legends</strong>.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Bars for small-unit measures vanish</div>
+        <p style="margin:0;font-size:.84rem">A shared axis scaled for $700K makes a 0.15 margin bar a single pixel. Don't mix units on one axis.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Table calculations behave unexpectedly</div>
+        <p style="margin:0;font-size:.84rem">Measure Names is a dimension in the view, so it's part of the addressing. Set <a href="#tableau/tablecalcs">Compute Using</a> to <strong>Specific Dimensions</strong> and be explicit about whether Measure Names is included.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">You can't reference them in a calculation</div>
+        <p style="margin:0;font-size:.84rem">They're generated at view time, so <code>[Measure Names]</code> isn't available in the calculation editor. Anything conditional on "which measure" has to be handled with a parameter instead.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">Grand totals on ratios</div>
+        <p style="margin:0;font-size:.84rem">Correct only if the ratio is written as an aggregate expression. Always check the total row against a number you trust.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul>
+      <li><strong>They unpivot your measures</strong> — "which measure" becomes just another dimension</li>
+      <li><strong>Names is a dimension, Values is a measure</strong> — they only work as a pair</li>
+      <li><strong>Dimensions on Rows, Measure Names on Columns, Measure Values on Text</strong> is the scorecard recipe</li>
+      <li><strong>The Measure Values card is the control panel</strong> — include, exclude, reorder, re-aggregate</li>
+      <li><strong>Column order = pill order on that card</strong>, and nothing else</li>
+      <li><strong>Add the same measure twice</strong> with different aggregations for sum-and-average columns</li>
+      <li><strong>Set number formats on the field</strong>, not the pill, so they follow it everywhere</li>
+      <li><strong>Use Separate Legends</strong> whenever you colour by Measure Values</li>
+      <li><strong>Shared axis only when units match</strong> — otherwise dual axis or a table</li>
+      <li><strong>Sort by right-clicking the dimension</strong> → Sort → By Field → pick the measure</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="mv-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <ol>
+      <li>Find <strong>Measure Names</strong> and <strong>Measure Values</strong> at the bottom of the Data pane and read their icons — which is blue, which is green?</li>
+      <li>Build Sales by Region, then drag Profit <strong>onto the Sales axis</strong> and identify what Tableau added on your behalf</li>
+      <li>Build the scorecard by hand: Region on Rows, Measure Names on Columns, Measure Values on Text</li>
+      <li><strong>Prune</strong> the Measure Values card to Sales, Profit and Quantity, then reorder them</li>
+      <li>Create <strong>Profit Margin</strong> and <strong>Average Order Value</strong> calculations and add them as columns</li>
+      <li>Add <strong>Category</strong> to Rows beneath Region for nested grouping</li>
+      <li>Set <strong>Default Properties → Number Format</strong> on each measure so every column reads correctly</li>
+      <li>Add <strong>Sales twice more</strong> and set the copies to Average and Count</li>
+      <li>Colour the table by Measure Values, then fix it with <strong>Use Separate Legends</strong></li>
+      <li>Replace that with a <strong>discrete three-band margin calculation</strong> on Color and edit the legend title</li>
+      <li>Turn the same fields into a <strong>side-by-side bar chart</strong>, and explain why you can't include Margin</li>
+      <li><strong>Sort</strong> the rows by Profit descending, then add <strong>grand totals</strong> and verify the Margin total is correct</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: a full regional scorecard</div>
+      <p>Build a single sheet with Region and Sub-Category nested on Rows and seven metric columns: Sales, Profit, Margin, Orders, Average Order Value, Average Discount, and Sales as a percent of total (a <a href="#tableau/tablecalcs">table calculation</a> added on the Measure Values card). Format every column in its own units. Colour the Margin column only — using a calculation, so the other columns stay plain. Add subtotals per region and a grand total, and confirm the Margin figures recompute rather than adding up.</p>
+      <p style="margin-top:.4rem">Then hide the field labels, strip the gridlines, and put a Measure Names filter on the sheet so a viewer can hide columns they don't care about. That's a production-quality table, and it's two special fields plus a lot of small deliberate choices.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/charts"><span class="pl">← Previous</span><span class="pt">Chart Types</span></a>
+    <a class="next" href="#tableau/organizing"><span class="pl">Next →</span><span class="pt">Sorting, Groups &amp; Sets</span></a>
+  </nav>
+</div>

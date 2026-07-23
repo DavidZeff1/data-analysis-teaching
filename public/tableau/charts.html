@@ -43,6 +43,10 @@
       <div class="callout-title">The pattern behind the pattern</div>
       <p><strong>Two dimensions</strong> → a table or crosstab. <strong>One dimension + one measure</strong> → a bar chart. <strong>A date + a measure</strong> → a line. <strong>Two measures</strong> → a scatter. Learn those four and you can predict what Tableau will build before you drop the pill.</p>
     </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">What about three, four or seven measures?</div>
+      <p>Every recipe above tops out at two. Adding a third measure pill gives you a third separate axis rather than a third column — which is why a simple table of five metrics feels impossible at first. That needs two special generated fields, covered next in <a href="#tableau/measures">Measure Names &amp; Values</a>.</p>
+    </div>
   </section>
 
   <section class="lcard" id="ct-bar">
@@ -156,7 +160,7 @@ Rows:    YEAR(Order Date)  <span class="c">// blue, discrete → one row per yea
     </div>
     <div class="callout ok" style="margin-top:.55rem">
       <div class="callout-title">The Superstore scatter worth building</div>
-      <p>Put Discount on Columns, Profit Ratio on Rows and Sub-Category on Detail. Add a trend line from the Analytics pane. The negative relationship is the most actionable finding in this dataset — see <a href="#tableau/analytics">Analytics &amp; Formatting</a> for how to quantify it.</p>
+      <p>Put Discount on Columns, Profit Ratio on Rows and Sub-Category on Detail. Add a trend line from the Analytics pane. The negative relationship is the most actionable finding in this dataset — see <a href="#tableau/analytics">Analytics Pane</a> for how to quantify it.</p>
     </div>
   </section>
 
@@ -350,6 +354,6 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
 
   <nav class="pager" aria-label="Lesson navigation">
     <a href="#tableau/interface"><span class="pl">← Previous</span><span class="pt">Interface Basics</span></a>
-    <a class="next" href="#tableau/organizing"><span class="pl">Next →</span><span class="pt">Sorting, Groups &amp; Sets</span></a>
+    <a class="next" href="#tableau/measures"><span class="pl">Next →</span><span class="pt">Measure Names &amp; Values</span></a>
   </nav>
 </div>
