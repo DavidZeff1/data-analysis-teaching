@@ -29,6 +29,43 @@
     <a href="#mv-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Measure Names</dt>
+        <dd>A dimension Tableau generates whose <em>members are the names of your measures</em>.</dd>
+        <dd class="df-e"><b>Example:</b> Its members are the words "Sales", "Profit", "Quantity" — so it can create one column per measure.</dd>
+      </div>
+      <div class="df">
+        <dt>Measure Values</dt>
+        <dd>A measure Tableau generates holding <em>all your measures' numbers</em> stacked in one column.</dd>
+        <dd class="df-e"><b>Example:</b> Meaningless alone; only makes sense sliced by Measure Names.</dd>
+      </div>
+      <div class="df">
+        <dt>Unpivot</dt>
+        <dd>Reshaping wide data into long — turning columns into rows.</dd>
+        <dd class="df-e"><b>Example:</b> Three measure columns become three rows per region, with a "which measure" column.</dd>
+      </div>
+      <div class="df">
+        <dt>Aggregation</dt>
+        <dd>Which summary a measure uses — Sum, Average, Count, Median, Count Distinct.</dd>
+        <dd class="df-e"><b>Example:</b> Right-click a pill → Measure → Average to switch SUM(Sales) to AVG(Sales).</dd>
+      </div>
+      <div class="df">
+        <dt>Shared axis</dt>
+        <dd>Several measures plotted against <strong>one</strong> axis and scale.</dd>
+        <dd class="df-e"><b>Example:</b> Fine for Sales and Profit (both dollars); fatal for Sales and Margin.</dd>
+      </div>
+      <div class="df">
+        <dt>COUNTD</dt>
+        <dd>Count Distinct — how many <em>different</em> values, not how many rows.</dd>
+        <dd class="df-e"><b>Example:</b> COUNT(Order ID) = 9,994 line items; COUNTD(Order ID) = 5,009 actual orders.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="mv-problem">
     <h2><span class="ic">🧩</span> See the problem first</h2>
     <p>You want a table: <strong>Region down the side, Sales, Profit and Quantity across the top.</strong> An ordinary business table. So you drag Region to Rows, then drag all three measures to Columns.</p>

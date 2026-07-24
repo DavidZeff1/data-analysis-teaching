@@ -22,6 +22,39 @@
     <a href="#mp-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Geographic role</dt>
+        <dd>The location type Tableau assigns a field so it knows how to place it.</dd>
+        <dd class="df-e"><b>Example:</b> State, City, Postal Code. Shown by a small globe icon.</dd>
+        <dd class="df-w">📍 Right-click a field → Geographic Role</dd>
+      </div>
+      <div class="df">
+        <dt>Generated field</dt>
+        <dd>A field Tableau creates that isn't in your data.</dd>
+        <dd class="df-e"><b>Example:</b> Latitude and Longitude appear automatically once a field has a geographic role.</dd>
+      </div>
+      <div class="df">
+        <dt>Geocoding</dt>
+        <dd>Looking up where a place name sits on the map.</dd>
+        <dd class="df-e"><b>Example:</b> Tableau does this from a built-in database — no coordinates needed.</dd>
+      </div>
+      <div class="df">
+        <dt>Choropleth / filled map</dt>
+        <dd>Regions shaded by value.</dd>
+        <dd class="df-e"><b>Example:</b> States coloured by profit margin. Best for <em>rates</em>, since area distorts raw counts.</dd>
+      </div>
+      <div class="df">
+        <dt>Symbol map</dt>
+        <dd>Circles placed at locations, usually sized by a measure.</dd>
+        <dd class="df-e"><b>Example:</b> Cities sized by sales. Better than a filled map for raw totals.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="mp-when">
     <h2><span class="ic">🤔</span> When a map is actually the right chart</h2>
     <p>A map answers <strong>where</strong>. If your real question is <strong>how much</strong>, a sorted bar chart will answer it faster and more precisely.</p>

@@ -23,6 +23,49 @@
     <a href="#cn-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Data source</dt>
+        <dd>Your connection to the data, plus any joins and renames made on the Data Source page.</dd>
+        <dd class="df-e"><b>Example:</b> The bundled Superstore file, with its Orders, People and Returns tables.</dd>
+        <dd class="df-w">📍 Bottom-left tab labelled Data Source</dd>
+      </div>
+      <div class="df">
+        <dt>Granularity</dt>
+        <dd>How finely the data is broken up — what one row represents.</dd>
+        <dd class="df-e"><b>Example:</b> One Superstore row is <em>one product within one order</em>, not one order.</dd>
+      </div>
+      <div class="df">
+        <dt>Join</dt>
+        <dd>Merging two tables side by side into one wide table, matched on a key.</dd>
+        <dd class="df-e"><b>Example:</b> Attaching each order's returned/not-returned flag from the Returns table.</dd>
+      </div>
+      <div class="df">
+        <dt>Relationship</dt>
+        <dd>The modern alternative: Tableau keeps the tables separate and works out the join per chart.</dd>
+        <dd class="df-e"><b>Example:</b> The default when you drag a second table onto the canvas.</dd>
+      </div>
+      <div class="df">
+        <dt>Union</dt>
+        <dd>Stacking tables on top of each other to add <em>rows</em>, not columns.</dd>
+        <dd class="df-e"><b>Example:</b> Twelve monthly CSVs combined into one table of the year.</dd>
+      </div>
+      <div class="df">
+        <dt>Fan-out</dt>
+        <dd>When a join multiplies rows and inflates your totals.</dd>
+        <dd class="df-e"><b>Example:</b> One monthly target joined to 2,000 order rows repeats 2,000 times — SUM(Target) comes out 2,000× too big.</dd>
+      </div>
+      <div class="df">
+        <dt>Extract</dt>
+        <dd>A compressed local snapshot of the data instead of a live query. Faster, but needs refreshing.</dd>
+        <dd class="df-e"><b>Example:</b> Tableau Public requires one, which is why publishing converts your connection.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="cn-sources">
     <h2><span class="ic">🔗</span> What Tableau can connect to</h2>
     <div class="grid3">
@@ -321,7 +364,7 @@
   </section>
 
   <nav class="pager" aria-label="Lesson navigation">
-    <a href="#tableau/setup"><span class="pl">← Previous</span><span class="pt">Practice Setup</span></a>
+    <a href="#tableau/glossary"><span class="pl">← Previous</span><span class="pt">Glossary &amp; the Tableau Window</span></a>
     <a class="next" href="#tableau/interface"><span class="pl">Next →</span><span class="pt">Interface Basics</span></a>
   </nav>
 </div>

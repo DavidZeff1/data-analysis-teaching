@@ -23,6 +23,43 @@
     <a href="#lo-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Level of Detail (LOD)</dt>
+        <dd>The granularity a number is calculated at — how finely the data is cut before summing.</dd>
+        <dd class="df-e"><b>Example:</b> The view might be per region while you need a figure computed per customer.</dd>
+      </div>
+      <div class="df">
+        <dt>LOD expression</dt>
+        <dd>A calculation, written in curly braces, that aggregates at a <em>different</em> granularity than the view.</dd>
+        <dd class="df-e"><b>Example:</b> <code>{FIXED [Customer Name] : SUM([Sales])}</code> — each customer's lifetime spend.</dd>
+      </div>
+      <div class="df">
+        <dt>FIXED</dt>
+        <dd>Computes at exactly the dimensions you name, ignoring what's in the view.</dd>
+        <dd class="df-e"><b>Example:</b> Stays per-customer even inside a regional chart. The predictable one.</dd>
+      </div>
+      <div class="df">
+        <dt>INCLUDE</dt>
+        <dd>Starts from the view's granularity and goes <em>finer</em>.</dd>
+        <dd class="df-e"><b>Example:</b> Average order size, computed per order then averaged at whatever level you're showing.</dd>
+      </div>
+      <div class="df">
+        <dt>EXCLUDE</dt>
+        <dd>Starts from the view's granularity and goes <em>coarser</em>.</dd>
+        <dd class="df-e"><b>Example:</b> A regional total displayed inside a chart broken down by category.</dd>
+      </div>
+      <div class="df">
+        <dt>Cohort</dt>
+        <dd>A group defined by when they first appeared, tracked over time.</dd>
+        <dd class="df-e"><b>Example:</b> Customers grouped by the year of their first order, to see whether they keep buying.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="lo-problem">
     <h2><span class="ic">🧩</span> The problem LODs solve</h2>
     <p>Tableau aggregates to whatever dimensions are in your view. Put Region on Rows and you get four numbers. That's usually what you want — until it isn't.</p>

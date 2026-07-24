@@ -22,6 +22,44 @@
     <a href="#tc-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Table calculation</dt>
+        <dd>A calculation that runs on the numbers <em>already in your view</em>, not on the source data.</dd>
+        <dd class="df-e"><b>Example:</b> Running total, rank, percent of total, year-over-year growth.</dd>
+        <dd class="df-w">📍 Right-click a measure pill → Quick Table Calculation</dd>
+      </div>
+      <div class="df">
+        <dt>Compute Using / addressing</dt>
+        <dd>The <em>direction</em> the calculation travels through your table.</dd>
+        <dd class="df-e"><b>Example:</b> Percent of Total computed <em>across</em> makes each row total 100%; <em>down</em> makes each column total 100%.</dd>
+      </div>
+      <div class="df">
+        <dt>Partition</dt>
+        <dd>The group the calculation restarts within.</dd>
+        <dd class="df-e"><b>Example:</b> A running total that resets each January is partitioned by Year.</dd>
+      </div>
+      <div class="df">
+        <dt>Window</dt>
+        <dd>The set of cells the calculation can see, set by Compute Using.</dd>
+        <dd class="df-e"><b>Example:</b> WINDOW_AVG averages across that set.</dd>
+      </div>
+      <div class="df">
+        <dt>The △ marker</dt>
+        <dd>A small triangle Tableau adds to a pill carrying a table calculation.</dd>
+        <dd class="df-e"><b>Example:</b> If a number looks wrong, check for this first — it changes what the pill means.</dd>
+      </div>
+      <div class="df">
+        <dt>LOOKUP</dt>
+        <dd>A function fetching a value from another position in the table.</dd>
+        <dd class="df-e"><b>Example:</b> <code>LOOKUP(SUM([Sales]), -1)</code> is "the previous period's value".</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="tc-idea">
     <h2><span class="ic">🔑</span> The key idea: a second pass over the view</h2>
     <p>Every other calculation you've written runs against the <strong>data source</strong>. A table calculation runs against the <strong>result table Tableau has already built</strong> — the aggregated numbers sitting in your view right now.</p>

@@ -1,0 +1,552 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>📖</span> Glossary &amp; the Tableau Window</h1>
+    <p>Every term used anywhere in this section, in plain English, with a real example from the Superstore data and where you'd actually see it on screen. If a lesson uses a word you don't recognise, it's defined here.</p>
+    <div class="lesson-meta">
+      <span>⏱️ Reference</span>
+      <span>📚 Read once, come back often</span>
+      <span>🔗 No prerequisites</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">Jump to</span>
+    <a href="#gl-window">The window</a>
+    <a href="#gl-fields">Fields &amp; data</a>
+    <a href="#gl-building">Building a view</a>
+    <a href="#gl-organizing">Organising data</a>
+    <a href="#gl-calcs">Calculations</a>
+    <a href="#gl-stats">Statistics</a>
+    <a href="#gl-dash">Dashboards</a>
+    <a href="#gl-verbs">Common instructions</a>
+  </nav>
+
+  <section class="lcard" id="gl-window">
+    <h2><span class="ic">🖥️</span> The Tableau window, named</h2>
+    <p>Almost every instruction in every lesson is "drag <em>this</em> to <em>there</em>" — so the first thing worth knowing is what the regions are called. Open a worksheet and this is what you're looking at.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 440 290" role="img" aria-label="A labelled map of the Tableau worksheet window showing menu bar, toolbar, data pane, analytics pane, shelves, marks card, canvas, legends and sheet tabs" style="width:100%;height:auto">
+        <rect x="8" y="8" width="424" height="274" rx="6" fill="#fff" stroke="#94a3b8"/>
+
+        <!-- menu bar -->
+        <rect x="8" y="8" width="424" height="16" rx="6" fill="#334155"/>
+        <rect x="8" y="18" width="424" height="6" fill="#334155"/>
+        <g font-size="6.5" fill="#e2e8f0" font-family="Inter, sans-serif">
+          <text x="18" y="19">File</text><text x="40" y="19">Data</text><text x="68" y="19">Worksheet</text>
+          <text x="118" y="19">Dashboard</text><text x="170" y="19">Analysis</text><text x="212" y="19">Map</text>
+          <text x="236" y="19">Format</text><text x="272" y="19">Server</text><text x="308" y="19">Window</text><text x="352" y="19">Help</text>
+        </g>
+
+        <!-- toolbar -->
+        <rect x="8" y="24" width="424" height="16" fill="#f1f5f9"/>
+        <g fill="#94a3b8">
+          <rect x="18" y="29" width="8" height="6" rx="1"/><rect x="30" y="29" width="8" height="6" rx="1"/>
+          <rect x="46" y="29" width="8" height="6" rx="1"/><rect x="58" y="29" width="8" height="6" rx="1"/>
+          <rect x="74" y="29" width="8" height="6" rx="1"/><rect x="86" y="29" width="8" height="6" rx="1"/>
+          <rect x="102" y="29" width="8" height="6" rx="1"/>
+        </g>
+        <line x1="8" y1="40" x2="432" y2="40" stroke="#cbd5e1"/>
+
+        <!-- left sidebar: Data / Analytics tabs -->
+        <rect x="8" y="40" width="96" height="212" fill="#f8fafc"/>
+        <rect x="8" y="40" width="48" height="14" fill="#fff"/>
+        <text x="32" y="50" font-size="6.5" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">Data</text>
+        <text x="80" y="50" font-size="6.5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">Analytics</text>
+        <line x1="8" y1="54" x2="104" y2="54" stroke="#cbd5e1"/>
+        <text x="16" y="66" font-size="6" font-weight="700" fill="#94a3b8" font-family="Inter, sans-serif">TABLES</text>
+        <text x="18" y="76" font-size="6.2" fill="#334155" font-family="Inter, sans-serif">Orders</text>
+        <line x1="14" y1="82" x2="98" y2="82" stroke="#e2e8f0"/>
+        <g font-size="6.2" font-family="Inter, sans-serif">
+          <text x="18" y="93" fill="#2f5d80">Abc  Category</text>
+          <text x="18" y="103" fill="#2f5d80">Abc  Region</text>
+          <text x="18" y="113" fill="#2f5d80">📅  Order Date</text>
+          <text x="18" y="123" fill="#3d6b34">#  Profit</text>
+          <text x="18" y="133" fill="#3d6b34">#  Sales</text>
+        </g>
+
+        <!-- Marks card -->
+        <rect x="14" y="146" width="84" height="98" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <text x="20" y="157" font-size="6.3" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">Marks</text>
+        <rect x="19" y="161" width="74" height="11" rx="2" fill="#f1f5f9" stroke="#cbd5e1"/>
+        <text x="24" y="169" font-size="6" fill="#334155" font-family="Inter, sans-serif">Automatic ▾</text>
+        <g>
+          <rect x="19" y="176" width="34" height="10" rx="2" fill="#eef2f7"/><text x="23" y="183.5" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif">Color</text>
+          <rect x="19" y="188" width="34" height="10" rx="2" fill="#eef2f7"/><text x="23" y="195.5" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif">Size</text>
+          <rect x="19" y="200" width="34" height="10" rx="2" fill="#eef2f7"/><text x="23" y="207.5" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif">Label</text>
+          <rect x="19" y="212" width="34" height="10" rx="2" fill="#eef2f7"/><text x="23" y="219.5" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif">Detail</text>
+          <rect x="19" y="224" width="34" height="10" rx="2" fill="#eef2f7"/><text x="23" y="231.5" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif">Tooltip</text>
+        </g>
+
+        <!-- shelves -->
+        <rect x="104" y="40" width="328" height="34" fill="#f8fafc"/>
+        <text x="112" y="55" font-size="6.3" fill="#64748b" font-family="Inter, sans-serif">Filters</text>
+        <rect x="146" y="47" width="46" height="10" rx="5" fill="#8b7355"/>
+        <text x="169" y="54.5" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Year: 2017</text>
+        <text x="112" y="70" font-size="6.3" fill="#64748b" font-family="Inter, sans-serif">Pages</text>
+        <line x1="104" y1="74" x2="432" y2="74" stroke="#e2e8f0"/>
+        <rect x="104" y="74" width="328" height="30" fill="#fff"/>
+        <text x="112" y="87" font-size="6.3" fill="#64748b" font-family="Inter, sans-serif">Columns</text>
+        <rect x="152" y="80" width="52" height="10" rx="5" fill="#5b9450"/>
+        <text x="178" y="87.5" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <text x="112" y="101" font-size="6.3" fill="#64748b" font-family="Inter, sans-serif">Rows</text>
+        <rect x="152" y="94" width="38" height="10" rx="5" fill="#4a7dab"/>
+        <text x="171" y="101.5" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+        <line x1="104" y1="106" x2="432" y2="106" stroke="#cbd5e1"/>
+
+        <!-- canvas -->
+        <text x="112" y="120" font-size="6.5" font-weight="700" fill="#0f172a" font-family="Inter, sans-serif">Sales by Region</text>
+        <g font-size="6" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="152" y="138">Central</text><text x="152" y="156">East</text><text x="152" y="174">South</text><text x="152" y="192">West</text>
+        </g>
+        <g fill="#4a7dab">
+          <rect x="156" y="131" width="66" height="10"/><rect x="156" y="149" width="90" height="10"/>
+          <rect x="156" y="167" width="52" height="10"/><rect x="156" y="185" width="96" height="10"/>
+        </g>
+        <line x1="156" y1="202" x2="330" y2="202" stroke="#cbd5e1"/>
+        <g font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="156" y="210">0</text><text x="243" y="210">400K</text><text x="330" y="210">800K</text>
+        </g>
+
+        <!-- legend / cards column -->
+        <rect x="344" y="116" width="80" height="46" rx="3" fill="#fff" stroke="#e2e8f0"/>
+        <text x="350" y="127" font-size="6" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">REGION</text>
+        <g font-size="5.6" fill="#334155" font-family="Inter, sans-serif">
+          <rect x="350" y="131" width="6" height="6" rx="1" fill="#4e79a7"/><text x="360" y="136.5">Central</text>
+          <rect x="350" y="140" width="6" height="6" rx="1" fill="#f28e2b"/><text x="360" y="145.5">East</text>
+          <rect x="350" y="149" width="6" height="6" rx="1" fill="#59a14f"/><text x="360" y="154.5">South</text>
+        </g>
+        <rect x="344" y="168" width="80" height="30" rx="3" fill="#fff" stroke="#e2e8f0"/>
+        <text x="350" y="179" font-size="6" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">CATEGORY</text>
+        <rect x="350" y="183" width="66" height="9" rx="2" fill="#f1f5f9" stroke="#cbd5e1"/>
+        <text x="354" y="190" font-size="5.4" fill="#334155" font-family="Inter, sans-serif">(All) ▾</text>
+
+        <!-- caption -->
+        <line x1="104" y1="218" x2="432" y2="218" stroke="#e2e8f0"/>
+        <text x="112" y="230" font-size="5.8" fill="#64748b" font-family="Inter, sans-serif">Sales for each Region. Filtered to 2017.</text>
+
+        <!-- sheet tabs -->
+        <line x1="8" y1="252" x2="432" y2="252" stroke="#cbd5e1"/>
+        <rect x="8" y="252" width="424" height="30" fill="#f1f5f9"/>
+        <rect x="60" y="258" width="46" height="16" rx="2" fill="#fff" stroke="#cbd5e1"/>
+        <text x="83" y="269" font-size="6" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">Sheet 1</text>
+        <text x="118" y="269" font-size="6" fill="#64748b" font-family="Inter, sans-serif">Sheet 2</text>
+        <g fill="#94a3b8"><rect x="20" y="262" width="9" height="8" rx="1"/><rect x="33" y="262" width="9" height="8" rx="1"/><rect x="46" y="262" width="9" height="8" rx="1"/></g>
+      </svg>
+      <span class="pin" style="top:4%;left:6%">1</span>
+      <span class="pin" style="top:11%;left:6%">2</span>
+      <span class="pin" style="top:17%;left:14%">3</span>
+      <span class="pin" style="top:33%;left:5%">4</span>
+      <span class="pin" style="top:62%;left:5%">5</span>
+      <span class="pin" style="top:17.5%;left:53%">6</span>
+      <span class="pin" style="top:29.5%;left:47%">7</span>
+      <span class="pin" style="top:55%;left:44%">8</span>
+      <span class="pin" style="top:44%;left:90%">9</span>
+      <span class="pin" style="top:79%;left:30%">10</span>
+      <span class="pin" style="top:92%;left:19%">11</span>
+    </div>
+
+    <ol class="pinlist">
+      <li><span class="pin">1</span><div><b>Menu bar</b> — File, Data, Worksheet, Analysis, Format… Lessons write menu routes like <span class="mpath">Analysis <i>→</i> Totals</span>, meaning click Analysis, then Totals.</div></li>
+      <li><span class="pin">2</span><div><b>Toolbar</b> — undo, redo, sort, fit, and the "show me" button. The icons for sorting live here.</div></li>
+      <li><span class="pin">3</span><div><b>Data / Analytics tabs</b> — the left sidebar has two modes. <em>Data</em> lists your fields; <em>Analytics</em> holds reference lines, trend lines and forecasts.</div></li>
+      <li><span class="pin">4</span><div><b>Data pane</b> — every field in your data source. Blue items are dimensions, green are measures.</div></li>
+      <li><span class="pin">5</span><div><b>Marks card</b> — controls how the data points <em>look</em>: colour, size, labels, tooltips, and the mark-type dropdown.</div></li>
+      <li><span class="pin">6</span><div><b>Filters shelf</b> — fields dropped here limit which rows are included.</div></li>
+      <li><span class="pin">7</span><div><b>Columns &amp; Rows shelves</b> — what goes on the horizontal and vertical axes. Columns = across, Rows = down.</div></li>
+      <li><span class="pin">8</span><div><b>The view</b> (also called the canvas or the viz) — your actual chart.</div></li>
+      <li><span class="pin">9</span><div><b>Cards</b> — legends, filter controls and parameter controls stack down the right-hand side.</div></li>
+      <li><span class="pin">10</span><div><b>Caption</b> — an optional text note under the view. Off by default.</div></li>
+      <li><span class="pin">11</span><div><b>Sheet tabs</b> — one tab per worksheet, dashboard or story. The small icons at the left create new ones.</div></li>
+    </ol>
+
+    <div class="callout tip" style="margin-top:.7rem">
+      <div class="callout-title">If you only memorise three words</div>
+      <p><strong>Field</strong> — a column in your data, listed in the Data pane. <strong>Pill</strong> — what a field becomes once you drag it somewhere. <strong>Shelf</strong> — the strip you drag it onto. Nearly every instruction in every lesson is some combination of those three.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="gl-fields">
+    <h2><span class="ic">🗃️</span> Your data: fields and types</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Field</dt>
+        <dd>One column of your data. Tableau lists every field in the Data pane down the left.</dd>
+        <dd class="df-e"><b>Example:</b> Superstore has 21 fields — Order Date, Region, Category, Sales, Profit and so on.</dd>
+      </div>
+      <div class="df">
+        <dt>Data pane</dt>
+        <dd>The list of every field in your data source, down the left of the window. Dimensions on top, measures below a dividing line.</dd>
+        <dd class="df-e"><b>Example:</b> you drag fields <em>from</em> here onto shelves to build a chart.</dd>
+      </div>
+      <div class="df">
+        <dt>Pill</dt>
+        <dd>The coloured capsule a field becomes once you drag it onto a shelf. Same field, different place.</dd>
+        <dd class="df-e"><b>Example:</b> drag Sales to Rows and you get a green <span class="pill msr sm">SUM(Sales)</span> pill.</dd>
+      </div>
+      <div class="df">
+        <dt>Dimension <span class="pill dim sm">blue</span></dt>
+        <dd>A field you group <em>by</em>. Categories, names, dates, IDs — things you can't meaningfully add up.</dd>
+        <dd class="df-e"><b>Example:</b> Region, Category, Customer Name. Putting Region on Rows creates four rows.</dd>
+        <dd class="df-w">Listed above the dividing line in the Data pane.</dd>
+      </div>
+      <div class="df">
+        <dt>Measure <span class="pill msr sm">green</span></dt>
+        <dd>A number you can add up or average. Tableau aggregates these automatically.</dd>
+        <dd class="df-e"><b>Example:</b> Sales, Profit, Quantity, Discount. Drop Sales in and it becomes SUM(Sales).</dd>
+        <dd class="df-w">Listed below the dividing line in the Data pane.</dd>
+      </div>
+      <div class="df">
+        <dt>Discrete <span class="pill dim sm">blue</span></dt>
+        <dd>Separate, countable values. On a shelf, a discrete field creates <strong>headers</strong> — one labelled slot per value.</dd>
+        <dd class="df-e"><b>Example:</b> blue MONTH gives you 12 labelled columns, Jan to Dec, with all years pooled.</dd>
+      </div>
+      <div class="df">
+        <dt>Continuous <span class="pill msr sm">green</span></dt>
+        <dd>An unbroken range where in-between values are meaningful. Creates an <strong>axis</strong>, not headers.</dd>
+        <dd class="df-e"><b>Example:</b> green MONTH gives one continuous 48-month timeline from 2014 to 2017.</dd>
+      </div>
+      <div class="df">
+        <dt>Aggregate / aggregation</dt>
+        <dd>Rolling many rows up into one number — summing, averaging, counting. Tableau does this automatically for measures.</dd>
+        <dd class="df-e"><b>Example:</b> Superstore has 9,994 rows. Put Region on Rows and Tableau aggregates them into 4 numbers.</dd>
+      </div>
+      <div class="df">
+        <dt>Granularity (level of detail)</dt>
+        <dd>How finely the data is broken up — what one mark or row represents.</dd>
+        <dd class="df-e"><b>Example:</b> one Superstore row = <em>one product within one order</em>. That's the granularity. Region on Rows makes the <em>view's</em> granularity "one mark per region".</dd>
+      </div>
+      <div class="df">
+        <dt>Data source</dt>
+        <dd>The connection to your data, plus any joins, renames and type changes you made on the Data Source page.</dd>
+        <dd class="df-w">Bottom-left tab labelled <span class="uibtn">Data Source</span>.</dd>
+      </div>
+      <div class="df">
+        <dt>Extract (.hyper)</dt>
+        <dd>A compressed snapshot of your data saved locally, instead of querying the original every time. Faster, but needs refreshing.</dd>
+        <dd class="df-e"><b>Example:</b> Tableau Public requires an extract — that's why publishing converts your connection.</dd>
+      </div>
+      <div class="df">
+        <dt>Live connection</dt>
+        <dd>The opposite: Tableau queries the source on every interaction, so you always see current data.</dd>
+      </div>
+      <div class="df">
+        <dt>Fan-out (duplication)</dt>
+        <dd>When joining two tables at different granularity multiplies rows, inflating totals.</dd>
+        <dd class="df-e"><b>Example:</b> joining one monthly Target row to 2,000 order rows repeats the target 2,000 times, so SUM(Target) comes out 2,000× too big.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="gl-building">
+    <h2><span class="ic">🏗️</span> Building a view</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Shelf</dt>
+        <dd>A strip you drag pills onto. Each one does a different job.</dd>
+        <dd class="df-e"><b>Columns</b> = horizontal axis · <b>Rows</b> = vertical axis · <b>Filters</b> = what's included · <b>Pages</b> = step through values one at a time.</dd>
+      </div>
+      <div class="df">
+        <dt>Card</dt>
+        <dd>A small panel of controls. The Marks card is one; legends, filter controls and parameter controls are others.</dd>
+        <dd class="df-w">Marks card sits under the Data pane; the rest stack on the right.</dd>
+      </div>
+      <div class="df">
+        <dt>Mark</dt>
+        <dd>One drawn thing in your chart — a bar, a dot, a line segment, a square, a map shape.</dd>
+        <dd class="df-e"><b>Example:</b> a bar chart of Sales by Region has four marks, one per region.</dd>
+      </div>
+      <div class="df">
+        <dt>Mark type</dt>
+        <dd>What shape those marks take. The dropdown at the top of the Marks card.</dd>
+        <dd class="df-e">Bar, Line, Circle, Square, Area, Text, Map, Pie, Gantt Bar. <em>Automatic</em> lets Tableau choose.</dd>
+      </div>
+      <div class="df">
+        <dt>View / viz / worksheet</dt>
+        <dd>Three words for the same thing: one chart on one sheet. "Viz" is short for visualisation.</dd>
+      </div>
+      <div class="df">
+        <dt>Detail</dt>
+        <dd>A Marks card target that <em>splits the data further without changing appearance</em>. It's how you add granularity.</dd>
+        <dd class="df-e"><b>Example:</b> a Sales vs Profit scatter shows one dot until you put Sub-Category on Detail — then it shows 17.</dd>
+      </div>
+      <div class="df">
+        <dt>Show Me</dt>
+        <dd>A panel of chart-type suggestions. Select some fields and it highlights which charts they'll support.</dd>
+        <dd class="df-w">Button at the top right of the toolbar.</dd>
+      </div>
+      <div class="df">
+        <dt>Text table / crosstab</dt>
+        <dd>A chart made of numbers rather than shapes — a spreadsheet-style grid. Mark type <em>Text</em>.</dd>
+        <dd class="df-e"><b>Example:</b> Region down the side, Category across the top, Sales in the cells.</dd>
+      </div>
+      <div class="df">
+        <dt>Highlight table</dt>
+        <dd>A text table where the cells are also shaded by value — Tableau's version of conditional formatting.</dd>
+        <dd class="df-e"><b>Example:</b> Region × Category with Sales on Color, so the strongest combinations are darkest.</dd>
+      </div>
+      <div class="df">
+        <dt>Small multiples</dt>
+        <dd>The same chart repeated once per category, side by side on a shared scale.</dd>
+        <dd class="df-e"><b>Example:</b> four little sales trends, one per region, instead of four tangled lines on one chart.</dd>
+      </div>
+      <div class="df">
+        <dt>Dual axis</dt>
+        <dd>Two measures overlaid in the same space with two separate axes, so they can use different mark types.</dd>
+        <dd class="df-e"><b>Example:</b> Sales as bars and Profit Margin as a line over the top.</dd>
+      </div>
+      <div class="df">
+        <dt>Header</dt>
+        <dd>The labels around the chart — the row and column names. Distinct from the <em>pane</em>.</dd>
+        <dd class="df-e"><b>Example:</b> "Central", "East", "South", "West" down the left of a bar chart.</dd>
+      </div>
+      <div class="df">
+        <dt>Pane</dt>
+        <dd>The data area of the chart — where the marks actually live. Formatting menus split settings into Header and Pane, and picking the wrong one is a common confusion.</dd>
+      </div>
+      <div class="df">
+        <dt>Measure Names / Measure Values</dt>
+        <dd>Two fields Tableau generates so you can show <em>many</em> measures at once. Names is a dimension holding the measure names; Values holds all their numbers.</dd>
+        <dd class="df-e"><b>Example:</b> the only way to build a table with Sales, Profit and Quantity as three columns.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="gl-organizing">
+    <h2><span class="ic">🗂️</span> Organising and filtering data</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Group</dt>
+        <dd>Several values of a dimension merged into one. A fixed, hand-picked list.</dd>
+        <dd class="df-e"><b>Example:</b> combining East and West into a "Coastal" group.</dd>
+      </div>
+      <div class="df">
+        <dt>Set</dt>
+        <dd>A dimension split into In and Out, often by a <em>rule</em>, so it updates itself as data changes.</dd>
+        <dd class="df-e"><b>Example:</b> "Top 20 Customers by Sales" — put it on Color to compare those 20 against everyone else.</dd>
+      </div>
+      <div class="df">
+        <dt>Bin</dt>
+        <dd>A measure sliced into equal-width ranges, turning it into a dimension. This is how histograms are made.</dd>
+        <dd class="df-e"><b>Example:</b> Sales binned into $100 buckets, then counted — showing most orders are small.</dd>
+      </div>
+      <div class="df">
+        <dt>Hierarchy</dt>
+        <dd>Dimensions nested so you can drill down with a <strong>+</strong> on the pill.</dd>
+        <dd class="df-e"><b>Example:</b> Category → Sub-Category → Product Name, built by dragging one field onto another.</dd>
+      </div>
+      <div class="df">
+        <dt>Parameter</dt>
+        <dd>A single value the viewer can change — a number, date or word — which calculations can then read.</dd>
+        <dd class="df-e"><b>Example:</b> a "Target Margin" slider that moves a reference line on your chart.</dd>
+      </div>
+      <div class="df">
+        <dt>Context filter</dt>
+        <dd>A filter promoted to run <em>before</em> the others, creating a temporary subset everything else works from.</dd>
+        <dd class="df-e"><b>Example:</b> needed for "Top 10 products <em>in the East</em>" — otherwise Tableau finds the national top 10, then keeps only the East ones.</dd>
+        <dd class="df-w">Right-click a filter pill → <span class="uibtn">Add to Context</span>. It turns grey.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="gl-calcs">
+    <h2><span class="ic">🧮</span> Calculations</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Calculated field</dt>
+        <dd>A new field you define with a formula. It joins the Data pane and behaves like any other field.</dd>
+        <dd class="df-e"><b>Example:</b> <code>SUM([Profit]) / SUM([Sales])</code> as a Profit Margin field.</dd>
+        <dd class="df-w"><span class="mpath">Analysis <i>→</i> Create Calculated Field</span></dd>
+      </div>
+      <div class="df">
+        <dt>Row-level calculation</dt>
+        <dd>Runs once per row of the original data, before any aggregation.</dd>
+        <dd class="df-e"><b>Example:</b> <code>[Profit] / [Sales]</code> computes a margin for each of the 9,994 line items.</dd>
+      </div>
+      <div class="df">
+        <dt>Aggregate calculation</dt>
+        <dd>Runs on already-totalled numbers. For ratios this is nearly always what you want.</dd>
+        <dd class="df-e"><b>Example:</b> <code>SUM([Profit])/SUM([Sales])</code> gives West a 14.9% margin; the row-level version gives 4.2%. Same data, different question.</dd>
+      </div>
+      <div class="df">
+        <dt>COUNTD</dt>
+        <dd>Count Distinct — how many <em>different</em> values there are, not how many rows.</dd>
+        <dd class="df-e"><b>Example:</b> <code>COUNT([Order ID])</code> = 9,994 line items. <code>COUNTD([Order ID])</code> = 5,009 actual orders.</dd>
+      </div>
+      <div class="df">
+        <dt>Table calculation</dt>
+        <dd>A calculation that runs on the numbers <em>already displayed in your view</em>, not on the source data.</dd>
+        <dd class="df-e"><b>Example:</b> running total, rank, percent of total, year-over-year growth.</dd>
+        <dd class="df-w">Right-click a measure pill → <span class="uibtn">Quick Table Calculation</span>. A small △ appears on the pill.</dd>
+      </div>
+      <div class="df">
+        <dt>Compute Using / addressing</dt>
+        <dd>The <em>direction</em> a table calculation travels through your table — across the rows, down the columns, or along a dimension you name.</dd>
+        <dd class="df-e"><b>Example:</b> "% of Total" computed across makes each row sum to 100%; computed down makes each column sum to 100%.</dd>
+      </div>
+      <div class="df">
+        <dt>Partition</dt>
+        <dd>The group a table calculation restarts within.</dd>
+        <dd class="df-e"><b>Example:</b> a running total that resets each January is partitioned by Year.</dd>
+      </div>
+      <div class="df">
+        <dt>LOD expression</dt>
+        <dd>"Level of Detail" — a calculation that aggregates at a <em>different granularity</em> than the view it sits in. Written in curly braces.</dd>
+        <dd class="df-e"><b>Example:</b> <code>{FIXED [Customer Name] : SUM([Sales])}</code> totals sales per customer regardless of what's on screen.</dd>
+      </div>
+      <div class="df">
+        <dt>FIXED / INCLUDE / EXCLUDE</dt>
+        <dd>The three LOD keywords. FIXED ignores the view; INCLUDE goes finer than the view; EXCLUDE goes coarser.</dd>
+        <dd class="df-e"><b>Example:</b> FIXED at customer level lets you average <em>customer totals</em> inside a regional chart.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="gl-stats">
+    <h2><span class="ic">📊</span> Statistics you'll meet in the Analytics pane</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Median</dt>
+        <dd>The middle value when everything is sorted. Unlike the average, a few huge values don't drag it.</dd>
+        <dd class="df-e"><b>Example:</b> Superstore's average sale is about $230 but the median is about $54 — a handful of enormous orders pull the mean up. The median describes a typical order far better.</dd>
+      </div>
+      <div class="df">
+        <dt>Skewed</dt>
+        <dd>A distribution with a long tail on one side, so mean and median disagree.</dd>
+        <dd class="df-e"><b>Example:</b> Superstore sales are strongly right-skewed — most orders are small, a few are thousands of dollars.</dd>
+      </div>
+      <div class="df">
+        <dt>Quartile / IQR</dt>
+        <dd>Quartiles cut sorted data into four equal groups. The <strong>IQR</strong> (interquartile range) is the middle 50% — the box in a box plot.</dd>
+        <dd class="df-e"><b>Example:</b> whiskers default to 1.5 × IQR; anything beyond is drawn as an individual outlier.</dd>
+      </div>
+      <div class="df">
+        <dt>Standard deviation</dt>
+        <dd>A measure of spread. Roughly two-thirds of values sit within one standard deviation of the mean, if the data is symmetric.</dd>
+        <dd class="df-w">Skewed data breaks that assumption — prefer percentile bands there.</dd>
+      </div>
+      <div class="df">
+        <dt>R² (r-squared)</dt>
+        <dd>How much of the variation a trend line explains, from 0 to 1. Higher means the line tracks the points more closely.</dd>
+        <dd class="df-e"><b>Example:</b> R² = 0.85 means the model accounts for 85% of the variation; 0.1 means it barely explains anything.</dd>
+      </div>
+      <div class="df">
+        <dt>p-value</dt>
+        <dd>How likely a pattern this strong could show up by chance if there were really no relationship. Smaller = less likely to be a fluke.</dd>
+        <dd class="df-e"><b>Example:</b> below 0.05 is the usual threshold for "probably not chance" — but with 9,994 rows even trivial effects clear it, so check the slope too.</dd>
+      </div>
+      <div class="df">
+        <dt>Slope</dt>
+        <dd>How much the y value changes per unit of x — the <em>size</em> of the effect, as opposed to whether it exists.</dd>
+        <dd class="df-e"><b>Example:</b> "each extra 10% of discount costs about 4 points of margin" is a slope, and it's what a manager can act on.</dd>
+      </div>
+      <div class="df">
+        <dt>Exponential smoothing</dt>
+        <dd>The forecasting method Tableau uses: a weighted average of history where recent periods count for more, optionally with trend and seasonality.</dd>
+        <dd class="df-e"><b>Example:</b> it needs about two full years of monthly data before it can detect a seasonal pattern at all.</dd>
+      </div>
+      <div class="df">
+        <dt>Prediction interval</dt>
+        <dd>The shaded band around a forecast showing the range the real value is likely to fall in.</dd>
+        <dd class="df-w">Never show a forecast line without it — the band is the honest part.</dd>
+      </div>
+      <div class="df">
+        <dt>RMSE / MAE / MAPE</dt>
+        <dd>Forecast error scores — roughly, how far off the model was on past data. Lower is better; they're only meaningful compared between models on the same data.</dd>
+        <dd class="df-w">Shown in <span class="mpath">Forecast <i>→</i> Describe Forecast</span>.</dd>
+      </div>
+      <div class="df">
+        <dt>k-means clustering</dt>
+        <dd>An algorithm that sorts marks into <em>k</em> groups so members of each group are as similar as possible on the measures you give it.</dd>
+        <dd class="df-e"><b>Example:</b> clustering sub-categories on Sales and Profit finds natural groups like "high volume, thin margin".</dd>
+        <dd class="df-w">It will find groups in random data too — always sanity-check they make business sense.</dd>
+      </div>
+      <div class="df">
+        <dt>Correlation vs causation</dt>
+        <dd>Two things moving together doesn't prove one causes the other.</dd>
+        <dd class="df-e"><b>Example:</b> discount and profit move strongly against each other in Superstore — but that could be discounting causing losses, <em>or</em> unprofitable products getting discounted more. The chart can't tell you which.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="gl-dash">
+    <h2><span class="ic">🖼️</span> Dashboards and sharing</h2>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Dashboard</dt>
+        <dd>Several worksheets arranged on one screen, usually with interactivity between them.</dd>
+      </div>
+      <div class="df">
+        <dt>Action</dt>
+        <dd>A rule that makes interacting with one sheet affect the others.</dd>
+        <dd class="df-e"><b>Example:</b> a <em>Filter</em> action — clicking the West bar filters every other chart to West. A <em>Highlight</em> action dims the rest instead of removing them.</dd>
+      </div>
+      <div class="df">
+        <dt>Tiled vs floating</dt>
+        <dd><strong>Tiled</strong> objects snap into a grid and resize together. <strong>Floating</strong> objects sit anywhere, layered on top.</dd>
+        <dd class="df-w">Tiled is the default and the right choice for almost everything.</dd>
+      </div>
+      <div class="df">
+        <dt>Container</dt>
+        <dd>An invisible box that arranges what's inside it — <strong>Horizontal</strong> puts things side by side, <strong>Vertical</strong> stacks them.</dd>
+        <dd class="df-e"><b>Example:</b> four KPI tiles in one horizontal container stay evenly sized as the dashboard resizes.</dd>
+      </div>
+      <div class="df">
+        <dt>Viz in Tooltip</dt>
+        <dd>A whole chart shown inside a hover tooltip, filtered automatically to whatever you're pointing at.</dd>
+        <dd class="df-e"><b>Example:</b> hover a region on a map and a small monthly trend for that region pops up.</dd>
+      </div>
+      <div class="df">
+        <dt>KPI</dt>
+        <dd>Key Performance Indicator — one headline number someone tracks.</dd>
+        <dd class="df-e"><b>Example:</b> total revenue, profit margin, order count, shown big at the top of a dashboard.</dd>
+      </div>
+      <div class="df">
+        <dt>Tableau Public</dt>
+        <dd>The free version. Fully featured, but workbooks save <strong>publicly</strong> and it can't connect to databases.</dd>
+        <dd class="df-w">Never put confidential data in it.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard accent" id="gl-verbs">
+    <h2><span class="ic">🖱️</span> Reading the instructions</h2>
+    <p>Lessons use a few conventions for describing what to do. Here's exactly what each means.</p>
+    <dl class="deflist">
+      <div class="df">
+        <dt><span class="mpath">Analysis <i>→</i> Totals <i>→</i> Show Grand Totals</span></dt>
+        <dd>A <strong>menu route</strong>. Click "Analysis" in the menu bar at the very top, then "Totals" in the menu that opens, then "Show Grand Totals".</dd>
+      </div>
+      <div class="df">
+        <dt>"Right-click the pill → Sort"</dt>
+        <dd>Right-click (Ctrl-click on a Mac with one button) directly on the coloured capsule in the shelf, then choose Sort from the menu that appears.</dd>
+      </div>
+      <div class="df">
+        <dt>"Drag <span class="pill dim sm">Region</span> to Rows"</dt>
+        <dd>Click and hold the field's name in the Data pane on the left, drag it onto the strip labelled "Rows", and release.</dd>
+      </div>
+      <div class="df">
+        <dt>"Put Sales on Color"</dt>
+        <dd>Drag the field onto the small button labelled <span class="uibtn">Color</span> inside the Marks card.</dd>
+      </div>
+      <div class="df">
+        <dt><span class="uibtn">Show Me</span></dt>
+        <dd>A control labelled exactly that in the application. When a term appears in this style, look for those literal words on screen.</dd>
+      </div>
+      <div class="df">
+        <dt>"Double-click Measure Values"</dt>
+        <dd>Double-click the field's name in the Data pane. Tableau places it wherever it thinks it belongs, which is often faster than dragging.</dd>
+      </div>
+    </dl>
+    <div class="callout tip" style="margin-top:.7rem">
+      <div class="callout-title">If a lesson loses you</div>
+      <p>Come back here. Every lesson also opens with a <strong>Terms on this page</strong> card listing the vocabulary it introduces, so you should never meet a word cold.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/setup"><span class="pl">← Previous</span><span class="pt">Practice Setup</span></a>
+    <a class="next" href="#tableau/connections"><span class="pl">Next →</span><span class="pt">Connecting Data</span></a>
+  </nav>
+</div>

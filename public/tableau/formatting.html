@@ -30,6 +30,50 @@
     <a href="#fm-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Header</dt>
+        <dd>The labels around the chart — the row and column names.</dd>
+        <dd class="df-e"><b>Example:</b> "Central", "East", "South", "West" down the side of a bar chart.</dd>
+      </div>
+      <div class="df">
+        <dt>Pane</dt>
+        <dd>The data area where the marks live. Formatting menus split settings into Header and Pane.</dd>
+        <dd class="df-e"><b>Example:</b> Changing a font under Header and wondering why the numbers didn't change is the classic mistake.</dd>
+      </div>
+      <div class="df">
+        <dt>Field label</dt>
+        <dd>The grey bar showing a dimension's name above its headers.</dd>
+        <dd class="df-e"><b>Example:</b> The "Region" strip above your row labels. Usually worth hiding.</dd>
+        <dd class="df-w">📍 Right-click → Hide Field Labels for Rows</dd>
+      </div>
+      <div class="df">
+        <dt>Stepped colour</dt>
+        <dd>Discrete colour bands instead of a smooth gradient.</dd>
+        <dd class="df-e"><b>Example:</b> Four bands you can name — under 100K, 100–300K, 300–600K, 600K+.</dd>
+        <dd class="df-w">📍 Edit Colors → Stepped Color</dd>
+      </div>
+      <div class="df">
+        <dt>Marks to Label</dt>
+        <dd>Which marks get a text label — all of them, just the extremes, or just line ends.</dd>
+        <dd class="df-e"><b>Example:</b> Line Ends names each line where it finishes, so you can delete the legend.</dd>
+      </div>
+      <div class="df">
+        <dt>Placeholder axis</dt>
+        <dd>A constant like <code>MIN(0)</code> put on a shelf to create a blank layer you can draw on.</dd>
+        <dd class="df-e"><b>Example:</b> How KPI tiles and most custom layouts get built.</dd>
+      </div>
+      <div class="df">
+        <dt>Custom number format</dt>
+        <dd>A format string controlling how numbers display.</dd>
+        <dd class="df-e"><b>Example:</b> <code>$#,##0,"K"</code> shows 1,234,568 as $1,235K.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="fm-hierarchy">
     <h2><span class="ic">🪜</span> The formatting hierarchy</h2>
     <p>Before any specific setting: Tableau formats at four nested levels, and <strong>the most specific one wins</strong>. Knowing which level you're editing is the difference between changing one thing and changing everything.</p>
@@ -500,7 +544,7 @@
       </div>
       <div class="tile">
         <h3>Custom palettes</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> in <em>My Tableau Repository</em>, define a palette with hex values, and restart Tableau. It then appears in every workbook.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> — a small settings file Tableau reads at startup, kept in the <em>My Tableau Repository</em> folder in your Documents —, define a palette with hex values, and restart Tableau. It then appears in every workbook.</p>
       </div>
     </div>
     <div class="callout tip" style="margin-top:.6rem">

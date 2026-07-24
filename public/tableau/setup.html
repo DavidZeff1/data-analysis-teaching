@@ -19,8 +19,8 @@
         <tbody>
           <tr>
             <td><strong>1. Foundations</strong></td>
-            <td><a href="#tableau/connections">Connecting Data</a> · <a href="#tableau/interface">Interface</a></td>
-            <td>Get data in with the right shape, and navigate the workspace</td>
+            <td><a href="#tableau/glossary">Glossary</a> · <a href="#tableau/connections">Connecting Data</a> · <a href="#tableau/interface">Interface</a></td>
+            <td>Learn the vocabulary, get data in with the right shape, and navigate the workspace</td>
           </tr>
           <tr>
             <td><strong>2. Building views</strong></td>
@@ -29,7 +29,7 @@
           </tr>
           <tr>
             <td><strong>3. Calculations</strong></td>
-            <td><a href="#tableau/calculated">Calculated Fields</a> · <a href="#tableau/tablecalcs">Table Calcs</a> · <a href="#tableau/lod">LOD Expressions</a></td>
+            <td><a href="#tableau/calculated">Calculated Fields</a> · <a href="#tableau/tablecalcs">Table Calcs</a> · <a href="#tableau/lod">Level of Detail (LOD)</a></td>
             <td>Answer questions the raw fields can't</td>
           </tr>
           <tr>
@@ -180,6 +180,59 @@
   </section>
 
   <nav class="pager" aria-label="Lesson navigation">
-    <a class="only next" href="#tableau/connections"><span class="pl">Next →</span><span class="pt">Connecting Data</span></a>
+    <a class="only next" href="#tableau/glossary"><span class="pl">Next →</span><span class="pt">Glossary &amp; the Tableau Window</span></a>
   </nav>
+
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Worksheet</dt>
+        <dd>One sheet holding one chart. The tabs along the bottom of the window.</dd>
+        <dd class="df-e"><b>Example:</b> Sheet 1 is the worksheet you land on after connecting.</dd>
+      </div>
+      <div class="df">
+        <dt>Field</dt>
+        <dd>One column of your data, listed down the left in the Data pane.</dd>
+        <dd class="df-e"><b>Example:</b> Superstore has 21 fields: Order Date, Region, Sales, Profit…</dd>
+      </div>
+      <div class="df">
+        <dt>Dimension</dt>
+        <dd>A field you group <em>by</em> — categories, names, dates. Shown in blue.</dd>
+        <dd class="df-e"><b>Example:</b> Region, Category, Customer Name. Four regions means four rows.</dd>
+      </div>
+      <div class="df">
+        <dt>Measure</dt>
+        <dd>A number you can add up. Shown in green, and aggregated automatically.</dd>
+        <dd class="df-e"><b>Example:</b> Sales, Profit, Quantity, Discount.</dd>
+      </div>
+      <div class="df">
+        <dt>Aggregate</dt>
+        <dd>To roll many rows up into one number by summing or averaging.</dd>
+        <dd class="df-e"><b>Example:</b> 9,994 order lines aggregate into one $2,297,201 total.</dd>
+      </div>
+      <div class="df">
+        <dt>Data pane</dt>
+        <dd>The list of all your fields down the left-hand side of the window.</dd>
+        <dd class="df-e"><b>Example:</b> after connecting, it lists Order Date, Region, Sales and the rest — blue ones on top, green below.</dd>
+      </div>
+      <div class="df">
+        <dt>Marks card</dt>
+        <dd>The panel just below the Data pane that controls how your data points <em>look</em> — their colour, size and labels.</dd>
+        <dd class="df-e"><b>Example:</b> dropping Region onto its <span class="uibtn">Color</span> button colours your bars by region.</dd>
+      </div>
+      <div class="df">
+        <dt>Show Me</dt>
+        <dd>A panel that suggests chart types based on the fields you've selected.</dd>
+        <dd class="df-e"><b>Example:</b> select Region and Sales and it highlights bar chart, map, and a few others as valid choices.</dd>
+        <dd class="df-w">📍 Button at the top right of the toolbar</dd>
+      </div>
+      <div class="df">
+        <dt>Granularity</dt>
+        <dd>How finely the data is chopped up — what a single row actually represents.</dd>
+        <dd class="df-e"><b>Example:</b> one Superstore row is <em>one product inside one order</em>. An order containing three products takes up three rows.</dd>
+      </div>
+    </dl>
+  </section>
 </div>

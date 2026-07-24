@@ -23,6 +23,44 @@
     <a href="#ca-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Calculated field</dt>
+        <dd>A new field you define with a formula. It joins the Data pane like any other.</dd>
+        <dd class="df-e"><b>Example:</b> <code>SUM([Profit])/SUM([Sales])</code> saved as Profit Margin.</dd>
+        <dd class="df-w">📍 Analysis → Create Calculated Field</dd>
+      </div>
+      <div class="df">
+        <dt>Row-level calculation</dt>
+        <dd>Runs once per row of the source data, before aggregation.</dd>
+        <dd class="df-e"><b>Example:</b> <code>[Profit]/[Sales]</code> computes a margin for each of the 9,994 line items.</dd>
+      </div>
+      <div class="df">
+        <dt>Aggregate calculation</dt>
+        <dd>Runs on already-totalled numbers. Nearly always what you want for ratios.</dd>
+        <dd class="df-e"><b>Example:</b> <code>SUM([Profit])/SUM([Sales])</code> gives West 14.9%; the row-level version gives 4.2%.</dd>
+      </div>
+      <div class="df">
+        <dt>Null</dt>
+        <dd>A missing value — not the same as zero.</dd>
+        <dd class="df-e"><b>Example:</b> A blank Sales cell means "unknown"; zero means "sold nothing".</dd>
+      </div>
+      <div class="df">
+        <dt>ZN</dt>
+        <dd>A function that turns Null into 0.</dd>
+        <dd class="df-e"><b>Example:</b> <code>ZN([Profit])</code>. Convenient, and often the wrong choice — decide deliberately.</dd>
+      </div>
+      <div class="df">
+        <dt>Parameter</dt>
+        <dd>A single value the viewer can change, which calculations can read.</dd>
+        <dd class="df-e"><b>Example:</b> A "Sales Threshold" slider that recolours a chart as you move it.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="ca-create">
     <h2><span class="ic">✏️</span> Creating a calculated field</h2>
     <p class="muted">Three routes to the same dialog: <strong>Analysis → Create Calculated Field</strong>, right-click in the Data pane, or the dropdown on any field → Create → Calculated Field.</p>

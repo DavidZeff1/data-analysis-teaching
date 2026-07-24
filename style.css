@@ -1944,3 +1944,117 @@
     height: 5.6rem;
   }
 }
+
+/* ===========================================================================
+   Lesson design system — part 6: vocabulary & UI directions
+
+   Two recurring problems in a tool tutorial: terms used before they're
+   defined, and instructions that assume you know where a control lives.
+   These components exist so every lesson can fix both up front.
+   =========================================================================== */
+@layer components {
+  /* --- "New terms on this page" card ------------------------------------- */
+  .lesson .terms {
+    background: #fffdf5;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem 1rem;
+  }
+  .lesson .terms > h2 {
+    font-size: 1rem;
+    margin: 0 0 0.2rem;
+    color: #92400e;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .lesson .terms > p {
+    margin: 0 0 0.6rem;
+    font-size: 0.86rem;
+    color: #a16207;
+  }
+
+  /* --- Definition list ----------------------------------------------------
+     Term · plain-English meaning · a real example. The example is the part
+     that makes a definition stick, so it gets its own visually distinct row. */
+  .lesson .deflist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 0;
+  }
+  @media (min-width: 760px) {
+    .lesson .deflist.two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lesson .deflist .df {
+    background: #fff;
+    border: 1px solid var(--l-line);
+    border-radius: 9px;
+    padding: 0.55rem 0.7rem 0.6rem;
+  }
+  .lesson .deflist dt {
+    font-weight: 700;
+    font-size: 0.89rem;
+    color: var(--l-ink);
+    margin: 0 0 0.15rem;
+  }
+  .lesson .deflist dd {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #475569;
+  }
+  .lesson .deflist .df-e {
+    margin-top: 0.35rem;
+    padding-left: 0.55rem;
+    border-left: 2px solid #c7d2fe;
+    color: #4338ca;
+    font-size: 0.82rem;
+  }
+  .lesson .deflist .df-e b {
+    color: #3730a3;
+  }
+  /* Where in the app you'd actually see it. */
+  .lesson .deflist .df-w {
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+    color: var(--l-dim);
+  }
+
+  /* --- On-screen control name ---------------------------------------------
+     For naming a button or panel exactly as it's labelled in the app, so the
+     reader knows they're looking for that literal word. */
+  .lesson .uibtn {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #eef2ff;
+    color: #4338ca;
+    border: 1px solid #c7d2fe;
+    border-radius: 5px;
+    padding: 0.05rem 0.4rem;
+    white-space: nowrap;
+  }
+
+  /* --- "You are here" window map ------------------------------------------ */
+  .lesson .uimap {
+    display: block;
+    width: 100%;
+    max-width: 15rem;
+    height: auto;
+  }
+  .lesson .uimap-row {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+  }
+  .lesson .uimap-row > div:last-child {
+    flex: 1 1 14rem;
+    min-width: 0;
+  }
+}

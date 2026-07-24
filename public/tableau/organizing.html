@@ -22,6 +22,38 @@
     <a href="#or-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Group</dt>
+        <dd>Several members of a dimension merged into one. A fixed, hand-picked list.</dd>
+        <dd class="df-e"><b>Example:</b> Combining East and West into "Coastal".</dd>
+      </div>
+      <div class="df">
+        <dt>Set</dt>
+        <dd>A dimension split into In and Out, usually by a rule that re-evaluates itself.</dd>
+        <dd class="df-e"><b>Example:</b> "Top 20 Customers by Sales" — put it on Color to compare them against everyone else.</dd>
+      </div>
+      <div class="df">
+        <dt>Bin</dt>
+        <dd>A measure sliced into equal-width ranges, turning it into a dimension.</dd>
+        <dd class="df-e"><b>Example:</b> Sales binned into $100 buckets, then counted — that's a histogram.</dd>
+      </div>
+      <div class="df">
+        <dt>Hierarchy</dt>
+        <dd>Dimensions nested so you can drill down with a <strong>+</strong> on the pill.</dd>
+        <dd class="df-e"><b>Example:</b> Category → Sub-Category → Product Name.</dd>
+      </div>
+      <div class="df">
+        <dt>Alias</dt>
+        <dd>A display name for a dimension member. Changes the label only, not the data.</dd>
+        <dd class="df-e"><b>Example:</b> Renaming "Office Supplies" to "Office" when the column is narrow.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="or-sort">
     <h2><span class="ic">🔠</span> Sorting — and why the default is wrong</h2>
     <p>Tableau sorts alphabetically by default. Alphabetical order almost never reflects what matters, and it forces the reader to do the ranking your chart should have done for them.</p>

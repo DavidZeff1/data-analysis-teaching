@@ -23,6 +23,39 @@
     <a href="#fi-practice">Practice</a>
   </nav>
 
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Order of operations</dt>
+        <dd>The fixed sequence Tableau applies filters and calculations in.</dd>
+        <dd class="df-e"><b>Example:</b> Explains why a Top 10 filter and a Region filter can fight each other.</dd>
+      </div>
+      <div class="df">
+        <dt>Context filter</dt>
+        <dd>A filter promoted to run <em>first</em>, creating a temporary subset for everything after it.</dd>
+        <dd class="df-e"><b>Example:</b> Needed for "Top 10 products in the East" — otherwise you get the East members of the national top 10.</dd>
+        <dd class="df-w">📍 Right-click a filter pill → Add to Context; it turns grey</dd>
+      </div>
+      <div class="df">
+        <dt>Dimension filter</dt>
+        <dd>An ordinary filter on a category field. Runs at step 5.</dd>
+        <dd class="df-e"><b>Example:</b> Region = East.</dd>
+      </div>
+      <div class="df">
+        <dt>Measure filter</dt>
+        <dd>A filter on an aggregated number, so it runs after aggregation.</dd>
+        <dd class="df-e"><b>Example:</b> Only sub-categories with SUM(Sales) over $100K.</dd>
+      </div>
+      <div class="df">
+        <dt>Only Relevant Values</dt>
+        <dd>A filter-card setting that hides options ruled out by other filters.</dd>
+        <dd class="df-e"><b>Example:</b> Filter to West and the State card lists only western states.</dd>
+      </div>
+    </dl>
+  </section>
+
   <section class="lcard" id="fi-types">
     <h2><span class="ic">🗂️</span> Six kinds of filter</h2>
     <p class="muted">They look similar on the shelf but behave very differently — especially in what order they run.</p>
