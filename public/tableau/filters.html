@@ -149,6 +149,69 @@ Right-click [Region] in the Data pane → Show Filter
       <p>You want <strong>the top 10 products in the East region</strong>. You add a Top 10 filter on Product Name and a Region filter set to East. You get fewer than 10 products — sometimes only three or four — and they look wrong.</p>
     </div>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 168" role="img" aria-label="Two pipelines showing Top 10 computed before versus after the region filter" style="width:100%;height:auto">
+        <!-- Path A -->
+        <text x="10" y="14" font-size="8" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">✗ Both filters at level 5 — Top N runs on everything</text>
+        <g>
+          <rect x="10" y="22" width="76" height="34" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+          <text x="48" y="37" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">All products</text>
+          <text x="48" y="48" font-size="7.5" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">1,850</text>
+
+          <rect x="118" y="22" width="86" height="34" rx="4" fill="#eef2ff" stroke="#c7d2fe"/>
+          <text x="161" y="34" font-size="6.5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">Top 10 — computed</text>
+          <text x="161" y="43" font-size="6.5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">across ALL regions</text>
+          <text x="161" y="53" font-size="7.5" font-weight="700" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">10</text>
+
+          <rect x="236" y="22" width="86" height="34" rx="4" fill="#fff7ed" stroke="#fed7aa"/>
+          <text x="279" y="37" font-size="6.5" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">then filter to East</text>
+          <text x="279" y="48" font-size="7.5" font-weight="700" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">of those 10…</text>
+
+          <rect x="354" y="22" width="56" height="34" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+          <text x="382" y="37" font-size="6.5" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">survive</text>
+          <text x="382" y="49" font-size="11" font-weight="800" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">3</text>
+        </g>
+        <g stroke="#94a3b8" stroke-width="1.3" marker-end="url(#fA)">
+          <line x1="88" y1="39" x2="114" y2="39"/><line x1="206" y1="39" x2="232" y2="39"/><line x1="324" y1="39" x2="350" y2="39"/>
+        </g>
+        <text x="10" y="70" font-size="6.3" fill="#7f1d1d" font-family="Inter, sans-serif">Result: “the East-region members of the national top 10”. Not what you asked for — and the count varies.</text>
+
+        <line x1="10" y1="82" x2="410" y2="82" stroke="#e2e8f0"/>
+
+        <!-- Path B -->
+        <text x="10" y="98" font-size="8" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ Region added to Context — it runs first, at level 3</text>
+        <g>
+          <rect x="10" y="106" width="76" height="34" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+          <text x="48" y="121" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">All products</text>
+          <text x="48" y="132" font-size="7.5" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">1,850</text>
+
+          <rect x="118" y="106" width="86" height="34" rx="4" fill="#f5f3ff" stroke="#ddd6fe"/>
+          <text x="161" y="118" font-size="6.5" fill="#6d28d9" text-anchor="middle" font-family="Inter, sans-serif">CONTEXT: East only</text>
+          <text x="161" y="127" font-size="6.5" fill="#6d28d9" text-anchor="middle" font-family="Inter, sans-serif">a temporary subset</text>
+          <text x="161" y="137" font-size="7.5" font-weight="700" fill="#6d28d9" text-anchor="middle" font-family="Inter, sans-serif">602</text>
+
+          <rect x="236" y="106" width="86" height="34" rx="4" fill="#eef2ff" stroke="#c7d2fe"/>
+          <text x="279" y="118" font-size="6.5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">Top 10 — computed</text>
+          <text x="279" y="127" font-size="6.5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">within East</text>
+          <text x="279" y="137" font-size="7.5" font-weight="700" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">10</text>
+
+          <rect x="354" y="106" width="56" height="34" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+          <text x="382" y="121" font-size="6.5" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">shown</text>
+          <text x="382" y="133" font-size="11" font-weight="800" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">10</text>
+        </g>
+        <g stroke="#94a3b8" stroke-width="1.3" marker-end="url(#fB)">
+          <line x1="88" y1="123" x2="114" y2="123"/><line x1="206" y1="123" x2="232" y2="123"/><line x1="324" y1="123" x2="350" y2="123"/>
+        </g>
+        <text x="10" y="154" font-size="6.3" fill="#065f46" font-family="Inter, sans-serif">Result: the actual top 10 products in the East region. Always 10 of them, whichever region you pick.</text>
+
+        <defs>
+          <marker id="fA" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+          <marker id="fB" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+        </defs>
+      </svg>
+      <p class="figcap">The only difference is <em>when</em> the region filter runs. Right-click it → <strong>Add to Context</strong> and it moves from step 5 to step 3 — the grey pill on the Filters shelf is how you tell.</p>
+    </div>
+
     <div class="ba" style="margin-top:.7rem">
       <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
         <div class="ba-h" style="color:#b91c1c">What actually happens</div>

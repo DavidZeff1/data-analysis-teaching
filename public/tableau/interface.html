@@ -77,7 +77,45 @@
         </ul>
       </div>
     </div>
-    <div class="callout ok" style="margin-top:.6rem">
+    <h3 style="margin-top:1.1rem">The same field, two colours, two charts</h3>
+    <p class="muted">Both of these are <code>MONTH(Order Date)</code> over the same four years of data. The only difference is which one you picked from the right-click menu.</p>
+    <div class="charts-grid">
+      <div class="cthumb tall">
+        <svg viewBox="0 0 140 78" role="img" aria-label="Discrete month producing twelve separate columns with headers">
+          <line x1="8" y1="58" x2="136" y2="58" stroke="#cbd5e1"/>
+          <g fill="#4a7dab">
+            <rect x="10" y="40" width="8" height="18"/><rect x="21" y="44" width="8" height="14"/><rect x="32" y="34" width="8" height="24"/>
+            <rect x="43" y="36" width="8" height="22"/><rect x="54" y="32" width="8" height="26"/><rect x="65" y="26" width="8" height="32"/>
+            <rect x="76" y="30" width="8" height="28"/><rect x="87" y="24" width="8" height="34"/><rect x="98" y="14" width="8" height="44"/>
+            <rect x="109" y="20" width="8" height="38"/><rect x="120" y="10" width="8" height="48"/><rect x="130" y="16" width="6" height="42"/>
+          </g>
+          <g font-size="4.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="14" y="65">J</text><text x="25" y="65">F</text><text x="36" y="65">M</text><text x="47" y="65">A</text>
+            <text x="58" y="65">M</text><text x="69" y="65">J</text><text x="80" y="65">J</text><text x="91" y="65">A</text>
+            <text x="102" y="65">S</text><text x="113" y="65">O</text><text x="124" y="65">N</text><text x="133" y="65">D</text>
+          </g>
+          <text x="70" y="75" font-size="5.5" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">12 headers — all years combined</text>
+        </svg>
+        <div class="ct-n"><span class="pill dim sm">MONTH</span> blue · discrete</div>
+        <div class="ct-d">Twelve buckets. All four years pooled into each month. <strong>Answers: is there seasonality?</strong></div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 140 78" role="img" aria-label="Continuous month producing one unbroken timeline">
+          <line x1="8" y1="58" x2="136" y2="58" stroke="#cbd5e1"/>
+          <polyline points="10,50 20,46 30,49 40,42 50,45 60,38 70,41 80,33 90,36 100,27 110,30 126,18"
+                    fill="none" stroke="#5b9450" stroke-width="1.8" stroke-linejoin="round"/>
+          <g font-size="4.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="22" y="65">2014</text><text x="54" y="65">2015</text><text x="86" y="65">2016</text><text x="118" y="65">2017</text>
+          </g>
+          <text x="70" y="75" font-size="5.5" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">one unbroken axis — 48 months</text>
+        </svg>
+        <div class="ct-n"><span class="pill msr sm">MONTH</span> green · continuous</div>
+        <div class="ct-d">One timeline running straight through. <strong>Answers: are we growing?</strong></div>
+      </div>
+    </div>
+    <p class="figcap">Right-click any date pill and you get <em>two</em> lists of the same words. The top list is blue and discrete; the bottom is green and continuous. Picking from the wrong one is why a line chart sometimes comes out as disconnected chunks.</p>
+
+    <div class="callout ok" style="margin-top:.7rem">
       <div class="callout-title">Where it bites: dates</div>
       <p>Right-click a date pill and you get two lists. Picking <strong>Year</strong> from the top (blue, discrete) gives you separate columns per year — good for comparing 2016 against 2017. Picking <strong>Year</strong> from the bottom (green, continuous) gives you one unbroken time axis — good for showing a trend. Same field, same word, completely different chart. When a line chart mysteriously splits into disconnected chunks, this is why.</p>
     </div>

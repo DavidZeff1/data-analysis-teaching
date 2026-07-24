@@ -133,7 +133,59 @@
       </div>
     </div>
 
-    <h3 style="margin-top:1rem">The same calculation, two directions</h3>
+    <h3 style="margin-top:1rem">What "direction" actually means</h3>
+    <p class="muted">The calculation walks through the cells of your table in a path. <em>Compute Using</em> sets that path — and the arrows below are literally it.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 132" role="img" aria-label="Two grids showing the traversal path for Table across versus Table down" style="width:100%;height:auto">
+        <!-- ACROSS -->
+        <text x="12" y="14" font-size="9" font-weight="700" fill="#1d4ed8" font-family="Inter, sans-serif">Table (across)</text>
+        <text x="12" y="26" font-size="6.5" fill="#64748b" font-family="Inter, sans-serif">restarts on every new row</text>
+        <g stroke="#cbd5e1" fill="#eff6ff">
+          <rect x="46" y="34" width="42" height="22"/><rect x="88" y="34" width="42" height="22"/><rect x="130" y="34" width="42" height="22"/>
+          <rect x="46" y="56" width="42" height="22"/><rect x="88" y="56" width="42" height="22"/><rect x="130" y="56" width="42" height="22"/>
+          <rect x="46" y="78" width="42" height="22"/><rect x="88" y="78" width="42" height="22"/><rect x="130" y="78" width="42" height="22"/>
+        </g>
+        <g font-size="6.5" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="42" y="49">Central</text><text x="42" y="71">East</text><text x="42" y="93">West</text>
+        </g>
+        <g font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="67" y="31">Furn</text><text x="109" y="31">Office</text><text x="151" y="31">Tech</text>
+        </g>
+        <g stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#arrH)">
+          <line x1="52" y1="45" x2="164" y2="45"/><line x1="52" y1="67" x2="164" y2="67"/><line x1="52" y1="89" x2="164" y2="89"/>
+        </g>
+        <text x="109" y="116" font-size="6.5" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">each ROW sums to 100%</text>
+        <text x="109" y="126" font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">"what is this region's category mix?"</text>
+
+        <!-- DOWN -->
+        <text x="230" y="14" font-size="9" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Table (down)</text>
+        <text x="230" y="26" font-size="6.5" fill="#64748b" font-family="Inter, sans-serif">restarts on every new column</text>
+        <g stroke="#cbd5e1" fill="#ecfdf5">
+          <rect x="264" y="34" width="42" height="22"/><rect x="306" y="34" width="42" height="22"/><rect x="348" y="34" width="42" height="22"/>
+          <rect x="264" y="56" width="42" height="22"/><rect x="306" y="56" width="42" height="22"/><rect x="348" y="56" width="42" height="22"/>
+          <rect x="264" y="78" width="42" height="22"/><rect x="306" y="78" width="42" height="22"/><rect x="348" y="78" width="42" height="22"/>
+        </g>
+        <g font-size="6.5" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="260" y="49">Central</text><text x="260" y="71">East</text><text x="260" y="93">West</text>
+        </g>
+        <g font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="285" y="31">Furn</text><text x="327" y="31">Office</text><text x="369" y="31">Tech</text>
+        </g>
+        <g stroke="#059669" stroke-width="1.6" fill="none" marker-end="url(#arrV)">
+          <line x1="285" y1="40" x2="285" y2="104"/><line x1="327" y1="40" x2="327" y2="104"/><line x1="369" y1="40" x2="369" y2="104"/>
+        </g>
+        <text x="327" y="116" font-size="6.5" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">each COLUMN sums to 100%</text>
+        <text x="327" y="126" font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">"which regions sell this category?"</text>
+
+        <defs>
+          <marker id="arrH" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563eb"/></marker>
+          <marker id="arrV" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#059669"/></marker>
+        </defs>
+      </svg>
+      <p class="figcap">Same table, same calculation, two completely different questions answered. Nothing on the chart tells the reader which one you picked — so pick deliberately.</p>
+    </div>
+
+    <h3 style="margin-top:1.1rem">The same calculation, two directions</h3>
     <p class="muted">A "% of Total" on Sales, in a Region × Category table. Same view, same calc, completely different meaning.</p>
     <div class="ba">
       <div class="ba-side">
