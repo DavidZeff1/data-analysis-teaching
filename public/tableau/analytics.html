@@ -289,6 +289,38 @@
         </tbody>
       </table>
     </div>
+    <div class="charts-grid">
+      <div class="cthumb tall pick">
+        <svg viewBox="0 0 120 66" role="img" aria-label="Scatter with tightly clustered points along a trend line, high r squared">
+          <line x1="10" y1="54" x2="114" y2="54" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="54" stroke="#cbd5e1"/>
+          <line x1="16" y1="50" x2="108" y2="12" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <g fill="#4a7dab" opacity=".85"><circle cx="22" cy="49" r="2.6"/><circle cx="34" cy="44" r="2.6"/><circle cx="46" cy="41" r="2.6"/>
+            <circle cx="58" cy="34" r="2.6"/><circle cx="70" cy="30" r="2.6"/><circle cx="82" cy="24" r="2.6"/><circle cx="96" cy="18" r="2.6"/></g>
+        </svg>
+        <div class="ct-n">R&#178; = 0.91</div>
+        <div class="ct-d">Points hug the line. The model explains most of the variation, so the slope is worth quoting.</div>
+      </div>
+      <div class="cthumb tall warn-c">
+        <svg viewBox="0 0 120 66" role="img" aria-label="Scatter with widely scattered points, low r squared">
+          <line x1="10" y1="54" x2="114" y2="54" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="54" stroke="#cbd5e1"/>
+          <line x1="16" y1="46" x2="108" y2="24" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <g fill="#b45309" opacity=".8"><circle cx="22" cy="18" r="2.6"/><circle cx="34" cy="50" r="2.6"/><circle cx="46" cy="26" r="2.6"/>
+            <circle cx="58" cy="48" r="2.6"/><circle cx="70" cy="14" r="2.6"/><circle cx="82" cy="44" r="2.6"/><circle cx="96" cy="30" r="2.6"/></g>
+        </svg>
+        <div class="ct-n">R&#178; = 0.08</div>
+        <div class="ct-d">Same line, but the points ignore it. A trend line always draws &#8212; drawing isn't evidence.</div>
+      </div>
+      <div class="cthumb tall warn-c">
+        <svg viewBox="0 0 120 66" role="img" aria-label="A wiggly high degree polynomial passing through every point">
+          <line x1="10" y1="54" x2="114" y2="54" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="54" stroke="#cbd5e1"/>
+          <path d="M20,46 C28,10 34,52 44,20 C52,48 60,14 70,44 C78,18 88,50 100,22" fill="none" stroke="#c0392b" stroke-width="1.6"/>
+          <g fill="#4a7dab"><circle cx="20" cy="46" r="2.4"/><circle cx="44" cy="20" r="2.4"/><circle cx="70" cy="44" r="2.4"/><circle cx="100" cy="22" r="2.4"/></g>
+        </svg>
+        <div class="ct-n">R&#178; = 0.99 &#8212; and useless</div>
+        <div class="ct-d">A degree-8 polynomial through every point. Perfect fit, zero predictive value. Stay linear.</div>
+      </div>
+    </div>
+
     <div class="callout danger" style="margin-top:.65rem">
       <div class="callout-title">Three ways a trend line misleads</div>
       <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
@@ -327,6 +359,22 @@
         <p>In Forecast Options, keep <strong>Show prediction intervals</strong> on, at 95%. The band is the honest part of the chart — it shows how wrong the estimate could be.</p>
       </li>
     </ol>
+    <div class="figure">
+      <svg viewBox="0 0 420 110" role="img" aria-label="A time series with a forecast extension and a widening confidence band" style="width:100%;height:auto">
+        <line x1="14" y1="88" x2="406" y2="88" stroke="#cbd5e1"/>
+        <line x1="252" y1="10" x2="252" y2="88" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+        <text x="252" y="102" font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">today</text>
+        <path d="M252,52 L400,24 L400,66 L252,58 Z" fill="#4a7dab" opacity=".16"/>
+        <polyline points="20,76 52,68 84,72 116,58 148,62 180,46 216,50 252,38" fill="none" stroke="#4a7dab" stroke-width="2.2"/>
+        <polyline points="252,38 300,32 350,26 400,20" fill="none" stroke="#4a7dab" stroke-width="2.2" stroke-dasharray="5 3"/>
+        <text x="130" y="20" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">actuals &#8212; solid</text>
+        <text x="330" y="14" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">forecast &#8212; dashed</text>
+        <text x="330" y="80" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">95% prediction interval</text>
+        <text x="14" y="106" font-size="6" fill="#64748b" font-family="Inter, sans-serif">The band widens the further out you go &#8212; that widening <tspan font-style="italic">is</tspan> the honest part of the chart.</text>
+      </svg>
+      <p class="figcap">A forecast line on its own implies a precision the model doesn't have. Always leave <strong>Show prediction intervals</strong> switched on.</p>
+    </div>
+
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">What this forecast can and cannot do</div>
       <p>It extrapolates the pattern in your history and nothing else. It has no knowledge of a price change, a competitor launch, or a pandemic. It needs enough history to work with — <strong>at least two full cycles</strong> before it can detect seasonality at all, so two years of monthly data is the practical minimum.</p>
@@ -356,6 +404,36 @@ Detail:  [Sub-Category]
         <p style="margin:.2rem 0 0;font-size:.86rem">Right-click the Clusters field → <strong>Describe Clusters</strong>. The Summary tab gives each cluster's centres and size; the Models tab gives an analysis of variance showing <em>which variables actually drove the split</em>.</p>
       </div>
     </div>
+    <div class="figure">
+      <svg viewBox="0 0 420 118" role="img" aria-label="A scatter of sub-categories before and after clustering into three named groups" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">Before &#8212; one undifferentiated cloud</text>
+        <line x1="14" y1="100" x2="180" y2="100" stroke="#cbd5e1"/><line x1="14" y1="20" x2="14" y2="100" stroke="#cbd5e1"/>
+        <g fill="#94a3b8"><circle cx="34" cy="86" r="3.4"/><circle cx="46" cy="78" r="3.4"/><circle cx="40" cy="70" r="3.4"/>
+          <circle cx="92" cy="60" r="3.4"/><circle cx="104" cy="52" r="3.4"/><circle cx="98" cy="66" r="3.4"/><circle cx="112" cy="58" r="3.4"/>
+          <circle cx="150" cy="34" r="3.4"/><circle cx="160" cy="28" r="3.4"/><circle cx="142" cy="40" r="3.4"/></g>
+        <text x="97" y="114" font-size="6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">Sales &#8594;</text>
+
+        <g stroke="#4f46e5" stroke-width="1.6" fill="none" marker-end="url(#anC)"><line x1="192" y1="60" x2="222" y2="60"/></g>
+        <text x="207" y="53" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">cluster</text>
+
+        <text x="236" y="12" font-size="7" font-weight="700" fill="#047857" font-family="Inter, sans-serif">After &#8212; three named segments</text>
+        <line x1="240" y1="100" x2="406" y2="100" stroke="#cbd5e1"/><line x1="240" y1="20" x2="240" y2="100" stroke="#cbd5e1"/>
+        <ellipse cx="272" cy="78" rx="24" ry="18" fill="#c0392b" opacity=".1"/>
+        <ellipse cx="330" cy="59" rx="26" ry="16" fill="#e8933a" opacity=".14"/>
+        <ellipse cx="382" cy="34" rx="20" ry="14" fill="#4a7dab" opacity=".14"/>
+        <g fill="#c0392b"><circle cx="260" cy="86" r="3.4"/><circle cx="272" cy="78" r="3.4"/><circle cx="266" cy="70" r="3.4"/></g>
+        <g fill="#e8933a"><circle cx="318" cy="60" r="3.4"/><circle cx="330" cy="52" r="3.4"/><circle cx="324" cy="66" r="3.4"/><circle cx="338" cy="58" r="3.4"/></g>
+        <g fill="#4a7dab"><circle cx="376" cy="34" r="3.4"/><circle cx="386" cy="28" r="3.4"/><circle cx="368" cy="40" r="3.4"/></g>
+        <g font-size="5.4" font-family="Inter, sans-serif" text-anchor="middle">
+          <text x="272" y="99" fill="#c0392b">Problem products</text>
+          <text x="330" y="38" fill="#b45309">Volume drivers</text>
+          <text x="382" y="17" fill="#4a7dab">Margin drivers</text>
+        </g>
+        <defs><marker id="anC" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker></defs>
+      </svg>
+      <p class="figcap">The algorithm produces &#8220;Cluster 1, 2, 3&#8221;. <strong>You</strong> supply the names &#8212; and the names are what makes it usable.</p>
+    </div>
+
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Save it, then name it</div>
       <p>Drag the <strong>Clusters</strong> pill from the Marks card into the Data pane and it becomes a permanent group you can use anywhere — on Color, in filters, in calculations. Then rename the members from "Cluster 1" to something meaningful: "Volume drivers", "Margin drivers", "Problem products".</p>

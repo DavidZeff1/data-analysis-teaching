@@ -252,6 +252,44 @@
 <span class="k">END</span></pre>
       </div>
     </div>
+    <div class="figure">
+      <svg viewBox="0 0 420 148" role="img" aria-label="A flow chart showing IF ELSEIF ELSE evaluating each row top to bottom until one test passes" style="width:100%;height:auto">
+        <rect x="8" y="10" width="70" height="22" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="43" y="24" font-size="6.4" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">one row</text>
+
+        <path d="M78,21 L104,21" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#caF)"/>
+        <polygon points="152,6 208,21 152,36 96,21" fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="152" y="19" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">Sales &gt; 1000 ?</text>
+        <text x="152" y="28" font-size="5.2" fill="#6366f1" text-anchor="middle" font-family="Inter, sans-serif">IF</text>
+        <path d="M208,21 L262,21" stroke="#059669" stroke-width="1.3" marker-end="url(#caG)"/>
+        <text x="234" y="16" font-size="5.4" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">true</text>
+        <rect x="264" y="10" width="52" height="22" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="290" y="24" font-size="6.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">"High"</text>
+
+        <path d="M152,36 L152,54" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#caF)"/>
+        <text x="163" y="48" font-size="5.4" fill="#64748b" font-family="Inter, sans-serif">false</text>
+        <polygon points="152,56 208,71 152,86 96,71" fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="152" y="69" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">Sales &gt; 500 ?</text>
+        <text x="152" y="78" font-size="5.2" fill="#6366f1" text-anchor="middle" font-family="Inter, sans-serif">ELSEIF</text>
+        <path d="M208,71 L262,71" stroke="#059669" stroke-width="1.3" marker-end="url(#caG)"/>
+        <text x="234" y="66" font-size="5.4" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">true</text>
+        <rect x="264" y="60" width="52" height="22" rx="4" fill="#fffbeb" stroke="#fde68a"/>
+        <text x="290" y="74" font-size="6.2" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">"Medium"</text>
+
+        <path d="M152,86 L152,104" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#caF)"/>
+        <text x="163" y="98" font-size="5.4" fill="#64748b" font-family="Inter, sans-serif">false</text>
+        <rect x="112" y="106" width="80" height="22" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="152" y="120" font-size="6.2" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">ELSE &#8594; "Low"</text>
+
+        <text x="8" y="144" font-size="6.2" fill="#64748b" font-family="Inter, sans-serif">Tests run top to bottom and stop at the first true one &#8212; so <tspan font-weight="700">order matters</tspan>. Put the narrowest condition first.</text>
+        <defs>
+          <marker id="caF" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+          <marker id="caG" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#059669"/></marker>
+        </defs>
+      </svg>
+      <p class="figcap">If you wrote <code>Sales &gt; 500</code> first, <em>every</em> order above 1000 would also pass it and be labelled "Medium" — the "High" branch would never fire.</p>
+    </div>
+
     <div class="callout tip" style="margin-top:.55rem">
       <div class="callout-title">CASE when you can, IF when you must</div>
       <p><code>CASE</code> is faster and far more readable, but it only compares one field against exact values. Anything involving ranges, multiple fields, or <code>AND</code>/<code>OR</code> needs <code>IF</code>. The sort-order trick above is worth remembering — it's how you get Ship Mode to sort by speed rather than alphabetically.</p>

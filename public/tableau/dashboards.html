@@ -173,6 +173,62 @@
       </div>
     </div>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 132" role="img" aria-label="Tiled objects snapping into a grid versus floating objects overlapping freely" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">TILED &#8212; snaps into a grid</text>
+        <rect x="10" y="18" width="186" height="100" rx="4" fill="#f6f8fb" stroke="#cbd5e1"/>
+        <rect x="16" y="24" width="174" height="16" rx="2" fill="#0f172a"/>
+        <text x="103" y="35" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Title</text>
+        <g fill="#fff" stroke="#c7d2fe">
+          <rect x="16" y="44" width="41" height="20" rx="2"/><rect x="61" y="44" width="41" height="20" rx="2"/>
+          <rect x="106" y="44" width="41" height="20" rx="2"/><rect x="151" y="44" width="39" height="20" rx="2"/>
+        </g>
+        <g fill="#fff" stroke="#c7d2fe"><rect x="16" y="68" width="112" height="44" rx="2"/><rect x="132" y="68" width="58" height="44" rx="2"/></g>
+        <g font-size="5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="72" y="92">trend</text><text x="161" y="92">by region</text>
+        </g>
+        <text x="103" y="128" font-size="6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">everything resizes together</text>
+
+        <text x="224" y="12" font-size="7.5" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">FLOATING &#8212; layered on top</text>
+        <rect x="224" y="18" width="186" height="100" rx="4" fill="#f6f8fb" stroke="#cbd5e1"/>
+        <rect x="232" y="26" width="96" height="40" rx="2" fill="#fff" stroke="#fde68a"/>
+        <rect x="262" y="48" width="104" height="44" rx="2" fill="#fff" stroke="#fde68a"/>
+        <rect x="316" y="30" width="82" height="34" rx="2" fill="#fff" stroke="#fde68a"/>
+        <rect x="240" y="76" width="60" height="28" rx="2" fill="#fff" stroke="#fde68a"/>
+        <text x="317" y="128" font-size="6" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">overlaps; breaks at other sizes</text>
+      </svg>
+      <p class="figcap">Use <strong>tiled</strong> for the layout itself. Floating is for one-offs like a logo or an overlay — building a whole dashboard from floating objects becomes unmaintainable fast.</p>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 116" role="img" aria-label="A vertical container holding a title and two horizontal containers of charts" style="width:100%;height:auto">
+        <rect x="10" y="10" width="250" height="98" rx="4" fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="18" y="22" font-size="6.4" font-weight="700" fill="#4338ca" font-family="Inter, sans-serif">Vertical container</text>
+        <rect x="18" y="28" width="234" height="14" rx="2" fill="#0f172a"/>
+        <text x="135" y="38" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Title (Text object)</text>
+        <rect x="18" y="46" width="234" height="26" rx="3" fill="#ecfdf5" stroke="#86efac"/>
+        <text x="24" y="55" font-size="5.6" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Horizontal container</text>
+        <g fill="#fff" stroke="#cbd5e1">
+          <rect x="24" y="57" width="52" height="12" rx="2"/><rect x="80" y="57" width="52" height="12" rx="2"/>
+          <rect x="136" y="57" width="52" height="12" rx="2"/><rect x="192" y="57" width="54" height="12" rx="2"/>
+        </g>
+        <rect x="18" y="76" width="234" height="26" rx="3" fill="#ecfdf5" stroke="#86efac"/>
+        <text x="24" y="85" font-size="5.6" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Horizontal container</text>
+        <g fill="#fff" stroke="#cbd5e1"><rect x="24" y="87" width="140" height="12" rx="2"/><rect x="168" y="87" width="78" height="12" rx="2"/></g>
+
+        <text x="276" y="24" font-size="6.6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">The Layout pane tree</text>
+        <g font-size="6" fill="#475569" font-family="Inter, sans-serif">
+          <text x="276" y="40">&#9660; Vertical</text>
+          <text x="288" y="52">&#9642; Title</text>
+          <text x="288" y="64">&#9660; Horizontal</text>
+          <text x="300" y="76">&#9642; KPI &#215;4</text>
+          <text x="288" y="88">&#9660; Horizontal</text>
+          <text x="300" y="100">&#9642; Trend, Map</text>
+        </g>
+      </svg>
+      <p class="figcap">Containers nest. When you can't click the thing you want on the canvas, select it from this tree in the <strong>Layout</strong> pane instead — that's the single most useful trick in dashboard building, and it isn't discoverable.</p>
+    </div>
+
     <h3 style="margin-top:1rem">Containers are the actual skill</h3>
     <p>A <strong>Horizontal</strong> container arranges its contents side by side; a <strong>Vertical</strong> container stacks them. Nesting them gives you a real layout system rather than a pile of dragged objects.</p>
     <ul class="check">

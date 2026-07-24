@@ -132,6 +132,30 @@
         <p class="muted" style="margin-top:.5rem">Superstore's Product and Location hierarchies are worth building the moment you connect. They take ten seconds and you'll use them constantly.</p>
       </div>
     </div>
+    <div class="figure">
+      <svg viewBox="0 0 420 104" role="img" aria-label="Clicking plus on a hierarchy pill drills from three categories to seventeen sub-categories" style="width:100%;height:auto">
+        <rect x="8" y="10" width="120" height="12" rx="6" fill="#4a7dab"/>
+        <text x="62" y="19" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">&#8862; Category</text>
+        <line x1="10" y1="86" x2="128" y2="86" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><rect x="18" y="46" width="24" height="40"/><rect x="54" y="38" width="24" height="48"/><rect x="90" y="54" width="24" height="32"/></g>
+        <text x="68" y="98" font-size="5.8" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">3 categories</text>
+        <g stroke="#4f46e5" stroke-width="1.6" fill="none" marker-end="url(#orgH)"><line x1="144" y1="50" x2="176" y2="50"/></g>
+        <text x="160" y="43" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">click &#8862;</text>
+        <rect x="192" y="10" width="150" height="12" rx="6" fill="#4a7dab"/>
+        <text x="267" y="19" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">&#8863; Category &#183; Sub-Category</text>
+        <line x1="192" y1="86" x2="412" y2="86" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="196" y="56" width="8" height="30"/><rect x="206" y="48" width="8" height="38"/><rect x="216" y="62" width="8" height="24"/><rect x="226" y="68" width="8" height="18"/>
+          <rect x="240" y="44" width="8" height="42"/><rect x="250" y="52" width="8" height="34"/><rect x="260" y="58" width="8" height="28"/><rect x="270" y="66" width="8" height="20"/><rect x="280" y="70" width="8" height="16"/>
+          <rect x="294" y="50" width="8" height="36"/><rect x="304" y="60" width="8" height="26"/><rect x="314" y="64" width="8" height="22"/><rect x="324" y="72" width="8" height="14"/>
+          <rect x="338" y="54" width="8" height="32"/><rect x="348" y="66" width="8" height="20"/><rect x="358" y="74" width="8" height="12"/><rect x="368" y="78" width="8" height="8"/>
+        </g>
+        <text x="290" y="98" font-size="5.8" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">17 sub-categories, still one pill</text>
+        <defs><marker id="orgH" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker></defs>
+      </svg>
+      <p class="figcap">The <strong>&#8862;</strong> appears on the pill once a hierarchy exists. One click drills a level deeper; <strong>&#8863;</strong> collapses it back.</p>
+    </div>
+
     <div class="callout note" style="margin-top:.55rem"><p>On a dashboard, drilling changes the view for everyone looking at it. If you want controlled exploration instead, use a parameter or a filter action — see <a href="#tableau/dashboards">Dashboards</a>.</p></div>
   </section>
 
@@ -161,6 +185,36 @@
         </table>
         <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">A chart someone can actually act on.</p>
       </div>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 116" role="img" aria-label="Seventeen sub-category bars collapsing into four named group bars" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">BEFORE &#8212; 17 sub-categories</text>
+        <line x1="10" y1="104" x2="150" y2="104" stroke="#cbd5e1"/>
+        <g fill="#9db8ce">
+          <rect x="12" y="26" width="6" height="78"/><rect x="20" y="30" width="6" height="74"/><rect x="28" y="48" width="6" height="56"/>
+          <rect x="36" y="54" width="6" height="50"/><rect x="44" y="58" width="6" height="46"/><rect x="52" y="66" width="6" height="38"/>
+          <rect x="60" y="70" width="6" height="34"/><rect x="68" y="74" width="6" height="30"/><rect x="76" y="78" width="6" height="26"/>
+          <rect x="84" y="82" width="6" height="22"/><rect x="92" y="84" width="6" height="20"/><rect x="100" y="88" width="6" height="16"/>
+          <rect x="108" y="90" width="6" height="14"/><rect x="116" y="93" width="6" height="11"/><rect x="124" y="95" width="6" height="9"/>
+          <rect x="132" y="97" width="6" height="7"/><rect x="140" y="99" width="6" height="5"/>
+        </g>
+        <text x="80" y="114" font-size="6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">too many to compare</text>
+        <g stroke="#4f46e5" stroke-width="1.6" fill="none" marker-end="url(#orgA)"><line x1="164" y1="62" x2="196" y2="62"/></g>
+        <text x="180" y="55" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">group</text>
+        <text x="210" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">AFTER &#8212; 4 named groups</text>
+        <line x1="210" y1="104" x2="410" y2="104" stroke="#cbd5e1"/>
+        <g>
+          <rect x="216" y="26" width="38" height="78" fill="#4a7dab"/><rect x="262" y="52" width="38" height="52" fill="#4a7dab"/>
+          <rect x="308" y="72" width="38" height="32" fill="#e8933a"/><rect x="354" y="88" width="38" height="16" fill="#c0392b"/>
+        </g>
+        <g font-size="5.4" fill="#475569" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="235" y="113">Top 3</text><text x="281" y="113">Steady 6</text>
+          <text x="327" y="113">Weak 5</text><text x="373" y="113">Losing 3</text>
+        </g>
+        <defs><marker id="orgA" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker></defs>
+      </svg>
+      <p class="figcap">Select members in the view with Ctrl-click, then click the <strong>paperclip icon</strong> in the tooltip. The original field is untouched &#8212; you get a new grouped field beside it.</p>
     </div>
 
     <h3 style="margin-top:.85rem">What groups are good for</h3>
@@ -238,6 +292,26 @@
         </ul>
         <p style="margin:.4rem 0 0;font-size:.82rem;color:#64748b">Stays exactly as you defined it until you edit it.</p>
       </div>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 112" role="img" aria-label="A set splitting customers into In and Out: 20 customers driving 31 percent of revenue" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">Set: &#8220;Top 20 Customers by Sales&#8221;</text>
+        <text x="10" y="34" font-size="6.5" fill="#475569" font-family="Inter, sans-serif">Customers</text>
+        <rect x="76" y="26" width="14" height="12" fill="#4f46e5"/><rect x="90" y="26" width="264" height="12" fill="#e2e8f0"/>
+        <text x="83" y="22" font-size="5.4" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">20</text>
+        <text x="222" y="22" font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">773 others</text>
+        <text x="10" y="62" font-size="6.5" fill="#475569" font-family="Inter, sans-serif">Revenue</text>
+        <rect x="76" y="54" width="86" height="12" fill="#4f46e5"/><rect x="162" y="54" width="192" height="12" fill="#e2e8f0"/>
+        <text x="119" y="50" font-size="5.4" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">31%</text>
+        <text x="258" y="50" font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">69%</text>
+        <rect x="76" y="80" width="14" height="9" fill="#4f46e5"/>
+        <text x="96" y="88" font-size="6" fill="#334155" font-family="Inter, sans-serif">IN &#8212; members of the set</text>
+        <rect x="222" y="80" width="14" height="9" fill="#e2e8f0"/>
+        <text x="242" y="88" font-size="6" fill="#334155" font-family="Inter, sans-serif">OUT &#8212; everyone else</text>
+        <text x="10" y="106" font-size="6.2" fill="#64748b" font-family="Inter, sans-serif">Drop the set on Color and you get exactly this comparison.</text>
+      </svg>
+      <p class="figcap">A set is just a TRUE/FALSE membership. That's why it works on Color, on Filters, and inside calculations without extra work.</p>
     </div>
 
     <h3 style="margin-top:1rem">Three ways to use a set</h3>

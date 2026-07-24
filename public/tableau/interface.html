@@ -95,6 +95,84 @@
         <p style="margin:.45rem 0 0;font-size:.84rem;color:#047857"><strong>They fill the data</strong> — adding one gives every slice a number.</p>
       </div>
     </div>
+    <h3 style="margin-top:1.1rem">Watch it happen: slice, then fill</h3>
+    <p class="muted">Start with an empty sheet and add one field at a time. A dimension carves the sheet into slots; a measure puts a number in each one.</p>
+    <div class="buildsteps">
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">0</span> Empty sheet</div>
+        <div class="bs-frame">
+          <svg viewBox="0 0 130 46" role="img" aria-label="An empty worksheet canvas">
+            <rect x="4" y="4" width="122" height="38" rx="3" fill="#fff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+            <text x="65" y="27" font-size="6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">nothing yet</text>
+          </svg>
+        </div>
+        <p class="bs-d">No fields, no chart.</p>
+      </figure>
+
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">1</span> Add a <span class="pill dim sm">dimension</span></div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span></div>
+          <svg viewBox="0 0 130 46" role="img" aria-label="Four empty labelled rows appear">
+            <g font-size="6.4" fill="#334155" font-family="Inter, sans-serif">
+              <text x="6" y="12">Central</text><text x="6" y="23">East</text>
+              <text x="6" y="34">South</text><text x="6" y="45">West</text>
+            </g>
+            <line x1="46" y1="3" x2="46" y2="46" stroke="#cbd5e1"/>
+            <g stroke="#e2e8f0" stroke-dasharray="2 2">
+              <line x1="46" y1="14" x2="126" y2="14"/><line x1="46" y1="25" x2="126" y2="25"/><line x1="46" y1="36" x2="126" y2="36"/>
+            </g>
+            <text x="86" y="26" font-size="5.5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">4 empty slots</text>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>It sliced.</strong> Four regions → four row slots. Still no numbers.</p>
+      </figure>
+
+      <figure class="bstep done">
+        <div class="bs-h"><span class="pin">2</span> Add a <span class="pill msr sm">measure</span></div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Columns</span><span class="pill msr">SUM(Sales)</span></div>
+          <svg viewBox="0 0 130 46" role="img" aria-label="Bars fill each row">
+            <g font-size="6.4" fill="#334155" font-family="Inter, sans-serif">
+              <text x="6" y="12">Central</text><text x="6" y="23">East</text>
+              <text x="6" y="34">South</text><text x="6" y="45">West</text>
+            </g>
+            <line x1="46" y1="3" x2="46" y2="46" stroke="#cbd5e1"/>
+            <g fill="#4a7dab">
+              <rect x="47" y="6" width="46" height="7"/><rect x="47" y="17" width="62" height="7"/>
+              <rect x="47" y="28" width="36" height="7"/><rect x="47" y="39" width="66" height="7"/>
+            </g>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>It filled.</strong> Each slot gets its total. That's a bar chart.</p>
+      </figure>
+
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">3</span> Add a second dimension</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Rows</span><span class="pill dim">Region</span><span class="pill dim">Segment</span></div>
+          <svg viewBox="0 0 130 46" role="img" aria-label="Each row splits into three sub-rows">
+            <g font-size="5" fill="#334155" font-family="Inter, sans-serif">
+              <text x="4" y="8">Central</text>
+            </g>
+            <g font-size="4.4" fill="#64748b" font-family="Inter, sans-serif">
+              <text x="26" y="8">Consumer</text><text x="26" y="16">Corporate</text><text x="26" y="24">Home Off.</text>
+            </g>
+            <g font-size="5" fill="#334155" font-family="Inter, sans-serif"><text x="4" y="34">East</text></g>
+            <g font-size="4.4" fill="#64748b" font-family="Inter, sans-serif">
+              <text x="26" y="34">Consumer</text><text x="26" y="42">Corporate</text>
+            </g>
+            <line x1="56" y1="2" x2="56" y2="46" stroke="#cbd5e1"/>
+            <g fill="#4a7dab">
+              <rect x="57" y="4" width="34" height="5"/><rect x="57" y="12" width="22" height="5"/><rect x="57" y="20" width="16" height="5"/>
+              <rect x="57" y="30" width="44" height="5"/><rect x="57" y="38" width="28" height="5"/>
+            </g>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>It sliced again.</strong> 4 regions × 3 segments = 12 slots, each still filled by the same measure.</p>
+      </figure>
+    </div>
+
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">The one-sentence rule</div>
       <p><strong>Dimensions slice; measures fill.</strong> "Sales by Region" is one measure sliced by one dimension. Nearly every chart you will ever build is some arrangement of that sentence.</p>
@@ -239,6 +317,75 @@
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Detail is the one worth understanding early</div>
       <p>Every other Marks target changes appearance. <strong>Detail changes granularity</strong> — it splits the data into more marks without colouring or resizing anything. That's how a scatter plot goes from one dot to one dot per sub-category. If a chart shows a single mark when you expected many, you need something on Detail.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🎯</span> The Marks card targets, side by side</h2>
+    <p>Every target does something different to the <em>same</em> chart. Here is one scatter of Sales vs Profit, with <span class="pill dim sm">Category</span> or <span class="pill msr sm">Quantity</span> dropped on each target in turn.</p>
+    <div class="charts-grid">
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Scatter with no marks targets used: a single dot">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <circle cx="62" cy="28" r="5" fill="#4a7dab"/>
+        </svg>
+        <div class="ct-n">Nothing on Marks</div>
+        <div class="ct-d"><strong>One dot</strong> — the grand total of all 9,994 rows. Two measures alone give you one mark.</div>
+      </div>
+      <div class="cthumb tall pick">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Category on Detail splits into many dots">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <g fill="#4a7dab"><circle cx="28" cy="42" r="3.4"/><circle cx="44" cy="34" r="3.4"/><circle cx="58" cy="38" r="3.4"/>
+            <circle cx="70" cy="24" r="3.4"/><circle cx="84" cy="28" r="3.4"/><circle cx="98" cy="16" r="3.4"/></g>
+        </svg>
+        <div class="ct-n"><span class="pill dim sm">Sub-Cat</span> on <strong>Detail</strong></div>
+        <div class="ct-d"><strong>Splits into 17 dots</strong> — one per sub-category. Detail adds granularity and changes nothing else. This is what makes it a scatter plot.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Category on Color makes the dots different colours">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <circle cx="28" cy="42" r="3.4" fill="#4e79a7"/><circle cx="44" cy="34" r="3.4" fill="#f28e2b"/><circle cx="58" cy="38" r="3.4" fill="#59a14f"/>
+          <circle cx="70" cy="24" r="3.4" fill="#4e79a7"/><circle cx="84" cy="28" r="3.4" fill="#f28e2b"/><circle cx="98" cy="16" r="3.4" fill="#59a14f"/>
+        </svg>
+        <div class="ct-n"><span class="pill dim sm">Category</span> on <strong>Color</strong></div>
+        <div class="ct-d">Same dots, now <strong>coloured by group</strong>, and a legend appears beside the chart.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Quantity on Size makes the dots different sizes">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <g fill="#4a7dab" opacity=".8"><circle cx="28" cy="42" r="2.2"/><circle cx="44" cy="34" r="5"/><circle cx="58" cy="38" r="3.2"/>
+            <circle cx="70" cy="24" r="6.4"/><circle cx="84" cy="28" r="3.8"/><circle cx="98" cy="16" r="7.6"/></g>
+        </svg>
+        <div class="ct-n"><span class="pill msr sm">Quantity</span> on <strong>Size</strong></div>
+        <div class="ct-d">Dot <strong>area</strong> now carries a third number. Three variables in one chart.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Sub-category on Label prints names next to the dots">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <g fill="#4a7dab"><circle cx="28" cy="42" r="3"/><circle cx="52" cy="32" r="3"/><circle cx="82" cy="18" r="3"/></g>
+          <g font-size="5" fill="#475569" font-family="Inter, sans-serif">
+            <text x="34" y="44">Tables</text><text x="58" y="34">Chairs</text><text x="88" y="20">Phones</text>
+          </g>
+        </svg>
+        <div class="ct-n"><span class="pill dim sm">Sub-Cat</span> on <strong>Label</strong></div>
+        <div class="ct-d">Prints <strong>text on the marks</strong>. Often lets you delete the legend entirely.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Category on Shape gives each group a different symbol">
+          <line x1="10" y1="52" x2="112" y2="52" stroke="#cbd5e1"/><line x1="10" y1="6" x2="10" y2="52" stroke="#cbd5e1"/>
+          <g fill="#4a7dab">
+            <circle cx="28" cy="42" r="3.2"/><rect x="41" y="31" width="6" height="6"/>
+            <path d="M58,34 L62,41 L54,41 Z"/><circle cx="70" cy="24" r="3.2"/>
+            <rect x="81" y="25" width="6" height="6"/><path d="M98,13 L102,20 L94,20 Z"/>
+          </g>
+        </svg>
+        <div class="ct-n"><span class="pill dim sm">Category</span> on <strong>Shape</strong></div>
+        <div class="ct-d">Different <strong>symbols</strong> per group. A weak channel — four or five max.</div>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Detail is the odd one out — and the one to understand first</div>
+      <p>Color, Size, Label and Shape all change how marks <em>look</em>. <strong>Detail changes how many marks there are.</strong> If a chart shows one mark when you expected many, something needs to go on Detail. If it shows too many, something on Detail should come off.</p>
     </div>
   </section>
 

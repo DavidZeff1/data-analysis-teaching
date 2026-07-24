@@ -272,6 +272,84 @@
       </table>
     </div>
 
+    <h3 style="margin-top:1rem">What each one does to the same line</h3>
+    <p class="muted">Grey is the raw monthly sales. Blue is what the table calculation turns it into.</p>
+    <div class="charts-grid">
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Running total: a steadily rising cumulative line above the raw values">
+          <line x1="8" y1="52" x2="114" y2="52" stroke="#cbd5e1"/>
+          <polyline points="12,44 27,40 42,46 57,38 72,42 87,36 108,40" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+          <polyline points="12,48 27,42 42,37 57,29 72,23 87,15 108,7" fill="none" stroke="#4a7dab" stroke-width="2.2"/>
+        </svg>
+        <div class="ct-n">Running Total</div>
+        <div class="ct-d">Adds each period to everything before it. Always climbs. Answers <em>&#8220;how much so far?&#8221;</em></div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Difference: bars above and below a zero line">
+          <line x1="8" y1="30" x2="114" y2="30" stroke="#94a3b8"/>
+          <g><rect x="16" y="18" width="11" height="12" fill="#4a7dab"/><rect x="31" y="30" width="11" height="9" fill="#c0392b"/>
+             <rect x="46" y="14" width="11" height="16" fill="#4a7dab"/><rect x="61" y="30" width="11" height="6" fill="#c0392b"/>
+             <rect x="76" y="20" width="11" height="10" fill="#4a7dab"/><rect x="91" y="12" width="11" height="18" fill="#4a7dab"/></g>
+          <text x="112" y="28" font-size="5" fill="#94a3b8" text-anchor="end" font-family="Inter, sans-serif">0</text>
+        </svg>
+        <div class="ct-n">Difference</div>
+        <div class="ct-d">Each period minus the one before. Turns a level into a <em>change</em>, so ups and downs become obvious.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Percent of total: bars that sum to one hundred percent">
+          <line x1="8" y1="52" x2="114" y2="52" stroke="#cbd5e1"/>
+          <g fill="#4a7dab"><rect x="16" y="30" width="13" height="22"/><rect x="33" y="20" width="13" height="32"/>
+            <rect x="50" y="38" width="13" height="14"/><rect x="67" y="26" width="13" height="26"/><rect x="84" y="34" width="13" height="18"/></g>
+          <g font-size="4.6" fill="#475569" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="22" y="28">21%</text><text x="39" y="18">30%</text><text x="56" y="36">13%</text><text x="73" y="24">24%</text><text x="90" y="32">12%</text>
+          </g>
+        </svg>
+        <div class="ct-n">Percent of Total</div>
+        <div class="ct-d">Each value as a share. Check they add to 100% &#8212; if not, your direction is wrong.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 62" role="img" aria-label="Moving average: a smooth line through noisy raw data">
+          <line x1="8" y1="52" x2="114" y2="52" stroke="#cbd5e1"/>
+          <polyline points="12,44 24,26 36,46 48,22 60,42 72,20 84,38 96,16 108,32" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+          <polyline points="24,38 36,36 48,33 60,31 72,28 84,26 96,24" fill="none" stroke="#4a7dab" stroke-width="2.4"/>
+        </svg>
+        <div class="ct-n">Moving Average</div>
+        <div class="ct-d">Smooths the noise so the underlying direction shows. Keep the raw line visible behind it.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.1rem">LOOKUP &#8212; reaching to another row</h3>
+    <p class="muted">Every &#8220;compared to last period&#8221; calculation is really a LOOKUP with a negative offset.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 96" role="img" aria-label="A row of months with arrows showing lookup offsets of minus one, plus one, first and last" style="width:100%;height:auto">
+        <g stroke="#cbd5e1" fill="#f8fafc">
+          <rect x="14" y="34" width="52" height="24"/><rect x="66" y="34" width="52" height="24"/><rect x="118" y="34" width="52" height="24"/>
+          <rect x="170" y="34" width="52" height="24" fill="#eef2ff" stroke="#6366f1"/><rect x="222" y="34" width="52" height="24"/>
+          <rect x="274" y="34" width="52" height="24"/><rect x="326" y="34" width="52" height="24"/>
+        </g>
+        <g font-size="6.2" fill="#475569" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="40" y="49">Jan</text><text x="92" y="49">Feb</text><text x="144" y="49">Mar</text>
+          <text x="196" y="49" font-weight="700" fill="#4338ca">Apr</text><text x="248" y="49">May</text><text x="300" y="49">Jun</text><text x="352" y="49">Jul</text>
+        </g>
+        <text x="196" y="28" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">you are here</text>
+        <g stroke="#4f46e5" stroke-width="1.4" fill="none" marker-end="url(#tcL)">
+          <path d="M186,62 L152,62"/><path d="M206,62 L240,62"/>
+        </g>
+        <text x="169" y="76" font-size="5.8" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">offset &#8722;1</text>
+        <text x="223" y="76" font-size="5.8" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">offset +1</text>
+        <g stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3 2" fill="none" marker-end="url(#tcM)">
+          <path d="M182,24 C130,10 70,14 40,30"/><path d="M212,24 C280,10 330,14 352,30"/>
+        </g>
+        <text x="90" y="12" font-size="5.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">FIRST()</text>
+        <text x="300" y="12" font-size="5.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">LAST()</text>
+        <text x="14" y="92" font-size="6" fill="#64748b" font-family="Inter, sans-serif">Offsets outside the window return Null &#8212; which is why the first period of a growth chart is always blank.</text>
+        <defs>
+          <marker id="tcL" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker>
+          <marker id="tcM" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+        </defs>
+      </svg>
+    </div>
+
     <h3 style="margin-top:1rem">Year-over-year growth in four clicks</h3>
     <ol class="steps">
       <li>

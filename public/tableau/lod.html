@@ -286,6 +286,39 @@
       <li>Table calculations<div class="lr-d">Run last, on the finished view</div></li>
     </ol>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 128" role="img" aria-label="With a West filter applied, a normal SUM shrinks but a FIXED grand total stays the same" style="width:100%;height:auto">
+        <text x="10" y="13" font-size="7.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">No filter &#8212; all four regions</text>
+        <line x1="10" y1="54" x2="196" y2="54" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><rect x="18" y="34" width="26" height="20"/><rect x="52" y="26" width="26" height="28"/>
+          <rect x="86" y="40" width="26" height="14"/><rect x="120" y="22" width="26" height="32"/></g>
+        <g font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="31" y="62">Cen</text><text x="65" y="62">East</text><text x="99" y="62">Sth</text><text x="133" y="62">West</text>
+        </g>
+        <text x="14" y="80" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">SUM([Sales]) &#8226; total shown</text>
+        <text x="150" y="80" font-size="6.8" font-weight="700" fill="#0f172a" font-family="Inter, sans-serif">$2.30M</text>
+        <text x="14" y="96" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">{FIXED : SUM([Sales])}</text>
+        <text x="150" y="96" font-size="6.8" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">$2.30M</text>
+
+        <line x1="206" y1="6" x2="206" y2="122" stroke="#e2e8f0"/>
+
+        <text x="218" y="13" font-size="7.5" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">Filter: Region = West</text>
+        <line x1="218" y1="54" x2="404" y2="54" stroke="#cbd5e1"/>
+        <g fill="#e2e8f0"><rect x="226" y="34" width="26" height="20"/><rect x="260" y="26" width="26" height="28"/><rect x="294" y="40" width="26" height="14"/></g>
+        <rect x="328" y="22" width="26" height="32" fill="#4a7dab"/>
+        <g font-size="5" fill="#cbd5e1" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="239" y="62">Cen</text><text x="273" y="62">East</text><text x="307" y="62">Sth</text>
+        </g>
+        <text x="341" y="62" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">West</text>
+        <text x="222" y="80" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">SUM([Sales])</text>
+        <text x="358" y="80" font-size="6.8" font-weight="700" fill="#047857" font-family="Inter, sans-serif">$0.73M</text>
+        <text x="222" y="96" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">{FIXED : SUM([Sales])}</text>
+        <text x="358" y="96" font-size="6.8" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">$2.30M</text>
+        <text x="222" y="110" font-size="5.8" fill="#b91c1c" font-family="Inter, sans-serif">&#8593; unchanged &#8212; it ran before the filter</text>
+      </svg>
+      <p class="figcap">The ordinary SUM drops to the West total. The FIXED expression does not budge, because step 4 happens before step 5. Sometimes that's exactly what you want &#8212; it's how you compute &#8220;West as a share of the <em>whole company</em>&#8221;.</p>
+    </div>
+
     <div class="callout danger" style="margin-top:.65rem">
       <div class="callout-title">⚠️ The behaviour that confuses everyone</div>
       <p>Filter your dashboard to the West region. A <code>{FIXED : SUM([Sales])}</code> grand total still shows <strong>$2,297,201</strong> — all four regions — because it was computed before your filter ran.</p>
