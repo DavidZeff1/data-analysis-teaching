@@ -51,6 +51,7 @@ const content = {
     glossary: () => fetch("/tableau/glossary.html").then((r) => r.text()),
     connections: () => fetch("/tableau/connections.html").then((r) => r.text()),
     interface: () => fetch("/tableau/interface.html").then((r) => r.text()),
+    marks: () => fetch("/tableau/marks.html").then((r) => r.text()),
     // Building views
     charts: () => fetch("/tableau/charts.html").then((r) => r.text()),
     measures: () => fetch("/tableau/measures.html").then((r) => r.text()),

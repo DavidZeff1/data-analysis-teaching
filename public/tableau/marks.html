@@ -1,0 +1,486 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🧱</span> Structure vs Marks</h1>
+    <p>The single idea that makes Tableau stop feeling random: <strong>Rows and Columns build the frame; the Marks card paints inside it.</strong> Two different jobs, two different places. Once you can tell which job you're doing, you can predict what every drag will do before you let go.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 25 min</span>
+      <span>🔑 Core mental model</span>
+      <span>🔗 Needs: Interface</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#mk-jobs">Two jobs</a>
+    <a href="#mk-anatomy">Anatomy of a view</a>
+    <a href="#mk-pane">Where dimensions meet</a>
+    <a href="#mk-same">One field, two destinations</a>
+    <a href="#mk-count">The mark-count rule</a>
+    <a href="#mk-not">What is not a mark</a>
+    <a href="#mk-format">Where formatting lives</a>
+    <a href="#mk-stack">Split or stack?</a>
+    <a href="#mk-fix">Symptom → cause → fix</a>
+    <a href="#mk-practice">Practice</a>
+  </nav>
+
+  <section class="lcard terms">
+    <h2><span class="ic">📖</span> Terms on this page</h2>
+    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <dl class="deflist two">
+      <div class="df">
+        <dt>Header</dt>
+        <dd>A <strong>text label</strong> created by a discrete (blue) field on Rows or Columns. It names a slice of the view.</dd>
+        <dd class="df-e"><b>Example:</b> Category on Columns gives three headers: Furniture, Office Supplies, Technology.</dd>
+      </div>
+      <div class="df">
+        <dt>Axis</dt>
+        <dd>A <strong>numeric scale</strong> created by a continuous (green) field on Rows or Columns.</dd>
+        <dd class="df-e"><b>Example:</b> SUM(Sales) on Rows gives a 0–800K axis up the left.</dd>
+      </div>
+      <div class="df">
+        <dt>Pane</dt>
+        <dd>One rectangle of drawing space, created where the row and column fields meet. Marks live inside panes.</dd>
+        <dd class="df-e"><b>Example:</b> Category on Columns × Region on Rows = 12 panes.</dd>
+      </div>
+      <div class="df">
+        <dt>Mark</dt>
+        <dd>One drawn thing representing data — a bar, dot, line segment, square or pie wedge.</dd>
+        <dd class="df-e"><b>Example:</b> Sales by Region as bars = four marks.</dd>
+      </div>
+      <div class="df">
+        <dt>Encoding</dt>
+        <dd>Attaching a field to a <strong>visual property</strong> of a mark: colour, size, shape, label.</dd>
+        <dd class="df-e"><b>Example:</b> Region on Color encodes region as hue.</dd>
+      </div>
+      <div class="df">
+        <dt>Level of detail (of the view)</dt>
+        <dd>The combination of <strong>every dimension in the view</strong> — shelves and Marks card together. It decides how many marks exist.</dd>
+        <dd class="df-e"><b>Example:</b> Category + Region → one mark per pair → 12 marks.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="lcard" id="mk-jobs">
+    <h2><span class="ic">⚖️</span> Two jobs, two places</h2>
+    <p>Every field you drag is doing one of two things. Not both. Knowing which one is the whole skill.</p>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Rows &amp; Columns — build the frame</div>
+        <p style="margin:.2rem 0 .5rem;font-size:.86rem">These shelves <strong>carve the sheet up</strong>. They decide how many panes there are, where the dividing lines fall, and what the labels down the side and along the bottom say.</p>
+        <ul style="margin:0;padding-left:1.1rem;font-size:.85rem;line-height:1.6">
+          <li>A <span class="pill dim sm">blue</span> field makes <strong>headers</strong></li>
+          <li>A <span class="pill msr sm">green</span> field makes an <strong>axis</strong></li>
+          <li>More fields here = <strong>more panes</strong></li>
+        </ul>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Marks card — paint inside it</div>
+        <p style="margin:.2rem 0 .5rem;font-size:.86rem">These targets <strong>never move a divider or rename a header</strong>. They change what the shapes inside each pane look like — and, in the case of Detail, how many of them there are.</p>
+        <ul style="margin:0;padding-left:1.1rem;font-size:.85rem;line-height:1.6">
+          <li>Color, Size, Shape, Label → <strong>appearance</strong></li>
+          <li>Detail → <strong>more marks, same look</strong></li>
+          <li>The frame stays exactly where it was</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The sentence to memorise</div>
+      <p><strong>Shelves decide where the boxes are. Marks decide what's drawn in them.</strong> If a drag changed the labels or the number of boxes, you touched the frame. If it changed colour, size, or how many shapes sit inside a box, you touched the marks.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-anatomy">
+    <h2><span class="ic">🔬</span> Anatomy of a view</h2>
+    <p>One chart: <span class="pill dim sm">Category</span> on Columns, <span class="pill msr sm">SUM(Sales)</span> on Rows. Six named parts — and only <strong>one</strong> of them is marks.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 230" style="display:block;width:100%;height:auto" role="img" aria-label="A bar chart with its axis, axis title, headers, panes, gridlines and marks labelled">
+        <line x1="180" y1="20" x2="180" y2="170" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+        <line x1="290" y1="20" x2="290" y2="170" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+        <g stroke="#eef2f7">
+          <line x1="70" y1="20" x2="400" y2="20"/>
+          <line x1="70" y1="50" x2="400" y2="50"/>
+          <line x1="70" y1="80" x2="400" y2="80"/>
+          <line x1="70" y1="110" x2="400" y2="110"/>
+          <line x1="70" y1="140" x2="400" y2="140"/>
+        </g>
+        <g fill="#4a7dab">
+          <rect x="95" y="59" width="60" height="111"/>
+          <rect x="205" y="62" width="60" height="108"/>
+          <rect x="315" y="45" width="60" height="125"/>
+        </g>
+        <line x1="70" y1="20" x2="70" y2="170" stroke="#94a3b8" stroke-width="1.2"/>
+        <line x1="70" y1="170" x2="400" y2="170" stroke="#94a3b8" stroke-width="1.2"/>
+        <g stroke="#94a3b8" stroke-width="1">
+          <line x1="66" y1="20" x2="70" y2="20"/>
+          <line x1="66" y1="50" x2="70" y2="50"/>
+          <line x1="66" y1="80" x2="70" y2="80"/>
+          <line x1="66" y1="110" x2="70" y2="110"/>
+          <line x1="66" y1="140" x2="70" y2="140"/>
+          <line x1="66" y1="170" x2="70" y2="170"/>
+        </g>
+        <g font-size="8" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="62" y="23">$1M</text>
+          <text x="62" y="53">800K</text>
+          <text x="62" y="83">600K</text>
+          <text x="62" y="113">400K</text>
+          <text x="62" y="143">200K</text>
+          <text x="62" y="173">0</text>
+        </g>
+        <text transform="rotate(-90 22 95)" x="22" y="95" font-size="9" fill="#475569" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <g font-size="9" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="125" y="185">Furniture</text>
+          <text x="235" y="185">Office Supplies</text>
+          <text x="345" y="185">Technology</text>
+        </g>
+        <text x="235" y="204" font-size="8.5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">Category</text>
+      </svg>
+      <span class="pin" style="left:16.7%;top:63%">1</span>
+      <span class="pin" style="left:5.2%;top:70%">2</span>
+      <span class="pin" style="left:20%;top:80.4%">3</span>
+      <span class="pin" style="left:56%;top:17.4%">4</span>
+      <span class="pin" style="left:29.8%;top:52.2%">5</span>
+      <span class="pin" style="left:94%;top:21.7%">6</span>
+    </div>
+    <ol class="pinlist">
+      <li><span class="pin">1</span><span><b>Axis</b> — made by the green measure on Rows. Chrome, not data.</span></li>
+      <li><span class="pin">2</span><span><b>Axis title</b> — the field's name. Rename or hide it freely; no mark changes.</span></li>
+      <li><span class="pin">3</span><span><b>Header</b> — made by the blue dimension on Columns. One per value.</span></li>
+      <li><span class="pin">4</span><span><b>Pane</b> — the drawing space under one header. Marks are confined to it.</span></li>
+      <li><span class="pin">5</span><span><b>Mark</b> — the bar itself. <strong>This is the only part the Marks card controls.</strong></span></li>
+      <li><span class="pin">6</span><span><b>Gridline</b> — worksheet formatting. Delete it and your data is untouched.</span></li>
+    </ol>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Five of the six are chrome</div>
+      <p>Axis, axis title, header, pane boundary and gridline are all <em>scaffolding</em> — Tableau draws them to hold your data, but they aren't your data. Restyling any of them is a formatting job and the Marks card has nothing to say about it.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-pane">
+    <h2><span class="ic">⊞</span> Where the dimensions meet</h2>
+    <p>Put a dimension on <strong>both</strong> Rows and Columns and you get a grid. Every intersection is a pane, and each pane gets its own marks drawn from just the rows of data belonging to that combination.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 200" style="display:block;width:100%;height:auto" role="img" aria-label="A four by three grid of panes, formed where Region on Rows meets Category on Columns">
+        <g font-size="9" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="130" y="24">Furniture</text>
+          <text x="235" y="24">Office Supplies</text>
+          <text x="340" y="24">Technology</text>
+        </g>
+        <g font-size="9" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="70" y="52">Central</text>
+          <text x="70" y="90">East</text>
+          <text x="70" y="128">South</text>
+          <text x="70" y="166">West</text>
+        </g>
+        <g fill="#eff6ff" stroke="#bfdbfe">
+          <rect x="78" y="32" width="105" height="38"/><rect x="183" y="32" width="105" height="38"/><rect x="288" y="32" width="105" height="38"/>
+          <rect x="78" y="70" width="105" height="38"/><rect x="183" y="70" width="105" height="38"/><rect x="288" y="70" width="105" height="38"/>
+          <rect x="78" y="108" width="105" height="38"/><rect x="183" y="108" width="105" height="38"/><rect x="288" y="108" width="105" height="38"/>
+          <rect x="78" y="146" width="105" height="38"/><rect x="183" y="146" width="105" height="38"/><rect x="288" y="146" width="105" height="38"/>
+        </g>
+        <g fill="#4a7dab">
+          <rect x="92" y="46" width="52" height="16"/><rect x="197" y="48" width="46" height="16"/><rect x="302" y="44" width="60" height="16"/>
+          <rect x="92" y="84" width="66" height="16"/><rect x="197" y="86" width="58" height="16"/><rect x="302" y="82" width="74" height="16"/>
+          <rect x="92" y="122" width="40" height="16"/><rect x="197" y="124" width="36" height="16"/><rect x="302" y="120" width="48" height="16"/>
+          <rect x="92" y="160" width="72" height="16"/><rect x="197" y="162" width="64" height="16"/><rect x="302" y="158" width="80" height="16"/>
+        </g>
+        <text x="235" y="194" font-size="8.5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">3 headers × 4 headers = 12 panes, 12 marks</text>
+      </svg>
+    </div>
+    <div class="grid3" style="margin-top:.6rem">
+      <div class="tile"><h3>Columns → vertical splits</h3><p style="margin:0;font-size:.84rem">Each value gets a slice of width. Headers run along the top.</p></div>
+      <div class="tile"><h3>Rows → horizontal splits</h3><p style="margin:0;font-size:.84rem">Each value gets a slice of height. Headers run down the left.</p></div>
+      <div class="tile"><h3>Both → a grid of panes</h3><p style="margin:0;font-size:.84rem">Every combination gets its own little chart. This is <em>small multiples</em>.</p></div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Nesting, not crossing</div>
+      <p>Two dimensions on the <em>same</em> shelf <strong>nest</strong> — Category then Region on Columns gives Furniture ▸ Central, Furniture ▸ East, … , one long strip of 12. Two dimensions on <em>opposite</em> shelves <strong>cross</strong> into the 3 × 4 grid above. Same 12 marks either way; the order of the pills is what changes the shape.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-same">
+    <h2><span class="ic">🎯</span> One field, two destinations</h2>
+    <p>This is the comparison worth staring at. Same data, same field, same <strong>twelve marks</strong> — dropped in two different places. Only the destination differs.</p>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Region → Columns (frame)</div>
+        <div class="shelf" style="margin-bottom:.25rem"><span class="sl">Columns</span><span class="pill dim sm">Category</span><span class="pill dim sm">Region</span></div>
+        <div class="shelf" style="margin-bottom:.4rem"><span class="sl">Rows</span><span class="pill msr sm">SUM(Sales)</span></div>
+        <svg viewBox="0 0 340 150" style="display:block;width:100%;height:auto" role="img" aria-label="Twelve separate bars in twelve panes, grouped under three category headers">
+          <g stroke="#eef2f7">
+            <line x1="20" y1="30" x2="330" y2="30"/><line x1="20" y1="60" x2="330" y2="60"/><line x1="20" y1="90" x2="330" y2="90"/>
+          </g>
+          <line x1="123" y1="16" x2="123" y2="112" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <line x1="226" y1="16" x2="226" y2="112" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <g fill="#4a7dab">
+            <rect x="30" y="82" width="16" height="30"/><rect x="56" y="86" width="16" height="26"/><rect x="82" y="92" width="16" height="20"/><rect x="108" y="78" width="16" height="34"/>
+            <rect x="133" y="84" width="16" height="28"/><rect x="159" y="82" width="16" height="30"/><rect x="185" y="90" width="16" height="22"/><rect x="211" y="80" width="16" height="32"/>
+            <rect x="236" y="76" width="16" height="36"/><rect x="262" y="82" width="16" height="30"/><rect x="288" y="88" width="16" height="24"/><rect x="314" y="72" width="16" height="40"/>
+          </g>
+          <line x1="20" y1="112" x2="330" y2="112" stroke="#94a3b8"/>
+          <line x1="20" y1="16" x2="20" y2="112" stroke="#94a3b8"/>
+          <g font-size="6.5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="38" y="122">C</text><text x="64" y="122">E</text><text x="90" y="122">S</text><text x="116" y="122">W</text>
+            <text x="141" y="122">C</text><text x="167" y="122">E</text><text x="193" y="122">S</text><text x="219" y="122">W</text>
+            <text x="244" y="122">C</text><text x="270" y="122">E</text><text x="296" y="122">S</text><text x="322" y="122">W</text>
+          </g>
+          <g font-size="8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="77" y="136">Furniture</text><text x="180" y="136">Office Supplies</text><text x="283" y="136">Technology</text>
+          </g>
+        </svg>
+        <p style="margin:.4rem 0 0;font-size:.82rem"><strong>12 panes, 12 bars.</strong> Region became structure: new headers, new dividers. Good for <em>comparing regions side by side</em>.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Region → Color (encoding)</div>
+        <div class="shelf" style="margin-bottom:.25rem"><span class="sl">Columns</span><span class="pill dim sm">Category</span></div>
+        <div class="shelf" style="margin-bottom:.4rem"><span class="sl">Rows</span><span class="pill msr sm">SUM(Sales)</span></div>
+        <svg viewBox="0 0 340 150" style="display:block;width:100%;height:auto" role="img" aria-label="Three stacked bars, each split into four coloured segments by region">
+          <g stroke="#eef2f7">
+            <line x1="20" y1="30" x2="330" y2="30"/><line x1="20" y1="60" x2="330" y2="60"/><line x1="20" y1="90" x2="330" y2="90"/>
+          </g>
+          <line x1="123" y1="16" x2="123" y2="112" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <line x1="226" y1="16" x2="226" y2="112" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <g>
+            <rect x="52" y="82" width="42" height="30" fill="#4e79a7"/><rect x="52" y="56" width="42" height="26" fill="#f28e2b"/><rect x="52" y="36" width="42" height="20" fill="#59a14f"/><rect x="52" y="22" width="42" height="14" fill="#e15759"/>
+            <rect x="155" y="84" width="42" height="28" fill="#4e79a7"/><rect x="155" y="54" width="42" height="30" fill="#f28e2b"/><rect x="155" y="32" width="42" height="22" fill="#59a14f"/><rect x="155" y="20" width="42" height="12" fill="#e15759"/>
+            <rect x="258" y="76" width="42" height="36" fill="#4e79a7"/><rect x="258" y="46" width="42" height="30" fill="#f28e2b"/><rect x="258" y="22" width="42" height="24" fill="#59a14f"/><rect x="258" y="12" width="42" height="10" fill="#e15759"/>
+          </g>
+          <line x1="20" y1="112" x2="330" y2="112" stroke="#94a3b8"/>
+          <line x1="20" y1="16" x2="20" y2="112" stroke="#94a3b8"/>
+          <g font-size="8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+            <text x="73" y="126">Furniture</text><text x="176" y="126">Office Supplies</text><text x="279" y="126">Technology</text>
+          </g>
+        </svg>
+        <p style="margin:.4rem 0 0;font-size:.82rem"><strong>3 panes, 12 bar segments.</strong> Region became appearance: same three headers, marks split by colour inside each. Good for <em>seeing the total and its make-up</em>.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Identical numbers, different question</div>
+      <p>Both charts contain the same twelve values. The left one answers <em>"which region sells most Technology?"</em> — easy, the bars share a baseline. The right one answers <em>"how big is Technology overall, and who makes it up?"</em> — easy, the totals are whole bars. Neither is more correct; the <strong>destination you choose is the question you're asking</strong>.</p>
+      <p style="margin-top:.4rem">Note the axis rescaled: the left chart tops out around one region's sales, the right around a category total. Tableau always fits the axis to the marks it has to draw.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-count">
+    <h2><span class="ic">🔢</span> The rule that predicts everything</h2>
+    <p>You never have to guess how many marks you'll get. One rule covers every case:</p>
+    <div class="callout" style="margin:.5rem 0">
+      <div class="callout-title">The mark-count rule</div>
+      <p>Tableau draws <strong>one mark per distinct combination of every dimension in the view</strong> — those on Rows, Columns, <em>and</em> those on Color, Size, Shape, Label and Detail. Measures don't add marks; they only decide how far each mark stretches or how it's coloured.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sv">3</div><div class="sl">Categories</div></div>
+      <div class="stat"><div class="sv">× 4</div><div class="sl">Regions</div></div>
+      <div class="stat"><div class="sv">= 12</div><div class="sl">Marks — wherever the pills sit</div></div>
+    </div>
+    <p style="margin-top:.5rem">Watch the count change as a view gets built. The number in Tableau's <strong>bottom-left status bar</strong> is the ground truth — check it whenever a chart surprises you.</p>
+    <div class="buildsteps">
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">1</span> Measure only</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Rows</span><span class="pill msr sm">SUM(Sales)</span></div>
+          <svg viewBox="0 0 120 50" role="img" aria-label="A single tall bar">
+            <line x1="14" y1="8" x2="14" y2="42" stroke="#94a3b8"/><line x1="14" y1="42" x2="112" y2="42" stroke="#94a3b8"/>
+            <rect x="45" y="14" width="40" height="28" fill="#4a7dab"/>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>1 mark.</strong> No dimensions, so everything collapses into one bar: the grand total of all 9,994 rows.</p>
+      </figure>
+      <figure class="bstep">
+        <div class="bs-h"><span class="pin">2</span> Add a dimension to Columns</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Columns</span><span class="pill dim sm">Category</span></div>
+          <svg viewBox="0 0 120 50" role="img" aria-label="Three bars">
+            <line x1="14" y1="8" x2="14" y2="42" stroke="#94a3b8"/><line x1="14" y1="42" x2="112" y2="42" stroke="#94a3b8"/>
+            <g fill="#4a7dab"><rect x="26" y="18" width="20" height="24"/><rect x="56" y="20" width="20" height="22"/><rect x="86" y="12" width="20" height="30"/></g>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>3 marks.</strong> The frame gained three headers and three panes. One bar per pane.</p>
+      </figure>
+      <figure class="bstep done">
+        <div class="bs-h"><span class="pin">3</span> Drop Region on <em>Color</em></div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Marks</span><span class="pill dim sm">Region</span></div>
+          <svg viewBox="0 0 120 50" role="img" aria-label="Three stacked bars in four colours">
+            <line x1="14" y1="8" x2="14" y2="42" stroke="#94a3b8"/><line x1="14" y1="42" x2="112" y2="42" stroke="#94a3b8"/>
+            <g>
+              <rect x="26" y="34" width="20" height="8" fill="#4e79a7"/><rect x="26" y="27" width="20" height="7" fill="#f28e2b"/><rect x="26" y="21" width="20" height="6" fill="#59a14f"/><rect x="26" y="14" width="20" height="7" fill="#e15759"/>
+              <rect x="56" y="35" width="20" height="7" fill="#4e79a7"/><rect x="56" y="27" width="20" height="8" fill="#f28e2b"/><rect x="56" y="21" width="20" height="6" fill="#59a14f"/><rect x="56" y="15" width="20" height="6" fill="#e15759"/>
+              <rect x="86" y="32" width="20" height="10" fill="#4e79a7"/><rect x="86" y="24" width="20" height="8" fill="#f28e2b"/><rect x="86" y="17" width="20" height="7" fill="#59a14f"/><rect x="86" y="10" width="20" height="7" fill="#e15759"/>
+            </g>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>12 marks.</strong> The frame did <em>not</em> move — still three headers. Each bar split into four stacked segments.</p>
+      </figure>
+      <figure class="bstep done">
+        <div class="bs-h"><span class="pin">4</span> Move Region to Columns</div>
+        <div class="bs-frame">
+          <div class="shelf"><span class="sl">Columns</span><span class="pill dim sm">Category</span><span class="pill dim sm">Region</span></div>
+          <svg viewBox="0 0 120 50" role="img" aria-label="Twelve thin bars in twelve panes">
+            <line x1="14" y1="8" x2="14" y2="42" stroke="#94a3b8"/><line x1="14" y1="42" x2="119" y2="42" stroke="#94a3b8"/>
+            <g fill="#4a7dab">
+              <rect x="20" y="26" width="6" height="16"/><rect x="28" y="28" width="6" height="14"/><rect x="36" y="31" width="6" height="11"/><rect x="44" y="24" width="6" height="18"/>
+              <rect x="54" y="27" width="6" height="15"/><rect x="62" y="26" width="6" height="16"/><rect x="70" y="30" width="6" height="12"/><rect x="78" y="25" width="6" height="17"/>
+              <rect x="88" y="23" width="6" height="19"/><rect x="96" y="26" width="6" height="16"/><rect x="104" y="29" width="6" height="13"/><rect x="112" y="22" width="6" height="20"/>
+            </g>
+          </svg>
+        </div>
+        <p class="bs-d"><strong>Still 12 marks.</strong> Same count, new frame. Proof that the shelf choice controls <em>arrangement</em>, not quantity.</p>
+      </figure>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Adding a dimension changes your numbers too</div>
+      <p>Aggregates are computed <em>per mark</em>. A view showing AVG(Profit) by Category gives three averages; add Region to Detail and you get twelve, each averaged over fewer rows. The chart didn't "break" — you asked a finer question. This is exactly the trap that <a href="#tableau/lod">LOD expressions</a> exist to solve.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-not">
+    <h2><span class="ic">🚫</span> What is <em>not</em> a mark</h2>
+    <p>This is where most confusion lives. Plenty of things on screen look like part of the chart but are drawn by the worksheet, not by your data.</p>
+    <div class="ba">
+      <div class="ba-side after">
+        <div class="ba-h">✅ Marks — drawn from data</div>
+        <ul style="margin:0;padding-left:1.1rem;font-size:.85rem;line-height:1.7">
+          <li>Bars, lines, areas</li>
+          <li>Dots, circles, shapes</li>
+          <li>Squares in a heatmap</li>
+          <li>Pie wedges</li>
+          <li>Map polygons and pins</li>
+          <li>The numbers in a crosstab (mark type Text)</li>
+        </ul>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side">
+        <div class="ba-h">❌ Chrome — drawn by the worksheet</div>
+        <ul style="margin:0;padding-left:1.1rem;font-size:.85rem;line-height:1.7">
+          <li>Axis lines, ticks, tick labels</li>
+          <li><strong>Axis titles and headers</strong></li>
+          <li>Field labels on the shelves</li>
+          <li>Gridlines, zero lines, pane borders</li>
+          <li>Legends, titles, captions</li>
+          <li>Reference lines, trend lines, annotations</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">The filter test</div>
+      <p>Not sure which side something falls on? <strong>Ask what happens if you filter its data away.</strong> Marks disappear — filter out Technology and that bar is gone. Chrome doesn't: the axis, the gridlines and the axis title are all still sitting there. Hover is another giveaway — marks produce a tooltip, chrome doesn't.</p>
+      <p style="margin-top:.4rem">Reference and trend lines are the edge case: they're calculated <em>from</em> your data but they aren't marks. They live on the <a href="#tableau/analytics">Analytics pane</a>, they don't appear in the mark count, and the Marks card can't style them.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-format">
+    <h2><span class="ic">🎨</span> Where formatting actually lives</h2>
+    <p>Three separate control surfaces, and reaching for the wrong one is the usual reason "I can't find where to change this". <strong>Restyling a header or an axis is never a Marks card job.</strong></p>
+    <div class="grid3">
+      <div class="tile">
+        <h3>🔤 Headers &amp; axes</h3>
+        <p style="margin:0 0 .3rem;font-size:.84rem">Right-click the axis → <strong>Format</strong> (fonts, shading, alignment) or <strong>Edit Axis</strong> (range, title, tick spacing). Right-click a header → Format.</p>
+        <p style="margin:0;font-size:.8rem;color:#64748b">Changes: label text, font, size, number format, tick marks, axis range.</p>
+      </div>
+      <div class="tile">
+        <h3>🎯 The marks themselves</h3>
+        <p style="margin:0 0 .3rem;font-size:.84rem">The <strong>Marks card</strong>. Click Color / Size / Label / Shape, or the Color target's <em>Edit Colors</em>, border and halo options.</p>
+        <p style="margin:0;font-size:.8rem;color:#64748b">Changes: fill, opacity, borders, size, symbol, printed labels.</p>
+      </div>
+      <div class="tile">
+        <h3>🖼️ Worksheet chrome</h3>
+        <p style="margin:0 0 .3rem;font-size:.84rem"><strong>Format menu</strong> → Lines, Borders, Shading. Plus title, caption and legend formatting.</p>
+        <p style="margin:0;font-size:.8rem;color:#64748b">Changes: gridlines, zero lines, pane dividers, background.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Your point, stated plainly</div>
+      <p>Making the axis numbers bold, switching a header to italics, renaming an axis title or hiding tick marks changes <strong>zero marks</strong>. The bars are the same bars. Watch the mark count in the status bar while you do it — it won't move. Formatting the frame and encoding the data are different activities that happen to sit in the same window.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Two axes means two Marks cards</div>
+      <p>Build a dual-axis chart and the Marks card splits: an <strong>All</strong> card plus one per measure. Each controls only its own marks — that's how you make one measure a bar and the other a line. If a colour change isn't landing, check you're on the right card.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-stack">
+    <h2><span class="ic">🥞</span> Split or stack? Why Color behaves differently</h2>
+    <p>Drop a dimension on Color and what happens next depends on the mark type — which surprises people who expect Color to only ever recolour things.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:9rem">Mark type</th><th>Dimension on Color does…</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bar</strong></td><td><strong>Stacks</strong> segments inside each pane</td><td>Bars share a baseline, so Tableau piles them up rather than overlapping them</td></tr>
+          <tr><td><strong>Line</strong></td><td>Splits into <strong>one line per value</strong></td><td>Lines can coexist in a pane without hiding each other</td></tr>
+          <tr><td><strong>Circle / Shape</strong></td><td>Recolours the dots, adding marks if it's a new dimension</td><td>Points are positioned by their axes, so colour is free</td></tr>
+          <tr><td><strong>Area</strong></td><td>Stacks bands</td><td>Same baseline logic as bars</td></tr>
+          <tr><td><strong>Square (heatmap)</strong></td><td>Recolours cells</td><td>Position is already fixed by the row/column headers</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Stacked bars hide comparisons</div>
+      <p>Only the bottom segment of a stack shares a baseline, so the others are genuinely hard to compare — your eye has to judge lengths that start in different places. If the question is <em>"which region is biggest?"</em>, move the field from Color to Columns and give every bar the same starting line. If the question is <em>"what's the total, and roughly how is it split?"</em>, stacking is the right call. Turn stacking off entirely under <strong>Analysis → Stack Marks</strong>.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-fix">
+    <h2><span class="ic">🔧</span> Symptom → cause → fix</h2>
+    <p>Nearly every "why is my chart doing that?" reduces to a field sitting in the wrong one of the two places.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:14rem">Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Scatter plot shows <strong>one dot</strong></td><td>No dimension in the view, so all rows aggregate together</td><td>Put a dimension on <strong>Detail</strong></td></tr>
+          <tr><td>Bar chart is <strong>one giant bar</strong></td><td>Nothing partitioning the view</td><td>Put a dimension on <strong>Columns</strong> or <strong>Rows</strong></td></tr>
+          <tr><td>Got <strong>stacks</strong>, wanted side-by-side bars</td><td>Dimension is on Color with a bar mark</td><td>Move it to <strong>Columns</strong> (or turn off Stack Marks)</td></tr>
+          <tr><td>Marks split but <strong>no legend</strong> appeared</td><td>Field is on Detail, which adds granularity without encoding</td><td>Move it to <strong>Color</strong> if you want it readable</td></tr>
+          <tr><td>Averages <strong>changed</strong> after adding a field</td><td>Finer level of detail → each mark averages fewer rows</td><td>Expected. Use an <a href="#tableau/lod">LOD expression</a> to pin the grain</td></tr>
+          <tr><td>View is <strong>slow</strong>, thousands of marks</td><td>Too many dimensions in the view</td><td>Remove one, or filter before you aggregate</td></tr>
+          <tr><td>Restyled the axis, <strong>marks unchanged</strong></td><td>Working as designed — the axis is chrome</td><td>Nothing to fix. Use the Marks card for marks</td></tr>
+          <tr><td>Colour change <strong>won't apply</strong></td><td>Editing the wrong Marks card on a dual axis</td><td>Select the card for <em>that</em> measure, not <strong>All</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> Key intuitions</h2>
+    <ul class="ladder">
+      <li class="key">Rows and Columns build the <b>frame</b>; the Marks card paints <b>inside</b> it. Every drag is one job or the other.<span class="lr-d">If labels or pane count changed, you moved the frame.</span></li>
+      <li>Blue makes <b>headers</b>, green makes an <b>axis</b>. That's a structural difference, not a colour preference.</li>
+      <li>A <b>pane</b> is where the row and column fields meet. Marks never escape their pane.</li>
+      <li>Marks = one per combination of <b>every dimension in the view</b>, shelves and Marks card alike. Measures never add marks.</li>
+      <li>The same field on Columns vs on Color gives the <b>same mark count</b> arranged two different ways — pick by the question you're asking.</li>
+      <li><b>Detail</b> is the odd target: more marks, no visual change. Everything else changes appearance.</li>
+      <li>Axes, headers, titles, gridlines and legends are <b>chrome</b>. Restyling them touches no marks and the count never moves.</li>
+      <li>If a chart surprises you, read the <b>mark count in the status bar</b> before changing anything.</li>
+    </ul>
+  </section>
+
+  <section class="lcard accent" id="mk-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p>Do these in order on Superstore, watching the <strong>bottom-left mark count</strong> after every single step. That number is the fastest feedback loop in Tableau.</p>
+    <ol class="steps">
+      <li>Put <strong>SUM(Sales) on Rows</strong> alone. Predict the mark count before you look, then check.</li>
+      <li>Add <strong>Category to Columns</strong>. Count goes 1 → 3. Name the three new headers and the three new panes.</li>
+      <li>Drag <strong>Region to Color</strong>. Count goes 3 → 12 — but how many <em>headers</em> are there now? Say why out loud.</li>
+      <li>Drag that same Region pill from Color <strong>up to Columns</strong>. The count stays 12. Describe what changed in one sentence.</li>
+      <li>Put Region back on Color and <strong>Category on Rows</strong> instead. Same 12 marks again, third arrangement.</li>
+      <li>Right-click the Sales axis → <strong>Edit Axis</strong> and retitle it "Revenue". Confirm the mark count did not move.</li>
+      <li>Right-click the axis → <strong>Format</strong> and make the numbers bold. Confirm again. This is the point of the whole lesson.</li>
+      <li>Switch the mark type from Automatic to <strong>Square</strong>, then <strong>Line</strong>. Note which changes are structural and which are cosmetic.</li>
+      <li>Build a <strong>3 × 4 grid</strong>: Category on Columns, Region on Rows. Point at one pane and say exactly which rows of data feed it.</li>
+      <li>Drag <strong>Sub-Category to Detail</strong>. Predict the new count first (3 × 4 × 17 is wrong — work out why).</li>
+      <li>Turn on <strong>Analysis → Stack Marks → Off</strong> with a dimension on Color and a bar mark. Explain what you're now looking at.</li>
+      <li>Add a <strong>reference line</strong> for average sales. Confirm the mark count is unchanged, and try to recolour it from the Marks card.</li>
+    </ol>
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: predict before you drop</div>
+      <p>Ten drags in a row. Before releasing the mouse each time, say out loud <em>"this will change the frame"</em> or <em>"this will change the marks"</em>, and predict the new mark count. Getting eight out of ten right means you've internalised the model — and you'll never again be surprised by a chart that turned into one giant bar.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#tableau/interface"><span class="pl">← Previous</span><span class="pt">Interface Basics</span></a>
+    <a class="next" href="#tableau/charts"><span class="pl">Next →</span><span class="pt">Chart Types</span></a>
+  </nav>
+</div>
