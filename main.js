@@ -1,4 +1,5 @@
 import "./style.css";
+import { mountLabs } from "./lab-ui.js";
 
 // ---------------------------------------------------------------------------
 // Content map: tab -> sub -> loader returning the fragment's HTML
@@ -216,6 +217,7 @@ async function showSub(tab, sub, { updateHash = true, scroll = false } = {}) {
       renderMath(el);
       highlightCode(el);
       addCopyButtons(el);
+      mountLabs(el);
     } catch (err) {
       el.innerHTML = `<div class="load-error">
           <p><strong>Couldn't load this page.</strong></p>

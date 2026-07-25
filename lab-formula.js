@@ -19,23 +19,28 @@ import { DateValue, fromSerial, toSerial } from "./lab-data.js";
 // A cell value is: number | string | boolean | ErrValue | DateValue.
 // A range evaluates to a Matrix (2D array) so array functions can walk it.
 
+// An error optionally carries `why`: the specific reason this one was raised.
+// Excel shows you #VALUE! and leaves you guessing; a teaching tool shouldn't.
+// Callers that know the cause pass it, and the widget prefers it over the
+// generic per-code explanation.
 export class ErrValue {
-  constructor(code) {
+  constructor(code, why) {
     this.code = code;
+    this.why = why;
   }
   toString() {
     return this.code;
   }
 }
 export const ERR = {
-  div0: () => new ErrValue("#DIV/0!"),
-  value: () => new ErrValue("#VALUE!"),
-  ref: () => new ErrValue("#REF!"),
-  name: () => new ErrValue("#NAME?"),
-  na: () => new ErrValue("#N/A"),
-  num: () => new ErrValue("#NUM!"),
-  calc: () => new ErrValue("#CALC!"),
-  spill: () => new ErrValue("#SPILL!"),
+  div0: (why) => new ErrValue("#DIV/0!", why),
+  value: (why) => new ErrValue("#VALUE!", why),
+  ref: (why) => new ErrValue("#REF!", why),
+  name: (why) => new ErrValue("#NAME?", why),
+  na: (why) => new ErrValue("#N/A", why),
+  num: (why) => new ErrValue("#NUM!", why),
+  calc: (why) => new ErrValue("#CALC!", why),
+  spill: (why) => new ErrValue("#SPILL!", why),
 };
 export const isErr = (v) => v instanceof ErrValue;
 
@@ -322,7 +327,7 @@ function toNumber(v) {
     const t = v.trim();
     if (t === "") return 0;
     const n = Number(t.replace(/[$,]/g, ""));
-    return Number.isNaN(n) ? ERR.value() : n;
+    return Number.isNaN(n) ? ERR.value(`"${t}" is text, and it can't be used as a number here.`) : n;
   }
   return ERR.value();
 }
@@ -449,7 +454,11 @@ function binop(op, l, r) {
       const compatible =
         (l.rows === r.rows && (l.cols === 1 || r.cols === 1)) ||
         (l.cols === r.cols && (l.rows === 1 || r.rows === 1));
-      if (!compatible) return ERR.value();
+      if (!compatible) {
+        return ERR.value(
+          `Those ranges are different shapes (${l.rows}×${l.cols} and ${r.rows}×${r.cols}), so they can't be combined cell by cell.`,
+        );
+      }
     }
     const pick = (m, i, j) =>
       isMatrix(m) ? m.cells[m.rows === 1 ? 0 : i][m.cols === 1 ? 0 : j] : m;

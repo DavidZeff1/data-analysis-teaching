@@ -914,6 +914,99 @@
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   }
 
+  /* --- Live lab ------------------------------------------------------------
+     The `.sheet` mock above, made interactive. Same chrome on purpose: a
+     learner should read the live one as "that grid, but I can type in it". */
+  .lesson .lab .lab-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: #fff;
+    padding: 0.2rem 0.4rem;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: #0f172a;
+  }
+  .lesson .lab .lab-input:focus {
+    outline: none;
+    border-color: var(--accent, #4f46e5);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+  }
+  .lesson .lab .lab-out {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #cbd5e1;
+    background: #f8fafc;
+    min-height: 1.9rem;
+  }
+  .lesson .lab .lab-eq {
+    color: #94a3b8;
+  }
+  .lesson .lab .lab-val {
+    font-weight: 700;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+  }
+  .lesson .lab .lab-help,
+  .lesson .lab .lab-hint {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.74rem;
+    color: var(--l-dim, #64748b);
+  }
+  .lesson .lab .lab-out.is-err {
+    background: #fef2f2;
+    border-bottom-color: #fecaca;
+  }
+  .lesson .lab .lab-out.is-err .lab-val {
+    color: #b91c1c;
+  }
+  .lesson .lab .lab-out.is-spill {
+    background: #f5f3ff;
+    border-bottom-color: #ddd6fe;
+  }
+  .lesson .lab .lab-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: #fff;
+  }
+  .lesson .lab .lab-chip {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #334155;
+    font-family: inherit;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.55rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .lesson .lab .lab-chip:hover {
+    background: var(--accent-soft, #eef2ff);
+    border-color: var(--accent, #4f46e5);
+    color: var(--accent-strong, #4338ca);
+  }
+  /* The grid scrolls in both directions so all 32 rows stay reachable without
+     the widget taking over the page. */
+  .lesson .lab .lab-scroll {
+    max-height: 20rem;
+    overflow: auto;
+  }
+  .lesson .lab .lab-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .lesson .lab .lab-scroll tbody th {
+    z-index: 1;
+  }
+
   /* --- Before → after transform ------------------------------------------
      Two panels with an arrow between them. Collapses to stacked on mobile,
      where the arrow rotates to point downward. */

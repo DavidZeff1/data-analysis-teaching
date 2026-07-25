@@ -128,6 +128,16 @@
       <div class="callout-title">⚠️ The #1 SUMIFS bug: ranges must be the same size</div>
       <p><code>=SUMIFS(R2:R9995, M2:M5000, "West")</code> returns <span class="err">#VALUE!</span> — the sum range and criteria range have different heights. Use full columns (<code>R:R</code>, <code>M:M</code>) or an <a href="#excel/tables">Excel Table</a> to make this impossible.</p>
     </div>
+
+    <h3 style="margin:.9rem 0 .3rem">Try it on real rows</h3>
+    <p>The grid below is a 32-row extract of the same dataset — small enough to check by eye. Watch which columns light up: with <code>SUMIF</code> the <em>tested</em> column comes first, with <code>SUMIFS</code> the <em>added</em> column does.</p>
+    <div
+      data-lab
+      data-formula='=SUMIF(M2:M33,"West",R2:R33)'
+      data-cols="M,O,R,T,U"
+      data-examples='=SUMIF(M2:M33,"West",R2:R33)|=SUMIFS(R2:R33,M2:M33,"West")|=SUMIFS(R2:R33,M2:M33,"West",O2:O33,"Technology")|=SUMIFS(R2:R33,M2:M33,"West",R2:R33,">500")|=SUMIFS(R2:R33,M2:M5000,"West")|=SUMIFS(U2:U33,T2:T33,">0.2")'
+      data-note="The first two chips give the same answer with the arguments in opposite orders — that is the whole SUMIF/SUMIFS distinction. The fifth deliberately mismatches range heights to produce the #VALUE! above."
+    ></div>
   </section>
 
   <section class="lcard" id="ag-criteria">
