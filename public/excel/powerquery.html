@@ -383,6 +383,7 @@
       </li>
     </ol>
     <div class="callout warn" style="margin-top:.55rem"><p>If one file has a renamed or missing column, that file's rows come through as <code>null</code>. When results look wrong, group by <code>Source.Name</code> and count rows per file — the odd one out is usually obvious.</p></div>
+    <div class="callout tip" style="margin-top:.5rem"><p>Files that are <em>nearly</em> identical month to month are the normal case, not the exception. <a href="#excel/pqresilient">Resilient Power Query</a> is the follow-on lesson: how to write steps that survive a renamed column, a moved header row or a new category without breaking — or worse, without silently returning the wrong number.</p></div>
   </section>
 
   <section class="lcard" id="pq-load">
@@ -486,6 +487,10 @@ Number.Abs([Profit])
       <li><strong>Never type into the output table</strong> — refresh will erase it</li>
       <li><strong>M is case-sensitive</strong>, unlike worksheet formulas</li>
     </ul>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Where to go next</div>
+      <p>Everything above assumes next month's file looks like this month's. It usually doesn't, quite. <a href="#excel/pqresilient">Resilient Power Query</a> covers the eleven things that actually change — renamed columns, moving header rows, total rows, new categories, locale-mangled dates — and the handful of habits that make a query shrug them off.</p>
+    </div>
   </section>
 
   <section class="lcard accent" id="pq-practice">
@@ -513,6 +518,6 @@ Number.Abs([Profit])
 
   <nav class="pager" aria-label="Lesson navigation">
     <a href="#excel/validation"><span class="pl">← Previous</span><span class="pt">Cleaning &amp; Validation</span></a>
-    <a class="next" href="#excel/pivot"><span class="pl">Next →</span><span class="pt">Pivot Tables</span></a>
+    <a class="next" href="#excel/pqresilient"><span class="pl">Next →</span><span class="pt">Resilient Power Query</span></a>
   </nav>
 </div>

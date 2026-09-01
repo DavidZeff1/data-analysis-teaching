@@ -37,6 +37,7 @@ const content = {
     tables: () => fetch("/excel/tables.html").then((r) => r.text()),
     validation: () => fetch("/excel/validation.html").then((r) => r.text()),
     powerquery: () => fetch("/excel/powerquery.html").then((r) => r.text()),
+    pqresilient: () => fetch("/excel/pqresilient.html").then((r) => r.text()),
     pivot: () => fetch("/excel/pivot.html").then((r) => r.text()),
     // Communicating results
     charts: () => fetch("/excel/charts.html").then((r) => r.text()),
