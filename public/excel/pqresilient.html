@@ -1,0 +1,962 @@
+<div class="lesson">
+  <header class="lesson-hero">
+    <h1><span>🛡️</span> Resilient Power Query</h1>
+    <p>The monthly report is <em>mostly</em> the same. A column gets renamed, the title block gains a row, someone adds a "Notes" field, a total row creeps in at the bottom. Your query breaks — or worse, it doesn't break and quietly returns the wrong number. This lesson is the set of habits and recipes that make a query survive next month's file.</p>
+    <div class="lesson-meta">
+      <span>⏱️ 45 min</span>
+      <span>🖥️ Excel desktop only</span>
+      <span>🔗 Needs: Power Query</span>
+      <span>⭐ The one that saves your job</span>
+    </div>
+    <div class="rule"></div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#rq-why">Why it breaks</a>
+    <a href="#rq-arch">Query architecture</a>
+    <a href="#rq-schema">Pin the schema</a>
+    <a href="#rq-headers">Moving headers</a>
+    <a href="#rq-rows">Junk rows</a>
+    <a href="#rq-types">Types &amp; locale</a>
+    <a href="#rq-filters">Silent filters</a>
+    <a href="#rq-source">Sources that move</a>
+    <a href="#rq-errors">Routing errors</a>
+    <a href="#rq-canary">The change detector</a>
+    <a href="#rq-full">One full script</a>
+    <a href="#rq-trouble">Troubleshooting</a>
+    <a href="#rq-checklist">Monthly checklist</a>
+    <a href="#rq-practice">Practice</a>
+  </nav>
+
+  <section class="lcard" id="rq-why">
+    <h2><span class="ic">💣</span> Why last month's query breaks this month</h2>
+    <p>Power Query records what you <em>clicked</em>, not what you <em>meant</em>. You meant "keep the sales figure"; it recorded "keep the column literally called <code>Net Sales</code>, which is the 4th one". Next month it's called <code>Sales Amount</code> and it's the 6th. The recording is now a lie, and the query either errors or silently drops the column.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">A brittle query says</div>
+        <p style="margin:0;font-size:.86rem">"Skip 4 rows. Take columns 1, 3 and 7. They are called exactly this. Every value converts cleanly. Region is one of these five values."</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">A resilient query says</div>
+        <p style="margin:0;font-size:.86rem">"Find the row containing <code>Order ID</code>. Give me these six fields under whatever name they arrive; invent them as blank if missing. Anything that won't convert, park it for me to look at."</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.9rem">The eleven things that actually change</h3>
+    <p class="muted">Every broken monthly refresh you will ever debug is on this list. The right-hand column is the section that fixes it.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>What changed in the file</th><th>What you see</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>A column was <strong>renamed</strong></td><td><code>Column 'Net Sales' of the table wasn't found</code></td><td><a href="#rq-schema">Alias + pin schema</a></td></tr>
+          <tr><td>A column was <strong>dropped</strong></td><td>Same error, or nulls appear downstream</td><td><a href="#rq-schema">MissingField.UseNull</a></td></tr>
+          <tr><td>A column was <strong>added</strong></td><td>Extra column leaks into your output</td><td><a href="#rq-schema">Pin schema</a></td></tr>
+          <tr><td>Columns were <strong>reordered</strong></td><td>Wrong data under right heading</td><td><a href="#rq-schema">Pin schema</a></td></tr>
+          <tr><td>The <strong>title block</strong> grew a row</td><td>Headers are <code>Column1, Column2…</code></td><td><a href="#rq-headers">Anchor the header row</a></td></tr>
+          <tr><td>Headers gained <strong>spaces / line breaks</strong></td><td>Column not found, but it looks identical</td><td><a href="#rq-headers">Normalise names</a></td></tr>
+          <tr><td>A <strong>total or footnote row</strong> appeared</td><td>Totals double, or a text row breaks typing</td><td><a href="#rq-rows">Filter junk rows</a></td></tr>
+          <tr><td>Numbers arrived <strong>as text</strong></td><td><code>DataFormat.Error: We couldn't convert…</code></td><td><a href="#rq-types">Tolerant typing</a></td></tr>
+          <tr><td>Dates arrived in a <strong>different format</strong></td><td>03/04 read as 4 March instead of 3 April</td><td><a href="#rq-types">Type with locale</a></td></tr>
+          <tr><td>A <strong>new category</strong> appeared</td><td>Rows vanish, no error at all</td><td><a href="#rq-filters">Invert your filters</a></td></tr>
+          <tr><td>The <strong>file or sheet was renamed</strong></td><td><code>We couldn't find the file…</code></td><td><a href="#rq-source">Parameters &amp; patterns</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger" style="margin-top:.7rem">
+      <div class="callout-title">The dangerous half of that table</div>
+      <p>Rows that <strong>error</strong> are the lucky ones — you find out immediately. The killers are the silent ones: a frozen filter that drops a new region, an added column that shifts your data, a date parsed in the wrong locale. Those refresh green and hand you a number that is wrong by exactly enough to be believable. Everything in this lesson exists to convert silent failures into loud ones.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-arch">
+    <h2><span class="ic">🏗️</span> Build it in four queries, not one</h2>
+    <p>A single 40-step query is impossible to debug when it breaks at step 27. Split the work so that each query has one job, and so that when the source changes there is exactly <em>one</em> place to fix it.</p>
+
+    <div class="flow" style="margin:.6rem 0">
+      <div class="fnode"><div class="ft">pFilePath</div><div class="fd">parameter</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="ft">Raw_Sales</div><div class="fd">connection only</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="ft">Clean_Sales</div><div class="fd">connection only</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode done"><div class="ft">Sales</div><div class="fd">loaded to sheet</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="tile">
+        <h3>1 · Parameters</h3>
+        <p style="margin:0;font-size:.86rem">Folder path, file name, reporting month, cut-off date. <strong>Home → Manage Parameters</strong>. Nothing about <em>where</em> the data lives should be buried in a step.</p>
+      </div>
+      <div class="tile">
+        <h3>2 · Raw (connection only)</h3>
+        <p style="margin:0;font-size:.86rem">Connect and stop. No transformations at all — this is the "what did they actually send us" query you click when something looks wrong.</p>
+      </div>
+      <div class="tile">
+        <h3>3 · Clean (connection only)</h3>
+        <p style="margin:0;font-size:.86rem">All the defensive work: anchor headers, alias, pin schema, drop junk rows, set types. Ends with a table whose shape you can <em>guarantee</em>.</p>
+      </div>
+      <div class="tile">
+        <h3>4 · Output (loaded)</h3>
+        <p style="margin:0;font-size:.86rem">Business logic only: filters, calculated columns, grouping. Because Clean guarantees the shape, nothing here ever needs touching when the source wobbles.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">How to make a query "connection only"</div>
+      <p><strong>Home → Close &amp; Load To… → Only Create Connection</strong>. Or afterwards: right-click the query in the <em>Queries &amp; Connections</em> pane → <strong>Load To…</strong>. Intermediate queries should never land on a sheet — they clutter the workbook and slow the refresh.</p>
+    </div>
+
+    <div class="callout note" style="margin-top:.5rem">
+      <p><strong>Reference, don't duplicate.</strong> Right-click a query → <strong>Reference</strong> creates a new query that reads the output of the first. <strong>Duplicate</strong> copies all the steps, so a fix has to be made twice. If you ever find yourself fixing the same step in two queries, you used Duplicate when you wanted Reference.</p>
+    </div>
+
+    <div class="callout ok" style="margin-top:.5rem">
+      <div class="callout-title">Rename every step, in plain English</div>
+      <p>Right-click a step → <strong>Rename</strong>. <code>Removed junk rows and totals</code> tells the next person (you, in April) what the intent was. <code>Filtered Rows2</code> tells them nothing. When a query breaks, well-named steps cut the debugging time roughly in half.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-schema">
+    <h2><span class="ic">📌</span> Pin the schema — the single most valuable trick</h2>
+    <p>One line of M solves four of the eleven failure modes at once. Instead of removing the columns you don't want, <strong>declare the columns you do want</strong> — and tell Power Query what to do when one is missing.</p>
+
+    <div class="syn">
+      <div class="syn-head"><span class="syn-name">Table.SelectColumns</span><span class="syn-tag">Learn this one properly</span></div>
+      <div class="syn-body">
+        <div class="syn-sig"><b>Table.SelectColumns</b>(<i>table</i>, <i>{"names"}</i>, <i>missingField</i>)</div>
+        <ul class="syn-args">
+          <li><b>table</b> <span>the table coming out of the previous step</span></li>
+          <li><b>{"names"}</b> <span>the exact columns you want, in the order you want them</span></li>
+          <li><b>missingField</b> <span>what to do when a listed column isn't there</span></li>
+        </ul>
+<pre><span class="c">// The default: blow up if anything is missing</span>
+Table.SelectColumns(Source, {<span class="s">"Order ID"</span>, <span class="s">"Region"</span>, <span class="s">"Sales"</span>})
+
+<span class="c">// Skip it silently — column simply won't exist downstream</span>
+Table.SelectColumns(Source, {<span class="s">"Order ID"</span>, <span class="s">"Region"</span>, <span class="s">"Sales"</span>},
+                    MissingField.Ignore)
+
+<span class="c">// Create it, full of nulls — output shape never changes  ⭐</span>
+Table.SelectColumns(Source, {<span class="s">"Order ID"</span>, <span class="s">"Region"</span>, <span class="s">"Sales"</span>},
+                    MissingField.UseNull)</pre>
+      </div>
+    </div>
+
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>Option</th><th>Column missing →</th><th>Use it when</th></tr></thead>
+        <tbody>
+          <tr><td><code>MissingField.Error</code> <span class="muted">(default)</span></td><td>Query fails loudly</td><td>The column is essential — you'd rather stop than publish a report without it</td></tr>
+          <tr><td><code>MissingField.Ignore</code></td><td>Column just isn't in the output</td><td>Optional extras, and for renames (below)</td></tr>
+          <tr><td><code>MissingField.UseNull</code></td><td>Column appears, filled with <code>null</code></td><td><strong>The default choice.</strong> Downstream steps, pivots and formulas keep working; blanks show you what was missing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid3" style="margin-top:.7rem">
+      <div class="tile"><h3>✅ Fixes: added columns</h3><p style="margin:0;font-size:.85rem">A new <code>Notes</code> field appears in the export? It isn't on your list, so it never enters your query.</p></div>
+      <div class="tile"><h3>✅ Fixes: reordering</h3><p style="margin:0;font-size:.85rem">The output is in <em>your</em> listed order, whatever order the source used.</p></div>
+      <div class="tile"><h3>✅ Fixes: missing columns</h3><p style="margin:0;font-size:.85rem">With <code>UseNull</code>, the column exists anyway. Your pivot doesn't lose a field; your formulas don't return <code>#REF!</code>.</p></div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Where to type this</div>
+      <p>You don't have to write M from scratch. Click the columns you want → right-click → <strong>Remove Other Columns</strong>. Power Query writes <code>Table.SelectColumns(Source, {…})</code> for you. Then click that step and, in the <strong>formula bar</strong>, add <code>, MissingField.UseNull</code> before the closing bracket. Two seconds of typing, four failure modes gone.</p>
+      <p style="margin-top:.35rem">No formula bar? <strong>View → Formula Bar</strong>. Turn it on permanently — you'll use it constantly from here on.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">Handling the renames: an alias list</h3>
+    <p>Pinning the schema only works if the column is <em>called</em> what you expect. Deal with the source's favourite variations first, then pin. <code>Table.RenameColumns</code> takes the same <code>MissingField</code> argument, so you can list every alias you've ever seen and only the ones present get applied.</p>
+
+<pre><span class="c">// Rename first — list every alias the source has ever used</span>
+<span class="c">// MissingField.Ignore means unused aliases are simply skipped</span>
+Table.RenameColumns(Source, {
+    {<span class="s">"Cust ID"</span>,       <span class="s">"Customer ID"</span>},
+    {<span class="s">"Customer Id"</span>,   <span class="s">"Customer ID"</span>},
+    {<span class="s">"CustomerNumber"</span>,<span class="s">"Customer ID"</span>},
+    {<span class="s">"Net Sales"</span>,     <span class="s">"Sales"</span>},
+    {<span class="s">"Sales Amount"</span>,  <span class="s">"Sales"</span>},
+    {<span class="s">"Amount (GBP)"</span>,  <span class="s">"Sales"</span>}
+}, MissingField.Ignore)</pre>
+
+    <div class="callout danger" style="margin-top:.55rem">
+      <div class="callout-title">One trap with alias lists</div>
+      <p>If <em>two</em> aliases for the same target turn up in the same file — say both <code>Net Sales</code> and <code>Sales Amount</code> — the rename fails with <code>There were duplicate column names</code>. That is the correct behaviour: you genuinely don't know which one is the real figure. Open the Raw query and look before you decide.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">The grown-up version: an alias table on a worksheet</h3>
+    <p>Once you have more than a handful of aliases, stop editing M. Put a two-column Excel Table called <code>HeaderAliases</code> on a sheet in the workbook and drive the renames from it — then a colleague can add next month's variation without opening the editor.</p>
+
+    <div class="split">
+      <div>
+        <div class="sheet">
+          <div class="sheet-bar"><span class="sheet-ref">HeaderAliases</span></div>
+          <div class="sheet-scroll">
+            <table>
+              <thead><tr><th>From</th><th>To</th></tr></thead>
+              <tbody>
+                <tr><td>Cust ID</td><td>Customer ID</td></tr>
+                <tr><td>Customer Id</td><td>Customer ID</td></tr>
+                <tr><td>Net Sales</td><td>Sales</td></tr>
+                <tr><td>Sales Amount</td><td>Sales</td></tr>
+                <tr><td>Rgn</td><td>Region</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:.4rem;font-size:.84rem">A real Excel Table (<span class="kbd">Ctrl</span> <span class="kbd">T</span>), named in the Name Box.</p>
+      </div>
+      <div>
+<pre><span class="c">// Read the alias table straight out of this workbook</span>
+Aliases = Excel.CurrentWorkbook(){[Name = <span class="s">"HeaderAliases"</span>]}[Content],
+
+<span class="c">// Table.ToRows turns it into {{"Cust ID","Customer ID"}, …}</span>
+<span class="c">// which is exactly the shape RenameColumns wants</span>
+Renames = Table.ToRows(Table.SelectColumns(Aliases, {<span class="s">"From"</span>, <span class="s">"To"</span>})),
+
+Renamed = Table.RenameColumns(Source, Renames, MissingField.Ignore)</pre>
+        <div class="callout ok" style="margin-top:.5rem">
+          <p>Now "the report changed its column names again" is a <strong>data-entry job</strong>, not a development job. Add a row, refresh, done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-headers">
+    <h2><span class="ic">🎯</span> Headers that move and headers that lie</h2>
+
+    <h3>Problem 1: the title block grows</h3>
+    <p>Exports love a preamble — a logo row, a "Report generated 03/02/2026" line, a blank row, then the headers. Power Query records <code>Table.Skip(Source, 4)</code>. Next month there's a new subtitle and your headers become <code>Column1, Column2, Column3</code>.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#fef2f2;border-color:#fecaca">
+        <div class="h" style="color:#b91c1c">✗ Brittle — counts rows</div>
+<pre><span class="c">// "Remove Top Rows → 4"</span>
+Table.Skip(Source, <span class="n">4</span>)</pre>
+        <p style="margin:.35rem 0 0;font-size:.85rem">Breaks the moment the preamble changes height.</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">✓ Resilient — finds an anchor</div>
+<pre><span class="c">// Skip rows until one of them contains "Order ID"</span>
+Table.Skip(Source, <span class="k">each</span> <span class="k">not</span> List.Contains(
+    List.Transform(Record.FieldValues(_),
+                   (v) =&gt; Text.Trim(Text.From(v))),
+    <span class="s">"Order ID"</span>))</pre>
+        <p style="margin:.35rem 0 0;font-size:.85rem">Works whether the preamble is 2 rows or 12.</p>
+      </div>
+    </div>
+
+    <div class="callout note" style="margin-top:.55rem">
+      <p><strong>Reading that snippet:</strong> <code>Table.Skip</code> normally takes a number, but it also accepts a <em>condition</em> — "keep skipping while this is true". <code>Record.FieldValues(_)</code> is the current row as a list of values; <code>List.Transform</code> turns each value into trimmed text so the comparison is reliable; <code>List.Contains</code> asks "is the anchor word anywhere in this row?". Then <strong>Home → Use First Row as Headers</strong>.</p>
+    </div>
+
+    <div class="callout warn" style="margin-top:.5rem">
+      <p><strong>Pick an anchor that cannot be renamed</strong> — an ID column, usually. And know the failure mode: if the anchor is never found, <code>Table.Skip</code> skips <em>everything</em> and you get an empty table rather than an error. The <a href="#rq-canary">change detector</a> catches that; a row-count check catches it too.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">Problem 2: the header looks identical but isn't</h3>
+    <p><code>"Sales "</code> with a trailing space, <code>"Net#(lf)Sales"</code> with a line break from a wrapped cell, or a non-breaking space pasted out of a web report. You cannot see any of it, and every rename and column reference fails. Normalise the names <em>before</em> you try to match them.</p>
+
+<pre><span class="c">// Clean every column name in one step, whatever it's called</span>
+Table.TransformColumnNames(Source, <span class="k">each</span>
+    Text.Trim(
+      Text.Clean(                            <span class="c">// strips control chars</span>
+        Text.Replace(
+          Text.Replace(_, <span class="s">"#(lf)"</span>, <span class="s">" "</span>),    <span class="c">// line feeds → space</span>
+          Character.FromNumber(<span class="n">160</span>), <span class="s">" "</span>))))  <span class="c">// nbsp → space</span></pre>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">The same trick for values, not just headers</div>
+      <p>Non-breaking spaces hide in <em>data</em> too, and they are why a lookup "obviously" matches but returns nothing. <code>Text.Clean</code> alone won't remove them — character 160 is not a control character. Add the <code>Character.FromNumber(160)</code> replace to your text-cleanup step as a matter of routine.</p>
+    </div>
+
+    <h3 style="margin-top:.9rem">Problem 3: the auto "Changed Type" step</h3>
+    <p>Power Query adds a <code>Changed Type</code> step immediately after Source, naming <strong>every single column</strong>. It is the most common cause of a broken monthly refresh: drop one column from the source and the query fails at step 2 with an error that points at the wrong place.</p>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Delete it</h3>
+        <p style="margin:0;font-size:.86rem">Remove the automatic <code>Changed Type</code> step. Set types deliberately at the <em>end</em>, once you have pinned the schema and know exactly which columns exist.</p>
+      </div>
+      <div class="tile">
+        <h3>Stop it happening</h3>
+        <p style="margin:0;font-size:.86rem"><strong>File → Options and settings → Query Options → Data Load</strong>, and untick <em>Automatically detect column types and headers for unstructured sources</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-rows">
+    <h2><span class="ic">🧹</span> Junk rows: totals, blanks and footnotes</h2>
+    <p>The rows above your data are a header problem. The rows <em>inside and below</em> it are worse, because they look like data. A subtotal row lands in your SUMIFS. A "* excludes intercompany" footnote breaks your date conversion. And neither appears every month.</p>
+
+    <div class="sheet">
+      <div class="sheet-bar"><span class="sheet-ref">Feb export</span></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th>Order ID</th><th>Region</th><th>Sales</th></tr></thead>
+          <tbody>
+            <tr><td>CA-2016-152156</td><td>West</td><td class="num">261.96</td></tr>
+            <tr><td>CA-2016-138688</td><td>West</td><td class="num">14.62</td></tr>
+            <tr class="hd"><td>Subtotal West</td><td></td><td class="num">276.58</td></tr>
+            <tr><td>US-2015-108966</td><td>East</td><td class="num">957.58</td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr class="hd"><td>Grand Total</td><td></td><td class="num">1234.16</td></tr>
+            <tr class="hd"><td>* Excludes intercompany transfers</td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sheet-note">Three kinds of junk, none of which were in January's file. Total the Sales column now and you get roughly double the right answer.</div>
+    </div>
+
+    <h3 style="margin-top:.8rem">One filter handles all three</h3>
+    <p>Junk rows share a tell: the key column is either empty or isn't a real key. Filter on <em>that</em>, not on row position.</p>
+
+<pre><span class="c">// Keep only rows that look like genuine records</span>
+Table.SelectRows(Source, <span class="k">each</span>
+       [Order ID] &lt;&gt; <span class="k">null</span>
+   <span class="k">and</span> [Order ID] &lt;&gt; <span class="s">""</span>
+   <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"Total"</span>)
+   <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"Subtotal"</span>)
+   <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"*"</span>))</pre>
+
+    <div class="callout note" style="margin-top:.5rem">
+      <p>M's <code>and</code> short-circuits left to right, so the <code>null</code> check protects the <code>Text.StartsWith</code> calls that follow it. Keep the null test first.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:.7rem">
+      <div class="tile">
+        <h3>Even better: match the shape</h3>
+        <p style="margin:0;font-size:.86rem">If real IDs always look like <code>XX-0000-000000</code>, test for that instead of blacklisting words. It survives a subtotal row labelled in French.</p>
+<pre style="margin-top:.4rem"><span class="c">// Keep rows whose ID starts with 2 letters + "-"</span>
+Table.SelectRows(Source, <span class="k">each</span>
+    Text.Length(Text.From([Order ID])) &gt; <span class="n">3</span>
+    <span class="k">and</span> Text.At(Text.From([Order ID]), <span class="n">2</span>) = <span class="s">"-"</span>)</pre>
+      </div>
+      <div class="tile">
+        <h3>Blank rows, properly</h3>
+        <p style="margin:0;font-size:.86rem"><strong>Home → Remove Rows → Remove Blank Rows</strong> drops rows where <em>every</em> cell is empty. This is the M it writes — worth recognising:</p>
+<pre style="margin-top:.4rem">Table.SelectRows(Source, <span class="k">each</span> <span class="k">not</span> List.IsEmpty(
+    List.RemoveMatchingItems(
+        Record.FieldValues(_), {<span class="s">""</span>, <span class="k">null</span>})))</pre>
+        <p style="margin:.35rem 0 0;font-size:.85rem">Note it will <em>not</em> remove a subtotal row — that row has values.</p>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Order of operations for merged-cell exports</div>
+      <p>Exports with merged cells arrive with a value on the first row of each block and <code>null</code> underneath. <strong>Transform → Fill → Down</strong> repairs it — but only if you do it <em>before</em> you remove blank rows or filter anything out. Fill down first, filter second. Get that backwards and you fill values into the wrong groups without any warning.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Cut the tail off, safely</div>
+      <p>Never use <strong>Remove Bottom Rows → 3</strong> to lose the totals block. The block is 3 rows this month and 5 next month, and the step will happily eat real data. Filter on content, always.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-types">
+    <h2><span class="ic">🔢</span> Types: numbers as text, dates in the wrong language</h2>
+    <p>Typing is where a "mostly the same" file does its real damage, because a type error stops the whole query while a <em>successful</em> mis-conversion doesn't.</p>
+
+    <h3>Rule 1: type last, and only what you pinned</h3>
+    <p><code>Table.TransformColumnTypes</code> has no <code>MissingField</code> option — name a column that isn't there and it fails. That's fine, because by the time you type, <a href="#rq-schema">the schema is pinned</a> and every column is guaranteed to exist. This is the whole reason typing goes at the end.</p>
+
+<pre><span class="c">// Safe: these columns exist because SelectColumns guaranteed them</span>
+Table.TransformColumnTypes(Pinned, {
+    {<span class="s">"Order ID"</span>,    <span class="k">type</span> text},
+    {<span class="s">"Order Date"</span>,  <span class="k">type</span> date},
+    {<span class="s">"Region"</span>,      <span class="k">type</span> text},
+    {<span class="s">"Sales"</span>,       <span class="k">type</span> number}
+}, <span class="s">"en-GB"</span>)                    <span class="c">// ← the locale argument. Never omit it.</span></pre>
+
+    <h3 style="margin-top:.85rem">Rule 2: always pass a locale for dates</h3>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Without a locale</div>
+        <p style="margin:0;font-size:.86rem">Excel uses the machine's regional settings. <code>03/04/2026</code> is <strong>3 April</strong> on your laptop and <strong>4 March</strong> on your colleague's. Both refresh green. Only one is right.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">With a locale</div>
+        <p style="margin:0;font-size:.86rem">The same file gives the same answer on every machine, forever. Use the ribbon: <strong>Transform → Data Type → Using Locale…</strong>, or type the culture code as the third argument.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:.45rem">Common culture codes: <code>"en-GB"</code> day/month/year · <code>"en-US"</code> month/day/year · <code>"de-DE"</code> comma decimals · <code>"fr-FR"</code> · <code>"en-AU"</code>.</p>
+
+    <div class="callout danger" style="margin-top:.55rem">
+      <div class="callout-title">The tell-tale symptom</div>
+      <p>If a date column converts fine for <em>most</em> rows and errors on a few, you almost certainly have the locale backwards: <code>13/04</code> can't be a month so it errors, while <code>03/04</code> silently becomes the wrong day. A handful of date errors means <strong>all</strong> your dates are suspect, not just the failing ones.</p>
+    </div>
+
+    <h3 style="margin-top:.85rem">Rule 3: convert numbers tolerantly</h3>
+    <p>Currency symbols, thousands separators, a stray <code>-</code> for nil, accounting negatives in brackets, a percentage sign. <code>Table.TransformColumns</code> lets you write the conversion yourself, and it <em>does</em> take a <code>MissingField</code> argument.</p>
+
+<pre><span class="c">// Strip the decoration, then convert. Anything hopeless → null.</span>
+Table.TransformColumns(Source, {
+    {<span class="s">"Sales"</span>, <span class="k">each</span> <span class="k">try</span> Number.From(Text.Remove(Text.From(_),
+                  {<span class="s">"$"</span>, <span class="s">"£"</span>, <span class="s">"€"</span>, <span class="s">","</span>, <span class="s">" "</span>}))
+                  <span class="k">otherwise</span> <span class="k">null</span>, <span class="k">type</span> number},
+    {<span class="s">"Discount"</span>, <span class="k">each</span> <span class="k">try</span> Number.From(_) <span class="k">otherwise</span> <span class="k">null</span>, <span class="k">type</span> number}
+}, <span class="k">null</span>, MissingField.Ignore)</pre>
+
+    <details class="acc">
+      <summary>Handling accounting negatives — <code>(1,234.00)</code> means −1234</summary>
+<pre><span class="c">// Full-strength number cleaner: brackets, symbols, blanks and dashes</span>
+<span class="k">each</span>
+  <span class="k">let</span>
+      t = Text.Trim(Text.From(_)),
+      isNeg = t &lt;&gt; <span class="k">null</span> <span class="k">and</span> Text.StartsWith(t, <span class="s">"("</span>)
+                        <span class="k">and</span> Text.EndsWith(t, <span class="s">")"</span>),
+      core  = <span class="k">if</span> isNeg <span class="k">then</span> Text.Middle(t, <span class="n">1</span>, Text.Length(t) - <span class="n">2</span>) <span class="k">else</span> t,
+      bare  = Text.Remove(core, {<span class="s">"$"</span>, <span class="s">"£"</span>, <span class="s">"€"</span>, <span class="s">","</span>, <span class="s">" "</span>, <span class="s">"%"</span>}),
+      num   = <span class="k">if</span> bare = <span class="k">null</span> <span class="k">or</span> bare = <span class="s">""</span> <span class="k">or</span> bare = <span class="s">"-"</span>
+              <span class="k">then</span> <span class="k">null</span>
+              <span class="k">else</span> <span class="k">try</span> Number.From(bare) <span class="k">otherwise</span> <span class="k">null</span>
+  <span class="k">in</span>
+      <span class="k">if</span> isNeg <span class="k">and</span> num &lt;&gt; <span class="k">null</span> <span class="k">then</span> -num <span class="k">else</span> num</pre>
+      <p style="margin:.4rem 0 0;font-size:.86rem">Drop that into <strong>Add Column → Custom Column</strong>, or use it as the transformation inside <code>Table.TransformColumns</code>. It covers essentially every finance export you'll meet.</p>
+    </details>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title"><code>try … otherwise null</code> is a loaded gun</div>
+      <p>It converts loud failures into quiet blanks. That's exactly what you want for a report that must not stop — and exactly what you don't want if you never look at the blanks. Pair it with a null count in your <a href="#rq-canary">change detector</a>, or route the failures to a <a href="#rq-errors">rejects table</a>. "Zero errors" and "zero problems" are not the same statement.</p>
+    </div>
+
+    <details class="acc">
+      <summary>Dates arriving as text in one known format</summary>
+<pre><span class="c">// Explicit format + culture beats guessing</span>
+Table.TransformColumns(Source, {
+    {<span class="s">"Order Date"</span>, <span class="k">each</span> <span class="k">try</span> Date.FromText(Text.Trim(Text.From(_)),
+        [Format = <span class="s">"dd/MM/yyyy"</span>, Culture = <span class="s">"en-GB"</span>])
+        <span class="k">otherwise</span> <span class="k">null</span>, <span class="k">type</span> date}
+}, <span class="k">null</span>, MissingField.Ignore)</pre>
+    </details>
+
+    <details class="acc">
+      <summary>A date column that is half real dates, half Excel serial numbers</summary>
+<pre><span class="c">// 45689 is a serial number; "03/04/2026" is text. Handle both.</span>
+<span class="k">each</span> <span class="k">if</span> _ = <span class="k">null</span> <span class="k">then</span> <span class="k">null</span>
+     <span class="k">else</span> <span class="k">if</span> Value.Is(_, type number) <span class="k">then</span> Date.From(_)
+     <span class="k">else</span> <span class="k">try</span> Date.FromText(Text.Trim(Text.From(_)),
+              [Format = <span class="s">"dd/MM/yyyy"</span>, Culture = <span class="s">"en-GB"</span>]) <span class="k">otherwise</span> <span class="k">null</span></pre>
+      <p style="margin:.4rem 0 0;font-size:.86rem">This happens whenever somebody has typed a few rows by hand into an otherwise-clean export.</p>
+    </details>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Text columns: normalise the values, not just the type</div>
+      <p><code>West</code>, <code>west </code> and <code>WEST</code> are three regions as far as a Group By is concerned. Standardise as part of typing: <code>Text.Proper(Text.Trim(Text.From(_)))</code>. Do it in the Clean query so every downstream query benefits.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-filters">
+    <h2><span class="ic">🕳️</span> The silent killer: filters that freeze a list</h2>
+    <p>This one costs people their credibility, because there is no error, no warning, and no clue in the Applied Steps. It looks exactly like a working query.</p>
+
+    <p>You open the ▾ dropdown on <code>Region</code>, untick <em>Internal</em>, click OK. Power Query does <strong>not</strong> record "everything except Internal". It records the list of values you left ticked — a snapshot of the regions that existed on the day you built it:</p>
+
+<pre><span class="c">// What the checkbox dialog actually wrote</span>
+Table.SelectRows(Source, <span class="k">each</span> List.Contains(
+    {<span class="s">"East"</span>, <span class="s">"West"</span>, <span class="s">"Central"</span>, <span class="s">"South"</span>}, [Region]))</pre>
+
+    <p>In June the business opens a <strong>North</strong> region. North isn't on the list. Every North row is dropped. Your total is short by an entire region, the query refreshes without complaint, and you present it.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#fef2f2;border-color:#fecaca">
+        <div class="h" style="color:#b91c1c">✗ Include list — closed to the future</div>
+<pre>Table.SelectRows(Source, <span class="k">each</span> List.Contains(
+    {<span class="s">"East"</span>,<span class="s">"West"</span>,<span class="s">"Central"</span>,<span class="s">"South"</span>}, [Region]))</pre>
+        <p style="margin:.35rem 0 0;font-size:.85rem">New values are excluded by default. Silently.</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">✓ Exclude list — open to the future</div>
+<pre>Table.SelectRows(Source, <span class="k">each</span> <span class="k">not</span> List.Contains(
+    {<span class="s">"Internal"</span>, <span class="s">"Test"</span>}, [Region]))</pre>
+        <p style="margin:.35rem 0 0;font-size:.85rem">New values are included by default. Which is what you meant.</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">The rule: state what you're removing, never what you're keeping</div>
+      <p>Whenever the set of values can grow — regions, categories, product lines, cost centres, sales reps, statuses — write the filter as an exclusion. Use the dropdown's <strong>Text Filters → Does Not Equal</strong> rather than the checkboxes, or just edit the formula bar. Reserve include-lists for sets that genuinely cannot change, like <code>{"Yes","No"}</code>.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:.6rem">
+      <div class="tile">
+        <h3>Dates: relative, not absolute</h3>
+        <p style="margin:0;font-size:.86rem">"Order Date is after 01/01/2026" needs editing every year. Write it against today instead, so it moves on its own:</p>
+<pre style="margin-top:.4rem"><span class="c">// Rolling 13 months, no maintenance</span>
+Table.SelectRows(Source, <span class="k">each</span> [Order Date] &gt;=
+    Date.AddMonths(Date.StartOfMonth(
+        DateTime.Date(DateTime.LocalNow())), <span class="n">-12</span>))</pre>
+      </div>
+      <div class="tile">
+        <h3>Or drive it from a parameter</h3>
+        <p style="margin:0;font-size:.86rem">When the reporting period is a business decision rather than a rolling window, make it a parameter (<code>pStartDate</code>) and change it in one dialog — not by hunting through steps.</p>
+<pre style="margin-top:.4rem">Table.SelectRows(Source,
+    <span class="k">each</span> [Order Date] &gt;= pStartDate)</pre>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Audit the filters you already have</div>
+      <p>Open every existing query, click each <code>Filtered Rows</code> step, and read the formula bar. Any <code>List.Contains({…}, [SomeColumn])</code> on a growable column is a bug waiting for the right month. This is a ten-minute job that has saved more reports than any other item in this lesson.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-source">
+    <h2><span class="ic">📂</span> Sources that move: paths, sheets and folders</h2>
+
+    <h3>Never hard-code a path</h3>
+    <p>A step that says <code>C:\Users\dave\Downloads\Sales_Feb.xlsx</code> is broken for every colleague and broken next month. Put it in a parameter: <strong>Home → Manage Parameters → New Parameter</strong>, type Text.</p>
+
+<pre><span class="c">// pFolder = "C:\Finance\Monthly\"   (a Text parameter)</span>
+<span class="c">// pFile   = "Sales_2026_02.xlsx"    (a Text parameter)</span>
+Source = Excel.Workbook(File.Contents(pFolder &amp; pFile), <span class="k">null</span>, <span class="k">true</span>)</pre>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <p>Better still, put the path in a <strong>cell on a worksheet</strong>, make it a one-cell named Table, and read it with <code>Excel.CurrentWorkbook()</code>. Then whoever runs the report can repoint it without ever opening the Power Query editor.</p>
+    </div>
+
+    <h3 style="margin-top:.85rem">The sheet gets renamed every month</h3>
+    <p><code>Feb 2026</code>, then <code>Mar 2026</code>. Power Query recorded the exact name and now can't find it: <code>The key didn't match any rows in the table</code>. Select the sheet by <em>pattern</em> or by <em>position</em> instead.</p>
+
+<pre><span class="c">// By pattern — the safest, if the name has a stable word in it</span>
+Sheet = Table.SelectRows(Source,
+            <span class="k">each</span> [Kind] = <span class="s">"Sheet"</span>
+             <span class="k">and</span> Text.Contains(Text.Lower([Name]), <span class="s">"detail"</span>)){<span class="n">0</span>}[Data]
+
+<span class="c">// By position — first worksheet, whatever it's called</span>
+Sheet = Table.SelectRows(Source, <span class="k">each</span> [Kind] = <span class="s">"Sheet"</span>){<span class="n">0</span>}[Data]
+
+<span class="c">// Best of all — if the source has a real Excel Table, use it by name</span>
+Sheet = Source{[Item = <span class="s">"tblSales"</span>, Kind = <span class="s">"Table"</span>]}[Data]</pre>
+
+    <div class="callout note" style="margin-top:.5rem">
+      <p><code>Excel.Workbook()</code> returns one row per sheet, named range and Table, with a <code>Kind</code> column telling you which is which. Filtering on <code>Kind = "Sheet"</code> stops a stray named range being picked up. A real Excel Table in the source is always the most stable target — if you can persuade whoever sends the file to add one, do.</p>
+    </div>
+
+    <h3 style="margin-top:.85rem">A folder of files that aren't quite identical</h3>
+    <p><strong>From Folder</strong> plus <strong>Combine &amp; Transform</strong> builds a helper query from one sample file. That's perfect when all the files match, and fragile when they don't — one odd file kills the whole combine. When the files vary, write your own cleaning function and apply it per file.</p>
+
+    <ol class="steps">
+      <li>
+        <div class="s-t">Filter the file list before you read anything</div>
+        <p>Folders collect junk: Excel's <code>~$</code> lock files, an archive subfolder, someone's <code>.pdf</code>.</p>
+<pre>Files = Table.SelectRows(Source, <span class="k">each</span>
+        <span class="k">not</span> Text.StartsWith([Name], <span class="s">"~$"</span>)
+    <span class="k">and</span> Text.EndsWith(Text.Lower([Name]), <span class="s">".xlsx"</span>)
+    <span class="k">and</span> <span class="k">not</span> [Attributes][Hidden])</pre>
+      </li>
+      <li>
+        <div class="s-t">Write a cleaning function as its own query</div>
+        <p>New Query → Blank Query → Advanced Editor. It takes one raw table and returns a table with a guaranteed shape — every defensive trick from this lesson lives in here, once.</p>
+<pre><span class="c">// Query name: fnClean</span>
+(Raw <span class="k">as</span> table) <span class="k">as</span> table =&gt;
+<span class="k">let</span>
+    Promoted = Table.PromoteHeaders(Raw, [PromoteAllScalars = <span class="k">true</span>]),
+    Tidy     = Table.TransformColumnNames(Promoted,
+                   <span class="k">each</span> Text.Trim(Text.Clean(_))),
+    Named    = Table.RenameColumns(Tidy,
+                   {{<span class="s">"Net Sales"</span>, <span class="s">"Sales"</span>}}, MissingField.Ignore),
+    Pinned   = Table.SelectColumns(Named,
+                   {<span class="s">"Order ID"</span>, <span class="s">"Order Date"</span>, <span class="s">"Region"</span>, <span class="s">"Sales"</span>},
+                   MissingField.UseNull)
+<span class="k">in</span>
+    Pinned</pre>
+      </li>
+      <li>
+        <div class="s-t">Apply it to every file, keeping failures visible</div>
+        <p>Wrapping the call in <code>try</code> means one broken file can't stop the other eleven — but you still get told which one it was.</p>
+<pre>Called = Table.AddColumn(Files, <span class="s">"Result"</span>, <span class="k">each</span> <span class="k">try</span> fnClean(
+             Table.SelectRows(Excel.Workbook([Content]),
+                 <span class="k">each</span> [Kind] = <span class="s">"Sheet"</span>){<span class="n">0</span>}[Data])),
+
+Good   = Table.SelectRows(Called, <span class="k">each</span> <span class="k">not</span> [Result][HasError]),
+Bad    = Table.SelectRows(Called, <span class="k">each</span> [Result][HasError])</pre>
+      </li>
+      <li>
+        <div class="s-t">Expand the good ones, and load the bad ones too</div>
+        <p>Because every file went through <code>fnClean</code>, they all have the same columns and stack perfectly.</p>
+<pre>Data = Table.AddColumn(Good, <span class="s">"Table"</span>, <span class="k">each</span> [Result][Value]),
+Out  = Table.ExpandTableColumn(
+           Table.SelectColumns(Data, {<span class="s">"Name"</span>, <span class="s">"Table"</span>}), <span class="s">"Table"</span>,
+           {<span class="s">"Order ID"</span>, <span class="s">"Order Date"</span>, <span class="s">"Region"</span>, <span class="s">"Sales"</span>})</pre>
+      </li>
+    </ol>
+
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">Keep the file name</div>
+      <p>The <code>Name</code> column is often the only record of which month a row belongs to, and it's your first debugging tool: group by it and count rows. A file with 3 rows where the others have 4,000 is a failed export, not a quiet month.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Load <code>Bad</code> to a sheet</div>
+      <p>Add a column with <code>each [Result][Error][Message]</code> and load it. Two lines of work gives you a "files that failed this month, and why" report that appears automatically every refresh.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-errors">
+    <h2><span class="ic">⚠️</span> Route your errors, don't delete them</h2>
+    <p>When a value won't convert, Power Query puts an <code>Error</code> in that cell. The ribbon offers <strong>Remove Errors</strong>, and it is the most over-used button in the product: it makes the red go away and takes the evidence with it.</p>
+
+    <div class="grid3">
+      <div class="tile">
+        <h3>Remove Errors</h3>
+        <p style="margin:0;font-size:.86rem"><code>Table.RemoveRowsWithErrors</code>. Deletes the row entirely. Your totals drop and nothing tells you by how much.</p>
+      </div>
+      <div class="tile">
+        <h3>Replace Errors</h3>
+        <p style="margin:0;font-size:.86rem"><code>Table.ReplaceErrorValues</code>. Keeps the row, swaps the bad cell for <code>null</code> or <code>0</code>. Safer — the row still counts.</p>
+      </div>
+      <div class="tile">
+        <h3>Keep Errors ⭐</h3>
+        <p style="margin:0;font-size:.86rem"><code>Table.SelectRowsWithErrors</code>. On a <em>referenced</em> query, this becomes your rejects report.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:.85rem">The rejects pattern</h3>
+    <p>Reference the query <em>before</em> its error handling, twice. One branch is your clean output; the other is everything that failed. Both refresh together, so a problem can never hide.</p>
+
+    <div class="flow" style="margin:.6rem 0">
+      <div class="fnode"><div class="ft">Typed_Sales</div><div class="fd">errors still present</div></div>
+      <div class="farrow">⤴</div>
+      <div class="fnode done"><div class="ft">Sales</div><div class="fd">Remove Errors → sheet</div></div>
+      <div class="farrow">⤵</div>
+      <div class="fnode"><div class="ft">Sales_Rejects</div><div class="fd">Keep Errors → sheet</div></div>
+    </div>
+
+<pre><span class="c">// Query: Sales_Rejects  — reference Typed_Sales, then one step</span>
+Table.SelectRowsWithErrors(Typed_Sales)
+
+<span class="c">// Replace errors with null but keep the row and its other fields</span>
+Table.ReplaceErrorValues(Typed_Sales, {
+    {<span class="s">"Sales"</span>, <span class="k">null</span>},
+    {<span class="s">"Discount"</span>, <span class="k">null</span>}
+})</pre>
+
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">An empty rejects table is a good month</div>
+      <p>Put it on a sheet next to your output with a row count above it. Zero rows means the file was clean; forty rows means go and look. Either way you <em>know</em>, which is the entire difference between a report you can defend and one you can't.</p>
+    </div>
+
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Errors versus nulls — not the same thing</div>
+      <p>An <code>Error</code> is "this failed to convert". A <code>null</code> is "there was nothing here". Once you write <code>try … otherwise null</code> the distinction is gone forever, so decide deliberately: use <code>try/otherwise</code> where blank is genuinely acceptable, and let the error stand where it isn't.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-canary">
+    <h2><span class="ic">🐤</span> The change detector</h2>
+    <p>Everything so far makes the query <em>survive</em> a changed file. This makes it <em>tell you</em> the file changed — which matters, because "survived" sometimes means "quietly produced nulls all month".</p>
+
+    <p>Build one small query that compares this month's reality against your expectations and loads to a corner of a sheet. Read it for five seconds after every refresh.</p>
+
+<pre><span class="c">// Query name: Check_Schema — load this one to a sheet</span>
+<span class="k">let</span>
+    Expected  = {<span class="s">"Order ID"</span>, <span class="s">"Order Date"</span>, <span class="s">"Customer ID"</span>,
+                 <span class="s">"Region"</span>, <span class="s">"Sales"</span>, <span class="s">"Discount"</span>},
+    Actual    = Table.ColumnNames(Raw_Sales),
+    Missing   = List.Difference(Expected, Actual),
+    Extra     = List.Difference(Actual, Expected),
+
+    Rows      = Table.RowCount(Clean_Sales),
+    NullSales = List.Count(List.Select(
+                    Table.Column(Clean_Sales, <span class="s">"Sales"</span>), <span class="k">each</span> _ = <span class="k">null</span>)),
+    NullDates = List.Count(List.Select(
+                    Table.Column(Clean_Sales, <span class="s">"Order Date"</span>), <span class="k">each</span> _ = <span class="k">null</span>)),
+
+    Report = #table(
+        <span class="k">type</span> table [Check = text, Detail = text, Status = text],
+        {
+          {<span class="s">"Columns expected but missing"</span>, Text.Combine(Missing, <span class="s">", "</span>),
+              <span class="k">if</span> List.IsEmpty(Missing)  <span class="k">then</span> <span class="s">"OK"</span> <span class="k">else</span> <span class="s">"⚠ LOOK"</span>},
+          {<span class="s">"Columns new this month"</span>,     Text.Combine(Extra, <span class="s">", "</span>),
+              <span class="k">if</span> List.IsEmpty(Extra)    <span class="k">then</span> <span class="s">"OK"</span> <span class="k">else</span> <span class="s">"⚠ LOOK"</span>},
+          {<span class="s">"Rows loaded"</span>,                Text.From(Rows),
+              <span class="k">if</span> Rows &gt; <span class="n">0</span>              <span class="k">then</span> <span class="s">"OK"</span> <span class="k">else</span> <span class="s">"✗ FAIL"</span>},
+          {<span class="s">"Sales blank"</span>,                Text.From(NullSales),
+              <span class="k">if</span> NullSales = <span class="n">0</span>         <span class="k">then</span> <span class="s">"OK"</span> <span class="k">else</span> <span class="s">"⚠ LOOK"</span>},
+          {<span class="s">"Order Date blank"</span>,           Text.From(NullDates),
+              <span class="k">if</span> NullDates = <span class="n">0</span>         <span class="k">then</span> <span class="s">"OK"</span> <span class="k">else</span> <span class="s">"⚠ LOOK"</span>}
+        })
+<span class="k">in</span>
+    Report</pre>
+
+    <div class="sheet" style="margin-top:.7rem">
+      <div class="sheet-bar"><span class="sheet-ref">Checks</span><span class="sheet-fx">after March refresh</span></div>
+      <div class="sheet-scroll">
+        <table>
+          <thead><tr><th>Check</th><th>Detail</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Columns expected but missing</td><td>Discount</td><td class="bad">⚠ LOOK</td></tr>
+            <tr><td>Columns new this month</td><td>Discount %, Notes</td><td class="bad">⚠ LOOK</td></tr>
+            <tr><td>Rows loaded</td><td class="num">4,118</td><td class="good">OK</td></tr>
+            <tr><td>Sales blank</td><td class="num">0</td><td class="good">OK</td></tr>
+            <tr><td>Order Date blank</td><td class="num">0</td><td class="good">OK</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sheet-note">Five seconds of reading tells you exactly what happened: <code>Discount</code> was renamed to <code>Discount %</code>. Add the alias, refresh, done — and your Discount figures were never silently wrong, because <code>MissingField.UseNull</code> made them visibly blank instead.</div>
+    </div>
+
+    <h3 style="margin-top:.85rem">Two more checks worth adding</h3>
+    <div class="grid2">
+      <div class="tile">
+        <h3>Row count per month</h3>
+        <p style="margin:0;font-size:.86rem">Group the combined data by source file or month and count. A month that is 10× or 0.1× its neighbours is a broken export, and the pattern is obvious at a glance.</p>
+      </div>
+      <div class="tile">
+        <h3>Reconcile to the source total</h3>
+        <p style="margin:0;font-size:.86rem">If the export prints a grand total, capture it and compare against <code>List.Sum</code> of your loaded column. Matching to the penny is the strongest evidence you have that nothing was dropped.</p>
+      </div>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Make failure impossible to ignore</div>
+      <p>Put the Checks table at the <strong>top</strong> of the sheet people actually open, and add conditional formatting so anything other than <code>OK</code> turns red. A check nobody sees is a check that doesn't exist.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-full">
+    <h2><span class="ic">📜</span> The whole thing, in one script</h2>
+    <p>This is the <code>Clean_Sales</code> query from the four-query architecture, with every technique in this lesson applied in the right order. Paste it into <strong>View → Advanced Editor</strong>, change the column names to yours, and you have a query that will survive most of what next month throws at it.</p>
+
+<pre><span class="k">let</span>
+    <span class="c">// 1 ─ Source. The path lives in a parameter, never in a step.</span>
+    Source  = Excel.Workbook(File.Contents(pFolder &amp; pFile), <span class="k">null</span>, <span class="k">true</span>),
+
+    <span class="c">// 2 ─ Pick the sheet by pattern, not by its exact (monthly) name.</span>
+    Sheet   = Table.SelectRows(Source, <span class="k">each</span> [Kind] = <span class="s">"Sheet"</span>
+                  <span class="k">and</span> Text.Contains(Text.Lower([Name]), <span class="s">"detail"</span>)){<span class="n">0</span>}[Data],
+
+    <span class="c">// 3 ─ Drop the title block: skip rows until one holds the anchor.</span>
+    Skipped = Table.Skip(Sheet, <span class="k">each</span> <span class="k">not</span> List.Contains(
+                  List.Transform(Record.FieldValues(_),
+                      (v) =&gt; Text.Trim(Text.From(v))), <span class="s">"Order ID"</span>)),
+    Headers = Table.PromoteHeaders(Skipped, [PromoteAllScalars = <span class="k">true</span>]),
+
+    <span class="c">// 4 ─ Normalise header text so matching is reliable.</span>
+    Tidy    = Table.TransformColumnNames(Headers, <span class="k">each</span> Text.Trim(
+                  Text.Clean(Text.Replace(
+                      Text.Replace(_, <span class="s">"#(lf)"</span>, <span class="s">" "</span>),
+                      Character.FromNumber(<span class="n">160</span>), <span class="s">" "</span>)))),
+
+    <span class="c">// 5 ─ Accept every alias the source has ever used for a column.</span>
+    Named   = Table.RenameColumns(Tidy, {
+                  {<span class="s">"Cust ID"</span>,      <span class="s">"Customer ID"</span>},
+                  {<span class="s">"Customer Id"</span>,  <span class="s">"Customer ID"</span>},
+                  {<span class="s">"Net Sales"</span>,    <span class="s">"Sales"</span>},
+                  {<span class="s">"Sales Amount"</span>, <span class="s">"Sales"</span>},
+                  {<span class="s">"Rgn"</span>,          <span class="s">"Region"</span>}
+              }, MissingField.Ignore),
+
+    <span class="c">// 6 ─ Pin the schema. Missing → null. New → ignored. Order → mine.</span>
+    Pinned  = Table.SelectColumns(Named,
+                  {<span class="s">"Order ID"</span>, <span class="s">"Order Date"</span>, <span class="s">"Customer ID"</span>,
+                   <span class="s">"Region"</span>, <span class="s">"Sales"</span>, <span class="s">"Discount"</span>},
+                  MissingField.UseNull),
+
+    <span class="c">// 7 ─ Remove totals, footnotes and blanks by content, not position.</span>
+    Real    = Table.SelectRows(Pinned, <span class="k">each</span>
+                     [Order ID] &lt;&gt; <span class="k">null</span>
+                 <span class="k">and</span> [Order ID] &lt;&gt; <span class="s">""</span>
+                 <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"Total"</span>)
+                 <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"Subtotal"</span>)
+                 <span class="k">and</span> <span class="k">not</span> Text.StartsWith(Text.From([Order ID]), <span class="s">"*"</span>)),
+
+    <span class="c">// 8 ─ Clean the values: text tidied, money stripped of decoration.</span>
+    Values  = Table.TransformColumns(Real, {
+                  {<span class="s">"Region"</span>, <span class="k">each</span> Text.Proper(Text.Trim(Text.From(_))),
+                      <span class="k">type</span> text},
+                  {<span class="s">"Sales"</span>, <span class="k">each</span> <span class="k">try</span> Number.From(Text.Remove(Text.From(_),
+                      {<span class="s">"$"</span>, <span class="s">"£"</span>, <span class="s">"€"</span>, <span class="s">","</span>, <span class="s">" "</span>})) <span class="k">otherwise</span> <span class="k">null</span>,
+                      <span class="k">type</span> number},
+                  {<span class="s">"Discount"</span>, <span class="k">each</span> <span class="k">try</span> Number.From(_) <span class="k">otherwise</span> <span class="k">null</span>,
+                      <span class="k">type</span> number}
+              }, <span class="k">null</span>, MissingField.Ignore),
+
+    <span class="c">// 9 ─ Type it last, with an explicit locale. Safe: schema is pinned.</span>
+    Typed   = Table.TransformColumnTypes(Values, {
+                  {<span class="s">"Order ID"</span>,    <span class="k">type</span> text},
+                  {<span class="s">"Order Date"</span>,  <span class="k">type</span> date},
+                  {<span class="s">"Customer ID"</span>, <span class="k">type</span> text}
+              }, <span class="s">"en-GB"</span>)
+<span class="k">in</span>
+    Typed</pre>
+
+    <div class="callout note" style="margin-top:.6rem">
+      <div class="callout-title">Why this order and no other</div>
+      <p><strong>Find</strong> the headers before you can name columns → <strong>normalise</strong> the names before you can match them → <strong>alias</strong> them before you can pin them → <strong>pin</strong> the schema before you can safely type → <strong>filter junk rows</strong> before typing, so a footnote can't create errors → <strong>type last</strong>, when every column is guaranteed to exist. Each step depends on the one above it. Shuffle them and you reintroduce exactly the fragility you removed.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <p>Steps 5, 6, 7 and 9 are the four lines you will edit when the source changes — and they are the only ones. That is what the architecture buys you: a known place to look.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-trouble">
+    <h2><span class="ic">🔧</span> Troubleshooting: message → cause → fix</h2>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th>What Power Query says</th><th>What actually happened</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>The column 'X' of the table wasn't found</code></td>
+            <td>Renamed or dropped in the source — very often at the auto <code>Changed Type</code> step</td>
+            <td>Add an <a href="#rq-schema">alias</a>, then pin with <code>MissingField.UseNull</code>. Delete the auto Changed Type step.</td>
+          </tr>
+          <tr>
+            <td><code>The key didn't match any rows in the table</code></td>
+            <td>The sheet, Table or named range you navigated to has been renamed</td>
+            <td><a href="#rq-source">Select the sheet by pattern or position</a> instead of by exact name.</td>
+          </tr>
+          <tr>
+            <td><code>We couldn't find the file…</code> / <code>DataSource.Error</code></td>
+            <td>Hard-coded path; file moved, renamed, or is on someone else's Downloads folder</td>
+            <td>Move the path into a <a href="#rq-source">parameter</a> or a worksheet cell.</td>
+          </tr>
+          <tr>
+            <td><code>DataFormat.Error: We couldn't convert to Number</code></td>
+            <td>Text in a numeric column — currency symbol, <code>n/a</code>, a footnote row, or a thousands separator</td>
+            <td>Filter junk rows first, then <a href="#rq-types">convert tolerantly</a> with <code>try … otherwise null</code>.</td>
+          </tr>
+          <tr>
+            <td>Headers show as <code>Column1, Column2…</code></td>
+            <td>The title block changed height, so Promote Headers grabbed the wrong row</td>
+            <td><a href="#rq-headers">Anchor the header row</a> on a word that's always in it.</td>
+          </tr>
+          <tr>
+            <td>Query returns <strong>zero rows</strong>, no error</td>
+            <td>The header anchor wasn't found (so everything got skipped), or a filter excluded everything</td>
+            <td>Click back through the Applied Steps and find the step where the rows disappeared. Add a row count to your <a href="#rq-canary">checks</a>.</td>
+          </tr>
+          <tr>
+            <td>Totals are <strong>lower</strong> than expected, no error</td>
+            <td>A frozen include-list filter dropped a new category, or Remove Errors deleted rows</td>
+            <td><a href="#rq-filters">Invert the filter</a> to an exclusion; swap Remove Errors for a <a href="#rq-errors">rejects query</a>.</td>
+          </tr>
+          <tr>
+            <td>Totals are <strong>higher</strong> than expected, no error</td>
+            <td>A subtotal or grand-total row is being counted as data</td>
+            <td><a href="#rq-rows">Filter junk rows</a> on the key column.</td>
+          </tr>
+          <tr>
+            <td>Dates are wrong by a few days, or a few error</td>
+            <td>Locale mismatch — day/month read the wrong way round</td>
+            <td>Retype with <strong>Using Locale…</strong> and an explicit culture. Treat <em>every</em> date as suspect, not just the failures.</td>
+          </tr>
+          <tr>
+            <td>A column exists but is all <code>null</code></td>
+            <td>Appended tables whose column names differ (<code>Order Date</code> vs <code>OrderDate</code>), or <code>MissingField.UseNull</code> doing its job</td>
+            <td>Standardise names <em>before</em> appending. If it's UseNull, your <a href="#rq-canary">check query</a> already told you which column vanished.</td>
+          </tr>
+          <tr>
+            <td><code>Formula.Firewall: … references other queries or steps</code></td>
+            <td>Privacy levels: one query combines a workbook table (your alias map) with an external file</td>
+            <td><strong>Query Options → Privacy → Ignore the Privacy Levels</strong> for this file, or read both sources inside a single query.</td>
+          </tr>
+          <tr>
+            <td>Refresh has become very slow</td>
+            <td>Intermediate queries loading to sheets, or filters applied after expensive steps</td>
+            <td>Set helpers to <em>Connection Only</em>, filter and remove columns as early as possible.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">How to debug any of them in 60 seconds</div>
+      <p>Click each Applied Step from the top and watch the row count in the status bar. The step where the count goes wrong is your bug — you don't need to read a single line of M to find it.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="rq-checklist">
+    <h2><span class="ic">📋</span> The five-minute monthly run</h2>
+    <p>Once the query is built properly, the monthly process is a checklist rather than a project. Work down it in order and stop at the first thing that looks wrong.</p>
+
+    <ul class="check">
+      <li>Drop the new file in the folder — or update <code>pFile</code> if you're pointing at one file</li>
+      <li><strong>Data → Refresh All</strong> (<span class="kbd">Ctrl</span> <span class="kbd">Alt</span> <span class="kbd">F5</span>) and let it finish</li>
+      <li>Read the <strong>Checks</strong> table: any missing columns, any new columns?</li>
+      <li>Check the <strong>row count</strong> against last month — same order of magnitude?</li>
+      <li>Check the <strong>rejects</strong> table is empty (or that you understand why it isn't)</li>
+      <li>Reconcile one number — a grand total — against the source file</li>
+      <li>Spot-check three rows end to end: source file → output table → final figure</li>
+      <li>Only then look at the actual analysis</li>
+    </ul>
+
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">When something has changed</div>
+      <p>Fix it in <code>Clean_</code>, not in the output query and never on the worksheet. Add the alias, add the exclusion, widen the type handling. Then write one line in a notes sheet: <em>"Mar 2026 — Discount renamed to Discount %, alias added."</em> In eighteen months that note is the only reason anyone can explain a break in the trend.</p>
+    </div>
+
+    <div class="callout danger" style="margin-top:.5rem">
+      <div class="callout-title">Never patch the output by hand</div>
+      <p>Typing a corrected value into the loaded table is erased by the next refresh — and until then, your workbook disagrees with its own query. If a value is wrong, it is wrong in the source or in a step. Fix it there.</p>
+    </div>
+  </section>
+
+  <section class="lcard">
+    <h2><span class="ic">🧠</span> The habits, condensed</h2>
+    <ul>
+      <li><strong>Declare what you want, don't remove what you don't</strong> — <code>Table.SelectColumns(…, MissingField.UseNull)</code> is the single highest-value line in this lesson</li>
+      <li><strong>Never count rows or columns</strong> — anchor on content that can't move</li>
+      <li><strong>Normalise names before matching them</strong> — trailing spaces and line breaks are invisible and fatal</li>
+      <li><strong>Keep an alias list</strong>, on a worksheet once it grows past a handful</li>
+      <li><strong>Filter by exclusion</strong>, so new categories arrive instead of vanishing</li>
+      <li><strong>Type last, with a locale</strong>, after the schema is guaranteed</li>
+      <li><strong>Route errors to a rejects table</strong> rather than deleting them</li>
+      <li><strong>Ship a change detector</strong> — surviving silently is not the same as being correct</li>
+      <li><strong>Split into Raw → Clean → Output</strong>, so there is one place to fix things</li>
+      <li><strong>Rename every step</strong> in plain English</li>
+      <li><strong>Parameterise every path</strong>, and every date boundary you'd otherwise retype</li>
+    </ul>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">The mindset</div>
+      <p>Write every step as an answer to "what if this is slightly different next month?". You are not automating <em>this</em> file; you are describing the family of files it belongs to. Ten extra minutes now buys you back a morning of panic every quarter — and, more valuable than the time, a report you can actually vouch for.</p>
+    </div>
+  </section>
+
+  <section class="lcard accent" id="rq-practice">
+    <h2><span class="ic">🎯</span> Practice exercises</h2>
+    <p class="muted">Desktop Excel required. Take any dataset, save it as <code>Report_Jan.xlsx</code>, and build the query. Then sabotage a copy called <code>Report_Feb.xlsx</code> and see what survives.</p>
+
+    <h3>Build it</h3>
+    <ol>
+      <li>Create the four-query structure: <code>pFolder</code> and <code>pFile</code> parameters, <code>Raw_Sales</code>, <code>Clean_Sales</code>, <code>Sales</code> — with only the last one loaded to a sheet</li>
+      <li>In <code>Clean_Sales</code>, <strong>delete the automatic Changed Type step</strong></li>
+      <li>Pin the schema with <code>Table.SelectColumns(…, MissingField.UseNull)</code>, listing six columns</li>
+      <li>Add a <code>Table.RenameColumns(…, MissingField.Ignore)</code> alias step <em>before</em> it</li>
+      <li>Type the columns at the very end, passing an explicit locale</li>
+      <li>Rename every step so the list reads as plain English</li>
+      <li>Build <code>Check_Schema</code> and load it to a "Checks" sheet</li>
+    </ol>
+
+    <h3 style="margin-top:.8rem">Break it</h3>
+    <p class="muted">In <code>Report_Feb.xlsx</code>, make one change at a time, point <code>pFile</code> at it, refresh, and write down what happened before you fix it.</p>
+    <ol>
+      <li>Rename <code>Sales</code> to <code>Net Sales</code> — does the Checks table catch it?</li>
+      <li>Delete the <code>Discount</code> column entirely — does the output keep its shape?</li>
+      <li>Add a <code>Notes</code> column — does it leak into your output?</li>
+      <li>Reorder three columns — does anything change at all? <em>(It shouldn't.)</em></li>
+      <li>Insert two extra rows above the headers — fix it with an anchor rather than a count</li>
+      <li>Add a <strong>Grand Total</strong> row at the bottom — does your total double?</li>
+      <li>Put <code>£1,234.50</code> in one Sales cell — make it convert instead of erroring</li>
+      <li>Type <code>n/a</code> in another — send it to a rejects table rather than deleting the row</li>
+      <li>Add a new region called <strong>North</strong> — if your rows drop, you have a frozen filter to invert</li>
+      <li>Add a trailing space to the <code>Region</code> header — fix it with <code>Table.TransformColumnNames</code></li>
+    </ol>
+
+    <div class="callout tip" style="margin-top:.75rem">
+      <div class="callout-title">🏆 Challenge: the folder that fights back</div>
+      <p>Build a folder pipeline over twelve monthly files using your own <code>fnClean</code> function rather than the auto-generated sample-file helper. Then corrupt <em>one</em> file — delete its header row entirely. A good pipeline loads the other eleven, lists the failed file and its error message on a sheet, and reports the row count per month so the gap is obvious. Get that working and you have built something genuinely production-grade.</p>
+    </div>
+  </section>
+
+  <nav class="pager" aria-label="Lesson navigation">
+    <a href="#excel/powerquery"><span class="pl">← Previous</span><span class="pt">Power Query</span></a>
+    <a class="next" href="#excel/pivot"><span class="pl">Next →</span><span class="pt">Pivot Tables</span></a>
+  </nav>
+</div>

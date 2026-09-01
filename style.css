@@ -518,18 +518,21 @@
   }
 
   /* --- Grids & tiles ---------------------------------------------------- */
+  /* `minmax(0, 1fr)` rather than `1fr`: a bare `1fr` track is floored at its
+     content's width, so a wide code block or table stretches the track past the
+     viewport instead of scrolling inside its own `overflow-x` box. */
   .lesson .grid2,
   .lesson .grid3 {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.85rem;
   }
   @media (min-width: 640px) {
     .lesson .grid2 {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .lesson .grid3 {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   .lesson .tile {
@@ -767,6 +770,9 @@
   /* Copy button injected by main.js onto every lesson code block. */
   .lesson .pre-wrap {
     position: relative;
+    /* Sits between a grid item and the scrollable <pre>, so it needs the same
+       min-width release for the code to scroll rather than stretch its track. */
+    min-width: 0;
   }
   .lesson .pre-wrap .copy-btn {
     position: absolute;
@@ -1544,12 +1550,12 @@
      side-by-side code comparisons. */
   .lesson .split {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
   }
   @media (min-width: 820px) {
     .lesson .split {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   .lesson .muted {
