@@ -73,7 +73,7 @@
 
   <section class="lcard" id="if-dimmeas">
     <h2><span class="ic">🔵🟢</span> Dimensions vs Measures</h2>
-    <p>The most important concept in Tableau, and it's colour-coded so you never have to guess. Every field is one or the other.</p>
+    <p>Every field is one or the other, and which one it is decides what dragging it does: dimensions carve the sheet into slots, measures put numbers in those slots. Tableau colour-codes the two so you can tell at a glance.</p>
     <div class="split">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
         <div class="h" style="color:#1d4ed8"><span class="pill dim">Dimensions</span> — blue</div>
@@ -185,7 +185,7 @@
 
   <section class="lcard" id="if-discont">
     <h2><span class="ic">🔀</span> Discrete vs Continuous — the second colour rule</h2>
-    <p>This trips up nearly everyone, because it's a <em>separate</em> distinction from dimension/measure. Blue means <strong>discrete</strong>; green means <strong>continuous</strong>.</p>
+    <p>Blue means <strong>discrete</strong>; green means <strong>continuous</strong>. This is a <em>second</em>, independent distinction — dimension/measure says what kind of field it is, discrete/continuous says how Tableau draws it. Most dimensions happen to be discrete and most measures continuous, which is why the two look like one rule at first, but either can be switched: a date dimension can be green and continuous (one timeline), and a measure can be blue and discrete (a label rather than an axis). Right-click a pill and you can flip it.</p>
     <div class="grid2">
       <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
         <h3><span class="pill dim sq">Discrete</span> — distinct values</h3>
@@ -289,7 +289,7 @@
     <div class="grid2" style="margin-top:.75rem">
       <div class="tile"><h3>📋 Data pane (left)</h3><p style="margin:0;font-size:.86rem">Every field in your source, dimensions above measures. Drag from here onto shelves or straight onto the canvas.</p></div>
       <div class="tile"><h3>📐 Columns &amp; Rows</h3><p style="margin:0;font-size:.86rem">Your X and Y axes. <strong>Columns = horizontal</strong>, <strong>Rows = vertical</strong> — the naming confuses everyone at first.</p></div>
-      <div class="tile"><h3>🎨 Marks card</h3><p style="margin:0;font-size:.86rem">How the data points <em>look</em>. Colour, size, labels, tooltips. Where charts become expressive.</p></div>
+      <div class="tile"><h3>🎨 Marks card</h3><p style="margin:0;font-size:.86rem">How the data points <em>look</em> — colour, size, labels, tooltips. It never moves a header or an axis.</p></div>
       <div class="tile"><h3>🔍 Filters &amp; Pages</h3><p style="margin:0;font-size:.86rem">Filters limit what's shown. Pages steps through values one at a time — useful for animating over time.</p></div>
       <div class="tile"><h3>🖼️ Canvas</h3><p style="margin:0;font-size:.86rem">The view itself. You can drop fields directly here and Tableau guesses where they belong.</p></div>
       <div class="tile"><h3>📊 Show Me (top right)</h3><p style="margin:0;font-size:.86rem">Suggests chart types for the fields you've selected, greying out the ones that won't work.</p></div>
@@ -310,13 +310,9 @@
           <tr><td><strong>Marks → Size</strong></td><td>Scales marks by a measure</td><td>Bubble size on a map</td></tr>
           <tr><td><strong>Marks → Label</strong></td><td>Prints text on the marks</td><td>Values on bar ends</td></tr>
           <tr><td><strong>Marks → Detail</strong></td><td>Adds granularity <em>without</em> visual change</td><td>Splits a scatter into one dot per sub-category</td></tr>
-          <tr><td><strong>Marks → Tooltip</strong></td><td>Adds fields to the hover panel</td><td>Extra context, free of charge</td></tr>
+          <tr><td><strong>Marks → Tooltip</strong></td><td>Adds fields to the hover panel</td><td>Show profit and margin on hover without crowding the chart</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="callout tip" style="margin-top:.6rem">
-      <div class="callout-title">Detail is the one worth understanding early</div>
-      <p>Every other Marks target changes appearance. <strong>Detail changes granularity</strong> — it splits the data into more marks without colouring or resizing anything. That's how a scatter plot goes from one dot to one dot per sub-category. If a chart shows a single mark when you expected many, you need something on Detail.</p>
     </div>
   </section>
 
@@ -404,7 +400,7 @@
       <div class="tile"><h3>Area</h3><p style="margin:0;font-size:.84rem">Volume over time, stacked composition.</p></div>
       <div class="tile"><h3>Text</h3><p style="margin:0;font-size:.84rem">Crosstabs and KPI numbers.</p></div>
       <div class="tile"><h3>Map / Polygon</h3><p style="margin:0;font-size:.84rem">Filled geographic regions.</p></div>
-      <div class="tile"><h3>Pie</h3><p style="margin:0;font-size:.84rem">Unlocks an Angle target. Use sparingly.</p></div>
+      <div class="tile"><h3>Pie</h3><p style="margin:0;font-size:.84rem">Unlocks an Angle target. Two to five slices — angles are hard to rank by eye.</p></div>
       <div class="tile"><h3>Gantt Bar</h3><p style="margin:0;font-size:.84rem">Durations — the basis of timeline charts.</p></div>
     </div>
   </section>
@@ -422,7 +418,7 @@
       </li>
       <li>
         <div class="s-t">Sort it</div>
-        <p>Hover the Sales axis and click the descending sort icon. Now the biggest category is on top and the chart answers its own question.</p>
+        <p>Hover the Sales axis and click the descending sort icon. The biggest category moves to the top, so the ranking is readable from the shape alone instead of by comparing numbers.</p>
       </li>
       <li>
         <div class="s-t">Add a second dimension to Color</div>
@@ -435,7 +431,7 @@
     </ol>
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">The fastest way to learn: double-click everything</div>
-      <p>Double-clicking a field drops it where Tableau thinks it belongs. Double-click Sales, then Category, then Region, and watch what happens at each step. You'll build an intuition for the shelves far quicker by watching Tableau's guesses than by planning each drag.</p>
+      <p>Double-clicking a field drops it where Tableau thinks it belongs. Double-click Sales, then Category, then Region, and watch what happens at each step. Tableau's guesses follow the same rules you're learning — measures go to an axis, dimensions go to a shelf as headers — so watching where each field lands teaches you the shelves faster than planning every drag yourself.</p>
     </div>
   </section>
 
@@ -494,7 +490,7 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: one dataset, six views, ten minutes</div>
-      <p>Give yourself ten minutes and build six different views of Superstore — no planning, no perfectionism. Then look at them together and pick the one that tells you something you didn't already know. Speed of iteration is Tableau's actual advantage, and it's a skill you build by deliberately working faster than feels comfortable.</p>
+      <p>Give yourself ten minutes and build six different views of Superstore — no planning, no perfectionism. Then look at them together and pick the one that tells you something you didn't already know. Five of the six being useless is the expected result: the aim is to find out which questions the data answers well, and that is cheaper to discover by building six charts than by reasoning about it in advance.</p>
     </div>
   </section>
 

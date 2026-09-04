@@ -292,7 +292,7 @@
 
     <div class="callout tip" style="margin-top:.55rem">
       <div class="callout-title">CASE when you can, IF when you must</div>
-      <p><code>CASE</code> is faster and far more readable, but it only compares one field against exact values. Anything involving ranges, multiple fields, or <code>AND</code>/<code>OR</code> needs <code>IF</code>. The sort-order trick above is worth remembering — it's how you get Ship Mode to sort by speed rather than alphabetically.</p>
+      <p><code>CASE</code> is faster and far more readable, but it only compares one field against exact values. Anything involving ranges, multiple fields, or <code>AND</code>/<code>OR</code> needs <code>IF</code>. The sort-order example above is how you get Ship Mode to sort by speed rather than alphabetically: the CASE returns a number, and you sort the dimension by that field instead of by its own name.</p>
     </div>
 
     <h3 style="margin-top:1rem">Combining conditions</h3>
@@ -358,7 +358,7 @@
 <span class="c">// Combine — + concatenates in Tableau, not &amp;</span>
 [City] + <span class="s">", "</span> + [State]
 
-<span class="c">// Splitting on a delimiter (4th part, from the left)</span>
+<span class="c">// Splitting on a delimiter — the number is which part, counting from the left</span>
 <span class="f">SPLIT</span>([Order ID], <span class="s">"-"</span>, <span class="n">2</span>)             <span class="c">// "2016"</span></pre>
     <div class="callout note" style="margin-top:.5rem"><p>You can often skip the calculation entirely: right-click a field in the Data pane → <strong>Split</strong> or <strong>Custom Split</strong>. Tableau writes the fields for you and they're easier to maintain.</p></div>
   </section>
@@ -385,7 +385,7 @@
 
   <section class="lcard" id="ca-params">
     <h2><span class="ic">🎛️</span> Parameters — let the viewer decide</h2>
-    <p>A parameter is a single value a user can change. On its own it does nothing; combined with a calculated field it becomes the most flexible control in Tableau.</p>
+    <p>A parameter is a single value a user can change. On its own it does nothing — it isn't tied to any field and filters nothing. It only has an effect once a calculation, a filter or a reference line reads it, and then whatever reads it responds live as the viewer changes the value.</p>
     <ol class="steps">
       <li>
         <div class="s-t">Create the parameter</div>
@@ -413,8 +413,8 @@
   <span class="k">ELSE</span> <span class="f">AVG</span>([Discount])
 <span class="k">END</span></pre>
     <div class="callout ok" style="margin-top:.55rem">
-      <div class="callout-title">The measure swapper is worth building once</div>
-      <p>Drop that calculation on Rows and give viewers the parameter control. One chart now serves four questions, and your dashboard needs a quarter of the space. It's the single highest-value parameter pattern in Tableau.</p>
+      <div class="callout-title">The measure swapper — one chart, four metrics</div>
+      <p>Drop that calculation on Rows and give viewers the parameter control. One chart now serves four questions, so a dashboard that would need four sheets needs one. The catch: because the branches return different units, set the number format on the sheet rather than on the field, and write the title with the parameter in it so the reader knows which metric they're looking at.</p>
     </div>
   </section>
 
@@ -451,7 +451,7 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: an order quality score</div>
-      <p>Build a score from several criteria — 3 points for profit over $100, 2 for no discount, 1 for fast shipping — then bucket the total into Excellent / Good / Poor. Colour a scatter of Sales vs Profit by that score. The interesting part isn't the calculation; it's deciding what deserves points and defending it. Then check whether high-scoring orders cluster anywhere: a particular segment, region, or category. If they do, you've found something actionable.</p>
+      <p>Build a score from several criteria — 3 points for profit over $100, 2 for no discount, 1 for fast shipping — then bucket the total into Excellent / Good / Poor. Colour a scatter of Sales vs Profit by that score. The interesting part isn't the calculation; it's deciding what deserves points and defending it. Then check whether high-scoring orders cluster anywhere: a particular segment, region, or category. A cluster means the score is picking up something structural about the business rather than just re-describing profit.</p>
     </div>
   </section>
 

@@ -335,7 +335,7 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
       </div>
       <div class="tile">
         <h3>Pareto chart</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem">Sorted bars with a cumulative-percentage line on a dual axis. Needs two <a href="#tableau/tablecalcs">table calculations</a> and is worth the effort.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Sorted bars with a cumulative-percentage line on a dual axis. Reading across to where the line hits 80% tells you how few categories account for most of the total. Needs two <a href="#tableau/tablecalcs">table calculations</a> — a running sum and a percent of total.</p>
       </div>
       <div class="tile">
         <h3>Small multiples</h3>
@@ -354,7 +354,7 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
 
   <section class="lcard" id="ct-showme">
     <h2><span class="ic">💡</span> Show Me — useful, with a caveat</h2>
-    <p>Select fields, open Show Me (top right), and available chart types light up while impossible ones grey out. Hovering any option tells you what fields it needs — genuinely the fastest way to learn the requirements of each chart.</p>
+    <p>Select fields, open Show Me (top right), and available chart types light up while impossible ones grey out. Hovering any option spells out what it needs — "1 or more Dimensions, 2 Measures" — so the panel doubles as a reference for what each chart type requires.</p>
     <div class="grid2">
       <div class="tile" style="background:#ecfdf5;border-color:#a7f3d0">
         <h3>✓ Good for</h3>
@@ -409,7 +409,7 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: the same question, four ways</div>
-      <p>Take one question — "how do our categories perform across regions?" — and answer it with a grouped bar chart, a stacked bar, a highlight table and small multiples. Put all four side by side and decide which you'd actually present, and why. The answer depends on whether the audience needs precise values, overall pattern, or a single comparison, and being able to articulate that choice is more valuable than knowing how to build any one of them.</p>
+      <p>Take one question — "how do our categories perform across regions?" — and answer it with a grouped bar chart, a stacked bar, a highlight table and small multiples. Put all four side by side and decide which you'd actually present, and why. Each one makes a different comparison easy: grouped bars for ranking regions within a category, stacked for each region's total and mix, a highlight table for exact values, small multiples for the shape of each region on a shared scale. The right choice is whichever matches the comparison your audience needs to make.</p>
     </div>
   </section>
 

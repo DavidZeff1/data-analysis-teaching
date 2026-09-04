@@ -180,7 +180,7 @@
 
   <section class="lcard" id="mv-pivot">
     <h2><span class="ic">🔄</span> The one idea: they unpivot your measures</h2>
-    <p>This is what makes everything else obvious. Measure Names and Measure Values perform an <strong>unpivot</strong> — the same reshape as <a href="#excel/powerquery">Power Query's Unpivot</a>, done on the fly and invisibly. Follow the colours to trace where each number goes.</p>
+    <p>Measure Names and Measure Values perform an <strong>unpivot</strong> — the same reshape as <a href="#excel/powerquery">Power Query's Unpivot</a>, done on the fly and invisibly. Every pattern in the rest of this page follows from that one reshape. Follow the colours to trace where each number goes.</p>
 
     <div class="ba">
       <div class="ba-side">
@@ -303,7 +303,7 @@
 
   <section class="lcard" id="mv-card">
     <h2><span class="ic">🎛️</span> The Measure Values card — your control panel</h2>
-    <p>The moment Measure Values enters a view, a new card appears below the Marks card. Almost all the real work happens here, and it's easy to miss entirely.</p>
+    <p>The moment Measure Values enters a view, a new card appears below the Marks card. It lists the measures currently included, and editing that list — not the shelves — is how you add, remove, reorder and re-aggregate the columns of your table.</p>
 
     <div class="figure">
       <div class="viz">
@@ -393,7 +393,7 @@
     </div>
 
     <div class="callout tip" style="margin-top:.6rem">
-      <div class="callout-title">Two final touches that make it look designed</div>
+      <div class="callout-title">Two final touches: hide the field labels and the gridlines</div>
       <p>Right-click the grey "Measure Names" bar above the columns → <strong>Hide Field Labels for Columns</strong>, and do the same for Rows. Then turn off gridlines. The table becomes just headers and numbers — see <a href="#tableau/formatting">Formatting &amp; Custom Charts</a>.</p>
     </div>
   </section>
@@ -718,7 +718,7 @@
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: a full regional scorecard</div>
       <p>One sheet: Region and Sub-Category nested on Rows, seven metric columns — Sales, Profit, Margin, Orders, AOV, Average Discount, and Sales as a percent of total (a <a href="#tableau/tablecalcs">table calculation</a> added on the Measure Values card). Every column in its own units. Colour <em>only</em> the Margin column, using a calculation so the rest stays plain. Subtotals per region plus a grand total, with the Margin figures recomputing rather than adding up.</p>
-      <p style="margin-top:.4rem">Then hide the field labels, strip the gridlines, and add a Measure Names filter so viewers can hide columns they don't care about. That's a production-quality table — two special fields plus a lot of small deliberate choices.</p>
+      <p style="margin-top:.4rem">Then hide the field labels, strip the gridlines, and add a Measure Names filter so viewers can hide columns they don't care about. Everything beyond the two generated fields is a small formatting decision, and the finished table is the sum of about a dozen of them.</p>
     </div>
   </section>
 

@@ -256,7 +256,7 @@
   </section>
 
   <section class="lcard" id="fm-axes">
-    <h2><span class="ic">📏</span> Axes — where a chart starts telling the truth or not</h2>
+    <h2><span class="ic">📏</span> Axes — the settings that change what a chart claims</h2>
     <p>Right-click any axis → <strong>Edit Axis</strong>. Two of these settings decide whether your chart is honest.</p>
 
     <h3>Include zero</h3>
@@ -425,7 +425,7 @@
       </table>
     </div>
     <div class="callout ok" style="margin-top:.65rem">
-      <div class="callout-title">The Highlighter is the underused one</div>
+      <div class="callout-title">Highlighter vs filter</div>
       <p>Typing in it dims everything that doesn't match while <strong>keeping it visible</strong> — so a viewer can find one product line among fifty without losing the context of the rest. On a tangled multi-line chart it beats a filter, because the comparison survives.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
@@ -544,12 +544,12 @@
       </div>
       <div class="tile">
         <h3>Custom palettes</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> — a small settings file Tableau reads at startup, kept in the <em>My Tableau Repository</em> folder in your Documents —, define a palette with hex values, and restart Tableau. It then appears in every workbook.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">For brand colours, edit <code>Preferences.tps</code> — a small settings file Tableau reads at startup, kept in the <em>My Tableau Repository</em> folder in your Documents. Define a palette in it with hex values, restart Tableau, and it appears in every workbook.</p>
       </div>
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Colour one thing, grey the rest</div>
-      <p>The highest-impact colour decision in any chart — you can see it in the cleanup example above. A chart where all twelve bars are different colours has no focal point, so the reader has to work out what matters. Assign the greys explicitly in Edit Colors.</p>
+      <p>A chart where all twelve bars are different colours has no focal point, so the reader has to work out for themselves which one matters. Give the bar you're talking about the accent colour and everything else a neutral grey, and the sentence in your title now has something to point at. Assign the greys explicitly in Edit Colors.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
       <p><strong>Accessibility:</strong> roughly 1 in 12 men can't reliably separate red from green. Never let that pair be the <em>only</em> signal — pair colour with position, a label or a shape. Tableau's "Color Blind" categorical palette is a safe default.</p>
@@ -674,7 +674,7 @@ Orders  1,611
     </ul>
 
     <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">Viz in Tooltip — the best value feature in Tableau</div>
+      <div class="callout-title">Viz in Tooltip — a second chart that costs no space</div>
       <p><span class="mpath">Insert <i>→</i> Sheets <i>→</i></span> pick another worksheet. Hovering a region now pops up a small chart of that region's monthly trend, filtered automatically to what you're hovering. A whole second level of detail for zero dashboard space.</p>
       <p style="margin-top:.4rem">Keep the embedded sheet small and simple — it renders on every hover — and set <code>maxwidth</code> and <code>maxheight</code> in the inserted tag.</p>
     </div>
@@ -763,11 +763,11 @@ Profit by Sub-Category — All</pre>
   </section>
 
   <section class="lcard" id="fm-custom">
-    <h2><span class="ic">🛠️</span> Building genuinely custom charts</h2>
+    <h2><span class="ic">🛠️</span> Building custom charts</h2>
     <p>Almost every "how did they build that?" Tableau chart comes from a small set of techniques.</p>
 
     <div class="syn">
-      <div class="syn-head"><span class="syn-name">The placeholder axis</span><span class="syn-tag">The single most important custom-chart trick</span></div>
+      <div class="syn-head"><span class="syn-name">The placeholder axis</span><span class="syn-tag">A blank layer to draw on</span></div>
       <div class="syn-body">
         <p style="margin:0 0 .5rem;font-size:.9rem">Put a constant on a shelf to create a blank layer you can draw anything on. Double-click the empty part of a shelf and type:</p>
 <pre><span class="f">MIN</span>(<span class="n">0</span>)     <span class="c">// a flat axis at zero</span>
@@ -789,7 +789,7 @@ Profit by Sub-Category — All</pre>
             <text x="60" y="39" font-size="5.5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">0</text>
           </svg>
         </div>
-        <p class="bs-d">One flat axis, one mark. Nothing to look at yet — that's the point.</p>
+        <p class="bs-d">One flat axis, one mark, no data on it yet. <code>MIN(0)</code> exists only to give the sheet something to draw against.</p>
       </figure>
       <figure class="bstep">
         <div class="bs-h"><span class="pin">2</span> Put the number on it</div>
@@ -901,7 +901,7 @@ Profit by Sub-Category — All</pre>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: rebuild one chart to production standard</div>
       <p>Take any chart from this section and finish it properly. Every axis deliberate, gridlines gone, numbers in the right units, one accent colour with everything else grey, direct labels instead of a legend, a written tooltip, one annotation on the thing that matters, a dynamic title, and a caption with the data's as-of date.</p>
-      <p style="margin-top:.4rem">Then put before and after side by side, as in the cleanup example above. The data is identical — every difference is a formatting decision. That comparison is the most convincing argument there is for spending time on this.</p>
+      <p style="margin-top:.4rem">Then put before and after side by side, as in the cleanup example above. The data is identical, so every difference you can see is a formatting decision — which is a useful way to check whether each one earned its place, or just made the chart busier.</p>
     </div>
   </section>
 

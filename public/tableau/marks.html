@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🧱</span> Structure vs Marks</h1>
-    <p>The single idea that makes Tableau stop feeling random: <strong>Rows and Columns build the frame; the Marks card paints inside it.</strong> Two different jobs, two different places. Once you can tell which job you're doing, you can predict what every drag will do before you let go.</p>
+    <p><strong>Rows and Columns build the frame; the Marks card paints inside it.</strong> Two different jobs, two different places. Once you can tell which job a drag is doing, you can predict what it will change — the labels and pane count, or the shapes inside them — before you let go.</p>
     <div class="lesson-meta">
       <span>⏱️ 25 min</span>
       <span>🔑 Core mental model</span>
@@ -63,7 +63,7 @@
 
   <section class="lcard" id="mk-jobs">
     <h2><span class="ic">⚖️</span> Two jobs, two places</h2>
-    <p>Every field you drag is doing one of two things. Not both. Knowing which one is the whole skill.</p>
+    <p>Every field you drag is doing one of two things. Not both.</p>
     <div class="ba">
       <div class="ba-side">
         <div class="ba-h">Rows &amp; Columns — build the frame</div>
@@ -201,7 +201,7 @@
 
   <section class="lcard" id="mk-same">
     <h2><span class="ic">🎯</span> One field, two destinations</h2>
-    <p>This is the comparison worth staring at. Same data, same field, same <strong>twelve marks</strong> — dropped in two different places. Only the destination differs.</p>
+    <p>Same data, same field, same <strong>twelve marks</strong> — dropped in two different places. Only the destination differs, and it changes the chart completely.</p>
     <div class="ba">
       <div class="ba-side">
         <div class="ba-h">Region → Columns (frame)</div>
@@ -264,10 +264,10 @@
   </section>
 
   <section class="lcard" id="mk-count">
-    <h2><span class="ic">🔢</span> The rule that predicts everything</h2>
-    <p>You never have to guess how many marks you'll get. One rule covers every case:</p>
+    <h2><span class="ic">🔢</span> The mark-count rule</h2>
+    <p>One rule tells you how many marks any view will contain, before you build it:</p>
     <div class="callout" style="margin:.5rem 0">
-      <div class="callout-title">The mark-count rule</div>
+      <div class="callout-title">One mark per combination of dimensions</div>
       <p>Tableau draws <strong>one mark per distinct combination of every dimension in the view</strong> — those on Rows, Columns, <em>and</em> those on Color, Size, Shape, Label and Detail. Measures don't add marks; they only decide how far each mark stretches or how it's coloured.</p>
     </div>
     <div class="stats">
@@ -338,7 +338,7 @@
 
   <section class="lcard" id="mk-not">
     <h2><span class="ic">🚫</span> What is <em>not</em> a mark</h2>
-    <p>This is where most confusion lives. Plenty of things on screen look like part of the chart but are drawn by the worksheet, not by your data.</p>
+    <p>Plenty of things on screen look like part of the chart but are drawn by the worksheet, not by your data — which is why the Marks card has no effect on them.</p>
     <div class="ba">
       <div class="ba-side after">
         <div class="ba-h">✅ Marks — drawn from data</div>
@@ -392,7 +392,7 @@
       </div>
     </div>
     <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">Your point, stated plainly</div>
+      <div class="callout-title">Formatting the frame never touches the marks</div>
       <p>Making the axis numbers bold, switching a header to italics, renaming an axis title or hiding tick marks changes <strong>zero marks</strong>. The bars are the same bars. Watch the mark count in the status bar while you do it — it won't move. Formatting the frame and encoding the data are different activities that happen to sit in the same window.</p>
     </div>
     <div class="callout tip" style="margin-top:.5rem">
@@ -466,7 +466,7 @@
       <li>Drag that same Region pill from Color <strong>up to Columns</strong>. The count stays 12. Describe what changed in one sentence.</li>
       <li>Put Region back on Color and <strong>Category on Rows</strong> instead. Same 12 marks again, third arrangement.</li>
       <li>Right-click the Sales axis → <strong>Edit Axis</strong> and retitle it "Revenue". Confirm the mark count did not move.</li>
-      <li>Right-click the axis → <strong>Format</strong> and make the numbers bold. Confirm again. This is the point of the whole lesson.</li>
+      <li>Right-click the axis → <strong>Format</strong> and make the numbers bold. Confirm again — two visible changes to the chart, zero changes to the data drawn in it.</li>
       <li>Switch the mark type from Automatic to <strong>Square</strong>, then <strong>Line</strong>. Note which changes are structural and which are cosmetic.</li>
       <li>Build a <strong>3 × 4 grid</strong>: Category on Columns, Region on Rows. Point at one pane and say exactly which rows of data feed it.</li>
       <li>Drag <strong>Sub-Category to Detail</strong>. Predict the new count first (3 × 4 × 17 is wrong — work out why).</li>
@@ -475,7 +475,7 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: predict before you drop</div>
-      <p>Ten drags in a row. Before releasing the mouse each time, say out loud <em>"this will change the frame"</em> or <em>"this will change the marks"</em>, and predict the new mark count. Getting eight out of ten right means you've internalised the model — and you'll never again be surprised by a chart that turned into one giant bar.</p>
+      <p>Ten drags in a row. Before releasing the mouse each time, say out loud <em>"this will change the frame"</em> or <em>"this will change the marks"</em>, and predict the new mark count. Where you get it wrong, the status bar tells you immediately, and the gap between your prediction and the real count points at which part of the model you've got backwards.</p>
     </div>
   </section>
 

@@ -124,7 +124,7 @@
 
   <section class="lcard" id="an-ref">
     <h2><span class="ic">📏</span> Reference lines in full</h2>
-    <p>The highest value-per-second feature in Tableau. One drag turns a chart of numbers into a chart of judgements.</p>
+    <p>One drag adds the comparison the reader would otherwise have to make in their head. "West sold $725K" needs a mental benchmark before it means anything; "West sold $725K, and the average region sold $574K" doesn't.</p>
 
     <div class="viz">
       <div class="viz-shelves">
@@ -169,7 +169,7 @@
           <tr><td><strong>Tooltip</strong></td><td>Automatic / None / Custom</td><td>Turn off on dense charts where hovering the line is annoying</td></tr>
           <tr><td><strong>Line</strong></td><td>Style, weight, colour</td><td>Dashed and muted, so it supports the data rather than competing</td></tr>
           <tr><td><strong>Fill Above / Below</strong></td><td>A colour on either side</td><td>The good/bad zones. Far faster to read than the line alone</td></tr>
-          <tr><td><strong>Show recalculated line</strong></td><td>Checkbox</td><td>Select a subset of marks and a second line appears for just that selection — genuinely useful for exploration</td></tr>
+          <tr><td><strong>Show recalculated line</strong></td><td>Checkbox</td><td>Select a subset of marks and a second line appears for just that selection, so you can compare a group against the whole without building a second sheet</td></tr>
         </tbody>
       </table>
     </div>
@@ -356,7 +356,7 @@
       </li>
       <li>
         <div class="s-t">Always show the prediction interval</div>
-        <p>In Forecast Options, keep <strong>Show prediction intervals</strong> on, at 95%. The band is the honest part of the chart — it shows how wrong the estimate could be.</p>
+        <p>In Forecast Options, keep <strong>Show prediction intervals</strong> on, at 95%. The line alone reads as a single confident number; the band shows the range the real value could land in, and how much wider that range gets the further out you look.</p>
       </li>
     </ol>
     <div class="figure">
@@ -370,9 +370,9 @@
         <text x="130" y="20" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">actuals &#8212; solid</text>
         <text x="330" y="14" font-size="6.5" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">forecast &#8212; dashed</text>
         <text x="330" y="80" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">95% prediction interval</text>
-        <text x="14" y="106" font-size="6" fill="#64748b" font-family="Inter, sans-serif">The band widens the further out you go &#8212; that widening <tspan font-style="italic">is</tspan> the honest part of the chart.</text>
+        <text x="14" y="106" font-size="6" fill="#64748b" font-family="Inter, sans-serif">Six months out the band is roughly twice as wide as one month out &#8212; uncertainty compounds.</text>
       </svg>
-      <p class="figcap">A forecast line on its own implies a precision the model doesn't have. Always leave <strong>Show prediction intervals</strong> switched on.</p>
+      <p class="figcap">The dashed line is the model's single best guess; the shaded band is where it expects the real value to fall 95% of the time.</p>
     </div>
 
     <div class="callout warn" style="margin-top:.6rem">
@@ -431,13 +431,13 @@ Detail:  [Sub-Category]
         </g>
         <defs><marker id="anC" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker></defs>
       </svg>
-      <p class="figcap">The algorithm produces &#8220;Cluster 1, 2, 3&#8221;. <strong>You</strong> supply the names &#8212; and the names are what makes it usable.</p>
+      <p class="figcap">The algorithm produces &#8220;Cluster 1, 2, 3&#8221;. <strong>You</strong> read the cluster centres and supply the names.</p>
     </div>
 
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Save it, then name it</div>
       <p>Drag the <strong>Clusters</strong> pill from the Marks card into the Data pane and it becomes a permanent group you can use anywhere — on Color, in filters, in calculations. Then rename the members from "Cluster 1" to something meaningful: "Volume drivers", "Margin drivers", "Problem products".</p>
-      <p style="margin-top:.4rem">An unnamed cluster is a curiosity. A named one is a segmentation the business can act on.</p>
+      <p style="margin-top:.4rem">The name is what carries the finding: nobody can act on "Cluster 2", but "high volume, thin margin" already implies what to do about it.</p>
     </div>
     <div class="callout warn" style="margin-top:.5rem">
       <p>k-means will happily find clusters in random data — it partitions whatever you give it. Before presenting them, check the groups make business sense and that the variance analysis shows a real separation. "The algorithm said so" is not a finding.</p>
