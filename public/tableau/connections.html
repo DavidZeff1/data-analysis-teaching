@@ -89,7 +89,7 @@
 
   <section class="lcard" id="cn-page">
     <h2><span class="ic">🖥️</span> The Data Source page</h2>
-    <p>Click <strong>Data Source</strong> in the bottom-left corner at any time to come back here. This is where structure is decided — worth visiting deliberately rather than clicking straight through to Sheet 1.</p>
+    <p>Click <strong>Data Source</strong> in the bottom-left corner at any time to come back here. Joins, relationships, data types, field names and data source filters are all set on this page, and they apply to every sheet you go on to build — so a mistake made here is one you fix once, and a mistake you skip past is one that quietly affects everything.</p>
 
     <div class="viz">
       <div class="viz-shelves">
@@ -149,8 +149,8 @@
     </div>
 
     <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">Why this was a big deal</div>
-      <p>Before relationships, connecting a monthly Targets table to line-item Orders would duplicate every target across thousands of rows, and <code>SUM(Target)</code> would come out wildly inflated. People lost entire afternoons to it. Relationships solve that by keeping the tables apart until the moment a specific view needs them combined.</p>
+      <div class="callout-title">What relationships changed</div>
+      <p>Before relationships, connecting a monthly Targets table to line-item Orders would duplicate every target across thousands of rows, and <code>SUM(Target)</code> would come out wildly inflated with no error to warn you. The only fixes were to pre-aggregate the tables to matching granularity or to write de-duplicating calculations by hand. Relationships remove that work by keeping the tables apart until the moment a specific view needs them combined.</p>
     </div>
   </section>
 
@@ -360,7 +360,7 @@
     </div>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Data source filters are invisible later</div>
-      <p>They're powerful and easy to forget. Six months on, someone asks why the totals don't match the source system and the answer is a filter set on this page that nobody remembers. Document them — a text object on the dashboard, or a note in the workbook description.</p>
+      <p>Unlike a worksheet filter, a data source filter leaves no pill on any shelf and no card beside any view — nothing on screen says it exists. Six months on, someone asks why the totals don't match the source system and the answer is a filter set on this page that nobody remembers. Document them — a text object on the dashboard, or a note in the workbook description.</p>
     </div>
   </section>
 
@@ -397,7 +397,7 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: build the fan-out yourself</div>
-      <p>Make a small two-column Targets table by hand — one row per region with a monthly target — and connect it to Orders. First as a <strong>join</strong>: sum the targets and watch the number come out roughly 2,500 times too large. Then as a <strong>relationship</strong>: watch it come out right. Finally, build a Sales vs Target view with a bullet chart. Having caused the bug deliberately once, you'll recognise it instantly when it happens for real.</p>
+      <p>Make a small two-column Targets table by hand — one row per region with a monthly target — and connect it to Orders. First as a <strong>join</strong>: sum the targets and watch the number come out roughly 2,500 times too large. Then as a <strong>relationship</strong>: watch it come out right. Finally, build a Sales vs Target view with a bullet chart. The point is to see what the broken version looks like: the inflated total is a plausible-looking number, not an error message, so the only warning sign is the row count.</p>
     </div>
   </section>
 

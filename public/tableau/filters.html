@@ -200,7 +200,7 @@ Right-click [Region] in the Data pane → Show Filter
   </section>
 
   <section class="lcard" id="fi-order">
-    <h2><span class="ic">🪜</span> Order of operations — the thing to actually learn</h2>
+    <h2><span class="ic">🪜</span> Order of operations — the sequence filters run in</h2>
     <p>Tableau applies filters in a strict sequence. Almost every "why is this number wrong?" question in Tableau is answered somewhere in this ladder.</p>
 
     <ol class="ladder">
@@ -283,20 +283,6 @@ Right-click [Region] in the Data pane → Show Filter
         </defs>
       </svg>
       <p class="figcap">The only difference is <em>when</em> the region filter runs. Right-click it → <strong>Add to Context</strong> and it moves from step 5 to step 3 — the grey pill on the Filters shelf is how you tell.</p>
-    </div>
-
-    <div class="ba" style="margin-top:.7rem">
-      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
-        <div class="ba-h" style="color:#b91c1c">What actually happens</div>
-        <p style="margin:0;font-size:.86rem">Both filters sit at level 5, and Tableau computes Top 10 across <strong>all regions</strong> first. It then filters those ten to East — and only the ones that happen to be in East survive.</p>
-        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Result: "the East-region members of the national top 10". Not what you asked for.</p>
-      </div>
-      <div class="ba-arrow">→</div>
-      <div class="ba-side after">
-        <div class="ba-h">The fix</div>
-        <p style="margin:0;font-size:.86rem">Right-click the Region filter → <strong>Add to Context</strong>. It turns grey and moves to level 3, so the Top 10 is computed <em>within</em> East.</p>
-        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Result: the actual top 10 products in the East region. Always 10 of them.</p>
-      </div>
     </div>
 
     <h3 style="margin-top:.9rem">When to reach for a context filter</h3>
@@ -383,7 +369,7 @@ Right-click [Region] in the Data pane → Show Filter
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: prove the order of operations to yourself</div>
-      <p>Build one sheet showing the top 5 sub-categories by Sales, with a Region filter card. Duplicate it, and add the Region filter to context on the copy. Put both on a dashboard side by side with the same filter driving them, then click through each region. The two charts will disagree — sometimes dramatically. Being able to explain <em>why</em>, out loud, means you understand Tableau's evaluation order better than most people who use it daily.</p>
+      <p>Build one sheet showing the top 5 sub-categories by Sales, with a Region filter card. Duplicate it, and add the Region filter to context on the copy. Put both on a dashboard side by side with the same filter driving them, then click through each region. The two charts will disagree — sometimes dramatically. Write down, for one region, which five sub-categories each chart shows and where the difference comes from: the plain version ranks nationally and then discards, the context version restricts first and then ranks.</p>
     </div>
   </section>
 

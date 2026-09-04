@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🏁</span> Dashboards</h1>
-    <p>Everything in this section, assembled into one interactive screen. A dashboard isn't a collection of charts — it's an argument made visually, where the viewer can follow up on their own questions by clicking. This is the section capstone.</p>
+    <p>Everything in this section, assembled into one interactive screen. A dashboard isn't a collection of charts — it makes one point, and the charts are arranged so the viewer can check it and follow up on their own questions by clicking.</p>
     <div class="lesson-meta">
       <span>⏱️ 2–3 hours</span>
       <span>🏆 Capstone</span>
@@ -226,11 +226,11 @@
           <text x="300" y="100">&#9642; Trend, Map</text>
         </g>
       </svg>
-      <p class="figcap">Containers nest. When you can't click the thing you want on the canvas, select it from this tree in the <strong>Layout</strong> pane instead — that's the single most useful trick in dashboard building, and it isn't discoverable.</p>
+      <p class="figcap">Containers nest, and the Layout pane shows the nesting as a tree — the only place the structure of a dashboard is actually visible.</p>
     </div>
 
-    <h3 style="margin-top:1rem">Containers are the actual skill</h3>
-    <p>A <strong>Horizontal</strong> container arranges its contents side by side; a <strong>Vertical</strong> container stacks them. Nesting them gives you a real layout system rather than a pile of dragged objects.</p>
+    <h3 style="margin-top:1rem">Horizontal and vertical containers</h3>
+    <p>A <strong>Horizontal</strong> container arranges its contents side by side; a <strong>Vertical</strong> container stacks them. Nesting them means objects resize as a group and keep their proportions when the dashboard is viewed at another size — which free-dragged objects don't.</p>
     <ul class="check">
       <li><strong>Build the containers first, then drop sheets in</strong> — retrofitting containers is painful</li>
       <li><strong>Use the Layout pane</strong> (top left, next to Dashboard) to see the nesting tree and select precisely</li>
@@ -240,7 +240,7 @@
     </ul>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Selecting the right thing</div>
-      <p>Clicking a chart selects the chart; clicking its thin border selects its container. When you can't grab what you want, use the <strong>Layout pane's tree</strong> — click the item there and Tableau selects it on the canvas. This is the single most useful thing to know about dashboard building, and it's not discoverable.</p>
+      <p>Clicking a chart selects the chart; clicking its thin border selects its container — a target a few pixels wide, which is why so much dashboard editing feels like a fight. When you can't grab what you want, click the item in the <strong>Layout pane's tree</strong> instead and Tableau selects it on the canvas.</p>
     </div>
   </section>
 
@@ -345,7 +345,7 @@
       </ul>
     </div>
     <div class="callout tip" style="margin-top:.5rem">
-      <div class="callout-title">Prefer Highlight over Filter more often than you think</div>
+      <div class="callout-title">Highlight keeps the comparison; Filter removes it</div>
       <p>Filtering removes context — click West and you can no longer see how it compares to East. Highlighting keeps everything visible while drawing attention. For comparison dashboards, highlight is usually the better interaction.</p>
     </div>
   </section>
@@ -457,7 +457,7 @@
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: the discount dashboard</div>
       <p>Build a dashboard answering one question: <strong>"Is our discounting policy costing us money, and where?"</strong> Include the headline margin impact, a scatter of discount against profit ratio by sub-category with a trend line, a map of margin by state, and a sorted bar of the worst offenders. Make selecting a sub-category filter the map and vice versa. Then add a Text object with your recommendation and the dollar figure attached to it.</p>
-      <p style="margin-top:.4rem">That last step is what separates a dashboard from an analysis. Anyone can show the data; the value is in saying what to do about it — and being willing to put a number on it.</p>
+      <p style="margin-top:.4rem">That last step is the one most dashboards skip. Every chart on the screen supports a decision — cap discounts, and where — so state it, attach the dollar figure you estimated, and let the charts be the evidence for it rather than the whole deliverable.</p>
     </div>
   </section>
 
@@ -466,15 +466,15 @@
     <div class="grid2">
       <div class="tile">
         <h3>Rebuild it in Power BI</h3>
-        <p style="margin:0;font-size:.86rem">The same dashboard in <a href="#powerbi/reports">Power BI</a>. Building one thing twice teaches you more about both tools than two separate tutorials.</p>
+        <p style="margin:0;font-size:.86rem">The same dashboard in <a href="#powerbi/reports">Power BI</a>. Building the same thing twice shows you which parts were the tool's conventions and which were the analysis.</p>
       </div>
       <div class="tile">
         <h3>Or in Excel</h3>
-        <p style="margin:0;font-size:.86rem">The <a href="#excel/dashboard">Excel dashboard project</a> uses the same data and brief. Comparing the two is a genuinely useful exercise in tool selection.</p>
+        <p style="margin:0;font-size:.86rem">The <a href="#excel/dashboard">Excel dashboard project</a> uses the same data and brief. Comparing the two shows where a spreadsheet is quicker and where it stops being able to do the job at all.</p>
       </div>
       <div class="tile">
         <h3>Go deeper on calculations</h3>
-        <p style="margin:0;font-size:.86rem">Revisit <a href="#tableau/lod">LOD expressions</a> and build a cohort retention dashboard — the hardest and most valuable thing in this section.</p>
+        <p style="margin:0;font-size:.86rem">Revisit <a href="#tableau/lod">LOD expressions</a> and build a cohort retention dashboard. It needs every idea in the section at once: an LOD for the acquisition date, a table calc for retention over time, and a layout that makes a grid of percentages readable.</p>
       </div>
       <div class="tile">
         <h3>Build a portfolio</h3>

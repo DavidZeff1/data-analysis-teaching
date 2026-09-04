@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🔬</span> LOD Expressions</h1>
-    <p>Level of Detail expressions let a calculation aggregate at a <em>different granularity</em> than the view it sits in. They solve the problems that make people give up on Tableau — customer-level metrics inside a regional chart, percentages that ignore filters, cohort analysis. They're also the most-asked Tableau interview topic.</p>
+    <p>Level of Detail expressions let a calculation aggregate at a <em>different granularity</em> than the view it sits in. They solve the problems that make people give up on Tableau — customer-level metrics inside a regional chart, percentages that ignore filters, cohort analysis. Each of those needs two levels of aggregation in one number, which nothing you have met so far can produce.</p>
     <div class="lesson-meta">
       <span>⏱️ 35 min</span>
       <span>🎓 Advanced</span>
@@ -194,7 +194,7 @@
 
   <section class="lcard" id="lo-fixed">
     <h2><span class="ic">📌</span> FIXED — ignore the view entirely</h2>
-    <p>The one you'll use 90% of the time. <code>FIXED</code> computes at exactly the dimensions you name and <strong>ignores every other dimension in the view</strong>.</p>
+    <p><code>FIXED</code> computes at exactly the dimensions you name and <strong>ignores every other dimension in the view</strong>. That makes it the one to reach for by default: the number it returns doesn't change when you rearrange the sheet.</p>
 
     <div class="viz">
       <div class="viz-shelves">
@@ -320,9 +320,9 @@
     </div>
 
     <div class="callout danger" style="margin-top:.65rem">
-      <div class="callout-title">⚠️ The behaviour that confuses everyone</div>
-      <p>Filter your dashboard to the West region. A <code>{FIXED : SUM([Sales])}</code> grand total still shows <strong>$2,297,201</strong> — all four regions — because it was computed before your filter ran.</p>
-      <p style="margin-top:.4rem"><strong>Sometimes that's the goal</strong> ("what share of company-wide sales is West?"). When it isn't, right-click the Region filter → <strong>Add to Context</strong>, and the FIXED expression will then respect it.</p>
+      <div class="callout-title">⚠️ When you need FIXED to respect a filter</div>
+      <p>Context filters run at step 3, ahead of FIXED at step 4 — so promoting a filter to context is the one way to make a FIXED expression see it. Right-click the Region filter → <strong>Add to Context</strong>, and the grand total drops to West's $725,458.</p>
+      <p style="margin-top:.4rem">Leave it alone when the unfiltered number <em>is</em> the point, as it is for "what share of company-wide sales is West?"</p>
     </div>
 
     <div class="grid2" style="margin-top:.65rem">
@@ -403,7 +403,7 @@
 <span class="c">// Compare with the table-calc version, which uses only</span>
 <span class="c">// what survived the filters:</span>
 <span class="f">SUM</span>([Sales]) / <span class="f">TOTAL</span>(<span class="f">SUM</span>([Sales]))</pre>
-        <p class="muted" style="margin-top:.5rem">Put both on the same view with a filter active and the difference becomes obvious in one glance. Which is "right" depends entirely on the question you're answering.</p>
+        <p class="muted" style="margin-top:.5rem">Put both on the same view with a filter active: the LOD version's percentages stay small because they're still measured against all $2.3M, while the table-calc version's re-scale to sum to 100% across whatever survived the filter. Which is "right" depends on whether the reader is asking "how big is this within the selection?" or "how big is this within the company?"</p>
       </div>
     </div>
 
@@ -454,12 +454,12 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: are we growing by acquiring or by keeping?</div>
-      <p>Build a view splitting each year's revenue into <strong>new-customer revenue</strong> and <strong>returning-customer revenue</strong>, using a FIXED acquisition date to classify each order. Then answer the question a board actually cares about: is revenue growth coming from customers we already had, or from ones we bought? Add the count of distinct customers per cohort and you can see retention decay directly. This analysis is genuinely difficult without LODs, and near-trivial with them — which is the best possible argument for learning them.</p>
+      <p>Build a view splitting each year's revenue into <strong>new-customer revenue</strong> and <strong>returning-customer revenue</strong>, using a FIXED acquisition date to classify each order. Then answer the question a board actually cares about: is revenue growth coming from customers we already had, or from ones we bought? Add the count of distinct customers per cohort and you can see retention decay directly. The whole analysis rests on one expression — <code>{FIXED [Customer Name] : MIN([Order Date])}</code> — because every order needs to know a fact computed at customer level, which is precisely what the view's own granularity cannot give you.</p>
     </div>
   </section>
 
   <nav class="pager" aria-label="Lesson navigation">
     <a href="#tableau/tablecalcs"><span class="pl">← Previous</span><span class="pt">Table Calculations</span></a>
-    <a class="next" href="#tableau/analytics"><span class="pl">Next →</span><span class="pt">Analytics &amp; Formatting</span></a>
+    <a class="next" href="#tableau/analytics"><span class="pl">Next →</span><span class="pt">The Analytics Pane</span></a>
   </nav>
 </div>
