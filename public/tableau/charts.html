@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>📊</span> Chart Types</h1>
-    <p>Every chart in Tableau is a specific arrangement of pills on shelves. Once you can read a chart as "this pill here, that pill there", you can build any of them from memory — and Show Me stops being a crutch.</p>
+    <p>In Tableau, a chart comes from the fields and shelves you use. Learn the basic arrangements and you can build and adapt charts without relying on Show Me.</p>
     <div class="lesson-meta">
       <span>⏱️ 35 min</span>
       <span>⭐ Core skill</span>
@@ -29,7 +29,7 @@
 
   <section class="lcard terms">
     <h2><span class="ic">📖</span> Terms on this page</h2>
-    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <p>Key terms are defined here before they appear in the lesson. You can also find them in the <a href="#tableau/glossary">glossary</a>.</p>
     <dl class="deflist two">
       <div class="df">
         <dt>Mark type</dt>
@@ -60,8 +60,8 @@
   </section>
 
   <section class="lcard" id="ct-recipe">
-    <h2><span class="ic">🧾</span> Every chart is a recipe</h2>
-    <p>Charts in Tableau aren't types you select — they're what emerges from where you put things. The same three pills in different positions produce different charts.</p>
+    <h2><span class="ic">🧾</span> Build charts from fields and shelves</h2>
+    <p>Tableau does not use a separate chart-type menu. The fields you place on shelves and the Marks card determine the chart. Moving the same fields can create a different view.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Columns</th><th>Rows</th><th>Marks</th><th>Result</th></tr></thead>
@@ -367,7 +367,7 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
         <text x="20" y="131" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">Lose one West customer and the average collapses — which the bar chart gives you no way to see.</text>
         <defs><marker id="ctD" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
       </svg>
-      <p class="figcap">A box plot draws the middle 50% as the box, the median as the line inside it, and anything past 1.5 × that range as its own dot. That last part is the whole point: outliers stop being absorbed into an average and become visible objects.</p>
+      <p class="figcap">A box plot shows the middle 50% of values as a box, the median as the line inside it, and values beyond 1.5 × the interquartile range as separate dots. This makes outliers visible instead of hiding them in an average.</p>
     </div>
 
     <div class="split">
@@ -379,7 +379,7 @@ Rows:    <span class="f">CNT</span>([Sales])      <span class="c">// how many or
 
 <span class="c">// Then, always:</span>
 Right-click the bin pill → Show Missing Values</pre>
-        <p style="margin:.4rem 0 0;font-size:.85rem">Show Me builds this in one click and creates the bin for you — but it won't turn on Show Missing Values, so an empty bucket silently closes the gap and the shape comes out wrong. See <a href="#tableau/organizing">Bins</a>.</p>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Show Me can create the bin, but it does not enable <strong>Show Missing Values</strong>. Turn it on so empty bins appear and the distribution is accurate. See <a href="#tableau/organizing">Bins</a>.</p>
       </div>
       <div>
         <h3 style="margin-top:0">Box plot</h3>
@@ -436,7 +436,7 @@ Marks:   Line
           <circle cx="104" cy="48" r="5" fill="#9c755f"/>
         </svg>
         <div class="ct-n">Packed bubbles</div>
-        <div class="ct-d">Mark type <strong>Circle</strong>, dimension on Detail, measure on Size. Eye-catching and genuinely hard to read — no shared baseline, no axis. Fine as a way in to a dashboard, poor as the analysis.</div>
+        <div class="ct-d">Mark type <strong>Circle</strong>, dimension on Detail, measure on Size. They are eye-catching, but values are hard to compare because there is no shared baseline or axis. Use them sparingly for an overview, not detailed analysis.</div>
       </div>
       <div class="cthumb tall">
         <svg viewBox="0 0 120 66" role="img" aria-label="A waterfall chart of rising and falling bars ending at a total">
@@ -468,8 +468,8 @@ Marks:   Line
       </div>
     </div>
     <div class="callout warn" style="margin-top:.65rem">
-      <div class="callout-title">Funnels are usually a sorted bar chart wearing a costume</div>
-      <p>The tapering-funnel look is built from a dual-axis area chart with one axis reversed, and it costs real accuracy: the taper encodes the same number twice and the eye reads the <em>width</em>, which is half the value. Unless the audience specifically expects a funnel, a sorted bar chart with a drop-off percentage beside each stage answers the same question and can be read exactly.</p>
+      <div class="callout-title">Use a bar chart instead of a funnel when possible</div>
+      <p>A funnel uses a dual-axis area chart with one reversed axis. Its taper can make values harder to compare because viewers read the width, which is only half the encoded value. Unless your audience expects a funnel, use a sorted bar chart with a drop-off percentage for each stage.</p>
     </div>
   </section>
 
@@ -532,8 +532,8 @@ Marks:   Line
   </section>
 
   <section class="lcard" id="ct-req">
-    <h2><span class="ic">📋</span> What each chart actually needs</h2>
-    <p>Hovering a Show Me option spells out its requirement — "1 or more Dimensions, 2 Measures". That text is the most useful reference in Tableau and almost nobody reads it, so here are the common ones collected. When something is greyed out, this table says what to add.</p>
+    <h2><span class="ic">📋</span> Show Me requirements</h2>
+    <p>Hover over a Show Me option to see its requirements, such as “1 or more Dimensions, 2 Measures.” Use this table to see what to add when an option is unavailable.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:12rem">Chart</th><th>Needs</th><th>Note</th></tr></thead>
@@ -557,7 +557,7 @@ Marks:   Line
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Greyed out is a diagnosis, not a dead end</div>
-      <p>Three causes cover nearly all of them: <strong>the wrong number of fields selected</strong> (Ctrl-click to select more in the Data pane before opening the panel), <strong>a date that isn't a date</strong> (check the icon — see <a href="#tableau/interface">field types</a>), or <strong>a field that isn't geographic</strong>. Read the requirement text under the greyed icon and it will name which.</p>
+      <p>Most unavailable options have one of three causes: <strong>too few or too many fields selected</strong> (Ctrl-click fields in the Data pane), <strong>a field stored as text instead of a date</strong> (check its icon; see <a href="#tableau/interface">field types</a>), or <strong>a field without a geographic role</strong>. The requirement text identifies what is missing.</p>
     </div>
   </section>
 
@@ -601,7 +601,7 @@ Marks:   Line
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: the same question, four ways</div>
-      <p>Take one question — "how do our categories perform across regions?" — and answer it with a grouped bar chart, a stacked bar, a highlight table and small multiples. Put all four side by side and decide which you'd actually present, and why. Each one makes a different comparison easy: grouped bars for ranking regions within a category, stacked for each region's total and mix, a highlight table for exact values, small multiples for the shape of each region on a shared scale. The right choice is whichever matches the comparison your audience needs to make.</p>
+      <p>Answer “How do our categories perform across regions?” with a grouped bar chart, a stacked bar, a highlight table, and small multiples. Compare them side by side. Use grouped bars to rank regions within a category, stacked bars for totals and mix, a highlight table for exact values, and small multiples for patterns on a shared scale.</p>
     </div>
   </section>
 

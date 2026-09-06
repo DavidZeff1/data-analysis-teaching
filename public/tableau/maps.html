@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🗺️</span> Maps</h1>
-    <p>Tableau knows where places are. Double-click a State field and you get a map — no coordinates, no setup. That convenience is also the danger: maps are the easiest chart to build and one of the easiest to mislead with.</p>
+    <p>Tableau can map common geographic fields without coordinates. Use maps to show location, and choose the map type carefully so the visual encoding does not mislead.</p>
     <div class="lesson-meta">
       <span>⏱️ 25 min</span>
       <span>🌍 Built-in geocoding</span>
@@ -26,7 +26,7 @@
 
   <section class="lcard terms">
     <h2><span class="ic">📖</span> Terms on this page</h2>
-    <p>Defined before they're used. Every term on the site is also in the <a href="#tableau/glossary">glossary</a>.</p>
+    <p>Key terms are defined here before they appear in the lesson. You can also find them in the <a href="#tableau/glossary">glossary</a>.</p>
     <dl class="deflist two">
       <div class="df">
         <dt>Geographic role</dt>
@@ -58,7 +58,7 @@
   </section>
 
   <section class="lcard" id="mp-when">
-    <h2><span class="ic">🤔</span> When a map is actually the right chart</h2>
+    <h2><span class="ic">🤔</span> When to use a map</h2>
     <p>A map answers <strong>where</strong>. If your real question is <strong>how much</strong>, a sorted bar chart will answer it faster and more precisely.</p>
     <div class="split">
       <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
@@ -88,7 +88,7 @@
 
   <section class="lcard" id="mp-fields">
     <h2><span class="ic">🌐</span> Geographic fields</h2>
-    <p>Tableau auto-detects common location types and marks them with a globe icon. Those fields carry hidden Latitude and Longitude values it generates for you.</p>
+    <p>Tableau detects many common location types and marks them with a globe icon. It generates the latitude and longitude values needed to place them on a map.</p>
     <div class="split">
       <div class="fieldlist">
         <div class="fl-h">Auto-detected roles</div>
@@ -143,13 +143,13 @@
           </svg>
         </div>
       </div>
-      <p class="viz-note">Latitude and Longitude are <em>generated</em> measures — you never create them. Detail carries the actual geographic field.</p>
+      <p class="viz-note">Tableau generates the Latitude and Longitude measures. Put the geographic field itself on Detail.</p>
     </div>
 
     <div class="grid2" style="margin-top:.7rem">
       <div class="tile">
         <h3>⚡ Fastest way</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Double-click State.</strong> Tableau builds the whole map — generated coordinates, marks, the lot.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem"><strong>Double-click State.</strong> Tableau creates a map with the generated coordinates and marks.</p>
       </div>
       <div class="tile">
         <h3>Then add the measure</h3>
@@ -183,8 +183,8 @@
       </div>
     </div>
     <div class="callout tip" style="margin-top:.6rem">
-      <div class="callout-title">The rule that keeps choropleths honest</div>
-      <p><strong>Filled maps for rates, symbol maps for counts.</strong> Shading California dark because it has the most sales mostly tells you California is populous. Shading it by <em>profit margin</em> tells you something you didn't already know.</p>
+      <div class="callout-title">Use filled maps for rates and symbol maps for totals</div>
+      <p>A dark fill for California sales often reflects its population more than performance. A filled map is more informative for a rate such as <em>profit margin</em>; use sized symbols to show raw totals.</p>
     </div>
   </section>
 
@@ -217,9 +217,9 @@
       </div>
     </div>
     <div class="callout danger" style="margin-top:.65rem">
-      <div class="callout-title">⚠️ Centre the diverging palette on zero — it doesn't happen by default</div>
-      <p>Colouring states by Profit, Tableau centres the palette on the data's midpoint. If every state is profitable, the least profitable ones still render <strong>red</strong> — visually claiming losses that don't exist.</p>
-      <p style="margin-top:.4rem"><strong>Fix:</strong> Color → Edit Colors → <strong>Advanced</strong> → tick <em>Center</em> and set it to <strong>0</strong>. Do this on every profit map you ever build.</p>
+      <div class="callout-title">⚠️ Center a diverging palette on zero</div>
+      <p>For Profit, Tableau centers the palette on the midpoint of the data by default. If every state is profitable, the least profitable states can still appear <strong>red</strong>, suggesting losses that do not exist.</p>
+      <p style="margin-top:.4rem"><strong>Fix:</strong> Color → Edit Colors → <strong>Advanced</strong> → select <em>Center</em> and enter <strong>0</strong>.</p>
     </div>
   </section>
 
@@ -240,7 +240,7 @@ Map → Map Layers → Data Layer →
 Map → Map Options → uncheck Pan and Zoom</pre>
     <div class="callout tip" style="margin-top:.55rem">
       <div class="callout-title">Strip the map back</div>
-      <p>The default background has roads, city names and terrain competing with your data. Turn most of it off — usually you want coastlines and borders and nothing else. The map is a backdrop; the data is the chart.</p>
+      <p>Roads, city names, and terrain can compete with the data. Remove unnecessary layers; coastlines and borders are often enough. The map should support the data, not compete with it.</p>
     </div>
 
     <h3 style="margin-top:1rem">Dual-axis maps</h3>
@@ -266,7 +266,7 @@ Map → Map Options → uncheck Pan and Zoom</pre>
 
   <section class="lcard" id="mp-unknown">
     <h2><span class="ic">⚠️</span> Unknown locations</h2>
-    <p>A small grey indicator in the bottom-right corner reading "<strong>42 unknown</strong>" means Tableau couldn't place some values. Those rows are silently missing from your map — and from any total shown on it.</p>
+    <p>A grey indicator such as “<strong>42 unknown</strong>” in the lower-right corner means Tableau could not place some values. Those rows are excluded from the map and any totals shown there.</p>
     <div class="grid2">
       <div class="tile">
         <h3>Why it happens</h3>
@@ -288,8 +288,8 @@ Map → Map Options → uncheck Pan and Zoom</pre>
       </div>
     </div>
     <div class="callout danger" style="margin-top:.6rem">
-      <div class="callout-title">Never ignore the indicator</div>
-      <p>Unknown locations don't produce an error — they just vanish. If 200 rows fail to geocode, your map's totals are quietly short by those 200 rows, and nothing on screen says so. Check it every time, and reconcile the map's total against a plain bar chart of the same measure.</p>
+      <div class="callout-title">Check unknown locations before publishing</div>
+      <p>Unknown locations are not plotted. If 200 rows fail to geocode, the map excludes them from its totals. Check the indicator and compare the map total with a bar chart of the same measure.</p>
     </div>
 
     <h3 style="margin-top:1rem">The Edit Locations dialog, and what it can and can't do</h3>
@@ -311,12 +311,12 @@ Map → Map Options → uncheck Pan and Zoom</pre>
   </section>
 
   <section class="lcard" id="mp-territory">
-    <h2><span class="ic">🧩</span> Custom territories — regions Tableau has never heard of</h2>
-    <p>Sales territories rarely match administrative boundaries. "North-East patch" might be four states; a delivery zone might be a list of postcodes. Tableau can build the shape for you out of geography it already knows, in two different ways.</p>
+    <h2><span class="ic">🧩</span> Custom territories</h2>
+    <p>Sales territories often do not match administrative boundaries. For example, a delivery zone may contain several states or postal codes. Tableau can create a territory from geographic areas it already recognizes.</p>
     <ol class="steps">
       <li>
         <div class="s-t">From a group — when you can list the members</div>
-        <p>Select the states on the map that belong to a territory, click the <strong>paperclip</strong> in the tooltip, and repeat. You get a grouped geographic field whose polygons are the merged outlines of its members. Everything a normal geographic field can do, it can do.</p>
+        <p>Select the states that belong to a territory and click the <strong>paperclip</strong> in the tooltip. Tableau creates a grouped geographic field by merging their outlines. You can use it like any other geographic field.</p>
       </li>
       <li>
         <div class="s-t">From a field — when the data already says which territory</div>
@@ -327,8 +327,8 @@ Map → Map Options → uncheck Pan and Zoom</pre>
   </section>
 
   <section class="lcard" id="mp-spatial">
-    <h2><span class="ic">🛰️</span> Spatial data — when built-in geocoding isn't enough</h2>
-    <p>Everything so far relies on Tableau's own geocoding database. Once you need boundaries it doesn't have — store catchments, school districts, a warehouse floor plan — you supply the geometry yourself.</p>
+    <h2><span class="ic">🛰️</span> Spatial data</h2>
+    <p>Built-in geocoding only covers locations Tableau recognizes. For custom boundaries such as store catchments, school districts, or a warehouse floor plan, provide the geometry yourself.</p>
 
     <div class="grid2">
       <div class="tile">
@@ -345,7 +345,7 @@ Map → Map Options → uncheck Pan and Zoom</pre>
       </div>
       <div class="tile">
         <h3>Background images</h3>
-        <p style="margin:.2rem 0 0;font-size:.85rem"><span class="mpath">Map <i>→</i> Background Images</span>. Supply an image and its X/Y ranges and you can plot data on a stadium, a shop floor or a circuit board. Not geography at all — just a coordinate space.</p>
+        <p style="margin:.2rem 0 0;font-size:.85rem"><span class="mpath">Map <i>→</i> Background Images</span>. Supply an image and its X/Y ranges to plot data on a stadium, shop floor, or circuit board. This uses a coordinate space rather than geography.</p>
       </div>
     </div>
 

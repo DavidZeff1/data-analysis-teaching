@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🔬</span> The Analytics Pane</h1>
-    <p>The second tab beside your Data pane, which most people never open. Everything in it is drag-and-drop, and all of it answers the same question: <strong>is this number actually unusual?</strong> A bar chart says West sold $725K. A reference line says that's above average. Only one of those is a finding.</p>
+    <p>The Analytics pane adds context to a chart with reference lines, bands, trend lines, forecasts and totals. A bar chart can show that West sold $725K; a reference line can show whether that is above average.</p>
     <div class="lesson-meta">
       <span>⏱️ 40 min</span>
       <span>📊 Statistical context</span>
@@ -75,7 +75,7 @@
 
   <section class="lcard" id="an-pane">
     <h2><span class="ic">📈</span> What's in the pane</h2>
-    <p>Click <strong>Analytics</strong> at the top of the left sidebar. Three groups, roughly in order of how much statistics is involved.</p>
+    <p>Click <strong>Analytics</strong> at the top of the left sidebar. Its tools fall into three groups, from simple summaries to statistical models.</p>
     <div class="grid3">
       <div class="tile">
         <h3>Summarize</h3>
@@ -94,7 +94,7 @@
       </div>
     </div>
     <div class="callout note" style="margin-top:.6rem">
-      <p>Items grey out when the view can't support them — a trend line needs a continuous axis, a forecast needs a date. If something is unavailable, the view's structure is the reason, not a missing setting.</p>
+      <p>An item is greyed out when the view does not support it. For example, a trend line needs a continuous axis and a forecast needs a date field.</p>
     </div>
 
     <h3 style="margin-top:1.1rem">Why an item is greyed out</h3>
@@ -163,7 +163,7 @@
         <rect x="10" y="156" width="400" height="16" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
         <text x="210" y="166.5" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">The pane doesn't change. What changes is whether your view has somewhere to put a line.</text>
       </svg>
-      <p class="figcap">Nothing here is a setting you've missed. Adding one green pill to Rows switches six of the nine items on — and adding a date would switch on the rest.</p>
+      <p class="figcap">Add a green pill to Rows to make six more items available. Adding a date field enables the remaining date-based tools.</p>
     </div>
 
     <div class="scrollx">
@@ -181,14 +181,14 @@
       </table>
     </div>
     <div class="callout warn" style="margin-top:.6rem">
-      <div class="callout-title">Everything here is chrome, not marks</div>
-      <p>Reference lines, trend lines, bands, forecast intervals and totals are computed <em>from</em> your data but they are not marks: they don't appear in the mark count, the Marks card can't style them, and they're formatted from <span class="mpath">Format <i>→</i> Lines</span> instead. They're also computed <strong>last</strong> in the <a href="#tableau/filters">order of operations</a> — which is exactly why an average line moves whenever a filter changes, and why it reflects only what survived.</p>
+      <div class="callout-title">These are not marks</div>
+      <p>Reference lines, trend lines, bands, forecast intervals and totals are calculated from the data, but they are not marks. They do not affect the mark count, cannot be styled on the Marks card, and use <span class="mpath">Format <i>→</i> Lines</span> instead. Tableau calculates them last, so an average line changes when a filter changes and reflects only the remaining data.</p>
     </div>
   </section>
 
   <section class="lcard" id="an-scope">
-    <h2><span class="ic">🎯</span> Scope — the drop zone decides everything</h2>
-    <p>When you drag an item onto the view, Tableau offers three drop zones. Choosing the wrong one is the single most common reason a reference line looks wrong, and it's easy to do without noticing.</p>
+    <h2><span class="ic">🎯</span> Scope — table, pane or cell</h2>
+    <p>When you drag an item onto the view, Tableau offers three drop zones. The one you choose determines what the item compares.</p>
     <div class="split">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
         <div class="h" style="color:#1d4ed8">Table</div>
@@ -205,14 +205,14 @@
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Which one do you want?</div>
-      <p>Ask <strong>"compared to what?"</strong> Comparing every sub-category against the company average is <em>Table</em>. Comparing each sub-category against <em>its own category's</em> average is <em>Pane</em>. They're different questions and both are legitimate — but the chart doesn't say which you chose, so decide deliberately.</p>
+      <p>Choose the scope based on the comparison you need. Use <em>Table</em> to compare every sub-category with the company average. Use <em>Pane</em> to compare each sub-category with its category average. The chart does not show the selected scope, so check it before sharing the view.</p>
     </div>
     <p class="muted" style="margin-top:.5rem">You can change it afterwards: right-click the line → Edit → the <strong>Scope</strong> radio buttons at the top of the dialog.</p>
   </section>
 
   <section class="lcard" id="an-ref">
     <h2><span class="ic">📏</span> Reference lines in full</h2>
-    <p>One drag adds the comparison the reader would otherwise have to make in their head. "West sold $725K" needs a mental benchmark before it means anything; "West sold $725K, and the average region sold $574K" doesn't.</p>
+    <p>A reference line adds a benchmark to the chart. For example, it can show that West sold $725K compared with an average region total of $574K.</p>
 
     <div class="viz">
       <div class="viz-shelves">
@@ -264,7 +264,7 @@
 
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">Parameter-driven reference lines</div>
-      <p>Create a parameter called <code>Target Margin</code>, set a reference line's Value to it, and Show Parameter. The viewer drags a slider and instantly sees which sub-categories clear the bar. That's an interactive scenario tool built from two features and no calculations.</p>
+      <p>Create a <code>Target Margin</code> parameter, set the reference line's Value to it, and show the parameter control. Viewers can move the slider to see which sub-categories meet the target.</p>
     </div>
   </section>
 
@@ -293,7 +293,7 @@
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Standard deviation bands make outliers self-evident</div>
-      <p>Add a distribution band at ±2 standard deviations, scoped to the table. Anything outside it is genuinely unusual rather than just large — and the chart now shows <em>why</em> you think so, which is much more persuasive than asserting it in a caption.</p>
+      <p>Add a table-scoped distribution band at ±2 standard deviations. Values outside the band are unusual relative to the rest of the view, not merely large in absolute terms.</p>
     </div>
     <div class="callout warn" style="margin-top:.5rem">
       <p>Standard deviation assumes a roughly symmetric distribution. Superstore's sales are strongly right-skewed, so a "−2 SD" band lands below zero and means nothing. On skewed data prefer <strong>percentile</strong> bands, which make no distributional assumption at all.</p>
@@ -330,13 +330,13 @@
     </div>
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">Box plots answer a question bar charts can't</div>
-      <p>A bar chart of average order value by region hides everything about spread. Two regions with identical averages can have completely different distributions — one steady, one driven by a handful of enormous orders. The box plot shows that immediately, and it's usually the more actionable fact.</p>
+      <p>A bar chart of average order value hides the spread behind each average. Two regions can have the same average even if one is consistent and the other is driven by a few very large orders. A box plot makes that difference visible.</p>
     </div>
   </section>
 
   <section class="lcard" id="an-trend">
     <h2><span class="ic">📉</span> Trend lines</h2>
-    <p>Drag <strong>Trend Line</strong> onto a scatter plot or time series. Tableau fits a model, draws it, and — if you ask — tells you whether it means anything.</p>
+    <p>Drag <strong>Trend Line</strong> onto a scatter plot or time series. Tableau fits the model and can show its formula, fit and significance measures.</p>
     <div class="grid2">
       <div class="tile">
         <h3>Model types</h3>
@@ -360,7 +360,7 @@
     </div>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Excluding a point changes the model</div>
-      <p>Right-click a mark → Exclude and the trend refits without it. That's legitimate when you can justify the exclusion — a known data error, a one-off event — and it's data manipulation when you can't. If you exclude anything, say so on the chart.</p>
+      <p>Right-click a mark → Exclude to refit the trend without it. Exclude a point only when you can justify it, such as for a known data error or one-off event. Note any exclusions on the chart.</p>
     </div>
   </section>
 
@@ -418,7 +418,7 @@
       </ul>
     </div>
     <div class="callout note" style="margin-top:.5rem">
-      <p>A statistically significant relationship can still be practically irrelevant. With 9,994 rows, tiny effects clear p &lt; 0.05 easily. Always report the <strong>slope</strong> alongside the p-value — "significant" says the effect probably exists; the slope says whether it's worth anyone's time.</p>
+      <p>A statistically significant relationship can still be too small to matter. With 9,994 rows, even tiny effects can have p &lt; 0.05. Report the <strong>slope</strong> alongside the p-value so readers can judge the size of the effect.</p>
     </div>
   </section>
 
@@ -444,7 +444,7 @@
       </li>
       <li>
         <div class="s-t">Always show the prediction interval</div>
-        <p>In Forecast Options, keep <strong>Show prediction intervals</strong> on, at 95%. The line alone reads as a single confident number; the band shows the range the real value could land in, and how much wider that range gets the further out you look.</p>
+        <p>In Forecast Options, keep <strong>Show prediction intervals</strong> on at 95%. The band shows the likely range around the forecast and widens further into the future.</p>
       </li>
     </ol>
     <div class="figure">
@@ -465,8 +465,8 @@
 
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">What this forecast can and cannot do</div>
-      <p>It extrapolates the pattern in your history and nothing else. It has no knowledge of a price change, a competitor launch, or a pandemic. It needs enough history to work with — <strong>at least two full cycles</strong> before it can detect seasonality at all, so two years of monthly data is the practical minimum.</p>
-      <p style="margin-top:.4rem">Present it as "if nothing changes, roughly this, within this range" — never as a plan or a target.</p>
+      <p>A Tableau forecast extends patterns in the historical data. It cannot account for events such as price changes, competitor launches or pandemics. It also needs <strong>at least two full cycles</strong> to detect seasonality, so two years of monthly data is a practical minimum.</p>
+      <p style="margin-top:.4rem">Present a forecast as a conditional estimate with a range, not as a plan or target.</p>
     </div>
   </section>
 
@@ -485,7 +485,7 @@ Detail:  [Sub-Category]
     <div class="grid2" style="margin-top:.7rem">
       <div class="tile">
         <h3>Choosing k</h3>
-        <p style="margin:.2rem 0 0;font-size:.86rem">Leave it on <strong>Automatic</strong> first — Tableau picks using a variance-ratio criterion. Then try 3, 4 and 5 by hand and see which produces groups you can name. If you can't name them, they aren't useful.</p>
+        <p style="margin:.2rem 0 0;font-size:.86rem">Start with <strong>Automatic</strong>, which uses a variance-ratio criterion. Then try 3, 4 and 5 groups and choose a result you can interpret and name.</p>
       </div>
       <div class="tile">
         <h3>Describe Clusters</h3>
@@ -525,10 +525,10 @@ Detail:  [Sub-Category]
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Save it, then name it</div>
       <p>Drag the <strong>Clusters</strong> pill from the Marks card into the Data pane and it becomes a permanent group you can use anywhere — on Color, in filters, in calculations. Then rename the members from "Cluster 1" to something meaningful: "Volume drivers", "Margin drivers", "Problem products".</p>
-      <p style="margin-top:.4rem">The name is what carries the finding: nobody can act on "Cluster 2", but "high volume, thin margin" already implies what to do about it.</p>
+      <p style="margin-top:.4rem">Use names that describe the pattern. "High volume, thin margin" is more useful than "Cluster 2" because it explains what distinguishes the group.</p>
     </div>
     <div class="callout warn" style="margin-top:.5rem">
-      <p>k-means will happily find clusters in random data — it partitions whatever you give it. Before presenting them, check the groups make business sense and that the variance analysis shows a real separation. "The algorithm said so" is not a finding.</p>
+      <p>k-means will create groups even when the data has no useful structure. Before presenting them, check that the groups make business sense and that the variance analysis shows meaningful separation.</p>
     </div>
   </section>
 
@@ -604,7 +604,7 @@ Detail:  [Sub-Category]
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: find the discount cliff and put a number on it</div>
       <p>Build a scatter of Discount against Profit Ratio by Sub-Category with a linear trend line. Find the discount level where the fitted line crosses zero — that's the point beyond which the average order loses money. Add a constant reference line there and shade the loss region.</p>
-      <p style="margin-top:.4rem">Then answer the question a manager would ask next: <strong>how much profit would have been recovered last year if discounts had been capped at that level?</strong> Report the R² and slope so they know how much to trust it, and state plainly that the relationship is correlational. A chart, a number, a recommendation, and an honest caveat — that's a complete piece of analysis, and any one of them alone isn't.</p>
+      <p style="margin-top:.4rem">Estimate how much profit would have been recovered last year if discounts had been capped at that level. Report the R² and slope, and state that the relationship is correlational. Use those results to support a clear recommendation.</p>
     </div>
   </section>
 

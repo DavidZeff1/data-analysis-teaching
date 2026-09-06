@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🏁</span> Dashboards</h1>
-    <p>Everything in this section, assembled into one interactive screen. A dashboard isn't a collection of charts — it makes one point, and the charts are arranged so the viewer can check it and follow up on their own questions by clicking.</p>
+    <p>A dashboard combines worksheets into one interactive view. Arrange charts and controls around a focused question so viewers can see the conclusion and explore the supporting detail.</p>
     <div class="lesson-meta">
       <span>⏱️ 2–3 hours</span>
       <span>🏆 Capstone</span>
@@ -68,18 +68,18 @@
     <h2><span class="ic">📋</span> The brief</h2>
     <div class="callout tip">
       <div class="callout-title">Your task</div>
-      <p>Build a <strong>one-screen sales dashboard</strong> that lets a regional manager answer, without asking you: how are we doing, where is it working, what's going wrong, and what should I look at next?</p>
+      <p>Build a <strong>one-screen sales dashboard</strong> that helps a regional manager answer four questions: How are we doing? Where is performance strong? What needs attention? What should they investigate next?</p>
     </div>
-    <p style="margin-top:.7rem">The constraint — one screen, no scrolling — is the exercise. What you leave off is as much a decision as what you include, and it's the harder one.</p>
+    <p style="margin-top:.7rem">The one-screen, no-scroll limit forces prioritization. Include only the charts and controls needed to answer the question.</p>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">The test every element must pass</div>
-      <p><strong>"What would someone do differently after seeing this?"</strong> If the honest answer is "nothing", it doesn't belong. Most weak dashboards fail by addition — every chart individually defensible, the whole thing unreadable.</p>
+      <p>Ask, <strong>"What would someone do differently after seeing this?"</strong> If an element does not support a decision or a useful follow-up question, remove it. A dashboard can contain many valid charts and still be difficult to read.</p>
     </div>
   </section>
 
   <section class="lcard" id="db-plan">
     <h2><span class="ic">✏️</span> Plan on paper first</h2>
-    <p>Ten minutes of sketching saves an hour of dragging. Decide the question, the charts that answer it, and the layout — before opening Tableau.</p>
+    <p>Sketch the question, the charts that answer it, and the layout before opening Tableau. It prevents unnecessary worksheets and rework later.</p>
     <ol class="steps">
       <li>
         <div class="s-t">Write the question in one sentence</div>
@@ -199,7 +199,7 @@
         <rect x="240" y="76" width="60" height="28" rx="2" fill="#fff" stroke="#fde68a"/>
         <text x="317" y="128" font-size="6" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">overlaps; breaks at other sizes</text>
       </svg>
-      <p class="figcap">Use <strong>tiled</strong> for the layout itself. Floating is for one-offs like a logo or an overlay — building a whole dashboard from floating objects becomes unmaintainable fast.</p>
+      <p class="figcap">Use <strong>tiled</strong> objects for the main layout. Reserve floating objects for items such as a logo or overlay; a fully floating layout is difficult to maintain across screen sizes.</p>
     </div>
 
     <div class="figure">
@@ -228,11 +228,11 @@
           <text x="300" y="100">&#9642; Trend, Map</text>
         </g>
       </svg>
-      <p class="figcap">Containers nest, and the Layout pane shows the nesting as a tree — the only place the structure of a dashboard is actually visible.</p>
+      <p class="figcap">Containers can nest. The Layout pane shows that hierarchy as a tree, which makes the dashboard structure easier to inspect and edit.</p>
     </div>
 
     <h3 style="margin-top:1rem">Horizontal and vertical containers</h3>
-    <p>A <strong>Horizontal</strong> container arranges its contents side by side; a <strong>Vertical</strong> container stacks them. Nesting them means objects resize as a group and keep their proportions when the dashboard is viewed at another size — which free-dragged objects don't.</p>
+    <p>A <strong>Horizontal</strong> container places items side by side; a <strong>Vertical</strong> container stacks them. Nested containers resize their contents as a group and preserve the layout more reliably than free-dragged objects.</p>
     <ul class="check">
       <li><strong>Build the containers first, then drop sheets in</strong> — retrofitting containers is painful</li>
       <li><strong>Use the Layout pane</strong> (top left, next to Dashboard) to see the nesting tree and select precisely</li>
@@ -242,13 +242,13 @@
     </ul>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Selecting the right thing</div>
-      <p>Clicking a chart selects the chart; clicking its thin border selects its container — a target a few pixels wide, which is why so much dashboard editing feels like a fight. When you can't grab what you want, click the item in the <strong>Layout pane's tree</strong> instead and Tableau selects it on the canvas.</p>
+      <p>Clicking a chart selects the chart, while clicking its border selects the container. When the border is difficult to select, choose the item in the <strong>Layout pane</strong> instead; Tableau selects it on the canvas.</p>
     </div>
   </section>
 
   <section class="lcard" id="db-actions">
     <h2><span class="ic">⚡</span> Actions — what makes it a dashboard</h2>
-    <p>Without actions you have a poster. With them, viewers answer their own follow-up questions.</p>
+    <p>Actions let viewers explore related questions without leaving the dashboard.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:9rem">Action</th><th>Effect</th><th>Best for</th></tr></thead>
@@ -418,14 +418,14 @@
 
     <div class="callout danger" style="margin-top:.65rem">
       <div class="callout-title">All Fields vs Selected Fields — the reason an action "does nothing"</div>
-      <p><strong>All Fields</strong> passes every dimension in the selected mark to the target, and the target filters on all of them. If the source mark carries Region <em>and</em> Category but the target sheet has no Category, the match fails and you get an empty chart or no reaction at all.</p>
-      <p style="margin-top:.4rem"><strong>Selected Fields</strong> lets you name exactly which field is passed, and — crucially — <strong>map it to a differently-named field</strong> in the target. That's how you connect a source whose field is called <code>Region</code> to a target whose field is called <code>Sales Region</code>, or how you pass only Region from a mark that also carries a date.</p>
-      <p style="margin-top:.4rem">Whenever a filter action behaves unpredictably, open it and switch to Selected Fields. Naming the one field you meant fixes it most of the time.</p>
+      <p><strong>All Fields</strong> passes every dimension from the selected mark. If the source has Region and Category but the target does not use Category, the action may produce an empty view.</p>
+      <p style="margin-top:.4rem"><strong>Selected Fields</strong> lets you pass only the field you need and map it to a differently named target field. For example, map <code>Region</code> in the source to <code>Sales Region</code> in the target.</p>
+      <p style="margin-top:.4rem">If a filter action gives an unexpected result, inspect its field mapping and use Selected Fields where appropriate.</p>
     </div>
 
     <div class="callout warn" style="margin-top:.5rem">
       <div class="callout-title">An action is a dimension filter on the target sheet</div>
-      <p>It arrives at the same point in the <a href="#tableau/filters">order of operations</a> as an ordinary filter card — so everything that ignores filter cards ignores actions too. A FIXED LOD keeps its unfiltered number; a Top N filter still ranks nationally. If a click should change those, the target sheet needs a context filter, and a context filter can't be driven by an action. In that situation, pass the value through a <strong>parameter action</strong> instead and read the parameter inside the calculation.</p>
+      <p>A filter action runs at the same point in the <a href="#tableau/filters">order of operations</a> as a normal filter card. A <code>FIXED</code> LOD can therefore keep its unfiltered value, and a Top N filter can still rank nationally. If the click must change that logic, pass the value through a <strong>parameter action</strong> and use the parameter in the calculation.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p>Actions live under <span class="mpath">Dashboard <i>→</i> Actions</span> and are listed there whether you made them with the dialog or the funnel icon. When a dashboard misbehaves, that list is the first place to look — and it's the only place the funnel-icon actions are visible.</p></div>
   </section>
@@ -444,13 +444,13 @@
     </div>
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">Write the title as a finding</div>
-      <p>"Sales Dashboard" labels the object. <strong>"West leads on revenue but Central converts it best"</strong> tells the reader what you concluded and gives everything below it a purpose. Use a Text object, make it the largest thing on the screen, and update it when the story changes.</p>
+      <p>"Sales Dashboard" only labels the page. <strong>"West leads on revenue but Central has the strongest margin"</strong> tells readers what to look for. Use a Text object for the finding and update it when the data changes.</p>
     </div>
   </section>
 
   <section class="lcard" id="db-perf">
     <h2><span class="ic">⚡</span> When a dashboard feels slow</h2>
-    <p>Slowness is usually a handful of specific causes rather than "too much data". These are the ones worth checking, roughly in the order they pay off.</p>
+    <p>Dashboard performance usually comes down to a few specific causes. Check these first.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:13rem">Cause</th><th>Why it costs</th><th>Fix</th></tr></thead>
@@ -467,7 +467,7 @@
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Measure before guessing</div>
-      <p><span class="mpath">Help <i>→</i> Settings and Performance <i>→</i> Start Performance Recording</span>, use the dashboard, then stop. Tableau opens a workbook showing exactly where the time went — query execution, geocoding, rendering, layout — so you fix the slow thing rather than the thing you assumed was slow. There's also <span class="mpath">Server <i>→</i> Run Workbook Optimizer</span>, which lists specific issues before you publish.</p>
+      <p>Start a recording at <span class="mpath">Help <i>→</i> Settings and Performance <i>→</i> Start Performance Recording</span>, use the dashboard, then stop it. Tableau opens a workbook that breaks down time spent on queries, geocoding, rendering, and layout. <span class="mpath">Server <i>→</i> Run Workbook Optimizer</span> can also identify issues before publishing.</p>
     </div>
   </section>
 
@@ -488,7 +488,7 @@
     <ol class="steps">
       <li>
         <div class="s-t">Check what you're about to make public</div>
-        <p>Tableau Public is <strong>publicly visible and downloadable</strong>, including the underlying data. Never publish anything confidential. This is not reversible in any meaningful sense.</p>
+        <p>Tableau Public workbooks and their underlying data can be publicly visible and downloadable. Publish only data that is safe to share publicly.</p>
       </li>
       <li>
         <div class="s-t">Server → Tableau Public → Save to Tableau Public</div>
@@ -500,12 +500,12 @@
       </li>
       <li>
         <div class="s-t">Write a description</div>
-        <p>On the Tableau Public site, add a note on what the dashboard shows and what you found. A portfolio piece with a written finding reads very differently from a bare chart.</p>
+        <p>On the Tableau Public site, describe what the dashboard shows and summarize the main finding.</p>
       </li>
     </ol>
     <div class="callout ok" style="margin-top:.55rem">
       <div class="callout-title">This is your portfolio</div>
-      <p>Tableau Public profiles are one of the few places you can show real analytical work publicly, and hiring managers do look at them. Three well-finished dashboards with written findings beat twenty half-built experiments.</p>
+      <p>Publish a small set of complete dashboards with clear findings and documentation. They are more useful as portfolio pieces than a long list of unfinished experiments.</p>
     </div>
   </section>
 
@@ -537,7 +537,7 @@
     </div>
     <div class="callout tip" style="margin-top:.65rem">
       <div class="callout-title">The five-second test</div>
-      <p>Show it to someone who hasn't seen the data and ask what they take away. If it isn't roughly your intended message, the dashboard needs changing — not the viewer. Then ask them to find one specific number; if they can't, your layout is wrong.</p>
+      <p>Ask someone unfamiliar with the data what they take away, then ask them to find a specific number. If the takeaway is unclear or the number is hard to locate, revise the dashboard's message or layout.</p>
     </div>
   </section>
 
@@ -559,8 +559,8 @@
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: the discount dashboard</div>
-      <p>Build a dashboard answering one question: <strong>"Is our discounting policy costing us money, and where?"</strong> Include the headline margin impact, a scatter of discount against profit ratio by sub-category with a trend line, a map of margin by state, and a sorted bar of the worst offenders. Make selecting a sub-category filter the map and vice versa. Then add a Text object with your recommendation and the dollar figure attached to it.</p>
-      <p style="margin-top:.4rem">That last step is the one most dashboards skip. Every chart on the screen supports a decision — cap discounts, and where — so state it, attach the dollar figure you estimated, and let the charts be the evidence for it rather than the whole deliverable.</p>
+      <p>Build a dashboard that answers: <strong>"Is our discounting policy costing us money, and where?"</strong> Include the margin impact, a discount-versus-profit-ratio scatter plot by sub-category, a state margin map, and a sorted bar chart of the worst performers. Make selections in the sub-category chart filter the map and vice versa.</p>
+      <p style="margin-top:.4rem">Add a Text object with a recommendation and its estimated dollar impact. Use the charts as evidence for that recommendation.</p>
     </div>
   </section>
 

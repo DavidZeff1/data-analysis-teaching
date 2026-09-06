@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🔽</span> Filters</h1>
-    <p>Filters decide what data reaches your view. That sounds simple until you meet Tableau's order of operations — where a Top 10 filter and a Region filter interact in a way that produces confidently wrong answers.</p>
+    <p>Filters control which data reaches a view. Tableau applies them in a set order, so combinations such as Top 10 and Region filters can produce unexpected results.</p>
     <div class="lesson-meta">
       <span>⏱️ 30 min</span>
       <span>⭐ Core skill</span>
@@ -127,18 +127,18 @@ Right-click a bar or mark → Exclude
 Right-click [Region] in the Data pane → Show Filter
 → a filter card appears beside the view</pre>
     <div class="callout warn" style="margin-top:.55rem">
-      <div class="callout-title">"Exclude" quietly becomes a trap</div>
-      <p>Excluding specific members creates a rule that says "everything except these". When new values appear in the data next quarter, they're <em>included</em> automatically — possibly without anyone noticing. Prefer explicitly keeping what you want, or a condition that re-evaluates itself.</p>
+      <div class="callout-title">Be careful with Exclude</div>
+      <p>Excluding specific members creates an "everything except these" rule. New values are included automatically when they appear in the data. Prefer explicitly keeping the values you want, or use a condition that updates as the data changes.</p>
     </div>
   </section>
 
   <section class="lcard" id="fi-which">
     <h2><span class="ic">🧩</span> Which dialog you get — the field decides, not you</h2>
-    <p>There is no single "filter dialog". Tableau shows you one of <strong>four</strong>, chosen from what you dropped, and you cannot switch between them from inside the dialog. Almost every "why can't I just tick the values I want?" question in Tableau is this rule biting.</p>
+    <p>Tableau has <strong>four</strong> filter dialogs. It chooses one based on the field you drop, and you cannot switch dialog types after it opens. This is why a field may not offer a list of values to tick.</p>
 
     <div class="callout" style="margin:.6rem 0">
       <div class="callout-title">The rule in one line</div>
-      <p><strong>Only a discrete (blue) field gives you a list of values to tick.</strong> A continuous (green) field gives you a range — a slider with two ends — because a range is the only sensible way to select from something that has no separate members. Green never produces checkboxes, no matter which menu you go through.</p>
+      <p><strong>Only a discrete (blue) field gives you a list of values to tick.</strong> A continuous (green) field represents a range, so Tableau offers a slider instead. Continuous fields do not offer checkboxes.</p>
     </div>
 
     <div class="figure">
@@ -177,7 +177,7 @@ Right-click [Region] in the Data pane → Show Filter
 
         <defs><marker id="fw1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
       </svg>
-      <p class="figcap">The blue/green colour of the pill is the whole decision. Convert the field and the dialog changes — that's the lever you actually have.</p>
+      <p class="figcap">The pill's blue or green state determines the dialog. Convert the field to change the available filter controls.</p>
     </div>
 
     <div class="charts-grid" style="margin-top:.9rem">
@@ -281,8 +281,8 @@ Right-click [Region] in the Data pane → Show Filter
     </div>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Two conversions that sound the same and aren't</div>
-      <p><strong>Dimension ↔ Measure</strong> decides whether Tableau aggregates the field. <strong>Discrete ↔ Continuous</strong> decides whether it draws headers or an axis — and which filter dialog opens. A field can be any of the four combinations. Postal Code, for instance, wants to be a <em>dimension</em> (so it stops being summed) <em>and</em> discrete (so you can tick individual codes); converting it to a dimension alone leaves it green and still sliders-only.</p>
-      <p style="margin-top:.4rem">Right-clicking a <em>pill in the view</em> changes it for that view only. Right-clicking the <em>field in the Data pane</em> changes the default for every sheet you build afterwards — that's the one you usually want.</p>
+      <p><strong>Dimension ↔ Measure</strong> determines whether Tableau aggregates a field. <strong>Discrete ↔ Continuous</strong> determines whether Tableau draws headers or an axis, and which filter dialog it opens. Postal Code should be both a <em>dimension</em> (so Tableau does not sum it) and <em>discrete</em> (so viewers can select individual codes).</p>
+      <p style="margin-top:.4rem">Changing a <em>pill in the view</em> affects that view only. Changing the <em>field in the Data pane</em> sets the default for future sheets.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
       <p>Groups, bins and sets are all discrete by construction, which is why they always give you a tick list. A <a href="#tableau/lod">FIXED LOD</a> is a measure and behaves like one — unless you convert it to a dimension, in which case it becomes filterable as a list too.</p>
@@ -291,7 +291,7 @@ Right-click [Region] in the Data pane → Show Filter
 
   <section class="lcard" id="fi-dialog">
     <h2><span class="ic">🎛️</span> The discrete dialog's four tabs</h2>
-    <p class="muted">All four tabs are live at once and they combine with <strong>AND</strong>. A filter with General ticked <em>and</em> a Top rule set keeps only members that satisfy both — which is a common way to end up with fewer rows than you expected and no obvious reason why.</p>
+    <p class="muted">All four tabs are active at once and combine with <strong>AND</strong>. A filter with both a General selection and a Top rule keeps only members that meet both conditions.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:8rem">Tab</th><th>What it does</th><th>Updates with new data?</th></tr></thead>
@@ -312,8 +312,8 @@ Right-click [Region] in the Data pane → Show Filter
       <li>The <strong>Null</strong> member appears in the list as its own entry when the field has any. Untick it to drop the blanks.</li>
     </ul>
     <div class="callout warn" style="margin-top:.55rem">
-      <div class="callout-title">"Select from list" with everything ticked is not the same as "Use all"</div>
-      <p>They look identical today. Tomorrow a new sub-category appears: <em>Use all</em> includes it, the ticked list doesn't. This is the single most common cause of a dashboard that quietly stops covering the whole business — and nothing on screen changes when it happens.</p>
+      <div class="callout-title">"Select from list" is different from "Use all"</div>
+      <p>Both options may look the same today. When a new sub-category appears, <em>Use all</em> includes it but a manually ticked list does not. Use <em>Use all</em> when the filter should include future values.</p>
     </div>
 
     <h3 style="margin-top:1.1rem">Wildcard — pattern matching on text</h3>
@@ -353,19 +353,19 @@ Exactly matches<span class="c">// the whole string, but still a live rule</span>
 
 By formula: Top  ·  10  ·  by  ·  SUM([Profit])/SUM([Sales])</pre>
     <div class="callout danger" style="margin-top:.55rem">
-      <div class="callout-title">A Top filter is not evaluated where you think</div>
-      <p>Top N filters — along with sets and conditional filters — are computed <strong>before ordinary dimension filters</strong>, at the same point as <a href="#tableau/lod">FIXED LOD expressions</a>. That is the whole reason "Top 10 products in the East" comes out wrong, and why a context filter fixes it. See <a href="#fi-order">the ladder</a> below.</p>
+      <div class="callout-title">Top filters run before ordinary dimension filters</div>
+      <p>Top N, set and conditional filters are computed <strong>before ordinary dimension filters</strong>, at the same point as <a href="#tableau/lod">FIXED LOD expressions</a>. As a result, "Top 10 products in the East" can rank products nationally before filtering to East. A context filter changes that order. See <a href="#fi-order">the ladder</a> below.</p>
     </div>
 
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Prefer Condition and Top over General</div>
-      <p>The General tab produces a hard-coded list of members. Condition and Top define <em>rules</em>, so they stay correct as data changes. A dashboard that silently stops including a new region six months from now is a real and common failure — and it always traces back to a General-tab filter.</p>
+      <p>The General tab creates a fixed list of members. Condition and Top filters define <em>rules</em>, so they continue to work as data changes. Use a rule when new values should be included automatically.</p>
     </div>
   </section>
 
   <section class="lcard" id="fi-range">
     <h2><span class="ic">🎚️</span> Filtering a measure — the prompt that decides everything</h2>
-    <p>Drag <span class="pill msr sm">Sales</span> onto Filters and Tableau asks a question <em>before</em> showing you the filter: how should this field be aggregated first? The dialog is small, the default is Sum, and clicking straight through it is how people end up with a filter that answers a different question from the one they asked.</p>
+    <p>When you drag <span class="pill msr sm">Sales</span> onto Filters, Tableau first asks how to aggregate it. The default is Sum, so choose a different aggregation if it better matches the question you want to answer.</p>
 
     <div class="ba">
       <div class="ba-side">
@@ -386,8 +386,8 @@ By formula: Top  ·  10  ·  by  ·  SUM([Profit])/SUM([Sales])</pre>
     </div>
 
     <div class="callout warn" style="margin-top:.65rem">
-      <div class="callout-title">A measure filter's meaning changes when you change the view</div>
-      <p><code>SUM(Sales) &gt; 100K</code> filters whatever the marks currently are. On a Category view that's three big totals and everything survives; add Sub-Category and the same filter now removes half the bars, because each mark is smaller. The filter didn't change — the level of detail did. If you need a threshold that stays fixed regardless of the view, compute it with a <a href="#tableau/lod">FIXED LOD</a> and filter on that instead.</p>
+      <div class="callout-title">A measure filter depends on the view's level of detail</div>
+      <p><code>SUM(Sales) &gt; 100K</code> filters the marks in the current view. On a Category view, all three category totals may pass; after adding Sub-Category, smaller marks may fail. The filter is unchanged, but the level of detail is not. Use a <a href="#tableau/lod">FIXED LOD</a> if the threshold must stay the same across views.</p>
     </div>
 
     <h3 style="margin-top:1rem">The four tabs of the range dialog</h3>
@@ -403,8 +403,8 @@ By formula: Top  ·  10  ·  by  ·  SUM([Profit])/SUM([Sales])</pre>
       </table>
     </div>
     <div class="callout danger" style="margin-top:.6rem">
-      <div class="callout-title">Range filters delete your nulls without telling you</div>
-      <p>Put any range filter on a measure and every row with a null in that field disappears — nulls fail every comparison. If the totals drop and you can't see why, this is the first thing to check: switch the tab to <strong>Special → All values</strong> and watch them come back.</p>
+      <div class="callout-title">Range filters exclude nulls</div>
+      <p>A range filter excludes rows where the field is null because nulls do not meet any comparison. If totals drop unexpectedly, switch to <strong>Special → All values</strong> to include those rows.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p><strong>At Least</strong> and <strong>At Most</strong> are also the safer choice for anything published. A Range of Values filter pins both ends to the numbers that existed when you built it, so a genuinely new high value gets filtered out on the next refresh.</p></div>
   </section>
@@ -429,7 +429,7 @@ By formula: Top  ·  10  ·  by  ·  SUM([Profit])/SUM([Sales])</pre>
 
     <div class="callout warn" style="margin-top:.65rem">
       <div class="callout-title">"Months" and "Month / Year" are different filters</div>
-      <p><strong>Months</strong> is a date <em>part</em>: twelve members, January to December, pooling every year together. Tick November and you get November 2014, 2015, 2016 and 2017. <strong>Month / Year</strong> is a date <em>value</em>: 48 members, and November 2017 is its own entry. Picking the first when you meant the second is a quiet way to quadruple a number.</p>
+      <p><strong>Months</strong> is a date <em>part</em> with twelve members, January through December, pooled across all years. Selecting November includes November 2014, 2015, 2016 and 2017. <strong>Month / Year</strong> is a date <em>value</em>, so November 2017 is a separate entry. Choose the version that matches the time period you need.</p>
     </div>
 
     <h3 style="margin-top:1rem">The Relative Date dialog in full</h3>
@@ -443,8 +443,8 @@ Options:  ☑ Include today
 <span class="c">// difference makes the newest bar look like a collapse.</span></pre>
     <div class="callout danger" style="margin-top:.6rem">
       <div class="callout-title">Why "last 12 months" shows nothing on Superstore</div>
-      <p>A relative date filter is anchored to <strong>today</strong> by default, and Superstore's data ends in December 2017. "Last 12 months" therefore asks for a window with no data in it, and you get an empty view with no error message — the most confusing possible failure, because everything looks like it worked.</p>
-      <p style="margin-top:.4rem"><strong>The fix</strong> is the <em>Anchor</em> setting at the bottom of the same dialog: set it to a fixed date inside the data, or — better — to a parameter, so the whole workbook can be moved to a new "as of" date in one place. On live data with a lag, anchoring to a parameter also stops a dashboard looking broken every morning before the overnight load lands.</p>
+      <p>A relative date filter is anchored to <strong>today</strong> by default. Because Superstore ends in December 2017, "Last 12 months" returns no rows. The empty view is expected, not an error.</p>
+      <p style="margin-top:.4rem"><strong>Fix it</strong> with the <em>Anchor</em> setting at the bottom of the dialog. Set a fixed date from the data or use a parameter to set one workbook-wide "as of" date. A parameter is especially useful when live data arrives with a delay.</p>
     </div>
 
     <div class="callout tip" style="margin-top:.5rem">
@@ -497,8 +497,8 @@ Options:  ☑ Include today
     </div>
 
     <div class="callout warn" style="margin-top:.6rem">
-      <div class="callout-title">The style menu is shorter than you remember — because it depends on the field</div>
-      <p>Right-click a filter card on a continuous measure and there are no checkboxes on the menu at all. This is the same discrete/continuous rule as the dialog, showing up a second time: <strong>tick lists only exist for discrete fields</strong>. If the style you want isn't offered, the field is the wrong type, and the fix is <a href="#fi-which">a conversion</a>, not a setting.</p>
+      <div class="callout-title">Filter controls depend on the field type</div>
+      <p>A filter card for a continuous measure has no checkbox options. The same discrete/continuous rule applies here: <strong>tick lists only exist for discrete fields</strong>. If the style you need is unavailable, <a href="#fi-which">convert the field</a> rather than looking for another setting.</p>
     </div>
     <div class="scrollx" style="margin-top:.55rem">
       <table class="ltable">
@@ -559,8 +559,8 @@ Options:  ☑ Include today
       </table>
     </div>
     <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">"Only Relevant Values" prevents a common frustration</div>
-      <p>Without it, filtering to the West region still shows every state in the country in your State filter — most of which produce a blank chart. With it, only the states actually in the West are listed. Right-click the card → Only Relevant Values. It costs one click and removes a whole class of confused user.</p>
+      <div class="callout-title">Use "Only Relevant Values" for dependent filters</div>
+      <p>Without it, filtering to the West can still leave every state in the State filter, including states with no West data. With it, the card lists only relevant states. Right-click the card → Only Relevant Values.</p>
     </div>
   </section>
 
@@ -622,7 +622,7 @@ Options:  ☑ Include today
 
         <defs><marker id="fiH" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
       </svg>
-      <p class="figcap">Both charts show three bars. Only one of them still knows about the fourth — which is exactly why Hide is the right tool for a blank first period, and the wrong tool for anything you actually want excluded from the numbers.</p>
+      <p class="figcap">Both charts show three bars, but only one still includes the fourth in its calculations. Use Hide for a blank first period; use Exclude when the data should be removed from the results.</p>
     </div>
 
     <div class="scrollx">
@@ -643,12 +643,12 @@ Options:  ☑ Include today
     <div class="callout ok" style="margin-top:.65rem">
       <div class="callout-title">The case Hide exists for</div>
       <p>Build year-over-year growth: <span class="pill dim sm">YEAR</span> on Columns, <code>SUM(Sales)</code> with a Percent Difference table calc. 2014 comes out blank — correct, there is nothing before it. Now suppose you want the chart to start at 2015.</p>
-      <p style="margin-top:.4rem"><strong>Filter 2014 out</strong> and 2015 goes blank too: the calculation can no longer see the year it needs to compare against. <strong>Hide 2014</strong> and 2015 keeps its number, because the data is still there — only the column is gone. Same visible result, completely different arithmetic.</p>
+      <p style="margin-top:.4rem"><strong>Filter 2014 out</strong> and 2015 also goes blank because the calculation can no longer compare it with the prior year. <strong>Hide 2014</strong> and 2015 keeps its result because the data remains in the calculation. The visible chart may look the same, but the calculation is different.</p>
     </div>
 
     <div class="callout warn" style="margin-top:.5rem">
-      <div class="callout-title">Hidden members leave no trace</div>
-      <p>Nothing on the sheet indicates a hidden header exists. Six months later the totals won't match the visible rows and there is no pill to point at. Bring them back with <span class="mpath">Analysis <i>→</i> Reveal Hidden Data</span>, or right-click the field → <em>Show Hidden Data</em>. Use Hide deliberately and note it in the caption.</p>
+      <div class="callout-title">Document hidden members</div>
+      <p>A worksheet does not show that a header is hidden, which can make totals differ from visible rows. Restore hidden data with <span class="mpath">Analysis <i>→</i> Reveal Hidden Data</span> or right-click the field → <em>Show Hidden Data</em>. Note intentional hidden values in the caption.</p>
       <p style="margin-top:.4rem">Hide only works on <strong>discrete headers</strong> — there is no way to hide part of a continuous axis, because an axis has no members to hide.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p>A related pair: <strong>Keep Only</strong> and <strong>Exclude</strong> in a mark's tooltip both write a real filter onto the Filters shelf. They are ordinary dimension filters with a friendlier entry point, and they use the General tab's fixed list — so the "Use all" warning above applies to them too.</p></div>
@@ -656,7 +656,7 @@ Options:  ☑ Include today
 
   <section class="lcard" id="fi-order">
     <h2><span class="ic">🪜</span> Order of operations — the sequence filters run in</h2>
-    <p>Tableau applies filters in a strict sequence. Almost every "why is this number wrong?" question in Tableau is answered somewhere in this ladder — and the two rungs people get wrong are 4 and 9.</p>
+    <p>Tableau applies filters in a strict sequence. Use this ladder to diagnose results that differ from expectations, especially for Top N filters and table calculations.</p>
 
     <ol class="ladder">
       <li>Extract filters<div class="lr-d">Applied when the extract was built — the rows aren't even in the file</div></li>
@@ -673,8 +673,8 @@ Options:  ☑ Include today
     </ol>
 
     <div class="callout tip" style="margin-top:.65rem">
-      <div class="callout-title">Reading the ladder as a diagnostic</div>
-      <p>When a number looks wrong, find the two things that disagree and check whether one sits <em>above</em> the other. Anything higher up cannot see anything lower down. A FIXED total ignoring your Region card (4 above 5), a percent-of-total that re-scales when you filter (9 below 5), a Top 10 that isn't the top 10 of what you're looking at (4 above 5) — same rule, three symptoms.</p>
+      <div class="callout-title">Use the ladder to diagnose results</div>
+      <p>When two results disagree, check their positions in the order of operations. A step can only use results from steps above it. This explains a FIXED total that ignores a Region card, a percent of total that changes after filtering, and a Top 10 that ranks a wider set than the visible data.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem">
       <p>Two ways to move something: promote a filter to <strong>context</strong> to push it up to rung 3, or move a calculation down by rewriting a FIXED as an INCLUDE/EXCLUDE. There is no way to move a filter downwards, which is why context is the tool you reach for.</p>
@@ -760,12 +760,12 @@ Options:  ☑ Include today
       <li><strong>Performance on very large data</strong> — occasionally, by shrinking the working set early</li>
     </ul>
     <h3 style="margin-top:1rem">What a context filter actually does</h3>
-    <p>It is not just a priority flag. Tableau materialises the filtered rows into a <strong>temporary table</strong>, then runs everything else against that table instead of the source. That's why it genuinely reorders the pipeline — the later steps have no way to see the excluded rows, because they aren't in the table being queried.</p>
-    <p class="muted">It's also why context filters cost something: the temporary table is rebuilt every time the context filter's own value changes. Changing a context filter is slower than changing an ordinary one; everything downstream of a settled context is faster.</p>
+    <p>A context filter does more than change priority. Tableau materialises the selected rows in a <strong>temporary table</strong>, then runs later steps against that table instead of the source. Later steps cannot use rows excluded by the context filter.</p>
+    <p class="muted">The temporary table is rebuilt whenever the context filter changes, so changing a context filter can be slower than changing an ordinary filter. Once it is set, later steps have less data to process.</p>
     <div class="callout note" style="margin-top:.5rem"><p>Filter cards can be told to offer only values that exist in the context — right-click the card → <strong>All Values in Context</strong>. Useful when a context filter has narrowed the data but a downstream card is still listing members that can no longer appear.</p></div>
     <div class="callout warn" style="margin-top:.55rem">
       <div class="callout-title">Don't add everything to context</div>
-      <p>Context filters build a temporary table, which costs time on each change. Use them where the order genuinely matters, not as a default. Two or three per workbook is plenty.</p>
+      <p>Context filters build a temporary table, which adds work whenever they change. Use them when the order of operations requires them, not by default.</p>
     </div>
   </section>
 
@@ -780,7 +780,7 @@ Options:  ☑ Include today
   All Using Related Data Sources</pre>
     <div class="callout tip" style="margin-top:.55rem">
       <div class="callout-title">Prefer "Selected Worksheets"</div>
-      <p>"All Using This Data Source" also hits sheets you build later, including ones that shouldn't be filtered — a KPI card showing company-wide totals, for instance. Choosing explicitly takes ten extra seconds and prevents a confusing bug much later.</p>
+      <p>"All Using This Data Source" also affects sheets you build later, including sheets that should remain unfiltered, such as a company-wide KPI card. Choose the target worksheets explicitly.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p>A filter applied to multiple sheets shows a small icon on the pill. On a dashboard, that one filter card now drives every connected chart — which is exactly how you build coordinated interactivity.</p></div>
   </section>
@@ -805,20 +805,20 @@ Options:  ☑ Include today
     </div>
 
     <div class="callout ok" style="margin-top:.65rem">
-      <div class="callout-title">The table-calc filter is the fix for "Top 10 of whatever the user picked"</div>
-      <p>A Top N filter is computed at rung 4, before the user's filter cards — so it always ranks against everything. <code>INDEX() &lt;= 10</code> is computed at rung 10, <em>after</em> them, so it ranks whatever survived. Sort the view descending, drop that calculation on Filters, tick True, and you have a Top 10 that responds to every card on the dashboard without a single context filter.</p>
+      <div class="callout-title">Use a table-calc filter for "Top 10 of the current selection"</div>
+      <p>A Top N filter runs at rung 4, before filter cards, so it ranks the full data set. <code>INDEX() &lt;= 10</code> runs at rung 10, after filter cards, so it ranks the remaining data. Sort the view descending, put that calculation on Filters, and select True to create a Top 10 that responds to dashboard filters.</p>
       <p style="margin-top:.4rem">The trade-off is cost: the database still returns all 1,850 products and Tableau discards them at the end. Fine for a few thousand marks, wasteful for a few million.</p>
     </div>
     <div class="callout warn" style="margin-top:.5rem">
-      <div class="callout-title">A parameter is not a filter, and the confusion is expensive</div>
-      <p>Showing a parameter control changes nothing on its own — it isn't attached to any field. It only has an effect once a calculation, a filter's Condition or Top tab, or a reference line reads it. If a parameter control appears to do nothing, that link is what's missing, and no amount of editing the parameter will fix it.</p>
+      <div class="callout-title">A parameter is not a filter</div>
+      <p>Showing a parameter control does not change the view on its own. A calculation, a filter's Condition or Top tab, or a reference line must read the parameter. If the control has no effect, check that connection.</p>
       <p style="margin-top:.4rem">The upside of that indirection: a parameter can drive several unrelated things at once, and it can hold values that don't exist in the data — a target, a threshold, a scenario name. A filter can only ever offer what's there.</p>
     </div>
   </section>
 
   <section class="lcard" id="fi-perf">
     <h2><span class="ic">⚡</span> Filters and performance</h2>
-    <p>Filters are the biggest single lever on how fast a workbook feels, and the differences between them are large.</p>
+    <p>Filters have a large effect on workbook performance, and some are much more efficient than others.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Approach</th><th>Cost</th><th>Notes</th></tr></thead>
@@ -835,7 +835,7 @@ Options:  ☑ Include today
     </div>
     <div class="callout tip" style="margin-top:.55rem">
       <div class="callout-title">Filter early, filter once</div>
-      <p>If a dashboard only ever shows the last two years, exclude older data at the <em>extract</em> level rather than filtering it in every view. The general principle: remove data as early in the pipeline as you can, because everything downstream then has less work to do.</p>
+      <p>If a dashboard only shows the last two years, exclude older data in the <em>extract</em> rather than filtering it in every view. In general, remove unneeded data as early as possible so later steps have less work to do.</p>
     </div>
   </section>
 
@@ -886,7 +886,7 @@ Options:  ☑ Include today
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: prove the order of operations to yourself</div>
-      <p>Build one sheet showing the top 5 sub-categories by Sales, with a Region filter card. Duplicate it, and add the Region filter to context on the copy. Put both on a dashboard side by side with the same filter driving them, then click through each region. The two charts will disagree — sometimes dramatically. Write down, for one region, which five sub-categories each chart shows and where the difference comes from: the plain version ranks nationally and then discards, the context version restricts first and then ranks.</p>
+      <p>Build a sheet showing the top five sub-categories by Sales with a Region filter card. Duplicate it and add the Region filter to context on the copy. Put both sheets on a dashboard with the same Region control. For one region, compare the five sub-categories shown: the plain version ranks nationally before filtering, while the context version filters first and then ranks.</p>
     </div>
   </section>
 

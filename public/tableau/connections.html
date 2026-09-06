@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>🔌</span> Connecting Data</h1>
-    <p>Before you can visualise anything you have to get the data in — and get its shape right. Joins, relationships, unions, live vs extract: these decisions are made once at the start and quietly determine whether your numbers are correct for the rest of the project.</p>
+    <p>Before building a view, connect the data and check its shape. Choices such as relationships, joins, unions, and live versus extract affect how Tableau combines data, calculates results, and refreshes the workbook.</p>
     <div class="lesson-meta">
       <span>⏱️ 30 min</span>
       <span>⭐ Core skill</span>
@@ -92,7 +92,7 @@
 
   <section class="lcard" id="cn-page">
     <h2><span class="ic">🖥️</span> The Data Source page</h2>
-    <p>Click <strong>Data Source</strong> in the bottom-left corner at any time to come back here. Joins, relationships, data types, field names and data source filters are all set on this page, and they apply to every sheet you go on to build — so a mistake made here is one you fix once, and a mistake you skip past is one that quietly affects everything.</p>
+    <p>Click <strong>Data Source</strong> in the bottom-left corner to return here. Relationships, joins, data types, field names, and data source filters set here apply to every worksheet, so fix them before building views.</p>
 
     <div class="viz">
       <div class="viz-shelves">
@@ -133,7 +133,7 @@
 
   <section class="lcard" id="cn-layers">
     <h2><span class="ic">🍰</span> The canvas has two layers, and they do different things</h2>
-    <p>The Data Source page looks like one canvas but it is two, stacked. Knowing which one you're on explains why dragging a table sometimes produces a flexible noodle and sometimes a join dialog.</p>
+    <p>The Data Source page has two layers. The logical layer defines relationships; the physical layer defines joins and unions. Knowing which layer you are in explains why dragging a table can create a relationship or open a join dialog.</p>
 
     <div class="figure">
       <svg viewBox="0 0 420 190" role="img" aria-label="The logical layer showing tables joined by noodles, and the physical layer revealed by double-clicking one table, showing joins inside it" style="width:100%;height:auto">
@@ -175,13 +175,13 @@
           <marker id="cnP" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#d97706"/></marker>
         </defs>
       </svg>
-      <p class="figcap">Rounded boxes with noodles means you're in the logical layer. Square boxes with Venn-diagram icons means you've gone down into a table's physical layer — and that's where a join can start multiplying your rows.</p>
+      <p class="figcap">Rounded boxes and relationship lines indicate the logical layer. Square boxes with Venn-diagram icons indicate a table's physical layer, where joins can multiply rows.</p>
     </div>
 
     <div class="ba">
       <div class="ba-side">
         <div class="ba-h">Logical layer — the top one</div>
-        <p style="margin:.3rem 0;font-size:.86rem">What you see when the page opens. Tables sit as separate rounded boxes joined by <strong>noodles</strong>.</p>
+        <p style="margin:.3rem 0;font-size:.86rem">The view that opens first. Tables remain separate rounded boxes linked by relationship lines.</p>
         <ul style="margin:.3rem 0 0;padding-left:1.1rem;font-size:.85rem;line-height:1.6">
           <li>Each table keeps its <strong>own granularity</strong></li>
           <li>Tableau writes the join <em>per visualisation</em></li>
@@ -201,7 +201,7 @@
     </div>
     <div class="callout tip" style="margin-top:.65rem">
       <div class="callout-title">Which layer should I be on?</div>
-      <p><strong>Stay in the logical layer</strong> unless you have a reason not to. The physical layer is for when you genuinely need a flattened row-level table — an inner join to filter one table by another, a union of identically-shaped files, or a join Tableau's relationship logic can't express. Everything else is better as a relationship.</p>
+      <p>Use the <strong>logical layer</strong> by default. Open the physical layer when you need a flat row-level table, such as for an inner join, a union of like-shaped files, or a join that relationships cannot express. Otherwise, use a relationship.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p>Workbooks built before 2020.2 have no logical layer — every table is joined in the physical layer of a single box. That's why old workbooks and old tutorials talk only about joins. Opening one shows a single table on the canvas; double-click it to see the joins underneath.</p></div>
   </section>
@@ -228,7 +228,7 @@
 
     <div class="callout ok" style="margin-top:.6rem">
       <div class="callout-title">What relationships changed</div>
-      <p>Before relationships, connecting a monthly Targets table to line-item Orders would duplicate every target across thousands of rows, and <code>SUM(Target)</code> would come out wildly inflated with no error to warn you. The only fixes were to pre-aggregate the tables to matching granularity or to write de-duplicating calculations by hand. Relationships remove that work by keeping the tables apart until the moment a specific view needs them combined.</p>
+      <p>A join between monthly Targets and line-item Orders can copy each target onto many order rows, inflating <code>SUM(Target)</code>. A relationship keeps the tables separate and aggregates each at its own level when a view needs both tables.</p>
     </div>
   </section>
 
@@ -261,13 +261,13 @@
 
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Left join is almost always the right starting point</div>
-      <p>It guarantees you keep every row of your main table. If the join key is broken you'll see <code>Null</code>s — visible, diagnosable evidence. An inner join in the same situation silently deletes rows, and your totals come out low with no indication why.</p>
+      <p>A left join retains every row from the main table. Unmatched keys appear as <code>Null</code>, making the issue visible. With an inner join, unmatched rows disappear and can lower totals without an obvious warning.</p>
     </div>
   </section>
 
   <section class="lcard" id="cn-dup">
     <h2><span class="ic">⚠️</span> The duplication trap</h2>
-    <p>The most expensive mistake in Tableau, and it produces numbers that look perfectly reasonable.</p>
+    <p>A join can create plausible but incorrect totals when one row matches several rows in another table.</p>
 
     <div class="ba">
       <div class="ba-side">
@@ -355,7 +355,7 @@
 
     <div class="callout danger" style="margin-top:.6rem">
       <div class="callout-title">Always check the row count after joining</div>
-      <p>Drop <code>Number of Records</code> (or <code>COUNT(*)</code>) into a view before and after. If it grew, you have fan-out. Superstore's Orders table has <strong>9,994 rows</strong> — if it's larger after you connect Returns, something duplicated.</p>
+      <p>Compare <code>Number of Records</code> (or <code>COUNT(*)</code>) before and after the join. A higher count signals fan-out. Superstore's Orders table has <strong>9,994 rows</strong>; if that count increases after connecting Returns, the join duplicated rows.</p>
     </div>
   </section>
 
@@ -408,7 +408,7 @@
     </div>
     <div class="callout tip" style="margin-top:.5rem">
       <div class="callout-title">Decide in this order</div>
-      <p><strong>Relationship</strong> whenever the tables can live in one data source — which, thanks to cross-database joins, is more often than people assume. <strong>Join</strong> when you need a flat row-level table. <strong>Union</strong> when it's more rows of the same shape. <strong>Blend</strong> only when the sources genuinely can't be brought together, or when one is at a much coarser grain and you want it aggregated separately on purpose.</p>
+      <p>Use a <strong>relationship</strong> when the tables can live in one data source. Use a <strong>join</strong> when you need a flat row-level table, a <strong>union</strong> to add rows from like-shaped tables, and a <strong>blend</strong> only when the sources must remain separate.</p>
     </div>
   </section>
 
@@ -439,13 +439,13 @@
     </div>
     <div class="callout tip" style="margin-top:.6rem">
       <div class="callout-title">Extracts can be filtered and aggregated</div>
-      <p>You don't have to extract everything. <strong>Edit → Filters</strong> limits which rows are pulled; <strong>Aggregate data for visible dimensions</strong> pre-rolls it up. A 50-million-row table becomes a fast few-thousand-row extract when you only ever look at monthly regional totals.</p>
+      <p>You do not have to extract every row. <strong>Edit → Filters</strong> limits the rows included, and <strong>Aggregate data for visible dimensions</strong> summarizes them in advance. If you only analyze monthly regional totals, the extract can be much smaller and faster.</p>
     </div>
   </section>
 
   <section class="lcard" id="cn-clean">
     <h2><span class="ic">🧹</span> Cleaning at the source</h2>
-    <p>Fixes made on the Data Source page apply everywhere, forever. Fixes made in a worksheet apply to that worksheet. Prefer the former.</p>
+    <p>Changes made on the Data Source page apply to every worksheet. Changes made in a worksheet apply only there, so make shared fixes at the source when possible.</p>
     <div class="grid2">
       <div class="tile">
         <h3>Rename fields</h3>
@@ -474,20 +474,20 @@
     </div>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Data source filters are invisible later</div>
-      <p>Unlike a worksheet filter, a data source filter leaves no pill on any shelf and no card beside any view — nothing on screen says it exists. Six months on, someone asks why the totals don't match the source system and the answer is a filter set on this page that nobody remembers. Document them — a text object on the dashboard, or a note in the workbook description.</p>
+      <p>Unlike a worksheet filter, a data source filter has no shelf pill or filter card. Document it in the workbook description or on the dashboard so others can explain totals that differ from the source system.</p>
     </div>
   </section>
 
   <section class="lcard" id="cn-reshape">
     <h2><span class="ic">🔨</span> Reshaping a file that arrived the wrong way round</h2>
-    <p>Two tools on the Data Source page fix the two most common ways a spreadsheet is unusable. Both take seconds and both are easy to miss because they only appear in the right context.</p>
+    <p>Use Data Interpreter and Pivot to fix two common spreadsheet problems: decorative rows around a table and repeated values stored in separate columns.</p>
 
     <div class="split">
       <div>
         <h3 style="margin-top:0">Data Interpreter</h3>
         <p style="font-size:.88rem">A checkbox in the left panel, offered whenever Tableau suspects the sheet has decoration around the data — a title row, a logo, merged cells, blank spacer rows, footnotes underneath.</p>
-        <p style="font-size:.88rem;margin-top:.4rem">Tick it and Tableau finds the real rectangle of data and uses that. Click <strong>Review the results</strong> and it opens an annotated copy of the workbook showing exactly what it decided to keep and drop — worth doing once so you trust it.</p>
-        <p class="muted" style="font-size:.85rem;margin-top:.4rem">It's a guess, and a good one. Check the row count afterwards regardless.</p>
+        <p style="font-size:.88rem;margin-top:.4rem">Enable it and Tableau selects the data range. <strong>Review the results</strong> opens an annotated copy of the workbook so you can check what Tableau kept and removed.</p>
+        <p class="muted" style="font-size:.85rem;margin-top:.4rem">It is an automated guess, so verify the row count afterward.</p>
       </div>
       <div>
         <h3 style="margin-top:0">Pivot — columns into rows</h3>
@@ -542,8 +542,8 @@ Region | Pivot Field Names | Pivot Field Values</pre>
     </div>
 
     <div class="callout warn" style="margin-top:.65rem">
-      <div class="callout-title">Wide data is the single most common reason a chart "can't be built"</div>
-      <p>A column per month can't go on a date axis, can't be filtered by year, can't have a running total. No amount of calculating fixes it — the shape is wrong. If you find yourself writing <code>[Jan] + [Feb] + [Mar]</code>, stop and pivot instead. The same principle drives <a href="#tableau/measures">Measure Names and Measure Values</a>, which do this reshape on the fly for measures already in the source.</p>
+      <div class="callout-title">Pivot wide monthly data before charting it</div>
+      <p>Separate month columns cannot form a date axis, be filtered by year, or support a running total. If you are writing <code>[Jan] + [Feb] + [Mar]</code>, pivot the data instead. <a href="#tableau/measures">Measure Names and Measure Values</a> use the same reshape for measures already in the source.</p>
     </div>
     <div class="callout note" style="margin-top:.5rem"><p>Pivot is available for file-based sources and some databases. Where it's greyed out, do the reshape upstream — <a href="#excel/powerquery">Power Query</a> unpivots in two clicks, and a SQL view can do it with <code>UNION ALL</code>.</p></div>
   </section>
@@ -587,7 +587,7 @@ Region | Pivot Field Names | Pivot Field Values</pre>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: build the fan-out yourself</div>
-      <p>Make a small two-column Targets table by hand — one row per region with a monthly target — and connect it to Orders. First as a <strong>join</strong>: sum the targets and watch the number come out roughly 2,500 times too large. Then as a <strong>relationship</strong>: watch it come out right. Finally, build a Sales vs Target view with a bullet chart. The point is to see what the broken version looks like: the inflated total is a plausible-looking number, not an error message, so the only warning sign is the row count.</p>
+      <p>Create a Targets table with one monthly target per region and connect it to Orders. First use a <strong>join</strong>, then compare the target total and row count. Next use a <strong>relationship</strong> and compare them again. Finish by building a Sales versus Target bullet chart. The exercise shows why fan-out can look valid unless you check the row count.</p>
     </div>
   </section>
 
