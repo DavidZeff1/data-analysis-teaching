@@ -17,7 +17,10 @@
     <a href="#lo-fixed">FIXED</a>
     <a href="#lo-include">INCLUDE</a>
     <a href="#lo-exclude">EXCLUDE</a>
+    <a href="#lo-table">Table-scoped LODs</a>
+    <a href="#lo-dim">An LOD is a row-level value</a>
     <a href="#lo-order">Order of operations</a>
+    <a href="#lo-nest">Nesting &amp; limits</a>
     <a href="#lo-vs">LOD vs table calc</a>
     <a href="#lo-recipes">Recipes</a>
     <a href="#lo-practice">Practice</a>
@@ -271,6 +274,65 @@
     <div class="callout note" style="margin-top:.5rem"><p><code>EXCLUDE</code> is relative — it strips named dimensions from whatever's in the view. That makes it flexible but harder to reason about, which is why most people reach for <code>FIXED</code>. Both are correct; <code>FIXED</code> is easier to debug.</p></div>
   </section>
 
+  <section class="lcard" id="lo-table">
+    <h2><span class="ic">🌐</span> The table-scoped LOD — braces and nothing else</h2>
+    <p>There is a fourth form, and it has no keyword at all:</p>
+<pre>{ <span class="f">SUM</span>([Sales]) }              <span class="c">// a table-scoped LOD</span>
+{ <span class="k">FIXED</span> : <span class="f">SUM</span>([Sales]) }      <span class="c">// exactly the same thing, spelled out</span>
+{ <span class="f">MAX</span>([Order Date]) }         <span class="c">// the latest date anywhere in the data</span>
+{ <span class="f">COUNTD</span>([Customer Name]) }  <span class="c">// how many customers exist, full stop</span></pre>
+    <p>With no dimensions to group by, it computes over the whole table and hands the same number to every row. That makes it the natural way to write "compared to everything" — a share of the company total, a distance from the overall average, a benchmark line that doesn't move.</p>
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Where the short form earns its keep</div>
+      <p><code>{MAX([Order Date])}</code> is the workhorse. Point a parameter's <em>Value when workbook opens</em> at it and the dashboard always opens on the latest date in the data; use it as a relative date filter's anchor and "last 12 months" means the last twelve months <em>of data</em> rather than of the calendar. Both fix the problem where a workbook looks broken because the data hasn't caught up with today.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Like every FIXED, it ignores dimension filters — so it stays constant as viewers filter, which is usually the point. If you need it to follow a filter, add that filter to <a href="#lo-order">context</a>.</p></div>
+  </section>
+
+  <section class="lcard" id="lo-dim">
+    <h2><span class="ic">🧱</span> An LOD returns a row-level value — and that changes what you can do with it</h2>
+    <p>This is the part that isn't obvious from the syntax. <code>{FIXED [Customer Name] : SUM([Sales])}</code> doesn't produce a little table off to one side. It computes a number per customer and then <strong>attaches that number to every row belonging to that customer</strong>. Each of Sarah Bern's fourteen order lines carries her $2,400 lifetime total.</p>
+    <p>Because the result exists at row level, an LOD can be used everywhere a real column can:</p>
+
+    <div class="grid2" style="margin-top:.7rem">
+      <div class="tile">
+        <h3>Inside row-level logic</h3>
+<pre style="font-size:.76rem"><span class="k">IF</span> { <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) } &gt; <span class="n">5000</span>
+<span class="k">THEN</span> <span class="s">"VIP"</span> <span class="k">ELSE</span> <span class="s">"Standard"</span> <span class="k">END</span></pre>
+        <p style="margin:.3rem 0 0;font-size:.85rem">No <code>MIN()</code> needed — you're comparing row-level things to each other.</p>
+      </div>
+      <div class="tile">
+        <h3>Converted to a dimension</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Drag the LOD field up into Dimensions, or right-click → <strong>Convert to Dimension</strong>. It becomes a discrete field you can slice by, sort, colour and — the useful part — <a href="#tableau/filters">tick in a filter list</a>.</p>
+      </div>
+      <div class="tile">
+        <h3>On the Filters shelf</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Choose <strong>All values</strong> at the aggregation prompt and it filters raw rows: "only customers who have ever spent over $5,000", and it stays true however you slice the view.</p>
+      </div>
+      <div class="tile">
+        <h3>As a bin</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Right-click → Create → Bins on a customer-total LOD and you get a distribution of <em>customers</em> by lifetime spend — a histogram the raw data can't produce.</p>
+      </div>
+    </div>
+
+    <div class="callout danger" style="margin-top:.7rem">
+      <div class="callout-title">Choosing the outer aggregation is a real decision, not a formality</div>
+      <p>Because the value is attached to rows, dropping it in a view forces you to pick how to combine it — and each choice answers a different question:</p>
+      <div class="scrollx" style="margin-top:.45rem">
+        <table class="ltable">
+          <thead><tr><th style="width:16rem">In a view broken down by Region</th><th>Answers</th></tr></thead>
+          <tbody>
+            <tr><td><code>AVG({FIXED [Customer] : SUM([Sales])})</code></td><td>What does a typical customer here spend?</td></tr>
+            <tr><td><code>MAX({FIXED [Customer] : SUM([Sales])})</code></td><td>How big is the biggest customer here?</td></tr>
+            <tr><td><code>SUM({FIXED [Customer] : SUM([Sales])})</code></td><td>Total spend of these customers — and the one to check hardest</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:.45rem">None of them errors. If a total comes out implausibly large, the usual cause is summing a value that is repeated across many rows. <strong>Always compare the number against one you already trust</strong> — the $2,297,201 Superstore total is there precisely for this.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>When the LOD's dimensions are <em>coarser than or equal to</em> the view — <code>{FIXED [Region] : …}</code> in a Region × Category view — every row in a mark carries the identical number, so <code>MIN</code>, <code>MAX</code> and <code>AVG</code> all return it. That's the case the <code>MIN()</code> convention was invented for, and it's why you see it everywhere.</p></div>
+  </section>
+
   <section class="lcard" id="lo-order">
     <h2><span class="ic">🪜</span> Order of operations — where FIXED surprises people</h2>
     <p>Tableau evaluates things in a fixed sequence. <code>FIXED</code> is computed <strong>before dimension filters</strong>, which is either exactly what you want or a nasty surprise.</p>
@@ -279,11 +341,13 @@
       <li>Extract filters<div class="lr-d">Applied when the data was extracted</div></li>
       <li>Data source filters<div class="lr-d">Set on the connection</div></li>
       <li class="key">Context filters<div class="lr-d">Right-click a filter → Add to Context. <strong>These DO affect FIXED.</strong></div></li>
-      <li class="key"><strong>FIXED</strong> LOD expressions<div class="lr-d">Computed here — before ordinary filters</div></li>
+      <li class="key"><strong>FIXED</strong> LOD expressions — and sets, Top N filters, conditional filters<div class="lr-d">All computed here, before ordinary filters. Same rung, same surprises</div></li>
       <li>Dimension filters<div class="lr-d">Your normal filter cards. <strong>FIXED ignores these.</strong></div></li>
       <li class="key">INCLUDE / EXCLUDE LODs<div class="lr-d">Computed after dimension filters, so they respect them</div></li>
       <li>Measure filters<div class="lr-d">Filters on aggregated values</div></li>
-      <li>Table calculations<div class="lr-d">Run last, on the finished view</div></li>
+      <li>Forecasts and clusters<div class="lr-d">Fitted to whatever survived the filters above</div></li>
+      <li>Table calculations, and filters placed on them<div class="lr-d">Run last, on the finished view — see <a href="#tableau/filters">the full ladder</a></div></li>
+      <li>Trend lines, reference lines, totals<div class="lr-d">Computed from the marks that remain</div></li>
     </ol>
 
     <div class="figure">
@@ -334,6 +398,41 @@
         <h3>✓ Want the LOD to respect filters</h3>
         <p style="margin:0;font-size:.86rem">Either add the filter to <strong>Context</strong>, or use <code>INCLUDE</code> / <code>EXCLUDE</code>, which sit after dimension filters in the sequence.</p>
       </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="lo-nest">
+    <h2><span class="ic">🪢</span> Nesting, and the things LODs can't do</h2>
+    <p>LODs nest. The inner expression is evaluated first and its result becomes an input to the outer one — which is how you write "the average customer's spend, per region, as a single field" instead of relying on the pill's aggregation.</p>
+<pre><span class="c">// Average customer spend, computed per region and fixed there</span>
+{ <span class="k">FIXED</span> [Region] : <span class="f">AVG</span>({ <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) }) }
+
+<span class="c">// Each customer's share of their own region's revenue</span>
+{ <span class="k">FIXED</span> [Customer Name] : <span class="f">SUM</span>([Sales]) }
+  / { <span class="k">FIXED</span> [Region] : <span class="f">SUM</span>([Sales]) }
+
+<span class="c">// Days between a customer's first and last order</span>
+<span class="f">DATEDIFF</span>(<span class="s">'day'</span>,
+  { <span class="k">FIXED</span> [Customer Name] : <span class="f">MIN</span>([Order Date]) },
+  { <span class="k">FIXED</span> [Customer Name] : <span class="f">MAX</span>([Order Date]) })</pre>
+    <div class="callout note" style="margin-top:.55rem"><p>Each level has its own dimension list and they are independent — the outer one does not inherit the inner one's. Read a nested LOD from the inside out and it stays legible; write one from the outside in and it usually doesn't.</p></div>
+
+    <h3 style="margin-top:1rem">What an LOD cannot do</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:15rem">Limitation</th><th>What to do instead</th></tr></thead>
+        <tbody>
+          <tr><td>Can't contain a <strong>table calculation</strong>, and can't appear inside one's dimension list</td><td>They run at different stages of the pipeline. Compute the LOD first, then apply the table calc to it</td></tr>
+          <tr><td>Can't do anything <strong>positional</strong> — running total, rank, "the previous row"</td><td>That's a <a href="#tableau/tablecalcs">table calculation</a>, always</td></tr>
+          <tr><td><strong>FIXED isn't available on the secondary source of a data blend</strong></td><td>Use a relationship or a join instead of a blend, or pre-aggregate the secondary source</td></tr>
+          <tr><td><code>COUNTD</code> inside an LOD is <strong>expensive</strong> on large sources</td><td>Fine on Superstore. On tens of millions of rows, extract and pre-aggregate</td></tr>
+          <tr><td>The dimension list takes <strong>dimensions only</strong> — not measures, not aggregates</td><td>Wrap the thing you want to group by in a calculated field that returns a dimension first</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">LODs are computed by the database, and that cuts both ways</div>
+      <p>Because Tableau pushes them into the query, an LOD over millions of rows is usually faster than the equivalent table calculation — the work happens where the data lives. But several nested LODs, or a <code>COUNTD</code> inside one, can generate a genuinely heavy query. If a workbook slows down sharply after you add an LOD, that's where to look first, and materialising an extract is normally the cheapest fix.</p>
     </div>
   </section>
 
@@ -433,6 +532,10 @@
       <li><strong>Positional → table calc, granularity → LOD</strong></li>
       <li><strong><code>{FIXED : …}</code> with no dimensions</strong> is a grand total that survives filtering</li>
       <li><strong>FIXED makes segments stable</strong> — a VIP stays a VIP whatever you filter to</li>
+      <li><strong><code>{ SUM([Sales]) }</code> with no keyword</strong> is a table-scoped LOD — the grand total</li>
+      <li><strong>An LOD is a row-level value</strong> — so it can be a dimension, a bin or a row-level filter</li>
+      <li><strong>The outer aggregation is a decision</strong> — AVG, SUM and MAX ask different questions</li>
+      <li><strong>LODs nest</strong>; read them inside out</li>
     </ul>
   </section>
 
@@ -451,6 +554,10 @@
       <li>Segment customers into <strong>VIP / Regular / Occasional</strong> by lifetime spend</li>
       <li>Find customers with <strong>more than one order</strong> using COUNTD inside a FIXED</li>
       <li>Show each sub-category's profit as a <strong>difference from the overall average</strong></li>
+      <li>Write <code>{MAX([Order Date])}</code> and use it as the <strong>anchor</strong> of a relative date filter — confirm "last 12 months" now returns data</li>
+      <li>Convert <strong>Customer Total</strong> to a dimension, then bin it and build a histogram of customers by lifetime spend</li>
+      <li>Put Customer Total on Filters with <strong>All values</strong> above $5,000, and check the total stays right as you switch regions</li>
+      <li>Write the nested version — <code>{FIXED [Region] : AVG({FIXED [Customer Name] : SUM([Sales])})}</code> — and confirm it matches exercise 1</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: are we growing by acquiring or by keeping?</div>

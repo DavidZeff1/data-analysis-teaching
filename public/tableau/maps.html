@@ -19,6 +19,8 @@
     <a href="#mp-color">Colour</a>
     <a href="#mp-layers">Layers &amp; styling</a>
     <a href="#mp-unknown">Unknown locations</a>
+    <a href="#mp-territory">Custom territories</a>
+    <a href="#mp-spatial">Spatial data</a>
     <a href="#mp-practice">Practice</a>
   </nav>
 
@@ -289,6 +291,85 @@ Map → Map Options → uncheck Pan and Zoom</pre>
       <div class="callout-title">Never ignore the indicator</div>
       <p>Unknown locations don't produce an error — they just vanish. If 200 rows fail to geocode, your map's totals are quietly short by those 200 rows, and nothing on screen says so. Check it every time, and reconcile the map's total against a plain bar chart of the same measure.</p>
     </div>
+
+    <h3 style="margin-top:1rem">The Edit Locations dialog, and what it can and can't do</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Setting</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Geographic roles</strong></td><td>Confirms which role each field is playing, and lets you point City at a State field for context</td></tr>
+          <tr><td><strong>Country/Region</strong></td><td>Fixed to a single country, or read from a field. Set this first — most "unknown city" problems are actually missing country context</td></tr>
+          <tr><td><strong>The match list</strong></td><td>Every unmatched value with a dropdown of candidates. Type to search; the matches you pick are saved into the workbook</td></tr>
+          <tr><td><strong>Show locations with no matching data</strong></td><td>Draws every region in the geography, not only the ones you have rows for — so an absent state reads as a gap rather than not existing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Manual matches are a patch, not a fix</div>
+      <p>Corrections made in Edit Locations live in <em>this workbook</em>. The same misspelling in next month's file has to be matched again, and a colleague rebuilding the view starts from scratch. If the same handful of names keep failing, fix them where the data comes from — or build a <a href="#tableau/organizing">group</a> that merges the variants, which at least travels with the data source.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mp-territory">
+    <h2><span class="ic">🧩</span> Custom territories — regions Tableau has never heard of</h2>
+    <p>Sales territories rarely match administrative boundaries. "North-East patch" might be four states; a delivery zone might be a list of postcodes. Tableau can build the shape for you out of geography it already knows, in two different ways.</p>
+    <ol class="steps">
+      <li>
+        <div class="s-t">From a group — when you can list the members</div>
+        <p>Select the states on the map that belong to a territory, click the <strong>paperclip</strong> in the tooltip, and repeat. You get a grouped geographic field whose polygons are the merged outlines of its members. Everything a normal geographic field can do, it can do.</p>
+      </li>
+      <li>
+        <div class="s-t">From a field — when the data already says which territory</div>
+        <p>If a column already holds the territory name, right-click it → <span class="mpath">Geographic Role <i>→</i> Create From <i>→</i> State</span>. Tableau builds each territory's shape by dissolving the boundaries of the states inside it.</p>
+      </li>
+    </ol>
+    <div class="callout note" style="margin-top:.55rem"><p>Both approaches merge existing boundaries, so a territory can only be built from whole units of a geography Tableau knows. A territory that splits a state down the middle needs a <a href="#mp-spatial">spatial file</a> instead.</p></div>
+  </section>
+
+  <section class="lcard" id="mp-spatial">
+    <h2><span class="ic">🛰️</span> Spatial data — when built-in geocoding isn't enough</h2>
+    <p>Everything so far relies on Tableau's own geocoding database. Once you need boundaries it doesn't have — store catchments, school districts, a warehouse floor plan — you supply the geometry yourself.</p>
+
+    <div class="grid2">
+      <div class="tile">
+        <h3>Spatial files</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Connect directly to Shapefile, GeoJSON, KML, MapInfo or TopoJSON. Tableau creates a <strong>Geometry</strong> field; put it on Detail with the mark type set to Map and the shapes draw themselves.</p>
+      </div>
+      <div class="tile">
+        <h3>Latitude / longitude columns</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Set one field's role to Latitude and another's to Longitude, then put them on Rows and Columns as <strong>continuous measures</strong> with <code>AVG</code> — or use <code>MAKEPOINT</code> below. Works for anything with coordinates.</p>
+      </div>
+      <div class="tile">
+        <h3>Spatial joins</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">On the Data Source page, join two spatial sources with the <strong>Intersects</strong> operator — "which district is each store in?" answered without a lookup table.</p>
+      </div>
+      <div class="tile">
+        <h3>Background images</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem"><span class="mpath">Map <i>→</i> Background Images</span>. Supply an image and its X/Y ranges and you can plot data on a stadium, a shop floor or a circuit board. Not geography at all — just a coordinate space.</p>
+      </div>
+    </div>
+
+<pre style="margin-top:.75rem"><span class="c">// Build a point from coordinate columns</span>
+<span class="f">MAKEPOINT</span>([Latitude], [Longitude])
+
+<span class="c">// Draw a line between two points — origin/destination flows</span>
+<span class="f">MAKELINE</span>(<span class="f">MAKEPOINT</span>([Origin Lat], [Origin Lon]),
+         <span class="f">MAKEPOINT</span>([Dest Lat],   [Dest Lon]))
+
+<span class="c">// Distance between two points, in the unit you name</span>
+<span class="f">DISTANCE</span>([Store Point], [Customer Point], <span class="s">"km"</span>)
+
+<span class="c">// A circle of a given radius — catchment areas</span>
+<span class="f">BUFFER</span>(<span class="f">MAKEPOINT</span>([Lat], [Lon]), <span class="n">5</span>, <span class="s">"km"</span>)</pre>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Marks layers — several map layers, independently controlled</div>
+      <p>Drag a second geographic field onto the view and Tableau offers an <strong>Add a Marks Layer</strong> drop zone. Each layer gets its own Marks card, its own mark type and its own colour — territories underneath, stores on top, delivery routes over both. Layers can be reordered, hidden, and set not to accept selection so a background layer doesn't intercept clicks.</p>
+      <p style="margin-top:.4rem">This replaces the older dual-axis-map trick for most purposes, and unlike a dual axis it isn't limited to two.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <p><strong>Tableau Public and spatial files:</strong> spatial file connections work, but everything published has to become an extract — and a detailed boundary file can make that extract very large. Simplify the geometry upstream if a published map is slow to load.</p>
+    </div>
   </section>
 
   <section class="lcard">
@@ -302,6 +383,9 @@ Map → Map Options → uncheck Pan and Zoom</pre>
       <li><strong>Latitude and Longitude are generated</strong> — you never make them</li>
       <li><strong>Put State on Detail for city maps</strong> to resolve ambiguity</li>
       <li><strong>Always check the unknown-locations indicator</strong></li>
+      <li><strong>Custom territories</strong> merge boundaries Tableau already knows</li>
+      <li><strong>Marks layers beat dual-axis maps</strong> — more layers, each independently controlled</li>
+      <li><strong>Spatial files and MAKEPOINT</strong> cover everything the geocoder doesn't</li>
       <li><strong>Strip the background</strong> — the map isn't the chart</li>
     </ul>
   </section>

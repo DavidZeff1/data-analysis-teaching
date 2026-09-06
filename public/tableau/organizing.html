@@ -13,10 +13,13 @@
   <nav class="toc" aria-label="On this page">
     <span class="toc-label">On this page</span>
     <a href="#or-sort">Sorting</a>
+    <a href="#or-nested">Nested sorts</a>
     <a href="#or-hier">Hierarchies</a>
     <a href="#or-group">Groups</a>
+    <a href="#or-alias">Aliases</a>
     <a href="#or-bin">Bins</a>
     <a href="#or-set">Sets</a>
+    <a href="#or-setuse">Using a set</a>
     <a href="#or-combine">Combined sets</a>
     <a href="#or-which">Which to use</a>
     <a href="#or-practice">Practice</a>
@@ -84,25 +87,82 @@
       </div>
     </div>
 
-    <div class="grid3" style="margin-top:.75rem">
-      <div class="tile">
-        <h3>⚡ Quick sort</h3>
-        <p style="margin:0;font-size:.86rem">The sort icon on the axis, or in the toolbar. One click, applies to the current view only.</p>
+    <div class="callout warn" style="margin-top:.75rem">
+      <div class="callout-title">You can only sort a discrete field</div>
+      <p>Sorting rearranges <em>members</em>, and only a blue pill has members. A continuous axis is already ordered by its own values — there is nothing to rearrange, which is why Sort is greyed out on a green pill. To flip an axis's direction use <span class="mpath">right-click the axis <i>→</i> Edit Axis <i>→</i> Reversed</span> instead. See <a href="#tableau/interface">what blue and green gate</a>.</p>
+    </div>
+
+    <h3 style="margin-top:1.1rem">Five places a sort can come from</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Method</th><th>How</th><th>Scope &amp; durability</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Quick sort</strong></td><td>The small sort icon on an axis, or the toolbar buttons</td><td>This view. Fast, but implicit — nothing on the sheet records what it sorted by</td></tr>
+          <tr><td><strong>Sort → By Field</strong></td><td>Pill dropdown → Sort. Pick a field, an aggregation and a direction</td><td>This view, explicitly defined. <strong>The one to publish.</strong> The field need not be in the view</td></tr>
+          <tr><td><strong>Manual</strong></td><td>Drag headers, or the Manual list in the Sort dialog</td><td>A fixed member order. New members arrive at the end and stay there</td></tr>
+          <tr><td><strong>Data source order</strong></td><td>Sort dialog → Data Source Order</td><td>The order the rows arrived in. Useful when the source already encodes a sequence</td></tr>
+          <tr><td><strong>Default Properties → Sort</strong></td><td>Right-click the field in the Data pane</td><td><strong>Every sheet, present and future.</strong> Set it once for fields with a natural order</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Sorting by a field that isn't on the chart</div>
+      <p><strong>Sort → By Field</strong> offers every field in the source, not just the ones in the view. That's how you show Sales but rank by Profit, or order Ship Mode by a numeric <a href="#tableau/calculated">CASE calculation</a> so it runs Same Day → First Class → Second Class → Standard instead of alphabetically. Build the sort field once, set it in Default Properties, and every future sheet inherits the right order.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Quick sort is fragile inside dashboards</div>
+      <p>A toolbar quick sort is computed from whatever is currently in the view, so a dashboard filter action can silently change what it means. <strong>Sort → By Field</strong> is an explicit definition that survives filtering. And if a sort seems stuck, look for the <em>Clear Sort</em> button on the toolbar — an old quick sort left on a pill outranks the one you just set.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="or-nested">
+    <h2><span class="ic">🪆</span> Nested sorts — why every pane comes out in the same order</h2>
+    <p>Put Region on Columns and Sub-Category on Rows, then sort by Sales. Every region shows its sub-categories in <em>the same</em> order — the national one. Nobody asked for that, and the reason is worth understanding because it comes up constantly.</p>
+
+    <div class="callout" style="margin:.6rem 0">
+      <div class="callout-title">A sort belongs to the dimension, not to the pane</div>
+      <p>Sorting Sub-Category produces <strong>one ordering of the seventeen members</strong>, applied everywhere they appear. It is a property of the field in that view, not of each little chart. So a per-pane ordering — West's best sellers first in West's column, East's in East's — is not something an ordinary sort can express.</p>
+    </div>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Ordinary sort by Sales</div>
+        <table>
+          <tr><th>West</th><th>East</th></tr>
+          <tr><td>Phones</td><td>Phones</td></tr>
+          <tr><td>Chairs</td><td>Chairs</td></tr>
+          <tr><td>Storage</td><td>Storage</td></tr>
+          <tr><td>Tables</td><td>Tables</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">One national order, repeated. East's actual best seller might be third.</p>
       </div>
-      <div class="tile">
-        <h3>🎯 Sort by field</h3>
-        <p style="margin:0;font-size:.86rem">Right-click the dimension pill → Sort → By Field. Sort Sub-Category by <em>Profit</em> while displaying Sales.</p>
-      </div>
-      <div class="tile">
-        <h3>✋ Manual sort</h3>
-        <p style="margin:0;font-size:.86rem">Drag headers into the order you want. Right for Small/Medium/Large, wrong for anything measured.</p>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Nested / per-pane sort</div>
+        <table>
+          <tr><th>West</th><th>East</th></tr>
+          <tr><td>Phones</td><td>Chairs</td></tr>
+          <tr><td>Chairs</td><td>Storage</td></tr>
+          <tr><td>Storage</td><td>Phones</td></tr>
+          <tr><td>Binders</td><td>Tables</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Each pane ranked on its own numbers. Different members can even appear.</p>
       </div>
     </div>
 
-    <div class="callout warn" style="margin-top:.6rem">
-      <div class="callout-title">Quick sort breaks inside dashboards</div>
-      <p>A toolbar quick sort is computed within the view and can behave unpredictably when a dashboard filter changes what's present. For anything you're publishing, use <strong>Sort → By Field</strong>, which is an explicit, stable definition. If you need the sort to respond to filters in a specific way, sort by a <a href="#tableau/tablecalcs">table calculation</a> instead.</p>
-    </div>
+    <h3 style="margin-top:1rem">Two ways to get the right-hand version</h3>
+    <ol class="steps">
+      <li>
+        <div class="s-t">The <strong>Nested</strong> option in the Sort dialog</div>
+        <p>Recent versions of Tableau add <em>Nested</em> alongside Alphabetic, Field and Manual. It sorts the inner dimension within each pane of the outer one. One click, and the right answer for most cases.</p>
+      </li>
+      <li>
+        <div class="s-t">A rank <a href="#tableau/tablecalcs">table calculation</a>, for full control</div>
+        <p>Create <code>RANK(SUM([Sales]))</code>, make it <strong>discrete</strong>, and drop it on Rows <em>to the left of</em> Sub-Category. Set Compute Using to restart in each pane, then right-click its header → untick <em>Show Header</em>. The rank pill orders the rows and then hides itself.</p>
+      </li>
+    </ol>
+    <div class="callout note" style="margin-top:.55rem"><p>The table-calc route is more work but it is the only one that also lets you sort by something computed — a running total, a percent difference, a rank of a rank. It is also the version that keeps working when the sort has to respond to a dashboard filter in a specific way.</p></div>
   </section>
 
   <section class="lcard" id="or-hier">
@@ -156,7 +216,29 @@
       <p class="figcap">The <strong>&#8862;</strong> appears on the pill once a hierarchy exists. One click drills a level deeper; <strong>&#8863;</strong> collapses it back.</p>
     </div>
 
-    <div class="callout note" style="margin-top:.55rem"><p>On a dashboard, drilling changes the view for everyone looking at it. If you want controlled exploration instead, use a parameter or a filter action — see <a href="#tableau/dashboards">Dashboards</a>.</p></div>
+    <h3 style="margin-top:1rem">The mechanics, in full</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Task</th><th>How</th></tr></thead>
+        <tbody>
+          <tr><td>Create one</td><td>Drag a field onto another in the Data pane, then name the hierarchy</td></tr>
+          <tr><td>Add a level</td><td>Drag another field into it. Position in the list <em>is</em> the drill order</td></tr>
+          <tr><td>Reorder levels</td><td>Drag within the hierarchy. Getting this wrong drills City → State, which reads as nonsense</td></tr>
+          <tr><td>Remove a level</td><td>Drag the field out, or right-click it → Remove from Hierarchy</td></tr>
+          <tr><td>Delete the hierarchy</td><td>Right-click the folder → Remove Hierarchy. The fields survive untouched</td></tr>
+          <tr><td>Drill down / up in a view</td><td>The <strong>&#8862;</strong> / <strong>&#8863;</strong> on the pill, or right-click a header → Drill Down</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Three things a hierarchy doesn't do</div>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>It doesn't group your filters.</strong> Each level still filters independently; a Region filter does not restrict what a State card offers unless you set that card to <em>All Values in Hierarchy</em>.</li>
+        <li><strong>It doesn't hide the fields.</strong> Category is still usable on its own — the hierarchy is an arrangement of the Data pane, not a new field.</li>
+        <li><strong>It doesn't keep the mark count down.</strong> Drilling <em>adds</em> a pill, so 3 categories become 3 × 17 nested headers. On a slow data source, one careless drill is the whole delay.</li>
+      </ul>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>On a dashboard, drilling changes the view for everyone looking at it. If you want controlled exploration instead, use a parameter or a filter action — see <a href="#tableau/dashboards">Dashboards</a>.</p></div>
   </section>
 
   <section class="lcard" id="or-group">
@@ -225,10 +307,47 @@
       <li><strong>Simplifying a colour legend</strong> — twelve colours become four</li>
     </ul>
 
+    <h3 style="margin-top:1rem">The Edit Group dialog</h3>
+    <ul class="check">
+      <li><strong>Group / Ungroup</strong> — select members, press Group. Every ungrouped member stays itself.</li>
+      <li><strong>Rename</strong> — the group's name is what appears on the chart, so name it for the reader: "Coastal", not "Group 1".</li>
+      <li><strong>Include "Other"</strong> — a checkbox at the bottom left. Everything you didn't explicitly group is swept into a single <em>Other</em> member. This is the one setting that decides how the group ages.</li>
+      <li><strong>Find</strong> — searches the member list. Indispensable when the field has hundreds of values.</li>
+      <li>Select two fields in the Data pane before choosing Create → Group and you get a group defined on <em>the combination</em> of both.</li>
+    </ul>
     <div class="callout warn" style="margin-top:.6rem">
-      <div class="callout-title">Groups are static — that's the trade-off</div>
-      <p>A group is a fixed list of members. If a new sub-category appears in the data next quarter, it lands in "Other" (or nowhere) until someone edits the group by hand. For anything rule-based — "everything under $10k" — use a <strong>calculated field</strong> or a <strong>set</strong> instead, so it updates itself.</p>
+      <div class="callout-title">Groups are static — and "Include Other" decides how they fail</div>
+      <p>A group is a fixed list of members. When a new sub-category appears next quarter:</p>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>Include Other ON</strong> — it lands in "Other". The chart stays complete and the totals stay right, but the new thing is invisible inside a bucket.</li>
+        <li><strong>Include Other OFF</strong> — it appears as its own bar, unnamed and unstyled, sitting outside your careful four-way split.</li>
+      </ul>
+      <p style="margin-top:.4rem">Neither is wrong; both are surprises unless you chose. For anything rule-based — "everything under $10k" — use a <strong>calculated field</strong> or a <strong>set</strong> instead, so it updates itself.</p>
     </div>
+    <div class="callout note" style="margin-top:.5rem"><p>A group is a new discrete dimension sitting beside the original — so it has members, and everything discrete fields can do applies: tick it in a filter, put it on Color, sort it, alias it. The original field is never modified.</p></div>
+  </section>
+
+  <section class="lcard" id="or-alias">
+    <h2><span class="ic">🏷️</span> Aliases — renaming members without changing them</h2>
+    <p>An alias changes what a member is <em>called</em>. It does not change the value, merge anything, or create a field. "Office Supplies" can display as "Office" in a narrow column while the data underneath is untouched.</p>
+    <p class="muted">Right-click a dimension in the Data pane → <strong>Aliases…</strong> for the full list, or right-click a header in the view → <strong>Edit Alias</strong> for one.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Alias — one member, new label</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">"CA" displays as "California". Still one member, still the same rows. Nothing is combined.</p>
+      </div>
+      <div class="cmp" style="background:#f5f3ff;border-color:#ddd6fe">
+        <div class="h" style="color:#6d28d9">Group — several members, one new member</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">"USA", "U.S.A." and "United States" become one bar. The numbers add together.</p>
+      </div>
+    </div>
+
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">Calculations don't know about aliases</div>
+      <p>Alias "East" to "Eastern Region" and every chart relabels — but <code>IF [Region] = "Eastern Region"</code> returns nothing, because the stored value is still "East". Aliases are a display layer sitting on top of the data, and calculations, filters written by hand, and dashboard actions all work underneath it. Whenever a calculation mysteriously matches nothing, check whether you're comparing against a label rather than a value.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Aliases only exist for <strong>discrete dimension members</strong> — there is nothing to rename on a continuous axis. They're stored per data source, so they follow the field to every sheet. And they can't fix inconsistent data: three spellings aliased to the same word still produce three separate bars. That's a <a href="#or-group">group</a>.</p></div>
   </section>
 
   <section class="lcard" id="or-bin">
@@ -262,10 +381,31 @@
       <p class="viz-note">Superstore's sales distribution is heavily right-skewed — most orders are small, a few are enormous. That shape is why the mean ($230) is four times the median ($54).</p>
     </div>
 
-    <div class="callout tip" style="margin-top:.6rem">
-      <div class="callout-title">Bin size changes the story</div>
-      <p>Too wide and you flatten real structure into one block; too narrow and you get noise. Try a few sizes before settling. Better still, create a <strong>parameter</strong> for the bin size and let the viewer adjust it, so the reader can check whether a peak is real or an artefact of the bucket width you happened to choose.</p>
+    <h3 style="margin-top:1rem">The Create Bins dialog</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Field</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><strong>New field name</strong></td><td>Defaults to "Sales (bin)". Rename it to what the buckets mean</td></tr>
+          <tr><td><strong>Size of bins</strong></td><td>The width of each bucket. The dropdown also offers <strong>New parameter…</strong> — that's how you make it adjustable</td></tr>
+          <tr><td><strong>Suggest Bin Size</strong></td><td>Tableau proposes a width from the data's range and row count. A starting point, not an answer</td></tr>
+          <tr><td><strong>Range of values</strong></td><td>Min, Max, Diff and Count Distinct, shown for reference so you can size the bins sensibly</td></tr>
+        </tbody>
+      </table>
     </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Bin labels are the <em>lower</em> bound</div>
+      <p>A bin labelled <strong>200</strong> with a size of 100 holds everything from 200 up to but not including 300. Readers routinely assume the label is the midpoint or the top. If the chart is going to anyone else, say so in the axis title — "Order value (lower bound of $100 band)" — or build named bands with a calculated field instead.</p>
+    </div>
+    <div class="callout danger" style="margin-top:.5rem">
+      <div class="callout-title">Empty buckets vanish unless you ask for them</div>
+      <p>A bin with no rows in it isn't drawn at all, so a histogram silently closes the gap and a bimodal distribution can look like one smooth hump. Right-click the bin pill → <strong>Show Missing Values</strong> and the empty buckets reappear as zero-height bars where they belong. Do this on every histogram; it costs one click and it is the difference between an honest shape and a misleading one.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Bin size changes the story</div>
+      <p>Too wide and you flatten real structure into one block; too narrow and you get noise. Try a few sizes before settling. Better still, choose <strong>New parameter…</strong> in the Size of bins box and show the control, so the reader can check for themselves whether a peak is real or an artefact of the bucket width you happened to choose.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Bins are always <strong>equal width</strong> and only work on numbers. For unequal bands — 0–100, 100–1,000, 1,000+ — or for bands with names, write an <code>IF</code> <a href="#tableau/calculated">calculated field</a> instead; you get the labels you want and the reader doesn't have to decode a bound. For date buckets use date parts, not bins.</p></div>
   </section>
 
   <section class="lcard" id="or-set">
@@ -314,31 +454,63 @@
       <p class="figcap">A set is just a TRUE/FALSE membership. That's why it works on Color, on Filters, and inside calculations without extra work.</p>
     </div>
 
-    <h3 style="margin-top:1rem">Three ways to use a set</h3>
+    <h3 style="margin-top:1rem">The Create Set dialog — the same three tabs as a filter</h3>
+    <p class="muted">Not a coincidence: a set is a saved answer to "which members?", and that's the question the filter dialog asks too.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:8rem">Tab</th><th>Defines membership by</th><th>Re-evaluates?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>General</strong></td><td>Ticking members by hand, or <em>Use all</em></td><td style="color:#dc2626">No — a fixed list (unless you pick Use all)</td></tr>
+          <tr><td><strong>Condition</strong></td><td>A rule: <code>SUM([Profit]) &lt; 0</code>, by field or by formula</td><td style="color:#16a34a">Yes</td></tr>
+          <tr><td><strong>Top</strong></td><td>Top or bottom N by a measure, N optionally a parameter</td><td style="color:#16a34a">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.55rem"><p>A set is built on <strong>one dimension</strong>. There is no way to define a set across two fields directly — for that, either combine two sets (below) or write a boolean calculated field, which can reference anything.</p></div>
+
+  </section>
+
+  <section class="lcard" id="or-setuse">
+    <h2><span class="ic">🎛️</span> Using a set — five different jobs</h2>
+    <p>A set is a TRUE/FALSE flag attached to every member, which is why it slots into so many places without extra work.</p>
     <ol class="steps">
       <li>
-        <div class="s-t">As a filter</div>
-        <p>Drop the set on the Filters shelf and keep only In. Equivalent to a Top N filter, but reusable across every sheet.</p>
+        <div class="s-t">On Filters</div>
+        <p>Keep <strong>In</strong>, keep <strong>Out</strong>, or show both. Equivalent to a Top N filter, but defined once and reusable on every sheet — change the set and every view updates together.</p>
       </li>
       <li>
-        <div class="s-t">On Color — the comparison view</div>
-        <p>Drop the set on Color and you get In vs Out side by side. "Our top 20 customers versus everyone else" in one drag, with no calculation and no second sheet.</p>
+        <div class="s-t">On Color, Rows or Columns — the comparison view</div>
+        <p>You get two headers, In and Out. "Our top 20 customers versus everyone else" in one drag, no calculation, no second sheet. Right-click the pill → <strong>Show Members in Set</strong> to swap the In/Out headers for the actual member names while keeping everything else.</p>
       </li>
       <li>
         <div class="s-t">Inside a calculation</div>
-        <p>A set returns TRUE/FALSE, so it works directly in logic: <code>IF [Top 20 Customers] THEN [Sales] END</code>.</p>
+        <p>A set returns a boolean, so it drops straight into logic: <code>IF [Top 20 Customers] THEN [Sales] END</code>. That's how you build "revenue from our key accounts" as its own measure.</p>
+      </li>
+      <li>
+        <div class="s-t">As a Set Control — let viewers pick the members</div>
+        <p>Right-click the set in the Data pane → <strong>Show Set</strong>. A card appears that looks like a filter but isn't: ticking members <em>changes what's in the set</em>, so a chart using the set on Color re-splits rather than losing rows. It's the right control whenever the comparison — these versus the rest — is the point.</p>
+      </li>
+      <li>
+        <div class="s-t">Driven by a Set Action</div>
+        <p><span class="mpath">Dashboard <i>→</i> Actions <i>→</i> Change Set Values</span>. Clicking marks in one chart redefines the set and every view using it updates. A user selects any handful of products and instantly sees them against the rest — no parameter, no calculation.</p>
       </li>
     </ol>
 
-    <div class="callout ok" style="margin-top:.6rem">
-      <div class="callout-title">Set Actions — let the viewer redefine the set</div>
-      <p>Dashboard → Actions → <strong>Change Set Values</strong>. Now clicking marks in one chart <em>redefines the set</em>, and every view using it updates. That's how you build a dashboard where a user selects any group of products and instantly sees them compared against the rest — without writing a parameter or a single calculation.</p>
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">Sets are computed early — the Top N trap, again</div>
+      <p>A dynamic set's membership is worked out at the same stage as <a href="#tableau/lod">FIXED LODs</a>, <strong>before ordinary dimension filters</strong>. So "Top 20 Customers" filtered to the West region gives you the West members of the <em>national</em> top 20 — usually far fewer than twenty, and not the West's top customers at all.</p>
+      <p style="margin-top:.4rem">Same symptom, same fix as a Top N filter: right-click the Region filter → <strong>Add to Context</strong>. See <a href="#tableau/filters">the order of operations</a>.</p>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Set Control vs filter card — pick by what should happen to the rest</div>
+      <p>A <strong>filter card</strong> removes the non-selected rows: totals shrink, percentages re-scale, the comparison disappears. A <strong>set control</strong> keeps every row and just re-labels them In or Out: totals stay whole and the selection is measured against the remainder. If the question is "how much of the business is this?", you want the set control.</p>
     </div>
   </section>
 
   <section class="lcard" id="or-combine">
     <h2><span class="ic">➕</span> Combined sets</h2>
     <p>Select two sets in the Data pane, right-click → <strong>Create Combined Set</strong>. You get the standard set operations, and they answer questions that are awkward any other way.</p>
+    <p class="muted">Both sets must be built on the <strong>same dimension</strong> — you can combine two customer sets, but not a customer set with a product set. Combining across fields is a job for a boolean <a href="#tableau/calculated">calculated field</a>.</p>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Operation</th><th>Returns</th><th>Useful for</th></tr></thead>
@@ -361,6 +533,7 @@
       <table class="ltable">
         <thead><tr><th>You want to…</th><th>Use</th><th>Because</th></tr></thead>
         <tbody>
+          <tr><td>Rename a member for display only</td><td><strong>Alias</strong></td><td>Changes the label, not the value or the count</td></tr>
           <tr><td>Merge specific members by hand</td><td><strong>Group</strong></td><td>Simple, visual, no rules needed</td></tr>
           <tr><td>Bucket a measure into ranges</td><td><strong>Bin</strong></td><td>Turns a measure into a dimension</td></tr>
           <tr><td>Flag a rule-based subset</td><td><strong>Set</strong></td><td>Updates itself as data changes</td></tr>
@@ -372,6 +545,10 @@
       </table>
     </div>
     <div class="callout note" style="margin-top:.55rem"><p><strong>Group vs set in one line:</strong> a group answers "these things belong together"; a set answers "these things meet a condition". If the answer could change when the data does, you want a set.</p></div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">All five make a discrete field — which is the point</div>
+      <p>Groups, bins, sets, hierarchy levels and text-returning calculated fields all produce <strong>discrete dimensions</strong>. That's what makes them useful: a discrete field can be sorted, ticked in a filter list, given its own colour swatch, aliased and totalled. Reshaping a measure into one of these is very often the real answer to "why can't I filter/sort/group this number?" — see <a href="#tableau/interface">what blue and green gate</a>.</p>
+    </div>
   </section>
 
   <section class="lcard">
@@ -379,6 +556,11 @@
     <ul>
       <li><strong>Always sort by value</strong> unless the categories have a natural order</li>
       <li><strong>Sort → By Field beats the quick-sort button</strong> for anything published</li>
+      <li><strong>You can't sort a continuous axis</strong> — reverse it in Edit Axis instead</li>
+      <li><strong>A sort is one order for the whole view</strong> — per-pane needs a nested sort or a rank calc</li>
+      <li><strong>Show Missing Values on every histogram</strong> — empty buckets otherwise vanish</li>
+      <li><strong>Aliases relabel; calculations still see the real value</strong></li>
+      <li><strong>Sets are computed before filter cards</strong> — the Top N trap all over again</li>
       <li><strong>Build hierarchies immediately</strong> — Product and Location take seconds</li>
       <li><strong>Groups are static; sets are dynamic</strong></li>
       <li><strong>A set on Color</strong> is the fastest "these vs the rest" comparison there is</li>

@@ -17,6 +17,8 @@
     <a href="#mk-pane">Where dimensions meet</a>
     <a href="#mk-same">One field, two destinations</a>
     <a href="#mk-count">The mark-count rule</a>
+    <a href="#mk-types">Mark types &amp; their targets</a>
+    <a href="#mk-disagg">Disaggregating</a>
     <a href="#mk-not">What is not a mark</a>
     <a href="#mk-format">Where formatting lives</a>
     <a href="#mk-stack">Split or stack?</a>
@@ -336,6 +338,77 @@
     </div>
   </section>
 
+  <section class="lcard" id="mk-types">
+    <h2><span class="ic">🔷</span> Mark types — and why the card keeps changing shape</h2>
+    <p>Switch the mark type and targets appear and disappear from the Marks card. That isn't Tableau being inconsistent: <strong>a target only exists if the mark can express it</strong>. A bar has no angle; a circle has no path. Knowing which type unlocks which target is how you find the chart you can't otherwise build.</p>
+
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:8rem">Mark type</th><th>Extra target it unlocks</th><th>What Size does</th><th>Typical use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Automatic</strong></td><td>—</td><td>Depends what it picked</td><td>Tableau chooses from your fields. Right most of the time; check the dropdown to see what it landed on</td></tr>
+          <tr><td><strong>Bar</strong></td><td>—</td><td><strong>Thickness</strong>, not length</td><td>Comparison. Size is how bar-in-bar charts get their narrow front bar</td></tr>
+          <tr><td><strong>Line</strong></td><td><strong>Path</strong></td><td>Thickness</td><td>Trends. Path also carries the Linear / Step / Jump line type</td></tr>
+          <tr><td><strong>Area</strong></td><td>Path</td><td>—</td><td>Volume over time, stacked composition</td></tr>
+          <tr><td><strong>Square</strong></td><td>—</td><td>Cell size</td><td>Highlight tables and heatmaps — fills the cell, unlike Text</td></tr>
+          <tr><td><strong>Circle</strong></td><td>—</td><td><strong>Area</strong>, which is perceptually honest</td><td>Scatter plots, dot plots, bubble maps</td></tr>
+          <tr><td><strong>Shape</strong></td><td><strong>Shape</strong></td><td>Area</td><td>A second categorical channel, or KPI arrows</td></tr>
+          <tr><td><strong>Text</strong></td><td><strong>Text</strong> replaces Label</td><td>Font size</td><td>Crosstabs and KPI tiles</td></tr>
+          <tr><td><strong>Pie</strong></td><td><strong>Angle</strong></td><td>Diameter</td><td>Composition. Pies default to tiny — drag the Size slider up</td></tr>
+          <tr><td><strong>Gantt Bar</strong></td><td>—</td><td><strong>Length</strong> — the bar starts at its value and extends by Size</td><td>Durations, timelines, deviation bars</td></tr>
+          <tr><td><strong>Polygon</strong></td><td><strong>Path</strong></td><td>—</td><td>Custom shapes and non-standard map regions</td></tr>
+          <tr><td><strong>Density</strong></td><td>— <span class="muted">(no Label, no Shape)</span></td><td>Kernel spread</td><td>Thousands of overlapping points where individual dots are unreadable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">The Path shelf — the target almost nobody uses</div>
+      <p>Available only on <strong>Line</strong> and <strong>Polygon</strong>. It does two separate jobs:</p>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>A field on Path sets the order points are joined in.</strong> Normally a line follows the axis; put a date on Path and it follows time instead. That's how a <em>connected scatterplot</em> is built — Sales on one axis, Profit on the other, and the line tracing the years.</li>
+        <li><strong>Clicking Path gives a line-type dropdown</strong> — Linear, Step or Jump. Step is the honest choice for anything that changes at discrete moments, like a price or a headcount: a linear line implies the value drifted smoothly between readings, which it didn't.</li>
+      </ul>
+    </div>
+    <div class="callout note" style="margin-top:.5rem">
+      <p>On a <strong>dual axis</strong>, the Marks card splits into an <em>All</em> card plus one per measure. Each has its own mark type — that's the entire mechanism behind bars-with-a-line-over-them, lollipops, bar-in-bars and dual-layer maps. Changes made on <em>All</em> hit both; changes on an individual card hit only that layer. If a setting won't take, check which card is selected.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="mk-disagg">
+    <h2><span class="ic">🔬</span> Disaggregating — one mark per row</h2>
+    <p>Everything so far assumes Tableau aggregates. There is a switch that stops it: <span class="mpath">Analysis <i>→</i> Aggregate Measures</span>, ticked by default. Untick it and the mark-count rule changes completely — you get <strong>one mark per row of the underlying data</strong>, regardless of what dimensions are in the view.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Aggregate Measures ON — the default</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">Pills read <code>SUM(Sales)</code> and <code>SUM(Profit)</code>. With Sub-Category on Detail, that's <strong>17 marks</strong> — one per sub-category.</p>
+        <p class="muted" style="margin:.35rem 0 0;font-size:.8rem">You are looking at totals.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Aggregate Measures OFF</div>
+        <p style="margin:.3rem 0 0;font-size:.86rem">Pills read <code>Sales</code> and <code>Profit</code>, no aggregation. Same view, <strong>9,994 marks</strong> — one per order line.</p>
+        <p class="muted" style="margin:.35rem 0 0;font-size:.8rem">You are looking at the raw data.</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">What this is genuinely for</div>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>Seeing the distribution instead of its average.</strong> A bar chart of average order value hides whether that average comes from consistent orders or two enormous ones. Disaggregated, you see every order.</li>
+        <li><strong>Finding outliers.</strong> Aggregation is precisely the operation that hides them.</li>
+        <li><strong>Feeding a box plot.</strong> Box plots need individual points to summarise — see <a href="#tableau/analytics">the Analytics pane</a>.</li>
+        <li><strong>Sanity-checking a suspicious total.</strong> Disaggregate, look at the actual rows, find the duplicate.</li>
+      </ul>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Two costs</div>
+      <p><strong>Performance:</strong> one mark per row means Tableau draws and holds every row. Nine thousand is fine; nine million will hang. <strong>Silence:</strong> nothing on the chart says it's disaggregated except the pills losing their <code>SUM()</code>. A disaggregated view handed to someone else looks like an ordinary chart of very small numbers.</p>
+      <p style="margin-top:.4rem">The safer alternative is usually to keep aggregation on and add a dimension to <strong>Detail</strong> — that gets you finer marks without abandoning aggregation entirely, and it's reversible by dragging one pill off.</p>
+    </div>
+  </section>
+
   <section class="lcard" id="mk-not">
     <h2><span class="ic">🚫</span> What is <em>not</em> a mark</h2>
     <p>Plenty of things on screen look like part of the chart but are drawn by the worksheet, not by your data — which is why the Marks card has no effect on them.</p>
@@ -418,8 +491,25 @@
     </div>
     <div class="callout warn" style="margin-top:.6rem">
       <div class="callout-title">Stacked bars hide comparisons</div>
-      <p>Only the bottom segment of a stack shares a baseline, so the others are genuinely hard to compare — your eye has to judge lengths that start in different places. If the question is <em>"which region is biggest?"</em>, move the field from Color to Columns and give every bar the same starting line. If the question is <em>"what's the total, and roughly how is it split?"</em>, stacking is the right call. Turn stacking off entirely under <strong>Analysis → Stack Marks</strong>.</p>
+      <p>Only the bottom segment of a stack shares a baseline, so the others are genuinely hard to compare — your eye has to judge lengths that start in different places. If the question is <em>"which region is biggest?"</em>, move the field from Color to Columns and give every bar the same starting line. If the question is <em>"what's the total, and roughly how is it split?"</em>, stacking is the right call.</p>
     </div>
+
+    <h3 style="margin-top:1rem">Analysis → Stack Marks</h3>
+    <div class="grid3">
+      <div class="tile">
+        <h3>Automatic</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">The default. Tableau stacks when the mark type is one that shares a baseline — bar, area — and a dimension is on Color.</p>
+      </div>
+      <div class="tile">
+        <h3>On</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Force stacking even where Tableau wouldn't. Rarely needed.</p>
+      </div>
+      <div class="tile" style="background:#eff6ff;border-color:#bfdbfe">
+        <h3>Off</h3>
+        <p style="margin:.2rem 0 0;font-size:.85rem">Every segment starts at the baseline and they <strong>overlap</strong>. Combined with opacity or a size difference, this is how overlapping-bar and bar-in-bar charts get built.</p>
+      </div>
+    </div>
+    <div class="callout note" style="margin-top:.6rem"><p>Stack Marks is a <em>worksheet</em> setting, not a pill setting — it applies to everything on the sheet and there is no pill to remind you it's off. If a duplicated bar chart on the same dashboard behaves differently from its neighbour, this menu is the first place to look.</p></div>
   </section>
 
   <section class="lcard" id="mk-fix">
@@ -471,6 +561,9 @@
       <li>Build a <strong>3 × 4 grid</strong>: Category on Columns, Region on Rows. Point at one pane and say exactly which rows of data feed it.</li>
       <li>Drag <strong>Sub-Category to Detail</strong>. Predict the new count first (3 × 4 × 17 is wrong — work out why).</li>
       <li>Turn on <strong>Analysis → Stack Marks → Off</strong> with a dimension on Color and a bar mark. Explain what you're now looking at.</li>
+      <li>Build a Sales vs Profit scatter with Sub-Category on Detail, then untick <strong>Analysis → Aggregate Measures</strong>. Read the new mark count and say what each dot is now.</li>
+      <li>Switch a line chart's Path to <strong>Step</strong> and say when that would be the more honest choice.</li>
+      <li>Cycle the mark type through Bar, Line, Circle, Shape, Pie and Text, watching which targets appear and vanish from the card each time.</li>
       <li>Add a <strong>reference line</strong> for average sales. Confirm the mark count is unchanged, and try to recolour it from the Marks card.</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">

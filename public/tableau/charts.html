@@ -19,8 +19,11 @@
     <a href="#ct-stacked">Stacked &amp; composition</a>
     <a href="#ct-heat">Highlight table</a>
     <a href="#ct-dual">Dual axis</a>
+    <a href="#ct-dist">Distributions</a>
+    <a href="#ct-parts">Part-to-whole</a>
     <a href="#ct-advanced">Beyond Show Me</a>
     <a href="#ct-showme">Show Me</a>
+    <a href="#ct-req">What each chart needs</a>
     <a href="#ct-practice">Practice</a>
   </nav>
 
@@ -318,6 +321,113 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
     </div>
   </section>
 
+  <section class="lcard" id="ct-dist">
+    <h2><span class="ic">📶</span> Distributions — the charts that show spread, not averages</h2>
+    <p>Bar charts show totals and averages, and both hide the thing that often matters most: whether the numbers behind them are consistent or wildly uneven. These four are how you find out.</p>
+
+    <div class="split">
+      <div>
+        <h3 style="margin-top:0">Histogram</h3>
+<pre>Right-click [Sales] → Create → Bins
+Columns: [Sales (bin)]   <span class="c">// blue, discrete</span>
+Rows:    <span class="f">CNT</span>([Sales])      <span class="c">// how many orders per bucket</span>
+
+<span class="c">// Then, always:</span>
+Right-click the bin pill → Show Missing Values</pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Show Me builds this in one click and creates the bin for you — but it won't turn on Show Missing Values, so an empty bucket silently closes the gap and the shape comes out wrong. See <a href="#tableau/organizing">Bins</a>.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Box plot</h3>
+<pre>Columns: [Region]
+Rows:    <span class="f">SUM</span>([Sales])
+Detail:  [Order ID]      <span class="c">// one mark per order</span>
+Marks:   Circle
+
+<span class="c">// Then drag Box Plot from the Analytics pane</span></pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">The box needs individual points to summarise, which is why something has to be on Detail — or <a href="#tableau/marks">Aggregate Measures</a> turned off. A box plot over four marks tells you nothing.</p>
+      </div>
+    </div>
+
+    <div class="split" style="margin-top:1rem">
+      <div>
+        <h3 style="margin-top:0">Dot / strip plot</h3>
+<pre>Columns: <span class="f">SUM</span>([Sales])
+Rows:    [Sub-Category]
+Detail:  [Order ID]
+Marks:   Circle, opacity ~50%</pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Every order as a dot on its category's line. Shows clustering and outliers a bar chart averages away. Drop the opacity so overlaps read as density.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Control chart</h3>
+<pre>Columns: <span class="f">MONTH</span>([Order Date])  <span class="c">// green</span>
+Rows:    <span class="f">SUM</span>([Sales])
+Marks:   Line
+
+<span class="c">// Analytics pane → Distribution Band</span>
+<span class="c">//   ±2 standard deviations, scoped to the table</span></pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Turns "that month looks high" into "that month is outside the band". On skewed data use percentile bands instead — see <a href="#tableau/analytics">the Analytics pane</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lcard" id="ct-parts">
+    <h2><span class="ic">🧩</span> Part-to-whole, beyond the pie</h2>
+    <div class="charts-grid">
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 66" role="img" aria-label="A treemap of nested rectangles sized by value">
+          <rect x="6" y="6" width="52" height="34" fill="#4e79a7"/><rect x="58" y="6" width="32" height="34" fill="#6b93bb"/>
+          <rect x="90" y="6" width="24" height="20" fill="#8fb0cd"/><rect x="90" y="26" width="24" height="14" fill="#a9c3da"/>
+          <rect x="6" y="40" width="34" height="20" fill="#f28e2b"/><rect x="40" y="40" width="28" height="20" fill="#f5a85a"/>
+          <rect x="68" y="40" width="24" height="20" fill="#f8c28c"/><rect x="92" y="40" width="22" height="20" fill="#fbd9b5"/>
+        </svg>
+        <div class="ct-n">Treemap</div>
+        <div class="ct-d">Dimension on <strong>Detail</strong>, measure on <strong>Size</strong> and <strong>Color</strong>. Add a second dimension for nested blocks. Good for many categories where a bar chart would need scrolling — but area is hard to compare precisely, so use it for structure, not ranking.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 66" role="img" aria-label="Packed bubbles of different sizes">
+          <circle cx="38" cy="32" r="19" fill="#4e79a7"/><circle cx="70" cy="22" r="13" fill="#f28e2b"/>
+          <circle cx="74" cy="47" r="10" fill="#59a14f"/><circle cx="92" cy="32" r="8" fill="#e15759"/>
+          <circle cx="16" cy="49" r="6" fill="#b07aa1"/><circle cx="18" cy="14" r="7" fill="#76b7b2"/>
+          <circle cx="104" cy="48" r="5" fill="#9c755f"/>
+        </svg>
+        <div class="ct-n">Packed bubbles</div>
+        <div class="ct-d">Mark type <strong>Circle</strong>, dimension on Detail, measure on Size. Eye-catching and genuinely hard to read — no shared baseline, no axis. Fine as a way in to a dashboard, poor as the analysis.</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 66" role="img" aria-label="A waterfall chart of rising and falling bars ending at a total">
+          <line x1="8" y1="58" x2="114" y2="58" stroke="#cbd5e1"/>
+          <rect x="12" y="30" width="13" height="28" fill="#4a7dab"/>
+          <rect x="28" y="22" width="13" height="8" fill="#4a7dab"/>
+          <rect x="44" y="22" width="13" height="10" fill="#c0392b"/>
+          <rect x="60" y="16" width="13" height="6" fill="#4a7dab"/>
+          <rect x="76" y="16" width="13" height="12" fill="#c0392b"/>
+          <rect x="92" y="28" width="13" height="30" fill="#334155"/>
+        </svg>
+        <div class="ct-n">Waterfall</div>
+        <div class="ct-d">Mark type <strong>Gantt Bar</strong>, a <strong>running total</strong> of the measure on Rows, and the negated measure on <strong>Size</strong>. Each bar starts where the last finished. The right chart for "how did we get from last year's number to this year's".</div>
+      </div>
+      <div class="cthumb tall">
+        <svg viewBox="0 0 120 66" role="img" aria-label="Sparklines: four tiny line charts stacked">
+          <g stroke="#4a7dab" stroke-width="1.4" fill="none">
+            <polyline points="10,14 26,10 42,15 58,8 74,11 90,5 110,7"/>
+            <polyline points="10,29 26,32 42,26 58,30 74,24 90,27 110,21"/>
+            <polyline points="10,45 26,42 42,47 58,41 74,44 90,38 110,36"/>
+            <polyline points="10,60 26,58 42,61 58,55 74,59 90,53 110,50"/>
+          </g>
+          <g font-size="4.6" fill="#64748b" font-family="Inter, sans-serif">
+            <text x="0" y="15">W</text><text x="0" y="30">E</text><text x="0" y="46">C</text><text x="0" y="61">S</text>
+          </g>
+        </svg>
+        <div class="ct-n">Sparklines</div>
+        <div class="ct-d">A line chart with the dimension on Rows, axes hidden and the rows squashed short. Shape only, no numbers — pair each row with a KPI value beside it and you have a scorecard that shows both level and direction.</div>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Funnels are usually a sorted bar chart wearing a costume</div>
+      <p>The tapering-funnel look is built from a dual-axis area chart with one axis reversed, and it costs real accuracy: the taper encodes the same number twice and the eye reads the <em>width</em>, which is half the value. Unless the audience specifically expects a funnel, a sorted bar chart with a drop-off percentage beside each stage answers the same question and can be read exactly.</p>
+    </div>
+  </section>
+
   <section class="lcard" id="ct-advanced">
     <h2><span class="ic">🎓</span> Charts Show Me won't build for you</h2>
     <div class="grid2">
@@ -376,6 +486,36 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
     <div class="callout note" style="margin-top:.55rem"><p>Use it while you're learning; build by hand once you know the recipes. Placing pills deliberately gives you a view you can reason about and fix — Show Me's arrangement is sometimes surprising.</p></div>
   </section>
 
+  <section class="lcard" id="ct-req">
+    <h2><span class="ic">📋</span> What each chart actually needs</h2>
+    <p>Hovering a Show Me option spells out its requirement — "1 or more Dimensions, 2 Measures". That text is the most useful reference in Tableau and almost nobody reads it, so here are the common ones collected. When something is greyed out, this table says what to add.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Chart</th><th>Needs</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Text table</strong></td><td>1+ dimensions, 1+ measures</td><td>Always available; the fallback when nothing else fits</td></tr>
+          <tr><td><strong>Bar / stacked / side-by-side</strong></td><td>1+ dimensions, 1+ measures</td><td>Side-by-side needs the dimension to split into groups, so at least two</td></tr>
+          <tr><td><strong>Highlight table</strong></td><td>1+ dimensions, 1 measure</td><td>Two dimensions is the useful case — one per axis</td></tr>
+          <tr><td><strong>Heat map</strong></td><td>1+ dimensions, 1–2 measures</td><td>Size encodes the first measure, colour the second</td></tr>
+          <tr><td><strong>Line (continuous)</strong></td><td>1 <strong>date</strong>, 1+ measures</td><td>Greyed out without a real date field. A text date is the usual culprit</td></tr>
+          <tr><td><strong>Dual line / dual combination</strong></td><td>1 date, exactly 2 measures</td><td>Select both measures before opening Show Me</td></tr>
+          <tr><td><strong>Scatter plot</strong></td><td>2–4 measures</td><td>Add a dimension to Detail afterwards, or you get one dot</td></tr>
+          <tr><td><strong>Histogram</strong></td><td>1 measure</td><td>Creates the bin field for you</td></tr>
+          <tr><td><strong>Box-and-whisker</strong></td><td>0+ dimensions, 1+ measures</td><td>Needs enough marks to summarise — put something on Detail</td></tr>
+          <tr><td><strong>Bullet graph</strong></td><td>Exactly 2 measures, 0+ dimensions</td><td>Field order decides which becomes the target. Swap with <em>Swap Reference Line Fields</em></td></tr>
+          <tr><td><strong>Gantt</strong></td><td>1 date, 1+ dimensions</td><td>A duration measure on Size gives the bars length</td></tr>
+          <tr><td><strong>Treemap / packed bubbles</strong></td><td>1+ dimensions, 1–2 measures</td><td>Size then colour</td></tr>
+          <tr><td><strong>Symbol map</strong></td><td>1 <strong>geographic</strong> dimension, 0–2 measures</td><td>The globe icon must be on the field — see <a href="#tableau/maps">Maps</a></td></tr>
+          <tr><td><strong>Filled map</strong></td><td>1 geographic dimension, 0–1 measures</td><td>Not available for point-level roles like latitude/longitude pairs</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Greyed out is a diagnosis, not a dead end</div>
+      <p>Three causes cover nearly all of them: <strong>the wrong number of fields selected</strong> (Ctrl-click to select more in the Data pane before opening the panel), <strong>a date that isn't a date</strong> (check the icon — see <a href="#tableau/interface">field types</a>), or <strong>a field that isn't geographic</strong>. Read the requirement text under the greyed icon and it will name which.</p>
+    </div>
+  </section>
+
   <section class="lcard">
     <h2><span class="ic">🧠</span> Key intuitions</h2>
     <ul>
@@ -388,6 +528,9 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
       <li><strong>Dual axis: synchronise when units match</strong>, label clearly when they don't</li>
       <li><strong>Too many lines → small multiples</strong></li>
       <li><strong>Dual axis is how the fancy charts are made</strong></li>
+      <li><strong>Distributions need individual marks</strong> — box plots and dot plots want something on Detail</li>
+      <li><strong>Show Missing Values on every histogram</strong> — empty buckets otherwise vanish</li>
+      <li><strong>Read the requirement text</strong> under a greyed-out Show Me option; it names what's missing</li>
     </ul>
   </section>
 
@@ -405,7 +548,11 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
       <li><strong>Pie chart</strong>: Sales by Region — then rebuild it as a bar chart and say which reads better</li>
       <li><strong>Small multiples</strong>: monthly sales trend with one row per Region</li>
       <li><strong>Bar-in-bar</strong>: Sales vs Profit by Category on a dual axis, both as bars</li>
-      <li>Select Category and Sales, then click through every enabled option in <strong>Show Me</strong></li>
+      <li>Select Category and Sales, then click through every enabled option in <strong>Show Me</strong> — and hover three greyed-out ones to read what they need</li>
+      <li><strong>Histogram</strong>: bin Sales, count the orders, and turn on Show Missing Values</li>
+      <li><strong>Box plot</strong> of order values by Region, with Order ID on Detail</li>
+      <li><strong>Waterfall</strong>: monthly profit as a Gantt bar with a running total on Rows and the negated measure on Size</li>
+      <li><strong>Treemap</strong> of Sales by Sub-Category nested inside Category — then rebuild it as a sorted bar chart and say which you'd present</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: the same question, four ways</div>

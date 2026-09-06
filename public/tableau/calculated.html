@@ -13,13 +13,16 @@
   <nav class="toc" aria-label="On this page">
     <span class="toc-label">On this page</span>
     <a href="#ca-create">Creating one</a>
+    <a href="#ca-types">Types &amp; conversion</a>
     <a href="#ca-rowagg">Row vs aggregate</a>
+    <a href="#ca-attr">ATTR and the asterisk</a>
     <a href="#ca-basic">Basic maths</a>
     <a href="#ca-logic">IF and CASE</a>
     <a href="#ca-dates">Dates</a>
     <a href="#ca-text">Text</a>
     <a href="#ca-nulls">Nulls</a>
     <a href="#ca-params">Parameters</a>
+    <a href="#ca-paramuse">What parameters drive</a>
     <a href="#ca-practice">Practice</a>
   </nav>
 
@@ -102,6 +105,43 @@
         </ul>
       </div>
     </div>
+
+    <div class="callout ok" style="margin-top:.6rem">
+      <div class="callout-title">Ad-hoc calculations — a formula without a field</div>
+      <p><strong>Double-click an empty part of any shelf</strong> and type a formula directly. Press Enter and you get a working pill with no entry in the Data pane. Perfect for a one-off <code>MIN(0)</code> placeholder or a quick <code>SUM([Sales])-SUM([Profit])</code> you're only testing.</p>
+      <p style="margin-top:.4rem">Changed your mind and want to keep it? Drag the pill from the shelf into the Data pane and it becomes a real calculated field, name and all. Working this way keeps the Data pane clean, which matters more than it sounds once a workbook has forty calculations in it.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Two things worth finding in the editor: the <strong>function reference</strong> on the right, which shows the syntax and an example for every function; and the <strong>▾ at the top right</strong>, which lists this calculation's dependencies and what depends on it. The second is how you find out whether deleting something will break three sheets.</p></div>
+  </section>
+
+  <section class="lcard" id="ca-types">
+    <h2><span class="ic">🔠</span> Data types — and converting between them</h2>
+    <p>Every field and every expression has a type: <strong>string, number (integer or decimal), date, date &amp; time, or boolean</strong>. Tableau does almost no implicit conversion, so a surprising share of "the calculation won't save" is a type mismatch rather than a logic error. The message usually names both types, which tells you exactly which side to convert.</p>
+<pre><span class="c">// Number ⇄ text</span>
+<span class="f">INT</span>([Sales])          <span class="c">// 261.96 → 261. Truncates toward zero — it does NOT round</span>
+<span class="f">ROUND</span>([Sales], <span class="n">0</span>)    <span class="c">// 261.96 → 262. Use this when you meant to round</span>
+<span class="f">FLOAT</span>([Quantity])     <span class="c">// forces decimal division: FLOAT(a)/b</span>
+<span class="f">STR</span>([Year])           <span class="c">// 2017 → "2017", so you can concatenate it</span>
+
+<span class="c">// Text → date</span>
+<span class="f">DATE</span>([Order Date])                          <span class="c">// works when the text is unambiguous</span>
+<span class="f">DATEPARSE</span>(<span class="s">"dd/MM/yyyy"</span>, [Raw Date])       <span class="c">// when it isn't — you supply the pattern</span>
+
+<span class="c">// Building a date from parts</span>
+<span class="f">MAKEDATE</span>(<span class="n">2017</span>, <span class="n">11</span>, <span class="n">9</span>)
+<span class="f">MAKEDATETIME</span>([Order Date], [Order Time])
+
+<span class="c">// Boolean → number, for counting</span>
+<span class="f">INT</span>([Profit] &lt; <span class="n">0</span>)     <span class="c">// True → 1, False → 0. SUM() it to count loss-makers</span></pre>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Three type traps worth knowing before you meet them</div>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>Integer division truncates.</strong> <code>[Quantity]/[Orders]</code> with two integers can return 0. Wrap one side in <code>FLOAT()</code>.</li>
+        <li><strong><code>DATEPARSE</code> isn't available on every connection.</strong> If it's missing or errors, extract the data first — it works on extracts regardless of source.</li>
+        <li><strong>Comparisons are case-sensitive.</strong> <code>[Region] = "east"</code> matches nothing. Use <code>UPPER()</code> on both sides, or fix it at the source.</li>
+      </ul>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>A calculation's own type decides where it lands: return a number and it goes to Measures; return text, a date or a boolean and it goes to Dimensions. That's why <code>SUM([Profit])/SUM([Sales])</code> arrives green and <code>IF … THEN "High"</code> arrives blue — and it's also what decides which <a href="#tableau/filters">filter dialog</a> you get when you drag it onto Filters.</p></div>
   </section>
 
   <section class="lcard" id="ca-rowagg">
@@ -187,6 +227,58 @@
 <span class="c">// ✓ Both row-level — Tableau aggregates the result later</span>
 [Profit] / [Sales]</pre>
     <div class="callout note" style="margin-top:.5rem"><p>A row-level field appears in the Data pane as a measure you can aggregate however you like. An aggregate calculation is <em>already</em> aggregated — you can't change it with the pill dropdown. That's a useful way to tell which you wrote.</p></div>
+  </section>
+
+  <section class="lcard" id="ca-attr">
+    <h2><span class="ic">✳️</span> ATTR — and where the asterisk comes from</h2>
+    <p>Sooner or later a tooltip or a label shows <code>*</code> instead of a value, and nothing explains it. That asterisk is Tableau telling you something specific and useful: <strong>this mark contains more than one value of that field, so there is no single answer to show.</strong></p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">One mark, one value</div>
+        <table>
+          <tr><th>Region</th><th>Country</th><th>Sales</th></tr>
+          <tr><td>West</td><td>United States</td><td>725,458</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Every row inside the West mark has the same Country, so <code>ATTR([Country])</code> can show it.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side" style="background:#fffbeb;border-color:#fde68a">
+        <div class="ba-h" style="color:#b45309">One mark, several values</div>
+        <table>
+          <tr><th>Region</th><th>State</th><th>Sales</th></tr>
+          <tr><td>West</td><td>*</td><td>725,458</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">The West mark spans 13 states. There is no one state to print, so you get <code>*</code>.</p>
+      </div>
+    </div>
+
+<pre style="margin-top:.7rem"><span class="c">// What ATTR actually does — this is the whole definition</span>
+<span class="f">ATTR</span>([State])
+
+<span class="c">// is equivalent to</span>
+<span class="k">IF</span> <span class="f">MIN</span>([State]) = <span class="f">MAX</span>([State])
+<span class="k">THEN</span> <span class="f">MIN</span>([State])
+<span class="k">ELSE</span> <span class="s">"*"</span>
+<span class="k">END</span></pre>
+
+    <h3 style="margin-top:1rem">Why it exists at all</h3>
+    <p>Tableau can only put <em>aggregates</em> into a view alongside other aggregates. A dimension isn't an aggregate — so when you drop one somewhere that needs one (a tooltip on a coarser view, one side of a dual axis, the secondary table of a blend), Tableau silently wraps it in <code>ATTR</code>. It's the "give me the value if there's only one, and admit it otherwise" aggregation.</p>
+
+    <div class="scrollx" style="margin-top:.7rem">
+      <table class="ltable">
+        <thead><tr><th style="width:13rem">You see</th><th>What it means</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><code>*</code> in a tooltip or label</td><td>The mark spans several values of that field</td><td>Add the field to the view's level of detail, or accept it and describe the mark differently</td></tr>
+          <tr><td><code>ATTR(…)</code> appearing on a pill you didn't write</td><td>Tableau needed an aggregate and chose the safe one</td><td>Usually fine. Swap for <code>MIN</code> or <code>MAX</code> if you genuinely want one of the values</td></tr>
+          <tr><td>A blend showing <code>*</code> everywhere</td><td>The secondary source is coarser than the view</td><td>Add the linking field to the view, or aggregate the secondary source first</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.6rem">
+      <div class="callout-title">Treat the asterisk as information, not an error</div>
+      <p>It is Tableau refusing to pick one value arbitrarily, which is the honest behaviour. <code>MIN([State])</code> in the same place would print "Arizona" for a mark covering thirteen states — no asterisk, and a chart that is quietly lying. When you see <code>*</code>, the right question is "what grain is this mark actually at?", not "how do I make it go away".</p>
+    </div>
   </section>
 
   <section class="lcard" id="ca-basic">
@@ -377,6 +469,20 @@
 <span class="c">// Guard against divide-by-zero — Tableau returns Null, not an error</span>
 <span class="k">IF</span> <span class="f">SUM</span>([Sales]) = <span class="n">0</span> <span class="k">THEN</span> <span class="k">NULL</span>
 <span class="k">ELSE</span> <span class="f">SUM</span>([Profit]) / <span class="f">SUM</span>([Sales]) <span class="k">END</span></pre>
+    <h3 style="margin-top:1rem">How nulls move through logic</h3>
+    <p>A comparison with a null is neither true nor false — it's unknown. That has a specific and easily-missed consequence in <code>IF</code>: <strong>a null falls through to <code>ELSE</code></strong>, silently joining whatever bucket you meant for something else.</p>
+<pre><span class="c">// A null Profit is not &gt; 0, so it lands in "Loss"</span>
+<span class="k">IF</span> [Profit] &gt; <span class="n">0</span> <span class="k">THEN</span> <span class="s">"Profitable"</span> <span class="k">ELSE</span> <span class="s">"Loss"</span> <span class="k">END</span>
+
+<span class="c">// Test for it explicitly, first</span>
+<span class="k">IF</span> <span class="f">ISNULL</span>([Profit]) <span class="k">THEN</span> <span class="s">"Unknown"</span>
+<span class="k">ELSEIF</span> [Profit] &gt; <span class="n">0</span> <span class="k">THEN</span> <span class="s">"Profitable"</span>
+<span class="k">ELSE</span> <span class="s">"Loss"</span> <span class="k">END</span>
+
+<span class="c">// An IF with no ELSE returns Null when nothing matches — often what you want</span>
+<span class="k">IF</span> [Profit] &lt; <span class="n">0</span> <span class="k">THEN</span> [Sales] <span class="k">END</span>   <span class="c">// sales of loss-making lines only</span></pre>
+    <div class="callout note" style="margin-top:.5rem"><p>Aggregations skip nulls rather than failing: <code>AVG</code> of 10, null, 20 is 15, not 10. <code>COUNT</code> counts non-null values only, which is why <code>COUNT([Profit])</code> can be smaller than the number of rows. That's usually the behaviour you want — but it means a field quietly full of nulls produces confident-looking averages over far fewer rows than you think.</p></div>
+
     <div class="callout warn" style="margin-top:.55rem">
       <div class="callout-title">Null is not zero — decide deliberately</div>
       <p><code>ZN()</code> is convenient and often wrong. A missing sales figure means "we don't know"; zero means "they bought nothing". <code>AVG</code> skips nulls but counts zeros, so converting them silently drags your averages down. Only use <code>ZN</code> when zero is genuinely the right answer.</p>
@@ -404,18 +510,89 @@
         <p>Now moving the slider re-colours the whole chart live. That's a "what if" analysis in four steps.</p>
       </li>
     </ol>
-<pre><span class="c">// A measure swapper — one chart, four metrics</span>
-<span class="c">// Parameter "Select Measure": string list of Sales/Profit/Quantity/Discount</span>
+
+    <h3 style="margin-top:1.1rem">The Create Parameter dialog, field by field</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Setting</th><th>Options</th><th>Worth knowing</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Data type</strong></td><td>Float · Integer · String · Boolean · Date · Date &amp; Time</td><td>It must match whatever will read it. A parameter compared against a string field has to be a String</td></tr>
+          <tr><td><strong>Current value</strong></td><td>The value it holds now</td><td>This is what gets saved with the workbook and what every viewer starts on</td></tr>
+          <tr><td><strong>Value when workbook opens</strong></td><td>Fixed, or <strong>a calculated field</strong></td><td>The dynamic option. Point it at <code>{MAX([Order Date])}</code> and the workbook opens on the latest date in the data every time</td></tr>
+          <tr><td><strong>Display format</strong></td><td>Number, currency, percentage, date, custom</td><td>Affects the control and anywhere the parameter is printed in a title</td></tr>
+          <tr><td><strong>Allowable values: All</strong></td><td>Anything of that type</td><td>A free type-in box. Fine for a threshold, risky for anything that must match a real member</td></tr>
+          <tr><td><strong>Allowable values: List</strong></td><td>A fixed set, each with a display name</td><td><em>Add values from</em> a field takes a <strong>snapshot</strong> — new members will not appear later unless you also set the dynamic option below</td></tr>
+          <tr><td><strong>Allowable values: Range</strong></td><td>Minimum, maximum, step size</td><td>Step size is what makes a slider usable — without it a viewer can land on 4,371.28</td></tr>
+          <tr><td><strong>List of values when workbook opens</strong></td><td>A field in the data</td><td>The other dynamic option. The list refreshes on open or on data refresh — not while someone is looking at it</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">A parameter list is a snapshot, and that is how dashboards go stale</div>
+      <p>"Add values from field" copies the members that exist <em>right now</em>. Add a fifth region next year and the parameter still offers four, with nothing on screen to say so. Any parameter listing real data values needs <strong>List of values when workbook opens</strong> pointed back at the field — otherwise you have signed up to maintain it by hand.</p>
+      <p style="margin-top:.4rem">The refresh happens when the workbook opens or the extract refreshes. A viewer sitting on a dashboard for an hour will not see new values arrive.</p>
+    </div>
+
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Parameters are single-value and workbook-wide</div>
+      <p>One value at a time — there is no multi-select parameter, which is why "let them pick several metrics" is a job for <a href="#tableau/measures">Measure Names</a> on Filters instead. And a parameter belongs to the <em>workbook</em>, not to a data source: one parameter can drive charts built on three different connections at once, which is something no filter can do.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="ca-paramuse">
+    <h2><span class="ic">🔌</span> What a parameter can drive</h2>
+    <p>A parameter is inert until something reads it. These are the seven places that can, and between them they cover nearly every interactive dashboard you have admired.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Read by</th><th>Gives you</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A calculated field</strong></td><td>Anything at all — the swappers and what-ifs below</td></tr>
+          <tr><td><strong>A filter's Top tab</strong></td><td>Viewer-chosen Top N, with no calculation</td></tr>
+          <tr><td><strong>A filter's Condition tab</strong></td><td>"Only sub-categories above the threshold I set"</td></tr>
+          <tr><td><strong>A reference line's Value</strong></td><td>A draggable target line — instant what-if</td></tr>
+          <tr><td><strong>A bin's size</strong></td><td>A histogram whose bucket width the reader controls</td></tr>
+          <tr><td><strong>A relative date filter's anchor</strong></td><td>An "as of" date for the whole workbook, set in one place</td></tr>
+          <tr><td><strong>A title, caption or tooltip</strong></td><td><code>&lt;Parameters.Select Measure&gt;</code> — so the chart says which metric it is showing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1rem">The two swappers</h3>
+    <div class="split">
+      <div>
+        <h3 style="margin-top:0">Measure swapper</h3>
+<pre style="font-size:.78rem"><span class="c">// String list: Sales / Profit / Quantity / Discount</span>
 <span class="k">CASE</span> [Select Measure]
   <span class="k">WHEN</span> <span class="s">"Sales"</span>    <span class="k">THEN</span> <span class="f">SUM</span>([Sales])
   <span class="k">WHEN</span> <span class="s">"Profit"</span>   <span class="k">THEN</span> <span class="f">SUM</span>([Profit])
   <span class="k">WHEN</span> <span class="s">"Quantity"</span> <span class="k">THEN</span> <span class="f">SUM</span>([Quantity])
   <span class="k">ELSE</span> <span class="f">AVG</span>([Discount])
 <span class="k">END</span></pre>
-    <div class="callout ok" style="margin-top:.55rem">
-      <div class="callout-title">The measure swapper — one chart, four metrics</div>
-      <p>Drop that calculation on Rows and give viewers the parameter control. One chart now serves four questions, so a dashboard that would need four sheets needs one. The catch: because the branches return different units, set the number format on the sheet rather than on the field, and write the title with the parameter in it so the reader knows which metric they're looking at.</p>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Drop it on Rows. One chart, four questions — a dashboard that would need four sheets needs one.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Dimension swapper</h3>
+<pre style="font-size:.78rem"><span class="c">// String list: Region / Category / Segment</span>
+<span class="k">CASE</span> [Break Down By]
+  <span class="k">WHEN</span> <span class="s">"Region"</span>   <span class="k">THEN</span> [Region]
+  <span class="k">WHEN</span> <span class="s">"Category"</span> <span class="k">THEN</span> [Category]
+  <span class="k">ELSE</span> [Segment]
+<span class="k">END</span></pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">Returns text, so it lands in Dimensions and slices the view. Every branch must return the <strong>same data type</strong>.</p>
+      </div>
     </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Two things to fix on any swapper</div>
+      <p><strong>Number format:</strong> the branches return different units, so a single field-level format is always wrong for three of them. Set the format on the sheet, or add a matching parameter-driven format. <strong>Titles:</strong> insert <code>&lt;Parameters.Select Measure&gt;</code> into the title, otherwise a screenshot of the dashboard says nothing about which metric it shows.</p>
+    </div>
+
+    <div class="callout ok" style="margin-top:.55rem">
+      <div class="callout-title">Parameter Actions — set the value by clicking</div>
+      <p><span class="mpath">Dashboard <i>→</i> Actions <i>→</i> Change Parameter</span>. Clicking a mark writes a field's value into a parameter. Click a region on a map and every other chart rebases to it; click a bar to set the comparison baseline; click a month to move an "as of" date. It removes the dropdown entirely — the chart <em>is</em> the control.</p>
+      <p style="margin-top:.4rem">Pair it with a <a href="#tableau/organizing">set action</a> and you have the two ways a click can change the state of a dashboard: a parameter carries one value, a set carries a membership.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p><strong>Parameter vs filter, in one line:</strong> a filter chooses which rows survive; a parameter supplies a value. If the viewer is picking from things that exist in the data, that's usually a filter. If they're supplying something the data doesn't contain — a target, a rate, a scenario — it has to be a parameter.</p></div>
   </section>
 
   <section class="lcard">
@@ -430,6 +607,11 @@
       <li><strong><code>+</code> concatenates text</strong> in Tableau, not <code>&amp;</code></li>
       <li><strong>Name fields for meaning</strong>, and comment the non-obvious</li>
       <li><strong>Parameters + CASE</strong> = one chart, many questions</li>
+      <li><strong>A parameter does nothing until something reads it</strong></li>
+      <li><strong>Parameter lists are snapshots</strong> — set "list of values when workbook opens"</li>
+      <li><strong><code>*</code> means the mark spans several values</strong> — that's ATTR being honest</li>
+      <li><strong>Nulls fall through to ELSE</strong> — test for them first if it matters</li>
+      <li><strong>Integer division truncates</strong> — wrap one side in <code>FLOAT()</code></li>
     </ul>
   </section>
 
@@ -448,6 +630,10 @@
       <li>Extract the <strong>state code from Order ID</strong> using LEFT</li>
       <li>Create a <strong>Discount Band</strong>: None / Low / Medium / High</li>
       <li>Build a <strong>parameter-driven threshold</strong> that recolours a chart as you move a slider</li>
+      <li>Build a <strong>measure swapper</strong> and a <strong>dimension swapper</strong>, and put the parameter into the sheet title</li>
+      <li>Make a parameter's list dynamic with <strong>List of values when workbook opens</strong>, then add a value to the data and confirm it appears</li>
+      <li>Put Country on the Tooltip of a Region view, then Sub-Category — explain the <code>*</code></li>
+      <li>Add a <strong>Change Parameter</strong> dashboard action so clicking a bar sets the comparison baseline</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: an order quality score</div>

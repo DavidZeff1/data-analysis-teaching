@@ -96,6 +96,27 @@
     <div class="callout note" style="margin-top:.6rem">
       <p>Items grey out when the view can't support them — a trend line needs a continuous axis, a forecast needs a date. If something is unavailable, the view's structure is the reason, not a missing setting.</p>
     </div>
+
+    <h3 style="margin-top:1.1rem">Why an item is greyed out</h3>
+    <p class="muted">Almost everything in this pane needs a <strong>continuous axis</strong> to attach to, because it draws at a numeric position. A chart made entirely of discrete headers has nowhere to put a line. This is the same blue/green rule that governs sorting and filter dialogs — see <a href="#tableau/interface">what blue and green gate</a>.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Item</th><th>Needs</th><th>If it's unavailable</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Constant / Average / Median line</strong></td><td>A continuous axis</td><td>A green measure isn't on Rows or Columns. A crosstab of Text marks has no axis at all</td></tr>
+          <tr><td><strong>Reference band, distribution band</strong></td><td>A continuous axis</td><td>Same reason</td></tr>
+          <tr><td><strong>Box plot</strong></td><td>A continuous axis <em>and</em> several marks to summarise</td><td>Put a fine dimension on Detail, or untick <a href="#tableau/marks">Aggregate Measures</a>. A box plot over four totals describes four numbers</td></tr>
+          <tr><td><strong>Trend line</strong></td><td>Continuous on both axes, or a date on one</td><td>Text categories have no order, so a line through them means nothing and Tableau refuses. Use a date or a measure</td></tr>
+          <tr><td><strong>Forecast</strong></td><td>A real <strong>date</strong> field and a measure</td><td>Usually a date stored as text — check the field's icon. Also blocked by table calculations, disaggregated measures, percentage calculations and totals in the view</td></tr>
+          <tr><td><strong>Cluster</strong></td><td>Measures to cluster on, and marks to cluster</td><td>Add a dimension to Detail so there is more than one mark. Not available on blended fields or table calculations</td></tr>
+          <tr><td><strong>Totals</strong></td><td>At least one discrete <strong>header</strong></td><td>A view of two continuous axes has no rows or columns to total across</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Everything here is chrome, not marks</div>
+      <p>Reference lines, trend lines, bands, forecast intervals and totals are computed <em>from</em> your data but they are not marks: they don't appear in the mark count, the Marks card can't style them, and they're formatted from <span class="mpath">Format <i>→</i> Lines</span> instead. They're also computed <strong>last</strong> in the <a href="#tableau/filters">order of operations</a> — which is exactly why an average line moves whenever a filter changes, and why it reflects only what survived.</p>
+    </div>
   </section>
 
   <section class="lcard" id="an-scope">

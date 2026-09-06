@@ -12,8 +12,12 @@
 
   <nav class="toc" aria-label="On this page">
     <span class="toc-label">On this page</span>
+    <a href="#if-types">Field types &amp; icons</a>
     <a href="#if-dimmeas">Dimensions vs Measures</a>
     <a href="#if-discont">Discrete vs Continuous</a>
+    <a href="#if-gates">What blue/green gates</a>
+    <a href="#if-convert">Converting a field</a>
+    <a href="#if-dates">Dates in depth</a>
     <a href="#if-workspace">The workspace</a>
     <a href="#if-shelves">Shelves</a>
     <a href="#if-marks">The Marks card</a>
@@ -69,6 +73,39 @@
         <dd class="df-w">📍 Top right of the toolbar</dd>
       </div>
     </dl>
+  </section>
+
+  <section class="lcard" id="if-types">
+    <h2><span class="ic">🔤</span> Field types and the icons that announce them</h2>
+    <p>Before anything else, Tableau assigns every column a <strong>data type</strong>, and it shows you which one with a small icon in the Data pane. The type is decided when you connect and it constrains everything afterwards — which functions accept the field, whether it can go on a date axis, whether it can be summed. Getting one wrong is the cause of a surprising share of "Tableau won't let me" moments.</p>
+    <div class="split">
+      <div class="fieldlist">
+        <div class="fl-h">Data types</div>
+        <div class="fl-i d">Abc &nbsp;String — text</div>
+        <div class="fl-i m"># &nbsp;Number (whole) — integer</div>
+        <div class="fl-i m">#. &nbsp;Number (decimal) — float</div>
+        <div class="fl-i d">📅 &nbsp;Date</div>
+        <div class="fl-i d">📅 &nbsp;Date &amp; Time</div>
+        <div class="fl-i d">T|F &nbsp;Boolean — True / False</div>
+        <div class="fl-i d">🌐 &nbsp;Geographic role — on top of a string</div>
+        <div class="fl-i">= &nbsp;Calculated field — prefixes the type icon</div>
+        <div class="fl-i">#⃝ &nbsp;Parameter — listed separately, below the fields</div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">What the type decides</h3>
+        <ul style="font-size:.87rem;margin:.3rem 0 0">
+          <li><strong>Whether it lands in Dimensions or Measures.</strong> Numbers go to Measures, everything else to Dimensions — which is why Row ID and Postal Code arrive as things to be summed.</li>
+          <li><strong>Which functions accept it.</strong> <code>DATEDIFF</code> refuses a string that looks like a date; <code>LEFT</code> refuses a number.</li>
+          <li><strong>Whether a date hierarchy exists.</strong> A date read as text gets no Year → Quarter → Month drill-down, and sorts "April" before "January".</li>
+          <li><strong>Whether it can be mapped.</strong> A geographic role can only sit on a string, so a postcode read as a number has to be converted first.</li>
+        </ul>
+        <p class="muted" style="margin-top:.5rem">Change it by clicking the icon — on the Data Source page for a permanent fix, or in the Data pane via <span class="mpath">▾ <i>→</i> Change Data Type</span>.</p>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:.6rem">
+      <div class="callout-title">Fix the type at the source, not in a calculation</div>
+      <p>Wrapping a text date in <code>DATE([Order Date])</code> works, but you now have two fields, and everyone else opening the workbook will use the wrong one. Changing the type on the Data Source page fixes it once, everywhere, forever — see <a href="#tableau/connections">Connecting Data</a>.</p>
+    </div>
   </section>
 
   <section class="lcard" id="if-dimmeas">
@@ -244,7 +281,154 @@
 
     <div class="callout ok" style="margin-top:.7rem">
       <div class="callout-title">Where it bites: dates</div>
-      <p>Right-click a date pill and you get two lists. Picking <strong>Year</strong> from the top (blue, discrete) gives you separate columns per year — good for comparing 2016 against 2017. Picking <strong>Year</strong> from the bottom (green, continuous) gives you one unbroken time axis — good for showing a trend. Same field, same word, completely different chart. When a line chart mysteriously splits into disconnected chunks, this is why.</p>
+      <p>Right-click a date pill and you get two lists. Picking <strong>Year</strong> from the top (blue, discrete) gives you separate columns per year — good for comparing 2016 against 2017. Picking <strong>Year</strong> from the bottom (green, continuous) gives you one unbroken time axis — good for showing a trend. Same field, same word, completely different chart. When a line chart mysteriously splits into disconnected chunks, this is why. The <a href="#if-dates">full date menu</a> is broken down further down this page.</p>
+    </div>
+
+    <h3 style="margin-top:1.2rem">The two switches are independent — all four combinations exist</h3>
+    <p class="muted">Dimension/measure and discrete/continuous are separate properties. Most fields sit in the two obvious corners, which is why they look like one rule — but the other two corners are real, useful, and the source of a lot of confusion when you meet them by accident.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:8rem"></th><th><span class="pill dim sm">Discrete</span> — blue</th><th><span class="pill msr sm">Continuous</span> — green</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Dimension</strong><br><span class="muted" style="font-size:.8rem">not aggregated</span></td>
+            <td><strong>The normal case.</strong> Region, Category, a blue YEAR. Makes headers; sortable; groupable.</td>
+            <td><strong>A green date, or a numeric dimension on an axis.</strong> One continuous timeline; or plotting a rating 1–10 as a real scale without summing it.</td>
+          </tr>
+          <tr>
+            <td><strong>Measure</strong><br><span class="muted" style="font-size:.8rem">aggregated</span></td>
+            <td><strong>A discrete aggregate.</strong> Blue <code>SUM(Sales)</code> makes one header per distinct total. Used in text tables, and to sort or label by a number without giving it an axis.</td>
+            <td><strong>The normal case.</strong> Green <code>SUM(Sales)</code>. Makes an axis; the thing bars stretch along.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout note" style="margin-top:.55rem">
+      <p>The practical consequence: <em>"make it a dimension"</em> and <em>"make it discrete"</em> are different instructions and fix different problems. Converting Postal Code to a dimension stops Tableau summing it. Converting it to discrete is what lets you tick individual codes in a filter. Fields like this usually need both.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="if-gates">
+    <h2><span class="ic">🚦</span> What blue and green actually gate</h2>
+    <p>Discrete versus continuous is not a formatting preference. It decides which menus exist, which dialogs open, and which features are greyed out — and Tableau almost never explains why something isn't available. This table is the answer to most of those moments.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Behaviour</th><th><span class="pill dim sm">Discrete</span> — blue</th><th><span class="pill msr sm">Continuous</span> — green</th></tr></thead>
+        <tbody>
+          <tr><td><strong>On Rows / Columns</strong></td><td>Headers — one labelled pane per member</td><td>An axis — one continuous scale</td></tr>
+          <tr><td><strong>Position on the shelf</strong></td><td>Must sit to the <em>left</em> of any continuous pill</td><td>Always innermost. Tableau will move a discrete pill in front of it</td></tr>
+          <tr><td><strong>Sorting</strong></td><td>Sortable — alphabetical, by field, manual, or by a table calc</td><td>Not sortable. Order comes from the values; reverse it in Edit Axis</td></tr>
+          <tr><td><strong>Filter dialog</strong></td><td>Four tabs and a <strong>tick list</strong></td><td>A <strong>range slider</strong>. No list, ever — <a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td><strong>Filter card styles</strong></td><td>Lists, dropdowns, checkboxes, wildcard search</td><td>Sliders only: range, at least, at most</td></tr>
+          <tr><td><strong>On Color</strong></td><td>A palette — one editable swatch per member, plus a legend key</td><td>A gradient with two ends, plus Stepped Color and an Advanced centre</td></tr>
+          <tr><td><strong>On Size</strong></td><td>A few fixed sizes, one per member</td><td>Smoothly varying size, driven by the value</td></tr>
+          <tr><td><strong>Edit Axis</strong></td><td>Not available — headers have Format only</td><td>Range, fixed start/end, log scale, reversed, tick intervals, dual-axis sync</td></tr>
+          <tr><td><strong>Reference / trend lines, bands, forecast</strong></td><td>Nothing to attach to</td><td>Required. This is why the Analytics pane greys items out</td></tr>
+          <tr><td><strong>Totals and subtotals</strong></td><td>Need at least one discrete header to total across</td><td>—</td></tr>
+          <tr><td><strong>Groups, sets, hierarchies, drill-down</strong></td><td>Available</td><td>Not available — there are no members to group</td></tr>
+          <tr><td><strong>Bins</strong></td><td>A bin <em>is</em> discrete once created</td><td>Bins are created <em>from</em> a continuous measure</td></tr>
+          <tr><td><strong>Show Missing Values</strong></td><td>Available on date parts and bins — fills in empty periods and empty buckets</td><td>Gaps already show, because the axis is continuous</td></tr>
+          <tr><td><strong>Hide a member</strong></td><td>Right-click the header → Hide</td><td>Not possible — an axis has no members</td></tr>
+          <tr><td><strong>Aliases</strong></td><td>Members can be renamed for display</td><td>No members, so nothing to rename</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">Use the table backwards as a diagnostic</div>
+      <p>"Sort is greyed out." "There's no Edit Axis." "The trend line won't drop." "I can't get checkboxes." "Create Group is missing." Every one of those is the same fact arriving in a different disguise: <strong>the pill is the wrong colour for what you're trying to do</strong>. Check the pill before you go looking for a setting.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="if-convert">
+    <h2><span class="ic">🔁</span> Converting a field — and the two places to do it</h2>
+    <p>Both switches are reversible, and <em>where</em> you flip them decides how far the change reaches. This trips people up constantly: they convert a pill, build three more sheets, and find the change didn't come with them.</p>
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Right-click the <strong>pill in the view</strong></div>
+        <ul style="margin:.3rem 0 0;padding-left:1.1rem;font-size:.86rem;line-height:1.6">
+          <li>Discrete ⇄ Continuous</li>
+          <li>Dimension ⇄ Measure</li>
+          <li>Measure → Sum / Average / Median / Count…</li>
+        </ul>
+        <p style="margin:.45rem 0 0;font-size:.84rem"><strong>This view only.</strong> A new sheet starts from the field's default again — and so does a fresh drag onto the Filters shelf, which is why the filter dialog can stay stubbornly wrong.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Right-click the <strong>field in the Data pane</strong></div>
+        <ul style="margin:.3rem 0 0;padding-left:1.1rem;font-size:.86rem;line-height:1.6">
+          <li>Convert to Discrete / Continuous</li>
+          <li>Convert to Dimension / Measure</li>
+          <li>Change Data Type</li>
+          <li>Default Properties → Aggregation, Number Format, Colour, Sort</li>
+        </ul>
+        <p style="margin:.45rem 0 0;font-size:.84rem"><strong>The field's default, from now on.</strong> Every future drag, on every sheet, in every filter dialog. Almost always the one you want.</p>
+      </div>
+    </div>
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Default Properties is the setting people never find</div>
+      <p>Right-click a field → <strong>Default Properties</strong> and you can fix, once and permanently: its <em>aggregation</em> (so Discount defaults to Average rather than Sum), its <em>number format</em> (so a margin is a percentage everywhere without formatting each sheet), its <em>colour</em> (so Region members keep the same colours across a whole dashboard), and its <em>sort order</em>. Ten seconds here removes a formatting job from every sheet you build afterwards.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Not every field can be converted</div>
+      <p>A string can be made continuous only by first converting it to a number — text has no scale. A measure can be made discrete freely, but the result is aggregated first, so blue <code>SUM(Sales)</code> is one header per <em>total</em>, not per row. And a date is the flexible one: it can be discrete or continuous, dimension or measure, in any combination.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="if-dates">
+    <h2><span class="ic">📅</span> Dates in depth — one field, a dozen pills</h2>
+    <p>A date is the only field that offers you a whole menu when you right-click it, and the menu has two halves that use the same words. Knowing which half you are in is most of what there is to know about dates in Tableau.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">Top half — date <strong>parts</strong> (blue)</div>
+        <p style="margin:.3rem 0;font-size:.86rem">Year · Quarter · Month · Day · Week · Weekday · Hour…</p>
+        <p style="margin:.3rem 0;font-size:.86rem">Pulls out <em>one component</em> and throws the rest away. "November" from every year becomes one member.</p>
+<pre style="font-size:.75rem">MONTH(Order Date) → 11
+DATEPART / DATENAME</pre>
+        <p style="margin:.4rem 0 0;font-size:.84rem;color:#1d4ed8"><strong>Answers:</strong> is there seasonality? Which weekday is busiest?</p>
+      </div>
+      <div class="cmp" style="background:#ecfdf5;border-color:#a7f3d0">
+        <div class="h" style="color:#047857">Bottom half — date <strong>values</strong> (green)</div>
+        <p style="margin:.3rem 0;font-size:.86rem">Year · Quarter · Month · Day · Week…</p>
+        <p style="margin:.3rem 0;font-size:.86rem">Rounds the date <em>down</em> to the start of that period and keeps it a real date. November 2017 stays distinct from November 2016.</p>
+<pre style="font-size:.75rem">MONTH(Order Date) → 1 Nov 2017
+DATETRUNC</pre>
+        <p style="margin:.4rem 0 0;font-size:.84rem;color:#047857"><strong>Answers:</strong> are we growing? What happened in Q3?</p>
+      </div>
+    </div>
+
+    <div class="scrollx" style="margin-top:.9rem">
+      <table class="ltable">
+        <thead><tr><th style="width:12rem">Menu item</th><th>Produces</th><th>Members on Superstore</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Year</strong> (blue part)</td><td>2014, 2015, 2016, 2017</td><td>4</td></tr>
+          <tr><td><strong>Quarter</strong> (blue part)</td><td>Q1–Q4, pooled across years</td><td>4</td></tr>
+          <tr><td><strong>Month</strong> (blue part)</td><td>January–December, pooled</td><td>12</td></tr>
+          <tr><td><strong>Weekday</strong> (blue part)</td><td>Sunday–Saturday</td><td>7</td></tr>
+          <tr><td><strong>Month / Year</strong> (blue value)</td><td>November 2017 as its own member</td><td>48</td></tr>
+          <tr><td><strong>Month</strong> (green value)</td><td>One continuous axis of 48 monthly points</td><td>a 48-point axis</td></tr>
+          <tr><td><strong>Exact Date</strong></td><td>Every distinct timestamp, no rounding at all</td><td>1,237</td></tr>
+          <tr><td><strong>More → Custom…</strong></td><td>A saved pill for any part or value combination — "ISO Week", "Month/Day"</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">The mistake that quadruples a number</div>
+      <p>Blue <strong>Month</strong> and blue <strong>Month / Year</strong> look almost identical in the menu and produce very different charts. With four years of data, a "monthly sales" chart built on the date <em>part</em> shows twelve bars each containing four years of sales — roughly four times the number anyone expects, and nothing on the chart says so. If a monthly chart has exactly twelve bars across a multi-year dataset, you are on the wrong half of the menu.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Drilling, and the date hierarchy</h3>
+    <p>A date pill arrives with a <strong>+</strong> on it. Clicking it drills Year → Quarter → Month → Day, adding a pill each time and nesting the headers. That built-in hierarchy is why a date behaves unlike every other field, and why an <em>Exact Date</em> pill has no <strong>+</strong> — there is nothing below it.</p>
+    <ul class="check">
+      <li><strong>Drilling adds pills</strong> — Year then Quarter gives 4 × 4 nested headers, not 16 separate ones</li>
+      <li><strong>Green date pills don't nest</strong> — a continuous axis can only show one granularity at a time</li>
+      <li><strong>The classic combination:</strong> green Month on Columns for a continuous trend, blue Year on Rows for one row per year — small multiples that compare the same twelve months across four years</li>
+      <li><strong>Show Missing Values</strong> on a blue date pill draws the empty periods. Without it, a month with no orders simply isn't there and a line chart joins straight across the gap as if nothing happened</li>
+    </ul>
+    <div class="callout tip" style="margin-top:.55rem">
+      <div class="callout-title">Fiscal years live in Default Properties</div>
+      <p>If your year doesn't start in January: right-click the date field → <span class="mpath">Default Properties <i>→</i> Fiscal Year Start</span>. Every Year, Quarter and week calculation on that field then uses it. Doing this with calculated fields instead is a well-trodden route to a workbook nobody can maintain.</p>
     </div>
   </section>
 
@@ -463,6 +647,10 @@
     <ul>
       <li><strong>Dimensions slice, measures fill</strong> — the sentence that explains most charts</li>
       <li><strong>Blue is discrete, green is continuous</strong> — headers vs axes</li>
+      <li><strong>Dimension/measure and discrete/continuous are two separate switches</strong> — all four combinations exist</li>
+      <li><strong>Blue/green gates the menus</strong> — sorting, Edit Axis, groups, trend lines, filter dialogs</li>
+      <li><strong>Convert in the Data pane, not on the pill</strong>, unless you mean this view only</li>
+      <li><strong>Default Properties</strong> fixes aggregation, format, colour and sort once for every future sheet</li>
       <li><strong>Rows = Y, Columns = X</strong> — counterintuitive, worth memorising</li>
       <li><strong>Detail adds granularity without appearance</strong></li>
       <li><strong>Dates come in blue and green versions</strong> — the cause of most surprised line charts</li>
@@ -482,6 +670,9 @@
       <li>Put <strong>Category on Rows and Region on Columns</strong> — what kind of view is that?</li>
       <li>Drag <strong>Order Date to Columns</strong> and note that Tableau defaults to YEAR</li>
       <li>Right-click the date pill and switch between the <strong>blue Month and the green Month</strong>; explain the difference in one sentence</li>
+      <li>Now compare blue <strong>Month</strong> with blue <strong>Month / Year</strong> — count the bars in each and say why they differ</li>
+      <li>Try to <strong>sort</strong> a continuous axis, add a <strong>trend line</strong> to a discrete header, and <strong>Create Group</strong> on a green measure. Note the exact wording Tableau uses each time it refuses</li>
+      <li>Set <strong>Default Properties → Aggregation → Average</strong> on Discount and confirm new sheets pick it up</li>
       <li>Double-click <strong>Profit</strong> on an empty sheet and see what Tableau builds unprompted</li>
       <li>Build a scatter of Sales vs Profit, then drag <strong>Sub-Category to Detail</strong> — watch one dot become seventeen</li>
       <li>Click through <strong>Show Me</strong> with Category and Sales selected; note which options are greyed out and why</li>

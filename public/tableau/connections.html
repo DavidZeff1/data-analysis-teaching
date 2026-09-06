@@ -14,12 +14,15 @@
     <span class="toc-label">On this page</span>
     <a href="#cn-sources">Data sources</a>
     <a href="#cn-page">The Data Source page</a>
+    <a href="#cn-layers">Two layers</a>
     <a href="#cn-rel">Relationships</a>
     <a href="#cn-join">Joins</a>
     <a href="#cn-dup">The duplication trap</a>
     <a href="#cn-union">Unions</a>
+    <a href="#cn-blend">Blending</a>
     <a href="#cn-live">Live vs Extract</a>
     <a href="#cn-clean">Cleaning at the source</a>
+    <a href="#cn-reshape">Reshaping messy files</a>
     <a href="#cn-practice">Practice</a>
   </nav>
 
@@ -126,6 +129,38 @@
         <li><strong>Hide fields you'll never use</strong> — a shorter field list makes every later step faster.</li>
       </ul>
     </div>
+  </section>
+
+  <section class="lcard" id="cn-layers">
+    <h2><span class="ic">🍰</span> The canvas has two layers, and they do different things</h2>
+    <p>The Data Source page looks like one canvas but it is two, stacked. Knowing which one you're on explains why dragging a table sometimes produces a flexible noodle and sometimes a join dialog.</p>
+
+    <div class="ba">
+      <div class="ba-side">
+        <div class="ba-h">Logical layer — the top one</div>
+        <p style="margin:.3rem 0;font-size:.86rem">What you see when the page opens. Tables sit as separate rounded boxes joined by <strong>noodles</strong>.</p>
+        <ul style="margin:.3rem 0 0;padding-left:1.1rem;font-size:.85rem;line-height:1.6">
+          <li>Each table keeps its <strong>own granularity</strong></li>
+          <li>Tableau writes the join <em>per visualisation</em></li>
+          <li>Nothing is combined until a sheet asks for it</li>
+        </ul>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Physical layer — double-click a table</div>
+        <p style="margin:.3rem 0;font-size:.86rem">Opens inside that box. Here you build traditional <strong>joins and unions</strong> with Venn-diagram icons.</p>
+        <ul style="margin:.3rem 0 0;padding-left:1.1rem;font-size:.85rem;line-height:1.6">
+          <li>Tables are flattened into <strong>one wide table</strong>, immediately</li>
+          <li>The result becomes a single box in the logical layer</li>
+          <li>Fan-out happens here, and only here</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:.65rem">
+      <div class="callout-title">Which layer should I be on?</div>
+      <p><strong>Stay in the logical layer</strong> unless you have a reason not to. The physical layer is for when you genuinely need a flattened row-level table — an inner join to filter one table by another, a union of identically-shaped files, or a join Tableau's relationship logic can't express. Everything else is better as a relationship.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Workbooks built before 2020.2 have no logical layer — every table is joined in the physical layer of a single box. That's why old workbooks and old tutorials talk only about joins. Opening one shows a single table on the canvas; double-click it to see the joins underneath.</p></div>
   </section>
 
   <section class="lcard" id="cn-rel">
@@ -298,6 +333,42 @@
     </div>
   </section>
 
+  <section class="lcard" id="cn-blend">
+    <h2><span class="ic">🧬</span> Blending — for data that can't be joined at all</h2>
+    <p>Relationships, joins and unions all need the tables to live in <strong>one data source</strong>. When they don't — a SQL Server table and a spreadsheet of targets, say — the remaining option is a <strong>blend</strong>: two separate data sources, combined per sheet, after aggregation.</p>
+
+    <div class="flow">
+      <div class="fnode"><div class="fi">1</div><div class="ft">Primary source</div><div class="fd">the one you use first on a sheet</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">2</div><div class="ft">Aggregate each side</div><div class="fd">to the linking fields</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="fi">3</div><div class="ft">Left join the results</div><div class="fd">in the view, not the database</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode done"><div class="fi">4</div><div class="ft">One table of marks</div><div class="fd">per sheet</div></div>
+    </div>
+
+    <ul class="check" style="margin-top:.8rem">
+      <li><strong>The primary is whichever source you drag from first</strong> on that sheet — it gets a blue tick in the Data pane. Every other source is secondary, with an orange one.</li>
+      <li><strong>Linking fields match by name and type</strong> automatically. The chain-link icon beside a field shows whether it's active; click it to toggle. Change the pairing under <span class="mpath">Data <i>→</i> Edit Blend Relationships</span>.</li>
+      <li><strong>The blend is a left join from the primary.</strong> Rows in the secondary with no match in the primary are simply absent — which is a quiet way to lose data if you picked the wrong primary.</li>
+      <li><strong>It happens per sheet.</strong> Two sheets can blend the same sources differently, which is flexible and makes a workbook harder to reason about.</li>
+    </ul>
+
+    <div class="callout danger" style="margin-top:.65rem">
+      <div class="callout-title">What you give up by blending</div>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>Secondary dimensions arrive wrapped in <code>ATTR</code></strong>, so they show <code>*</code> whenever a mark spans more than one value — see <a href="#tableau/calculated">ATTR</a>. You cannot use a secondary dimension to add detail to the view.</li>
+        <li><strong>FIXED LOD expressions aren't supported on the secondary source.</strong></li>
+        <li><strong>The linking field must be in the view</strong> (or on Detail) for the blend to resolve at the grain you want.</li>
+        <li><strong>Row-level calculations can't cross the two sources</strong> — everything is already aggregated by the time they meet.</li>
+      </ul>
+    </div>
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">Decide in this order</div>
+      <p><strong>Relationship</strong> whenever the tables can live in one data source — which, thanks to cross-database joins, is more often than people assume. <strong>Join</strong> when you need a flat row-level table. <strong>Union</strong> when it's more rows of the same shape. <strong>Blend</strong> only when the sources genuinely can't be brought together, or when one is at a much coarser grain and you want it aggregated separately on purpose.</p>
+    </div>
+  </section>
+
   <section class="lcard" id="cn-live">
     <h2><span class="ic">⚡</span> Live vs Extract</h2>
     <p>A choice you make on the Data Source page, top right. It affects speed, freshness and what features are available.</p>
@@ -364,6 +435,36 @@
     </div>
   </section>
 
+  <section class="lcard" id="cn-reshape">
+    <h2><span class="ic">🔨</span> Reshaping a file that arrived the wrong way round</h2>
+    <p>Two tools on the Data Source page fix the two most common ways a spreadsheet is unusable. Both take seconds and both are easy to miss because they only appear in the right context.</p>
+
+    <div class="split">
+      <div>
+        <h3 style="margin-top:0">Data Interpreter</h3>
+        <p style="font-size:.88rem">A checkbox in the left panel, offered whenever Tableau suspects the sheet has decoration around the data — a title row, a logo, merged cells, blank spacer rows, footnotes underneath.</p>
+        <p style="font-size:.88rem;margin-top:.4rem">Tick it and Tableau finds the real rectangle of data and uses that. Click <strong>Review the results</strong> and it opens an annotated copy of the workbook showing exactly what it decided to keep and drop — worth doing once so you trust it.</p>
+        <p class="muted" style="font-size:.85rem;margin-top:.4rem">It's a guess, and a good one. Check the row count afterwards regardless.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Pivot — columns into rows</h3>
+        <p style="font-size:.88rem">Data arrives wide: one column per month, twelve of them. Tableau wants it long: a Month column and a Value column. Select the twelve column headers in the preview grid, right-click → <strong>Pivot</strong>.</p>
+<pre style="font-size:.76rem"><span class="c">// Before — 12 columns, unusable as a date</span>
+Region | Jan | Feb | Mar | …
+
+<span class="c">// After — 2 columns, one row per month</span>
+Region | Pivot Field Names | Pivot Field Values</pre>
+        <p style="font-size:.88rem;margin-top:.4rem">Rename the two new fields, set the names one to a date type, and you have a time series Tableau can actually chart.</p>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:.65rem">
+      <div class="callout-title">Wide data is the single most common reason a chart "can't be built"</div>
+      <p>A column per month can't go on a date axis, can't be filtered by year, can't have a running total. No amount of calculating fixes it — the shape is wrong. If you find yourself writing <code>[Jan] + [Feb] + [Mar]</code>, stop and pivot instead. The same principle drives <a href="#tableau/measures">Measure Names and Measure Values</a>, which do this reshape on the fly for measures already in the source.</p>
+    </div>
+    <div class="callout note" style="margin-top:.5rem"><p>Pivot is available for file-based sources and some databases. Where it's greyed out, do the reshape upstream — <a href="#excel/powerquery">Power Query</a> unpivots in two clicks, and a SQL view can do it with <code>UNION ALL</code>.</p></div>
+  </section>
+
   <section class="lcard">
     <h2><span class="ic">🧠</span> Key intuitions</h2>
     <ul>
@@ -375,6 +476,9 @@
       <li><strong>Fix names and types once, at the source</strong></li>
       <li><strong>Extract for speed, live for freshness</strong> — Tableau Public requires an extract</li>
       <li><strong>Document data source filters</strong> — they're invisible from the worksheet</li>
+      <li><strong>Logical layer for relationships, physical layer for joins</strong> — double-click a table to go down a level</li>
+      <li><strong>Blend only when the sources can't be combined</strong> — it costs you ATTR, FIXED and row-level calcs</li>
+      <li><strong>Wide data has to be pivoted</strong>, not calculated around</li>
     </ul>
   </section>
 
@@ -394,6 +498,9 @@
       <li>Add a <strong>data source filter</strong> excluding 2014, then verify your totals drop</li>
       <li>Switch the connection to an <strong>Extract</strong> and note whether interaction feels faster</li>
       <li>Add an <strong>extract filter</strong> for 2016–2017 only and compare the extract's size</li>
+      <li>Double-click the Orders table to open the <strong>physical layer</strong>, then come back out — describe what changed on the canvas</li>
+      <li>Make a small wide spreadsheet (Region plus twelve month columns), connect to it, and <strong>pivot</strong> it into a usable shape</li>
+      <li>Connect that spreadsheet as a <em>second</em> data source and <strong>blend</strong> it to Orders on Region. Put a secondary dimension on Detail and explain the <code>*</code></li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: build the fan-out yourself</div>

@@ -19,6 +19,7 @@
     <a href="#gl-calcs">Calculations</a>
     <a href="#gl-stats">Statistics</a>
     <a href="#gl-dash">Dashboards</a>
+    <a href="#gl-cant">"Tableau won't let me"</a>
     <a href="#gl-verbs">Common instructions</a>
   </nav>
 
@@ -199,6 +200,49 @@
       </div>
       <div class="df">
         <dt>Discrete <span class="pill dim sm">blue</span></dt>
+        <dd>Separate, countable values. On a shelf it makes <strong>headers</strong>; in a filter it gives you a <strong>list to tick</strong>; it can be sorted, grouped and aliased.</dd>
+        <dd class="df-e"><b>Example:</b> Region, a blue YEAR, a bin, a group, a set.</dd>
+        <dd class="df-w">This, not dimension/measure, is what decides which filter dialog opens.</dd>
+      </div>
+      <div class="df">
+        <dt>Continuous <span class="pill msr sm">green</span></dt>
+        <dd>An unbroken range. On a shelf it makes an <strong>axis</strong>; in a filter it gives you a <strong>slider</strong>, never a list. Reference and trend lines need one.</dd>
+        <dd class="df-e"><b>Example:</b> SUM(Sales), a green Order Date, Discount.</dd>
+      </div>
+      <div class="df">
+        <dt>Data type</dt>
+        <dd>String, number, date, date &amp; time, or boolean — shown by the small icon beside each field. It decides which functions accept the field and whether it can be mapped or charted on a date axis.</dd>
+        <dd class="df-e"><b>Example:</b> a date read as text sorts "April" before "January" and gets no drill-down.</dd>
+      </div>
+      <div class="df">
+        <dt>Default Properties</dt>
+        <dd>Settings attached to a <em>field</em> rather than a view: aggregation, number format, colour, sort order, and a date's fiscal year start.</dd>
+        <dd class="df-e"><b>Example:</b> setting Discount to default to Average means every future sheet gets it right without you formatting anything.</dd>
+        <dd class="df-w">Right-click a field in the Data pane → Default Properties.</dd>
+      </div>
+      <div class="df">
+        <dt>Generated field</dt>
+        <dd>A field Tableau creates that isn't in your data. Listed at the bottom of the Data pane, below a dividing line.</dd>
+        <dd class="df-e"><b>Example:</b> Measure Names, Measure Values, Latitude (generated), Longitude (generated).</dd>
+      </div>
+      <div class="df">
+        <dt>Logical vs physical layer</dt>
+        <dd>The two levels of the Data Source canvas. The <strong>logical</strong> layer holds relationships between tables that stay separate; double-clicking a table opens the <strong>physical</strong> layer, where joins and unions flatten tables together immediately.</dd>
+        <dd class="df-e"><b>Example:</b> fan-out can only happen in the physical layer, which is why relationships avoid it.</dd>
+      </div>
+      <div class="df">
+        <dt>Data blending</dt>
+        <dd>Combining two separate data sources per sheet, <em>after</em> each has been aggregated. A last resort when the sources can't be joined or related.</dd>
+        <dd class="df-e"><b>Example:</b> a database of orders plus a spreadsheet of targets. Costs you FIXED LODs and row-level calculations across the two.</dd>
+        <dd class="df-w">The primary source shows a blue tick, secondaries an orange one.</dd>
+      </div>
+      <div class="df">
+        <dt>Alias</dt>
+        <dd>A display label for one member of a dimension. Changes what's shown, not the stored value.</dd>
+        <dd class="df-e"><b>Example:</b> aliasing "East" to "Eastern Region" relabels every chart — but <code>[Region] = "Eastern Region"</code> still matches nothing.</dd>
+      </div>
+      <div class="df">
+        <dt>Discrete <span class="pill dim sm">blue</span></dt>
         <dd>Separate, countable values. On a shelf, a discrete field creates <strong>headers</strong> — one labelled slot per value.</dd>
         <dd class="df-e"><b>Example:</b> blue MONTH gives you 12 labelled columns, Jan to Dec, with all years pooled.</dd>
       </div>
@@ -306,6 +350,33 @@
         <dd>The data area of the chart — where the marks actually live. Formatting menus split settings into Header and Pane, and picking the wrong one is a common confusion.</dd>
       </div>
       <div class="df">
+        <dt>Path</dt>
+        <dd>A Marks target available on Line and Polygon marks. A field on it sets the order points are joined in; clicking it offers Linear, Step or Jump line types.</dd>
+        <dd class="df-e"><b>Example:</b> a date on Path turns a scatter into a connected scatterplot tracing the years.</dd>
+      </div>
+      <div class="df">
+        <dt>Stack Marks</dt>
+        <dd>A worksheet-level switch deciding whether marks sharing a baseline pile up or overlap.</dd>
+        <dd class="df-e"><b>Example:</b> turning it off with a dimension on Color is how overlapping-bar and bar-in-bar charts are built.</dd>
+        <dd class="df-w">Analysis → Stack Marks → Automatic / On / Off.</dd>
+      </div>
+      <div class="df">
+        <dt>Disaggregating</dt>
+        <dd>Turning aggregation off so Tableau draws one mark per row of the source data instead of one per combination of dimensions.</dd>
+        <dd class="df-e"><b>Example:</b> a Sales vs Profit scatter goes from 17 dots to 9,994 — which is how you see the spread a total hides.</dd>
+        <dd class="df-w">Analysis → Aggregate Measures (untick).</dd>
+      </div>
+      <div class="df">
+        <dt>Marks layer</dt>
+        <dd>An extra independent layer on a map, with its own Marks card, mark type and colours.</dd>
+        <dd class="df-e"><b>Example:</b> territories underneath, store locations on top, routes over both.</dd>
+      </div>
+      <div class="df">
+        <dt>Placeholder axis</dt>
+        <dd>A constant such as <code>MIN(0)</code> placed on a shelf purely to create a blank layer you can draw on.</dd>
+        <dd class="df-e"><b>Example:</b> how KPI tiles and most custom layouts are built.</dd>
+      </div>
+      <div class="df">
         <dt>Measure Names / Measure Values</dt>
         <dd>Two fields Tableau generates so you can show <em>many</em> measures at once. Names is a dimension holding the measure names; Values holds all their numbers.</dd>
         <dd class="df-e"><b>Example:</b> the only way to build a table with Sales, Profit and Quantity as three columns.</dd>
@@ -347,6 +418,44 @@
         <dd class="df-e"><b>Example:</b> needed for "Top 10 products <em>in the East</em>" — otherwise Tableau finds the national top 10, then keeps only the East ones.</dd>
         <dd class="df-w">Right-click a filter pill → <span class="uibtn">Add to Context</span>. It turns grey.</dd>
       </div>
+      <div class="df">
+        <dt>Order of operations</dt>
+        <dd>The fixed sequence Tableau applies filters and calculations in. Anything higher in the sequence cannot see anything lower.</dd>
+        <dd class="df-e"><b>Example:</b> Top N filters, sets and FIXED LODs are all computed <em>before</em> ordinary filter cards — which is why they seem to ignore them.</dd>
+      </div>
+      <div class="df">
+        <dt>Hide</dt>
+        <dd>Removing a header from display without removing its data. Totals, table calculations and reference lines all still include it.</dd>
+        <dd class="df-e"><b>Example:</b> hiding a blank first year so the second year's growth calculation still has something to compare against.</dd>
+        <dd class="df-w">Right-click a header → Hide. Undo with Analysis → Reveal Hidden Data.</dd>
+      </div>
+      <div class="df">
+        <dt>Relative date filter</dt>
+        <dd>A date window that moves with an anchor date — last 12 months, this quarter, next 30 days.</dd>
+        <dd class="df-e"><b>Example:</b> anchored to today by default, which is why "last 12 months" shows nothing on data that ends in 2017. Change the anchor in the same dialog.</dd>
+      </div>
+      <div class="df">
+        <dt>Only Relevant Values</dt>
+        <dd>A filter-card setting that lists only the members surviving your other filters.</dd>
+        <dd class="df-e"><b>Example:</b> filter to West and the State card stops offering Florida.</dd>
+      </div>
+      <div class="df">
+        <dt>Set control</dt>
+        <dd>A card that lets viewers choose a set's members. Unlike a filter card it doesn't remove rows — it re-labels them In or Out, so totals stay whole.</dd>
+        <dd class="df-e"><b>Example:</b> "pick any products and compare them against the rest".</dd>
+        <dd class="df-w">Right-click a set in the Data pane → Show Set.</dd>
+      </div>
+      <div class="df">
+        <dt>Dynamic parameter</dt>
+        <dd>A parameter whose current value or list of values is refreshed from the data when the workbook opens.</dd>
+        <dd class="df-e"><b>Example:</b> without it, a parameter listing regions is a snapshot and never learns about a fifth one.</dd>
+      </div>
+      <div class="df">
+        <dt>Show Missing Values</dt>
+        <dd>Draws members the data doesn't contain — empty months, empty bins — so gaps appear where they belong.</dd>
+        <dd class="df-e"><b>Example:</b> without it a histogram closes its own gaps, and a "previous month" calculation reaches two months back without saying so.</dd>
+        <dd class="df-w">Right-click a discrete date pill or a bin → Show Missing Values.</dd>
+      </div>
     </dl>
   </section>
 
@@ -379,6 +488,37 @@
         <dd>A calculation that runs on the numbers <em>already displayed in your view</em>, not on the source data.</dd>
         <dd class="df-e"><b>Example:</b> running total, rank, percent of total, year-over-year growth.</dd>
         <dd class="df-w">Right-click a measure pill → <span class="uibtn">Quick Table Calculation</span>. A small △ appears on the pill.</dd>
+      </div>
+      <div class="df">
+        <dt>Addressing vs partitioning</dt>
+        <dd>The two piles a table calculation sorts your view's dimensions into. <strong>Addressed</strong> (ticked) = the ones it walks along. <strong>Partitioning</strong> (unticked) = the ones it restarts for.</dd>
+        <dd class="df-e"><b>Example:</b> a running total addressing Month and partitioning by Region gives each region its own total from zero.</dd>
+        <dd class="df-w">Right-click a pill → Edit Table Calculation → Specific Dimensions.</dd>
+      </div>
+      <div class="df">
+        <dt>ATTR() and the asterisk</dt>
+        <dd>An aggregation returning the value if every row in the mark agrees, and <code>*</code> if they don't. Tableau applies it automatically when a dimension needs to behave like an aggregate.</dd>
+        <dd class="df-e"><b>Example:</b> <code>*</code> in a tooltip means the mark spans several values — add the field to the view's detail, or accept the coarser grain.</dd>
+      </div>
+      <div class="df">
+        <dt>Table-scoped LOD</dt>
+        <dd>An LOD with no keyword and no dimensions — <code>{ SUM([Sales]) }</code>. Computes over the whole table and hands the same number to every row.</dd>
+        <dd class="df-e"><b>Example:</b> <code>{MAX([Order Date])}</code> as a date filter's anchor, so "last 12 months" tracks the data rather than the calendar.</dd>
+      </div>
+      <div class="df">
+        <dt>Late filter</dt>
+        <dd>A filter placed on a table calculation. Because table calcs run last, it hides marks <em>without</em> changing what the calculation computed.</dd>
+        <dd class="df-e"><b>Example:</b> <code>INDEX() &lt;= 10</code> gives a Top 10 that respects the viewer's filter cards, unlike a Top N filter.</dd>
+      </div>
+      <div class="df">
+        <dt>Densification</dt>
+        <dd>Tableau filling in members the data doesn't contain, so gaps line up with the calendar or the number line.</dd>
+        <dd class="df-e"><b>Example:</b> without it, "the previous month" quietly means "the previous month that had orders".</dd>
+      </div>
+      <div class="df">
+        <dt>Ad-hoc calculation</dt>
+        <dd>A formula typed straight onto a shelf. Works like a calculated field but has no entry in the Data pane.</dd>
+        <dd class="df-e"><b>Example:</b> double-click an empty shelf and type <code>MIN(0)</code> to make a placeholder axis.</dd>
       </div>
       <div class="df">
         <dt>Compute Using / addressing</dt>
@@ -508,6 +648,96 @@
         <dd class="df-w">Never put confidential data in it.</dd>
       </div>
     </dl>
+  </section>
+
+  <section class="lcard" id="gl-cant">
+    <h2><span class="ic">🚧</span> "Tableau won't let me" — an index of blocked things</h2>
+    <p>Tableau greys options out and returns plausible wrong numbers far more often than it explains itself. Nearly every one of those moments has a specific cause, and the cause is usually a property of the field rather than a setting you've missed. This table maps the symptom to the reason and to the page that explains it.</p>
+
+    <h3 style="margin-top:1rem">Something is greyed out or missing</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:16rem">Symptom</th><th>Cause</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sort</strong> is unavailable on a pill</td><td>The pill is continuous. Only discrete fields have members to reorder — reverse the axis instead</td><td><a href="#tableau/interface">Interface</a></td></tr>
+          <tr><td>There's no <strong>Edit Axis</strong></td><td>The pill is discrete. Headers get Format, not Edit Axis</td><td><a href="#tableau/interface">Interface</a></td></tr>
+          <tr><td>The filter gives a <strong>slider, not a list</strong></td><td>The field is continuous. Convert it to discrete, bin it, or wrap it in a text calculation</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td>The filter card has <strong>no checkbox styles</strong></td><td>Same cause. Card styles follow the field type, not your preference</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td><strong>Create Group / Set / Hierarchy</strong> is missing</td><td>The field is a measure or continuous. All three need a discrete dimension</td><td><a href="#tableau/organizing">Groups &amp; Sets</a></td></tr>
+          <tr><td><strong>Trend line or reference line</strong> won't drop</td><td>No continuous axis for it to attach to</td><td><a href="#tableau/analytics">Analytics pane</a></td></tr>
+          <tr><td><strong>Forecast</strong> is greyed out</td><td>No real date field — check the icon — or the view contains table calcs, totals or disaggregated measures</td><td><a href="#tableau/analytics">Analytics pane</a></td></tr>
+          <tr><td><strong>Show Me</strong> options are greyed out</td><td>The wrong number or type of fields is selected. Hover the icon; the text names what's needed</td><td><a href="#tableau/charts">Chart Types</a></td></tr>
+          <tr><td>A discrete pill <strong>won't sit</strong> where you drop it</td><td>Continuous pills must be innermost on a shelf. Tableau moves the discrete one in front</td><td><a href="#tableau/interface">Interface</a></td></tr>
+          <tr><td><em>"Cannot mix aggregate and non-aggregate arguments"</em></td><td>One side of the expression is aggregated and the other isn't. Also what you get from a bare <code>RUNNING_SUM([Sales])</code></td><td><a href="#tableau/calculated">Calculated Fields</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1.3rem">The chart looks wrong</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:16rem">Symptom</th><th>Cause</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>The scatter plot is <strong>one dot</strong></td><td>No dimension in the view, so everything aggregates together. Put one on Detail</td><td><a href="#tableau/marks">Structure vs Marks</a></td></tr>
+          <tr><td>A third measure gives a <strong>third axis</strong>, not a third column</td><td>Ordinary shelves top out at two measures. You need Measure Names and Measure Values</td><td><a href="#tableau/measures">Measure Names &amp; Values</a></td></tr>
+          <tr><td>A monthly chart has exactly <strong>twelve bars</strong> across four years</td><td>A date <em>part</em> where you wanted a date <em>value</em> — blue Month rather than Month/Year</td><td><a href="#tableau/interface">Interface</a></td></tr>
+          <tr><td>The line chart <strong>breaks into chunks</strong></td><td>A discrete date on the axis. Switch to the green half of the menu</td><td><a href="#tableau/interface">Interface</a></td></tr>
+          <tr><td>A <strong>month is missing</strong> and the line joins straight over it</td><td>No rows for that month, so no cell. Turn on Show Missing Values</td><td><a href="#tableau/tablecalcs">Table Calculations</a></td></tr>
+          <tr><td>The histogram's shape looks <strong>too smooth</strong></td><td>Empty bins aren't drawn. Same fix — Show Missing Values</td><td><a href="#tableau/organizing">Bins</a></td></tr>
+          <tr><td>Got <strong>stacked</strong> bars, wanted side by side</td><td>The dimension is on Color with a bar mark. Move it to Columns, or turn off Stack Marks</td><td><a href="#tableau/marks">Structure vs Marks</a></td></tr>
+          <tr><td>A colour change <strong>won't apply</strong></td><td>You're editing the wrong Marks card on a dual axis</td><td><a href="#tableau/marks">Structure vs Marks</a></td></tr>
+          <tr><td>Labels <strong>silently vanish</strong></td><td>Overlapping labels are suppressed by default</td><td><a href="#tableau/formatting">Formatting</a></td></tr>
+          <tr><td>A profit map shows <strong>red states that are profitable</strong></td><td>The diverging palette is centred on the data's midpoint, not zero</td><td><a href="#tableau/maps">Maps</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1.3rem">The number is wrong</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:16rem">Symptom</th><th>Cause</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>A <strong>Top 10 filter returns three rows</strong></td><td>Top N is computed before your other filters. Add the other filter to context</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td>A <strong>FIXED total ignores</strong> the filter card</td><td>FIXED runs above dimension filters in the order of operations. Context is the only way down</td><td><a href="#tableau/lod">LOD Expressions</a></td></tr>
+          <tr><td><strong>Percentages change</strong> when you filter</td><td>Table calculations only see what's in the view. If you want the unfiltered denominator, that's an LOD</td><td><a href="#tableau/tablecalcs">Table Calculations</a></td></tr>
+          <tr><td>Everything shows <strong>100% or 1</strong></td><td>Compute Using is set to Cell — each cell is its own window</td><td><a href="#tableau/tablecalcs">Table Calculations</a></td></tr>
+          <tr><td>A second region <strong>continues the first one's running total</strong></td><td>That dimension is addressed when it should be partitioning</td><td><a href="#tableau/tablecalcs">Table Calculations</a></td></tr>
+          <tr><td>Totals <strong>grew</strong> after connecting a second table</td><td>Fan-out from a join. Check the row count; prefer a relationship</td><td><a href="#tableau/connections">Connecting Data</a></td></tr>
+          <tr><td>A margin's <strong>grand total is nonsense</strong></td><td>A row-level ratio averaged. Write it as <code>SUM(a)/SUM(b)</code> and leave Total Using on Automatic</td><td><a href="#tableau/analytics">Analytics pane</a></td></tr>
+          <tr><td>An <strong>order count is roughly double</strong></td><td><code>COUNT</code> counts line items. Orders need <code>COUNTD([Order ID])</code></td><td><a href="#tableau/calculated">Calculated Fields</a></td></tr>
+          <tr><td>The <strong>map's total is short</strong> of the bar chart's</td><td>Unknown locations. They vanish without an error</td><td><a href="#tableau/maps">Maps</a></td></tr>
+          <tr><td>Totals dropped after adding a <strong>range filter</strong></td><td>Range filters discard nulls. Switch the tab to Special → All values</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td>An average is <strong>higher than expected</strong></td><td>Aggregations skip nulls but count zeros — check which you have</td><td><a href="#tableau/calculated">Calculated Fields</a></td></tr>
+          <tr><td>An LOD's total is <strong>implausibly large</strong></td><td>A value repeated across rows, then summed. Check the outer aggregation</td><td><a href="#tableau/lod">LOD Expressions</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1.3rem">Something silently stopped working</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:16rem">Symptom</th><th>Cause</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>A <strong>new category never appears</strong></td><td>A General-tab filter with a fixed list, a static group, or a snapshot parameter list</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td>A <strong>parameter control does nothing</strong></td><td>Nothing reads it. A parameter is inert until a calculation, filter or reference line uses it</td><td><a href="#tableau/calculated">Calculated Fields</a></td></tr>
+          <tr><td>A <strong>filter action does nothing</strong></td><td>All Fields is passing a dimension the target doesn't have. Switch to Selected Fields</td><td><a href="#tableau/dashboards">Dashboards</a></td></tr>
+          <tr><td>Numbers don't match the source system</td><td>A data source filter — invisible from every worksheet — or a hidden header</td><td><a href="#tableau/connections">Connecting Data</a></td></tr>
+          <tr><td><em>"Last 12 months"</em> shows <strong>nothing</strong></td><td>The relative date filter is anchored to today and the data ends earlier</td><td><a href="#tableau/filters">Filters</a></td></tr>
+          <tr><td>A table calc <strong>broke</strong> after rearranging pills</td><td>Table (across) follows the layout. Switch to Specific Dimensions</td><td><a href="#tableau/tablecalcs">Table Calculations</a></td></tr>
+          <tr><td>A <strong>tooltip shows <code>*</code></strong></td><td>ATTR — the mark spans several values of that field</td><td><a href="#tableau/calculated">Calculated Fields</a></td></tr>
+          <tr><td>Duplicated sheets <strong>behave differently</strong></td><td>A worksheet-level setting like Stack Marks or Aggregate Measures, which leaves no pill behind</td><td><a href="#tableau/marks">Structure vs Marks</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tip" style="margin-top:.8rem">
+      <div class="callout-title">Three checks that resolve most of the table above</div>
+      <ol style="margin:.35rem 0 0;font-size:.9rem;padding-left:1.2rem;line-height:1.7">
+        <li><strong>What colour is the pill?</strong> Blue and green gate sorting, axes, filter dialogs, groups, sets and every line in the Analytics pane.</li>
+        <li><strong>What's the mark count?</strong> Bottom-left status bar. It tells you the view's real level of detail, which is what every aggregate is computed at.</li>
+        <li><strong>Where does it sit in the order of operations?</strong> Anything higher up cannot see anything lower down — that single rule explains most wrong numbers in Tableau.</li>
+      </ol>
+    </div>
   </section>
 
   <section class="lcard accent" id="gl-verbs">

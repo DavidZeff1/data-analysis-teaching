@@ -15,9 +15,13 @@
     <a href="#tc-idea">The key idea</a>
     <a href="#tc-quick">Quick table calcs</a>
     <a href="#tc-direction">Compute Using</a>
+    <a href="#tc-addr">Addressing vs partitioning</a>
+    <a href="#tc-dialog">The full dialog</a>
     <a href="#tc-common">The common ones</a>
     <a href="#tc-writing">Writing them by hand</a>
     <a href="#tc-window">Window functions</a>
+    <a href="#tc-late">Late filters</a>
+    <a href="#tc-gaps">Gaps in the data</a>
     <a href="#tc-debug">Debugging</a>
     <a href="#tc-practice">Practice</a>
   </nav>
@@ -256,6 +260,126 @@
     </div>
   </section>
 
+  <section class="lcard" id="tc-addr">
+    <h2><span class="ic">🧷</span> Addressing vs partitioning — what Compute Using really sets</h2>
+    <p>"Table (across)" and "Pane (down)" are shorthand. Underneath, every table calculation splits the dimensions in your view into two piles, and those two piles are the entire configuration. Choose <strong>Specific Dimensions</strong> in the dialog and you're setting them by hand — which is why that option is the one worth learning.</p>
+
+    <div class="split">
+      <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="h" style="color:#1d4ed8">☑ Ticked — <strong>addressing</strong></div>
+        <p style="margin:.3rem 0;font-size:.87rem">The dimensions the calculation <em>moves along</em>. These define the direction of travel and the order of the cells it walks through.</p>
+        <p style="margin:.3rem 0 0;font-size:.85rem;color:#1d4ed8">Tick <strong>Month</strong> and a running total accumulates month by month.</p>
+      </div>
+      <div class="cmp" style="background:#fffbeb;border-color:#fde68a">
+        <div class="h" style="color:#b45309">☐ Unticked — <strong>partitioning</strong></div>
+        <p style="margin:.3rem 0;font-size:.87rem">The dimensions the calculation <em>restarts for</em>. Each combination of these gets its own independent window.</p>
+        <p style="margin:.3rem 0 0;font-size:.85rem;color:#b45309">Leave <strong>Region</strong> unticked and each region gets its own running total from zero.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin:.7rem 0">
+      <div class="callout-title">The sentence that makes it click</div>
+      <p><strong>Ticked dimensions are what the calculation walks along. Unticked dimensions are what it starts over for.</strong> Every dimension in the view is in exactly one of the two piles — there is no third option, and Tableau puts <em>every</em> dimension somewhere whether you thought about it or not.</p>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 176" role="img" aria-label="The same running total with Month addressed and Region partitioning, versus both addressed" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="8" font-weight="700" fill="#047857" font-family="Inter, sans-serif">☑ Month addressed · ☐ Region partitions</text>
+        <g stroke="#cbd5e1" fill="#ecfdf5">
+          <rect x="52" y="20" width="34" height="18"/><rect x="86" y="20" width="34" height="18"/><rect x="120" y="20" width="34" height="18"/><rect x="154" y="20" width="34" height="18"/>
+          <rect x="52" y="38" width="34" height="18"/><rect x="86" y="38" width="34" height="18"/><rect x="120" y="38" width="34" height="18"/><rect x="154" y="38" width="34" height="18"/>
+        </g>
+        <g font-size="6" fill="#475569" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="48" y="32">East</text><text x="48" y="50">West</text>
+        </g>
+        <g font-size="5.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="69" y="17">Jan</text><text x="103" y="17">Feb</text><text x="137" y="17">Mar</text><text x="171" y="17">Apr</text>
+        </g>
+        <g font-size="6.4" fill="#065f46" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="69" y="33">10</text><text x="103" y="33">25</text><text x="137" y="33">45</text><text x="171" y="33">70</text>
+          <text x="69" y="51">20</text><text x="103" y="51">35</text><text x="137" y="51">65</text><text x="171" y="51">90</text>
+        </g>
+        <g stroke="#059669" stroke-width="1.4" fill="none" marker-end="url(#tcAd1)">
+          <line x1="58" y1="29" x2="182" y2="29"/><line x1="58" y1="47" x2="182" y2="47"/>
+        </g>
+        <text x="196" y="32" font-size="6.2" fill="#047857" font-family="Inter, sans-serif">two windows, one per region</text>
+        <text x="196" y="42" font-size="6.2" fill="#047857" font-family="Inter, sans-serif">each restarts at its own January</text>
+
+        <line x1="10" y1="72" x2="410" y2="72" stroke="#e2e8f0"/>
+
+        <text x="10" y="88" font-size="8" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">☑ Month addressed · ☑ Region addressed</text>
+        <g stroke="#cbd5e1" fill="#fffbeb">
+          <rect x="52" y="96" width="34" height="18"/><rect x="86" y="96" width="34" height="18"/><rect x="120" y="96" width="34" height="18"/><rect x="154" y="96" width="34" height="18"/>
+          <rect x="52" y="114" width="34" height="18"/><rect x="86" y="114" width="34" height="18"/><rect x="120" y="114" width="34" height="18"/><rect x="154" y="114" width="34" height="18"/>
+        </g>
+        <g font-size="6" fill="#475569" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="48" y="108">East</text><text x="48" y="126">West</text>
+        </g>
+        <g font-size="6.4" fill="#92400e" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="69" y="109">10</text><text x="103" y="109">25</text><text x="137" y="109">45</text><text x="171" y="109">70</text>
+          <text x="69" y="127">90</text><text x="103" y="127">105</text><text x="137" y="127">135</text><text x="171" y="127">160</text>
+        </g>
+        <path d="M58,105 L182,105 L58,123 L182,123" stroke="#d97706" stroke-width="1.4" fill="none" marker-end="url(#tcAd2)"/>
+        <text x="196" y="108" font-size="6.2" fill="#b45309" font-family="Inter, sans-serif">one window across everything</text>
+        <text x="196" y="118" font-size="6.2" fill="#b45309" font-family="Inter, sans-serif">West continues from East's total</text>
+
+        <rect x="10" y="142" width="400" height="26" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="18" y="152" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">Same data, same calculation, same view. The only difference is one checkbox — and the second version's</text>
+        <text x="18" y="163" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">West figures are meaningless, because they include East. Nothing on the chart would tell you.</text>
+
+        <defs>
+          <marker id="tcAd1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#059669"/></marker>
+          <marker id="tcAd2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#d97706"/></marker>
+        </defs>
+      </svg>
+      <p class="figcap">This is what "Table" and "Pane" are choosing for you. <strong>Table</strong> addresses everything; <strong>Pane</strong> partitions by whatever creates the panes. Naming the dimensions yourself removes the guesswork.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">How the presets map onto the two piles</h3>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:13rem">Preset</th><th>Addresses</th><th>Partitions by</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Table (across)</strong></td><td>Every dimension on Columns</td><td>Every dimension on Rows</td></tr>
+          <tr><td><strong>Table (down)</strong></td><td>Every dimension on Rows</td><td>Every dimension on Columns</td></tr>
+          <tr><td><strong>Table (across then down)</strong></td><td>Everything</td><td>Nothing — one window for the whole table</td></tr>
+          <tr><td><strong>Pane (across)</strong></td><td>The <em>innermost</em> dimension on Columns</td><td>Everything else, including the outer column dimensions</td></tr>
+          <tr><td><strong>Pane (down)</strong></td><td>The innermost dimension on Rows</td><td>Everything else</td></tr>
+          <tr><td><strong>Cell</strong></td><td>Nothing</td><td>Everything — each cell is its own window</td></tr>
+          <tr><td><strong>Specific Dimensions</strong></td><td>Whatever you tick</td><td>Whatever you leave unticked</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout danger" style="margin-top:.6rem">
+      <div class="callout-title">Why the presets break when you rearrange the view</div>
+      <p>"Table (across)" doesn't mean "along the months". It means "along whatever is on Columns". Move the date pill to Rows — or add a second dimension beside it — and the calculation silently starts walking a different path. The numbers stay plausible and the chart still draws, which is what makes it dangerous.</p>
+      <p style="margin-top:.4rem"><strong>Specific Dimensions names the fields</strong>, so the calculation means the same thing however you rearrange the sheet. Once a workbook is going to be published, convert every table calc to Specific Dimensions.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-dialog">
+    <h2><span class="ic">🗜️</span> The rest of the Edit Table Calculation dialog</h2>
+    <p class="muted">Right-click a pill → <strong>Edit Table Calculation</strong>. Beyond Compute Using there are four more controls, and each one is the answer to a question people usually solve the hard way.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:11rem">Control</th><th>What it does</th><th>The thing it unlocks</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Restarting every</strong></td><td>Picks one <em>addressed</em> dimension to reset the accumulation at</td><td><strong>Year-to-date.</strong> Address Year and Month, restart every Year — a running total that zeroes each January</td></tr>
+          <tr><td><strong>At the level</strong></td><td>Which addressed dimension the result is produced at, rather than the deepest one</td><td>Ranking sub-categories <em>by their category's</em> total, while sub-categories are still in the view</td></tr>
+          <tr><td><strong>Sort order</strong></td><td>For Rank and Percentile: which field decides position, and which direction</td><td>Ranking by Profit while the chart displays Sales</td></tr>
+          <tr><td><strong>Relative to</strong></td><td>For Difference and Percent Difference: Previous, Next, First or Last</td><td><strong>Index charts.</strong> "Relative to First" rebases every line to 100 at its own starting point</td></tr>
+          <tr><td><strong>Secondary calculation</strong></td><td>Runs a second table calc on the first one's output</td><td><strong>The Pareto line.</strong> Running Total, then Percent of Total on the result — two calcs, one pill</td></tr>
+          <tr><td><strong>Null if not enough values</strong></td><td>On Moving Calculation: blanks the first periods instead of averaging fewer</td><td>An honest moving average — the first two points of a 3-month average aren't 3-month averages</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Nested table calcs and the Calculation dropdown</div>
+      <p>Once a secondary calculation exists, the top of the dialog grows a <strong>Calculation</strong> dropdown listing both stages. Each stage has its own Compute Using — they are not required to match, and often shouldn't. A Pareto chart, for instance, accumulates <em>along</em> sub-categories and then takes a percentage of that same window; a year-on-year index accumulates along months but rebases per year.</p>
+      <p style="margin-top:.4rem">If a two-stage calculation gives a nonsense answer, check both stages. People almost always set the first and forget the second exists.</p>
+    </div>
+  </section>
+
   <section class="lcard" id="tc-common">
     <h2><span class="ic">🧰</span> The ones you'll actually use</h2>
     <div class="scrollx">
@@ -453,6 +577,80 @@
     </div>
   </section>
 
+  <section class="lcard" id="tc-late">
+    <h2><span class="ic">🕰️</span> Late filters — filtering <em>after</em> the calculation</h2>
+    <p>A filter placed on a table calculation runs at the very end of the pipeline, after the calculation has already been computed. That sounds like a footnote and it is actually one of the most useful things table calcs can do: <strong>it lets you hide marks without changing the answer.</strong></p>
+
+    <div class="ba">
+      <div class="ba-side" style="background:#fef2f2;border-color:#fecaca">
+        <div class="ba-h" style="color:#b91c1c">An ordinary filter</div>
+<pre style="font-size:.76rem">Filter: YEAR(Order Date) = 2015, 2016, 2017</pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">2014 is gone before the calculation runs, so 2015's year-over-year growth has nothing to compare against and comes out blank. You removed one year and lost two.</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">A late filter</div>
+<pre style="font-size:.76rem">Filter on a table calc:
+  LOOKUP(MIN(YEAR([Order Date])), 0) &gt;= 2015</pre>
+        <p style="margin:.4rem 0 0;font-size:.85rem">2014 is present while the growth is computed, then hidden. 2015 keeps its number and the chart starts where you wanted.</p>
+      </div>
+    </div>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">The <code>LOOKUP(…, 0)</code> trick</div>
+      <p>Wrapping anything in <code>LOOKUP(expression, 0)</code> fetches the value at offset zero — the current row. It changes nothing about the value; what it changes is <em>when</em> the expression is evaluated, because a LOOKUP is a table calculation and therefore runs last. It is the standard way to turn any ordinary condition into a late filter.</p>
+      <p style="margin-top:.4rem">The same reasoning explains <code>INDEX() &lt;= 10</code> as a Top N that respects the user's filter cards — see <a href="#tableau/filters">Filters</a>.</p>
+    </div>
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Late filters hide, they don't remove</div>
+      <p>The rows are still in the query, still in the grand totals, still in every other table calculation's window. That's exactly what you asked for — but it means a late filter is not a way to make a view faster, and a total that includes something invisible needs explaining in a caption.</p>
+      <p style="margin-top:.4rem">There is also a simpler tool for the same problem when you just want a column gone: right-click the header → <strong>Hide</strong>. Hiding keeps the data in the table calc's window too, and needs no calculation at all. Reach for a late filter when the rule is dynamic; reach for Hide when it isn't.</p>
+    </div>
+  </section>
+
+  <section class="lcard" id="tc-gaps">
+    <h2><span class="ic">🕳️</span> Gaps in the data — the silent wrong answer</h2>
+    <p>A table calculation walks the cells that <em>exist</em>. If March has no orders, there is no March cell — so "the previous month" for April is February, and a 3-month moving average covers four months of calendar time. Nothing warns you, and the line joins straight across the gap as though the month simply had normal sales.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 118" role="img" aria-label="A monthly series missing March, showing how a moving average silently spans the gap" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">✗ As stored — March has no rows, so there is no March cell</text>
+        <g stroke="#cbd5e1" fill="#f8fafc">
+          <rect x="14" y="20" width="46" height="18"/><rect x="60" y="20" width="46" height="18"/><rect x="106" y="20" width="46" height="18"/><rect x="152" y="20" width="46" height="18"/>
+        </g>
+        <g font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="37" y="32">Jan</text><text x="83" y="32">Feb</text><text x="129" y="32">Apr</text><text x="175" y="32">May</text>
+        </g>
+        <path d="M129,44 C120,54 96,54 85,44" stroke="#c0392b" stroke-width="1.3" fill="none" marker-end="url(#tcG1)"/>
+        <text x="212" y="34" font-size="6.4" fill="#b91c1c" font-family="Inter, sans-serif">LOOKUP(…, −1) from April returns <tspan font-weight="700">February</tspan></text>
+        <text x="212" y="44" font-size="6.4" fill="#b91c1c" font-family="Inter, sans-serif">— two months back, labelled as one</text>
+
+        <text x="10" y="70" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ After Show Missing Values — March exists, and is empty</text>
+        <g stroke="#cbd5e1" fill="#ecfdf5">
+          <rect x="14" y="78" width="46" height="18"/><rect x="60" y="78" width="46" height="18"/>
+          <rect x="106" y="78" width="46" height="18" fill="#fff" stroke-dasharray="3 2"/>
+          <rect x="152" y="78" width="46" height="18"/><rect x="198" y="78" width="46" height="18"/>
+        </g>
+        <g font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="37" y="90">Jan</text><text x="83" y="90">Feb</text>
+          <text x="129" y="90" fill="#94a3b8">Mar</text>
+          <text x="175" y="90">Apr</text><text x="221" y="90">May</text>
+        </g>
+        <text x="256" y="88" font-size="6.4" fill="#047857" font-family="Inter, sans-serif">offsets now mean what they say</text>
+        <text x="10" y="112" font-size="6.2" fill="#64748b" font-family="Inter, sans-serif">Right-click the date or bin pill → Show Missing Values. Only available on a <tspan font-weight="700">discrete</tspan> date part or a bin.</text>
+        <defs><marker id="tcG1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c0392b"/></marker></defs>
+      </svg>
+    </div>
+
+    <ul class="check" style="margin-top:.7rem">
+      <li><strong>Show Missing Values</strong> on the discrete date pill, or on a bin, inserts the empty members so offsets line up with the calendar</li>
+      <li><strong>Nulls, not zeros.</strong> The padded cells are empty, so a moving average skips them rather than treating them as no sales. If zero is the honest value, wrap the measure in <code>ZN()</code></li>
+      <li><strong>Check any period-over-period number on sparse data</strong> — intermittent products, new stores, weekly data with holidays. This is where it bites hardest</li>
+      <li><strong>The same problem hits histograms.</strong> An empty bin is not drawn, so the distribution's shape is wrong until you turn Show Missing Values on — see <a href="#tableau/organizing">Bins</a></li>
+    </ul>
+    <div class="callout note" style="margin-top:.55rem"><p>The general name for this is <em>densification</em> — Tableau filling in members that the data doesn't contain. It's genuinely useful here, and it's also why a view occasionally shows more marks than you expected: something in the view asked for padding. If a mark count looks inflated, check for a Show Missing Values you turned on earlier.</p></div>
+  </section>
+
   <section class="lcard" id="tc-debug">
     <h2><span class="ic">🔧</span> When the numbers look wrong</h2>
     <div class="grid2">
@@ -480,6 +678,18 @@
         <div class="h">Totals look wrong</div>
         <p style="margin:0;font-size:.84rem">Grand totals compute their own table calc rather than summing the displayed values. Analysis → Totals → <em>Total All Using</em> lets you control this.</p>
       </div>
+      <div class="cmp bad">
+        <div class="h">A period-over-period number is off by a period</div>
+        <p style="margin:0;font-size:.84rem">A gap in the data. The calc walked to the previous <em>existing</em> cell, not the previous month — see <a href="#tc-gaps">Gaps</a>. Turn on Show Missing Values.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">A second region continues the first one's running total</div>
+        <p style="margin:0;font-size:.84rem">Region is addressed when it should be partitioning. Untick it under <strong>Specific Dimensions</strong> — see <a href="#tc-addr">Addressing</a>.</p>
+      </div>
+      <div class="cmp bad">
+        <div class="h">The pill won't go where I want it</div>
+        <p style="margin:0;font-size:.84rem">A table calc is an aggregate, so it can't be used row-level, can't go in an <a href="#tableau/lod">LOD's</a> dimension list, and can't be made a dimension. Compute it, then filter or label with it.</p>
+      </div>
     </div>
     <div class="callout ok" style="margin-top:.65rem">
       <div class="callout-title">The debugging habit that works</div>
@@ -496,7 +706,11 @@
       <li><strong>The △ on a pill</strong> means a table calc is applied — always check for it</li>
       <li><strong>Always wrap an aggregate</strong> — <code>SUM([Sales])</code>, never bare <code>[Sales]</code></li>
       <li><strong>Ask what should total 100%</strong> — then verify it does</li>
+      <li><strong>Ticked = walks along, unticked = starts over</strong> — that's the whole configuration</li>
       <li><strong>Specific Dimensions beats Table (across)</strong> — it survives layout changes</li>
+      <li><strong>Restarting every</strong> is how a running total becomes year-to-date</li>
+      <li><strong>A filter on a table calc runs last</strong> — it hides marks without changing the maths</li>
+      <li><strong>Missing periods break offsets silently</strong> — Show Missing Values on sparse data</li>
       <li><strong>LOOKUP(…, -1) is "the previous one"</strong> — the basis of all period comparisons</li>
       <li><strong>Need it independent of filters?</strong> That's an <a href="#tableau/lod">LOD</a>, not a table calc</li>
     </ul>
@@ -517,6 +731,10 @@
       <li>Create an <strong>index chart</strong>: each region's sales relative to its own first month, using <code>LOOKUP(…, FIRST())</code></li>
       <li>Add a Region filter to your Percent of Total view and watch the percentages change — explain why</li>
       <li>Build a text table showing raw Sales and the table calc <strong>side by side</strong> as a debugging view</li>
+      <li>Put Region on Rows and Month on Columns with a Running Total. Open <strong>Specific Dimensions</strong> and toggle Region on and off — describe both results</li>
+      <li>Turn a running total into a <strong>year-to-date</strong> using <em>Restarting every → Year</em></li>
+      <li>Build a Pareto line with a <strong>secondary calculation</strong> — Running Total, then Percent of Total on the result</li>
+      <li>Filter a year-over-year view to 2015 onwards <strong>twice</strong>: with a normal year filter, and with <code>LOOKUP(MIN(YEAR([Order Date])),0) &gt;= 2015</code>. Explain the difference in 2015's number</li>
     </ol>
     <div class="callout tip" style="margin-top:.75rem">
       <div class="callout-title">🏆 Challenge: a Pareto chart</div>
