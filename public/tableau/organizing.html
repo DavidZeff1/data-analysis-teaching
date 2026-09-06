@@ -125,6 +125,48 @@
       <p>Sorting Sub-Category produces <strong>one ordering of the seventeen members</strong>, applied everywhere they appear. It is a property of the field in that view, not of each little chart. So a per-pane ordering — West's best sellers first in West's column, East's in East's — is not something an ordinary sort can express.</p>
     </div>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 152" role="img" aria-label="Two panes sorted by one global order versus each pane sorted on its own numbers" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">✗ One order, repeated in every pane</text>
+        <text x="24" y="26" font-size="6" fill="#475569" font-family="Inter, sans-serif">West</text>
+        <text x="124" y="26" font-size="6" fill="#475569" font-family="Inter, sans-serif">East</text>
+        <line x1="112" y1="18" x2="112" y2="76" stroke="#e2e8f0"/>
+        <g fill="#4a7dab">
+          <rect x="52" y="32" width="52" height="8"/><rect x="52" y="43" width="46" height="8"/><rect x="52" y="54" width="34" height="8"/><rect x="52" y="65" width="22" height="8"/>
+        </g>
+        <g fill="#9db8ce">
+          <rect x="152" y="32" width="24" height="8"/><rect x="152" y="43" width="44" height="8"/><rect x="152" y="54" width="18" height="8"/><rect x="152" y="65" width="40" height="8"/>
+        </g>
+        <g font-size="5.2" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="48" y="38">Phones</text><text x="48" y="49">Chairs</text><text x="48" y="60">Storage</text><text x="48" y="71">Tables</text>
+          <text x="148" y="38">Phones</text><text x="148" y="49">Chairs</text><text x="148" y="60">Storage</text><text x="148" y="71">Tables</text>
+        </g>
+        <text x="204" y="45" font-size="5.6" fill="#b45309" font-family="Inter, sans-serif">East's bars are out of order —</text>
+        <text x="204" y="54" font-size="5.6" fill="#b45309" font-family="Inter, sans-serif">its best seller sits second.</text>
+        <text x="204" y="63" font-size="5.6" fill="#b45309" font-family="Inter, sans-serif">The sort belongs to the field,</text>
+        <text x="204" y="72" font-size="5.6" fill="#b45309" font-family="Inter, sans-serif">not to the pane.</text>
+
+        <line x1="10" y1="86" x2="410" y2="86" stroke="#e2e8f0"/>
+
+        <text x="10" y="100" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ Nested — each pane ranked on its own numbers</text>
+        <line x1="112" y1="106" x2="112" y2="148" stroke="#e2e8f0"/>
+        <g fill="#4a7dab">
+          <rect x="52" y="112" width="52" height="8"/><rect x="52" y="123" width="46" height="8"/><rect x="52" y="134" width="34" height="8"/>
+        </g>
+        <g fill="#5b9450">
+          <rect x="152" y="112" width="44" height="8"/><rect x="152" y="123" width="40" height="8"/><rect x="152" y="134" width="24" height="8"/>
+        </g>
+        <g font-size="5.2" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="48" y="118">Phones</text><text x="48" y="129">Chairs</text><text x="48" y="140">Storage</text>
+          <text x="148" y="118">Chairs</text><text x="148" y="129">Tables</text><text x="148" y="140">Phones</text>
+        </g>
+        <text x="204" y="122" font-size="5.6" fill="#047857" font-family="Inter, sans-serif">Both panes now descend.</text>
+        <text x="204" y="131" font-size="5.6" fill="#047857" font-family="Inter, sans-serif">Different members can appear,</text>
+        <text x="204" y="140" font-size="5.6" fill="#047857" font-family="Inter, sans-serif">and in a different order.</text>
+      </svg>
+      <p class="figcap">In the top chart every bar length is correct — only the <em>ordering</em> is borrowed from the other pane. That's what makes it so easy to ship without noticing.</p>
+    </div>
+
     <div class="ba">
       <div class="ba-side">
         <div class="ba-h">Ordinary sort by Sales</div>
@@ -397,6 +439,47 @@
       <div class="callout-title">Bin labels are the <em>lower</em> bound</div>
       <p>A bin labelled <strong>200</strong> with a size of 100 holds everything from 200 up to but not including 300. Readers routinely assume the label is the midpoint or the top. If the chart is going to anyone else, say so in the axis title — "Order value (lower bound of $100 band)" — or build named bands with a calculated field instead.</p>
     </div>
+    <div class="figure">
+      <svg viewBox="0 0 420 128" role="img" aria-label="A histogram with empty bins omitted, looking like one smooth hump, versus the same data with empty bins shown, revealing two separate groups" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">✗ Empty bins omitted — looks like one group</text>
+        <line x1="14" y1="86" x2="196" y2="86" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="18" y="60" width="18" height="26"/><rect x="38" y="44" width="18" height="42"/><rect x="58" y="34" width="18" height="52"/>
+          <rect x="78" y="48" width="18" height="38"/><rect x="98" y="56" width="18" height="30"/><rect x="118" y="40" width="18" height="46"/>
+          <rect x="138" y="52" width="18" height="34"/><rect x="158" y="66" width="18" height="20"/>
+        </g>
+        <g font-size="4.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="27" y="93">0</text><text x="47" y="93">100</text><text x="67" y="93">200</text><text x="87" y="93">300</text>
+          <text x="107" y="93">800</text><text x="127" y="93">900</text><text x="147" y="93">1000</text><text x="167" y="93">1100</text>
+        </g>
+        <text x="100" y="106" font-size="5.6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">the axis jumps 300 → 800 and nothing says so</text>
+        <text x="100" y="116" font-size="5.6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">bars sit shoulder to shoulder, so the gap is invisible</text>
+
+        <line x1="208" y1="14" x2="208" y2="120" stroke="#e2e8f0"/>
+
+        <text x="218" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ Show Missing Values — two groups</text>
+        <line x1="222" y1="86" x2="410" y2="86" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="226" y="60" width="12" height="26"/><rect x="240" y="44" width="12" height="42"/><rect x="254" y="34" width="12" height="52"/>
+          <rect x="268" y="48" width="12" height="38"/>
+        </g>
+        <g fill="#f1f5f9" stroke="#e2e8f0">
+          <rect x="282" y="82" width="12" height="4"/><rect x="296" y="82" width="12" height="4"/><rect x="310" y="82" width="12" height="4"/><rect x="324" y="82" width="12" height="4"/>
+        </g>
+        <g fill="#4a7dab">
+          <rect x="338" y="56" width="12" height="30"/><rect x="352" y="40" width="12" height="46"/>
+          <rect x="366" y="52" width="12" height="34"/><rect x="380" y="66" width="12" height="20"/>
+        </g>
+        <g font-size="4.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="232" y="93">0</text><text x="288" y="93">400</text><text x="344" y="93">800</text><text x="386" y="93">1100</text>
+        </g>
+        <text x="303" y="76" font-size="5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">nothing here</text>
+        <text x="315" y="106" font-size="5.6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">the same numbers, drawn on a truthful axis</text>
+        <text x="315" y="116" font-size="5.6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">two populations, not one — a different conclusion</text>
+      </svg>
+      <p class="figcap">Both charts contain identical data. The left one is not merely less pretty: it supports a claim about the distribution that is simply false.</p>
+    </div>
+
     <div class="callout danger" style="margin-top:.5rem">
       <div class="callout-title">Empty buckets vanish unless you ask for them</div>
       <p>A bin with no rows in it isn't drawn at all, so a histogram silently closes the gap and a bimodal distribution can look like one smooth hump. Right-click the bin pill → <strong>Show Missing Values</strong> and the empty buckets reappear as zero-height bars where they belong. Do this on every histogram; it costs one click and it is the difference between an honest shape and a misleading one.</p>

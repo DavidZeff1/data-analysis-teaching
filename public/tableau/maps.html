@@ -362,6 +362,41 @@ Map → Map Options → uncheck Pan and Zoom</pre>
 <span class="c">// A circle of a given radius — catchment areas</span>
 <span class="f">BUFFER</span>(<span class="f">MAKEPOINT</span>([Lat], [Lon]), <span class="n">5</span>, <span class="s">"km"</span>)</pre>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 150" role="img" aria-label="Three map layers drawn as stacked planes - territories, stores and routes - each with its own marks card" style="width:100%;height:auto">
+        <g opacity=".92">
+          <path d="M60,116 L230,116 L300,86 L130,86 Z" fill="#e0e7ff" stroke="#a5b4fc"/>
+          <path d="M96,110 L146,110 L172,99 L122,99 Z" fill="#c7d2fe"/>
+          <path d="M154,104 L204,104 L230,93 L180,93 Z" fill="#a5b4fc"/>
+          <text x="312" y="104" font-size="6" fill="#4338ca" font-family="Inter, sans-serif">Layer 1 — territories</text>
+          <text x="312" y="113" font-size="5.2" fill="#94a3b8" font-family="Inter, sans-serif">filled map, own colour scale</text>
+        </g>
+        <g opacity=".95">
+          <path d="M60,78 L230,78 L300,48 L130,48 Z" fill="#ecfdf5" stroke="#a7f3d0"/>
+          <g fill="#059669">
+            <circle cx="118" cy="68" r="3.4"/><circle cx="152" cy="62" r="5"/><circle cx="196" cy="66" r="2.6"/>
+            <circle cx="222" cy="57" r="4.2"/><circle cx="168" cy="72" r="3"/>
+          </g>
+          <text x="312" y="66" font-size="6" fill="#047857" font-family="Inter, sans-serif">Layer 2 — stores</text>
+          <text x="312" y="75" font-size="5.2" fill="#94a3b8" font-family="Inter, sans-serif">circles sized by revenue</text>
+        </g>
+        <g opacity=".95">
+          <path d="M60,40 L230,40 L300,10 L130,10 Z" fill="#fff7ed" stroke="#fed7aa"/>
+          <g stroke="#ea580c" stroke-width="1.4" fill="none">
+            <path d="M110,32 C140,20 170,34 210,22"/><path d="M124,34 C160,30 186,18 232,16"/>
+          </g>
+          <text x="312" y="28" font-size="6" fill="#c2410c" font-family="Inter, sans-serif">Layer 3 — routes</text>
+          <text x="312" y="37" font-size="5.2" fill="#94a3b8" font-family="Inter, sans-serif">MAKELINE, own mark type</text>
+        </g>
+        <g stroke="#cbd5e1" stroke-dasharray="3 2">
+          <line x1="60" y1="116" x2="60" y2="40"/><line x1="230" y1="116" x2="230" y2="40"/><line x1="300" y1="86" x2="300" y2="10"/>
+        </g>
+        <rect x="20" y="128" width="380" height="18" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="210" y="139.5" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Each layer gets its own Marks card — its own mark type, colours, size and tooltip.</text>
+      </svg>
+      <p class="figcap">Unlike the older dual-axis map trick, layers aren't limited to two, can be reordered, hidden individually, and set not to accept selection so a background layer stops swallowing clicks.</p>
+    </div>
+
     <div class="callout ok" style="margin-top:.65rem">
       <div class="callout-title">Marks layers — several map layers, independently controlled</div>
       <p>Drag a second geographic field onto the view and Tableau offers an <strong>Add a Marks Layer</strong> drop zone. Each layer gets its own Marks card, its own mark type and its own colour — territories underneath, stores on top, delivery routes over both. Layers can be reordered, hidden, and set not to accept selection so a background layer doesn't intercept clicks.</p>

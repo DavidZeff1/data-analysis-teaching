@@ -342,6 +342,61 @@
     <h2><span class="ic">🔷</span> Mark types — and why the card keeps changing shape</h2>
     <p>Switch the mark type and targets appear and disappear from the Marks card. That isn't Tableau being inconsistent: <strong>a target only exists if the mark can express it</strong>. A bar has no angle; a circle has no path. Knowing which type unlocks which target is how you find the chart you can't otherwise build.</p>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 156" role="img" aria-label="A gallery of the eleven mark types, each drawn with the same data, labelled with the extra Marks-card target it unlocks" style="width:100%;height:auto">
+        <g stroke="#e2e8f0" fill="#fff">
+          <rect x="8" y="8" width="98" height="66" rx="3"/><rect x="112" y="8" width="98" height="66" rx="3"/>
+          <rect x="216" y="8" width="98" height="66" rx="3"/><rect x="320" y="8" width="92" height="66" rx="3"/>
+          <rect x="8" y="80" width="98" height="66" rx="3"/><rect x="112" y="80" width="98" height="66" rx="3"/>
+          <rect x="216" y="80" width="98" height="66" rx="3"/><rect x="320" y="80" width="92" height="66" rx="3"/>
+        </g>
+
+        <text x="14" y="18" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Bar</text>
+        <line x1="16" y1="58" x2="100" y2="58" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><rect x="24" y="36" width="14" height="22"/><rect x="44" y="28" width="14" height="30"/><rect x="64" y="44" width="14" height="14"/><rect x="84" y="32" width="12" height="26"/></g>
+        <text x="14" y="70" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">Size = thickness</text>
+
+        <text x="118" y="18" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Line</text>
+        <line x1="120" y1="58" x2="204" y2="58" stroke="#cbd5e1"/>
+        <polyline points="124,50 142,42 160,46 178,32 200,26" fill="none" stroke="#4a7dab" stroke-width="2"/>
+        <text x="118" y="70" font-size="5" fill="#6d28d9" font-family="Inter, sans-serif">unlocks <tspan font-weight="700">Path</tspan></text>
+
+        <text x="222" y="18" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Area</text>
+        <line x1="224" y1="58" x2="308" y2="58" stroke="#cbd5e1"/>
+        <path d="M228,50 L246,42 L264,46 L282,32 L304,26 L304,58 L228,58 Z" fill="#4a7dab" opacity=".55"/>
+        <text x="222" y="70" font-size="5" fill="#6d28d9" font-family="Inter, sans-serif">unlocks <tspan font-weight="700">Path</tspan></text>
+
+        <text x="326" y="18" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Square</text>
+        <g><rect x="332" y="28" width="16" height="16" fill="#bcd6ea"/><rect x="350" y="28" width="16" height="16" fill="#7fb3d5"/><rect x="368" y="28" width="16" height="16" fill="#3d7ea8"/>
+           <rect x="332" y="46" width="16" height="16" fill="#e8f1f8"/><rect x="350" y="46" width="16" height="16" fill="#bcd6ea"/><rect x="368" y="46" width="16" height="16" fill="#5b8db8"/></g>
+        <text x="326" y="70" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">fills the whole cell</text>
+
+        <text x="14" y="90" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Circle</text>
+        <line x1="16" y1="130" x2="100" y2="130" stroke="#cbd5e1"/>
+        <g fill="#4a7dab" opacity=".8"><circle cx="30" cy="118" r="4"/><circle cx="50" cy="108" r="7"/><circle cx="70" cy="114" r="5"/><circle cx="90" cy="102" r="9"/></g>
+        <text x="14" y="142" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">Size = area</text>
+
+        <text x="118" y="90" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Shape</text>
+        <line x1="120" y1="130" x2="204" y2="130" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><circle cx="134" cy="118" r="4"/><rect x="150" y="104" width="8" height="8"/><path d="M174,104 L179,114 L169,114 Z"/><path d="M192,108 l4,4 -4,4 -4,-4 z"/></g>
+        <text x="118" y="142" font-size="5" fill="#6d28d9" font-family="Inter, sans-serif">unlocks <tspan font-weight="700">Shape</tspan></text>
+
+        <text x="222" y="90" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Pie</text>
+        <circle cx="248" cy="114" r="18" fill="#4e79a7"/>
+        <path d="M248,114 L248,96 A18,18 0 0,1 264.5,105 Z" fill="#f28e2b"/>
+        <path d="M248,114 L264.5,105 A18,18 0 0,1 260,129 Z" fill="#59a14f"/>
+        <text x="222" y="142" font-size="5" fill="#6d28d9" font-family="Inter, sans-serif">unlocks <tspan font-weight="700">Angle</tspan></text>
+
+        <text x="326" y="90" font-size="6" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Gantt Bar</text>
+        <line x1="328" y1="130" x2="406" y2="130" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="334" y="100" width="26" height="7"/><rect x="348" y="110" width="34" height="7"/><rect x="366" y="120" width="22" height="7"/>
+        </g>
+        <text x="326" y="142" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">Size = length</text>
+      </svg>
+      <p class="figcap">The purple notes are the targets that appear <em>only</em> for that mark type. Everything else — Color, Size, Label, Detail, Tooltip — is on every card. <strong>Text, Map, Polygon and Density</strong> complete the list; Text swaps Label for a Text target, and Density drops Label and Shape entirely.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:8rem">Mark type</th><th>Extra target it unlocks</th><th>What Size does</th><th>Typical use</th></tr></thead>
@@ -378,6 +433,43 @@
   <section class="lcard" id="mk-disagg">
     <h2><span class="ic">🔬</span> Disaggregating — one mark per row</h2>
     <p>Everything so far assumes Tableau aggregates. There is a switch that stops it: <span class="mpath">Analysis <i>→</i> Aggregate Measures</span>, ticked by default. Untick it and the mark-count rule changes completely — you get <strong>one mark per row of the underlying data</strong>, regardless of what dimensions are in the view.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 132" role="img" aria-label="The same scatter plot aggregated to seventeen dots and disaggregated to a cloud of nearly ten thousand" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Aggregate Measures ON — 17 marks</text>
+        <line x1="16" y1="104" x2="186" y2="104" stroke="#cbd5e1"/><line x1="16" y1="22" x2="16" y2="104" stroke="#cbd5e1"/>
+        <g fill="#4a7dab" opacity=".85">
+          <circle cx="34" cy="94" r="4"/><circle cx="50" cy="86" r="4"/><circle cx="62" cy="90" r="4"/><circle cx="76" cy="76" r="4"/>
+          <circle cx="88" cy="82" r="4"/><circle cx="98" cy="68" r="4"/><circle cx="110" cy="72" r="4"/><circle cx="122" cy="58" r="4"/>
+          <circle cx="132" cy="64" r="4"/><circle cx="144" cy="48" r="4"/><circle cx="156" cy="54" r="4"/><circle cx="168" cy="36" r="4"/>
+          <circle cx="46" cy="98" r="4"/><circle cx="68" cy="98" r="4"/><circle cx="104" cy="88" r="4"/><circle cx="138" cy="80" r="4"/><circle cx="176" cy="44" r="4"/>
+        </g>
+        <text x="100" y="118" font-size="6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">one dot per sub-category — you see the totals</text>
+        <text x="100" y="127" font-size="5.6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">pills read SUM(Sales), SUM(Profit)</text>
+
+        <line x1="204" y1="14" x2="204" y2="124" stroke="#e2e8f0"/>
+
+        <text x="220" y="12" font-size="7.5" font-weight="700" fill="#b45309" font-family="Inter, sans-serif">Aggregate Measures OFF — 9,994 marks</text>
+        <line x1="226" y1="104" x2="404" y2="104" stroke="#cbd5e1"/><line x1="226" y1="22" x2="226" y2="104" stroke="#cbd5e1"/>
+        <g fill="#4a7dab" opacity=".35">
+          <circle cx="238" cy="98" r="2"/><circle cx="244" cy="94" r="2"/><circle cx="250" cy="99" r="2"/><circle cx="256" cy="92" r="2"/><circle cx="262" cy="97" r="2"/>
+          <circle cx="268" cy="90" r="2"/><circle cx="274" cy="96" r="2"/><circle cx="280" cy="88" r="2"/><circle cx="286" cy="94" r="2"/><circle cx="292" cy="99" r="2"/>
+          <circle cx="242" cy="88" r="2"/><circle cx="252" cy="84" r="2"/><circle cx="264" cy="82" r="2"/><circle cx="276" cy="80" r="2"/><circle cx="288" cy="86" r="2"/>
+          <circle cx="298" cy="92" r="2"/><circle cx="304" cy="86" r="2"/><circle cx="310" cy="95" r="2"/><circle cx="316" cy="80" r="2"/><circle cx="322" cy="90" r="2"/>
+          <circle cx="248" cy="76" r="2"/><circle cx="260" cy="72" r="2"/><circle cx="272" cy="70" r="2"/><circle cx="284" cy="74" r="2"/><circle cx="296" cy="68" r="2"/>
+          <circle cx="308" cy="72" r="2"/><circle cx="320" cy="66" r="2"/><circle cx="332" cy="76" r="2"/><circle cx="338" cy="84" r="2"/><circle cx="344" cy="92" r="2"/>
+          <circle cx="256" cy="64" r="2"/><circle cx="270" cy="58" r="2"/><circle cx="286" cy="60" r="2"/><circle cx="300" cy="54" r="2"/><circle cx="314" cy="58" r="2"/>
+          <circle cx="328" cy="52" r="2"/><circle cx="342" cy="60" r="2"/><circle cx="352" cy="70" r="2"/><circle cx="360" cy="82" r="2"/><circle cx="368" cy="90" r="2"/>
+          <circle cx="292" cy="44" r="2"/><circle cx="312" cy="40" r="2"/><circle cx="334" cy="42" r="2"/><circle cx="356" cy="48" r="2"/><circle cx="376" cy="56" r="2"/>
+          <circle cx="324" cy="30" r="2"/><circle cx="348" cy="34" r="2"/><circle cx="372" cy="38" r="2"/><circle cx="390" cy="46" r="2"/><circle cx="396" cy="62" r="2"/>
+        </g>
+        <circle cx="386" cy="26" r="3" fill="#c0392b"/>
+        <text x="380" y="24" font-size="5.2" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">outliers now visible</text>
+        <text x="315" y="118" font-size="6" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">one dot per order line — you see the spread</text>
+        <text x="315" y="127" font-size="5.6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">pills read Sales, Profit — no SUM()</text>
+      </svg>
+      <p class="figcap">The left chart's 17 dots are each an average of hundreds of orders. Aggregation is precisely the operation that hides the shape on the right — which is fine when you want totals and a problem when you're looking for outliers.</p>
+    </div>
 
     <div class="ba">
       <div class="ba-side">

@@ -325,6 +325,51 @@ Label:  [Region], <span class="f">SUM</span>([Sales])
     <h2><span class="ic">📶</span> Distributions — the charts that show spread, not averages</h2>
     <p>Bar charts show totals and averages, and both hide the thing that often matters most: whether the numbers behind them are consistent or wildly uneven. These four are how you find out.</p>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 148" role="img" aria-label="Two regions with identical average order values, shown as bars and then as distributions, revealing completely different shapes" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">✗ What the bar chart says</text>
+        <line x1="16" y1="66" x2="120" y2="66" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><rect x="34" y="30" width="26" height="36"/><rect x="76" y="30" width="26" height="36"/></g>
+        <g font-size="5.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif"><text x="47" y="74">East</text><text x="89" y="74">West</text></g>
+        <text x="68" y="88" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Average order: <tspan font-weight="700">$230</tspan> each</text>
+        <text x="68" y="99" font-size="6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">"the two regions are the same"</text>
+
+        <g stroke="#94a3b8" stroke-width="1.3" fill="none" marker-end="url(#ctD)"><line x1="130" y1="52" x2="156" y2="52"/></g>
+
+        <text x="164" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ What the distribution says</text>
+
+        <text x="164" y="26" font-size="5.6" fill="#475569" font-family="Inter, sans-serif">East</text>
+        <line x1="190" y1="42" x2="410" y2="42" stroke="#e2e8f0"/>
+        <g fill="#4a7dab" opacity=".55">
+          <circle cx="206" cy="36" r="2.6"/><circle cx="216" cy="40" r="2.6"/><circle cx="224" cy="34" r="2.6"/><circle cx="232" cy="39" r="2.6"/>
+          <circle cx="240" cy="36" r="2.6"/><circle cx="248" cy="41" r="2.6"/><circle cx="256" cy="35" r="2.6"/><circle cx="264" cy="38" r="2.6"/>
+          <circle cx="272" cy="36" r="2.6"/><circle cx="280" cy="40" r="2.6"/><circle cx="288" cy="34" r="2.6"/><circle cx="296" cy="38" r="2.6"/>
+        </g>
+        <rect x="212" y="30" width="76" height="14" fill="none" stroke="#334155" stroke-width="1.1"/>
+        <line x1="250" y1="30" x2="250" y2="44" stroke="#334155" stroke-width="1.4"/>
+        <line x1="200" y1="37" x2="212" y2="37" stroke="#334155"/><line x1="288" y1="37" x2="302" y2="37" stroke="#334155"/>
+        <text x="410" y="39" font-size="5.4" fill="#047857" text-anchor="end" font-family="Inter, sans-serif">tight — most orders are typical</text>
+        <text x="164" y="66" font-size="5.6" fill="#475569" font-family="Inter, sans-serif">West</text>
+        <line x1="190" y1="82" x2="410" y2="82" stroke="#e2e8f0"/>
+        <g fill="#4a7dab" opacity=".55">
+          <circle cx="198" cy="76" r="2.6"/><circle cx="202" cy="80" r="2.6"/><circle cx="206" cy="75" r="2.6"/><circle cx="210" cy="79" r="2.6"/>
+          <circle cx="214" cy="76" r="2.6"/><circle cx="218" cy="81" r="2.6"/><circle cx="222" cy="75" r="2.6"/><circle cx="226" cy="78" r="2.6"/>
+          <circle cx="232" cy="77" r="2.6"/><circle cx="238" cy="80" r="2.6"/>
+        </g>
+        <g fill="#c0392b"><circle cx="342" cy="78" r="3.2"/><circle cx="374" cy="76" r="3.2"/><circle cx="396" cy="79" r="3.2"/></g>
+        <rect x="202" y="70" width="34" height="14" fill="none" stroke="#334155" stroke-width="1.1"/>
+        <line x1="216" y1="70" x2="216" y2="84" stroke="#334155" stroke-width="1.4"/>
+        <line x1="194" y1="77" x2="202" y2="77" stroke="#334155"/><line x1="236" y1="77" x2="252" y2="77" stroke="#334155"/>
+        <text x="410" y="70" font-size="5.4" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">three enormous orders carrying the average</text>
+
+        <rect x="10" y="106" width="400" height="34" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="20" y="119" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">Identical averages, opposite realities. East is a steady business; West is three deals and a long tail.</text>
+        <text x="20" y="131" font-size="6.4" fill="#334155" font-family="Inter, sans-serif">Lose one West customer and the average collapses — which the bar chart gives you no way to see.</text>
+        <defs><marker id="ctD" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">A box plot draws the middle 50% as the box, the median as the line inside it, and anything past 1.5 × that range as its own dot. That last part is the whole point: outliers stop being absorbed into an average and become visible objects.</p>
+    </div>
+
     <div class="split">
       <div>
         <h3 style="margin-top:0">Histogram</h3>

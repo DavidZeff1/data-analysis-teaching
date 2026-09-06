@@ -568,6 +568,63 @@ Options:  ☑ Include today
     <h2><span class="ic">🙈</span> Hide vs filter — they are not the same thing</h2>
     <p>Right-click a header and there is a <strong>Hide</strong> option sitting next to Exclude. They look interchangeable and they are not: <strong>Exclude removes the data, Hide only removes the label</strong>. Everything downstream still sees the hidden rows.</p>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 178" role="img" aria-label="The same chart with a category excluded versus hidden, showing the grand total and the average line change in one case but not the other" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">START — four regions</text>
+        <line x1="10" y1="62" x2="128" y2="62" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="16" y="36" width="20" height="26"/><rect x="42" y="26" width="20" height="36"/>
+          <rect x="68" y="44" width="20" height="18"/><rect x="94" y="22" width="20" height="40"/>
+        </g>
+        <line x1="12" y1="35" x2="126" y2="35" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="128" y="33" font-size="4.8" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">avg 574K</text>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="26" y="69">Cen</text><text x="52" y="69">East</text><text x="78" y="69">Sth</text><text x="104" y="69">West</text>
+        </g>
+        <text x="10" y="84" font-size="6" fill="#334155" font-family="Inter, sans-serif">Grand total</text>
+        <text x="128" y="84" font-size="6.6" font-weight="700" fill="#0f172a" text-anchor="end" font-family="Inter, sans-serif">$2.30M</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#fiH)">
+          <path d="M136,44 L152,44 L152,20 L166,20"/><path d="M136,44 L152,44 L152,116 L166,116"/>
+        </g>
+
+        <text x="170" y="12" font-size="7.5" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">EXCLUDE South — the data goes</text>
+        <rect x="168" y="16" width="242" height="70" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+        <line x1="176" y1="70" x2="286" y2="70" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="182" y="44" width="20" height="26"/><rect x="208" y="34" width="20" height="36"/><rect x="234" y="30" width="20" height="40"/>
+        </g>
+        <line x1="178" y1="36" x2="284" y2="36" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="284" y="34" font-size="4.8" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">avg 635K</text>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="192" y="77">Cen</text><text x="218" y="77">East</text><text x="244" y="77">West</text>
+        </g>
+        <text x="296" y="34" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">Total <tspan font-weight="700">$1.91M</tspan> — fell</text>
+        <text x="296" y="46" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">Average line <tspan font-weight="700">moved</tspan></text>
+        <text x="296" y="58" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">% of total rescaled</text>
+        <text x="296" y="70" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">A pill appears on Filters</text>
+
+        <text x="170" y="108" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">HIDE South — only the label goes</text>
+        <rect x="168" y="112" width="242" height="70" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <line x1="176" y1="166" x2="286" y2="166" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="182" y="140" width="20" height="26"/><rect x="208" y="130" width="20" height="36"/><rect x="234" y="126" width="20" height="40"/>
+        </g>
+        <line x1="178" y1="139" x2="284" y2="139" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="284" y="137" font-size="4.8" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">avg 574K</text>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="192" y="173">Cen</text><text x="218" y="173">East</text><text x="244" y="173">West</text>
+        </g>
+        <text x="296" y="130" font-size="6" fill="#065f46" font-family="Inter, sans-serif">Total <tspan font-weight="700">$2.30M</tspan> — unchanged</text>
+        <text x="296" y="142" font-size="6" fill="#065f46" font-family="Inter, sans-serif">Average line <tspan font-weight="700">did not move</tspan></text>
+        <text x="296" y="154" font-size="6" fill="#065f46" font-family="Inter, sans-serif">% of total unchanged</text>
+        <text x="296" y="166" font-size="6" fill="#065f46" font-family="Inter, sans-serif">Nothing on screen says so</text>
+
+        <defs><marker id="fiH" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">Both charts show three bars. Only one of them still knows about the fourth — which is exactly why Hide is the right tool for a blank first period, and the wrong tool for anything you actually want excluded from the numbers.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:15rem">After you…</th><th style="text-align:center">Filter / Exclude</th><th style="text-align:center">Hide</th></tr></thead>

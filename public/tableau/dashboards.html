@@ -369,6 +369,53 @@
       </table>
     </div>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 170" role="img" aria-label="A selected mark carrying two fields, failing to match a target sheet under All Fields but matching under Selected Fields" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">THE MARK YOU CLICKED</text>
+        <rect x="10" y="18" width="98" height="46" rx="4" fill="#eef2ff" stroke="#c7d2fe"/>
+        <text x="18" y="32" font-size="6" fill="#4338ca" font-family="Inter, sans-serif">Region = West</text>
+        <text x="18" y="44" font-size="6" fill="#4338ca" font-family="Inter, sans-serif">Category = Tech</text>
+        <text x="18" y="57" font-size="5.2" fill="#94a3b8" font-family="Inter, sans-serif">it carries both, whether you meant it to or not</text>
+
+        <text x="128" y="12" font-size="7" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">ALL FIELDS</text>
+        <rect x="126" y="18" width="130" height="60" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="134" y="32" font-size="5.8" fill="#7f1d1d" font-family="Inter, sans-serif">Region → Region</text>
+        <text x="240" y="32" font-size="6.4" fill="#047857" text-anchor="end" font-family="Inter, sans-serif">✓</text>
+        <text x="134" y="46" font-size="5.8" fill="#7f1d1d" font-family="Inter, sans-serif">Category → Category</text>
+        <text x="240" y="46" font-size="6.4" fill="#b91c1c" text-anchor="end" font-family="Inter, sans-serif">✗</text>
+        <text x="134" y="60" font-size="5.2" fill="#b91c1c" font-family="Inter, sans-serif">target sheet has no Category field</text>
+        <text x="134" y="71" font-size="5.8" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">→ target goes blank</text>
+
+        <text x="276" y="12" font-size="7" font-weight="700" fill="#047857" font-family="Inter, sans-serif">SELECTED FIELDS</text>
+        <rect x="274" y="18" width="136" height="60" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="282" y="32" font-size="5.8" fill="#065f46" font-family="Inter, sans-serif">Region → Sales Region</text>
+        <text x="396" y="32" font-size="6.4" fill="#047857" text-anchor="end" font-family="Inter, sans-serif">✓</text>
+        <text x="282" y="46" font-size="5.8" fill="#94a3b8" font-family="Inter, sans-serif">Category — not passed</text>
+        <text x="282" y="60" font-size="5.2" fill="#047857" font-family="Inter, sans-serif">you name the pairing, so names can differ</text>
+        <text x="282" y="71" font-size="5.8" font-weight="700" fill="#047857" font-family="Inter, sans-serif">→ target filters to West</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#dbAc)">
+          <line x1="112" y1="34" x2="122" y2="30"/><line x1="112" y1="48" x2="270" y2="46"/>
+        </g>
+
+        <text x="10" y="96" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">WHAT THE TARGET SHEET SHOWS</text>
+        <rect x="10" y="102" width="190" height="56" rx="4" fill="#fff" stroke="#fecaca"/>
+        <line x1="24" y1="146" x2="186" y2="146" stroke="#cbd5e1"/>
+        <text x="105" y="128" font-size="6.4" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">no marks match — empty</text>
+        <text x="105" y="155" font-size="5.2" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">looks broken, reports no error</text>
+
+        <rect x="220" y="102" width="190" height="56" rx="4" fill="#fff" stroke="#a7f3d0"/>
+        <line x1="234" y1="146" x2="396" y2="146" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="244" y="120" width="26" height="26"/><rect x="282" y="112" width="26" height="34"/><rect x="320" y="128" width="26" height="18"/>
+        </g>
+        <text x="315" y="155" font-size="5.2" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">West's months, as intended</text>
+
+        <defs><marker id="dbAc" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">A mark carries every dimension in its own view, not just the one you were thinking about. <strong>All Fields</strong> insists the target match all of them; <strong>Selected Fields</strong> lets you pass one and map it by hand.</p>
+    </div>
+
     <div class="callout danger" style="margin-top:.65rem">
       <div class="callout-title">All Fields vs Selected Fields — the reason an action "does nothing"</div>
       <p><strong>All Fields</strong> passes every dimension in the selected mark to the target, and the target filters on all of them. If the source mark carries Region <em>and</em> Category but the target sheet has no Category, the match fails and you get an empty chart or no reaction at all.</p>

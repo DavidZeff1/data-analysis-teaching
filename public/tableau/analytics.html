@@ -99,6 +99,73 @@
 
     <h3 style="margin-top:1.1rem">Why an item is greyed out</h3>
     <p class="muted">Almost everything in this pane needs a <strong>continuous axis</strong> to attach to, because it draws at a numeric position. A chart made entirely of discrete headers has nowhere to put a line. This is the same blue/green rule that governs sorting and filter dialogs — see <a href="#tableau/interface">what blue and green gate</a>.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 176" role="img" aria-label="The Analytics pane shown twice, mostly greyed out beside a crosstab and fully available beside a bar chart with a continuous axis" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7.5" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">A crosstab — no continuous axis anywhere</text>
+        <g stroke="#e2e8f0" fill="#fff">
+          <rect x="12" y="20" width="46" height="13"/><rect x="58" y="20" width="34" height="13"/><rect x="92" y="20" width="34" height="13"/>
+          <rect x="12" y="33" width="46" height="13"/><rect x="58" y="33" width="34" height="13"/><rect x="92" y="33" width="34" height="13"/>
+          <rect x="12" y="46" width="46" height="13"/><rect x="58" y="46" width="34" height="13"/><rect x="92" y="46" width="34" height="13"/>
+        </g>
+        <g font-size="4.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="35" y="29">Region</text><text x="75" y="29">Furn</text><text x="109" y="29">Tech</text>
+          <text x="35" y="42">East</text><text x="75" y="42">208K</text><text x="109" y="42">265K</text>
+          <text x="35" y="55">West</text><text x="75" y="55">253K</text><text x="109" y="55">252K</text>
+        </g>
+        <text x="12" y="70" font-size="5.4" fill="#b91c1c" font-family="Inter, sans-serif">Text marks. Every pill is blue.</text>
+
+        <rect x="136" y="20" width="66" height="128" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <text x="142" y="30" font-size="5.4" font-weight="700" fill="#475569" font-family="Inter, sans-serif">Analytics</text>
+        <line x1="136" y1="34" x2="202" y2="34" stroke="#e2e8f0"/>
+        <g font-size="5.4" font-family="Inter, sans-serif">
+          <text x="142" y="45" fill="#cbd5e1">Constant Line</text>
+          <text x="142" y="57" fill="#cbd5e1">Average Line</text>
+          <text x="142" y="69" fill="#cbd5e1">Median w/ Quartiles</text>
+          <text x="142" y="81" fill="#cbd5e1">Box Plot</text>
+          <text x="142" y="93" fill="#0f172a">Totals</text>
+          <text x="142" y="105" fill="#cbd5e1">Distribution Band</text>
+          <text x="142" y="117" fill="#cbd5e1">Trend Line</text>
+          <text x="142" y="129" fill="#cbd5e1">Forecast</text>
+          <text x="142" y="141" fill="#cbd5e1">Cluster</text>
+        </g>
+        <text x="206" y="93" font-size="5" fill="#047857" font-family="Inter, sans-serif">← only Totals, because</text>
+        <text x="206" y="101" font-size="5" fill="#047857" font-family="Inter, sans-serif">   there are headers to total</text>
+
+        <line x1="248" y1="14" x2="248" y2="160" stroke="#e2e8f0"/>
+
+        <text x="258" y="12" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Same data, one green pill on Rows</text>
+        <line x1="264" y1="62" x2="330" y2="62" stroke="#94a3b8"/>
+        <line x1="264" y1="20" x2="264" y2="62" stroke="#94a3b8"/>
+        <g fill="#4a7dab"><rect x="272" y="34" width="14" height="28"/><rect x="292" y="26" width="14" height="36"/><rect x="312" y="42" width="14" height="20"/></g>
+        <line x1="266" y1="34" x2="330" y2="34" stroke="#c0392b" stroke-width="1.1" stroke-dasharray="3 2"/>
+        <text x="258" y="76" font-size="5.4" fill="#047857" font-family="Inter, sans-serif">SUM(Sales) makes an axis.</text>
+
+        <rect x="344" y="20" width="66" height="128" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <text x="350" y="30" font-size="5.4" font-weight="700" fill="#475569" font-family="Inter, sans-serif">Analytics</text>
+        <line x1="344" y1="34" x2="410" y2="34" stroke="#e2e8f0"/>
+        <g font-size="5.4" font-family="Inter, sans-serif">
+          <text x="350" y="45" fill="#0f172a">Constant Line</text>
+          <text x="350" y="57" fill="#0f172a">Average Line</text>
+          <text x="350" y="69" fill="#0f172a">Median w/ Quartiles</text>
+          <text x="350" y="81" fill="#0f172a">Box Plot</text>
+          <text x="350" y="93" fill="#0f172a">Totals</text>
+          <text x="350" y="105" fill="#0f172a">Distribution Band</text>
+          <text x="350" y="117" fill="#cbd5e1">Trend Line</text>
+          <text x="350" y="129" fill="#cbd5e1">Forecast</text>
+          <text x="350" y="141" fill="#cbd5e1">Cluster</text>
+        </g>
+        <text x="258" y="117" font-size="5" fill="#b45309" font-family="Inter, sans-serif">Trend and Forecast still need</text>
+        <text x="258" y="125" font-size="5" fill="#b45309" font-family="Inter, sans-serif">a second continuous axis</text>
+        <text x="258" y="133" font-size="5" fill="#b45309" font-family="Inter, sans-serif">or a date — a text category</text>
+        <text x="258" y="141" font-size="5" fill="#b45309" font-family="Inter, sans-serif">has no order to fit a line to.</text>
+
+        <rect x="10" y="156" width="400" height="16" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="210" y="166.5" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">The pane doesn't change. What changes is whether your view has somewhere to put a line.</text>
+      </svg>
+      <p class="figcap">Nothing here is a setting you've missed. Adding one green pill to Rows switches six of the nine items on — and adding a date would switch on the rest.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:12rem">Item</th><th>Needs</th><th>If it's unavailable</th></tr></thead>

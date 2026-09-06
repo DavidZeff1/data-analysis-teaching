@@ -286,6 +286,81 @@
 
     <h3 style="margin-top:1.2rem">The two switches are independent — all four combinations exist</h3>
     <p class="muted">Dimension/measure and discrete/continuous are separate properties. Most fields sit in the two obvious corners, which is why they look like one rule — but the other two corners are real, useful, and the source of a lot of confusion when you meet them by accident.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 222" role="img" aria-label="A two-by-two matrix of dimension versus measure and discrete versus continuous, each cell showing the chart that combination produces" style="width:100%;height:auto">
+        <rect x="78" y="8" width="164" height="15" rx="3" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="160" y="18.5" font-size="7" font-weight="700" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">DISCRETE · blue</text>
+        <rect x="248" y="8" width="164" height="15" rx="3" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="330" y="18.5" font-size="7" font-weight="700" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">CONTINUOUS · green</text>
+
+        <rect x="8" y="29" width="62" height="88" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="39" y="68" font-size="7" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">DIMENSION</text>
+        <text x="39" y="79" font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">not aggregated</text>
+        <rect x="8" y="123" width="62" height="88" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="39" y="162" font-size="7" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">MEASURE</text>
+        <text x="39" y="173" font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">aggregated</text>
+
+        <rect x="78" y="29" width="164" height="88" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <rect x="86" y="35" width="44" height="9" rx="4.5" fill="#4a7dab"/>
+        <text x="108" y="41.7" font-size="5" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+        <line x1="90" y1="96" x2="234" y2="96" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="98" y="66" width="22" height="30"/><rect x="130" y="58" width="22" height="38"/>
+          <rect x="162" y="74" width="22" height="22"/><rect x="194" y="54" width="22" height="42"/>
+        </g>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="109" y="103">Central</text><text x="141" y="103">East</text><text x="173" y="103">South</text><text x="205" y="103">West</text>
+        </g>
+        <text x="160" y="112" font-size="5.6" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">headers — one pane per member</text>
+
+        <rect x="248" y="29" width="164" height="88" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <rect x="256" y="35" width="72" height="9" rx="4.5" fill="#5b9450"/>
+        <text x="292" y="41.7" font-size="5" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">MONTH(Order Date)</text>
+        <line x1="260" y1="96" x2="404" y2="96" stroke="#cbd5e1"/>
+        <polyline points="264,88 288,80 312,84 336,70 360,74 384,58 402,52" fill="none" stroke="#5b9450" stroke-width="2" stroke-linejoin="round"/>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="276" y="103">2014</text><text x="312" y="103">2015</text><text x="348" y="103">2016</text><text x="384" y="103">2017</text>
+        </g>
+        <text x="330" y="112" font-size="5.6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">one unbroken axis — a real timeline</text>
+
+        <rect x="78" y="123" width="164" height="88" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <rect x="86" y="129" width="54" height="9" rx="4.5" fill="#4a7dab"/>
+        <text x="113" y="135.7" font-size="5" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <g stroke="#e2e8f0" fill="#f8fafc">
+          <rect x="94" y="148" width="60" height="13"/><rect x="94" y="161" width="60" height="13"/>
+          <rect x="94" y="174" width="60" height="13"/><rect x="94" y="187" width="60" height="13"/>
+        </g>
+        <g font-size="5.2" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="149" y="157">501,240</text><text x="149" y="170">678,781</text>
+          <text x="149" y="183">391,722</text><text x="149" y="196">725,458</text>
+        </g>
+        <text x="164" y="160" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">each distinct</text>
+        <text x="164" y="169" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">total becomes</text>
+        <text x="164" y="178" font-size="5" fill="#94a3b8" font-family="Inter, sans-serif">its own header</text>
+        <text x="160" y="206" font-size="5.6" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">headers made of numbers — text tables</text>
+
+        <rect x="248" y="123" width="164" height="88" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <rect x="256" y="129" width="54" height="9" rx="4.5" fill="#5b9450"/>
+        <text x="283" y="135.7" font-size="5" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <line x1="286" y1="146" x2="286" y2="192" stroke="#94a3b8"/>
+        <line x1="286" y1="192" x2="404" y2="192" stroke="#94a3b8"/>
+        <g stroke="#94a3b8">
+          <line x1="282" y1="146" x2="286" y2="146"/><line x1="282" y1="161" x2="286" y2="161"/>
+          <line x1="282" y1="177" x2="286" y2="177"/><line x1="282" y1="192" x2="286" y2="192"/>
+        </g>
+        <g font-size="4.4" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="280" y="148">800K</text><text x="280" y="163">500K</text><text x="280" y="179">200K</text><text x="280" y="194">0</text>
+        </g>
+        <g fill="#5b9450">
+          <rect x="296" y="164" width="22" height="28"/><rect x="328" y="156" width="22" height="36"/>
+          <rect x="360" y="172" width="22" height="20"/>
+        </g>
+        <text x="330" y="206" font-size="5.6" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">an axis — the thing bars stretch along</text>
+      </svg>
+      <p class="figcap">The same field can occupy any of these four boxes. Moving it left or right changes how it's <em>drawn</em>; moving it up or down changes whether it's <em>aggregated</em>. They are two independent switches, and each fixes a different problem.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:8rem"></th><th><span class="pill dim sm">Discrete</span> — blue</th><th><span class="pill msr sm">Continuous</span> — green</th></tr></thead>
@@ -311,6 +386,63 @@
   <section class="lcard" id="if-gates">
     <h2><span class="ic">🚦</span> What blue and green actually gate</h2>
     <p>Discrete versus continuous is not a formatting preference. It decides which menus exist, which dialogs open, and which features are greyed out — and Tableau almost never explains why something isn't available. This table is the answer to most of those moments.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 196" role="img" aria-label="Two right-click menus side by side, one for a blue discrete pill and one for a green continuous pill, showing which items are greyed out in each" style="width:100%;height:auto">
+        <rect x="14" y="8" width="60" height="11" rx="5.5" fill="#4a7dab"/>
+        <text x="44" y="16" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Region</text>
+        <text x="82" y="16" font-size="6" fill="#1d4ed8" font-family="Inter, sans-serif">discrete pill</text>
+        <rect x="14" y="24" width="176" height="140" rx="4" fill="#fff" stroke="#cbd5e1"/>
+        <g font-size="6.2" font-family="Inter, sans-serif">
+          <text x="34" y="38" fill="#0f172a">Filter…</text>
+          <text x="150" y="38" fill="#94a3b8" text-anchor="end">a tick list</text>
+          <text x="34" y="54" fill="#0f172a">Show Filter</text>
+          <text x="34" y="70" fill="#0f172a">Sort…</text>
+          <text x="34" y="86" fill="#cbd5e1">Edit Axis…</text>
+          <text x="34" y="102" fill="#0f172a">Create → Group / Set / Hierarchy</text>
+          <text x="34" y="118" fill="#0f172a">Show Missing Values</text>
+          <text x="34" y="134" fill="#0f172a">Aliases…</text>
+          <text x="34" y="150" fill="#0f172a">Hide</text>
+        </g>
+        <g font-size="6.4" font-family="Inter, sans-serif">
+          <text x="24" y="38" fill="#047857">✓</text><text x="24" y="54" fill="#047857">✓</text>
+          <text x="24" y="70" fill="#047857">✓</text><text x="24" y="86" fill="#cbd5e1">✗</text>
+          <text x="24" y="102" fill="#047857">✓</text><text x="24" y="118" fill="#047857">✓</text>
+          <text x="24" y="134" fill="#047857">✓</text><text x="24" y="150" fill="#047857">✓</text>
+        </g>
+        <line x1="14" y1="76" x2="190" y2="76" stroke="#f1f5f9"/>
+        <line x1="14" y1="92" x2="190" y2="92" stroke="#f1f5f9"/>
+
+        <rect x="230" y="8" width="72" height="11" rx="5.5" fill="#5b9450"/>
+        <text x="266" y="16" font-size="5.6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">SUM(Sales)</text>
+        <text x="310" y="16" font-size="6" fill="#047857" font-family="Inter, sans-serif">continuous pill</text>
+        <rect x="230" y="24" width="176" height="140" rx="4" fill="#fff" stroke="#cbd5e1"/>
+        <g font-size="6.2" font-family="Inter, sans-serif">
+          <text x="250" y="38" fill="#0f172a">Filter…</text>
+          <text x="366" y="38" fill="#94a3b8" text-anchor="end">a slider</text>
+          <text x="250" y="54" fill="#0f172a">Show Filter</text>
+          <text x="250" y="70" fill="#cbd5e1">Sort…</text>
+          <text x="250" y="86" fill="#0f172a">Edit Axis…</text>
+          <text x="250" y="102" fill="#cbd5e1">Create → Group / Set / Hierarchy</text>
+          <text x="250" y="118" fill="#cbd5e1">Show Missing Values</text>
+          <text x="250" y="134" fill="#cbd5e1">Aliases…</text>
+          <text x="250" y="150" fill="#cbd5e1">Hide</text>
+        </g>
+        <g font-size="6.4" font-family="Inter, sans-serif">
+          <text x="240" y="38" fill="#047857">✓</text><text x="240" y="54" fill="#047857">✓</text>
+          <text x="240" y="70" fill="#cbd5e1">✗</text><text x="240" y="86" fill="#047857">✓</text>
+          <text x="240" y="102" fill="#cbd5e1">✗</text><text x="240" y="118" fill="#cbd5e1">✗</text>
+          <text x="240" y="134" fill="#cbd5e1">✗</text><text x="240" y="150" fill="#cbd5e1">✗</text>
+        </g>
+        <line x1="230" y1="76" x2="406" y2="76" stroke="#f1f5f9"/>
+        <line x1="230" y1="92" x2="406" y2="92" stroke="#f1f5f9"/>
+
+        <rect x="14" y="172" width="392" height="18" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="210" y="183.5" font-size="6.4" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Nearly a perfect mirror. Sorting, grouping and hiding are discrete-only; Edit Axis is continuous-only.</text>
+      </svg>
+      <p class="figcap">Grey means the menu item isn't there. Before hunting for a setting, look at the pill: <strong>half of Tableau's menus are decided by its colour</strong>.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:12rem">Behaviour</th><th><span class="pill dim sm">Discrete</span> — blue</th><th><span class="pill msr sm">Continuous</span> — green</th></tr></thead>
@@ -377,6 +509,81 @@
   <section class="lcard" id="if-dates">
     <h2><span class="ic">📅</span> Dates in depth — one field, a dozen pills</h2>
     <p>A date is the only field that offers you a whole menu when you right-click it, and the menu has two halves that use the same words. Knowing which half you are in is most of what there is to know about dates in Tableau.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 210" role="img" aria-label="The right-click menu on a date pill, showing an upper blue half of date parts and a lower green half of date values, with what each produces" style="width:100%;height:auto">
+        <rect x="10" y="8" width="150" height="192" rx="4" fill="#fff" stroke="#94a3b8"/>
+
+        <rect x="10" y="8" width="150" height="14" rx="4" fill="#f1f5f9"/>
+        <rect x="10" y="16" width="150" height="6" fill="#f1f5f9"/>
+        <text x="18" y="18.5" font-size="5.6" fill="#475569" font-family="Inter, sans-serif">right-click [Order Date]</text>
+
+        <rect x="12" y="26" width="146" height="72" fill="#eff6ff"/>
+        <text x="18" y="35" font-size="5.4" font-weight="700" fill="#1d4ed8" font-family="Inter, sans-serif">DATE PARTS — blue, discrete</text>
+        <g font-size="6.2" fill="#1d4ed8" font-family="Inter, sans-serif">
+          <text x="22" y="47">Year</text><text x="22" y="59">Quarter</text>
+          <text x="22" y="71">Month</text><text x="22" y="83">Day</text><text x="22" y="94">More ▸</text>
+        </g>
+        <g font-size="5.4" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="152" y="47">2015</text><text x="152" y="59">Q2</text>
+          <text x="152" y="71">May</text><text x="152" y="83">8</text>
+        </g>
+
+        <line x1="12" y1="100" x2="158" y2="100" stroke="#cbd5e1"/>
+
+        <rect x="12" y="102" width="146" height="72" fill="#ecfdf5"/>
+        <text x="18" y="111" font-size="5.4" font-weight="700" fill="#047857" font-family="Inter, sans-serif">DATE VALUES — green, continuous</text>
+        <g font-size="6.2" fill="#047857" font-family="Inter, sans-serif">
+          <text x="22" y="123">Year</text><text x="22" y="135">Quarter</text>
+          <text x="22" y="147">Month</text><text x="22" y="159">Day</text><text x="22" y="170">More ▸</text>
+        </g>
+        <g font-size="5.4" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="152" y="123">2015</text><text x="152" y="135">Q2 2015</text>
+          <text x="152" y="147">May 2015</text><text x="152" y="159">8 May 2015</text>
+        </g>
+
+        <line x1="12" y1="176" x2="158" y2="176" stroke="#cbd5e1"/>
+        <text x="22" y="188" font-size="6.2" fill="#334155" font-family="Inter, sans-serif">Exact Date</text>
+        <text x="152" y="188" font-size="5.4" fill="#64748b" text-anchor="end" font-family="Inter, sans-serif">every timestamp</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#ifDt)">
+          <line x1="164" y1="62" x2="188" y2="62"/><line x1="164" y1="138" x2="188" y2="138"/>
+        </g>
+
+        <rect x="192" y="26" width="216" height="72" rx="3" fill="#fff" stroke="#bfdbfe"/>
+        <text x="200" y="37" font-size="6" font-weight="700" fill="#1d4ed8" font-family="Inter, sans-serif">Pick "Month" here → 12 headers</text>
+        <line x1="200" y1="84" x2="400" y2="84" stroke="#cbd5e1"/>
+        <g fill="#4a7dab">
+          <rect x="204" y="66" width="12" height="18"/><rect x="220" y="70" width="12" height="14"/><rect x="236" y="60" width="12" height="24"/>
+          <rect x="252" y="62" width="12" height="22"/><rect x="268" y="58" width="12" height="26"/><rect x="284" y="52" width="12" height="32"/>
+          <rect x="300" y="56" width="12" height="28"/><rect x="316" y="50" width="12" height="34"/><rect x="332" y="42" width="12" height="42"/>
+          <rect x="348" y="46" width="12" height="38"/><rect x="364" y="38" width="12" height="46"/><rect x="380" y="44" width="12" height="40"/>
+        </g>
+        <g font-size="4.2" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="210" y="91">J</text><text x="226" y="91">F</text><text x="242" y="91">M</text><text x="258" y="91">A</text>
+          <text x="274" y="91">M</text><text x="290" y="91">J</text><text x="306" y="91">J</text><text x="322" y="91">A</text>
+          <text x="338" y="91">S</text><text x="354" y="91">O</text><text x="370" y="91">N</text><text x="386" y="91">D</text>
+        </g>
+        <text x="300" y="96.5" font-size="5.4" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">all four years pooled into each month — seasonality</text>
+
+        <rect x="192" y="102" width="216" height="72" rx="3" fill="#fff" stroke="#a7f3d0"/>
+        <text x="200" y="113" font-size="6" font-weight="700" fill="#047857" font-family="Inter, sans-serif">Pick "Month" here → one 48-point axis</text>
+        <line x1="200" y1="160" x2="400" y2="160" stroke="#cbd5e1"/>
+        <polyline points="204,152 228,146 252,150 276,138 300,142 324,128 348,132 372,118 396,112"
+                  fill="none" stroke="#5b9450" stroke-width="2" stroke-linejoin="round"/>
+        <g font-size="4.2" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="228" y="167">2014</text><text x="276" y="167">2015</text><text x="324" y="167">2016</text><text x="372" y="167">2017</text>
+        </g>
+        <text x="300" y="172.5" font-size="5.4" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">every month distinct, in order — trend</text>
+
+        <rect x="192" y="180" width="216" height="20" rx="3" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="300" y="188" font-size="5.6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">Both menu items say the word "Month".</text>
+        <text x="300" y="196" font-size="5.6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">Nothing on the finished chart tells the reader which you picked.</text>
+
+        <defs><marker id="ifDt" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">The menu really does list the same five words twice. The top block extracts a <em>component</em>; the bottom block rounds the date <em>down</em> and keeps it a date. The right-hand column of the menu previews what one date — 8 May 2015 — becomes in each case.</p>
+    </div>
 
     <div class="split">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
