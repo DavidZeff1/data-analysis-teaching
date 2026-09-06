@@ -17,6 +17,7 @@
     <a href="#tc-direction">Compute Using</a>
     <a href="#tc-addr">Addressing vs partitioning</a>
     <a href="#tc-dialog">The full dialog</a>
+    <a href="#tc-denom">Percent of <em>what?</em></a>
     <a href="#tc-common">The common ones</a>
     <a href="#tc-writing">Writing them by hand</a>
     <a href="#tc-window">Window functions</a>
@@ -380,6 +381,102 @@
     </div>
   </section>
 
+  <section class="lcard" id="tc-denom">
+    <h2><span class="ic">➗</span> Percent of <em>what?</em> — choosing the denominator</h2>
+    <p>Percent of Total is the calculation people reach for first and get wrong most often, and the reason is that <strong>"percent" is only half a question</strong>. Every ratio is "X out of Y", and Tableau can work out the numerator without your help. Y is the entire decision — and nothing on the finished chart records which Y you picked.</p>
+
+    <p class="muted">A deliberately tiny table — not Superstore — so every number below can be checked in your head.</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th></th><th class="num">Male</th><th class="num">Female</th><th class="num">Row total</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bachelor's</strong></td><td class="num">400</td><td class="num">300</td><td class="num">700</td></tr>
+          <tr><td><strong>Master's</strong></td><td class="num">100</td><td class="num">200</td><td class="num">300</td></tr>
+          <tr><td><strong>Column total</strong></td><td class="num">500</td><td class="num">500</td><td class="num">1,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:1.1rem">Three correct answers to "what percentage is this?"</h3>
+    <div class="ba" style="align-items:stretch">
+      <div class="ba-side">
+        <div class="ba-h">Of the whole table</div>
+        <table>
+          <tr><th></th><th>M</th><th>F</th></tr>
+          <tr><td>Bach.</td><td>40%</td><td>30%</td></tr>
+          <tr><td>Mast.</td><td>10%</td><td>20%</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Denominator 1,000. <strong>All four cells</strong> sum to 100%. "What share of everyone is this box?"</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Within each Education</div>
+        <table>
+          <tr><th></th><th>M</th><th>F</th></tr>
+          <tr><td>Bach.</td><td>57.1%</td><td>42.9%</td></tr>
+          <tr><td>Mast.</td><td>33.3%</td><td>66.7%</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Denominators 700 and 300. <strong>Each row</strong> sums to 100%. "Of the Bachelor's, how many are male?"</p>
+      </div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-side after">
+        <div class="ba-h">Within each Gender</div>
+        <table>
+          <tr><th></th><th>M</th><th>F</th></tr>
+          <tr><td>Bach.</td><td>80%</td><td>60%</td></tr>
+          <tr><td>Mast.</td><td>20%</td><td>40%</td></tr>
+        </table>
+        <p class="muted" style="margin:.4rem 0 0;font-size:.8rem">Denominators 500 and 500. <strong>Each column</strong> sums to 100%. "Of the males, how many have a Bachelor's?"</p>
+      </div>
+    </div>
+    <p class="figcap">Same four numbers, same formula, three different questions. Two of these are wrong for whatever you are actually asking — and the chart looks equally convincing in all three cases.</p>
+
+    <div class="callout" style="margin:.75rem 0">
+      <div class="callout-title">The rule, in one line</div>
+      <p>In <strong>Specific Dimensions</strong>: a <strong>ticked</strong> dimension is <em>swept into the denominator</em>. An <strong>unticked</strong> dimension is your <em>"within"</em>.</p>
+      <p style="margin-top:.4rem">"Percent within Education" therefore means <strong>tick Gender, untick Education</strong> — add up across the genders, hold the education fixed. It is the same addressing-versus-partitioning switch as <a href="#tc-addr">the section above</a>; here the partition <em>is</em> the denominator.</p>
+    </div>
+
+    <h3 style="margin-top:1rem">Why this is really conditional proportion</h3>
+    <p>What makes percentages confusing isn't Tableau — it's that the word "percentage" quietly hides a second variable. Written out, the three answers above are three different conditional proportions:</p>
+    <div class="scrollx">
+      <table class="ltable">
+        <thead><tr><th style="width:15rem">Question</th><th>In symbols</th><th>Left unticked — the "given"</th></tr></thead>
+        <tbody>
+          <tr><td>Share of everyone</td><td><code>P(Bachelor's and Male)</code></td><td>nothing</td></tr>
+          <tr><td>Of the Bachelor's, share male</td><td><code>P(Male | Bachelor's)</code></td><td>Education</td></tr>
+          <tr><td>Of the males, share Bachelor's</td><td><code>P(Bachelor's | Male)</code></td><td>Gender</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:.6rem">The bar in <code>P(A | B)</code> reads as "given", and the definition is <code>P(A and B) ÷ P(B)</code> — so <strong>whatever sits after the bar is the denominator</strong>. That is exactly the field you leave unticked. Note too that the last two rows are not interchangeable: 57.1% and 80% are both true statements about the same 400 people, and swapping one for the other is a real analytical error rather than a rounding difference.</p>
+
+    <div class="callout ok" style="margin-top:.65rem">
+      <div class="callout-title">Say it out loud before you build it</div>
+      <p>Phrase the number as <strong>"X out of Y"</strong> and name Y explicitly. "Male out of Bachelor's graduates." "Bachelor's out of males." "Bachelor's out of everyone." Once Y has a name the setup is mechanical: <strong>Y is what you leave unticked</strong>, and Y is what must sum to 100%.</p>
+      <p style="margin-top:.4rem">Then check it — add up a row, add up a column. Whichever direction you meant should come to exactly 100%. If nothing does, the Compute Using is wrong. Five seconds, and it catches almost every mistake in this section.</p>
+    </div>
+
+    <div class="callout warn" style="margin-top:.5rem">
+      <div class="callout-title">Changing the function does not change the denominator</div>
+<pre style="margin:.4rem 0"><span class="c">// Equivalent within a partition — swapping one for</span>
+<span class="c">// the other fixes nothing.</span>
+<span class="f">COUNT</span>([Education]) / <span class="f">TOTAL</span>(<span class="f">COUNT</span>([Education]))
+<span class="f">COUNT</span>([Education]) / <span class="f">WINDOW_SUM</span>(<span class="f">COUNT</span>([Education]))</pre>
+      <p><code>TOTAL</code> and <code>WINDOW_SUM</code> both operate over the current partition, so with the same Compute Using they return the same number. When a percentage is measured against the wrong group the formula is not the problem — <strong>the partitioning is</strong>. Open Edit Table Calculation and change what's ticked.</p>
+      <p style="margin-top:.4rem">The same goes for the Quick Table Calculation. <em>Percent of Total</em> has to guess a direction from your layout, so treat it as a starting point and set the dimensions explicitly afterwards.</p>
+    </div>
+
+    <div class="callout tip" style="margin-top:.5rem">
+      <div class="callout-title">When the denominator isn't in the view — or shouldn't move</div>
+      <p>A table calculation can only divide by numbers that are on screen. Two cases break that, and both are jobs for an <a href="#tableau/lod">LOD expression</a>:</p>
+      <ul style="margin:.35rem 0 0;font-size:.88rem;padding-left:1.1rem">
+        <li><strong>The denominator is at a grain you aren't showing.</strong> "Each sub-category as a share of its <em>region</em>" in a view with no Region on it — <code>SUM([Sales]) / MIN({FIXED [Region] : SUM([Sales])})</code>.</li>
+        <li><strong>The denominator must survive filtering.</strong> A table calc's percentages re-scale to sum to 100% across whatever the viewer left; <code>{FIXED : SUM([Sales])}</code> keeps measuring against the whole company. Which is right depends on whether you mean "share of the selection" or "share of the business" — and it's worth saying which in the title.</li>
+      </ul>
+    </div>
+  </section>
+
   <section class="lcard" id="tc-common">
     <h2><span class="ic">🧰</span> The ones you'll actually use</h2>
     <div class="scrollx">
@@ -706,6 +803,9 @@
       <li><strong>The △ on a pill</strong> means a table calc is applied — always check for it</li>
       <li><strong>Always wrap an aggregate</strong> — <code>SUM([Sales])</code>, never bare <code>[Sales]</code></li>
       <li><strong>Ask what should total 100%</strong> — then verify it does</li>
+      <li><strong>"Percent" is half a question</strong> — always name the denominator out loud</li>
+      <li><strong>Unticked dimensions are the "within"</strong>; ticked ones get summed into the denominator</li>
+      <li><strong>TOTAL and WINDOW_SUM don't differ here</strong> — the partitioning is the lever</li>
       <li><strong>Ticked = walks along, unticked = starts over</strong> — that's the whole configuration</li>
       <li><strong>Specific Dimensions beats Table (across)</strong> — it survives layout changes</li>
       <li><strong>Restarting every</strong> is how a running total becomes year-to-date</li>
@@ -722,6 +822,7 @@
       <li>Build Sales by Month, then add a <strong>Running Total</strong></li>
       <li>Build Sales by Region and add <strong>Percent of Total</strong> — verify it sums to 100%</li>
       <li>Build a Region × Category table and switch Percent of Total between <strong>across and down</strong>; explain in one sentence what each answers</li>
+      <li>On that same table produce all <strong>three</strong> denominators — whole table, within Region, within Category — writing the "X out of Y" sentence for each <em>before</em> checking which direction sums to 100%</li>
       <li>Build Sales by Year and add <strong>Percent Difference</strong> for year-over-year growth</li>
       <li><strong>Rank</strong> Sub-Categories by Profit, and try all three RANK variants on tied values</li>
       <li>Add a <strong>3-month moving average</strong> to a monthly sales line, keeping the raw line visible</li>
