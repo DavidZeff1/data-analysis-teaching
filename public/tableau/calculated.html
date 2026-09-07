@@ -448,6 +448,64 @@
 
   <section class="lcard" id="ca-dates">
     <h2><span class="ic">📅</span> Date calculations</h2>
+    <p>Every date function does one of three things: <strong>pull a piece out</strong>, <strong>round down</strong>, or <strong>move along the line</strong>. Once you can see which of the three a function is doing, the whole family stops needing to be memorised.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 190" role="img" aria-label="A 2017 timeline with one order date marked, showing what each date function extracts, truncates or shifts it to" style="width:100%;height:auto">
+        <line x1="20" y1="60" x2="400" y2="60" stroke="#94a3b8" stroke-width="1.4"/>
+        <g stroke="#cbd5e1">
+          <line x1="20" y1="55" x2="20" y2="65"/><line x1="115" y1="55" x2="115" y2="65"/>
+          <line x1="210" y1="55" x2="210" y2="65"/><line x1="305" y1="55" x2="305" y2="65"/><line x1="400" y1="55" x2="400" y2="65"/>
+        </g>
+        <g font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="67" y="73">Q1</text><text x="162" y="73">Q2</text><text x="257" y="73">Q3</text><text x="352" y="73">Q4</text>
+        </g>
+        <text x="20" y="48" font-size="5.4" fill="#94a3b8" font-family="Inter, sans-serif">1 Jan 2017</text>
+        <text x="400" y="48" font-size="5.4" fill="#94a3b8" text-anchor="end" font-family="Inter, sans-serif">31 Dec 2017</text>
+
+        <circle cx="337" cy="60" r="4.5" fill="#4f46e5"/>
+        <text x="337" y="34" font-size="6.6" font-weight="700" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">[Order Date]</text>
+        <text x="337" y="43" font-size="6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">9 Nov 2017</text>
+
+        <rect x="14" y="86" width="126" height="94" rx="4" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="77" y="99" font-size="6.4" font-weight="700" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">PULL A PIECE OUT</text>
+        <text x="77" y="108" font-size="5.2" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">the rest is thrown away</text>
+        <g font-size="5.6" font-family="Inter, sans-serif">
+          <text x="22" y="122" fill="#334155">YEAR(…)</text><text x="132" y="122" fill="#0f172a" text-anchor="end" font-weight="700">2017</text>
+          <text x="22" y="134" fill="#334155">MONTH(…)</text><text x="132" y="134" fill="#0f172a" text-anchor="end" font-weight="700">11</text>
+          <text x="22" y="146" fill="#334155">DATEPART('quarter')</text><text x="132" y="146" fill="#0f172a" text-anchor="end" font-weight="700">4</text>
+          <text x="22" y="158" fill="#334155">DATENAME('month')</text><text x="132" y="158" fill="#0f172a" text-anchor="end" font-weight="700">"November"</text>
+        </g>
+        <text x="22" y="172" font-size="5" fill="#b45309" font-family="Inter, sans-serif">DATENAME gives <tspan font-weight="700">text</tspan> — it sorts A–Z</text>
+
+        <rect x="146" y="86" width="126" height="94" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="209" y="99" font-size="6.4" font-weight="700" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">ROUND DOWN</text>
+        <text x="209" y="108" font-size="5.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">still a real date</text>
+        <g font-size="5.6" font-family="Inter, sans-serif">
+          <text x="154" y="122" fill="#334155">DATETRUNC('month')</text>
+          <text x="264" y="132" fill="#0f172a" text-anchor="end" font-weight="700">1 Nov 2017</text>
+          <text x="154" y="146" fill="#334155">DATETRUNC('quarter')</text>
+          <text x="264" y="156" fill="#0f172a" text-anchor="end" font-weight="700">1 Oct 2017</text>
+        </g>
+        <text x="154" y="172" font-size="5" fill="#047857" font-family="Inter, sans-serif">use this for anything on an axis</text>
+
+        <rect x="278" y="86" width="128" height="94" rx="4" fill="#fff7ed" stroke="#fed7aa"/>
+        <text x="342" y="99" font-size="6.4" font-weight="700" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">MOVE ALONG</text>
+        <text x="342" y="108" font-size="5.2" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">arithmetic on dates</text>
+        <g font-size="5.6" font-family="Inter, sans-serif">
+          <text x="286" y="122" fill="#334155">DATEADD('month', 3, …)</text>
+          <text x="398" y="132" fill="#0f172a" text-anchor="end" font-weight="700">9 Feb 2018</text>
+          <text x="286" y="146" fill="#334155">DATEADD('year', −1, …)</text>
+          <text x="398" y="156" fill="#0f172a" text-anchor="end" font-weight="700">9 Nov 2016</text>
+        </g>
+        <text x="286" y="172" font-size="5" fill="#b45309" font-family="Inter, sans-serif">DATEDIFF measures the gap instead</text>
+
+        <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="2 2" fill="none">
+          <line x1="337" y1="66" x2="337" y2="80"/><line x1="77" y1="80" x2="337" y2="80"/>
+          <line x1="209" y1="80" x2="209" y2="86"/><line x1="77" y1="80" x2="77" y2="86"/><line x1="342" y1="80" x2="342" y2="86"/>
+        </g>
+      </svg>
+      <p class="figcap">The middle column is the one to reach for by default. <code>DATETRUNC</code> keeps the value a date, so it sorts and charts correctly; <code>DATENAME</code> returns a string, which is why "April" ends up before "January".</p>
+    </div>
 <pre><span class="c">// Difference between two dates</span>
 <span class="f">DATEDIFF</span>(<span class="s">'day'</span>, [Order Date], [Ship Date])     <span class="c">// days to ship</span>
 <span class="f">DATEDIFF</span>(<span class="s">'month'</span>, [Order Date], <span class="f">TODAY</span>())     <span class="c">// months ago</span>
@@ -476,6 +534,51 @@
 
   <section class="lcard" id="ca-text">
     <h2><span class="ic">✂️</span> Text functions</h2>
+    <p>Every extraction function is a way of describing a slice of a string — by position, by length, or by a delimiter. Seeing the slices drawn on one real value makes the arguments obvious.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 168" role="img" aria-label="The order ID CA-2016-152156 with brackets showing what LEFT, MID, RIGHT, FIND and SPLIT each return" style="width:100%;height:auto">
+        <text x="12" y="14" font-size="6" fill="#64748b" font-family="Inter, sans-serif">[Order ID]</text>
+        <g stroke="#cbd5e1" fill="#fff">
+          <rect x="70" y="20" width="20" height="22"/><rect x="90" y="20" width="20" height="22"/><rect x="110" y="20" width="20" height="22"/>
+          <rect x="130" y="20" width="20" height="22"/><rect x="150" y="20" width="20" height="22"/><rect x="170" y="20" width="20" height="22"/>
+          <rect x="190" y="20" width="20" height="22"/><rect x="210" y="20" width="20" height="22"/><rect x="230" y="20" width="20" height="22"/>
+          <rect x="250" y="20" width="20" height="22"/><rect x="270" y="20" width="20" height="22"/><rect x="290" y="20" width="20" height="22"/>
+          <rect x="310" y="20" width="20" height="22"/><rect x="330" y="20" width="20" height="22"/>
+        </g>
+        <g font-size="9" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="80" y="35">C</text><text x="100" y="35">A</text><text x="120" y="35">-</text>
+          <text x="140" y="35">2</text><text x="160" y="35">0</text><text x="180" y="35">1</text><text x="200" y="35">6</text>
+          <text x="220" y="35">-</text>
+          <text x="240" y="35">1</text><text x="260" y="35">5</text><text x="280" y="35">2</text><text x="300" y="35">1</text><text x="320" y="35">5</text><text x="340" y="35">6</text>
+        </g>
+        <g font-size="4.8" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="80" y="50">1</text><text x="100" y="50">2</text><text x="120" y="50">3</text><text x="140" y="50">4</text>
+          <text x="160" y="50">5</text><text x="180" y="50">6</text><text x="200" y="50">7</text><text x="220" y="50">8</text>
+          <text x="240" y="50">9</text><text x="260" y="50">10</text><text x="280" y="50">11</text><text x="300" y="50">12</text>
+          <text x="320" y="50">13</text><text x="340" y="50">14</text>
+        </g>
+
+        <path d="M70,60 L70,66 L110,66 L110,60" fill="none" stroke="#2563eb" stroke-width="1.3"/>
+        <text x="90" y="76" font-size="5.6" fill="#2563eb" text-anchor="middle" font-family="Inter, sans-serif">"CA"</text>
+        <text x="120" y="76" font-size="5.6" fill="#334155" font-family="Inter, sans-serif">LEFT([Order ID], 2)  — first 2 characters</text>
+
+        <path d="M130,84 L130,90 L210,90 L210,84" fill="none" stroke="#059669" stroke-width="1.3"/>
+        <text x="170" y="100" font-size="5.6" fill="#059669" text-anchor="middle" font-family="Inter, sans-serif">"2016"</text>
+        <text x="220" y="100" font-size="5.6" fill="#334155" font-family="Inter, sans-serif">MID([Order ID], 4, 4)  — start at 4, take 4</text>
+
+        <path d="M230,108 L230,114 L350,114 L350,108" fill="none" stroke="#b45309" stroke-width="1.3"/>
+        <text x="290" y="124" font-size="5.6" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">"152156"</text>
+        <text x="358" y="124" font-size="5.6" fill="#334155" text-anchor="end" font-family="Inter, sans-serif">RIGHT(…, 6)</text>
+
+        <circle cx="120" cy="14" r="5" fill="none" stroke="#c0392b" stroke-width="1.2"/>
+        <text x="130" y="16" font-size="5.4" fill="#c0392b" font-family="Inter, sans-serif">FIND([Order ID], "-") = 3  — the <tspan font-weight="700">position</tspan>, not the text</text>
+
+        <rect x="12" y="132" width="396" height="28" rx="4" fill="#f5f3ff" stroke="#ddd6fe"/>
+        <text x="20" y="144" font-size="6" fill="#6d28d9" font-family="Inter, sans-serif">SPLIT([Order ID], "-", 2) = "2016" — same answer as MID, but it survives the format changing.</text>
+        <text x="20" y="154" font-size="6" fill="#6d28d9" font-family="Inter, sans-serif">Position-based slicing breaks the day someone issues an ID with a three-letter prefix.</text>
+      </svg>
+      <p class="figcap">Prefer <code>SPLIT</code> over <code>MID</code> whenever a delimiter exists: it describes the <em>structure</em> of the value rather than counting characters, so it keeps working when the widths change.</p>
+    </div>
 <pre><span class="c">// Extract</span>
 <span class="f">LEFT</span>([Order ID], <span class="n">2</span>)                <span class="c">// "CA"</span>
 <span class="f">RIGHT</span>([Order ID], <span class="n">6</span>)               <span class="c">// "152156"</span>

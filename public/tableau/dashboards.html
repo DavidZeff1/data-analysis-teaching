@@ -451,6 +451,43 @@
   <section class="lcard" id="db-perf">
     <h2><span class="ic">⚡</span> When a dashboard feels slow</h2>
     <p>Dashboard performance usually comes down to a few specific causes. Check these first.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 140" role="img" aria-label="A dashboard load broken into query, geocoding, rendering and layout time, before and after four fixes" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">BEFORE — 11.4 seconds to open</text>
+        <g>
+          <rect x="14" y="18" width="228" height="18" fill="#c0392b"/>
+          <rect x="242" y="18" width="58" height="18" fill="#e8933a"/>
+          <rect x="300" y="18" width="66" height="18" fill="#4a7dab"/>
+          <rect x="366" y="18" width="34" height="18" fill="#94a3b8"/>
+        </g>
+        <g font-size="5.4" fill="#fff" font-family="Inter, sans-serif">
+          <text x="20" y="30">executing queries · 6 sheets, live connection</text>
+          <text x="248" y="30">geocoding</text>
+          <text x="306" y="30">rendering</text>
+        </g>
+        <text x="14" y="46" font-size="5.4" fill="#94a3b8" font-family="Inter, sans-serif">One query per sheet, and they queue. Six charts is six round trips.</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#dbPf)"><line x1="30" y1="54" x2="30" y2="68"/></g>
+        <text x="40" y="64" font-size="6" fill="#334155" font-family="Inter, sans-serif">extract · drop two sheets · fewer relevant-values cards · one context filter</text>
+
+        <text x="10" y="86" font-size="7" font-weight="700" fill="#047857" font-family="Inter, sans-serif">AFTER — 1.9 seconds</text>
+        <g>
+          <rect x="14" y="92" width="38" height="18" fill="#5b9450"/>
+          <rect x="52" y="92" width="10" height="18" fill="#e8933a"/>
+          <rect x="62" y="92" width="14" height="18" fill="#4a7dab"/>
+          <rect x="76" y="92" width="8" height="18" fill="#94a3b8"/>
+        </g>
+        <text x="92" y="104" font-size="5.6" fill="#047857" font-family="Inter, sans-serif">the same six charts' worth of information, in a sixth of the time</text>
+
+        <rect x="14" y="118" width="386" height="16" rx="3" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="207" y="129" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Record it before you optimise — the biggest bar is rarely the one you would have guessed.</text>
+
+        <defs><marker id="dbPf" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">Performance Recording breaks a load into exactly these segments. Query time dominating means the fix is upstream — extract, fewer sheets, cheaper filters. Rendering dominating means too many marks.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th style="width:13rem">Cause</th><th>Why it costs</th><th>Fix</th></tr></thead>

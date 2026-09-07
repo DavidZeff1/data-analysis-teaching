@@ -819,6 +819,48 @@ Options:  ☑ Include today
   <section class="lcard" id="fi-perf">
     <h2><span class="ic">⚡</span> Filters and performance</h2>
     <p>Filters have a large effect on workbook performance, and some are much more efficient than others.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 152" role="img" aria-label="A funnel showing how much data survives at each filtering stage, from the source table down to the marks drawn" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">FILTER EARLY — every stage below then has less to do</text>
+
+        <rect x="30" y="20" width="240" height="17" rx="2" fill="#c7d2fe" stroke="#a5b4fc"/>
+        <text x="38" y="32" font-size="6" fill="#3730a3" font-family="Inter, sans-serif">Source table</text>
+        <text x="262" y="32" font-size="6" fill="#3730a3" text-anchor="end" font-family="Inter, sans-serif">50,000,000 rows</text>
+        <text x="278" y="32" font-size="5.4" fill="#94a3b8" font-family="Inter, sans-serif">nothing removed yet</text>
+
+        <rect x="48" y="41" width="204" height="17" rx="2" fill="#a5b4fc" stroke="#818cf8"/>
+        <text x="56" y="53" font-size="6" fill="#312e81" font-family="Inter, sans-serif">Extract filter</text>
+        <text x="244" y="53" font-size="6" fill="#312e81" text-anchor="end" font-family="Inter, sans-serif">2,000,000</text>
+        <text x="278" y="53" font-size="5.4" fill="#047857" font-family="Inter, sans-serif">cheapest — the rows never arrive</text>
+
+        <rect x="66" y="62" width="168" height="17" rx="2" fill="#818cf8" stroke="#6366f1"/>
+        <text x="74" y="74" font-size="6" fill="#fff" font-family="Inter, sans-serif">Data source filter</text>
+        <text x="226" y="74" font-size="6" fill="#fff" text-anchor="end" font-family="Inter, sans-serif">1,400,000</text>
+        <text x="278" y="74" font-size="5.4" fill="#047857" font-family="Inter, sans-serif">very cheap — applied before anything else</text>
+
+        <rect x="84" y="83" width="132" height="17" rx="2" fill="#6366f1" stroke="#4f46e5"/>
+        <text x="92" y="95" font-size="6" fill="#fff" font-family="Inter, sans-serif">Dimension filter</text>
+        <text x="208" y="95" font-size="6" fill="#fff" text-anchor="end" font-family="Inter, sans-serif">180,000</text>
+        <text x="278" y="95" font-size="5.4" fill="#047857" font-family="Inter, sans-serif">cheap — the database does the work</text>
+
+        <rect x="102" y="104" width="96" height="17" rx="2" fill="#4f46e5" stroke="#4338ca"/>
+        <text x="110" y="116" font-size="6" fill="#fff" font-family="Inter, sans-serif">Measure filter</text>
+        <text x="190" y="116" font-size="6" fill="#fff" text-anchor="end" font-family="Inter, sans-serif">4,200</text>
+        <text x="278" y="116" font-size="5.4" fill="#b45309" font-family="Inter, sans-serif">moderate — has to aggregate first</text>
+
+        <rect x="120" y="125" width="60" height="17" rx="2" fill="#312e81" stroke="#312e81"/>
+        <text x="128" y="137" font-size="6" fill="#fff" font-family="Inter, sans-serif">Table calc filter</text>
+        <text x="172" y="137" font-size="6" fill="#fff" text-anchor="end" font-family="Inter, sans-serif">17</text>
+        <text x="278" y="137" font-size="5.4" fill="#b91c1c" font-family="Inter, sans-serif">expensive — everything above it was still computed</text>
+
+        <g stroke="#cbd5e1" stroke-dasharray="2 2">
+          <line x1="30" y1="20" x2="120" y2="125"/><line x1="270" y1="20" x2="180" y2="125"/>
+        </g>
+      </svg>
+      <p class="figcap">The width of each bar is the data still in play. A filter at the bottom of the funnel produces the same 17 marks as one at the top — it just makes the database read fifty million rows to get there.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Approach</th><th>Cost</th><th>Notes</th></tr></thead>

@@ -110,6 +110,56 @@
   <section class="lcard">
     <h2><span class="ic">3️⃣</span> Understand the data</h2>
     <p>Each row is <strong>one product within one order</strong>, not one whole order. An order containing three products takes up three rows, so counting rows counts line items and overstates the number of orders — 9,994 rows are only 5,009 real orders.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 156" role="img" aria-label="One customer order containing three products becoming three rows in the data, and what that means for counting" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">WHAT HAPPENED</text>
+        <rect x="10" y="18" width="118" height="72" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="20" y="32" font-size="6.2" font-weight="700" fill="#334155" font-family="Inter, sans-serif">Order CA-2016-152156</text>
+        <text x="20" y="42" font-size="5.4" fill="#94a3b8" font-family="Inter, sans-serif">Claire Gute · 9 Nov · South</text>
+        <g font-size="5.6" fill="#334155" font-family="Inter, sans-serif">
+          <text x="24" y="56">📦 Bookcase</text><text x="120" y="56" text-anchor="end">262</text>
+          <text x="24" y="68">📦 Chair</text><text x="120" y="68" text-anchor="end">732</text>
+          <text x="24" y="80">📦 Labels</text><text x="120" y="80" text-anchor="end">15</text>
+        </g>
+        <text x="10" y="102" font-size="5.6" fill="#64748b" font-family="Inter, sans-serif"><tspan font-weight="700">one</tspan> order · <tspan font-weight="700">one</tspan> customer · <tspan font-weight="700">three</tspan> products</text>
+
+        <g stroke="#94a3b8" stroke-width="1.3" fill="none" marker-end="url(#stG)"><line x1="134" y1="54" x2="156" y2="54"/></g>
+        <text x="145" y="46" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">stored as</text>
+
+        <text x="162" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">WHAT THE TABLE HOLDS</text>
+        <g stroke="#cbd5e1" fill="#f1f5f9"><rect x="162" y="18" width="248" height="13"/></g>
+        <g stroke="#cbd5e1" fill="#fff">
+          <rect x="162" y="31" width="248" height="13"/><rect x="162" y="44" width="248" height="13"/><rect x="162" y="57" width="248" height="13"/>
+        </g>
+        <g font-size="5.2" font-family="Inter, sans-serif">
+          <text x="168" y="27" fill="#475569" font-weight="700">Order ID</text><text x="248" y="27" fill="#475569" font-weight="700">Customer</text><text x="318" y="27" fill="#475569" font-weight="700">Product</text><text x="404" y="27" fill="#475569" font-weight="700" text-anchor="end">Sales</text>
+          <text x="168" y="40" fill="#334155">CA-…152156</text><text x="248" y="40" fill="#334155">Claire Gute</text><text x="318" y="40" fill="#334155">Bookcase</text><text x="404" y="40" fill="#334155" text-anchor="end">262</text>
+          <text x="168" y="53" fill="#334155">CA-…152156</text><text x="248" y="53" fill="#334155">Claire Gute</text><text x="318" y="53" fill="#334155">Chair</text><text x="404" y="53" fill="#334155" text-anchor="end">732</text>
+          <text x="168" y="66" fill="#334155">CA-…152156</text><text x="248" y="66" fill="#334155">Claire Gute</text><text x="318" y="66" fill="#334155">Labels</text><text x="404" y="66" fill="#334155" text-anchor="end">15</text>
+        </g>
+        <rect x="162" y="31" width="80" height="39" fill="#fef2f2" opacity=".55"/>
+        <rect x="162" y="31" width="80" height="39" fill="none" stroke="#c0392b" stroke-width="1.2"/>
+        <text x="162" y="80" font-size="5.4" fill="#b91c1c" font-family="Inter, sans-serif">the Order ID repeats — that is the whole trap</text>
+
+        <rect x="10" y="94" width="196" height="52" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="20" y="107" font-size="6.4" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">✗ COUNT([Order ID])</text>
+        <text x="20" y="119" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">counts rows that have a value</text>
+        <text x="196" y="134" font-size="12" font-weight="800" fill="#b91c1c" text-anchor="end" font-family="Inter, sans-serif">9,994</text>
+        <text x="20" y="134" font-size="6" fill="#7f1d1d" font-family="Inter, sans-serif">= line items, not orders</text>
+        <text x="20" y="143" font-size="5.4" fill="#7f1d1d" font-family="Inter, sans-serif">reporting this as "orders" nearly doubles it</text>
+
+        <rect x="214" y="94" width="196" height="52" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="224" y="107" font-size="6.4" font-weight="700" fill="#047857" font-family="Inter, sans-serif">✓ COUNTD([Order ID])</text>
+        <text x="224" y="119" font-size="6" fill="#065f46" font-family="Inter, sans-serif">counts distinct values</text>
+        <text x="400" y="134" font-size="12" font-weight="800" fill="#047857" text-anchor="end" font-family="Inter, sans-serif">5,009</text>
+        <text x="224" y="134" font-size="6" fill="#065f46" font-family="Inter, sans-serif">= actual orders</text>
+        <text x="224" y="143" font-size="5.4" fill="#065f46" font-family="Inter, sans-serif">and average order value divides by this</text>
+
+        <defs><marker id="stG" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap"><strong>Granularity</strong> is the word for "what one row represents", and it is the first thing to establish about any dataset. Nearly every double-counted number in Tableau traces back to a row meaning something finer than the thing being counted.</p>
+    </div>
     <div class="split">
       <div class="fieldlist">
         <div class="fl-h">Dimensions — blue</div>

@@ -374,6 +374,45 @@
     <p>An alias changes what a member is <em>called</em>. It does not change the value, merge anything, or create a field. "Office Supplies" can display as "Office" in a narrow column while the data underneath is untouched.</p>
     <p class="muted">Right-click a dimension in the Data pane → <strong>Aliases…</strong> for the full list, or right-click a header in the view → <strong>Edit Alias</strong> for one.</p>
 
+    <div class="figure">
+      <svg viewBox="0 0 420 122" role="img" aria-label="Aliasing relabels one bar while grouping merges three bars into one taller bar" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="6.6" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">BEFORE — three spellings of the same country</text>
+        <line x1="14" y1="72" x2="120" y2="72" stroke="#cbd5e1"/>
+        <g fill="#9db8ce"><rect x="22" y="46" width="20" height="26"/><rect x="52" y="56" width="20" height="16"/><rect x="82" y="60" width="20" height="12"/></g>
+        <g font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="32" y="79">USA</text><text x="62" y="79">U.S.A.</text><text x="92" y="79">United S.</text>
+        </g>
+        <text x="67" y="92" font-size="5.4" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">three bars, three totals</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#orAg)">
+          <path d="M128,44 L146,32"/><path d="M128,60 L146,74"/>
+        </g>
+
+        <rect x="152" y="16" width="122" height="46" rx="4" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="160" y="27" font-size="6.2" font-weight="700" fill="#1d4ed8" font-family="Inter, sans-serif">ALIAS — relabels</text>
+        <line x1="160" y1="52" x2="266" y2="52" stroke="#cbd5e1"/>
+        <g fill="#4a7dab"><rect x="168" y="36" width="16" height="16"/><rect x="196" y="42" width="16" height="10"/><rect x="224" y="45" width="16" height="7"/></g>
+        <text x="176" y="58" font-size="4.2" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">America</text>
+        <text x="204" y="58" font-size="4.2" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">U.S.A.</text>
+        <text x="232" y="58" font-size="4.2" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">United S.</text>
+        <text x="282" y="34" font-size="5.4" fill="#1d4ed8" font-family="Inter, sans-serif">Still three bars.</text>
+        <text x="282" y="43" font-size="5.4" fill="#1d4ed8" font-family="Inter, sans-serif">Only the label changed —</text>
+        <text x="282" y="52" font-size="5.4" fill="#1d4ed8" font-family="Inter, sans-serif">the numbers are untouched.</text>
+
+        <rect x="152" y="68" width="122" height="46" rx="4" fill="#f5f3ff" stroke="#ddd6fe"/>
+        <text x="160" y="79" font-size="6.2" font-weight="700" fill="#6d28d9" font-family="Inter, sans-serif">GROUP — merges</text>
+        <line x1="160" y1="106" x2="266" y2="106" stroke="#cbd5e1"/>
+        <rect x="190" y="80" width="34" height="26" fill="#7c3aed"/>
+        <text x="207" y="112" font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">United States</text>
+        <text x="282" y="86" font-size="5.4" fill="#6d28d9" font-family="Inter, sans-serif">One bar. The three totals</text>
+        <text x="282" y="95" font-size="5.4" fill="#6d28d9" font-family="Inter, sans-serif">added together — which is</text>
+        <text x="282" y="104" font-size="5.4" fill="#6d28d9" font-family="Inter, sans-serif">what the data actually meant.</text>
+
+        <defs><marker id="orAg" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">This is the distinction that matters when data is dirty: an alias makes the chart <em>look</em> tidy while leaving the split intact. Only a group fixes the arithmetic.</p>
+    </div>
+
     <div class="split">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
         <div class="h" style="color:#1d4ed8">Alias — one member, new label</div>
@@ -594,6 +633,40 @@
     <h2><span class="ic">➕</span> Combined sets</h2>
     <p>Select two sets in the Data pane, right-click → <strong>Create Combined Set</strong>. You get the standard set operations, and they answer questions that are awkward any other way.</p>
     <p class="muted">Both sets must be built on the <strong>same dimension</strong> — you can combine two customer sets, but not a customer set with a product set. Combining across fields is a job for a boolean <a href="#tableau/calculated">calculated field</a>.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Venn diagrams for union, intersection and except, each labelled with the customer question it answers" style="width:100%;height:auto">
+        <text x="70" y="14" font-size="7" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Union — all members</text>
+        <circle cx="56" cy="52" r="24" fill="#4f46e5" opacity=".55" stroke="#4338ca"/>
+        <circle cx="84" cy="52" r="24" fill="#4f46e5" opacity=".55" stroke="#4338ca"/>
+        <text x="44" y="55" font-size="5.4" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">2016</text>
+        <text x="96" y="55" font-size="5.4" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">2017</text>
+        <text x="70" y="90" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">anyone who bought in</text>
+        <text x="70" y="99" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">either year</text>
+        <text x="70" y="114" font-size="5.6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">total reach</text>
+
+        <text x="210" y="14" font-size="7" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Intersection — shared</text>
+        <circle cx="196" cy="52" r="24" fill="#e2e8f0" stroke="#94a3b8"/>
+        <circle cx="224" cy="52" r="24" fill="#e2e8f0" stroke="#94a3b8"/>
+        <path d="M210,32.5 A24,24 0 0,1 210,71.5 A24,24 0 0,1 210,32.5" fill="#4f46e5" opacity=".75"/>
+        <text x="184" y="55" font-size="5.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">2016</text>
+        <text x="236" y="55" font-size="5.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">2017</text>
+        <text x="210" y="90" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">bought in both years</text>
+        <text x="210" y="99" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">— your genuine regulars</text>
+        <text x="210" y="114" font-size="5.6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">retention</text>
+
+        <text x="350" y="14" font-size="7" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Except — A not B</text>
+        <circle cx="336" cy="52" r="24" fill="#c0392b" opacity=".65" stroke="#991b1b"/>
+        <circle cx="364" cy="52" r="24" fill="#e2e8f0" stroke="#94a3b8"/>
+        <path d="M350,32.5 A24,24 0 0,1 350,71.5 A24,24 0 0,1 350,32.5" fill="#e2e8f0" stroke="#94a3b8"/>
+        <text x="324" y="55" font-size="5.4" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">2016</text>
+        <text x="376" y="55" font-size="5.4" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">2017</text>
+        <text x="350" y="90" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">bought in 2016 and then</text>
+        <text x="350" y="99" font-size="5.8" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">stopped</text>
+        <text x="350" y="114" font-size="5.6" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">churn — a list to act on</text>
+      </svg>
+      <p class="figcap">Two sets and one dropdown produce a churn list. The equivalent as calculations is a nested LOD and a boolean; as a combined set it is about forty seconds of work.</p>
+    </div>
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Operation</th><th>Returns</th><th>Useful for</th></tr></thead>

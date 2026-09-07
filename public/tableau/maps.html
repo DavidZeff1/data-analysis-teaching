@@ -313,6 +313,40 @@ Map → Map Options → uncheck Pan and Zoom</pre>
   <section class="lcard" id="mp-territory">
     <h2><span class="ic">🧩</span> Custom territories</h2>
     <p>Sales territories often do not match administrative boundaries. For example, a delivery zone may contain several states or postal codes. Tableau can create a territory from geographic areas it already recognizes.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 120" role="img" aria-label="Eight separate state shapes merging into four named territory shapes with their internal borders dissolved" style="width:100%;height:auto">
+        <text x="10" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">Eight states Tableau already recognizes</text>
+        <g fill="#dbeafe" stroke="#93c5fd">
+          <path d="M14,24 L58,22 L62,50 L16,52 Z"/><path d="M58,22 L100,26 L104,52 L62,50 Z"/>
+          <path d="M16,52 L62,50 L64,80 L18,82 Z"/><path d="M62,50 L104,52 L106,80 L64,80 Z"/>
+          <path d="M104,26 L146,24 L150,52 L106,52 Z"/><path d="M106,52 L150,52 L152,80 L108,80 Z"/>
+          <path d="M18,82 L64,80 L66,106 L20,106 Z"/><path d="M64,80 L108,80 L110,106 L66,106 Z"/>
+        </g>
+        <text x="82" y="116" font-size="5.4" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">every internal border drawn</text>
+
+        <g stroke="#4f46e5" stroke-width="1.4" fill="none" marker-end="url(#mpTr)"><line x1="164" y1="64" x2="196" y2="64"/></g>
+        <text x="180" y="50" font-size="5.4" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">group them,</text>
+        <text x="180" y="58" font-size="5.4" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">or point at a</text>
+        <text x="180" y="76" font-size="5.4" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">territory column</text>
+
+        <text x="206" y="12" font-size="7" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">Four territories, borders dissolved</text>
+        <path d="M210,24 L296,26 L300,52 L212,52 Z" fill="#4e79a7" stroke="#1e3a5f" stroke-width="1.2"/>
+        <text x="255" y="42" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">North patch</text>
+        <path d="M212,52 L300,52 L302,80 L214,82 Z" fill="#f28e2b" stroke="#9a5b12" stroke-width="1.2"/>
+        <text x="257" y="70" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">Central patch</text>
+        <path d="M300,26 L346,24 L350,80 L302,80 Z" fill="#59a14f" stroke="#2f5c29" stroke-width="1.2"/>
+        <text x="325" y="55" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">East</text>
+        <path d="M214,82 L302,80 L304,106 L216,106 Z" fill="#b07aa1" stroke="#6b4763" stroke-width="1.2"/>
+        <text x="259" y="97" font-size="6" fill="#fff" text-anchor="middle" font-family="Inter, sans-serif">South patch</text>
+        <text x="368" y="60" font-size="5.4" fill="#334155" font-family="Inter, sans-serif">one shape</text>
+        <text x="368" y="69" font-size="5.4" fill="#334155" font-family="Inter, sans-serif">per territory,</text>
+        <text x="368" y="78" font-size="5.4" fill="#334155" font-family="Inter, sans-serif">fully mappable</text>
+
+        <defs><marker id="mpTr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/></marker></defs>
+      </svg>
+      <p class="figcap">The internal borders are dissolved, so the result is a new geographic field with its own polygons. It colours, filters and tooltips exactly like State does — but as the picture shows, a territory can only be assembled from whole units.</p>
+    </div>
     <ol class="steps">
       <li>
         <div class="s-t">From a group — when you can list the members</div>
@@ -347,6 +381,46 @@ Map → Map Options → uncheck Pan and Zoom</pre>
         <h3>Background images</h3>
         <p style="margin:.2rem 0 0;font-size:.85rem"><span class="mpath">Map <i>→</i> Background Images</span>. Supply an image and its X/Y ranges to plot data on a stadium, shop floor, or circuit board. This uses a coordinate space rather than geography.</p>
       </div>
+    </div>
+
+    <div class="figure" style="margin-top:.8rem">
+      <svg viewBox="0 0 420 116" role="img" aria-label="Four spatial functions drawn: makepoint, makeline, distance and buffer" style="width:100%;height:auto">
+        <rect x="8" y="14" width="98" height="86" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="57" y="27" font-size="6.2" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">MAKEPOINT</text>
+        <g stroke="#cbd5e1"><line x1="26" y1="80" x2="94" y2="80"/><line x1="26" y1="38" x2="26" y2="80"/></g>
+        <text x="22" y="42" font-size="4.4" fill="#94a3b8" text-anchor="end" font-family="Inter, sans-serif">lat</text>
+        <text x="94" y="88" font-size="4.4" fill="#94a3b8" text-anchor="end" font-family="Inter, sans-serif">lon</text>
+        <circle cx="66" cy="54" r="4" fill="#4f46e5"/>
+        <g stroke="#a5b4fc" stroke-dasharray="2 2"><line x1="26" y1="54" x2="66" y2="54"/><line x1="66" y1="54" x2="66" y2="80"/></g>
+        <text x="57" y="96" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">two columns → one place</text>
+
+        <rect x="112" y="14" width="98" height="86" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="161" y="27" font-size="6.2" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">MAKELINE</text>
+        <circle cx="132" cy="72" r="3.4" fill="#4f46e5"/><circle cx="190" cy="42" r="3.4" fill="#4f46e5"/>
+        <path d="M132,72 C150,44 172,40 190,42" stroke="#4f46e5" stroke-width="1.8" fill="none"/>
+        <text x="132" y="84" font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">origin</text>
+        <text x="190" y="34" font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">destination</text>
+        <text x="161" y="96" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">two points → a flow</text>
+
+        <rect x="216" y="14" width="98" height="86" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="265" y="27" font-size="6.2" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">DISTANCE</text>
+        <circle cx="234" cy="66" r="3.4" fill="#4f46e5"/><circle cx="296" cy="46" r="3.4" fill="#c0392b"/>
+        <line x1="234" y1="66" x2="296" y2="46" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="265" y="50" font-size="5.6" font-weight="700" fill="#0f172a" text-anchor="middle" font-family="Inter, sans-serif">18 km</text>
+        <text x="234" y="78" font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">store</text>
+        <text x="296" y="38" font-size="4.6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">customer</text>
+        <text x="265" y="96" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">two points → a number</text>
+
+        <rect x="320" y="14" width="92" height="86" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="366" y="27" font-size="6.2" font-weight="700" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">BUFFER</text>
+        <circle cx="366" cy="58" r="22" fill="#4f46e5" opacity=".14" stroke="#6366f1" stroke-dasharray="3 2"/>
+        <circle cx="366" cy="58" r="3.4" fill="#4f46e5"/>
+        <line x1="366" y1="58" x2="388" y2="58" stroke="#6366f1" stroke-width="1"/>
+        <text x="378" y="55" font-size="4.6" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">5 km</text>
+        <text x="366" y="96" font-size="5" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">a point → a catchment area</text>
+
+        <text x="210" y="110" font-size="5.6" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">All four return real geometry, so the result goes on Detail with the mark type set to Map.</text>
+      </svg>
     </div>
 
 <pre style="margin-top:.75rem"><span class="c">// Build a point from coordinate columns</span>

@@ -246,6 +246,66 @@
     </div>
   </section>
 
+  <section class="lcard">
+    <h2><span class="ic">🔭</span> The three keywords on one view, with numbers</h2>
+    <p>The scale diagram above says <em>what</em> each keyword does. This says what each one <em>returns</em> — same sheet, same measure, four columns beside each other. The view is broken down by <strong>Region</strong>, and the only thing changing is the LOD.</p>
+    <div class="figure">
+      <svg viewBox="0 0 420 176" role="img" aria-label="A four-column table showing plain SUM, an INCLUDE, an EXCLUDE and a FIXED evaluated on the same regional view" style="width:100%;height:auto">
+        <g stroke="#cbd5e1" fill="#f1f5f9">
+          <rect x="10" y="14" width="58" height="26"/><rect x="68" y="14" width="80" height="26"/>
+          <rect x="148" y="14" width="88" height="26"/><rect x="236" y="14" width="86" height="26"/><rect x="322" y="14" width="88" height="26"/>
+        </g>
+        <g font-size="5.6" font-weight="700" text-anchor="middle" font-family="Inter, sans-serif">
+          <text x="39" y="30" fill="#334155">Region</text>
+          <text x="108" y="27" fill="#334155">SUM([Sales])</text><text x="108" y="36" fill="#94a3b8" font-weight="400">no LOD</text>
+          <text x="192" y="24" fill="#047857">AVG({INCLUDE</text><text x="192" y="32" fill="#047857">[Order ID] : SUM})</text><text x="192" y="39" fill="#94a3b8" font-weight="400">finer</text>
+          <text x="279" y="24" fill="#b45309">{EXCLUDE</text><text x="279" y="32" fill="#b45309">[Region] : SUM}</text><text x="279" y="39" fill="#94a3b8" font-weight="400">coarser</text>
+          <text x="366" y="24" fill="#b91c1c">MAX({FIXED</text><text x="366" y="32" fill="#b91c1c">[Category] : SUM})</text><text x="366" y="39" fill="#94a3b8" font-weight="400">elsewhere entirely</text>
+        </g>
+
+        <g stroke="#e2e8f0" fill="#fff">
+          <rect x="10" y="40" width="58" height="16"/><rect x="68" y="40" width="80" height="16"/><rect x="148" y="40" width="88" height="16"/><rect x="236" y="40" width="86" height="16"/><rect x="322" y="40" width="88" height="16"/>
+          <rect x="10" y="56" width="58" height="16"/><rect x="68" y="56" width="80" height="16"/><rect x="148" y="56" width="88" height="16"/><rect x="236" y="56" width="86" height="16"/><rect x="322" y="56" width="88" height="16"/>
+          <rect x="10" y="72" width="58" height="16"/><rect x="68" y="72" width="80" height="16"/><rect x="148" y="72" width="88" height="16"/><rect x="236" y="72" width="86" height="16"/><rect x="322" y="72" width="88" height="16"/>
+          <rect x="10" y="88" width="58" height="16"/><rect x="68" y="88" width="80" height="16"/><rect x="148" y="88" width="88" height="16"/><rect x="236" y="88" width="86" height="16"/><rect x="322" y="88" width="88" height="16"/>
+        </g>
+        <g font-size="6" fill="#334155" font-family="Inter, sans-serif">
+          <text x="16" y="51">Central</text><text x="16" y="67">East</text><text x="16" y="83">South</text><text x="16" y="99">West</text>
+        </g>
+        <g font-size="6" text-anchor="end" font-family="Inter, sans-serif">
+          <text x="142" y="51" fill="#0f172a">501,240</text><text x="142" y="67" fill="#0f172a">678,781</text>
+          <text x="142" y="83" fill="#0f172a">391,722</text><text x="142" y="99" fill="#0f172a">725,458</text>
+          <text x="230" y="51" fill="#047857">≈440</text><text x="230" y="67" fill="#047857">≈470</text>
+          <text x="230" y="83" fill="#047857">≈450</text><text x="230" y="99" fill="#047857">≈460</text>
+          <text x="316" y="51" fill="#b45309">2,297,201</text><text x="316" y="67" fill="#b45309">2,297,201</text>
+          <text x="316" y="83" fill="#b45309">2,297,201</text><text x="316" y="99" fill="#b45309">2,297,201</text>
+          <text x="404" y="51" fill="#b91c1c">836,154</text><text x="404" y="67" fill="#b91c1c">836,154</text>
+          <text x="404" y="83" fill="#b91c1c">836,154</text><text x="404" y="99" fill="#b91c1c">836,154</text>
+        </g>
+
+        <rect x="148" y="108" width="88" height="28" rx="3" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="192" y="118" font-size="5.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">summed per order,</text>
+        <text x="192" y="126" font-size="5.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">then averaged per region</text>
+        <text x="192" y="134" font-size="5.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">— varies by row</text>
+
+        <rect x="236" y="108" width="86" height="28" rx="3" fill="#fff7ed" stroke="#fed7aa"/>
+        <text x="279" y="118" font-size="5.2" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">Region stripped out,</text>
+        <text x="279" y="126" font-size="5.2" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">so nothing is left to</text>
+        <text x="279" y="134" font-size="5.2" fill="#b45309" text-anchor="middle" font-family="Inter, sans-serif">split by — one number</text>
+
+        <rect x="322" y="108" width="88" height="28" rx="3" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="366" y="118" font-size="5.2" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">the biggest category's</text>
+        <text x="366" y="126" font-size="5.2" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">national total. Region isn't</text>
+        <text x="366" y="134" font-size="5.2" fill="#b91c1c" text-anchor="middle" font-family="Inter, sans-serif">named, so it's ignored</text>
+
+        <rect x="10" y="144" width="400" height="26" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="20" y="155" font-size="6.3" fill="#334155" font-family="Inter, sans-serif">A repeated number down a column is the tell: the expression is computed at a grain <tspan font-weight="700">coarser</tspan> than the view,</text>
+        <text x="20" y="165" font-size="6.3" fill="#334155" font-family="Inter, sans-serif">so every row sees the same value. That repetition is a feature — it's what makes "% of the total" possible.</text>
+      </svg>
+      <p class="figcap">Only the INCLUDE column varies the way an ordinary measure would — it's the average order value, around $459 across the whole dataset. The other two repeat, each for a different reason, and reading <em>why</em> a column repeats is the fastest way to check an LOD is doing what you meant.</p>
+    </div>
+  </section>
+
   <section class="lcard" id="lo-include">
     <h2><span class="ic">➕</span> INCLUDE — go finer than the view</h2>
     <p>Adds dimensions to whatever is already in the view, computes there, then aggregates back up. Use it when you need a <em>more detailed</em> level than you're displaying.</p>
@@ -501,6 +561,51 @@
   <section class="lcard" id="lo-vs">
     <h2><span class="ic">⚖️</span> LOD or table calculation?</h2>
     <p>They overlap, and choosing wrongly is the source of a lot of frustration. The deciding question: <strong>does the number need to see data that isn't in the view?</strong></p>
+
+    <div class="figure">
+      <svg viewBox="0 0 420 144" role="img" aria-label="A pipeline showing an LOD computed inside the database before the view is built, and a table calculation computed afterwards on the finished view" style="width:100%;height:auto">
+        <rect x="10" y="30" width="196" height="66" rx="5" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="108" y="24" font-size="6.6" font-weight="700" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">IN THE DATABASE — before the view exists</text>
+
+        <rect x="22" y="44" width="52" height="38" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <text x="48" y="60" font-size="5.6" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">9,994</text>
+        <text x="48" y="70" font-size="5.6" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">rows</text>
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#loVs)"><line x1="78" y1="63" x2="96" y2="63"/></g>
+        <rect x="100" y="44" width="56" height="38" rx="3" fill="#e0e7ff" stroke="#a5b4fc"/>
+        <text x="128" y="58" font-size="5.6" font-weight="700" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">LOD</text>
+        <text x="128" y="68" font-size="5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">any grain it</text>
+        <text x="128" y="76" font-size="5" fill="#4338ca" text-anchor="middle" font-family="Inter, sans-serif">likes</text>
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#loVs)"><line x1="160" y1="63" x2="178" y2="63"/></g>
+        <text x="192" y="60" font-size="5.4" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">sees</text>
+        <text x="192" y="69" font-size="5.4" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">everything</text>
+
+        <g stroke="#94a3b8" stroke-width="1.4" fill="none" marker-end="url(#loVs)"><line x1="208" y1="63" x2="228" y2="63"/></g>
+
+        <rect x="232" y="30" width="178" height="66" rx="5" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="321" y="24" font-size="6.6" font-weight="700" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">IN TABLEAU — on the finished view</text>
+        <rect x="244" y="44" width="56" height="38" rx="3" fill="#fff" stroke="#cbd5e1"/>
+        <text x="272" y="60" font-size="5.6" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">4 numbers</text>
+        <text x="272" y="70" font-size="5" fill="#94a3b8" text-anchor="middle" font-family="Inter, sans-serif">whatever survived</text>
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#loVs)"><line x1="304" y1="63" x2="322" y2="63"/></g>
+        <rect x="326" y="44" width="72" height="38" rx="3" fill="#d1fae5" stroke="#6ee7b7"/>
+        <text x="362" y="58" font-size="5.6" font-weight="700" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">Table calc</text>
+        <text x="362" y="68" font-size="5" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">position, rank,</text>
+        <text x="362" y="76" font-size="5" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">running total</text>
+
+        <g stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3 2" fill="none">
+          <path d="M362,90 C362,104 240,104 200,104"/>
+        </g>
+        <text x="196" y="106" font-size="5.4" fill="#c0392b" text-anchor="end" font-family="Inter, sans-serif">can never look back this way ✗</text>
+
+        <rect x="10" y="116" width="400" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="210" y="127" font-size="6.4" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">Granularity questions happen on the left. Positional questions happen on the right.</text>
+        <text x="210" y="136" font-size="6" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">Nothing on the right can see a row the filters removed — that's the whole difference.</text>
+
+        <defs><marker id="loVs" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <p class="figcap">The two live on opposite sides of the moment the view is built. That single fact generates every row of the table below.</p>
+    </div>
+
     <div class="scrollx">
       <table class="ltable">
         <thead><tr><th>Aspect</th><th>LOD expression</th><th>Table calculation</th></tr></thead>
