@@ -359,3 +359,31 @@ if (toTop) {
   );
   onScroll();
 }
+
+// Theme toggle. The initial value is set by the bootstrap script in index.html
+// (before first paint); this only handles switching and remembering the choice.
+const themeToggle = document.getElementById("theme-toggle");
+if (themeToggle) {
+  const THEME_KEY = "dat-theme";
+  const syncLabel = () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeToggle.setAttribute(
+      "aria-label",
+      dark ? "Switch to light theme" : "Switch to dark theme",
+    );
+  };
+  themeToggle.addEventListener("click", () => {
+    const next =
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "light"
+        : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch (e) {
+      /* private browsing — the choice just won't persist */
+    }
+    syncLabel();
+  });
+  syncLabel();
+}

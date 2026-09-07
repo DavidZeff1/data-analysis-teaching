@@ -14,14 +14,14 @@
    =========================================================================== */
 
 :root {
-  --bg: #eef2f7;
-  --surface: #ffffff;
-  --border: #e2e8f0;
-  --text: #1e293b;
-  --text-muted: #64748b;
-  --accent: #4f46e5;
-  --accent-strong: #4338ca;
-  --accent-soft: #eef2ff;
+  --bg: var(--c-eef2f7);
+  --surface: var(--c-ffffff);
+  --border: var(--c-e2e8f0);
+  --text: var(--c-1e293b);
+  --text-muted: var(--c-64748b);
+  --accent: var(--c-4f46e5);
+  --accent-strong: var(--c-4338ca);
+  --accent-soft: var(--c-eef2ff);
   --radius: 16px;
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
@@ -67,10 +67,10 @@
       Consolas, monospace;
     font-size: 0.875em;
     background: var(--accent-soft);
-    color: #be123c;
+    color: var(--c-be123c);
     padding: 0.15em 0.4em;
     border-radius: 6px;
-    border: 1px solid #e0e7ff;
+    border: 1px solid var(--c-e0e7ff);
   }
 
   /* Code blocks: keep highlight.js theming, just frame them nicely. */
@@ -106,7 +106,7 @@
     border-left: 4px solid var(--accent);
     background: var(--accent-soft);
     border-radius: 0 10px 10px 0;
-    color: #334155;
+    color: var(--c-334155);
   }
 
   /* Bare lists (when a fragment doesn't set list utilities). */
@@ -133,7 +133,7 @@
   }
   :where(.subcontent) table:not([class]) th {
     text-align: left;
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     font-weight: 600;
     padding: 0.6rem 0.85rem;
     border-bottom: 1px solid var(--border);
@@ -143,7 +143,7 @@
     border-bottom: 1px solid var(--border);
   }
   :where(.subcontent) table:not([class]) tbody tr:nth-child(even) {
-    background: #f8fafc;
+    background: var(--c-f8fafc);
   }
   :where(.subcontent) table:not([class]) tbody tr:last-child td {
     border-bottom: 0;
@@ -210,12 +210,12 @@
     white-space: nowrap;
   }
   .tab:hover {
-    background: #eef2f7;
+    background: var(--c-eef2f7);
     color: var(--text);
   }
   .tab.is-active {
-    color: #fff;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: var(--c-fff);
+    background: linear-gradient(135deg, var(--c-6366f1), var(--c-4f46e5));
     box-shadow: var(--shadow-sm);
   }
 
@@ -231,7 +231,7 @@
     transition: background-color 0.15s ease, color 0.15s ease;
   }
   .gh-link:hover {
-    background: #eef2f7;
+    background: var(--c-eef2f7);
     color: var(--text);
   }
 
@@ -255,7 +255,7 @@
     font: inherit;
     font-size: 0.82rem;
     font-weight: 500;
-    color: #475569;
+    color: var(--c-475569);
     background: var(--surface);
     border: 1px solid var(--border);
     padding: 0.35rem 0.75rem;
@@ -265,14 +265,14 @@
     white-space: nowrap;
   }
   .subtab:hover {
-    border-color: #c7d2fe;
+    border-color: var(--c-c7d2fe);
     background: var(--accent-soft);
     color: var(--accent-strong);
   }
   .subtab.is-active {
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    background: linear-gradient(135deg, var(--c-6366f1), var(--c-4f46e5));
     border-color: transparent;
-    color: #fff;
+    color: var(--c-fff);
     box-shadow: var(--shadow-sm);
   }
   .subtab-sep {
@@ -294,9 +294,9 @@
   }
 
   .load-error {
-    color: #b91c1c;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
+    color: var(--c-b91c1c);
+    background: var(--c-fef2f2);
+    border: 1px solid var(--c-fecaca);
     border-radius: 10px;
     padding: 1rem 1.25rem;
   }
@@ -328,8 +328,8 @@
     height: 44px;
     border: 0;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: #fff;
+    background: linear-gradient(135deg, var(--c-6366f1), var(--c-4f46e5));
+    color: var(--c-fff);
     font-size: 1.2rem;
     line-height: 1;
     cursor: pointer;
@@ -360,7 +360,7 @@
 @layer components {
   /* Give lesson pages a soft canvas so the white section cards separate. */
   .subcontent:has(.lesson) {
-    background: #f6f8fb;
+    background: var(--c-f6f8fb);
     padding: clamp(1rem, 2vw, 1.5rem);
   }
 
@@ -368,13 +368,13 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    color: #1f2937;
+    color: var(--c-1f2937);
   }
 
   /* --- Hero header ------------------------------------------------------ */
   .lesson-hero {
-    background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
-    border: 1px solid #d1fae5;
+    background: linear-gradient(135deg, var(--c-ecfdf5) 0%, var(--c-eff6ff) 100%);
+    border: 1px solid var(--c-d1fae5);
     border-radius: 18px;
     padding: clamp(1.25rem, 3vw, 2rem);
   }
@@ -383,7 +383,7 @@
     font-size: clamp(1.6rem, 3.5vw, 2.1rem);
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: #0f172a;
+    color: var(--c-0f172a);
     display: flex;
     align-items: center;
     gap: 0.6rem;
@@ -391,7 +391,7 @@
   }
   .lesson-hero p {
     margin: 0.6rem 0 0;
-    color: #475569;
+    color: var(--c-475569);
     font-size: 1.02rem;
     max-width: 65ch;
   }
@@ -400,13 +400,13 @@
     height: 4px;
     width: 5rem;
     border-radius: 999px;
-    background: linear-gradient(90deg, #10b981, #3b82f6);
+    background: linear-gradient(90deg, #10b981, var(--c-3b82f6));
   }
 
   /* --- Section cards ---------------------------------------------------- */
   .lesson .lcard {
-    background: #ffffff;
-    border: 1px solid #e6eaf0;
+    background: var(--c-ffffff);
+    border: 1px solid var(--c-e6eaf0);
     border-radius: 16px;
     padding: clamp(1.1rem, 2.2vw, 1.6rem);
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -415,7 +415,7 @@
     margin: 0 0 0.85rem;
     font-size: 1.18rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--c-0f172a);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -439,7 +439,7 @@
   }
   .lesson h3 {
     font-weight: 700;
-    color: #1f2937;
+    color: var(--c-1f2937);
     margin: 0 0 0.35rem;
   }
 
@@ -460,7 +460,7 @@
     margin: 0.25rem 0;
   }
   .lesson .lcard li::marker {
-    color: #94a3b8;
+    color: var(--c-94a3b8);
   }
 
   /* --- Callouts --------------------------------------------------------- */
@@ -480,41 +480,41 @@
     margin-bottom: 0.25rem;
   }
   .lesson .callout.tip {
-    background: #eff6ff;
-    border-color: #bfdbfe;
-    color: #1e3a5f;
+    background: var(--c-eff6ff);
+    border-color: var(--c-bfdbfe);
+    color: var(--c-1e3a5f);
   }
   .lesson .callout.tip .callout-title {
-    color: #1d4ed8;
+    color: var(--c-1d4ed8);
   }
   .lesson .callout.ok {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
-    color: #065f46;
+    background: var(--c-ecfdf5);
+    border-color: var(--c-a7f3d0);
+    color: var(--c-065f46);
   }
   .lesson .callout.ok .callout-title {
-    color: #047857;
+    color: var(--c-047857);
   }
   .lesson .callout.warn {
-    background: #fffbeb;
-    border-color: #fde68a;
-    color: #854d0e;
+    background: var(--c-fffbeb);
+    border-color: var(--c-fde68a);
+    color: var(--c-854d0e);
   }
   .lesson .callout.warn .callout-title {
-    color: #b45309;
+    color: var(--c-b45309);
   }
   .lesson .callout.danger {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: #991b1b;
+    background: var(--c-fef2f2);
+    border-color: var(--c-fecaca);
+    color: var(--c-991b1b);
   }
   .lesson .callout.danger .callout-title {
-    color: #b91c1c;
+    color: var(--c-b91c1c);
   }
   .lesson .callout.note {
-    background: #f8fafc;
-    border-color: #e2e8f0;
-    color: #334155;
+    background: var(--c-f8fafc);
+    border-color: var(--c-e2e8f0);
+    color: var(--c-334155);
   }
 
   /* --- Grids & tiles ---------------------------------------------------- */
@@ -536,8 +536,8 @@
     }
   }
   .lesson .tile {
-    background: #f8fafc;
-    border: 1px solid #eef2f7;
+    background: var(--c-f8fafc);
+    border: 1px solid var(--c-eef2f7);
     border-radius: 10px;
     padding: 0.8rem 0.9rem;
   }
@@ -552,8 +552,8 @@
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.78rem;
     font-weight: 600;
-    background: #ede9fe;
-    color: #6d28d9;
+    background: var(--c-ede9fe);
+    color: var(--c-6d28d9);
     padding: 0.15rem 0.5rem;
     border-radius: 6px;
   }
@@ -562,12 +562,12 @@
   .lesson .kbd {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.78rem;
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
+    background: var(--c-f1f5f9);
+    border: 1px solid var(--c-cbd5e1);
     border-bottom-width: 2px;
     border-radius: 6px;
     padding: 0.1rem 0.42rem;
-    color: #334155;
+    color: var(--c-334155);
     white-space: nowrap;
   }
 
@@ -575,8 +575,8 @@
   .lesson .lcard :where(p, li) code {
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.85em;
-    background: #f1f5f9;
-    color: #be123c;
+    background: var(--c-f1f5f9);
+    color: var(--c-be123c);
     padding: 0.12em 0.38em;
     border-radius: 5px;
   }
@@ -593,24 +593,24 @@
     margin-bottom: 0.2rem;
   }
   .lesson .cmp.good {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
+    background: var(--c-ecfdf5);
+    border-color: var(--c-a7f3d0);
   }
   .lesson .cmp.good .h {
-    color: #047857;
+    color: var(--c-047857);
   }
   .lesson .cmp.bad {
-    background: #fef2f2;
-    border-color: #fecaca;
+    background: var(--c-fef2f2);
+    border-color: var(--c-fecaca);
   }
   .lesson .cmp.bad .h {
-    color: #b91c1c;
+    color: var(--c-b91c1c);
   }
 
   /* Code blocks: keep the dark theme used across the site, just round nicely. */
   .lesson pre {
-    background: #0f172a;
-    color: #e2e8f0;
+    background: var(--c-0f172a);
+    color: var(--c-e2e8f0);
     padding: 0.9rem 1rem;
     border-radius: 10px;
     overflow-x: auto;
@@ -635,17 +635,17 @@
   }
   .lesson .ltable th,
   .lesson .ltable td {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--c-e2e8f0);
     padding: 0.5rem 0.7rem;
     text-align: left;
   }
   .lesson .ltable thead th {
-    background: #f1f5f9;
+    background: var(--c-f1f5f9);
     font-weight: 700;
-    color: #0f172a;
+    color: var(--c-0f172a);
   }
   .lesson .ltable tbody tr:nth-child(even) {
-    background: #f8fafc;
+    background: var(--c-f8fafc);
   }
   .lesson .ltable .num {
     text-align: right;
@@ -654,8 +654,8 @@
 
   /* Formula anatomy chips. */
   .lesson .anatomy {
-    background: #f8fafc;
-    border: 1px solid #eef2f7;
+    background: var(--c-f8fafc);
+    border: 1px solid var(--c-eef2f7);
     border-radius: 12px;
     padding: 1rem;
   }
@@ -663,10 +663,10 @@
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 1.05rem;
     margin-bottom: 0.75rem;
-    color: #0f172a;
+    color: var(--c-0f172a);
   }
   .lesson .chip {
-    color: #fff;
+    color: var(--c-fff);
     border-radius: 6px;
     padding: 0.1rem 0.45rem;
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -688,9 +688,9 @@
   .lesson {
     --l-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
       monospace;
-    --l-line: #e2e8f0;
-    --l-ink: #0f172a;
-    --l-dim: #64748b;
+    --l-line: var(--c-e2e8f0);
+    --l-ink: var(--c-0f172a);
+    --l-dim: var(--c-64748b);
   }
 
   /* Anchor targets sit below the sticky site header when linked to. */
@@ -712,7 +712,7 @@
     gap: 0.3rem;
     background: rgba(255, 255, 255, 0.75);
     border: 1px solid rgba(15, 23, 42, 0.08);
-    color: #334155;
+    color: var(--c-334155);
     font-size: 0.78rem;
     font-weight: 500;
     padding: 0.22rem 0.6rem;
@@ -726,8 +726,8 @@
     flex-wrap: wrap;
     gap: 0.35rem;
     padding: 0.85rem 1rem;
-    background: #fff;
-    border: 1px solid #e6eaf0;
+    background: var(--c-fff);
+    border: 1px solid var(--c-e6eaf0);
     border-radius: 14px;
   }
   .lesson .toc-label {
@@ -742,8 +742,8 @@
   .lesson .toc a {
     font-size: 0.8rem;
     font-weight: 500;
-    color: #475569;
-    background: #f8fafc;
+    color: var(--c-475569);
+    background: var(--c-f8fafc);
     border: 1px solid var(--l-line);
     border-radius: 999px;
     padding: 0.25rem 0.7rem;
@@ -751,21 +751,21 @@
     transition: all 0.15s ease;
   }
   .lesson .toc a:hover {
-    background: #eef2ff;
-    border-color: #c7d2fe;
-    color: #4338ca;
+    background: var(--c-eef2ff);
+    border-color: var(--c-c7d2fe);
+    color: var(--c-4338ca);
   }
 
   /* --- Code token palette ------------------------------------------------
      Self-contained syntax colours for the dark <pre> blocks, so samples do
      not depend on utility classes being generated. Matches the existing
      Tailwind-coloured samples on older pages. */
-  .lesson pre .c { color: #94a3b8; font-style: italic; } /* comment  */
-  .lesson pre .f { color: #c4b5fd; }                     /* function */
+  .lesson pre .c { color: var(--c-94a3b8); font-style: italic; } /* comment  */
+  .lesson pre .f { color: var(--c-c4b5fd); }                     /* function */
   .lesson pre .k { color: #60a5fa; }                     /* keyword  */
-  .lesson pre .s { color: #6ee7b7; }                     /* string   */
-  .lesson pre .n { color: #fdba74; }                     /* number   */
-  .lesson pre .r { color: #f9a8d4; }                     /* cell ref */
+  .lesson pre .s { color: var(--c-6ee7b7); }                     /* string   */
+  .lesson pre .n { color: var(--c-fdba74); }                     /* number   */
+  .lesson pre .r { color: var(--c-f9a8d4); }                     /* cell ref */
 
   /* Copy button injected by main.js onto every lesson code block. */
   .lesson .pre-wrap {
@@ -782,7 +782,7 @@
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.03em;
-    color: #cbd5e1;
+    color: var(--c-cbd5e1);
     background: rgba(148, 163, 184, 0.16);
     border: 1px solid rgba(148, 163, 184, 0.28);
     border-radius: 6px;
@@ -797,10 +797,10 @@
   }
   .lesson .pre-wrap .copy-btn:hover {
     background: rgba(148, 163, 184, 0.3);
-    color: #fff;
+    color: var(--c-fff);
   }
   .lesson .pre-wrap .copy-btn.is-done {
-    color: #6ee7b7;
+    color: var(--c-6ee7b7);
     border-color: rgba(110, 231, 183, 0.4);
   }
 
@@ -809,10 +809,10 @@
      rows, optionally above a formula bar. This is the workhorse component:
      it lets a lesson show exactly what the learner should see on screen. */
   .lesson .sheet {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 10px;
     overflow: hidden;
-    background: #fff;
+    background: var(--c-fff);
     font-family: var(--l-mono);
     font-size: 0.78rem;
     margin: 0.6rem 0;
@@ -821,31 +821,31 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #f8fafc;
-    border-bottom: 1px solid #cbd5e1;
+    background: var(--c-f8fafc);
+    border-bottom: 1px solid var(--c-cbd5e1);
     padding: 0.35rem 0.5rem;
   }
   .lesson .sheet-ref {
     min-width: 3.2rem;
     text-align: center;
-    background: #fff;
-    border: 1px solid #cbd5e1;
+    background: var(--c-fff);
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 4px;
     padding: 0.1rem 0.35rem;
-    color: #334155;
+    color: var(--c-334155);
     font-weight: 600;
   }
   .lesson .sheet-fx {
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     font-style: italic;
-    border-right: 1px solid #cbd5e1;
+    border-right: 1px solid var(--c-cbd5e1);
     padding-right: 0.5rem;
   }
   .lesson .sheet-bar code {
     background: none;
     border: 0;
     padding: 0;
-    color: #0f172a;
+    color: var(--c-0f172a);
     font-size: 0.78rem;
     font-family: inherit;
   }
@@ -860,11 +860,11 @@
   /* Column-letter header row and row-number gutter share the grey chrome. */
   .lesson .sheet thead th,
   .lesson .sheet tbody th {
-    background: #eef2f7;
-    color: #64748b;
+    background: var(--c-eef2f7);
+    color: var(--c-64748b);
     font-weight: 600;
     text-align: center;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--c-cbd5e1);
     padding: 0.2rem 0.5rem;
     font-size: 0.72rem;
   }
@@ -874,10 +874,10 @@
     left: 0;
   }
   .lesson .sheet td {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--c-e2e8f0);
     padding: 0.25rem 0.55rem;
-    color: #1f2937;
-    background: #fff;
+    color: var(--c-1f2937);
+    background: var(--c-fff);
   }
   .lesson .sheet td.num {
     text-align: right;
@@ -885,33 +885,33 @@
   }
   .lesson .sheet .hd td,
   .lesson .sheet td.hd {
-    background: #f1f5f9;
+    background: var(--c-f1f5f9);
     font-weight: 600;
-    color: #0f172a;
+    color: var(--c-0f172a);
   }
   /* Tinted column / row: "this is the part we're talking about". */
   .lesson .sheet td.hl,
   .lesson .sheet th.hl {
-    background: #eff6ff;
+    background: var(--c-eff6ff);
   }
   .lesson .sheet th.hl {
-    color: #1d4ed8;
-    background: #dbeafe;
+    color: var(--c-1d4ed8);
+    background: var(--c-dbeafe);
   }
   /* The active cell — mimics Excel's selection outline. */
   .lesson .sheet td.sel {
-    background: #eef2ff;
-    box-shadow: inset 0 0 0 2px #4f46e5;
+    background: var(--c-eef2ff);
+    box-shadow: inset 0 0 0 2px var(--c-4f46e5);
     font-weight: 600;
-    color: #312e81;
+    color: var(--c-312e81);
   }
   .lesson .sheet td.good {
-    background: #ecfdf5;
-    color: #047857;
+    background: var(--c-ecfdf5);
+    color: var(--c-047857);
   }
   .lesson .sheet td.bad {
-    background: #fef2f2;
-    color: #b91c1c;
+    background: var(--c-fef2f2);
+    color: var(--c-b91c1c);
   }
   .lesson .sheet-note {
     font-size: 0.78rem;
@@ -928,15 +928,15 @@
     min-width: 0;
     border: 1px solid transparent;
     border-radius: 4px;
-    background: #fff;
+    background: var(--c-fff);
     padding: 0.2rem 0.4rem;
     font-family: inherit;
     font-size: 0.78rem;
-    color: #0f172a;
+    color: var(--c-0f172a);
   }
   .lesson .lab .lab-input:focus {
     outline: none;
-    border-color: var(--accent, #4f46e5);
+    border-color: var(--accent, var(--c-4f46e5));
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
   }
   .lesson .lab .lab-out {
@@ -945,48 +945,48 @@
     flex-wrap: wrap;
     gap: 0.4rem;
     padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid #cbd5e1;
-    background: #f8fafc;
+    border-bottom: 1px solid var(--c-cbd5e1);
+    background: var(--c-f8fafc);
     min-height: 1.9rem;
   }
   .lesson .lab .lab-eq {
-    color: #94a3b8;
+    color: var(--c-94a3b8);
   }
   .lesson .lab .lab-val {
     font-weight: 700;
-    color: #0f172a;
+    color: var(--c-0f172a);
     font-variant-numeric: tabular-nums;
   }
   .lesson .lab .lab-help,
   .lesson .lab .lab-hint {
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-size: 0.74rem;
-    color: var(--l-dim, #64748b);
+    color: var(--l-dim, var(--c-64748b));
   }
   .lesson .lab .lab-out.is-err {
-    background: #fef2f2;
-    border-bottom-color: #fecaca;
+    background: var(--c-fef2f2);
+    border-bottom-color: var(--c-fecaca);
   }
   .lesson .lab .lab-out.is-err .lab-val {
-    color: #b91c1c;
+    color: var(--c-b91c1c);
   }
   .lesson .lab .lab-out.is-spill {
-    background: #f5f3ff;
-    border-bottom-color: #ddd6fe;
+    background: var(--c-f5f3ff);
+    border-bottom-color: var(--c-ddd6fe);
   }
   .lesson .lab .lab-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;
     padding: 0.4rem 0.6rem;
-    border-bottom: 1px solid #e2e8f0;
-    background: #fff;
+    border-bottom: 1px solid var(--c-e2e8f0);
+    background: var(--c-fff);
   }
   .lesson .lab .lab-chip {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 999px;
-    background: #f8fafc;
-    color: #334155;
+    background: var(--c-f8fafc);
+    color: var(--c-334155);
     font-family: inherit;
     font-size: 0.7rem;
     padding: 0.15rem 0.55rem;
@@ -994,9 +994,9 @@
     transition: background-color 0.15s ease, border-color 0.15s ease;
   }
   .lesson .lab .lab-chip:hover {
-    background: var(--accent-soft, #eef2ff);
-    border-color: var(--accent, #4f46e5);
-    color: var(--accent-strong, #4338ca);
+    background: var(--accent-soft, var(--c-eef2ff));
+    border-color: var(--accent, var(--c-4f46e5));
+    color: var(--accent-strong, var(--c-4338ca));
   }
   /* The grid scrolls in both directions so all 32 rows stay reachable without
      the widget taking over the page. */
@@ -1033,11 +1033,11 @@
     border: 1px solid var(--l-line);
     border-radius: 10px;
     padding: 0.6rem 0.7rem;
-    background: #f8fafc;
+    background: var(--c-f8fafc);
   }
   .lesson .ba-side.after {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
+    background: var(--c-ecfdf5);
+    border-color: var(--c-a7f3d0);
   }
   .lesson .ba-h {
     font-size: 0.72rem;
@@ -1048,12 +1048,12 @@
     margin-bottom: 0.4rem;
   }
   .lesson .ba-side.after .ba-h {
-    color: #047857;
+    color: var(--c-047857);
   }
   .lesson .ba-arrow {
     justify-self: center;
     font-size: 1.4rem;
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     transform: rotate(90deg);
   }
   @media (min-width: 700px) {
@@ -1067,22 +1067,22 @@
     border-collapse: collapse;
     font-size: 0.78rem;
     font-family: var(--l-mono);
-    background: #fff;
+    background: var(--c-fff);
     border-radius: 6px;
     overflow: hidden;
   }
   .lesson .ba th,
   .lesson .ba td {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--c-e2e8f0);
     padding: 0.22rem 0.5rem;
     text-align: left;
     white-space: nowrap;
   }
   .lesson .ba th {
-    background: #f1f5f9;
+    background: var(--c-f1f5f9);
     font-weight: 600;
     font-size: 0.72rem;
-    color: #334155;
+    color: var(--c-334155);
   }
 
   /* --- Function syntax card ----------------------------------------------
@@ -1093,14 +1093,14 @@
     border-radius: 12px;
     overflow: hidden;
     margin: 0.75rem 0;
-    background: #fff;
+    background: var(--c-fff);
   }
   .lesson .syn-head {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.5rem;
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     border-bottom: 1px solid var(--l-line);
     padding: 0.5rem 0.85rem;
   }
@@ -1108,7 +1108,7 @@
     font-family: var(--l-mono);
     font-size: 0.9rem;
     font-weight: 700;
-    color: #6d28d9;
+    color: var(--c-6d28d9);
   }
   .lesson .syn-tag {
     font-size: 0.82rem;
@@ -1121,7 +1121,7 @@
     font-family: var(--l-mono);
     font-size: 0.85rem;
     color: var(--l-ink);
-    background: #f1f5f9;
+    background: var(--c-f1f5f9);
     border-radius: 8px;
     padding: 0.5rem 0.7rem;
     overflow-x: auto;
@@ -1131,14 +1131,14 @@
      the call is readable at a glance. */
   .lesson .syn-sig b {
     font-weight: 600;
-    color: #1d4ed8;
-    background: #dbeafe;
+    color: var(--c-1d4ed8);
+    background: var(--c-dbeafe);
     border-radius: 4px;
     padding: 0.05rem 0.28rem;
   }
   .lesson .syn-sig i {
     font-style: normal;
-    color: #94a3b8;
+    color: var(--c-94a3b8);
   }
   .lesson .syn-args {
     list-style: none;
@@ -1156,12 +1156,12 @@
     font-family: var(--l-mono);
     font-size: 0.78rem;
     font-weight: 600;
-    color: #1d4ed8;
+    color: var(--c-1d4ed8);
     flex: 0 0 auto;
     min-width: 8.5rem;
   }
   .lesson .syn-args li span {
-    color: #475569;
+    color: var(--c-475569);
   }
   .lesson .syn .pre-wrap,
   .lesson .syn pre {
@@ -1193,8 +1193,8 @@
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: #fff;
+    background: linear-gradient(135deg, var(--c-6366f1), var(--c-4f46e5));
+    color: var(--c-fff);
     font-size: 0.82rem;
     font-weight: 700;
     display: flex;
@@ -1209,7 +1209,7 @@
     top: 1.9rem;
     bottom: -0.9rem;
     width: 2px;
-    background: #e2e8f0;
+    background: var(--c-e2e8f0);
   }
   .lesson ol.steps > li:last-child::after {
     display: none;
@@ -1222,7 +1222,7 @@
   .lesson ol.steps p {
     margin: 0.15rem 0 0;
     font-size: 0.9rem;
-    color: #475569;
+    color: var(--c-475569);
   }
 
   /* --- Horizontal pipeline ----------------------------------------------- */
@@ -1236,7 +1236,7 @@
   .lesson .fnode {
     flex: 1 1 8rem;
     min-width: 7rem;
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     border: 1px solid var(--l-line);
     border-radius: 10px;
     padding: 0.6rem 0.5rem;
@@ -1247,8 +1247,8 @@
     height: 1.9rem;
     margin: 0 auto 0.35rem;
     border-radius: 50%;
-    background: #4f46e5;
-    color: #fff;
+    background: var(--c-4f46e5);
+    color: var(--c-fff);
     font-weight: 700;
     font-size: 0.85rem;
     display: flex;
@@ -1256,7 +1256,7 @@
     justify-content: center;
   }
   .lesson .fnode.done .fi {
-    background: #059669;
+    background: var(--c-059669);
   }
   .lesson .fnode .ft {
     font-weight: 600;
@@ -1270,7 +1270,7 @@
   }
   .lesson .farrow {
     align-self: center;
-    color: #cbd5e1;
+    color: var(--c-cbd5e1);
     font-size: 1.1rem;
     flex: 0 0 auto;
   }
@@ -1287,24 +1287,24 @@
     vertical-align: middle;
   }
   .lesson .badge.basic {
-    background: #dcfce7;
-    color: #15803d;
+    background: var(--c-dcfce7);
+    color: var(--c-15803d);
   }
   .lesson .badge.uncommon {
-    background: #fef3c7;
-    color: #b45309;
+    background: var(--c-fef3c7);
+    color: var(--c-b45309);
   }
   .lesson .badge.advanced {
-    background: #ede9fe;
-    color: #6d28d9;
+    background: var(--c-ede9fe);
+    color: var(--c-6d28d9);
   }
   .lesson .badge.modern {
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: var(--c-dbeafe);
+    color: var(--c-1d4ed8);
   }
   .lesson .badge.avoid {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: var(--c-fee2e2);
+    color: var(--c-b91c1c);
   }
 
   /* Excel error codes, e.g. #N/A — always red, always monospace. */
@@ -1312,9 +1312,9 @@
     font-family: var(--l-mono);
     font-size: 0.8rem;
     font-weight: 600;
-    background: #fef2f2;
-    color: #b91c1c;
-    border: 1px solid #fecaca;
+    background: var(--c-fef2f2);
+    color: var(--c-b91c1c);
+    border: 1px solid var(--c-fecaca);
     border-radius: 5px;
     padding: 0.08rem 0.35rem;
     white-space: nowrap;
@@ -1328,7 +1328,7 @@
     margin: 0.5rem 0;
   }
   .lesson .stat {
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     border: 1px solid var(--l-line);
     border-radius: 10px;
     padding: 0.7rem 0.8rem;
@@ -1364,7 +1364,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    color: #059669;
+    color: var(--c-059669);
     font-weight: 700;
   }
 
@@ -1372,14 +1372,14 @@
   .lesson details.acc {
     border: 1px solid var(--l-line);
     border-radius: 10px;
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     padding: 0.1rem 0.85rem;
     margin: 0.5rem 0;
   }
   .lesson details.acc > summary {
     cursor: pointer;
     font-weight: 600;
-    color: #334155;
+    color: var(--c-334155);
     padding: 0.6rem 0;
     list-style: none;
     display: flex;
@@ -1391,7 +1391,7 @@
   }
   .lesson details.acc > summary::before {
     content: "▸";
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     transition: transform 0.15s ease;
   }
   .lesson details.acc[open] > summary::before {
@@ -1411,7 +1411,7 @@
     margin: 0.6rem 0;
   }
   .lesson .cthumb {
-    background: #fff;
+    background: var(--c-fff);
     border: 1px solid var(--l-line);
     border-radius: 10px;
     padding: 0.6rem 0.7rem 0.7rem;
@@ -1439,12 +1439,12 @@
     line-height: 1.45;
   }
   .lesson .cthumb.pick {
-    border-color: #a7f3d0;
-    background: #f0fdf4;
+    border-color: var(--c-a7f3d0);
+    background: var(--c-f0fdf4);
   }
   .lesson .cthumb.warn-c {
-    border-color: #fde68a;
-    background: #fffbeb;
+    border-color: var(--c-fde68a);
+    background: var(--c-fffbeb);
   }
 
   /* --- Filterable list (shortcuts search) --------------------------------- */
@@ -1459,15 +1459,15 @@
     font: inherit;
     font-size: 0.9rem;
     padding: 0.5rem 0.8rem;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 9px;
-    background: #fff;
+    background: var(--c-fff);
     color: var(--l-ink);
   }
   .lesson .filter input:focus {
-    outline: 2px solid #c7d2fe;
+    outline: 2px solid var(--c-c7d2fe);
     outline-offset: 1px;
-    border-color: #6366f1;
+    border-color: var(--c-6366f1);
   }
   .lesson .filter .fcount {
     font-size: 0.8rem;
@@ -1495,7 +1495,7 @@
     flex-wrap: wrap;
   }
   .lesson .keys .plus {
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     font-size: 0.72rem;
   }
 
@@ -1513,16 +1513,16 @@
   }
   .lesson .pager a {
     display: block;
-    background: #fff;
-    border: 1px solid #e6eaf0;
+    background: var(--c-fff);
+    border: 1px solid var(--c-e6eaf0);
     border-radius: 12px;
     padding: 0.7rem 0.95rem;
     text-decoration: none;
     transition: all 0.15s ease;
   }
   .lesson .pager a:hover {
-    border-color: #c7d2fe;
-    background: #f8faff;
+    border-color: var(--c-c7d2fe);
+    background: var(--c-f8faff);
   }
   .lesson .pager .pl {
     display: block;
@@ -1535,7 +1535,7 @@
   .lesson .pager .pt {
     display: block;
     font-weight: 600;
-    color: #4338ca;
+    color: var(--c-4338ca);
     margin-top: 0.1rem;
   }
   .lesson .pager a.next {
@@ -1586,21 +1586,21 @@
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-size: 0.76rem;
     font-weight: 500;
-    color: #fff;
-    background: #64748b;
+    color: var(--c-fff);
+    background: var(--c-64748b);
     border-radius: 999px;
     padding: 0.16rem 0.6rem;
     white-space: nowrap;
     line-height: 1.35;
   }
   .lesson .pill.dim {
-    background: #4a7dab; /* discrete dimension — blue */
+    background: var(--c-4a7dab); /* discrete dimension — blue */
   }
   .lesson .pill.msr {
-    background: #5b9450; /* continuous measure — green */
+    background: var(--c-5b9450); /* continuous measure — green */
   }
   .lesson .pill.filt {
-    background: #8b7355;
+    background: var(--c-8b7355);
   }
   /* A calculated field shows an = sign in Tableau's field list. */
   .lesson .pill.calc::before {
@@ -1620,16 +1620,16 @@
 
   /* --- Worksheet mock ----------------------------------------------------- */
   .lesson .viz {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 10px;
     overflow: hidden;
-    background: #fff;
+    background: var(--c-fff);
     margin: 0.65rem 0;
     font-size: 0.8rem;
   }
   .lesson .viz-shelves {
-    background: #f8fafc;
-    border-bottom: 1px solid #cbd5e1;
+    background: var(--c-f8fafc);
+    border-bottom: 1px solid var(--c-cbd5e1);
     padding: 0.4rem 0.55rem;
     display: flex;
     flex-direction: column;
@@ -1646,15 +1646,15 @@
     flex: 0 0 4.2rem;
     font-size: 0.72rem;
     font-weight: 600;
-    color: #64748b;
+    color: var(--c-64748b);
     text-align: right;
     padding-right: 0.3rem;
   }
   /* The empty drop zone Tableau shows on an unused shelf. */
   .lesson .shelf .drop {
-    border: 1px dashed #cbd5e1;
+    border: 1px dashed var(--c-cbd5e1);
     border-radius: 4px;
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     font-size: 0.72rem;
     font-style: italic;
     padding: 0.12rem 0.6rem;
@@ -1667,25 +1667,25 @@
   }
   .lesson .viz-marks {
     flex: 0 0 8.5rem;
-    background: #f8fafc;
-    border-right: 1px solid #e2e8f0;
+    background: var(--c-f8fafc);
+    border-right: 1px solid var(--c-e2e8f0);
     padding: 0.45rem 0.5rem;
   }
   .lesson .viz-marks .mk-t {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #64748b;
+    color: var(--c-64748b);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-bottom: 0.3rem;
   }
   .lesson .viz-marks .mk-type {
-    background: #fff;
-    border: 1px solid #cbd5e1;
+    background: var(--c-fff);
+    border: 1px solid var(--c-cbd5e1);
     border-radius: 4px;
     padding: 0.15rem 0.45rem;
     font-size: 0.74rem;
-    color: #334155;
+    color: var(--c-334155);
     margin-bottom: 0.35rem;
   }
   .lesson .viz-marks .mk-row {
@@ -1694,11 +1694,11 @@
     gap: 0.3rem;
     margin: 0.22rem 0;
     font-size: 0.72rem;
-    color: #64748b;
+    color: var(--c-64748b);
   }
   .lesson .viz-marks .mk-row .mk-i {
     flex: 0 0 3.1rem;
-    background: #eef2f7;
+    background: var(--c-eef2f7);
     border-radius: 3px;
     padding: 0.06rem 0.3rem;
     text-align: center;
@@ -1725,7 +1725,7 @@
 
   /* --- Field list (data pane) --------------------------------------------- */
   .lesson .fieldlist {
-    background: #f8fafc;
+    background: var(--c-f8fafc);
     border: 1px solid var(--l-line);
     border-radius: 8px;
     padding: 0.5rem 0.6rem;
@@ -1736,7 +1736,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #94a3b8;
+    color: var(--c-94a3b8);
     margin: 0.35rem 0 0.2rem;
   }
   .lesson .fieldlist .fl-h:first-child {
@@ -1747,13 +1747,13 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.1rem 0;
-    color: #334155;
+    color: var(--c-334155);
   }
   .lesson .fieldlist .fl-i.d {
-    color: #2f5d80;
+    color: var(--c-2f5d80);
   }
   .lesson .fieldlist .fl-i.m {
-    color: #3d6b34;
+    color: var(--c-3d6b34);
   }
 
   /* --- Order-of-operations ladder ----------------------------------------
@@ -1764,7 +1764,7 @@
     counter-reset: rung;
     padding: 0;
     margin: 0.6rem 0;
-    border-left: 2px solid #e2e8f0;
+    border-left: 2px solid var(--c-e2e8f0);
   }
   .lesson .ladder > li {
     counter-increment: rung;
@@ -1781,8 +1781,8 @@
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
-    background: #cbd5e1;
-    color: #fff;
+    background: var(--c-cbd5e1);
+    color: var(--c-fff);
     font-size: 0.74rem;
     font-weight: 700;
     display: flex;
@@ -1790,10 +1790,10 @@
     justify-content: center;
   }
   .lesson .ladder > li.key::before {
-    background: #4f46e5;
+    background: var(--c-4f46e5);
   }
   .lesson .ladder > li.key {
-    background: #eef2ff;
+    background: var(--c-eef2ff);
     border-radius: 0 8px 8px 0;
     font-weight: 500;
   }
@@ -1820,15 +1820,15 @@
     font-family: var(--l-mono);
     font-size: 0.78rem;
     font-weight: 500;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: var(--c-f1f5f9);
+    border: 1px solid var(--c-e2e8f0);
     border-radius: 6px;
     padding: 0.1rem 0.45rem;
-    color: #334155;
+    color: var(--c-334155);
   }
   .lesson .mpath i {
     font-style: normal;
-    color: #94a3b8;
+    color: var(--c-94a3b8);
   }
 
   /* --- Colour ramp -------------------------------------------------------- */
@@ -1845,7 +1845,7 @@
   }
   /* Stepped variant — visible dividers between discrete colour bins. */
   .lesson .swatch.stepped span + span {
-    border-left: 1px solid #fff;
+    border-left: 1px solid var(--c-fff);
   }
 
   /* --- Legend mock --------------------------------------------------------
@@ -1855,14 +1855,14 @@
     border: 1px solid var(--l-line);
     border-radius: 8px;
     padding: 0.5rem 0.6rem;
-    background: #fff;
+    background: var(--c-fff);
     font-size: 0.78rem;
     min-width: 8rem;
   }
   .lesson .legend-mock .lg-t {
     font-weight: 700;
     font-size: 0.7rem;
-    color: #64748b;
+    color: var(--c-64748b);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-bottom: 0.35rem;
@@ -1872,7 +1872,7 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.09rem 0;
-    color: #334155;
+    color: var(--c-334155);
   }
   .lesson .legend-mock .lg-i b {
     width: 0.85rem;
@@ -1884,7 +1884,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.7rem;
-    color: #64748b;
+    color: var(--c-64748b);
     margin-top: 0.15rem;
   }
 
@@ -1921,8 +1921,8 @@
     height: 1.3rem;
     flex: 0 0 auto;
     border-radius: 50%;
-    background: #4f46e5;
-    color: #fff;
+    background: var(--c-4f46e5);
+    color: var(--c-fff);
     font-size: 0.7rem;
     font-weight: 700;
     line-height: 1;
@@ -1934,7 +1934,7 @@
   .lesson .figure > .pin {
     position: absolute;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 2px #fff, 0 1px 3px rgba(15, 23, 42, 0.25);
+    box-shadow: 0 0 0 2px var(--c-fff), 0 1px 3px rgba(15, 23, 42, 0.25);
   }
   .lesson ol.pinlist {
     list-style: none;
@@ -1972,7 +1972,7 @@
   }
   .lesson .bstep {
     margin: 0;
-    background: #fff;
+    background: var(--c-fff);
     border: 1px solid var(--l-line);
     border-radius: 10px;
     padding: 0.6rem 0.65rem 0.7rem;
@@ -1981,8 +1981,8 @@
     gap: 0.45rem;
   }
   .lesson .bstep.done {
-    border-color: #a7f3d0;
-    background: #f6fefb;
+    border-color: var(--c-a7f3d0);
+    background: var(--c-f6fefb);
   }
   .lesson .bstep .bs-h {
     display: flex;
@@ -1993,8 +1993,8 @@
     color: var(--l-ink);
   }
   .lesson .bstep .bs-frame {
-    background: #f8fafc;
-    border: 1px solid #eef2f7;
+    background: var(--c-f8fafc);
+    border: 1px solid var(--c-eef2f7);
     border-radius: 6px;
     padding: 0.45rem;
     min-height: 5rem;
@@ -2054,8 +2054,8 @@
 @layer components {
   /* --- "New terms on this page" card ------------------------------------- */
   .lesson .terms {
-    background: #fffdf5;
-    border: 1px solid #fde68a;
+    background: var(--c-fffdf5);
+    border: 1px solid var(--c-fde68a);
     border-left: 4px solid #f59e0b;
     border-radius: 12px;
     padding: 0.9rem 1.1rem 1rem;
@@ -2063,7 +2063,7 @@
   .lesson .terms > h2 {
     font-size: 1rem;
     margin: 0 0 0.2rem;
-    color: #92400e;
+    color: var(--c-92400e);
     display: flex;
     align-items: center;
     gap: 0.45rem;
@@ -2071,7 +2071,7 @@
   .lesson .terms > p {
     margin: 0 0 0.6rem;
     font-size: 0.86rem;
-    color: #a16207;
+    color: var(--c-a16207);
   }
 
   /* --- Definition list ----------------------------------------------------
@@ -2089,7 +2089,7 @@
     }
   }
   .lesson .deflist .df {
-    background: #fff;
+    background: var(--c-fff);
     border: 1px solid var(--l-line);
     border-radius: 9px;
     padding: 0.55rem 0.7rem 0.6rem;
@@ -2104,17 +2104,17 @@
     margin: 0;
     font-size: 0.85rem;
     line-height: 1.55;
-    color: #475569;
+    color: var(--c-475569);
   }
   .lesson .deflist .df-e {
     margin-top: 0.35rem;
     padding-left: 0.55rem;
-    border-left: 2px solid #c7d2fe;
-    color: #4338ca;
+    border-left: 2px solid var(--c-c7d2fe);
+    color: var(--c-4338ca);
     font-size: 0.82rem;
   }
   .lesson .deflist .df-e b {
-    color: #3730a3;
+    color: var(--c-3730a3);
   }
   /* Where in the app you'd actually see it. */
   .lesson .deflist .df-w {
@@ -2130,9 +2130,9 @@
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 600;
-    background: #eef2ff;
-    color: #4338ca;
-    border: 1px solid #c7d2fe;
+    background: var(--c-eef2ff);
+    color: var(--c-4338ca);
+    border: 1px solid var(--c-c7d2fe);
     border-radius: 5px;
     padding: 0.05rem 0.4rem;
     white-space: nowrap;
@@ -2156,4 +2156,2190 @@
     flex: 1 1 14rem;
     min-width: 0;
   }
+}
+
+
+/* ===========================================================================
+   Dark mode
+   ---------------------------------------------------------------------------
+   The content fragments hard-code their colours in SVG fill/stroke attributes
+   and inline style strings, so they can't be re-themed through variables
+   without rewriting all 88 of them. Instead the palette itself is remapped:
+   every light value the fragments use is paired with a dark counterpart and
+   swapped by attribute selector below. The fragments stay untouched, and a new
+   one written in the same palette themes itself for free.
+
+   `fill` is role-ambiguous — a white rect and a white label want opposite
+   treatment — so those rules are split by element, with a descendant rule for
+   text that inherits its colour from a <g>.
+
+   `data-theme` is always stamped on <html> by the inline script in index.html,
+   so there is no media query here and no flash of the wrong theme on load.
+   =========================================================================== */
+
+:root {
+  color-scheme: light;
+  --c-0284c7: #0284c7;
+  --c-0369a1: #0369a1;
+  --c-047857: #047857;
+  --c-059669: #059669;
+  --c-065f46: #065f46;
+  --c-0f172a: #0f172a;
+  --c-0f766e: #0f766e;
+  --c-15803d: #15803d;
+  --c-16a34a: #16a34a;
+  --c-196f3d: #196f3d;
+  --c-1b4f72: #1b4f72;
+  --c-1d4ed8: #1d4ed8;
+  --c-1e293b: #1e293b;
+  --c-1e3a5f: #1e3a5f;
+  --c-1e7d52: #1e7d52;
+  --c-1f2937: #1f2937;
+  --c-1f5c92: #1f5c92;
+  --c-2563eb: #2563eb;
+  --c-2e6da4: #2e6da4;
+  --c-2e86c1: #2e86c1;
+  --c-2f5c29: #2f5c29;
+  --c-2f5d80: #2f5d80;
+  --c-312e81: #312e81;
+  --c-334155: #334155;
+  --c-3730a3: #3730a3;
+  --c-3b82f6: #3b82f6;
+  --c-3d6b34: #3d6b34;
+  --c-3d6b94: #3d6b94;
+  --c-3d7ea8: #3d7ea8;
+  --c-4338ca: #4338ca;
+  --c-475569: #475569;
+  --c-4884b8: #4884b8;
+  --c-4a7dab: #4a7dab;
+  --c-4e79a7: #4e79a7;
+  --c-4f46e5: #4f46e5;
+  --c-5499c7: #5499c7;
+  --c-59a14f: #59a14f;
+  --c-5a93c2: #5a93c2;
+  --c-5b8db8: #5b8db8;
+  --c-5b9450: #5b9450;
+  --c-5bb377: #5bb377;
+  --c-6366f1: #6366f1;
+  --c-64748b: #64748b;
+  --c-666: #666;
+  --c-6a97be: #6a97be;
+  --c-6b4763: #6b4763;
+  --c-6b93bb: #6b93bb;
+  --c-6b98bf: #6b98bf;
+  --c-6d28d9: #6d28d9;
+  --c-6ee7b7: #6ee7b7;
+  --c-6f9fc8: #6f9fc8;
+  --c-76b7b2: #76b7b2;
+  --c-7aabd0: #7aabd0;
+  --c-7c3aed: #7c3aed;
+  --c-7dc99a: #7dc99a;
+  --c-7f1d1d: #7f1d1d;
+  --c-7fb3d5: #7fb3d5;
+  --c-854d0e: #854d0e;
+  --c-86efac: #86efac;
+  --c-88b4d6: #88b4d6;
+  --c-8b5cf6: #8b5cf6;
+  --c-8b7355: #8b7355;
+  --c-8fb0cd: #8fb0cd;
+  --c-8fb3d3: #8fb3d3;
+  --c-8fcf9f: #8fcf9f;
+  --c-92400e: #92400e;
+  --c-93c5fd: #93c5fd;
+  --c-94a3b8: #94a3b8;
+  --c-991b1b: #991b1b;
+  --c-9a5b12: #9a5b12;
+  --c-9c755f: #9c755f;
+  --c-9ccbb0: #9ccbb0;
+  --c-9db8ce: #9db8ce;
+  --c-9dbdd8: #9dbdd8;
+  --c-a16207: #a16207;
+  --c-a4c6e0: #a4c6e0;
+  --c-a5b4fc: #a5b4fc;
+  --c-a7f3d0: #a7f3d0;
+  --c-a8c8e0: #a8c8e0;
+  --c-a9c3da: #a9c3da;
+  --c-a9dfbf: #a9dfbf;
+  --c-aed6f1: #aed6f1;
+  --c-b07aa1: #b07aa1;
+  --c-b45309: #b45309;
+  --c-b91c1c: #b91c1c;
+  --c-b9d3e8: #b9d3e8;
+  --c-bae6fd: #bae6fd;
+  --c-bbf7d0: #bbf7d0;
+  --c-bcd2e6: #bcd2e6;
+  --c-bcd6ea: #bcd6ea;
+  --c-be123c: #be123c;
+  --c-be185d: #be185d;
+  --c-bfdbfe: #bfdbfe;
+  --c-c0392b: #c0392b;
+  --c-c2410c: #c2410c;
+  --c-c4b5fd: #c4b5fd;
+  --c-c7d2fe: #c7d2fe;
+  --c-c7d9ea: #c7d9ea;
+  --c-c9dded: #c9dded;
+  --c-cbd5e1: #cbd5e1;
+  --c-d0e0ee: #d0e0ee;
+  --c-d1fae5: #d1fae5;
+  --c-d6eaf8: #d6eaf8;
+  --c-d7dee6: #d7dee6;
+  --c-d7ecd9: #d7ecd9;
+  --c-d97706: #d97706;
+  --c-dae6f1: #dae6f1;
+  --c-dbeafe: #dbeafe;
+  --c-dc2626: #dc2626;
+  --c-dcfce7: #dcfce7;
+  --c-ddd6fe: #ddd6fe;
+  --c-e0e7ff: #e0e7ff;
+  --c-e0eaf3: #e0eaf3;
+  --c-e0f2fe: #e0f2fe;
+  --c-e15759: #e15759;
+  --c-e2e8f0: #e2e8f0;
+  --c-e3eef7: #e3eef7;
+  --c-e6a09b: #e6a09b;
+  --c-e6eaf0: #e6eaf0;
+  --c-e8933a: #e8933a;
+  --c-e8b931: #e8b931;
+  --c-e8f1f8: #e8f1f8;
+  --c-ea580c: #ea580c;
+  --c-eaf2f8: #eaf2f8;
+  --c-ecfdf5: #ecfdf5;
+  --c-ede9fe: #ede9fe;
+  --c-eef2f7: #eef2f7;
+  --c-eef2ff: #eef2ff;
+  --c-eff6ff: #eff6ff;
+  --c-f0f9ff: #f0f9ff;
+  --c-f0fdf4: #f0fdf4;
+  --c-f0fdfa: #f0fdfa;
+  --c-f1f5f9: #f1f5f9;
+  --c-f2f2f2: #f2f2f2;
+  --c-f5a85a: #f5a85a;
+  --c-f5b7b1: #f5b7b1;
+  --c-f5f3ff: #f5f3ff;
+  --c-f6f8fb: #f6f8fb;
+  --c-f6fefb: #f6fefb;
+  --c-f7d4d2: #f7d4d2;
+  --c-f8c28c: #f8c28c;
+  --c-f8fafc: #f8fafc;
+  --c-f8faff: #f8faff;
+  --c-f9a8d4: #f9a8d4;
+  --c-fbd9b5: #fbd9b5;
+  --c-fdba74: #fdba74;
+  --c-fde68a: #fde68a;
+  --c-fdf1d6: #fdf1d6;
+  --c-fdf2f8: #fdf2f8;
+  --c-fecaca: #fecaca;
+  --c-fed7aa: #fed7aa;
+  --c-fee2e2: #fee2e2;
+  --c-fef2f2: #fef2f2;
+  --c-fef3c7: #fef3c7;
+  --c-fff: #fff;
+  --c-fff7ed: #fff7ed;
+  --c-fffbeb: #fffbeb;
+  --c-fffdf5: #fffdf5;
+  --c-ffffff: #ffffff;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --c-0284c7: #6cb6e8;
+  --c-0369a1: #6cb6e8;
+  --c-047857: #4ade9f;
+  --c-059669: #34d399;
+  --c-065f46: #4ade9f;
+  --c-0f172a: #f1f5f9;
+  --c-0f766e: #2dd4bf;
+  --c-15803d: #57d68a;
+  --c-16a34a: #4ade80;
+  --c-196f3d: #5bbd7f;
+  --c-1b4f72: #3f6f9e;
+  --c-1d4ed8: #7aa5f5;
+  --c-1e293b: #e6ecf3;
+  --c-1e3a5f: #8ab4e8;
+  --c-1e7d52: #51c48f;
+  --c-1f2937: #e6ecf3;
+  --c-1f5c92: #4a7fae;
+  --c-2563eb: #7aa5f5;
+  --c-2e6da4: #4d84b4;
+  --c-2e86c1: #5390c4;
+  --c-2f5c29: #86c67c;
+  --c-2f5d80: #8ab4e8;
+  --c-312e81: #b3bcff;
+  --c-334155: #d3dbe5;
+  --c-3730a3: #a5b0ff;
+  --c-3b82f6: #60a5fa;
+  --c-3d6b34: #8fcf7f;
+  --c-3d6b94: #6191bd;
+  --c-3d7ea8: #4a7ba8;
+  --c-4338ca: #a5b0ff;
+  --c-475569: #b9c4d1;
+  --c-4884b8: #4a7ba8;
+  --c-4a7dab: #6fa3d4;
+  --c-4e79a7: #6d9ec9;
+  --c-4f46e5: #7b73f0;
+  --c-5499c7: #45749f;
+  --c-59a14f: #79bd6f;
+  --c-5a93c2: #4179a6;
+  --c-5b8db8: #416f9c;
+  --c-5b9450: #7ec070;
+  --c-5bb377: #7fd39a;
+  --c-6366f1: #8b8df5;
+  --c-64748b: #9aa8ba;
+  --c-666: #9aa8ba;
+  --c-6a97be: #3b6a97;
+  --c-6b4763: #c9a3c0;
+  --c-6b93bb: #3b6a97;
+  --c-6b98bf: #3b6a97;
+  --c-6d28d9: #c0a8ff;
+  --c-6ee7b7: #2a6b52;
+  --c-6f9fc8: #8ab8dd;
+  --c-76b7b2: #8fd0cb;
+  --c-7aabd0: #35608a;
+  --c-7c3aed: #9d7bf5;
+  --c-7dc99a: #9adfb3;
+  --c-7f1d1d: #fca5a5;
+  --c-7fb3d5: #35608a;
+  --c-854d0e: #fbbf24;
+  --c-86efac: #6ee7a5;
+  --c-88b4d6: #31597f;
+  --c-8b5cf6: #a78bfa;
+  --c-8b7355: #c0a882;
+  --c-8fb0cd: #2d5378;
+  --c-8fb3d3: #2f5679;
+  --c-8fcf9f: #a6e2b6;
+  --c-92400e: #fbbf24;
+  --c-93c5fd: #3a5c8c;
+  --c-94a3b8: #8695a8;
+  --c-991b1b: #fca5a5;
+  --c-9a5b12: #d9a441;
+  --c-9c755f: #bb9581;
+  --c-9ccbb0: #b0dcc2;
+  --c-9db8ce: #4a5f73;
+  --c-9dbdd8: #2a4d6d;
+  --c-a16207: #eab308;
+  --c-a4c6e0: #27486a;
+  --c-a5b4fc: #4a4f8f;
+  --c-a7f3d0: #1f5a43;
+  --c-a8c8e0: #436d92;
+  --c-a9c3da: #27486a;
+  --c-a9dfbf: #b8e6c9;
+  --c-aed6f1: #22405c;
+  --c-b07aa1: #c99abd;
+  --c-b45309: #fbbf24;
+  --c-b91c1c: #f87171;
+  --c-b9d3e8: #244163;
+  --c-bae6fd: #2c4f6b;
+  --c-bbf7d0: #1a4530;
+  --c-bcd2e6: #213a54;
+  --c-bcd6ea: #1f374f;
+  --c-be123c: #fb7185;
+  --c-be185d: #f472b6;
+  --c-bfdbfe: #2f4a72;
+  --c-c0392b: #e0685c;
+  --c-c2410c: #fb923c;
+  --c-c4b5fd: #5b4d95;
+  --c-c7d2fe: #3b4382;
+  --c-c7d9ea: #1f374f;
+  --c-c9dded: #20384f;
+  --c-cbd5e1: #3a4859;
+  --c-d0e0ee: #1c3247;
+  --c-d1fae5: #123527;
+  --c-d6eaf8: #16283a;
+  --c-d7dee6: #2b3747;
+  --c-d7ecd9: #18382a;
+  --c-d97706: #fbbf24;
+  --c-dae6f1: #192d42;
+  --c-dbeafe: #1b2f4d;
+  --c-dc2626: #f87171;
+  --c-dcfce7: #14331f;
+  --c-ddd6fe: #453a78;
+  --c-e0e7ff: #262c52;
+  --c-e0eaf3: #172a3d;
+  --c-e0f2fe: #17293b;
+  --c-e15759: #ef7f81;
+  --c-e2e8f0: #2b3747;
+  --c-e3eef7: #18293c;
+  --c-e6a09b: #e8a8a4;
+  --c-e6eaf0: #232e3d;
+  --c-e8933a: #f0a95c;
+  --c-e8b931: #f2ce5c;
+  --c-e8f1f8: #16283a;
+  --c-ea580c: #fb923c;
+  --c-eaf2f8: #16243a;
+  --c-ecfdf5: #10291f;
+  --c-ede9fe: #281f45;
+  --c-eef2f7: #0e141d;
+  --c-eef2ff: #1e2340;
+  --c-eff6ff: #16243a;
+  --c-f0f9ff: #14202f;
+  --c-f0fdf4: #10291f;
+  --c-f0fdfa: #0f2b2b;
+  --c-f1f5f9: #1f2937;
+  --c-f2f2f2: #222c3a;
+  --c-f5a85a: #e0954e;
+  --c-f5b7b1: #efb8b3;
+  --c-f5f3ff: #221a3a;
+  --c-f6f8fb: #1b2431;
+  --c-f6fefb: #102a25;
+  --c-f7d4d2: #e9bdba;
+  --c-f8c28c: #8a5f36;
+  --c-f8fafc: #1b2431;
+  --c-f8faff: #192132;
+  --c-f9a8d4: #6b2b4d;
+  --c-fbd9b5: #6d4c2c;
+  --c-fdba74: #7a4a22;
+  --c-fde68a: #6a5219;
+  --c-fdf1d6: #312712;
+  --c-fdf2f8: #2b1626;
+  --c-fecaca: #6b2b2f;
+  --c-fed7aa: #6b4320;
+  --c-fee2e2: #35191c;
+  --c-fef2f2: #2c1618;
+  --c-fef3c7: #33290c;
+  --c-fff: #171f2b;
+  --c-fff7ed: #2b1c0e;
+  --c-fffbeb: #2a2109;
+  --c-fffdf5: #2a2513;
+  --c-ffffff: #171f2b;
+
+  /* semantic shell tokens */
+  --bg: #0e141d;
+  --surface: #171f2b;
+  --border: #2b3747;
+  --text: #e6ecf3;
+  --text-muted: #9aa8ba;
+  --accent: #8b8df5;
+  --accent-strong: #a5a5ff;
+  --accent-soft: #21254a;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .lesson {
+  --l-line: #2b3747;
+  --l-ink: #e6ecf3;
+  --l-dim: #9aa8ba;
+}
+
+/* Images and the KaTeX/highlight.js panels sit on their own backgrounds;
+   soften them rather than letting them glare. */
+[data-theme="dark"] img:not([src$=".svg"]) {
+  filter: brightness(0.88) contrast(1.02);
+}
+
+/* --- theme toggle --------------------------------------------------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.5rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+.theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+.theme-toggle .icon-moon {
+  display: none;
+}
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: none;
+}
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+/* --- fragment palette remap ---------------------------------------------- */
+[data-theme="dark"] .lesson rect[fill="#666"],
+[data-theme="dark"] .lesson circle[fill="#666"],
+[data-theme="dark"] .lesson ellipse[fill="#666"],
+[data-theme="dark"] .lesson path[fill="#666"],
+[data-theme="dark"] .lesson polygon[fill="#666"],
+[data-theme="dark"] .lesson polyline[fill="#666"],
+[data-theme="dark"] .lesson line[fill="#666"],
+[data-theme="dark"] .lesson g[fill="#666"]{fill:#9aa8ba}
+[data-theme="dark"] .lesson text[fill="#666"],
+[data-theme="dark"] .lesson tspan[fill="#666"],
+[data-theme="dark"] .lesson g[fill="#666"] text,
+[data-theme="dark"] .lesson g[fill="#666"] tspan{fill:#d4d4d4}
+[data-theme="dark"] .lesson [stroke="#666"]{stroke:#9aa8ba}
+[data-theme="dark"] .lesson rect[fill="#fff"],
+[data-theme="dark"] .lesson circle[fill="#fff"],
+[data-theme="dark"] .lesson ellipse[fill="#fff"],
+[data-theme="dark"] .lesson path[fill="#fff"],
+[data-theme="dark"] .lesson polygon[fill="#fff"],
+[data-theme="dark"] .lesson polyline[fill="#fff"],
+[data-theme="dark"] .lesson line[fill="#fff"],
+[data-theme="dark"] .lesson g[fill="#fff"]{fill:#171f2b}
+[data-theme="dark"] .lesson text[fill="#fff"],
+[data-theme="dark"] .lesson tspan[fill="#fff"],
+[data-theme="dark"] .lesson g[fill="#fff"] text,
+[data-theme="dark"] .lesson g[fill="#fff"] tspan{fill:#fff}
+[data-theme="dark"] .lesson [stroke="#fff"]{stroke:#171f2b}
+[data-theme="dark"] .lesson [style*="background:#fff"]{background-color:#171f2b!important}
+[data-theme="dark"] .lesson [style^="color:#fff"],
+[data-theme="dark"] .lesson [style*=";color:#fff"]{color:#fff!important}
+[data-theme="dark"] .lesson rect[fill="#0284c7"],
+[data-theme="dark"] .lesson circle[fill="#0284c7"],
+[data-theme="dark"] .lesson ellipse[fill="#0284c7"],
+[data-theme="dark"] .lesson path[fill="#0284c7"],
+[data-theme="dark"] .lesson polygon[fill="#0284c7"],
+[data-theme="dark"] .lesson polyline[fill="#0284c7"],
+[data-theme="dark"] .lesson line[fill="#0284c7"],
+[data-theme="dark"] .lesson g[fill="#0284c7"]{fill:#6cb6e8}
+[data-theme="dark"] .lesson text[fill="#0284c7"],
+[data-theme="dark"] .lesson tspan[fill="#0284c7"],
+[data-theme="dark"] .lesson g[fill="#0284c7"] text,
+[data-theme="dark"] .lesson g[fill="#0284c7"] tspan{fill:#b8ddef}
+[data-theme="dark"] .lesson [stroke="#0284c7"]{stroke:#6cb6e8}
+[data-theme="dark"] .lesson rect[fill="#0369a1"],
+[data-theme="dark"] .lesson circle[fill="#0369a1"],
+[data-theme="dark"] .lesson ellipse[fill="#0369a1"],
+[data-theme="dark"] .lesson path[fill="#0369a1"],
+[data-theme="dark"] .lesson polygon[fill="#0369a1"],
+[data-theme="dark"] .lesson polyline[fill="#0369a1"],
+[data-theme="dark"] .lesson line[fill="#0369a1"],
+[data-theme="dark"] .lesson g[fill="#0369a1"]{fill:#6cb6e8}
+[data-theme="dark"] .lesson text[fill="#0369a1"],
+[data-theme="dark"] .lesson tspan[fill="#0369a1"],
+[data-theme="dark"] .lesson g[fill="#0369a1"] text,
+[data-theme="dark"] .lesson g[fill="#0369a1"] tspan{fill:#b8d5e5}
+[data-theme="dark"] .lesson rect[fill="#047857"],
+[data-theme="dark"] .lesson circle[fill="#047857"],
+[data-theme="dark"] .lesson ellipse[fill="#047857"],
+[data-theme="dark"] .lesson path[fill="#047857"],
+[data-theme="dark"] .lesson polygon[fill="#047857"],
+[data-theme="dark"] .lesson polyline[fill="#047857"],
+[data-theme="dark"] .lesson line[fill="#047857"],
+[data-theme="dark"] .lesson g[fill="#047857"]{fill:#4ade9f}
+[data-theme="dark"] .lesson text[fill="#047857"],
+[data-theme="dark"] .lesson tspan[fill="#047857"],
+[data-theme="dark"] .lesson g[fill="#047857"] text,
+[data-theme="dark"] .lesson g[fill="#047857"] tspan{fill:#4ade9f}
+[data-theme="dark"] .lesson [stroke="#047857"]{stroke:#4ade9f}
+[data-theme="dark"] .lesson [style^="color:#047857"],
+[data-theme="dark"] .lesson [style*=";color:#047857"]{color:#4ade9f!important}
+[data-theme="dark"] .lesson rect[fill="#059669"],
+[data-theme="dark"] .lesson circle[fill="#059669"],
+[data-theme="dark"] .lesson ellipse[fill="#059669"],
+[data-theme="dark"] .lesson path[fill="#059669"],
+[data-theme="dark"] .lesson polygon[fill="#059669"],
+[data-theme="dark"] .lesson polyline[fill="#059669"],
+[data-theme="dark"] .lesson line[fill="#059669"],
+[data-theme="dark"] .lesson g[fill="#059669"]{fill:#34d399}
+[data-theme="dark"] .lesson text[fill="#059669"],
+[data-theme="dark"] .lesson tspan[fill="#059669"],
+[data-theme="dark"] .lesson g[fill="#059669"] text,
+[data-theme="dark"] .lesson g[fill="#059669"] tspan{fill:#34d399}
+[data-theme="dark"] .lesson [stroke="#059669"]{stroke:#34d399}
+[data-theme="dark"] .lesson [style*="background:#059669"]{background-color:#0d2929!important}
+[data-theme="dark"] .lesson [style^="color:#059669"],
+[data-theme="dark"] .lesson [style*=";color:#059669"]{color:#34d399!important}
+[data-theme="dark"] .lesson rect[fill="#065f46"],
+[data-theme="dark"] .lesson circle[fill="#065f46"],
+[data-theme="dark"] .lesson ellipse[fill="#065f46"],
+[data-theme="dark"] .lesson path[fill="#065f46"],
+[data-theme="dark"] .lesson polygon[fill="#065f46"],
+[data-theme="dark"] .lesson polyline[fill="#065f46"],
+[data-theme="dark"] .lesson line[fill="#065f46"],
+[data-theme="dark"] .lesson g[fill="#065f46"]{fill:#4ade9f}
+[data-theme="dark"] .lesson text[fill="#065f46"],
+[data-theme="dark"] .lesson tspan[fill="#065f46"],
+[data-theme="dark"] .lesson g[fill="#065f46"] text,
+[data-theme="dark"] .lesson g[fill="#065f46"] tspan{fill:#4ade9f}
+[data-theme="dark"] .lesson rect[fill="#0f172a"],
+[data-theme="dark"] .lesson circle[fill="#0f172a"],
+[data-theme="dark"] .lesson ellipse[fill="#0f172a"],
+[data-theme="dark"] .lesson path[fill="#0f172a"],
+[data-theme="dark"] .lesson polygon[fill="#0f172a"],
+[data-theme="dark"] .lesson polyline[fill="#0f172a"],
+[data-theme="dark"] .lesson line[fill="#0f172a"],
+[data-theme="dark"] .lesson g[fill="#0f172a"]{fill:#93979f}
+[data-theme="dark"] .lesson text[fill="#0f172a"],
+[data-theme="dark"] .lesson tspan[fill="#0f172a"],
+[data-theme="dark"] .lesson g[fill="#0f172a"] text,
+[data-theme="dark"] .lesson g[fill="#0f172a"] tspan{fill:#f1f5f9}
+[data-theme="dark"] .lesson [stroke="#0f172a"]{stroke:#93979f}
+[data-theme="dark"] .lesson [style*="background:#0f172a"]{background-color:#0f172a!important}
+[data-theme="dark"] .lesson [style^="color:#0f766e"],
+[data-theme="dark"] .lesson [style*=";color:#0f766e"]{color:#2dd4bf!important}
+[data-theme="dark"] .lesson rect[fill="#15803d"],
+[data-theme="dark"] .lesson circle[fill="#15803d"],
+[data-theme="dark"] .lesson ellipse[fill="#15803d"],
+[data-theme="dark"] .lesson path[fill="#15803d"],
+[data-theme="dark"] .lesson polygon[fill="#15803d"],
+[data-theme="dark"] .lesson polyline[fill="#15803d"],
+[data-theme="dark"] .lesson line[fill="#15803d"],
+[data-theme="dark"] .lesson g[fill="#15803d"]{fill:#57d68a}
+[data-theme="dark"] .lesson text[fill="#15803d"],
+[data-theme="dark"] .lesson tspan[fill="#15803d"],
+[data-theme="dark"] .lesson g[fill="#15803d"] text,
+[data-theme="dark"] .lesson g[fill="#15803d"] tspan{fill:#57d68a}
+[data-theme="dark"] .lesson rect[fill="#16a34a"],
+[data-theme="dark"] .lesson circle[fill="#16a34a"],
+[data-theme="dark"] .lesson ellipse[fill="#16a34a"],
+[data-theme="dark"] .lesson path[fill="#16a34a"],
+[data-theme="dark"] .lesson polygon[fill="#16a34a"],
+[data-theme="dark"] .lesson polyline[fill="#16a34a"],
+[data-theme="dark"] .lesson line[fill="#16a34a"],
+[data-theme="dark"] .lesson g[fill="#16a34a"]{fill:#4ade80}
+[data-theme="dark"] .lesson text[fill="#16a34a"],
+[data-theme="dark"] .lesson tspan[fill="#16a34a"],
+[data-theme="dark"] .lesson g[fill="#16a34a"] text,
+[data-theme="dark"] .lesson g[fill="#16a34a"] tspan{fill:#4ade80}
+[data-theme="dark"] .lesson [stroke="#16a34a"]{stroke:#4ade80}
+[data-theme="dark"] .lesson [style^="color:#16a34a"],
+[data-theme="dark"] .lesson [style*=";color:#16a34a"]{color:#4ade80!important}
+[data-theme="dark"] .lesson [style*="background:#196f3d"]{background-color:#196f3d!important}
+[data-theme="dark"] .lesson rect[fill="#1b4f72"],
+[data-theme="dark"] .lesson circle[fill="#1b4f72"],
+[data-theme="dark"] .lesson ellipse[fill="#1b4f72"],
+[data-theme="dark"] .lesson path[fill="#1b4f72"],
+[data-theme="dark"] .lesson polygon[fill="#1b4f72"],
+[data-theme="dark"] .lesson polyline[fill="#1b4f72"],
+[data-theme="dark"] .lesson line[fill="#1b4f72"],
+[data-theme="dark"] .lesson g[fill="#1b4f72"]{fill:#3f6f9e}
+[data-theme="dark"] .lesson text[fill="#1b4f72"],
+[data-theme="dark"] .lesson tspan[fill="#1b4f72"],
+[data-theme="dark"] .lesson g[fill="#1b4f72"] text,
+[data-theme="dark"] .lesson g[fill="#1b4f72"] tspan{fill:#bfced8}
+[data-theme="dark"] .lesson [stroke="#1b4f72"]{stroke:#3f6f9e}
+[data-theme="dark"] .lesson [style*="background:#1b4f72"]{background-color:#1b4f72!important}
+[data-theme="dark"] .lesson rect[fill="#1d4ed8"],
+[data-theme="dark"] .lesson circle[fill="#1d4ed8"],
+[data-theme="dark"] .lesson ellipse[fill="#1d4ed8"],
+[data-theme="dark"] .lesson path[fill="#1d4ed8"],
+[data-theme="dark"] .lesson polygon[fill="#1d4ed8"],
+[data-theme="dark"] .lesson polyline[fill="#1d4ed8"],
+[data-theme="dark"] .lesson line[fill="#1d4ed8"],
+[data-theme="dark"] .lesson g[fill="#1d4ed8"]{fill:#7aa5f5}
+[data-theme="dark"] .lesson text[fill="#1d4ed8"],
+[data-theme="dark"] .lesson tspan[fill="#1d4ed8"],
+[data-theme="dark"] .lesson g[fill="#1d4ed8"] text,
+[data-theme="dark"] .lesson g[fill="#1d4ed8"] tspan{fill:#c0cdf4}
+[data-theme="dark"] .lesson [style^="color:#1d4ed8"],
+[data-theme="dark"] .lesson [style*=";color:#1d4ed8"]{color:#c0cdf4!important}
+[data-theme="dark"] .lesson [stroke="#1e3a5f"]{stroke:#9aa6b7}
+[data-theme="dark"] .lesson [style*="background:#1e7d52"]{background-color:#1e7d52!important}
+[data-theme="dark"] .lesson rect[fill="#1f2937"],
+[data-theme="dark"] .lesson circle[fill="#1f2937"],
+[data-theme="dark"] .lesson ellipse[fill="#1f2937"],
+[data-theme="dark"] .lesson path[fill="#1f2937"],
+[data-theme="dark"] .lesson polygon[fill="#1f2937"],
+[data-theme="dark"] .lesson polyline[fill="#1f2937"],
+[data-theme="dark"] .lesson line[fill="#1f2937"],
+[data-theme="dark"] .lesson g[fill="#1f2937"]{fill:#9a9fa5}
+[data-theme="dark"] .lesson text[fill="#1f2937"],
+[data-theme="dark"] .lesson tspan[fill="#1f2937"],
+[data-theme="dark"] .lesson g[fill="#1f2937"] text,
+[data-theme="dark"] .lesson g[fill="#1f2937"] tspan{fill:#e6ecf3}
+[data-theme="dark"] .lesson rect[fill="#1f5c92"],
+[data-theme="dark"] .lesson circle[fill="#1f5c92"],
+[data-theme="dark"] .lesson ellipse[fill="#1f5c92"],
+[data-theme="dark"] .lesson path[fill="#1f5c92"],
+[data-theme="dark"] .lesson polygon[fill="#1f5c92"],
+[data-theme="dark"] .lesson polyline[fill="#1f5c92"],
+[data-theme="dark"] .lesson line[fill="#1f5c92"],
+[data-theme="dark"] .lesson g[fill="#1f5c92"]{fill:#4a7fae}
+[data-theme="dark"] .lesson text[fill="#1f5c92"],
+[data-theme="dark"] .lesson tspan[fill="#1f5c92"],
+[data-theme="dark"] .lesson g[fill="#1f5c92"] text,
+[data-theme="dark"] .lesson g[fill="#1f5c92"] tspan{fill:#c0d1e0}
+[data-theme="dark"] .lesson rect[fill="#2563eb"],
+[data-theme="dark"] .lesson circle[fill="#2563eb"],
+[data-theme="dark"] .lesson ellipse[fill="#2563eb"],
+[data-theme="dark"] .lesson path[fill="#2563eb"],
+[data-theme="dark"] .lesson polygon[fill="#2563eb"],
+[data-theme="dark"] .lesson polyline[fill="#2563eb"],
+[data-theme="dark"] .lesson line[fill="#2563eb"],
+[data-theme="dark"] .lesson g[fill="#2563eb"]{fill:#7aa5f5}
+[data-theme="dark"] .lesson text[fill="#2563eb"],
+[data-theme="dark"] .lesson tspan[fill="#2563eb"],
+[data-theme="dark"] .lesson g[fill="#2563eb"] text,
+[data-theme="dark"] .lesson g[fill="#2563eb"] tspan{fill:#c2d3f9}
+[data-theme="dark"] .lesson [stroke="#2563eb"]{stroke:#7aa5f5}
+[data-theme="dark"] .lesson [style^="color:#2563eb"],
+[data-theme="dark"] .lesson [style*=";color:#2563eb"]{color:#c2d3f9!important}
+[data-theme="dark"] .lesson rect[fill="#2e6da4"],
+[data-theme="dark"] .lesson circle[fill="#2e6da4"],
+[data-theme="dark"] .lesson ellipse[fill="#2e6da4"],
+[data-theme="dark"] .lesson path[fill="#2e6da4"],
+[data-theme="dark"] .lesson polygon[fill="#2e6da4"],
+[data-theme="dark"] .lesson polyline[fill="#2e6da4"],
+[data-theme="dark"] .lesson line[fill="#2e6da4"],
+[data-theme="dark"] .lesson g[fill="#2e6da4"]{fill:#4d84b4}
+[data-theme="dark"] .lesson text[fill="#2e6da4"],
+[data-theme="dark"] .lesson tspan[fill="#2e6da4"],
+[data-theme="dark"] .lesson g[fill="#2e6da4"] text,
+[data-theme="dark"] .lesson g[fill="#2e6da4"] tspan{fill:#c4d6e6}
+[data-theme="dark"] .lesson rect[fill="#2e86c1"],
+[data-theme="dark"] .lesson circle[fill="#2e86c1"],
+[data-theme="dark"] .lesson ellipse[fill="#2e86c1"],
+[data-theme="dark"] .lesson path[fill="#2e86c1"],
+[data-theme="dark"] .lesson polygon[fill="#2e86c1"],
+[data-theme="dark"] .lesson polyline[fill="#2e86c1"],
+[data-theme="dark"] .lesson line[fill="#2e86c1"],
+[data-theme="dark"] .lesson g[fill="#2e86c1"]{fill:#5390c4}
+[data-theme="dark"] .lesson text[fill="#2e86c1"],
+[data-theme="dark"] .lesson tspan[fill="#2e86c1"],
+[data-theme="dark"] .lesson g[fill="#2e86c1"] text,
+[data-theme="dark"] .lesson g[fill="#2e86c1"] tspan{fill:#c4ddee}
+[data-theme="dark"] .lesson [stroke="#2f5c29"]{stroke:#86c67c}
+[data-theme="dark"] .lesson rect[fill="#2f5d80"],
+[data-theme="dark"] .lesson circle[fill="#2f5d80"],
+[data-theme="dark"] .lesson ellipse[fill="#2f5d80"],
+[data-theme="dark"] .lesson path[fill="#2f5d80"],
+[data-theme="dark"] .lesson polygon[fill="#2f5d80"],
+[data-theme="dark"] .lesson polyline[fill="#2f5d80"],
+[data-theme="dark"] .lesson line[fill="#2f5d80"],
+[data-theme="dark"] .lesson g[fill="#2f5d80"]{fill:#8ab4e8}
+[data-theme="dark"] .lesson text[fill="#2f5d80"],
+[data-theme="dark"] .lesson tspan[fill="#2f5d80"],
+[data-theme="dark"] .lesson g[fill="#2f5d80"] text,
+[data-theme="dark"] .lesson g[fill="#2f5d80"] tspan{fill:#c5d2db}
+[data-theme="dark"] .lesson rect[fill="#312e81"],
+[data-theme="dark"] .lesson circle[fill="#312e81"],
+[data-theme="dark"] .lesson ellipse[fill="#312e81"],
+[data-theme="dark"] .lesson path[fill="#312e81"],
+[data-theme="dark"] .lesson polygon[fill="#312e81"],
+[data-theme="dark"] .lesson polyline[fill="#312e81"],
+[data-theme="dark"] .lesson line[fill="#312e81"],
+[data-theme="dark"] .lesson g[fill="#312e81"]{fill:#a2a1c6}
+[data-theme="dark"] .lesson text[fill="#312e81"],
+[data-theme="dark"] .lesson tspan[fill="#312e81"],
+[data-theme="dark"] .lesson g[fill="#312e81"] text,
+[data-theme="dark"] .lesson g[fill="#312e81"] tspan{fill:#b3bcff}
+[data-theme="dark"] .lesson [stroke="#312e81"]{stroke:#a2a1c6}
+[data-theme="dark"] .lesson rect[fill="#334155"],
+[data-theme="dark"] .lesson circle[fill="#334155"],
+[data-theme="dark"] .lesson ellipse[fill="#334155"],
+[data-theme="dark"] .lesson path[fill="#334155"],
+[data-theme="dark"] .lesson polygon[fill="#334155"],
+[data-theme="dark"] .lesson polyline[fill="#334155"],
+[data-theme="dark"] .lesson line[fill="#334155"],
+[data-theme="dark"] .lesson g[fill="#334155"]{fill:#a3aab2}
+[data-theme="dark"] .lesson text[fill="#334155"],
+[data-theme="dark"] .lesson tspan[fill="#334155"],
+[data-theme="dark"] .lesson g[fill="#334155"] text,
+[data-theme="dark"] .lesson g[fill="#334155"] tspan{fill:#d3dbe5}
+[data-theme="dark"] .lesson [stroke="#334155"]{stroke:#a3aab2}
+[data-theme="dark"] .lesson rect[fill="#3730a3"],
+[data-theme="dark"] .lesson circle[fill="#3730a3"],
+[data-theme="dark"] .lesson ellipse[fill="#3730a3"],
+[data-theme="dark"] .lesson path[fill="#3730a3"],
+[data-theme="dark"] .lesson polygon[fill="#3730a3"],
+[data-theme="dark"] .lesson polyline[fill="#3730a3"],
+[data-theme="dark"] .lesson line[fill="#3730a3"],
+[data-theme="dark"] .lesson g[fill="#3730a3"]{fill:#a5a2d6}
+[data-theme="dark"] .lesson text[fill="#3730a3"],
+[data-theme="dark"] .lesson tspan[fill="#3730a3"],
+[data-theme="dark"] .lesson g[fill="#3730a3"] text,
+[data-theme="dark"] .lesson g[fill="#3730a3"] tspan{fill:#a5b0ff}
+[data-theme="dark"] .lesson rect[fill="#3b82f6"],
+[data-theme="dark"] .lesson circle[fill="#3b82f6"],
+[data-theme="dark"] .lesson ellipse[fill="#3b82f6"],
+[data-theme="dark"] .lesson path[fill="#3b82f6"],
+[data-theme="dark"] .lesson polygon[fill="#3b82f6"],
+[data-theme="dark"] .lesson polyline[fill="#3b82f6"],
+[data-theme="dark"] .lesson line[fill="#3b82f6"],
+[data-theme="dark"] .lesson g[fill="#3b82f6"]{fill:#60a5fa}
+[data-theme="dark"] .lesson text[fill="#3b82f6"],
+[data-theme="dark"] .lesson tspan[fill="#3b82f6"],
+[data-theme="dark"] .lesson g[fill="#3b82f6"] text,
+[data-theme="dark"] .lesson g[fill="#3b82f6"] tspan{fill:#c8dcfc}
+[data-theme="dark"] .lesson [style*="background:#3b82f6"]{background-color:#152640!important}
+[data-theme="dark"] .lesson rect[fill="#3d6b34"],
+[data-theme="dark"] .lesson circle[fill="#3d6b34"],
+[data-theme="dark"] .lesson ellipse[fill="#3d6b34"],
+[data-theme="dark"] .lesson path[fill="#3d6b34"],
+[data-theme="dark"] .lesson polygon[fill="#3d6b34"],
+[data-theme="dark"] .lesson polyline[fill="#3d6b34"],
+[data-theme="dark"] .lesson line[fill="#3d6b34"],
+[data-theme="dark"] .lesson g[fill="#3d6b34"]{fill:#8fcf7f}
+[data-theme="dark"] .lesson text[fill="#3d6b34"],
+[data-theme="dark"] .lesson tspan[fill="#3d6b34"],
+[data-theme="dark"] .lesson g[fill="#3d6b34"] text,
+[data-theme="dark"] .lesson g[fill="#3d6b34"] tspan{fill:#8fcf7f}
+[data-theme="dark"] .lesson [style*="background:#3d6b94"]{background-color:#3d6b94!important}
+[data-theme="dark"] .lesson rect[fill="#3d7ea8"],
+[data-theme="dark"] .lesson circle[fill="#3d7ea8"],
+[data-theme="dark"] .lesson ellipse[fill="#3d7ea8"],
+[data-theme="dark"] .lesson path[fill="#3d7ea8"],
+[data-theme="dark"] .lesson polygon[fill="#3d7ea8"],
+[data-theme="dark"] .lesson polyline[fill="#3d7ea8"],
+[data-theme="dark"] .lesson line[fill="#3d7ea8"],
+[data-theme="dark"] .lesson g[fill="#3d7ea8"]{fill:#689abb}
+[data-theme="dark"] .lesson text[fill="#3d7ea8"],
+[data-theme="dark"] .lesson tspan[fill="#3d7ea8"],
+[data-theme="dark"] .lesson g[fill="#3d7ea8"] text,
+[data-theme="dark"] .lesson g[fill="#3d7ea8"] tspan{fill:#c9dbe7}
+[data-theme="dark"] .lesson [style*="background:#3d7ea8"]{background-color:#4a7ba8!important}
+[data-theme="dark"] .lesson rect[fill="#4338ca"],
+[data-theme="dark"] .lesson circle[fill="#4338ca"],
+[data-theme="dark"] .lesson ellipse[fill="#4338ca"],
+[data-theme="dark"] .lesson path[fill="#4338ca"],
+[data-theme="dark"] .lesson polygon[fill="#4338ca"],
+[data-theme="dark"] .lesson polyline[fill="#4338ca"],
+[data-theme="dark"] .lesson line[fill="#4338ca"],
+[data-theme="dark"] .lesson g[fill="#4338ca"]{fill:#a5b0ff}
+[data-theme="dark"] .lesson text[fill="#4338ca"],
+[data-theme="dark"] .lesson tspan[fill="#4338ca"],
+[data-theme="dark"] .lesson g[fill="#4338ca"] text,
+[data-theme="dark"] .lesson g[fill="#4338ca"] tspan{fill:#a5b0ff}
+[data-theme="dark"] .lesson [stroke="#4338ca"]{stroke:#a5b0ff}
+[data-theme="dark"] .lesson [style^="color:#4338ca"],
+[data-theme="dark"] .lesson [style*=";color:#4338ca"]{color:#a5b0ff!important}
+[data-theme="dark"] .lesson rect[fill="#475569"],
+[data-theme="dark"] .lesson circle[fill="#475569"],
+[data-theme="dark"] .lesson ellipse[fill="#475569"],
+[data-theme="dark"] .lesson path[fill="#475569"],
+[data-theme="dark"] .lesson polygon[fill="#475569"],
+[data-theme="dark"] .lesson polyline[fill="#475569"],
+[data-theme="dark"] .lesson line[fill="#475569"],
+[data-theme="dark"] .lesson g[fill="#475569"]{fill:#b9c4d1}
+[data-theme="dark"] .lesson text[fill="#475569"],
+[data-theme="dark"] .lesson tspan[fill="#475569"],
+[data-theme="dark"] .lesson g[fill="#475569"] text,
+[data-theme="dark"] .lesson g[fill="#475569"] tspan{fill:#b9c4d1}
+[data-theme="dark"] .lesson rect[fill="#4884b8"],
+[data-theme="dark"] .lesson circle[fill="#4884b8"],
+[data-theme="dark"] .lesson ellipse[fill="#4884b8"],
+[data-theme="dark"] .lesson path[fill="#4884b8"],
+[data-theme="dark"] .lesson polygon[fill="#4884b8"],
+[data-theme="dark"] .lesson polyline[fill="#4884b8"],
+[data-theme="dark"] .lesson line[fill="#4884b8"],
+[data-theme="dark"] .lesson g[fill="#4884b8"]{fill:#709fc8}
+[data-theme="dark"] .lesson text[fill="#4884b8"],
+[data-theme="dark"] .lesson tspan[fill="#4884b8"],
+[data-theme="dark"] .lesson g[fill="#4884b8"] text,
+[data-theme="dark"] .lesson g[fill="#4884b8"] tspan{fill:#ccddeb}
+[data-theme="dark"] .lesson rect[fill="#4a7dab"],
+[data-theme="dark"] .lesson circle[fill="#4a7dab"],
+[data-theme="dark"] .lesson ellipse[fill="#4a7dab"],
+[data-theme="dark"] .lesson path[fill="#4a7dab"],
+[data-theme="dark"] .lesson polygon[fill="#4a7dab"],
+[data-theme="dark"] .lesson polyline[fill="#4a7dab"],
+[data-theme="dark"] .lesson line[fill="#4a7dab"],
+[data-theme="dark"] .lesson g[fill="#4a7dab"]{fill:#6fa3d4}
+[data-theme="dark"] .lesson text[fill="#4a7dab"],
+[data-theme="dark"] .lesson tspan[fill="#4a7dab"],
+[data-theme="dark"] .lesson g[fill="#4a7dab"] text,
+[data-theme="dark"] .lesson g[fill="#4a7dab"] tspan{fill:#ccdbe7}
+[data-theme="dark"] .lesson [stroke="#4a7dab"]{stroke:#6fa3d4}
+[data-theme="dark"] .lesson [style*="background:#4a7dab"]{background-color:#182534!important}
+[data-theme="dark"] .lesson rect[fill="#4e79a7"],
+[data-theme="dark"] .lesson circle[fill="#4e79a7"],
+[data-theme="dark"] .lesson ellipse[fill="#4e79a7"],
+[data-theme="dark"] .lesson path[fill="#4e79a7"],
+[data-theme="dark"] .lesson polygon[fill="#4e79a7"],
+[data-theme="dark"] .lesson polyline[fill="#4e79a7"],
+[data-theme="dark"] .lesson line[fill="#4e79a7"],
+[data-theme="dark"] .lesson g[fill="#4e79a7"]{fill:#6d9ec9}
+[data-theme="dark"] .lesson text[fill="#4e79a7"],
+[data-theme="dark"] .lesson tspan[fill="#4e79a7"],
+[data-theme="dark"] .lesson g[fill="#4e79a7"] text,
+[data-theme="dark"] .lesson g[fill="#4e79a7"] tspan{fill:#cdd9e6}
+[data-theme="dark"] .lesson [stroke="#4e79a7"]{stroke:#6d9ec9}
+[data-theme="dark"] .lesson [style*="background:#4e79a7"]{background-color:#182433!important}
+[data-theme="dark"] .lesson rect[fill="#4f46e5"],
+[data-theme="dark"] .lesson circle[fill="#4f46e5"],
+[data-theme="dark"] .lesson ellipse[fill="#4f46e5"],
+[data-theme="dark"] .lesson path[fill="#4f46e5"],
+[data-theme="dark"] .lesson polygon[fill="#4f46e5"],
+[data-theme="dark"] .lesson polyline[fill="#4f46e5"],
+[data-theme="dark"] .lesson line[fill="#4f46e5"],
+[data-theme="dark"] .lesson g[fill="#4f46e5"]{fill:#7b73f0}
+[data-theme="dark"] .lesson text[fill="#4f46e5"],
+[data-theme="dark"] .lesson tspan[fill="#4f46e5"],
+[data-theme="dark"] .lesson g[fill="#4f46e5"] text,
+[data-theme="dark"] .lesson g[fill="#4f46e5"] tspan{fill:#cecbf8}
+[data-theme="dark"] .lesson [stroke="#4f46e5"]{stroke:#7b73f0}
+[data-theme="dark"] .lesson [style*="background:#5499c7"]{background-color:#45749f!important}
+[data-theme="dark"] .lesson rect[fill="#59a14f"],
+[data-theme="dark"] .lesson circle[fill="#59a14f"],
+[data-theme="dark"] .lesson ellipse[fill="#59a14f"],
+[data-theme="dark"] .lesson path[fill="#59a14f"],
+[data-theme="dark"] .lesson polygon[fill="#59a14f"],
+[data-theme="dark"] .lesson polyline[fill="#59a14f"],
+[data-theme="dark"] .lesson line[fill="#59a14f"],
+[data-theme="dark"] .lesson g[fill="#59a14f"]{fill:#79bd6f}
+[data-theme="dark"] .lesson text[fill="#59a14f"],
+[data-theme="dark"] .lesson tspan[fill="#59a14f"],
+[data-theme="dark"] .lesson g[fill="#59a14f"] text,
+[data-theme="dark"] .lesson g[fill="#59a14f"] tspan{fill:#d1e5ce}
+[data-theme="dark"] .lesson [stroke="#59a14f"]{stroke:#79bd6f}
+[data-theme="dark"] .lesson [style*="background:#59a14f"]{background-color:#1a2b25!important}
+[data-theme="dark"] .lesson rect[fill="#5a93c2"],
+[data-theme="dark"] .lesson circle[fill="#5a93c2"],
+[data-theme="dark"] .lesson ellipse[fill="#5a93c2"],
+[data-theme="dark"] .lesson path[fill="#5a93c2"],
+[data-theme="dark"] .lesson polygon[fill="#5a93c2"],
+[data-theme="dark"] .lesson polyline[fill="#5a93c2"],
+[data-theme="dark"] .lesson line[fill="#5a93c2"],
+[data-theme="dark"] .lesson g[fill="#5a93c2"]{fill:#7eabcf}
+[data-theme="dark"] .lesson text[fill="#5a93c2"],
+[data-theme="dark"] .lesson tspan[fill="#5a93c2"],
+[data-theme="dark"] .lesson g[fill="#5a93c2"] text,
+[data-theme="dark"] .lesson g[fill="#5a93c2"] tspan{fill:#d1e1ee}
+[data-theme="dark"] .lesson rect[fill="#5b8db8"],
+[data-theme="dark"] .lesson circle[fill="#5b8db8"],
+[data-theme="dark"] .lesson ellipse[fill="#5b8db8"],
+[data-theme="dark"] .lesson path[fill="#5b8db8"],
+[data-theme="dark"] .lesson polygon[fill="#5b8db8"],
+[data-theme="dark"] .lesson polyline[fill="#5b8db8"],
+[data-theme="dark"] .lesson line[fill="#5b8db8"],
+[data-theme="dark"] .lesson g[fill="#5b8db8"]{fill:#7fa6c8}
+[data-theme="dark"] .lesson text[fill="#5b8db8"],
+[data-theme="dark"] .lesson tspan[fill="#5b8db8"],
+[data-theme="dark"] .lesson g[fill="#5b8db8"] text,
+[data-theme="dark"] .lesson g[fill="#5b8db8"] tspan{fill:#d1dfeb}
+[data-theme="dark"] .lesson [style*="background:#5b8db8"]{background-color:#416f9c!important}
+[data-theme="dark"] .lesson rect[fill="#5b9450"],
+[data-theme="dark"] .lesson circle[fill="#5b9450"],
+[data-theme="dark"] .lesson ellipse[fill="#5b9450"],
+[data-theme="dark"] .lesson path[fill="#5b9450"],
+[data-theme="dark"] .lesson polygon[fill="#5b9450"],
+[data-theme="dark"] .lesson polyline[fill="#5b9450"],
+[data-theme="dark"] .lesson line[fill="#5b9450"],
+[data-theme="dark"] .lesson g[fill="#5b9450"]{fill:#7ec070}
+[data-theme="dark"] .lesson text[fill="#5b9450"],
+[data-theme="dark"] .lesson tspan[fill="#5b9450"],
+[data-theme="dark"] .lesson g[fill="#5b9450"] text,
+[data-theme="dark"] .lesson g[fill="#5b9450"] tspan{fill:#d1e1ce}
+[data-theme="dark"] .lesson [stroke="#5b9450"]{stroke:#7ec070}
+[data-theme="dark"] .lesson [style*="background:#5b9450"]{background-color:#1a2825!important}
+[data-theme="dark"] .lesson [style*="background:#5bb377"]{background-color:#1a2d2b!important}
+[data-theme="dark"] .lesson rect[fill="#6366f1"],
+[data-theme="dark"] .lesson circle[fill="#6366f1"],
+[data-theme="dark"] .lesson ellipse[fill="#6366f1"],
+[data-theme="dark"] .lesson path[fill="#6366f1"],
+[data-theme="dark"] .lesson polygon[fill="#6366f1"],
+[data-theme="dark"] .lesson polyline[fill="#6366f1"],
+[data-theme="dark"] .lesson line[fill="#6366f1"],
+[data-theme="dark"] .lesson g[fill="#6366f1"]{fill:#8b8df5}
+[data-theme="dark"] .lesson text[fill="#6366f1"],
+[data-theme="dark"] .lesson tspan[fill="#6366f1"],
+[data-theme="dark"] .lesson g[fill="#6366f1"] text,
+[data-theme="dark"] .lesson g[fill="#6366f1"] tspan{fill:#d3d4fb}
+[data-theme="dark"] .lesson [stroke="#6366f1"]{stroke:#8b8df5}
+[data-theme="dark"] .lesson [style*="solid #6366f1"]{border-color:#8b8df5!important}
+[data-theme="dark"] .lesson rect[fill="#64748b"],
+[data-theme="dark"] .lesson circle[fill="#64748b"],
+[data-theme="dark"] .lesson ellipse[fill="#64748b"],
+[data-theme="dark"] .lesson path[fill="#64748b"],
+[data-theme="dark"] .lesson polygon[fill="#64748b"],
+[data-theme="dark"] .lesson polyline[fill="#64748b"],
+[data-theme="dark"] .lesson line[fill="#64748b"],
+[data-theme="dark"] .lesson g[fill="#64748b"]{fill:#9aa8ba}
+[data-theme="dark"] .lesson text[fill="#64748b"],
+[data-theme="dark"] .lesson tspan[fill="#64748b"],
+[data-theme="dark"] .lesson g[fill="#64748b"] text,
+[data-theme="dark"] .lesson g[fill="#64748b"] tspan{fill:#d4d8df}
+[data-theme="dark"] .lesson [stroke="#64748b"]{stroke:#9aa8ba}
+[data-theme="dark"] .lesson [style^="color:#64748b"],
+[data-theme="dark"] .lesson [style*=";color:#64748b"]{color:#d4d8df!important}
+[data-theme="dark"] .lesson [style*="background:#6a97be"]{background-color:#3b6a97!important}
+[data-theme="dark"] .lesson [stroke="#6b4763"]{stroke:#c9a3c0}
+[data-theme="dark"] .lesson rect[fill="#6b93bb"],
+[data-theme="dark"] .lesson circle[fill="#6b93bb"],
+[data-theme="dark"] .lesson ellipse[fill="#6b93bb"],
+[data-theme="dark"] .lesson path[fill="#6b93bb"],
+[data-theme="dark"] .lesson polygon[fill="#6b93bb"],
+[data-theme="dark"] .lesson polyline[fill="#6b93bb"],
+[data-theme="dark"] .lesson line[fill="#6b93bb"],
+[data-theme="dark"] .lesson g[fill="#6b93bb"]{fill:#8cabca}
+[data-theme="dark"] .lesson text[fill="#6b93bb"],
+[data-theme="dark"] .lesson tspan[fill="#6b93bb"],
+[data-theme="dark"] .lesson g[fill="#6b93bb"] text,
+[data-theme="dark"] .lesson g[fill="#6b93bb"] tspan{fill:#d6e1ec}
+[data-theme="dark"] .lesson [style*="background:#6b98bf"]{background-color:#3b6a97!important}
+[data-theme="dark"] .lesson rect[fill="#6d28d9"],
+[data-theme="dark"] .lesson circle[fill="#6d28d9"],
+[data-theme="dark"] .lesson ellipse[fill="#6d28d9"],
+[data-theme="dark"] .lesson path[fill="#6d28d9"],
+[data-theme="dark"] .lesson polygon[fill="#6d28d9"],
+[data-theme="dark"] .lesson polyline[fill="#6d28d9"],
+[data-theme="dark"] .lesson line[fill="#6d28d9"],
+[data-theme="dark"] .lesson g[fill="#6d28d9"]{fill:#c0a8ff}
+[data-theme="dark"] .lesson text[fill="#6d28d9"],
+[data-theme="dark"] .lesson tspan[fill="#6d28d9"],
+[data-theme="dark"] .lesson g[fill="#6d28d9"] text,
+[data-theme="dark"] .lesson g[fill="#6d28d9"] tspan{fill:#c0a8ff}
+[data-theme="dark"] .lesson [style^="color:#6d28d9"],
+[data-theme="dark"] .lesson [style*=";color:#6d28d9"]{color:#c0a8ff!important}
+[data-theme="dark"] .lesson [stroke="#6ee7b7"]{stroke:#2a6b52}
+[data-theme="dark"] .lesson [style*="background:#6f9fc8"]{background-color:#1e2a38!important}
+[data-theme="dark"] .lesson rect[fill="#76b7b2"],
+[data-theme="dark"] .lesson circle[fill="#76b7b2"],
+[data-theme="dark"] .lesson ellipse[fill="#76b7b2"],
+[data-theme="dark"] .lesson path[fill="#76b7b2"],
+[data-theme="dark"] .lesson polygon[fill="#76b7b2"],
+[data-theme="dark"] .lesson polyline[fill="#76b7b2"],
+[data-theme="dark"] .lesson line[fill="#76b7b2"],
+[data-theme="dark"] .lesson g[fill="#76b7b2"]{fill:#8fd0cb}
+[data-theme="dark"] .lesson text[fill="#76b7b2"],
+[data-theme="dark"] .lesson tspan[fill="#76b7b2"],
+[data-theme="dark"] .lesson g[fill="#76b7b2"] text,
+[data-theme="dark"] .lesson g[fill="#76b7b2"] tspan{fill:#8fd0cb}
+[data-theme="dark"] .lesson rect[fill="#7aabd0"],
+[data-theme="dark"] .lesson circle[fill="#7aabd0"],
+[data-theme="dark"] .lesson ellipse[fill="#7aabd0"],
+[data-theme="dark"] .lesson path[fill="#7aabd0"],
+[data-theme="dark"] .lesson polygon[fill="#7aabd0"],
+[data-theme="dark"] .lesson polyline[fill="#7aabd0"],
+[data-theme="dark"] .lesson line[fill="#7aabd0"],
+[data-theme="dark"] .lesson g[fill="#7aabd0"]{fill:#97bdda}
+[data-theme="dark"] .lesson text[fill="#7aabd0"],
+[data-theme="dark"] .lesson tspan[fill="#7aabd0"],
+[data-theme="dark"] .lesson g[fill="#7aabd0"] text,
+[data-theme="dark"] .lesson g[fill="#7aabd0"] tspan{fill:#dae7f2}
+[data-theme="dark"] .lesson rect[fill="#7c3aed"],
+[data-theme="dark"] .lesson circle[fill="#7c3aed"],
+[data-theme="dark"] .lesson ellipse[fill="#7c3aed"],
+[data-theme="dark"] .lesson path[fill="#7c3aed"],
+[data-theme="dark"] .lesson polygon[fill="#7c3aed"],
+[data-theme="dark"] .lesson polyline[fill="#7c3aed"],
+[data-theme="dark"] .lesson line[fill="#7c3aed"],
+[data-theme="dark"] .lesson g[fill="#7c3aed"]{fill:#9d7bf5}
+[data-theme="dark"] .lesson text[fill="#7c3aed"],
+[data-theme="dark"] .lesson tspan[fill="#7c3aed"],
+[data-theme="dark"] .lesson g[fill="#7c3aed"] text,
+[data-theme="dark"] .lesson g[fill="#7c3aed"] tspan{fill:#dac8fa}
+[data-theme="dark"] .lesson [style*="background:#7c3aed"]{background-color:#7c3aed!important}
+[data-theme="dark"] .lesson [style^="color:#7c3aed"],
+[data-theme="dark"] .lesson [style*=";color:#7c3aed"]{color:#dac8fa!important}
+[data-theme="dark"] .lesson [style*="background:#7dc99a"]{background-color:#203131!important}
+[data-theme="dark"] .lesson rect[fill="#7f1d1d"],
+[data-theme="dark"] .lesson circle[fill="#7f1d1d"],
+[data-theme="dark"] .lesson ellipse[fill="#7f1d1d"],
+[data-theme="dark"] .lesson path[fill="#7f1d1d"],
+[data-theme="dark"] .lesson polygon[fill="#7f1d1d"],
+[data-theme="dark"] .lesson polyline[fill="#7f1d1d"],
+[data-theme="dark"] .lesson line[fill="#7f1d1d"],
+[data-theme="dark"] .lesson g[fill="#7f1d1d"]{fill:#c59999}
+[data-theme="dark"] .lesson text[fill="#7f1d1d"],
+[data-theme="dark"] .lesson tspan[fill="#7f1d1d"],
+[data-theme="dark"] .lesson g[fill="#7f1d1d"] text,
+[data-theme="dark"] .lesson g[fill="#7f1d1d"] tspan{fill:#fca5a5}
+[data-theme="dark"] .lesson rect[fill="#7fb3d5"],
+[data-theme="dark"] .lesson circle[fill="#7fb3d5"],
+[data-theme="dark"] .lesson ellipse[fill="#7fb3d5"],
+[data-theme="dark"] .lesson path[fill="#7fb3d5"],
+[data-theme="dark"] .lesson polygon[fill="#7fb3d5"],
+[data-theme="dark"] .lesson polyline[fill="#7fb3d5"],
+[data-theme="dark"] .lesson line[fill="#7fb3d5"],
+[data-theme="dark"] .lesson g[fill="#7fb3d5"]{fill:#9bc4de}
+[data-theme="dark"] .lesson text[fill="#7fb3d5"],
+[data-theme="dark"] .lesson tspan[fill="#7fb3d5"],
+[data-theme="dark"] .lesson g[fill="#7fb3d5"] text,
+[data-theme="dark"] .lesson g[fill="#7fb3d5"] tspan{fill:#dbeaf3}
+[data-theme="dark"] .lesson [style*="background:#7fb3d5"]{background-color:#35608a!important}
+[data-theme="dark"] .lesson [stroke="#86efac"]{stroke:#213734}
+[data-theme="dark"] .lesson rect[fill="#88b4d6"],
+[data-theme="dark"] .lesson circle[fill="#88b4d6"],
+[data-theme="dark"] .lesson ellipse[fill="#88b4d6"],
+[data-theme="dark"] .lesson path[fill="#88b4d6"],
+[data-theme="dark"] .lesson polygon[fill="#88b4d6"],
+[data-theme="dark"] .lesson polyline[fill="#88b4d6"],
+[data-theme="dark"] .lesson line[fill="#88b4d6"],
+[data-theme="dark"] .lesson g[fill="#88b4d6"]{fill:#a2c4df}
+[data-theme="dark"] .lesson text[fill="#88b4d6"],
+[data-theme="dark"] .lesson tspan[fill="#88b4d6"],
+[data-theme="dark"] .lesson g[fill="#88b4d6"] text,
+[data-theme="dark"] .lesson g[fill="#88b4d6"] tspan{fill:#deeaf4}
+[data-theme="dark"] .lesson [stroke="#8b5cf6"]{stroke:#a78bfa}
+[data-theme="dark"] .lesson [style*="background:#8b5cf6"]{background-color:#222040!important}
+[data-theme="dark"] .lesson rect[fill="#8b7355"],
+[data-theme="dark"] .lesson circle[fill="#8b7355"],
+[data-theme="dark"] .lesson ellipse[fill="#8b7355"],
+[data-theme="dark"] .lesson path[fill="#8b7355"],
+[data-theme="dark"] .lesson polygon[fill="#8b7355"],
+[data-theme="dark"] .lesson polyline[fill="#8b7355"],
+[data-theme="dark"] .lesson line[fill="#8b7355"],
+[data-theme="dark"] .lesson g[fill="#8b7355"]{fill:#c0a882}
+[data-theme="dark"] .lesson text[fill="#8b7355"],
+[data-theme="dark"] .lesson tspan[fill="#8b7355"],
+[data-theme="dark"] .lesson g[fill="#8b7355"] text,
+[data-theme="dark"] .lesson g[fill="#8b7355"] tspan{fill:#dfd8cf}
+[data-theme="dark"] .lesson rect[fill="#8fb0cd"],
+[data-theme="dark"] .lesson circle[fill="#8fb0cd"],
+[data-theme="dark"] .lesson ellipse[fill="#8fb0cd"],
+[data-theme="dark"] .lesson path[fill="#8fb0cd"],
+[data-theme="dark"] .lesson polygon[fill="#8fb0cd"],
+[data-theme="dark"] .lesson polyline[fill="#8fb0cd"],
+[data-theme="dark"] .lesson line[fill="#8fb0cd"],
+[data-theme="dark"] .lesson g[fill="#8fb0cd"]{fill:#a8c1d8}
+[data-theme="dark"] .lesson text[fill="#8fb0cd"],
+[data-theme="dark"] .lesson tspan[fill="#8fb0cd"],
+[data-theme="dark"] .lesson g[fill="#8fb0cd"] text,
+[data-theme="dark"] .lesson g[fill="#8fb0cd"] tspan{fill:#e0e9f1}
+[data-theme="dark"] .lesson [style*="background:#8fb3d3"]{background-color:#2f5679!important}
+[data-theme="dark"] .lesson [style*="background:#8fcf9f"]{background-color:#233232!important}
+[data-theme="dark"] .lesson rect[fill="#92400e"],
+[data-theme="dark"] .lesson circle[fill="#92400e"],
+[data-theme="dark"] .lesson ellipse[fill="#92400e"],
+[data-theme="dark"] .lesson path[fill="#92400e"],
+[data-theme="dark"] .lesson polygon[fill="#92400e"],
+[data-theme="dark"] .lesson polyline[fill="#92400e"],
+[data-theme="dark"] .lesson line[fill="#92400e"],
+[data-theme="dark"] .lesson g[fill="#92400e"]{fill:#fbbf24}
+[data-theme="dark"] .lesson text[fill="#92400e"],
+[data-theme="dark"] .lesson tspan[fill="#92400e"],
+[data-theme="dark"] .lesson g[fill="#92400e"] text,
+[data-theme="dark"] .lesson g[fill="#92400e"] tspan{fill:#fbbf24}
+[data-theme="dark"] .lesson [stroke="#93c5fd"]{stroke:#3a5c8c}
+[data-theme="dark"] .lesson rect[fill="#94a3b8"],
+[data-theme="dark"] .lesson circle[fill="#94a3b8"],
+[data-theme="dark"] .lesson ellipse[fill="#94a3b8"],
+[data-theme="dark"] .lesson path[fill="#94a3b8"],
+[data-theme="dark"] .lesson polygon[fill="#94a3b8"],
+[data-theme="dark"] .lesson polyline[fill="#94a3b8"],
+[data-theme="dark"] .lesson line[fill="#94a3b8"],
+[data-theme="dark"] .lesson g[fill="#94a3b8"]{fill:#acb7c8}
+[data-theme="dark"] .lesson text[fill="#94a3b8"],
+[data-theme="dark"] .lesson tspan[fill="#94a3b8"],
+[data-theme="dark"] .lesson g[fill="#94a3b8"] text,
+[data-theme="dark"] .lesson g[fill="#94a3b8"] tspan{fill:#e1e5eb}
+[data-theme="dark"] .lesson [stroke="#94a3b8"]{stroke:#acb7c8}
+[data-theme="dark"] .lesson [style^="color:#94a3b8"],
+[data-theme="dark"] .lesson [style*=";color:#94a3b8"]{color:#e1e5eb!important}
+[data-theme="dark"] .lesson [stroke="#991b1b"]{stroke:#fca5a5}
+[data-theme="dark"] .lesson [stroke="#9a5b12"]{stroke:#d9a441}
+[data-theme="dark"] .lesson rect[fill="#9c755f"],
+[data-theme="dark"] .lesson circle[fill="#9c755f"],
+[data-theme="dark"] .lesson ellipse[fill="#9c755f"],
+[data-theme="dark"] .lesson path[fill="#9c755f"],
+[data-theme="dark"] .lesson polygon[fill="#9c755f"],
+[data-theme="dark"] .lesson polyline[fill="#9c755f"],
+[data-theme="dark"] .lesson line[fill="#9c755f"],
+[data-theme="dark"] .lesson g[fill="#9c755f"]{fill:#bb9581}
+[data-theme="dark"] .lesson text[fill="#9c755f"],
+[data-theme="dark"] .lesson tspan[fill="#9c755f"],
+[data-theme="dark"] .lesson g[fill="#9c755f"] text,
+[data-theme="dark"] .lesson g[fill="#9c755f"] tspan{fill:#e3d8d2}
+[data-theme="dark"] .lesson [style*="background:#9ccbb0"]{background-color:#253135!important}
+[data-theme="dark"] .lesson rect[fill="#9db8ce"],
+[data-theme="dark"] .lesson circle[fill="#9db8ce"],
+[data-theme="dark"] .lesson ellipse[fill="#9db8ce"],
+[data-theme="dark"] .lesson path[fill="#9db8ce"],
+[data-theme="dark"] .lesson polygon[fill="#9db8ce"],
+[data-theme="dark"] .lesson polyline[fill="#9db8ce"],
+[data-theme="dark"] .lesson line[fill="#9db8ce"],
+[data-theme="dark"] .lesson g[fill="#9db8ce"]{fill:#4a5f73}
+[data-theme="dark"] .lesson text[fill="#9db8ce"],
+[data-theme="dark"] .lesson tspan[fill="#9db8ce"],
+[data-theme="dark"] .lesson g[fill="#9db8ce"] text,
+[data-theme="dark"] .lesson g[fill="#9db8ce"] tspan{fill:#e4ebf1}
+[data-theme="dark"] .lesson [style*="background:#9dbdd8"]{background-color:#2a4d6d!important}
+[data-theme="dark"] .lesson rect[fill="#a4c6e0"],
+[data-theme="dark"] .lesson circle[fill="#a4c6e0"],
+[data-theme="dark"] .lesson ellipse[fill="#a4c6e0"],
+[data-theme="dark"] .lesson path[fill="#a4c6e0"],
+[data-theme="dark"] .lesson polygon[fill="#a4c6e0"],
+[data-theme="dark"] .lesson polyline[fill="#a4c6e0"],
+[data-theme="dark"] .lesson line[fill="#a4c6e0"],
+[data-theme="dark"] .lesson g[fill="#a4c6e0"]{fill:#27486a}
+[data-theme="dark"] .lesson text[fill="#a4c6e0"],
+[data-theme="dark"] .lesson tspan[fill="#a4c6e0"],
+[data-theme="dark"] .lesson g[fill="#a4c6e0"] text,
+[data-theme="dark"] .lesson g[fill="#a4c6e0"] tspan{fill:#a4c6e0}
+[data-theme="dark"] .lesson rect[fill="#a5b4fc"],
+[data-theme="dark"] .lesson circle[fill="#a5b4fc"],
+[data-theme="dark"] .lesson ellipse[fill="#a5b4fc"],
+[data-theme="dark"] .lesson path[fill="#a5b4fc"],
+[data-theme="dark"] .lesson polygon[fill="#a5b4fc"],
+[data-theme="dark"] .lesson polyline[fill="#a5b4fc"],
+[data-theme="dark"] .lesson line[fill="#a5b4fc"],
+[data-theme="dark"] .lesson g[fill="#a5b4fc"]{fill:#4a4f8f}
+[data-theme="dark"] .lesson text[fill="#a5b4fc"],
+[data-theme="dark"] .lesson tspan[fill="#a5b4fc"],
+[data-theme="dark"] .lesson g[fill="#a5b4fc"] text,
+[data-theme="dark"] .lesson g[fill="#a5b4fc"] tspan{fill:#e6eafe}
+[data-theme="dark"] .lesson [stroke="#a5b4fc"]{stroke:#4a4f8f}
+[data-theme="dark"] .lesson [stroke="#a7f3d0"]{stroke:#1f5a43}
+[data-theme="dark"] .lesson [style*="border-color:#a7f3d0"]{border-color:#1f5a43!important}
+[data-theme="dark"] .lesson rect[fill="#a8c8e0"],
+[data-theme="dark"] .lesson circle[fill="#a8c8e0"],
+[data-theme="dark"] .lesson ellipse[fill="#a8c8e0"],
+[data-theme="dark"] .lesson path[fill="#a8c8e0"],
+[data-theme="dark"] .lesson polygon[fill="#a8c8e0"],
+[data-theme="dark"] .lesson polyline[fill="#a8c8e0"],
+[data-theme="dark"] .lesson line[fill="#a8c8e0"],
+[data-theme="dark"] .lesson g[fill="#a8c8e0"]{fill:#436d92}
+[data-theme="dark"] .lesson text[fill="#a8c8e0"],
+[data-theme="dark"] .lesson tspan[fill="#a8c8e0"],
+[data-theme="dark"] .lesson g[fill="#a8c8e0"] text,
+[data-theme="dark"] .lesson g[fill="#a8c8e0"] tspan{fill:#a8c8e0}
+[data-theme="dark"] .lesson [style*="background:#a8c8e0"]{background-color:#436d92!important}
+[data-theme="dark"] .lesson rect[fill="#a9c3da"],
+[data-theme="dark"] .lesson circle[fill="#a9c3da"],
+[data-theme="dark"] .lesson ellipse[fill="#a9c3da"],
+[data-theme="dark"] .lesson path[fill="#a9c3da"],
+[data-theme="dark"] .lesson polygon[fill="#a9c3da"],
+[data-theme="dark"] .lesson polyline[fill="#a9c3da"],
+[data-theme="dark"] .lesson line[fill="#a9c3da"],
+[data-theme="dark"] .lesson g[fill="#a9c3da"]{fill:#27486a}
+[data-theme="dark"] .lesson text[fill="#a9c3da"],
+[data-theme="dark"] .lesson tspan[fill="#a9c3da"],
+[data-theme="dark"] .lesson g[fill="#a9c3da"] text,
+[data-theme="dark"] .lesson g[fill="#a9c3da"] tspan{fill:#a9c3da}
+[data-theme="dark"] .lesson [style*="background:#a9dfbf"]{background-color:#273437!important}
+[data-theme="dark"] .lesson rect[fill="#aed6f1"],
+[data-theme="dark"] .lesson circle[fill="#aed6f1"],
+[data-theme="dark"] .lesson ellipse[fill="#aed6f1"],
+[data-theme="dark"] .lesson path[fill="#aed6f1"],
+[data-theme="dark"] .lesson polygon[fill="#aed6f1"],
+[data-theme="dark"] .lesson polyline[fill="#aed6f1"],
+[data-theme="dark"] .lesson line[fill="#aed6f1"],
+[data-theme="dark"] .lesson g[fill="#aed6f1"]{fill:#22405c}
+[data-theme="dark"] .lesson text[fill="#aed6f1"],
+[data-theme="dark"] .lesson tspan[fill="#aed6f1"],
+[data-theme="dark"] .lesson g[fill="#aed6f1"] text,
+[data-theme="dark"] .lesson g[fill="#aed6f1"] tspan{fill:#aed6f1}
+[data-theme="dark"] .lesson [style*="background:#aed6f1"]{background-color:#22405c!important}
+[data-theme="dark"] .lesson rect[fill="#b07aa1"],
+[data-theme="dark"] .lesson circle[fill="#b07aa1"],
+[data-theme="dark"] .lesson ellipse[fill="#b07aa1"],
+[data-theme="dark"] .lesson path[fill="#b07aa1"],
+[data-theme="dark"] .lesson polygon[fill="#b07aa1"],
+[data-theme="dark"] .lesson polyline[fill="#b07aa1"],
+[data-theme="dark"] .lesson line[fill="#b07aa1"],
+[data-theme="dark"] .lesson g[fill="#b07aa1"]{fill:#c99abd}
+[data-theme="dark"] .lesson text[fill="#b07aa1"],
+[data-theme="dark"] .lesson tspan[fill="#b07aa1"],
+[data-theme="dark"] .lesson g[fill="#b07aa1"] text,
+[data-theme="dark"] .lesson g[fill="#b07aa1"] tspan{fill:#e9dae5}
+[data-theme="dark"] .lesson [style*="background:#b07aa1"]{background-color:#282432!important}
+[data-theme="dark"] .lesson rect[fill="#b45309"],
+[data-theme="dark"] .lesson circle[fill="#b45309"],
+[data-theme="dark"] .lesson ellipse[fill="#b45309"],
+[data-theme="dark"] .lesson path[fill="#b45309"],
+[data-theme="dark"] .lesson polygon[fill="#b45309"],
+[data-theme="dark"] .lesson polyline[fill="#b45309"],
+[data-theme="dark"] .lesson line[fill="#b45309"],
+[data-theme="dark"] .lesson g[fill="#b45309"]{fill:#fbbf24}
+[data-theme="dark"] .lesson text[fill="#b45309"],
+[data-theme="dark"] .lesson tspan[fill="#b45309"],
+[data-theme="dark"] .lesson g[fill="#b45309"] text,
+[data-theme="dark"] .lesson g[fill="#b45309"] tspan{fill:#fbbf24}
+[data-theme="dark"] .lesson [stroke="#b45309"]{stroke:#fbbf24}
+[data-theme="dark"] .lesson [style*="background:#b45309"]{background-color:#b45309!important}
+[data-theme="dark"] .lesson [style^="color:#b45309"],
+[data-theme="dark"] .lesson [style*=";color:#b45309"]{color:#fbbf24!important}
+[data-theme="dark"] .lesson rect[fill="#b91c1c"],
+[data-theme="dark"] .lesson circle[fill="#b91c1c"],
+[data-theme="dark"] .lesson ellipse[fill="#b91c1c"],
+[data-theme="dark"] .lesson path[fill="#b91c1c"],
+[data-theme="dark"] .lesson polygon[fill="#b91c1c"],
+[data-theme="dark"] .lesson polyline[fill="#b91c1c"],
+[data-theme="dark"] .lesson line[fill="#b91c1c"],
+[data-theme="dark"] .lesson g[fill="#b91c1c"]{fill:#f87171}
+[data-theme="dark"] .lesson text[fill="#b91c1c"],
+[data-theme="dark"] .lesson tspan[fill="#b91c1c"],
+[data-theme="dark"] .lesson g[fill="#b91c1c"] text,
+[data-theme="dark"] .lesson g[fill="#b91c1c"] tspan{fill:#ebbfbf}
+[data-theme="dark"] .lesson [stroke="#b91c1c"]{stroke:#f87171}
+[data-theme="dark"] .lesson [style*="background:#b91c1c"]{background-color:#b91c1c!important}
+[data-theme="dark"] .lesson [style^="color:#b91c1c"],
+[data-theme="dark"] .lesson [style*=";color:#b91c1c"]{color:#ebbfbf!important}
+[data-theme="dark"] .lesson rect[fill="#b9d3e8"],
+[data-theme="dark"] .lesson circle[fill="#b9d3e8"],
+[data-theme="dark"] .lesson ellipse[fill="#b9d3e8"],
+[data-theme="dark"] .lesson path[fill="#b9d3e8"],
+[data-theme="dark"] .lesson polygon[fill="#b9d3e8"],
+[data-theme="dark"] .lesson polyline[fill="#b9d3e8"],
+[data-theme="dark"] .lesson line[fill="#b9d3e8"],
+[data-theme="dark"] .lesson g[fill="#b9d3e8"]{fill:#244163}
+[data-theme="dark"] .lesson text[fill="#b9d3e8"],
+[data-theme="dark"] .lesson tspan[fill="#b9d3e8"],
+[data-theme="dark"] .lesson g[fill="#b9d3e8"] text,
+[data-theme="dark"] .lesson g[fill="#b9d3e8"] tspan{fill:#b9d3e8}
+[data-theme="dark"] .lesson [stroke="#bae6fd"]{stroke:#2c4f6b}
+[data-theme="dark"] .lesson [stroke="#bbf7d0"]{stroke:#1a4530}
+[data-theme="dark"] .lesson [style*="background:#bcd2e6"]{background-color:#213a54!important}
+[data-theme="dark"] .lesson rect[fill="#bcd6ea"],
+[data-theme="dark"] .lesson circle[fill="#bcd6ea"],
+[data-theme="dark"] .lesson ellipse[fill="#bcd6ea"],
+[data-theme="dark"] .lesson path[fill="#bcd6ea"],
+[data-theme="dark"] .lesson polygon[fill="#bcd6ea"],
+[data-theme="dark"] .lesson polyline[fill="#bcd6ea"],
+[data-theme="dark"] .lesson line[fill="#bcd6ea"],
+[data-theme="dark"] .lesson g[fill="#bcd6ea"]{fill:#1f374f}
+[data-theme="dark"] .lesson text[fill="#bcd6ea"],
+[data-theme="dark"] .lesson tspan[fill="#bcd6ea"],
+[data-theme="dark"] .lesson g[fill="#bcd6ea"] text,
+[data-theme="dark"] .lesson g[fill="#bcd6ea"] tspan{fill:#bcd6ea}
+[data-theme="dark"] .lesson [style*="background:#bcd6ea"]{background-color:#1f374f!important}
+[data-theme="dark"] .lesson [style^="color:#be185d"],
+[data-theme="dark"] .lesson [style*=";color:#be185d"]{color:#edbed2!important}
+[data-theme="dark"] .lesson [stroke="#bfdbfe"]{stroke:#2f4a72}
+[data-theme="dark"] .lesson [style*="border-color:#bfdbfe"]{border-color:#2f4a72!important}
+[data-theme="dark"] .lesson rect[fill="#c0392b"],
+[data-theme="dark"] .lesson circle[fill="#c0392b"],
+[data-theme="dark"] .lesson ellipse[fill="#c0392b"],
+[data-theme="dark"] .lesson path[fill="#c0392b"],
+[data-theme="dark"] .lesson polygon[fill="#c0392b"],
+[data-theme="dark"] .lesson polyline[fill="#c0392b"],
+[data-theme="dark"] .lesson line[fill="#c0392b"],
+[data-theme="dark"] .lesson g[fill="#c0392b"]{fill:#e0685c}
+[data-theme="dark"] .lesson text[fill="#c0392b"],
+[data-theme="dark"] .lesson tspan[fill="#c0392b"],
+[data-theme="dark"] .lesson g[fill="#c0392b"] text,
+[data-theme="dark"] .lesson g[fill="#c0392b"] tspan{fill:#edc8c4}
+[data-theme="dark"] .lesson [stroke="#c0392b"]{stroke:#e0685c}
+[data-theme="dark"] .lesson [style*="background:#c0392b"]{background-color:#c0392b!important}
+[data-theme="dark"] .lesson rect[fill="#c2410c"],
+[data-theme="dark"] .lesson circle[fill="#c2410c"],
+[data-theme="dark"] .lesson ellipse[fill="#c2410c"],
+[data-theme="dark"] .lesson path[fill="#c2410c"],
+[data-theme="dark"] .lesson polygon[fill="#c2410c"],
+[data-theme="dark"] .lesson polyline[fill="#c2410c"],
+[data-theme="dark"] .lesson line[fill="#c2410c"],
+[data-theme="dark"] .lesson g[fill="#c2410c"]{fill:#fb923c}
+[data-theme="dark"] .lesson text[fill="#c2410c"],
+[data-theme="dark"] .lesson tspan[fill="#c2410c"],
+[data-theme="dark"] .lesson g[fill="#c2410c"] text,
+[data-theme="dark"] .lesson g[fill="#c2410c"] tspan{fill:#eecabb}
+[data-theme="dark"] .lesson rect[fill="#c7d2fe"],
+[data-theme="dark"] .lesson circle[fill="#c7d2fe"],
+[data-theme="dark"] .lesson ellipse[fill="#c7d2fe"],
+[data-theme="dark"] .lesson path[fill="#c7d2fe"],
+[data-theme="dark"] .lesson polygon[fill="#c7d2fe"],
+[data-theme="dark"] .lesson polyline[fill="#c7d2fe"],
+[data-theme="dark"] .lesson line[fill="#c7d2fe"],
+[data-theme="dark"] .lesson g[fill="#c7d2fe"]{fill:#3b4382}
+[data-theme="dark"] .lesson text[fill="#c7d2fe"],
+[data-theme="dark"] .lesson tspan[fill="#c7d2fe"],
+[data-theme="dark"] .lesson g[fill="#c7d2fe"] text,
+[data-theme="dark"] .lesson g[fill="#c7d2fe"] tspan{fill:#c7d2fe}
+[data-theme="dark"] .lesson [stroke="#c7d2fe"]{stroke:#3b4382}
+[data-theme="dark"] .lesson rect[fill="#c7d9ea"],
+[data-theme="dark"] .lesson circle[fill="#c7d9ea"],
+[data-theme="dark"] .lesson ellipse[fill="#c7d9ea"],
+[data-theme="dark"] .lesson path[fill="#c7d9ea"],
+[data-theme="dark"] .lesson polygon[fill="#c7d9ea"],
+[data-theme="dark"] .lesson polyline[fill="#c7d9ea"],
+[data-theme="dark"] .lesson line[fill="#c7d9ea"],
+[data-theme="dark"] .lesson g[fill="#c7d9ea"]{fill:#1f374f}
+[data-theme="dark"] .lesson text[fill="#c7d9ea"],
+[data-theme="dark"] .lesson tspan[fill="#c7d9ea"],
+[data-theme="dark"] .lesson g[fill="#c7d9ea"] text,
+[data-theme="dark"] .lesson g[fill="#c7d9ea"] tspan{fill:#c7d9ea}
+[data-theme="dark"] .lesson [style*="background:#c7d9ea"]{background-color:#1f374f!important}
+[data-theme="dark"] .lesson rect[fill="#c9dded"],
+[data-theme="dark"] .lesson circle[fill="#c9dded"],
+[data-theme="dark"] .lesson ellipse[fill="#c9dded"],
+[data-theme="dark"] .lesson path[fill="#c9dded"],
+[data-theme="dark"] .lesson polygon[fill="#c9dded"],
+[data-theme="dark"] .lesson polyline[fill="#c9dded"],
+[data-theme="dark"] .lesson line[fill="#c9dded"],
+[data-theme="dark"] .lesson g[fill="#c9dded"]{fill:#20384f}
+[data-theme="dark"] .lesson text[fill="#c9dded"],
+[data-theme="dark"] .lesson tspan[fill="#c9dded"],
+[data-theme="dark"] .lesson g[fill="#c9dded"] text,
+[data-theme="dark"] .lesson g[fill="#c9dded"] tspan{fill:#c9dded}
+[data-theme="dark"] .lesson rect[fill="#cbd5e1"],
+[data-theme="dark"] .lesson circle[fill="#cbd5e1"],
+[data-theme="dark"] .lesson ellipse[fill="#cbd5e1"],
+[data-theme="dark"] .lesson path[fill="#cbd5e1"],
+[data-theme="dark"] .lesson polygon[fill="#cbd5e1"],
+[data-theme="dark"] .lesson polyline[fill="#cbd5e1"],
+[data-theme="dark"] .lesson line[fill="#cbd5e1"],
+[data-theme="dark"] .lesson g[fill="#cbd5e1"]{fill:#3a4859}
+[data-theme="dark"] .lesson text[fill="#cbd5e1"],
+[data-theme="dark"] .lesson tspan[fill="#cbd5e1"],
+[data-theme="dark"] .lesson g[fill="#cbd5e1"] text,
+[data-theme="dark"] .lesson g[fill="#cbd5e1"] tspan{fill:#cbd5e1}
+[data-theme="dark"] .lesson [stroke="#cbd5e1"]{stroke:#3a4859}
+[data-theme="dark"] .lesson [style*="solid #cbd5e1"]{border-color:#3a4859!important}
+[data-theme="dark"] .lesson [style*="background:#d0e0ee"]{background-color:#1c3247!important}
+[data-theme="dark"] .lesson rect[fill="#d1fae5"],
+[data-theme="dark"] .lesson circle[fill="#d1fae5"],
+[data-theme="dark"] .lesson ellipse[fill="#d1fae5"],
+[data-theme="dark"] .lesson path[fill="#d1fae5"],
+[data-theme="dark"] .lesson polygon[fill="#d1fae5"],
+[data-theme="dark"] .lesson polyline[fill="#d1fae5"],
+[data-theme="dark"] .lesson line[fill="#d1fae5"],
+[data-theme="dark"] .lesson g[fill="#d1fae5"]{fill:#123527}
+[data-theme="dark"] .lesson text[fill="#d1fae5"],
+[data-theme="dark"] .lesson tspan[fill="#d1fae5"],
+[data-theme="dark"] .lesson g[fill="#d1fae5"] text,
+[data-theme="dark"] .lesson g[fill="#d1fae5"] tspan{fill:#d1fae5}
+[data-theme="dark"] .lesson rect[fill="#d6eaf8"],
+[data-theme="dark"] .lesson circle[fill="#d6eaf8"],
+[data-theme="dark"] .lesson ellipse[fill="#d6eaf8"],
+[data-theme="dark"] .lesson path[fill="#d6eaf8"],
+[data-theme="dark"] .lesson polygon[fill="#d6eaf8"],
+[data-theme="dark"] .lesson polyline[fill="#d6eaf8"],
+[data-theme="dark"] .lesson line[fill="#d6eaf8"],
+[data-theme="dark"] .lesson g[fill="#d6eaf8"]{fill:#16283a}
+[data-theme="dark"] .lesson text[fill="#d6eaf8"],
+[data-theme="dark"] .lesson tspan[fill="#d6eaf8"],
+[data-theme="dark"] .lesson g[fill="#d6eaf8"] text,
+[data-theme="dark"] .lesson g[fill="#d6eaf8"] tspan{fill:#d6eaf8}
+[data-theme="dark"] .lesson [style*="background:#d6eaf8"]{background-color:#16283a!important}
+[data-theme="dark"] .lesson rect[fill="#d7dee6"],
+[data-theme="dark"] .lesson circle[fill="#d7dee6"],
+[data-theme="dark"] .lesson ellipse[fill="#d7dee6"],
+[data-theme="dark"] .lesson path[fill="#d7dee6"],
+[data-theme="dark"] .lesson polygon[fill="#d7dee6"],
+[data-theme="dark"] .lesson polyline[fill="#d7dee6"],
+[data-theme="dark"] .lesson line[fill="#d7dee6"],
+[data-theme="dark"] .lesson g[fill="#d7dee6"]{fill:#2b3747}
+[data-theme="dark"] .lesson text[fill="#d7dee6"],
+[data-theme="dark"] .lesson tspan[fill="#d7dee6"],
+[data-theme="dark"] .lesson g[fill="#d7dee6"] text,
+[data-theme="dark"] .lesson g[fill="#d7dee6"] tspan{fill:#d7dee6}
+[data-theme="dark"] .lesson [style*="background:#d7ecd9"]{background-color:#18382a!important}
+[data-theme="dark"] .lesson rect[fill="#d97706"],
+[data-theme="dark"] .lesson circle[fill="#d97706"],
+[data-theme="dark"] .lesson ellipse[fill="#d97706"],
+[data-theme="dark"] .lesson path[fill="#d97706"],
+[data-theme="dark"] .lesson polygon[fill="#d97706"],
+[data-theme="dark"] .lesson polyline[fill="#d97706"],
+[data-theme="dark"] .lesson line[fill="#d97706"],
+[data-theme="dark"] .lesson g[fill="#d97706"]{fill:#fbbf24}
+[data-theme="dark"] .lesson text[fill="#d97706"],
+[data-theme="dark"] .lesson tspan[fill="#d97706"],
+[data-theme="dark"] .lesson g[fill="#d97706"] text,
+[data-theme="dark"] .lesson g[fill="#d97706"] tspan{fill:#fbbf24}
+[data-theme="dark"] .lesson [stroke="#d97706"]{stroke:#fbbf24}
+[data-theme="dark"] .lesson [style*="background:#d97706"]{background-color:#2e2419!important}
+[data-theme="dark"] .lesson [style^="color:#d97706"],
+[data-theme="dark"] .lesson [style*=";color:#d97706"]{color:#fbbf24!important}
+[data-theme="dark"] .lesson [style*="background:#dae6f1"]{background-color:#192d42!important}
+[data-theme="dark"] .lesson rect[fill="#dbeafe"],
+[data-theme="dark"] .lesson circle[fill="#dbeafe"],
+[data-theme="dark"] .lesson ellipse[fill="#dbeafe"],
+[data-theme="dark"] .lesson path[fill="#dbeafe"],
+[data-theme="dark"] .lesson polygon[fill="#dbeafe"],
+[data-theme="dark"] .lesson polyline[fill="#dbeafe"],
+[data-theme="dark"] .lesson line[fill="#dbeafe"],
+[data-theme="dark"] .lesson g[fill="#dbeafe"]{fill:#1b2f4d}
+[data-theme="dark"] .lesson text[fill="#dbeafe"],
+[data-theme="dark"] .lesson tspan[fill="#dbeafe"],
+[data-theme="dark"] .lesson g[fill="#dbeafe"] text,
+[data-theme="dark"] .lesson g[fill="#dbeafe"] tspan{fill:#dbeafe}
+[data-theme="dark"] .lesson [style*="background:#dbeafe"]{background-color:#1b2f4d!important}
+[data-theme="dark"] .lesson rect[fill="#dc2626"],
+[data-theme="dark"] .lesson circle[fill="#dc2626"],
+[data-theme="dark"] .lesson ellipse[fill="#dc2626"],
+[data-theme="dark"] .lesson path[fill="#dc2626"],
+[data-theme="dark"] .lesson polygon[fill="#dc2626"],
+[data-theme="dark"] .lesson polyline[fill="#dc2626"],
+[data-theme="dark"] .lesson line[fill="#dc2626"],
+[data-theme="dark"] .lesson g[fill="#dc2626"]{fill:#f87171}
+[data-theme="dark"] .lesson text[fill="#dc2626"],
+[data-theme="dark"] .lesson tspan[fill="#dc2626"],
+[data-theme="dark"] .lesson g[fill="#dc2626"] text,
+[data-theme="dark"] .lesson g[fill="#dc2626"] tspan{fill:#f5c2c2}
+[data-theme="dark"] .lesson [style^="color:#dc2626"],
+[data-theme="dark"] .lesson [style*=";color:#dc2626"]{color:#f5c2c2!important}
+[data-theme="dark"] .lesson rect[fill="#dcfce7"],
+[data-theme="dark"] .lesson circle[fill="#dcfce7"],
+[data-theme="dark"] .lesson ellipse[fill="#dcfce7"],
+[data-theme="dark"] .lesson path[fill="#dcfce7"],
+[data-theme="dark"] .lesson polygon[fill="#dcfce7"],
+[data-theme="dark"] .lesson polyline[fill="#dcfce7"],
+[data-theme="dark"] .lesson line[fill="#dcfce7"],
+[data-theme="dark"] .lesson g[fill="#dcfce7"]{fill:#14331f}
+[data-theme="dark"] .lesson text[fill="#dcfce7"],
+[data-theme="dark"] .lesson tspan[fill="#dcfce7"],
+[data-theme="dark"] .lesson g[fill="#dcfce7"] text,
+[data-theme="dark"] .lesson g[fill="#dcfce7"] tspan{fill:#dcfce7}
+[data-theme="dark"] .lesson [style*="background:#dcfce7"]{background-color:#14331f!important}
+[data-theme="dark"] .lesson [stroke="#ddd6fe"]{stroke:#453a78}
+[data-theme="dark"] .lesson [style*="border-color:#ddd6fe"]{border-color:#453a78!important}
+[data-theme="dark"] .lesson rect[fill="#e0e7ff"],
+[data-theme="dark"] .lesson circle[fill="#e0e7ff"],
+[data-theme="dark"] .lesson ellipse[fill="#e0e7ff"],
+[data-theme="dark"] .lesson path[fill="#e0e7ff"],
+[data-theme="dark"] .lesson polygon[fill="#e0e7ff"],
+[data-theme="dark"] .lesson polyline[fill="#e0e7ff"],
+[data-theme="dark"] .lesson line[fill="#e0e7ff"],
+[data-theme="dark"] .lesson g[fill="#e0e7ff"]{fill:#262c52}
+[data-theme="dark"] .lesson text[fill="#e0e7ff"],
+[data-theme="dark"] .lesson tspan[fill="#e0e7ff"],
+[data-theme="dark"] .lesson g[fill="#e0e7ff"] text,
+[data-theme="dark"] .lesson g[fill="#e0e7ff"] tspan{fill:#e0e7ff}
+[data-theme="dark"] .lesson [stroke="#e0e7ff"]{stroke:#262c52}
+[data-theme="dark"] .lesson [style*="background:#e0eaf3"]{background-color:#172a3d!important}
+[data-theme="dark"] .lesson rect[fill="#e0f2fe"],
+[data-theme="dark"] .lesson circle[fill="#e0f2fe"],
+[data-theme="dark"] .lesson ellipse[fill="#e0f2fe"],
+[data-theme="dark"] .lesson path[fill="#e0f2fe"],
+[data-theme="dark"] .lesson polygon[fill="#e0f2fe"],
+[data-theme="dark"] .lesson polyline[fill="#e0f2fe"],
+[data-theme="dark"] .lesson line[fill="#e0f2fe"],
+[data-theme="dark"] .lesson g[fill="#e0f2fe"]{fill:#17293b}
+[data-theme="dark"] .lesson text[fill="#e0f2fe"],
+[data-theme="dark"] .lesson tspan[fill="#e0f2fe"],
+[data-theme="dark"] .lesson g[fill="#e0f2fe"] text,
+[data-theme="dark"] .lesson g[fill="#e0f2fe"] tspan{fill:#e0f2fe}
+[data-theme="dark"] .lesson rect[fill="#e15759"],
+[data-theme="dark"] .lesson circle[fill="#e15759"],
+[data-theme="dark"] .lesson ellipse[fill="#e15759"],
+[data-theme="dark"] .lesson path[fill="#e15759"],
+[data-theme="dark"] .lesson polygon[fill="#e15759"],
+[data-theme="dark"] .lesson polyline[fill="#e15759"],
+[data-theme="dark"] .lesson line[fill="#e15759"],
+[data-theme="dark"] .lesson g[fill="#e15759"]{fill:#ef7f81}
+[data-theme="dark"] .lesson text[fill="#e15759"],
+[data-theme="dark"] .lesson tspan[fill="#e15759"],
+[data-theme="dark"] .lesson g[fill="#e15759"] text,
+[data-theme="dark"] .lesson g[fill="#e15759"] tspan{fill:#f7d0d1}
+[data-theme="dark"] .lesson [stroke="#e15759"]{stroke:#ef7f81}
+[data-theme="dark"] .lesson [style*="background:#e15759"]{background-color:#301f27!important}
+[data-theme="dark"] .lesson rect[fill="#e2e8f0"],
+[data-theme="dark"] .lesson circle[fill="#e2e8f0"],
+[data-theme="dark"] .lesson ellipse[fill="#e2e8f0"],
+[data-theme="dark"] .lesson path[fill="#e2e8f0"],
+[data-theme="dark"] .lesson polygon[fill="#e2e8f0"],
+[data-theme="dark"] .lesson polyline[fill="#e2e8f0"],
+[data-theme="dark"] .lesson line[fill="#e2e8f0"],
+[data-theme="dark"] .lesson g[fill="#e2e8f0"]{fill:#2b3747}
+[data-theme="dark"] .lesson text[fill="#e2e8f0"],
+[data-theme="dark"] .lesson tspan[fill="#e2e8f0"],
+[data-theme="dark"] .lesson g[fill="#e2e8f0"] text,
+[data-theme="dark"] .lesson g[fill="#e2e8f0"] tspan{fill:#e2e8f0}
+[data-theme="dark"] .lesson [stroke="#e2e8f0"]{stroke:#2b3747}
+[data-theme="dark"] .lesson [style*="solid #e2e8f0"]{border-color:#2b3747!important}
+[data-theme="dark"] .lesson rect[fill="#e3eef7"],
+[data-theme="dark"] .lesson circle[fill="#e3eef7"],
+[data-theme="dark"] .lesson ellipse[fill="#e3eef7"],
+[data-theme="dark"] .lesson path[fill="#e3eef7"],
+[data-theme="dark"] .lesson polygon[fill="#e3eef7"],
+[data-theme="dark"] .lesson polyline[fill="#e3eef7"],
+[data-theme="dark"] .lesson line[fill="#e3eef7"],
+[data-theme="dark"] .lesson g[fill="#e3eef7"]{fill:#18293c}
+[data-theme="dark"] .lesson text[fill="#e3eef7"],
+[data-theme="dark"] .lesson tspan[fill="#e3eef7"],
+[data-theme="dark"] .lesson g[fill="#e3eef7"] text,
+[data-theme="dark"] .lesson g[fill="#e3eef7"] tspan{fill:#e3eef7}
+[data-theme="dark"] .lesson [style*="background:#e6a09b"]{background-color:#312a31!important}
+[data-theme="dark"] .lesson rect[fill="#e8933a"],
+[data-theme="dark"] .lesson circle[fill="#e8933a"],
+[data-theme="dark"] .lesson ellipse[fill="#e8933a"],
+[data-theme="dark"] .lesson path[fill="#e8933a"],
+[data-theme="dark"] .lesson polygon[fill="#e8933a"],
+[data-theme="dark"] .lesson polyline[fill="#e8933a"],
+[data-theme="dark"] .lesson line[fill="#e8933a"],
+[data-theme="dark"] .lesson g[fill="#e8933a"]{fill:#f0a95c}
+[data-theme="dark"] .lesson text[fill="#e8933a"],
+[data-theme="dark"] .lesson tspan[fill="#e8933a"],
+[data-theme="dark"] .lesson g[fill="#e8933a"] text,
+[data-theme="dark"] .lesson g[fill="#e8933a"] tspan{fill:#f0a95c}
+[data-theme="dark"] .lesson [style*="background:#e8b931"]{background-color:#312e20!important}
+[data-theme="dark"] .lesson rect[fill="#e8f1f8"],
+[data-theme="dark"] .lesson circle[fill="#e8f1f8"],
+[data-theme="dark"] .lesson ellipse[fill="#e8f1f8"],
+[data-theme="dark"] .lesson path[fill="#e8f1f8"],
+[data-theme="dark"] .lesson polygon[fill="#e8f1f8"],
+[data-theme="dark"] .lesson polyline[fill="#e8f1f8"],
+[data-theme="dark"] .lesson line[fill="#e8f1f8"],
+[data-theme="dark"] .lesson g[fill="#e8f1f8"]{fill:#16283a}
+[data-theme="dark"] .lesson text[fill="#e8f1f8"],
+[data-theme="dark"] .lesson tspan[fill="#e8f1f8"],
+[data-theme="dark"] .lesson g[fill="#e8f1f8"] text,
+[data-theme="dark"] .lesson g[fill="#e8f1f8"] tspan{fill:#e8f1f8}
+[data-theme="dark"] .lesson [style*="background:#e8f1f8"]{background-color:#16283a!important}
+[data-theme="dark"] .lesson [stroke="#ea580c"]{stroke:#fb923c}
+[data-theme="dark"] .lesson [style*="background:#eaf2f8"]{background-color:#16243a!important}
+[data-theme="dark"] .lesson rect[fill="#ecfdf5"],
+[data-theme="dark"] .lesson circle[fill="#ecfdf5"],
+[data-theme="dark"] .lesson ellipse[fill="#ecfdf5"],
+[data-theme="dark"] .lesson path[fill="#ecfdf5"],
+[data-theme="dark"] .lesson polygon[fill="#ecfdf5"],
+[data-theme="dark"] .lesson polyline[fill="#ecfdf5"],
+[data-theme="dark"] .lesson line[fill="#ecfdf5"],
+[data-theme="dark"] .lesson g[fill="#ecfdf5"]{fill:#10291f}
+[data-theme="dark"] .lesson text[fill="#ecfdf5"],
+[data-theme="dark"] .lesson tspan[fill="#ecfdf5"],
+[data-theme="dark"] .lesson g[fill="#ecfdf5"] text,
+[data-theme="dark"] .lesson g[fill="#ecfdf5"] tspan{fill:#ecfdf5}
+[data-theme="dark"] .lesson [style*="background:#ecfdf5"]{background-color:#10291f!important}
+[data-theme="dark"] .lesson rect[fill="#eef2f7"],
+[data-theme="dark"] .lesson circle[fill="#eef2f7"],
+[data-theme="dark"] .lesson ellipse[fill="#eef2f7"],
+[data-theme="dark"] .lesson path[fill="#eef2f7"],
+[data-theme="dark"] .lesson polygon[fill="#eef2f7"],
+[data-theme="dark"] .lesson polyline[fill="#eef2f7"],
+[data-theme="dark"] .lesson line[fill="#eef2f7"],
+[data-theme="dark"] .lesson g[fill="#eef2f7"]{fill:#0e141d}
+[data-theme="dark"] .lesson text[fill="#eef2f7"],
+[data-theme="dark"] .lesson tspan[fill="#eef2f7"],
+[data-theme="dark"] .lesson g[fill="#eef2f7"] text,
+[data-theme="dark"] .lesson g[fill="#eef2f7"] tspan{fill:#eef2f7}
+[data-theme="dark"] .lesson [stroke="#eef2f7"]{stroke:#0e141d}
+[data-theme="dark"] .lesson [style*="background:#eef2f7"]{background-color:#0e141d!important}
+[data-theme="dark"] .lesson rect[fill="#eef2ff"],
+[data-theme="dark"] .lesson circle[fill="#eef2ff"],
+[data-theme="dark"] .lesson ellipse[fill="#eef2ff"],
+[data-theme="dark"] .lesson path[fill="#eef2ff"],
+[data-theme="dark"] .lesson polygon[fill="#eef2ff"],
+[data-theme="dark"] .lesson polyline[fill="#eef2ff"],
+[data-theme="dark"] .lesson line[fill="#eef2ff"],
+[data-theme="dark"] .lesson g[fill="#eef2ff"]{fill:#1e2340}
+[data-theme="dark"] .lesson text[fill="#eef2ff"],
+[data-theme="dark"] .lesson tspan[fill="#eef2ff"],
+[data-theme="dark"] .lesson g[fill="#eef2ff"] text,
+[data-theme="dark"] .lesson g[fill="#eef2ff"] tspan{fill:#eef2ff}
+[data-theme="dark"] .lesson [style*="background:#eef2ff"]{background-color:#1e2340!important}
+[data-theme="dark"] .lesson rect[fill="#eff6ff"],
+[data-theme="dark"] .lesson circle[fill="#eff6ff"],
+[data-theme="dark"] .lesson ellipse[fill="#eff6ff"],
+[data-theme="dark"] .lesson path[fill="#eff6ff"],
+[data-theme="dark"] .lesson polygon[fill="#eff6ff"],
+[data-theme="dark"] .lesson polyline[fill="#eff6ff"],
+[data-theme="dark"] .lesson line[fill="#eff6ff"],
+[data-theme="dark"] .lesson g[fill="#eff6ff"]{fill:#16243a}
+[data-theme="dark"] .lesson text[fill="#eff6ff"],
+[data-theme="dark"] .lesson tspan[fill="#eff6ff"],
+[data-theme="dark"] .lesson g[fill="#eff6ff"] text,
+[data-theme="dark"] .lesson g[fill="#eff6ff"] tspan{fill:#eff6ff}
+[data-theme="dark"] .lesson [style*="background:#eff6ff"]{background-color:#16243a!important}
+[data-theme="dark"] .lesson rect[fill="#f0f9ff"],
+[data-theme="dark"] .lesson circle[fill="#f0f9ff"],
+[data-theme="dark"] .lesson ellipse[fill="#f0f9ff"],
+[data-theme="dark"] .lesson path[fill="#f0f9ff"],
+[data-theme="dark"] .lesson polygon[fill="#f0f9ff"],
+[data-theme="dark"] .lesson polyline[fill="#f0f9ff"],
+[data-theme="dark"] .lesson line[fill="#f0f9ff"],
+[data-theme="dark"] .lesson g[fill="#f0f9ff"]{fill:#14202f}
+[data-theme="dark"] .lesson text[fill="#f0f9ff"],
+[data-theme="dark"] .lesson tspan[fill="#f0f9ff"],
+[data-theme="dark"] .lesson g[fill="#f0f9ff"] text,
+[data-theme="dark"] .lesson g[fill="#f0f9ff"] tspan{fill:#f0f9ff}
+[data-theme="dark"] .lesson rect[fill="#f0fdf4"],
+[data-theme="dark"] .lesson circle[fill="#f0fdf4"],
+[data-theme="dark"] .lesson ellipse[fill="#f0fdf4"],
+[data-theme="dark"] .lesson path[fill="#f0fdf4"],
+[data-theme="dark"] .lesson polygon[fill="#f0fdf4"],
+[data-theme="dark"] .lesson polyline[fill="#f0fdf4"],
+[data-theme="dark"] .lesson line[fill="#f0fdf4"],
+[data-theme="dark"] .lesson g[fill="#f0fdf4"]{fill:#10291f}
+[data-theme="dark"] .lesson text[fill="#f0fdf4"],
+[data-theme="dark"] .lesson tspan[fill="#f0fdf4"],
+[data-theme="dark"] .lesson g[fill="#f0fdf4"] text,
+[data-theme="dark"] .lesson g[fill="#f0fdf4"] tspan{fill:#f0fdf4}
+[data-theme="dark"] .lesson [style*="background:#f0fdf4"]{background-color:#10291f!important}
+[data-theme="dark"] .lesson [style*="background:#f0fdfa"]{background-color:#0f2b2b!important}
+[data-theme="dark"] .lesson rect[fill="#f1f5f9"],
+[data-theme="dark"] .lesson circle[fill="#f1f5f9"],
+[data-theme="dark"] .lesson ellipse[fill="#f1f5f9"],
+[data-theme="dark"] .lesson path[fill="#f1f5f9"],
+[data-theme="dark"] .lesson polygon[fill="#f1f5f9"],
+[data-theme="dark"] .lesson polyline[fill="#f1f5f9"],
+[data-theme="dark"] .lesson line[fill="#f1f5f9"],
+[data-theme="dark"] .lesson g[fill="#f1f5f9"]{fill:#1f2937}
+[data-theme="dark"] .lesson text[fill="#f1f5f9"],
+[data-theme="dark"] .lesson tspan[fill="#f1f5f9"],
+[data-theme="dark"] .lesson g[fill="#f1f5f9"] text,
+[data-theme="dark"] .lesson g[fill="#f1f5f9"] tspan{fill:#f1f5f9}
+[data-theme="dark"] .lesson [stroke="#f1f5f9"]{stroke:#1f2937}
+[data-theme="dark"] .lesson [style*="background:#f2f2f2"]{background-color:#222c3a!important}
+[data-theme="dark"] .lesson rect[fill="#f5a85a"],
+[data-theme="dark"] .lesson circle[fill="#f5a85a"],
+[data-theme="dark"] .lesson ellipse[fill="#f5a85a"],
+[data-theme="dark"] .lesson path[fill="#f5a85a"],
+[data-theme="dark"] .lesson polygon[fill="#f5a85a"],
+[data-theme="dark"] .lesson polyline[fill="#f5a85a"],
+[data-theme="dark"] .lesson line[fill="#f5a85a"],
+[data-theme="dark"] .lesson g[fill="#f5a85a"]{fill:#332c27}
+[data-theme="dark"] .lesson text[fill="#f5a85a"],
+[data-theme="dark"] .lesson tspan[fill="#f5a85a"],
+[data-theme="dark"] .lesson g[fill="#f5a85a"] text,
+[data-theme="dark"] .lesson g[fill="#f5a85a"] tspan{fill:#fce7d1}
+[data-theme="dark"] .lesson rect[fill="#f5b7b1"],
+[data-theme="dark"] .lesson circle[fill="#f5b7b1"],
+[data-theme="dark"] .lesson ellipse[fill="#f5b7b1"],
+[data-theme="dark"] .lesson path[fill="#f5b7b1"],
+[data-theme="dark"] .lesson polygon[fill="#f5b7b1"],
+[data-theme="dark"] .lesson polyline[fill="#f5b7b1"],
+[data-theme="dark"] .lesson line[fill="#f5b7b1"],
+[data-theme="dark"] .lesson g[fill="#f5b7b1"]{fill:#332e35}
+[data-theme="dark"] .lesson text[fill="#f5b7b1"],
+[data-theme="dark"] .lesson tspan[fill="#f5b7b1"],
+[data-theme="dark"] .lesson g[fill="#f5b7b1"] text,
+[data-theme="dark"] .lesson g[fill="#f5b7b1"] tspan{fill:#f5b7b1}
+[data-theme="dark"] .lesson [style*="background:#f5b7b1"]{background-color:#332e35!important}
+[data-theme="dark"] .lesson rect[fill="#f5f3ff"],
+[data-theme="dark"] .lesson circle[fill="#f5f3ff"],
+[data-theme="dark"] .lesson ellipse[fill="#f5f3ff"],
+[data-theme="dark"] .lesson path[fill="#f5f3ff"],
+[data-theme="dark"] .lesson polygon[fill="#f5f3ff"],
+[data-theme="dark"] .lesson polyline[fill="#f5f3ff"],
+[data-theme="dark"] .lesson line[fill="#f5f3ff"],
+[data-theme="dark"] .lesson g[fill="#f5f3ff"]{fill:#221a3a}
+[data-theme="dark"] .lesson text[fill="#f5f3ff"],
+[data-theme="dark"] .lesson tspan[fill="#f5f3ff"],
+[data-theme="dark"] .lesson g[fill="#f5f3ff"] text,
+[data-theme="dark"] .lesson g[fill="#f5f3ff"] tspan{fill:#f5f3ff}
+[data-theme="dark"] .lesson [style*="background:#f5f3ff"]{background-color:#221a3a!important}
+[data-theme="dark"] .lesson rect[fill="#f6f8fb"],
+[data-theme="dark"] .lesson circle[fill="#f6f8fb"],
+[data-theme="dark"] .lesson ellipse[fill="#f6f8fb"],
+[data-theme="dark"] .lesson path[fill="#f6f8fb"],
+[data-theme="dark"] .lesson polygon[fill="#f6f8fb"],
+[data-theme="dark"] .lesson polyline[fill="#f6f8fb"],
+[data-theme="dark"] .lesson line[fill="#f6f8fb"],
+[data-theme="dark"] .lesson g[fill="#f6f8fb"]{fill:#1b2431}
+[data-theme="dark"] .lesson text[fill="#f6f8fb"],
+[data-theme="dark"] .lesson tspan[fill="#f6f8fb"],
+[data-theme="dark"] .lesson g[fill="#f6f8fb"] text,
+[data-theme="dark"] .lesson g[fill="#f6f8fb"] tspan{fill:#f6f8fb}
+[data-theme="dark"] .lesson [style*="background:#f6f8fb"]{background-color:#1b2431!important}
+[data-theme="dark"] .lesson [style*="background:#f7d4d2"]{background-color:#33333a!important}
+[data-theme="dark"] .lesson rect[fill="#f8c28c"],
+[data-theme="dark"] .lesson circle[fill="#f8c28c"],
+[data-theme="dark"] .lesson ellipse[fill="#f8c28c"],
+[data-theme="dark"] .lesson path[fill="#f8c28c"],
+[data-theme="dark"] .lesson polygon[fill="#f8c28c"],
+[data-theme="dark"] .lesson polyline[fill="#f8c28c"],
+[data-theme="dark"] .lesson line[fill="#f8c28c"],
+[data-theme="dark"] .lesson g[fill="#f8c28c"]{fill:#8a5f36}
+[data-theme="dark"] .lesson text[fill="#f8c28c"],
+[data-theme="dark"] .lesson tspan[fill="#f8c28c"],
+[data-theme="dark"] .lesson g[fill="#f8c28c"] text,
+[data-theme="dark"] .lesson g[fill="#f8c28c"] tspan{fill:#f8c28c}
+[data-theme="dark"] .lesson rect[fill="#f8fafc"],
+[data-theme="dark"] .lesson circle[fill="#f8fafc"],
+[data-theme="dark"] .lesson ellipse[fill="#f8fafc"],
+[data-theme="dark"] .lesson path[fill="#f8fafc"],
+[data-theme="dark"] .lesson polygon[fill="#f8fafc"],
+[data-theme="dark"] .lesson polyline[fill="#f8fafc"],
+[data-theme="dark"] .lesson line[fill="#f8fafc"],
+[data-theme="dark"] .lesson g[fill="#f8fafc"]{fill:#1b2431}
+[data-theme="dark"] .lesson text[fill="#f8fafc"],
+[data-theme="dark"] .lesson tspan[fill="#f8fafc"],
+[data-theme="dark"] .lesson g[fill="#f8fafc"] text,
+[data-theme="dark"] .lesson g[fill="#f8fafc"] tspan{fill:#f8fafc}
+[data-theme="dark"] .lesson [style*="background:#f8fafc"]{background-color:#1b2431!important}
+[data-theme="dark"] .lesson rect[fill="#fbd9b5"],
+[data-theme="dark"] .lesson circle[fill="#fbd9b5"],
+[data-theme="dark"] .lesson ellipse[fill="#fbd9b5"],
+[data-theme="dark"] .lesson path[fill="#fbd9b5"],
+[data-theme="dark"] .lesson polygon[fill="#fbd9b5"],
+[data-theme="dark"] .lesson polyline[fill="#fbd9b5"],
+[data-theme="dark"] .lesson line[fill="#fbd9b5"],
+[data-theme="dark"] .lesson g[fill="#fbd9b5"]{fill:#6d4c2c}
+[data-theme="dark"] .lesson text[fill="#fbd9b5"],
+[data-theme="dark"] .lesson tspan[fill="#fbd9b5"],
+[data-theme="dark"] .lesson g[fill="#fbd9b5"] text,
+[data-theme="dark"] .lesson g[fill="#fbd9b5"] tspan{fill:#fbd9b5}
+[data-theme="dark"] .lesson rect[fill="#fde68a"],
+[data-theme="dark"] .lesson circle[fill="#fde68a"],
+[data-theme="dark"] .lesson ellipse[fill="#fde68a"],
+[data-theme="dark"] .lesson path[fill="#fde68a"],
+[data-theme="dark"] .lesson polygon[fill="#fde68a"],
+[data-theme="dark"] .lesson polyline[fill="#fde68a"],
+[data-theme="dark"] .lesson line[fill="#fde68a"],
+[data-theme="dark"] .lesson g[fill="#fde68a"]{fill:#6a5219}
+[data-theme="dark"] .lesson text[fill="#fde68a"],
+[data-theme="dark"] .lesson tspan[fill="#fde68a"],
+[data-theme="dark"] .lesson g[fill="#fde68a"] text,
+[data-theme="dark"] .lesson g[fill="#fde68a"] tspan{fill:#fde68a}
+[data-theme="dark"] .lesson [stroke="#fde68a"]{stroke:#6a5219}
+[data-theme="dark"] .lesson [style*="border-color:#fde68a"]{border-color:#6a5219!important}
+[data-theme="dark"] .lesson [style*="background:#fdf1d6"]{background-color:#312712!important}
+[data-theme="dark"] .lesson [style*="background:#fdf2f8"]{background-color:#2b1626!important}
+[data-theme="dark"] .lesson [stroke="#fecaca"]{stroke:#6b2b2f}
+[data-theme="dark"] .lesson [style*="border-color:#fecaca"]{border-color:#6b2b2f!important}
+[data-theme="dark"] .lesson [stroke="#fed7aa"]{stroke:#6b4320}
+[data-theme="dark"] .lesson rect[fill="#fef2f2"],
+[data-theme="dark"] .lesson circle[fill="#fef2f2"],
+[data-theme="dark"] .lesson ellipse[fill="#fef2f2"],
+[data-theme="dark"] .lesson path[fill="#fef2f2"],
+[data-theme="dark"] .lesson polygon[fill="#fef2f2"],
+[data-theme="dark"] .lesson polyline[fill="#fef2f2"],
+[data-theme="dark"] .lesson line[fill="#fef2f2"],
+[data-theme="dark"] .lesson g[fill="#fef2f2"]{fill:#2c1618}
+[data-theme="dark"] .lesson text[fill="#fef2f2"],
+[data-theme="dark"] .lesson tspan[fill="#fef2f2"],
+[data-theme="dark"] .lesson g[fill="#fef2f2"] text,
+[data-theme="dark"] .lesson g[fill="#fef2f2"] tspan{fill:#fef2f2}
+[data-theme="dark"] .lesson [style*="background:#fef2f2"]{background-color:#2c1618!important}
+[data-theme="dark"] .lesson rect[fill="#fef3c7"],
+[data-theme="dark"] .lesson circle[fill="#fef3c7"],
+[data-theme="dark"] .lesson ellipse[fill="#fef3c7"],
+[data-theme="dark"] .lesson path[fill="#fef3c7"],
+[data-theme="dark"] .lesson polygon[fill="#fef3c7"],
+[data-theme="dark"] .lesson polyline[fill="#fef3c7"],
+[data-theme="dark"] .lesson line[fill="#fef3c7"],
+[data-theme="dark"] .lesson g[fill="#fef3c7"]{fill:#33290c}
+[data-theme="dark"] .lesson text[fill="#fef3c7"],
+[data-theme="dark"] .lesson tspan[fill="#fef3c7"],
+[data-theme="dark"] .lesson g[fill="#fef3c7"] text,
+[data-theme="dark"] .lesson g[fill="#fef3c7"] tspan{fill:#fef3c7}
+[data-theme="dark"] .lesson [style*="background:#fef3c7"]{background-color:#33290c!important}
+[data-theme="dark"] .lesson rect[fill="#fff7ed"],
+[data-theme="dark"] .lesson circle[fill="#fff7ed"],
+[data-theme="dark"] .lesson ellipse[fill="#fff7ed"],
+[data-theme="dark"] .lesson path[fill="#fff7ed"],
+[data-theme="dark"] .lesson polygon[fill="#fff7ed"],
+[data-theme="dark"] .lesson polyline[fill="#fff7ed"],
+[data-theme="dark"] .lesson line[fill="#fff7ed"],
+[data-theme="dark"] .lesson g[fill="#fff7ed"]{fill:#2b1c0e}
+[data-theme="dark"] .lesson text[fill="#fff7ed"],
+[data-theme="dark"] .lesson tspan[fill="#fff7ed"],
+[data-theme="dark"] .lesson g[fill="#fff7ed"] text,
+[data-theme="dark"] .lesson g[fill="#fff7ed"] tspan{fill:#fff7ed}
+[data-theme="dark"] .lesson rect[fill="#fffbeb"],
+[data-theme="dark"] .lesson circle[fill="#fffbeb"],
+[data-theme="dark"] .lesson ellipse[fill="#fffbeb"],
+[data-theme="dark"] .lesson path[fill="#fffbeb"],
+[data-theme="dark"] .lesson polygon[fill="#fffbeb"],
+[data-theme="dark"] .lesson polyline[fill="#fffbeb"],
+[data-theme="dark"] .lesson line[fill="#fffbeb"],
+[data-theme="dark"] .lesson g[fill="#fffbeb"]{fill:#2a2109}
+[data-theme="dark"] .lesson text[fill="#fffbeb"],
+[data-theme="dark"] .lesson tspan[fill="#fffbeb"],
+[data-theme="dark"] .lesson g[fill="#fffbeb"] text,
+[data-theme="dark"] .lesson g[fill="#fffbeb"] tspan{fill:#fffbeb}
+[data-theme="dark"] .lesson [style*="background:#fffbeb"]{background-color:#2a2109!important}
+
+
+/* --- code blocks opt out ------------------------------------------------
+   <pre> is a dark island in both themes. Re-declaring the palette on it
+   restores the light values for the panel and every syntax colour that
+   inherits from it, rather than patching them one at a time.      --- */
+[data-theme="dark"] .lesson pre,
+[data-theme="dark"] .lesson .pre-wrap {
+  --c-0284c7: #0284c7;
+  --c-0369a1: #0369a1;
+  --c-047857: #047857;
+  --c-059669: #059669;
+  --c-065f46: #065f46;
+  --c-0f172a: #0f172a;
+  --c-0f766e: #0f766e;
+  --c-15803d: #15803d;
+  --c-16a34a: #16a34a;
+  --c-196f3d: #196f3d;
+  --c-1b4f72: #1b4f72;
+  --c-1d4ed8: #1d4ed8;
+  --c-1e293b: #1e293b;
+  --c-1e3a5f: #1e3a5f;
+  --c-1e7d52: #1e7d52;
+  --c-1f2937: #1f2937;
+  --c-1f5c92: #1f5c92;
+  --c-2563eb: #2563eb;
+  --c-2e6da4: #2e6da4;
+  --c-2e86c1: #2e86c1;
+  --c-2f5c29: #2f5c29;
+  --c-2f5d80: #2f5d80;
+  --c-312e81: #312e81;
+  --c-334155: #334155;
+  --c-3730a3: #3730a3;
+  --c-3b82f6: #3b82f6;
+  --c-3d6b34: #3d6b34;
+  --c-3d6b94: #3d6b94;
+  --c-3d7ea8: #3d7ea8;
+  --c-4338ca: #4338ca;
+  --c-475569: #475569;
+  --c-4884b8: #4884b8;
+  --c-4a7dab: #4a7dab;
+  --c-4e79a7: #4e79a7;
+  --c-4f46e5: #4f46e5;
+  --c-5499c7: #5499c7;
+  --c-59a14f: #59a14f;
+  --c-5a93c2: #5a93c2;
+  --c-5b8db8: #5b8db8;
+  --c-5b9450: #5b9450;
+  --c-5bb377: #5bb377;
+  --c-6366f1: #6366f1;
+  --c-64748b: #64748b;
+  --c-666: #666;
+  --c-6a97be: #6a97be;
+  --c-6b4763: #6b4763;
+  --c-6b93bb: #6b93bb;
+  --c-6b98bf: #6b98bf;
+  --c-6d28d9: #6d28d9;
+  --c-6ee7b7: #6ee7b7;
+  --c-6f9fc8: #6f9fc8;
+  --c-76b7b2: #76b7b2;
+  --c-7aabd0: #7aabd0;
+  --c-7c3aed: #7c3aed;
+  --c-7dc99a: #7dc99a;
+  --c-7f1d1d: #7f1d1d;
+  --c-7fb3d5: #7fb3d5;
+  --c-854d0e: #854d0e;
+  --c-86efac: #86efac;
+  --c-88b4d6: #88b4d6;
+  --c-8b5cf6: #8b5cf6;
+  --c-8b7355: #8b7355;
+  --c-8fb0cd: #8fb0cd;
+  --c-8fb3d3: #8fb3d3;
+  --c-8fcf9f: #8fcf9f;
+  --c-92400e: #92400e;
+  --c-93c5fd: #93c5fd;
+  --c-94a3b8: #94a3b8;
+  --c-991b1b: #991b1b;
+  --c-9a5b12: #9a5b12;
+  --c-9c755f: #9c755f;
+  --c-9ccbb0: #9ccbb0;
+  --c-9db8ce: #9db8ce;
+  --c-9dbdd8: #9dbdd8;
+  --c-a16207: #a16207;
+  --c-a4c6e0: #a4c6e0;
+  --c-a5b4fc: #a5b4fc;
+  --c-a7f3d0: #a7f3d0;
+  --c-a8c8e0: #a8c8e0;
+  --c-a9c3da: #a9c3da;
+  --c-a9dfbf: #a9dfbf;
+  --c-aed6f1: #aed6f1;
+  --c-b07aa1: #b07aa1;
+  --c-b45309: #b45309;
+  --c-b91c1c: #b91c1c;
+  --c-b9d3e8: #b9d3e8;
+  --c-bae6fd: #bae6fd;
+  --c-bbf7d0: #bbf7d0;
+  --c-bcd2e6: #bcd2e6;
+  --c-bcd6ea: #bcd6ea;
+  --c-be123c: #be123c;
+  --c-be185d: #be185d;
+  --c-bfdbfe: #bfdbfe;
+  --c-c0392b: #c0392b;
+  --c-c2410c: #c2410c;
+  --c-c4b5fd: #c4b5fd;
+  --c-c7d2fe: #c7d2fe;
+  --c-c7d9ea: #c7d9ea;
+  --c-c9dded: #c9dded;
+  --c-cbd5e1: #cbd5e1;
+  --c-d0e0ee: #d0e0ee;
+  --c-d1fae5: #d1fae5;
+  --c-d6eaf8: #d6eaf8;
+  --c-d7dee6: #d7dee6;
+  --c-d7ecd9: #d7ecd9;
+  --c-d97706: #d97706;
+  --c-dae6f1: #dae6f1;
+  --c-dbeafe: #dbeafe;
+  --c-dc2626: #dc2626;
+  --c-dcfce7: #dcfce7;
+  --c-ddd6fe: #ddd6fe;
+  --c-e0e7ff: #e0e7ff;
+  --c-e0eaf3: #e0eaf3;
+  --c-e0f2fe: #e0f2fe;
+  --c-e15759: #e15759;
+  --c-e2e8f0: #e2e8f0;
+  --c-e3eef7: #e3eef7;
+  --c-e6a09b: #e6a09b;
+  --c-e6eaf0: #e6eaf0;
+  --c-e8933a: #e8933a;
+  --c-e8b931: #e8b931;
+  --c-e8f1f8: #e8f1f8;
+  --c-ea580c: #ea580c;
+  --c-eaf2f8: #eaf2f8;
+  --c-ecfdf5: #ecfdf5;
+  --c-ede9fe: #ede9fe;
+  --c-eef2f7: #eef2f7;
+  --c-eef2ff: #eef2ff;
+  --c-eff6ff: #eff6ff;
+  --c-f0f9ff: #f0f9ff;
+  --c-f0fdf4: #f0fdf4;
+  --c-f0fdfa: #f0fdfa;
+  --c-f1f5f9: #f1f5f9;
+  --c-f2f2f2: #f2f2f2;
+  --c-f5a85a: #f5a85a;
+  --c-f5b7b1: #f5b7b1;
+  --c-f5f3ff: #f5f3ff;
+  --c-f6f8fb: #f6f8fb;
+  --c-f6fefb: #f6fefb;
+  --c-f7d4d2: #f7d4d2;
+  --c-f8c28c: #f8c28c;
+  --c-f8fafc: #f8fafc;
+  --c-f8faff: #f8faff;
+  --c-f9a8d4: #f9a8d4;
+  --c-fbd9b5: #fbd9b5;
+  --c-fdba74: #fdba74;
+  --c-fde68a: #fde68a;
+  --c-fdf1d6: #fdf1d6;
+  --c-fdf2f8: #fdf2f8;
+  --c-fecaca: #fecaca;
+  --c-fed7aa: #fed7aa;
+  --c-fee2e2: #fee2e2;
+  --c-fef2f2: #fef2f2;
+  --c-fef3c7: #fef3c7;
+  --c-fff: #fff;
+  --c-fff7ed: #fff7ed;
+  --c-fffbeb: #fffbeb;
+  --c-fffdf5: #fffdf5;
+  --c-ffffff: #ffffff;
+}
+
+
+/* --- Tailwind-classed fragments (SQL, Python, ML, Power BI, Math) --------
+   Those sections colour themselves with utility classes rather than the
+   .lesson palette, so the same remap is applied by class name. Utilities
+   that are already dark-friendly (code panels, 50-400 text) are skipped.
+   Unlayered, so these beat Tailwind's layered utilities.              --- */
+[data-theme="dark"] .subcontent .bg-white{background-color:#171f2b}
+[data-theme="dark"] .subcontent .text-gray-700{color:#c3ccd8}
+[data-theme="dark"] .subcontent .text-gray-600{color:#a8b4c4}
+[data-theme="dark"] .subcontent .border-gray-200{border-color:#2b3747}
+[data-theme="dark"] .subcontent .text-gray-500{color:#9aa8ba}
+[data-theme="dark"] .subcontent .bg-gray-50{background-color:#1b2431}
+[data-theme="dark"] .subcontent .bg-blue-50{background-color:#121f33}
+[data-theme="dark"] .subcontent .text-gray-800{color:#d8dfe8}
+[data-theme="dark"] .subcontent .bg-gray-100{background-color:#1f2937}
+[data-theme="dark"] .subcontent .text-gray-900{color:#e6ecf3}
+[data-theme="dark"] .subcontent .text-blue-700{color:#93c5fd}
+[data-theme="dark"] .subcontent .bg-green-50{background-color:#102624}
+[data-theme="dark"] .subcontent .text-green-700{color:#86efac}
+[data-theme="dark"] .subcontent .border-gray-300{border-color:#3a4859}
+[data-theme="dark"] .subcontent .text-blue-600{color:#60a5fa}
+[data-theme="dark"] .subcontent .text-green-600{color:#4ade80}
+[data-theme="dark"] .subcontent .bg-purple-50{background-color:#1d1a33}
+[data-theme="dark"] .subcontent .bg-red-50{background-color:#241921}
+[data-theme="dark"] .subcontent .bg-yellow-50{background-color:#24241b}
+[data-theme="dark"] .subcontent .text-blue-800{color:#93c5fd}
+[data-theme="dark"] .subcontent .text-red-700{color:#fca5a5}
+[data-theme="dark"] .subcontent .hover\:bg-gray-50:hover{background-color:#1b2431}
+[data-theme="dark"] .subcontent .border-blue-400{border-color:#22447c}
+[data-theme="dark"] .subcontent .text-purple-700{color:#d8b4fe}
+[data-theme="dark"] .subcontent .bg-gray-200{background-color:#26303e}
+[data-theme="dark"] .subcontent .text-purple-800{color:#d8b4fe}
+[data-theme="dark"] .subcontent .text-indigo-800{color:#a5b4fc}
+[data-theme="dark"] .subcontent .bg-indigo-100{background-color:#1a1f3b}
+[data-theme="dark"] .subcontent .text-green-800{color:#86efac}
+[data-theme="dark"] .subcontent .bg-green-100{background-color:#112d26}
+[data-theme="dark"] .subcontent .text-red-600{color:#f87171}
+[data-theme="dark"] .subcontent .text-red-900{color:#fca5a5}
+[data-theme="dark"] .subcontent .bg-orange-50{background-color:#261e1c}
+[data-theme="dark"] .subcontent .text-indigo-700{color:#a5b4fc}
+[data-theme="dark"] .subcontent .text-orange-600{color:#fb923c}
+[data-theme="dark"] .subcontent .bg-blue-100{background-color:#14233b}
+[data-theme="dark"] .subcontent .text-blue-900{color:#93c5fd}
+[data-theme="dark"] .subcontent .bg-amber-50{background-color:#25221b}
+[data-theme="dark"] .subcontent .border-blue-200{border-color:#1b335a}
+[data-theme="dark"] .subcontent .border-red-200{border-color:#4d2128}
+[data-theme="dark"] .subcontent .text-amber-800{color:#fcd34d}
+[data-theme="dark"] .subcontent .text-green-900{color:#86efac}
+[data-theme="dark"] .subcontent .text-slate-900{color:#e6ecf3}
+[data-theme="dark"] .subcontent .text-yellow-800{color:#fde047}
+[data-theme="dark"] .subcontent .bg-indigo-50{background-color:#161c32}
+[data-theme="dark"] .subcontent .border-green-200{border-color:#14462f}
+[data-theme="dark"] .subcontent .bg-rose-50{background-color:#251824}
+[data-theme="dark"] .subcontent .border-purple-400{border-color:#52317d}
+[data-theme="dark"] .subcontent .border-amber-400{border-color:#745115}
+[data-theme="dark"] .subcontent .border-indigo-400{border-color:#33387a}
+[data-theme="dark"] .subcontent .text-purple-600{color:#c084fc}
+[data-theme="dark"] .subcontent .border-green-400{border-color:#17623a}
+[data-theme="dark"] .subcontent .border-purple-200{border-color:#39265a}
+[data-theme="dark"] .subcontent .text-orange-700{color:#fdba74}
+[data-theme="dark"] .subcontent .text-red-800{color:#fca5a5}
+[data-theme="dark"] .subcontent .text-orange-800{color:#fdba74}
+[data-theme="dark"] .subcontent .text-violet-600{color:#a78bfa}
+[data-theme="dark"] .subcontent .divide-gray-200{border-color:#2b3747}
+[data-theme="dark"] .subcontent .border-slate-200{border-color:#2b3747}
+[data-theme="dark"] .subcontent .border-yellow-200{border-color:#4c4117}
+[data-theme="dark"] .subcontent .text-teal-700{color:#5eead4}
+[data-theme="dark"] .subcontent .bg-blue-200{background-color:#172a48}
+[data-theme="dark"] .subcontent .bg-slate-100{background-color:#1f2937}
+[data-theme="dark"] .subcontent .text-purple-900{color:#d8b4fe}
+[data-theme="dark"] .subcontent .text-slate-600{color:#a8b4c4}
+[data-theme="dark"] .subcontent .text-teal-600{color:#2dd4bf}
+[data-theme="dark"] .subcontent .bg-purple-100{background-color:#241d3c}
+[data-theme="dark"] .subcontent .text-rose-800{color:#fda4af}
+[data-theme="dark"] .subcontent .border-yellow-400{border-color:#6f5a14}
+[data-theme="dark"] .subcontent .text-indigo-600{color:#818cf8}
+[data-theme="dark"] .subcontent .bg-amber-100{background-color:#2e271a}
+[data-theme="dark"] .subcontent .bg-cyan-50{background-color:#0d242f}
+[data-theme="dark"] .subcontent .bg-teal-50{background-color:#0f242b}
+[data-theme="dark"] .subcontent .border-orange-400{border-color:#753e1a}
+[data-theme="dark"] .subcontent .divide-gray-300{border-color:#3a4859}
+[data-theme="dark"] .subcontent .text-amber-600{color:#fbbf24}
+[data-theme="dark"] .subcontent .text-rose-600{color:#fb7185}
+[data-theme="dark"] .subcontent .border-cyan-400{border-color:#0a5b6e}
+[data-theme="dark"] .subcontent .border-rose-400{border-color:#73273a}
+[data-theme="dark"] .subcontent .text-indigo-900{color:#a5b4fc}
+[data-theme="dark"] .subcontent .text-slate-700{color:#c3ccd8}
+[data-theme="dark"] .subcontent .border-emerald-400{border-color:#0f5d49}
+[data-theme="dark"] .subcontent .border-indigo-100{border-color:#21264c}
+[data-theme="dark"] .subcontent .border-red-400{border-color:#71292e}
+[data-theme="dark"] .subcontent .text-cyan-700{color:#67e8f9}
+[data-theme="dark"] .subcontent .text-cyan-800{color:#67e8f9}
+[data-theme="dark"] .subcontent .text-pink-800{color:#f9a8d4}
+[data-theme="dark"] .subcontent .hover\:text-indigo-600:hover{color:#818cf8}
+[data-theme="dark"] .subcontent .bg-red-100{background-color:#2e1b22}
+[data-theme="dark"] .subcontent .border-orange-200{border-color:#502f1b}
+[data-theme="dark"] .subcontent .text-blue-500{color:#60a5fa}
+[data-theme="dark"] .subcontent .text-emerald-500{color:#34d399}
+[data-theme="dark"] .subcontent .text-emerald-800{color:#6ee7b7}
+[data-theme="dark"] .subcontent .text-green-500{color:#4ade80}
+[data-theme="dark"] .subcontent .text-pink-700{color:#f9a8d4}
+[data-theme="dark"] .subcontent .text-teal-800{color:#5eead4}
+[data-theme="dark"] .subcontent .text-yellow-700{color:#fde047}
+[data-theme="dark"] .subcontent .bg-emerald-50{background-color:#0e2427}
+[data-theme="dark"] .subcontent .from-slate-50{--tw-gradient-from:#1b2431;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .text-amber-900{color:#fcd34d}
+[data-theme="dark"] .subcontent .text-violet-800{color:#c4b5fd}
+[data-theme="dark"] .subcontent .text-yellow-900{color:#fde047}
+[data-theme="dark"] .subcontent .bg-green-200{background-color:#12372a}
+[data-theme="dark"] .subcontent .to-blue-50{--tw-gradient-to:#121f33}
+[data-theme="dark"] .subcontent .bg-emerald-100{background-color:#0e2b2b}
+[data-theme="dark"] .subcontent .border-rose-200{border-color:#4e202f}
+[data-theme="dark"] .subcontent .text-emerald-600{color:#34d399}
+[data-theme="dark"] .subcontent .text-rose-900{color:#fda4af}
+[data-theme="dark"] .subcontent .hover\:bg-blue-50:hover{background-color:#121f33}
+[data-theme="dark"] .subcontent .bg-pink-50{background-color:#241929}
+[data-theme="dark"] .subcontent .bg-rose-100{background-color:#2e1a26}
+[data-theme="dark"] .subcontent .border-gray-100{border-color:#232e3d}
+[data-theme="dark"] .subcontent .border-purple-100{border-color:#30224d}
+[data-theme="dark"] .subcontent .text-purple-500{color:#c084fc}
+[data-theme="dark"] .subcontent .text-rose-700{color:#fda4af}
+[data-theme="dark"] .subcontent .border-green-300{border-color:#155434}
+[data-theme="dark"] .subcontent .border-pink-400{border-color:#702b54}
+[data-theme="dark"] .subcontent .from-indigo-50{--tw-gradient-from:#161c32;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .text-emerald-700{color:#6ee7b7}
+[data-theme="dark"] .subcontent .to-indigo-50{--tw-gradient-to:#161c32}
+[data-theme="dark"] .subcontent .bg-orange-100{background-color:#2f211c}
+[data-theme="dark"] .subcontent .bg-yellow-100{background-color:#2d2a1a}
+[data-theme="dark"] .subcontent .border-teal-400{border-color:#115c59}
+[data-theme="dark"] .subcontent .border-violet-400{border-color:#45347c}
+[data-theme="dark"] .subcontent .text-emerald-900{color:#6ee7b7}
+[data-theme="dark"] .subcontent .text-pink-600{color:#f472b6}
+[data-theme="dark"] .subcontent .text-sky-700{color:#7dd3fc}
+[data-theme="dark"] .subcontent .bg-cyan-100{background-color:#0d2b37}
+[data-theme="dark"] .subcontent .bg-violet-50{background-color:#1a1b33}
+[data-theme="dark"] .subcontent .border-blue-300{border-color:#1e3c6b}
+[data-theme="dark"] .subcontent .border-indigo-200{border-color:#262b58}
+[data-theme="dark"] .subcontent .border-sky-200{border-color:#0e3d56}
+[data-theme="dark"] .subcontent .border-violet-200{border-color:#31285a}
+[data-theme="dark"] .subcontent .text-cyan-600{color:#22d3ee}
+[data-theme="dark"] .subcontent .text-orange-900{color:#fdba74}
+[data-theme="dark"] .subcontent .bg-pink-100{background-color:#2d1b2e}
+[data-theme="dark"] .subcontent .bg-teal-100{background-color:#0f2b30}
+[data-theme="dark"] .subcontent .border-purple-300{border-color:#452b6b}
+[data-theme="dark"] .subcontent .border-yellow-100{border-color:#3e3718}
+[data-theme="dark"] .subcontent .text-amber-700{color:#fcd34d}
+[data-theme="dark"] .subcontent .text-lime-700{color:#bef264}
+[data-theme="dark"] .subcontent .text-teal-500{color:#2dd4bf}
+[data-theme="dark"] .subcontent .text-violet-700{color:#c4b5fd}
+[data-theme="dark"] .subcontent .to-orange-50{--tw-gradient-to:#261e1c}
+[data-theme="dark"] .subcontent .to-purple-50{--tw-gradient-to:#1d1a33}
+[data-theme="dark"] .subcontent .border-amber-200{border-color:#4f3b18}
+[data-theme="dark"] .subcontent .border-emerald-200{border-color:#0f4239}
+[data-theme="dark"] .subcontent .border-indigo-300{border-color:#2d3269}
+[data-theme="dark"] .subcontent .border-pink-100{border-color:#3f1f38}
+[data-theme="dark"] .subcontent .border-pink-200{border-color:#4c2340}
+[data-theme="dark"] .subcontent .border-red-300{border-color:#5f252b}
+[data-theme="dark"] .subcontent .border-teal-200{border-color:#104243}
+[data-theme="dark"] .subcontent .from-amber-50{--tw-gradient-from:#25221b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-blue-50{--tw-gradient-from:#121f33;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .text-red-500{color:#f87171}
+[data-theme="dark"] .subcontent .text-slate-800{color:#d8dfe8}
+[data-theme="dark"] .subcontent .text-teal-900{color:#5eead4}
+[data-theme="dark"] .subcontent .bg-orange-200{background-color:#3d271c}
+[data-theme="dark"] .subcontent .bg-pink-200{background-color:#3a1e36}
+[data-theme="dark"] .subcontent .bg-slate-50{background-color:#1b2431}
+[data-theme="dark"] .subcontent .bg-violet-100{background-color:#201e3b}
+[data-theme="dark"] .subcontent .bg-yellow-200{background-color:#3a3419}
+[data-theme="dark"] .subcontent .border-gray-400{border-color:#46566b}
+[data-theme="dark"] .subcontent .border-orange-300{border-color:#63361a}
+[data-theme="dark"] .subcontent .border-teal-100{border-color:#0f383b}
+[data-theme="dark"] .subcontent .divide-slate-200{border-color:#2b3747}
+[data-theme="dark"] .subcontent .from-gray-50{--tw-gradient-from:#1b2431;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-red-50{--tw-gradient-from:#241921;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .text-violet-900{color:#c4b5fd}
+[data-theme="dark"] .subcontent .to-emerald-50{--tw-gradient-to:#0e2427}
+[data-theme="dark"] .subcontent .to-gray-100{--tw-gradient-to:#1f2937}
+[data-theme="dark"] .subcontent .to-pink-50{--tw-gradient-to:#241929}
+[data-theme="dark"] .subcontent .bg-emerald-200{background-color:#0e3531}
+[data-theme="dark"] .subcontent .bg-sky-50{background-color:#0e2231}
+[data-theme="dark"] .subcontent .bg-teal-200{background-color:#0f3538}
+[data-theme="dark"] .subcontent .border-amber-300{border-color:#614617}
+[data-theme="dark"] .subcontent .border-blue-100{border-color:#182c4d}
+[data-theme="dark"] .subcontent .border-cyan-200{border-color:#0c4150}
+[data-theme="dark"] .subcontent .border-emerald-300{border-color:#0f4f41}
+[data-theme="dark"] .subcontent .border-orange-100{border-color:#42291b}
+[data-theme="dark"] .subcontent .border-pink-300{border-color:#5e274a}
+[data-theme="dark"] .subcontent .border-sky-400{border-color:#0e5477}
+[data-theme="dark"] .subcontent .from-blue-100{--tw-gradient-from:#14233b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-emerald-50{--tw-gradient-from:#0e2427;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-green-50{--tw-gradient-from:#102624;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-indigo-100{--tw-gradient-from:#1a1f3b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-purple-100{--tw-gradient-from:#241d3c;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-purple-50{--tw-gradient-from:#1d1a33;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-sky-50{--tw-gradient-from:#0e2231;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-teal-50{--tw-gradient-from:#0f242b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-violet-100{--tw-gradient-from:#201e3b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-violet-50{--tw-gradient-from:#1a1b33;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .from-white{--tw-gradient-from:#171f2b;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+[data-theme="dark"] .subcontent .ring-yellow-400{--tw-ring-color:#6f5a14}
+[data-theme="dark"] .subcontent .text-cyan-900{color:#67e8f9}
+[data-theme="dark"] .subcontent .text-rose-500{color:#fb7185}
+[data-theme="dark"] .subcontent .text-sky-600{color:#38bdf8}
+[data-theme="dark"] .subcontent .text-sky-800{color:#7dd3fc}
+[data-theme="dark"] .subcontent .text-sky-900{color:#7dd3fc}
+[data-theme="dark"] .subcontent .text-yellow-600{color:#facc15}
+[data-theme="dark"] .subcontent .to-amber-50{--tw-gradient-to:#25221b}
+[data-theme="dark"] .subcontent .to-cyan-50{--tw-gradient-to:#0d242f}
+[data-theme="dark"] .subcontent .to-emerald-100{--tw-gradient-to:#0e2b2b}
+[data-theme="dark"] .subcontent .to-rose-50{--tw-gradient-to:#251824}
+[data-theme="dark"] .subcontent .to-sky-100{--tw-gradient-to:#0e283a}
+[data-theme="dark"] .subcontent .to-violet-100{--tw-gradient-to:#201e3b}
+[data-theme="dark"] .subcontent .to-violet-50{--tw-gradient-to:#1a1b33}
+[data-theme="dark"] .subcontent .hover\:bg-cyan-50:hover{background-color:#0d242f}
+[data-theme="dark"] .subcontent .hover\:bg-emerald-50:hover{background-color:#0e2427}
+[data-theme="dark"] .subcontent .hover\:bg-green-50:hover{background-color:#102624}
+[data-theme="dark"] .subcontent .hover\:bg-orange-50:hover{background-color:#261e1c}
+[data-theme="dark"] .subcontent .hover\:bg-pink-50:hover{background-color:#241929}
+[data-theme="dark"] .subcontent .hover\:bg-purple-50:hover{background-color:#1d1a33}
+[data-theme="dark"] .subcontent .hover\:bg-rose-50:hover{background-color:#251824}
+[data-theme="dark"] .subcontent .hover\:bg-teal-50:hover{background-color:#0f242b}
+[data-theme="dark"] .subcontent .hover\:bg-violet-50:hover{background-color:#1a1b33}
+
+
+/* --- dark-mode corrections ------------------------------------------------
+   Three things the palette remap cannot infer on its own.
+
+   1. Translucent rgba() backgrounds, written for a light page.
+   2. Filled accent chips: their background stays saturated, so the white
+      label has to stay white rather than flipping with every other #fff.
+   3. Surfaces that are *already dark in light mode*. Code blocks are handled
+      in the generated block above, by opting out of the palette entirely.
+   =========================================================================== */
+
+[data-theme="dark"] .site-header {
+  background: rgba(14, 20, 29, 0.85);
+}
+[data-theme="dark"] .lesson .lesson-meta span {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Filled accent chips: saturated background, white label. */
+[data-theme="dark"] .tab.is-active,
+[data-theme="dark"] .subtab.is-active,
+[data-theme="dark"] .to-top,
+[data-theme="dark"] .lesson ol.steps > li::before,
+[data-theme="dark"] .lesson .ladder > li.key::before {
+  background: linear-gradient(135deg, #5b5ef0, #4f46e5);
+  color: #fff;
+}
+[data-theme="dark"] .lesson .fnode .fi,
+[data-theme="dark"] .lesson .pin,
+[data-theme="dark"] .lesson .lab .lab-chip:hover {
+  background: #4f46e5;
+  color: #fff;
+}
+[data-theme="dark"] .lesson .lab .lab-input:focus {
+  border-color: #5b5ef0;
+}
+/* Chips always carry an inline background; they only need the label kept. */
+[data-theme="dark"] .lesson .chip {
+  color: #fff;
 }
