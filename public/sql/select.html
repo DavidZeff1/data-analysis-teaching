@@ -11,6 +11,56 @@
     <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-blue-400">SELECT</span> column1, column2 <span class="text-blue-400">FROM</span> table_name;</pre>
   </div>
 
+
+  <div>
+    <h2 class="font-bold text-lg">The order it actually runs in</h2>
+    <p class="mb-2">SQL is written in one order and executed in another. This is why you can't use a <code>SELECT</code> alias in <code>WHERE</code> — when <code>WHERE</code> runs, the alias does not exist yet.</p>
+    <div class="bg-white border border-gray-200 rounded p-3">
+      <svg viewBox="0 0 420 178" role="img" aria-label="The written order of a SELECT statement beside the order the database actually evaluates the clauses in" style="width:100%;height:auto">
+        <text x="14" y="14" font-size="7.5" font-weight="700" fill="#64748b" font-family="Inter, sans-serif">AS YOU WRITE IT</text>
+        <g font-size="7" font-family="Inter, sans-serif">
+          <text x="20" y="32" fill="#334155">SELECT</text><text x="20" y="48" fill="#334155">FROM</text>
+          <text x="20" y="64" fill="#334155">WHERE</text><text x="20" y="80" fill="#334155">GROUP BY</text>
+          <text x="20" y="96" fill="#334155">HAVING</text><text x="20" y="112" fill="#334155">ORDER BY</text>
+          <text x="20" y="128" fill="#334155">LIMIT</text>
+        </g>
+
+        <g stroke="#cbd5e1" stroke-width="1.1" fill="none" marker-end="url(#sqS)">
+          <path d="M96,29 C160,29 180,93 234,93"/>
+          <path d="M96,45 C150,45 180,29 234,29"/>
+          <path d="M96,61 C150,61 180,45 234,45"/>
+          <path d="M96,77 C150,77 180,61 234,61"/>
+          <path d="M96,93 C150,93 180,77 234,77"/>
+          <path d="M96,109 C170,109 180,109 234,109"/>
+          <path d="M96,125 C170,125 180,125 234,125"/>
+        </g>
+
+        <text x="238" y="14" font-size="7.5" font-weight="700" fill="#047857" font-family="Inter, sans-serif">AS IT RUNS</text>
+        <g font-size="7" font-family="Inter, sans-serif">
+          <text x="240" y="32" fill="#047857" font-weight="700">1  FROM / JOIN</text>
+          <text x="240" y="48" fill="#047857" font-weight="700">2  WHERE</text>
+          <text x="240" y="64" fill="#047857" font-weight="700">3  GROUP BY</text>
+          <text x="240" y="80" fill="#047857" font-weight="700">4  HAVING</text>
+          <text x="240" y="96" fill="#047857" font-weight="700">5  SELECT</text>
+          <text x="240" y="112" fill="#047857" font-weight="700">6  ORDER BY</text>
+          <text x="240" y="128" fill="#047857" font-weight="700">7  LIMIT</text>
+        </g>
+        <g font-size="5.6" fill="#94a3b8" font-family="Inter, sans-serif">
+          <text x="330" y="32">get the rows</text><text x="330" y="48">throw rows away</text>
+          <text x="330" y="64">collapse to groups</text><text x="330" y="80">throw groups away</text>
+          <text x="330" y="96">work out the columns</text><text x="330" y="112">sort what remains</text>
+          <text x="330" y="128">cut the list short</text>
+        </g>
+
+        <rect x="14" y="140" width="392" height="30" rx="3" fill="#fffbeb" stroke="#fde68a"/>
+        <text x="22" y="152" font-size="6.4" fill="#b45309" font-family="Inter, sans-serif">SELECT is fifth. So an alias you define there is invisible to WHERE (2), GROUP BY (3) and HAVING (4) —</text>
+        <text x="22" y="163" font-size="6.4" fill="#b45309" font-family="Inter, sans-serif">but visible to ORDER BY (6), which is why sorting by an alias works and filtering by one doesn't.</text>
+        <defs><marker id="sqS" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#cbd5e1"/></marker></defs>
+      </svg>
+      <p class="text-sm text-gray-600 mt-2">Almost every "why won't this work?" in SQL is answered by reading down the right-hand column.</p>
+    </div>
+  </div>
+
   <div>
     <h2 class="font-bold text-lg">Examples</h2>
     <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Get all columns</span>

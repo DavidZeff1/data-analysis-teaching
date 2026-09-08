@@ -15,6 +15,51 @@
 <span class="text-blue-400">END</span></pre>
   </div>
 
+
+  <div>
+    <h2 class="font-bold text-lg">First match wins — so order matters</h2>
+    <div class="bg-white border border-gray-200 rounded p-3">
+      <svg viewBox="0 0 420 152" role="img" aria-label="A CASE expression evaluated top to bottom, stopping at the first true branch, with an example of an unreachable branch caused by wrong ordering" style="width:100%;height:auto">
+        <rect x="10" y="30" width="56" height="20" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="38" y="43" font-size="6.4" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">one row</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#sqCa)"><line x1="70" y1="40" x2="88" y2="40"/></g>
+        <polygon points="132,26 176,40 132,54 88,40" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="132" y="38" font-size="5.8" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">Total &gt; 100 ?</text>
+        <text x="132" y="47" font-size="5.2" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">WHEN</text>
+        <g stroke="#047857" stroke-width="1.2" fill="none" marker-end="url(#sqCb)"><line x1="176" y1="40" x2="212" y2="40"/></g>
+        <text x="194" y="36" font-size="5.4" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">true</text>
+        <rect x="216" y="31" width="48" height="18" rx="3" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="240" y="43" font-size="6.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">'Large'</text>
+        <text x="272" y="43" font-size="6" fill="#64748b" font-family="Inter, sans-serif">stop — the rest is skipped</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#sqCa)"><line x1="132" y1="54" x2="132" y2="70"/></g>
+        <text x="142" y="66" font-size="5.4" fill="#64748b" font-family="Inter, sans-serif">false</text>
+        <polygon points="132,72 176,86 132,100 88,86" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="132" y="84" font-size="5.8" fill="#1d4ed8" text-anchor="middle" font-family="Inter, sans-serif">Total &gt; 20 ?</text>
+        <text x="132" y="93" font-size="5.2" fill="#64748b" text-anchor="middle" font-family="Inter, sans-serif">WHEN</text>
+        <g stroke="#047857" stroke-width="1.2" fill="none" marker-end="url(#sqCb)"><line x1="176" y1="86" x2="212" y2="86"/></g>
+        <rect x="216" y="77" width="48" height="18" rx="3" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="240" y="89" font-size="6.2" fill="#047857" text-anchor="middle" font-family="Inter, sans-serif">'Medium'</text>
+
+        <g stroke="#94a3b8" stroke-width="1.2" fill="none" marker-end="url(#sqCa)"><line x1="132" y1="100" x2="132" y2="112"/></g>
+        <rect x="100" y="114" width="64" height="18" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="132" y="126" font-size="6.2" fill="#334155" text-anchor="middle" font-family="Inter, sans-serif">ELSE 'Small'</text>
+        <text x="172" y="126" font-size="6" fill="#b45309" font-family="Inter, sans-serif">no ELSE? unmatched rows get NULL</text>
+
+        <rect x="278" y="102" width="128" height="42" rx="4" fill="#fef2f2" stroke="#fecaca"/>
+        <text x="286" y="114" font-size="6.2" font-weight="700" fill="#b91c1c" font-family="Inter, sans-serif">Put &gt; 20 first and…</text>
+        <text x="286" y="125" font-size="6" fill="#b91c1c" font-family="Inter, sans-serif">every large total passes it too,</text>
+        <text x="286" y="135" font-size="6" fill="#b91c1c" font-family="Inter, sans-serif">so 'Large' can never be reached.</text>
+        <defs>
+          <marker id="sqCa" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+          <marker id="sqCb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#047857"/></marker>
+        </defs>
+      </svg>
+      <p class="text-sm text-gray-600 mt-2">Write the narrowest condition first. A branch that a wider earlier branch already catches is dead code the database will never reach.</p>
+    </div>
+  </div>
+
   <div>
     <h2 class="font-bold text-lg">Examples</h2>
     <pre class="bg-gray-800 text-white p-3 rounded text-sm"><span class="text-gray-400">-- Categorize tracks by length</span>

@@ -2563,1357 +2563,1358 @@
 }
 
 /* --- fragment palette remap ---------------------------------------------- */
-[data-theme="dark"] .lesson rect[fill="#666"],
-[data-theme="dark"] .lesson circle[fill="#666"],
-[data-theme="dark"] .lesson ellipse[fill="#666"],
-[data-theme="dark"] .lesson path[fill="#666"],
-[data-theme="dark"] .lesson polygon[fill="#666"],
-[data-theme="dark"] .lesson polyline[fill="#666"],
-[data-theme="dark"] .lesson line[fill="#666"],
-[data-theme="dark"] .lesson g[fill="#666"]{fill:#9aa8ba}
-[data-theme="dark"] .lesson text[fill="#666"],
-[data-theme="dark"] .lesson tspan[fill="#666"],
-[data-theme="dark"] .lesson g[fill="#666"] text,
-[data-theme="dark"] .lesson g[fill="#666"] tspan{fill:#d4d4d4}
-[data-theme="dark"] .lesson [stroke="#666"]{stroke:#9aa8ba}
-[data-theme="dark"] .lesson rect[fill="#fff"],
-[data-theme="dark"] .lesson circle[fill="#fff"],
-[data-theme="dark"] .lesson ellipse[fill="#fff"],
-[data-theme="dark"] .lesson path[fill="#fff"],
-[data-theme="dark"] .lesson polygon[fill="#fff"],
-[data-theme="dark"] .lesson polyline[fill="#fff"],
-[data-theme="dark"] .lesson line[fill="#fff"],
-[data-theme="dark"] .lesson g[fill="#fff"]{fill:#171f2b}
-[data-theme="dark"] .lesson text[fill="#fff"],
-[data-theme="dark"] .lesson tspan[fill="#fff"],
-[data-theme="dark"] .lesson g[fill="#fff"] text,
-[data-theme="dark"] .lesson g[fill="#fff"] tspan{fill:#fff}
-[data-theme="dark"] .lesson [stroke="#fff"]{stroke:#171f2b}
-[data-theme="dark"] .lesson [style*="background:#fff"]{background-color:#171f2b!important}
-[data-theme="dark"] .lesson [style^="color:#fff"],
-[data-theme="dark"] .lesson [style*=";color:#fff"]{color:#fff!important}
-[data-theme="dark"] .lesson rect[fill="#0284c7"],
-[data-theme="dark"] .lesson circle[fill="#0284c7"],
-[data-theme="dark"] .lesson ellipse[fill="#0284c7"],
-[data-theme="dark"] .lesson path[fill="#0284c7"],
-[data-theme="dark"] .lesson polygon[fill="#0284c7"],
-[data-theme="dark"] .lesson polyline[fill="#0284c7"],
-[data-theme="dark"] .lesson line[fill="#0284c7"],
-[data-theme="dark"] .lesson g[fill="#0284c7"]{fill:#6cb6e8}
-[data-theme="dark"] .lesson text[fill="#0284c7"],
-[data-theme="dark"] .lesson tspan[fill="#0284c7"],
-[data-theme="dark"] .lesson g[fill="#0284c7"] text,
-[data-theme="dark"] .lesson g[fill="#0284c7"] tspan{fill:#b8ddef}
-[data-theme="dark"] .lesson [stroke="#0284c7"]{stroke:#6cb6e8}
-[data-theme="dark"] .lesson rect[fill="#0369a1"],
-[data-theme="dark"] .lesson circle[fill="#0369a1"],
-[data-theme="dark"] .lesson ellipse[fill="#0369a1"],
-[data-theme="dark"] .lesson path[fill="#0369a1"],
-[data-theme="dark"] .lesson polygon[fill="#0369a1"],
-[data-theme="dark"] .lesson polyline[fill="#0369a1"],
-[data-theme="dark"] .lesson line[fill="#0369a1"],
-[data-theme="dark"] .lesson g[fill="#0369a1"]{fill:#6cb6e8}
-[data-theme="dark"] .lesson text[fill="#0369a1"],
-[data-theme="dark"] .lesson tspan[fill="#0369a1"],
-[data-theme="dark"] .lesson g[fill="#0369a1"] text,
-[data-theme="dark"] .lesson g[fill="#0369a1"] tspan{fill:#b8d5e5}
-[data-theme="dark"] .lesson rect[fill="#047857"],
-[data-theme="dark"] .lesson circle[fill="#047857"],
-[data-theme="dark"] .lesson ellipse[fill="#047857"],
-[data-theme="dark"] .lesson path[fill="#047857"],
-[data-theme="dark"] .lesson polygon[fill="#047857"],
-[data-theme="dark"] .lesson polyline[fill="#047857"],
-[data-theme="dark"] .lesson line[fill="#047857"],
-[data-theme="dark"] .lesson g[fill="#047857"]{fill:#4ade9f}
-[data-theme="dark"] .lesson text[fill="#047857"],
-[data-theme="dark"] .lesson tspan[fill="#047857"],
-[data-theme="dark"] .lesson g[fill="#047857"] text,
-[data-theme="dark"] .lesson g[fill="#047857"] tspan{fill:#4ade9f}
-[data-theme="dark"] .lesson [stroke="#047857"]{stroke:#4ade9f}
-[data-theme="dark"] .lesson [style^="color:#047857"],
-[data-theme="dark"] .lesson [style*=";color:#047857"]{color:#4ade9f!important}
-[data-theme="dark"] .lesson rect[fill="#059669"],
-[data-theme="dark"] .lesson circle[fill="#059669"],
-[data-theme="dark"] .lesson ellipse[fill="#059669"],
-[data-theme="dark"] .lesson path[fill="#059669"],
-[data-theme="dark"] .lesson polygon[fill="#059669"],
-[data-theme="dark"] .lesson polyline[fill="#059669"],
-[data-theme="dark"] .lesson line[fill="#059669"],
-[data-theme="dark"] .lesson g[fill="#059669"]{fill:#34d399}
-[data-theme="dark"] .lesson text[fill="#059669"],
-[data-theme="dark"] .lesson tspan[fill="#059669"],
-[data-theme="dark"] .lesson g[fill="#059669"] text,
-[data-theme="dark"] .lesson g[fill="#059669"] tspan{fill:#34d399}
-[data-theme="dark"] .lesson [stroke="#059669"]{stroke:#34d399}
-[data-theme="dark"] .lesson [style*="background:#059669"]{background-color:#0d2929!important}
-[data-theme="dark"] .lesson [style^="color:#059669"],
-[data-theme="dark"] .lesson [style*=";color:#059669"]{color:#34d399!important}
-[data-theme="dark"] .lesson rect[fill="#065f46"],
-[data-theme="dark"] .lesson circle[fill="#065f46"],
-[data-theme="dark"] .lesson ellipse[fill="#065f46"],
-[data-theme="dark"] .lesson path[fill="#065f46"],
-[data-theme="dark"] .lesson polygon[fill="#065f46"],
-[data-theme="dark"] .lesson polyline[fill="#065f46"],
-[data-theme="dark"] .lesson line[fill="#065f46"],
-[data-theme="dark"] .lesson g[fill="#065f46"]{fill:#4ade9f}
-[data-theme="dark"] .lesson text[fill="#065f46"],
-[data-theme="dark"] .lesson tspan[fill="#065f46"],
-[data-theme="dark"] .lesson g[fill="#065f46"] text,
-[data-theme="dark"] .lesson g[fill="#065f46"] tspan{fill:#4ade9f}
-[data-theme="dark"] .lesson rect[fill="#0f172a"],
-[data-theme="dark"] .lesson circle[fill="#0f172a"],
-[data-theme="dark"] .lesson ellipse[fill="#0f172a"],
-[data-theme="dark"] .lesson path[fill="#0f172a"],
-[data-theme="dark"] .lesson polygon[fill="#0f172a"],
-[data-theme="dark"] .lesson polyline[fill="#0f172a"],
-[data-theme="dark"] .lesson line[fill="#0f172a"],
-[data-theme="dark"] .lesson g[fill="#0f172a"]{fill:#93979f}
-[data-theme="dark"] .lesson text[fill="#0f172a"],
-[data-theme="dark"] .lesson tspan[fill="#0f172a"],
-[data-theme="dark"] .lesson g[fill="#0f172a"] text,
-[data-theme="dark"] .lesson g[fill="#0f172a"] tspan{fill:#f1f5f9}
-[data-theme="dark"] .lesson [stroke="#0f172a"]{stroke:#93979f}
-[data-theme="dark"] .lesson [style*="background:#0f172a"]{background-color:#0f172a!important}
-[data-theme="dark"] .lesson [style^="color:#0f766e"],
-[data-theme="dark"] .lesson [style*=";color:#0f766e"]{color:#2dd4bf!important}
-[data-theme="dark"] .lesson rect[fill="#15803d"],
-[data-theme="dark"] .lesson circle[fill="#15803d"],
-[data-theme="dark"] .lesson ellipse[fill="#15803d"],
-[data-theme="dark"] .lesson path[fill="#15803d"],
-[data-theme="dark"] .lesson polygon[fill="#15803d"],
-[data-theme="dark"] .lesson polyline[fill="#15803d"],
-[data-theme="dark"] .lesson line[fill="#15803d"],
-[data-theme="dark"] .lesson g[fill="#15803d"]{fill:#57d68a}
-[data-theme="dark"] .lesson text[fill="#15803d"],
-[data-theme="dark"] .lesson tspan[fill="#15803d"],
-[data-theme="dark"] .lesson g[fill="#15803d"] text,
-[data-theme="dark"] .lesson g[fill="#15803d"] tspan{fill:#57d68a}
-[data-theme="dark"] .lesson rect[fill="#16a34a"],
-[data-theme="dark"] .lesson circle[fill="#16a34a"],
-[data-theme="dark"] .lesson ellipse[fill="#16a34a"],
-[data-theme="dark"] .lesson path[fill="#16a34a"],
-[data-theme="dark"] .lesson polygon[fill="#16a34a"],
-[data-theme="dark"] .lesson polyline[fill="#16a34a"],
-[data-theme="dark"] .lesson line[fill="#16a34a"],
-[data-theme="dark"] .lesson g[fill="#16a34a"]{fill:#4ade80}
-[data-theme="dark"] .lesson text[fill="#16a34a"],
-[data-theme="dark"] .lesson tspan[fill="#16a34a"],
-[data-theme="dark"] .lesson g[fill="#16a34a"] text,
-[data-theme="dark"] .lesson g[fill="#16a34a"] tspan{fill:#4ade80}
-[data-theme="dark"] .lesson [stroke="#16a34a"]{stroke:#4ade80}
-[data-theme="dark"] .lesson [style^="color:#16a34a"],
-[data-theme="dark"] .lesson [style*=";color:#16a34a"]{color:#4ade80!important}
-[data-theme="dark"] .lesson [style*="background:#196f3d"]{background-color:#196f3d!important}
-[data-theme="dark"] .lesson rect[fill="#1b4f72"],
-[data-theme="dark"] .lesson circle[fill="#1b4f72"],
-[data-theme="dark"] .lesson ellipse[fill="#1b4f72"],
-[data-theme="dark"] .lesson path[fill="#1b4f72"],
-[data-theme="dark"] .lesson polygon[fill="#1b4f72"],
-[data-theme="dark"] .lesson polyline[fill="#1b4f72"],
-[data-theme="dark"] .lesson line[fill="#1b4f72"],
-[data-theme="dark"] .lesson g[fill="#1b4f72"]{fill:#3f6f9e}
-[data-theme="dark"] .lesson text[fill="#1b4f72"],
-[data-theme="dark"] .lesson tspan[fill="#1b4f72"],
-[data-theme="dark"] .lesson g[fill="#1b4f72"] text,
-[data-theme="dark"] .lesson g[fill="#1b4f72"] tspan{fill:#bfced8}
-[data-theme="dark"] .lesson [stroke="#1b4f72"]{stroke:#3f6f9e}
-[data-theme="dark"] .lesson [style*="background:#1b4f72"]{background-color:#1b4f72!important}
-[data-theme="dark"] .lesson rect[fill="#1d4ed8"],
-[data-theme="dark"] .lesson circle[fill="#1d4ed8"],
-[data-theme="dark"] .lesson ellipse[fill="#1d4ed8"],
-[data-theme="dark"] .lesson path[fill="#1d4ed8"],
-[data-theme="dark"] .lesson polygon[fill="#1d4ed8"],
-[data-theme="dark"] .lesson polyline[fill="#1d4ed8"],
-[data-theme="dark"] .lesson line[fill="#1d4ed8"],
-[data-theme="dark"] .lesson g[fill="#1d4ed8"]{fill:#7aa5f5}
-[data-theme="dark"] .lesson text[fill="#1d4ed8"],
-[data-theme="dark"] .lesson tspan[fill="#1d4ed8"],
-[data-theme="dark"] .lesson g[fill="#1d4ed8"] text,
-[data-theme="dark"] .lesson g[fill="#1d4ed8"] tspan{fill:#c0cdf4}
-[data-theme="dark"] .lesson [style^="color:#1d4ed8"],
-[data-theme="dark"] .lesson [style*=";color:#1d4ed8"]{color:#c0cdf4!important}
-[data-theme="dark"] .lesson [stroke="#1e3a5f"]{stroke:#9aa6b7}
-[data-theme="dark"] .lesson [style*="background:#1e7d52"]{background-color:#1e7d52!important}
-[data-theme="dark"] .lesson rect[fill="#1f2937"],
-[data-theme="dark"] .lesson circle[fill="#1f2937"],
-[data-theme="dark"] .lesson ellipse[fill="#1f2937"],
-[data-theme="dark"] .lesson path[fill="#1f2937"],
-[data-theme="dark"] .lesson polygon[fill="#1f2937"],
-[data-theme="dark"] .lesson polyline[fill="#1f2937"],
-[data-theme="dark"] .lesson line[fill="#1f2937"],
-[data-theme="dark"] .lesson g[fill="#1f2937"]{fill:#9a9fa5}
-[data-theme="dark"] .lesson text[fill="#1f2937"],
-[data-theme="dark"] .lesson tspan[fill="#1f2937"],
-[data-theme="dark"] .lesson g[fill="#1f2937"] text,
-[data-theme="dark"] .lesson g[fill="#1f2937"] tspan{fill:#e6ecf3}
-[data-theme="dark"] .lesson rect[fill="#1f5c92"],
-[data-theme="dark"] .lesson circle[fill="#1f5c92"],
-[data-theme="dark"] .lesson ellipse[fill="#1f5c92"],
-[data-theme="dark"] .lesson path[fill="#1f5c92"],
-[data-theme="dark"] .lesson polygon[fill="#1f5c92"],
-[data-theme="dark"] .lesson polyline[fill="#1f5c92"],
-[data-theme="dark"] .lesson line[fill="#1f5c92"],
-[data-theme="dark"] .lesson g[fill="#1f5c92"]{fill:#4a7fae}
-[data-theme="dark"] .lesson text[fill="#1f5c92"],
-[data-theme="dark"] .lesson tspan[fill="#1f5c92"],
-[data-theme="dark"] .lesson g[fill="#1f5c92"] text,
-[data-theme="dark"] .lesson g[fill="#1f5c92"] tspan{fill:#c0d1e0}
-[data-theme="dark"] .lesson rect[fill="#2563eb"],
-[data-theme="dark"] .lesson circle[fill="#2563eb"],
-[data-theme="dark"] .lesson ellipse[fill="#2563eb"],
-[data-theme="dark"] .lesson path[fill="#2563eb"],
-[data-theme="dark"] .lesson polygon[fill="#2563eb"],
-[data-theme="dark"] .lesson polyline[fill="#2563eb"],
-[data-theme="dark"] .lesson line[fill="#2563eb"],
-[data-theme="dark"] .lesson g[fill="#2563eb"]{fill:#7aa5f5}
-[data-theme="dark"] .lesson text[fill="#2563eb"],
-[data-theme="dark"] .lesson tspan[fill="#2563eb"],
-[data-theme="dark"] .lesson g[fill="#2563eb"] text,
-[data-theme="dark"] .lesson g[fill="#2563eb"] tspan{fill:#c2d3f9}
-[data-theme="dark"] .lesson [stroke="#2563eb"]{stroke:#7aa5f5}
-[data-theme="dark"] .lesson [style^="color:#2563eb"],
-[data-theme="dark"] .lesson [style*=";color:#2563eb"]{color:#c2d3f9!important}
-[data-theme="dark"] .lesson rect[fill="#2e6da4"],
-[data-theme="dark"] .lesson circle[fill="#2e6da4"],
-[data-theme="dark"] .lesson ellipse[fill="#2e6da4"],
-[data-theme="dark"] .lesson path[fill="#2e6da4"],
-[data-theme="dark"] .lesson polygon[fill="#2e6da4"],
-[data-theme="dark"] .lesson polyline[fill="#2e6da4"],
-[data-theme="dark"] .lesson line[fill="#2e6da4"],
-[data-theme="dark"] .lesson g[fill="#2e6da4"]{fill:#4d84b4}
-[data-theme="dark"] .lesson text[fill="#2e6da4"],
-[data-theme="dark"] .lesson tspan[fill="#2e6da4"],
-[data-theme="dark"] .lesson g[fill="#2e6da4"] text,
-[data-theme="dark"] .lesson g[fill="#2e6da4"] tspan{fill:#c4d6e6}
-[data-theme="dark"] .lesson rect[fill="#2e86c1"],
-[data-theme="dark"] .lesson circle[fill="#2e86c1"],
-[data-theme="dark"] .lesson ellipse[fill="#2e86c1"],
-[data-theme="dark"] .lesson path[fill="#2e86c1"],
-[data-theme="dark"] .lesson polygon[fill="#2e86c1"],
-[data-theme="dark"] .lesson polyline[fill="#2e86c1"],
-[data-theme="dark"] .lesson line[fill="#2e86c1"],
-[data-theme="dark"] .lesson g[fill="#2e86c1"]{fill:#5390c4}
-[data-theme="dark"] .lesson text[fill="#2e86c1"],
-[data-theme="dark"] .lesson tspan[fill="#2e86c1"],
-[data-theme="dark"] .lesson g[fill="#2e86c1"] text,
-[data-theme="dark"] .lesson g[fill="#2e86c1"] tspan{fill:#c4ddee}
-[data-theme="dark"] .lesson [stroke="#2f5c29"]{stroke:#86c67c}
-[data-theme="dark"] .lesson rect[fill="#2f5d80"],
-[data-theme="dark"] .lesson circle[fill="#2f5d80"],
-[data-theme="dark"] .lesson ellipse[fill="#2f5d80"],
-[data-theme="dark"] .lesson path[fill="#2f5d80"],
-[data-theme="dark"] .lesson polygon[fill="#2f5d80"],
-[data-theme="dark"] .lesson polyline[fill="#2f5d80"],
-[data-theme="dark"] .lesson line[fill="#2f5d80"],
-[data-theme="dark"] .lesson g[fill="#2f5d80"]{fill:#8ab4e8}
-[data-theme="dark"] .lesson text[fill="#2f5d80"],
-[data-theme="dark"] .lesson tspan[fill="#2f5d80"],
-[data-theme="dark"] .lesson g[fill="#2f5d80"] text,
-[data-theme="dark"] .lesson g[fill="#2f5d80"] tspan{fill:#c5d2db}
-[data-theme="dark"] .lesson rect[fill="#312e81"],
-[data-theme="dark"] .lesson circle[fill="#312e81"],
-[data-theme="dark"] .lesson ellipse[fill="#312e81"],
-[data-theme="dark"] .lesson path[fill="#312e81"],
-[data-theme="dark"] .lesson polygon[fill="#312e81"],
-[data-theme="dark"] .lesson polyline[fill="#312e81"],
-[data-theme="dark"] .lesson line[fill="#312e81"],
-[data-theme="dark"] .lesson g[fill="#312e81"]{fill:#a2a1c6}
-[data-theme="dark"] .lesson text[fill="#312e81"],
-[data-theme="dark"] .lesson tspan[fill="#312e81"],
-[data-theme="dark"] .lesson g[fill="#312e81"] text,
-[data-theme="dark"] .lesson g[fill="#312e81"] tspan{fill:#b3bcff}
-[data-theme="dark"] .lesson [stroke="#312e81"]{stroke:#a2a1c6}
-[data-theme="dark"] .lesson rect[fill="#334155"],
-[data-theme="dark"] .lesson circle[fill="#334155"],
-[data-theme="dark"] .lesson ellipse[fill="#334155"],
-[data-theme="dark"] .lesson path[fill="#334155"],
-[data-theme="dark"] .lesson polygon[fill="#334155"],
-[data-theme="dark"] .lesson polyline[fill="#334155"],
-[data-theme="dark"] .lesson line[fill="#334155"],
-[data-theme="dark"] .lesson g[fill="#334155"]{fill:#a3aab2}
-[data-theme="dark"] .lesson text[fill="#334155"],
-[data-theme="dark"] .lesson tspan[fill="#334155"],
-[data-theme="dark"] .lesson g[fill="#334155"] text,
-[data-theme="dark"] .lesson g[fill="#334155"] tspan{fill:#d3dbe5}
-[data-theme="dark"] .lesson [stroke="#334155"]{stroke:#a3aab2}
-[data-theme="dark"] .lesson rect[fill="#3730a3"],
-[data-theme="dark"] .lesson circle[fill="#3730a3"],
-[data-theme="dark"] .lesson ellipse[fill="#3730a3"],
-[data-theme="dark"] .lesson path[fill="#3730a3"],
-[data-theme="dark"] .lesson polygon[fill="#3730a3"],
-[data-theme="dark"] .lesson polyline[fill="#3730a3"],
-[data-theme="dark"] .lesson line[fill="#3730a3"],
-[data-theme="dark"] .lesson g[fill="#3730a3"]{fill:#a5a2d6}
-[data-theme="dark"] .lesson text[fill="#3730a3"],
-[data-theme="dark"] .lesson tspan[fill="#3730a3"],
-[data-theme="dark"] .lesson g[fill="#3730a3"] text,
-[data-theme="dark"] .lesson g[fill="#3730a3"] tspan{fill:#a5b0ff}
-[data-theme="dark"] .lesson rect[fill="#3b82f6"],
-[data-theme="dark"] .lesson circle[fill="#3b82f6"],
-[data-theme="dark"] .lesson ellipse[fill="#3b82f6"],
-[data-theme="dark"] .lesson path[fill="#3b82f6"],
-[data-theme="dark"] .lesson polygon[fill="#3b82f6"],
-[data-theme="dark"] .lesson polyline[fill="#3b82f6"],
-[data-theme="dark"] .lesson line[fill="#3b82f6"],
-[data-theme="dark"] .lesson g[fill="#3b82f6"]{fill:#60a5fa}
-[data-theme="dark"] .lesson text[fill="#3b82f6"],
-[data-theme="dark"] .lesson tspan[fill="#3b82f6"],
-[data-theme="dark"] .lesson g[fill="#3b82f6"] text,
-[data-theme="dark"] .lesson g[fill="#3b82f6"] tspan{fill:#c8dcfc}
-[data-theme="dark"] .lesson [style*="background:#3b82f6"]{background-color:#152640!important}
-[data-theme="dark"] .lesson rect[fill="#3d6b34"],
-[data-theme="dark"] .lesson circle[fill="#3d6b34"],
-[data-theme="dark"] .lesson ellipse[fill="#3d6b34"],
-[data-theme="dark"] .lesson path[fill="#3d6b34"],
-[data-theme="dark"] .lesson polygon[fill="#3d6b34"],
-[data-theme="dark"] .lesson polyline[fill="#3d6b34"],
-[data-theme="dark"] .lesson line[fill="#3d6b34"],
-[data-theme="dark"] .lesson g[fill="#3d6b34"]{fill:#8fcf7f}
-[data-theme="dark"] .lesson text[fill="#3d6b34"],
-[data-theme="dark"] .lesson tspan[fill="#3d6b34"],
-[data-theme="dark"] .lesson g[fill="#3d6b34"] text,
-[data-theme="dark"] .lesson g[fill="#3d6b34"] tspan{fill:#8fcf7f}
-[data-theme="dark"] .lesson [style*="background:#3d6b94"]{background-color:#3d6b94!important}
-[data-theme="dark"] .lesson rect[fill="#3d7ea8"],
-[data-theme="dark"] .lesson circle[fill="#3d7ea8"],
-[data-theme="dark"] .lesson ellipse[fill="#3d7ea8"],
-[data-theme="dark"] .lesson path[fill="#3d7ea8"],
-[data-theme="dark"] .lesson polygon[fill="#3d7ea8"],
-[data-theme="dark"] .lesson polyline[fill="#3d7ea8"],
-[data-theme="dark"] .lesson line[fill="#3d7ea8"],
-[data-theme="dark"] .lesson g[fill="#3d7ea8"]{fill:#689abb}
-[data-theme="dark"] .lesson text[fill="#3d7ea8"],
-[data-theme="dark"] .lesson tspan[fill="#3d7ea8"],
-[data-theme="dark"] .lesson g[fill="#3d7ea8"] text,
-[data-theme="dark"] .lesson g[fill="#3d7ea8"] tspan{fill:#c9dbe7}
-[data-theme="dark"] .lesson [style*="background:#3d7ea8"]{background-color:#4a7ba8!important}
-[data-theme="dark"] .lesson rect[fill="#4338ca"],
-[data-theme="dark"] .lesson circle[fill="#4338ca"],
-[data-theme="dark"] .lesson ellipse[fill="#4338ca"],
-[data-theme="dark"] .lesson path[fill="#4338ca"],
-[data-theme="dark"] .lesson polygon[fill="#4338ca"],
-[data-theme="dark"] .lesson polyline[fill="#4338ca"],
-[data-theme="dark"] .lesson line[fill="#4338ca"],
-[data-theme="dark"] .lesson g[fill="#4338ca"]{fill:#a5b0ff}
-[data-theme="dark"] .lesson text[fill="#4338ca"],
-[data-theme="dark"] .lesson tspan[fill="#4338ca"],
-[data-theme="dark"] .lesson g[fill="#4338ca"] text,
-[data-theme="dark"] .lesson g[fill="#4338ca"] tspan{fill:#a5b0ff}
-[data-theme="dark"] .lesson [stroke="#4338ca"]{stroke:#a5b0ff}
-[data-theme="dark"] .lesson [style^="color:#4338ca"],
-[data-theme="dark"] .lesson [style*=";color:#4338ca"]{color:#a5b0ff!important}
-[data-theme="dark"] .lesson rect[fill="#475569"],
-[data-theme="dark"] .lesson circle[fill="#475569"],
-[data-theme="dark"] .lesson ellipse[fill="#475569"],
-[data-theme="dark"] .lesson path[fill="#475569"],
-[data-theme="dark"] .lesson polygon[fill="#475569"],
-[data-theme="dark"] .lesson polyline[fill="#475569"],
-[data-theme="dark"] .lesson line[fill="#475569"],
-[data-theme="dark"] .lesson g[fill="#475569"]{fill:#b9c4d1}
-[data-theme="dark"] .lesson text[fill="#475569"],
-[data-theme="dark"] .lesson tspan[fill="#475569"],
-[data-theme="dark"] .lesson g[fill="#475569"] text,
-[data-theme="dark"] .lesson g[fill="#475569"] tspan{fill:#b9c4d1}
-[data-theme="dark"] .lesson rect[fill="#4884b8"],
-[data-theme="dark"] .lesson circle[fill="#4884b8"],
-[data-theme="dark"] .lesson ellipse[fill="#4884b8"],
-[data-theme="dark"] .lesson path[fill="#4884b8"],
-[data-theme="dark"] .lesson polygon[fill="#4884b8"],
-[data-theme="dark"] .lesson polyline[fill="#4884b8"],
-[data-theme="dark"] .lesson line[fill="#4884b8"],
-[data-theme="dark"] .lesson g[fill="#4884b8"]{fill:#709fc8}
-[data-theme="dark"] .lesson text[fill="#4884b8"],
-[data-theme="dark"] .lesson tspan[fill="#4884b8"],
-[data-theme="dark"] .lesson g[fill="#4884b8"] text,
-[data-theme="dark"] .lesson g[fill="#4884b8"] tspan{fill:#ccddeb}
-[data-theme="dark"] .lesson rect[fill="#4a7dab"],
-[data-theme="dark"] .lesson circle[fill="#4a7dab"],
-[data-theme="dark"] .lesson ellipse[fill="#4a7dab"],
-[data-theme="dark"] .lesson path[fill="#4a7dab"],
-[data-theme="dark"] .lesson polygon[fill="#4a7dab"],
-[data-theme="dark"] .lesson polyline[fill="#4a7dab"],
-[data-theme="dark"] .lesson line[fill="#4a7dab"],
-[data-theme="dark"] .lesson g[fill="#4a7dab"]{fill:#6fa3d4}
-[data-theme="dark"] .lesson text[fill="#4a7dab"],
-[data-theme="dark"] .lesson tspan[fill="#4a7dab"],
-[data-theme="dark"] .lesson g[fill="#4a7dab"] text,
-[data-theme="dark"] .lesson g[fill="#4a7dab"] tspan{fill:#ccdbe7}
-[data-theme="dark"] .lesson [stroke="#4a7dab"]{stroke:#6fa3d4}
-[data-theme="dark"] .lesson [style*="background:#4a7dab"]{background-color:#182534!important}
-[data-theme="dark"] .lesson rect[fill="#4e79a7"],
-[data-theme="dark"] .lesson circle[fill="#4e79a7"],
-[data-theme="dark"] .lesson ellipse[fill="#4e79a7"],
-[data-theme="dark"] .lesson path[fill="#4e79a7"],
-[data-theme="dark"] .lesson polygon[fill="#4e79a7"],
-[data-theme="dark"] .lesson polyline[fill="#4e79a7"],
-[data-theme="dark"] .lesson line[fill="#4e79a7"],
-[data-theme="dark"] .lesson g[fill="#4e79a7"]{fill:#6d9ec9}
-[data-theme="dark"] .lesson text[fill="#4e79a7"],
-[data-theme="dark"] .lesson tspan[fill="#4e79a7"],
-[data-theme="dark"] .lesson g[fill="#4e79a7"] text,
-[data-theme="dark"] .lesson g[fill="#4e79a7"] tspan{fill:#cdd9e6}
-[data-theme="dark"] .lesson [stroke="#4e79a7"]{stroke:#6d9ec9}
-[data-theme="dark"] .lesson [style*="background:#4e79a7"]{background-color:#182433!important}
-[data-theme="dark"] .lesson rect[fill="#4f46e5"],
-[data-theme="dark"] .lesson circle[fill="#4f46e5"],
-[data-theme="dark"] .lesson ellipse[fill="#4f46e5"],
-[data-theme="dark"] .lesson path[fill="#4f46e5"],
-[data-theme="dark"] .lesson polygon[fill="#4f46e5"],
-[data-theme="dark"] .lesson polyline[fill="#4f46e5"],
-[data-theme="dark"] .lesson line[fill="#4f46e5"],
-[data-theme="dark"] .lesson g[fill="#4f46e5"]{fill:#7b73f0}
-[data-theme="dark"] .lesson text[fill="#4f46e5"],
-[data-theme="dark"] .lesson tspan[fill="#4f46e5"],
-[data-theme="dark"] .lesson g[fill="#4f46e5"] text,
-[data-theme="dark"] .lesson g[fill="#4f46e5"] tspan{fill:#cecbf8}
-[data-theme="dark"] .lesson [stroke="#4f46e5"]{stroke:#7b73f0}
-[data-theme="dark"] .lesson [style*="background:#5499c7"]{background-color:#45749f!important}
-[data-theme="dark"] .lesson rect[fill="#59a14f"],
-[data-theme="dark"] .lesson circle[fill="#59a14f"],
-[data-theme="dark"] .lesson ellipse[fill="#59a14f"],
-[data-theme="dark"] .lesson path[fill="#59a14f"],
-[data-theme="dark"] .lesson polygon[fill="#59a14f"],
-[data-theme="dark"] .lesson polyline[fill="#59a14f"],
-[data-theme="dark"] .lesson line[fill="#59a14f"],
-[data-theme="dark"] .lesson g[fill="#59a14f"]{fill:#79bd6f}
-[data-theme="dark"] .lesson text[fill="#59a14f"],
-[data-theme="dark"] .lesson tspan[fill="#59a14f"],
-[data-theme="dark"] .lesson g[fill="#59a14f"] text,
-[data-theme="dark"] .lesson g[fill="#59a14f"] tspan{fill:#d1e5ce}
-[data-theme="dark"] .lesson [stroke="#59a14f"]{stroke:#79bd6f}
-[data-theme="dark"] .lesson [style*="background:#59a14f"]{background-color:#1a2b25!important}
-[data-theme="dark"] .lesson rect[fill="#5a93c2"],
-[data-theme="dark"] .lesson circle[fill="#5a93c2"],
-[data-theme="dark"] .lesson ellipse[fill="#5a93c2"],
-[data-theme="dark"] .lesson path[fill="#5a93c2"],
-[data-theme="dark"] .lesson polygon[fill="#5a93c2"],
-[data-theme="dark"] .lesson polyline[fill="#5a93c2"],
-[data-theme="dark"] .lesson line[fill="#5a93c2"],
-[data-theme="dark"] .lesson g[fill="#5a93c2"]{fill:#7eabcf}
-[data-theme="dark"] .lesson text[fill="#5a93c2"],
-[data-theme="dark"] .lesson tspan[fill="#5a93c2"],
-[data-theme="dark"] .lesson g[fill="#5a93c2"] text,
-[data-theme="dark"] .lesson g[fill="#5a93c2"] tspan{fill:#d1e1ee}
-[data-theme="dark"] .lesson rect[fill="#5b8db8"],
-[data-theme="dark"] .lesson circle[fill="#5b8db8"],
-[data-theme="dark"] .lesson ellipse[fill="#5b8db8"],
-[data-theme="dark"] .lesson path[fill="#5b8db8"],
-[data-theme="dark"] .lesson polygon[fill="#5b8db8"],
-[data-theme="dark"] .lesson polyline[fill="#5b8db8"],
-[data-theme="dark"] .lesson line[fill="#5b8db8"],
-[data-theme="dark"] .lesson g[fill="#5b8db8"]{fill:#7fa6c8}
-[data-theme="dark"] .lesson text[fill="#5b8db8"],
-[data-theme="dark"] .lesson tspan[fill="#5b8db8"],
-[data-theme="dark"] .lesson g[fill="#5b8db8"] text,
-[data-theme="dark"] .lesson g[fill="#5b8db8"] tspan{fill:#d1dfeb}
-[data-theme="dark"] .lesson [style*="background:#5b8db8"]{background-color:#416f9c!important}
-[data-theme="dark"] .lesson rect[fill="#5b9450"],
-[data-theme="dark"] .lesson circle[fill="#5b9450"],
-[data-theme="dark"] .lesson ellipse[fill="#5b9450"],
-[data-theme="dark"] .lesson path[fill="#5b9450"],
-[data-theme="dark"] .lesson polygon[fill="#5b9450"],
-[data-theme="dark"] .lesson polyline[fill="#5b9450"],
-[data-theme="dark"] .lesson line[fill="#5b9450"],
-[data-theme="dark"] .lesson g[fill="#5b9450"]{fill:#7ec070}
-[data-theme="dark"] .lesson text[fill="#5b9450"],
-[data-theme="dark"] .lesson tspan[fill="#5b9450"],
-[data-theme="dark"] .lesson g[fill="#5b9450"] text,
-[data-theme="dark"] .lesson g[fill="#5b9450"] tspan{fill:#d1e1ce}
-[data-theme="dark"] .lesson [stroke="#5b9450"]{stroke:#7ec070}
-[data-theme="dark"] .lesson [style*="background:#5b9450"]{background-color:#1a2825!important}
-[data-theme="dark"] .lesson [style*="background:#5bb377"]{background-color:#1a2d2b!important}
-[data-theme="dark"] .lesson rect[fill="#6366f1"],
-[data-theme="dark"] .lesson circle[fill="#6366f1"],
-[data-theme="dark"] .lesson ellipse[fill="#6366f1"],
-[data-theme="dark"] .lesson path[fill="#6366f1"],
-[data-theme="dark"] .lesson polygon[fill="#6366f1"],
-[data-theme="dark"] .lesson polyline[fill="#6366f1"],
-[data-theme="dark"] .lesson line[fill="#6366f1"],
-[data-theme="dark"] .lesson g[fill="#6366f1"]{fill:#8b8df5}
-[data-theme="dark"] .lesson text[fill="#6366f1"],
-[data-theme="dark"] .lesson tspan[fill="#6366f1"],
-[data-theme="dark"] .lesson g[fill="#6366f1"] text,
-[data-theme="dark"] .lesson g[fill="#6366f1"] tspan{fill:#d3d4fb}
-[data-theme="dark"] .lesson [stroke="#6366f1"]{stroke:#8b8df5}
-[data-theme="dark"] .lesson [style*="solid #6366f1"]{border-color:#8b8df5!important}
-[data-theme="dark"] .lesson rect[fill="#64748b"],
-[data-theme="dark"] .lesson circle[fill="#64748b"],
-[data-theme="dark"] .lesson ellipse[fill="#64748b"],
-[data-theme="dark"] .lesson path[fill="#64748b"],
-[data-theme="dark"] .lesson polygon[fill="#64748b"],
-[data-theme="dark"] .lesson polyline[fill="#64748b"],
-[data-theme="dark"] .lesson line[fill="#64748b"],
-[data-theme="dark"] .lesson g[fill="#64748b"]{fill:#9aa8ba}
-[data-theme="dark"] .lesson text[fill="#64748b"],
-[data-theme="dark"] .lesson tspan[fill="#64748b"],
-[data-theme="dark"] .lesson g[fill="#64748b"] text,
-[data-theme="dark"] .lesson g[fill="#64748b"] tspan{fill:#d4d8df}
-[data-theme="dark"] .lesson [stroke="#64748b"]{stroke:#9aa8ba}
-[data-theme="dark"] .lesson [style^="color:#64748b"],
-[data-theme="dark"] .lesson [style*=";color:#64748b"]{color:#d4d8df!important}
-[data-theme="dark"] .lesson [style*="background:#6a97be"]{background-color:#3b6a97!important}
-[data-theme="dark"] .lesson [stroke="#6b4763"]{stroke:#c9a3c0}
-[data-theme="dark"] .lesson rect[fill="#6b93bb"],
-[data-theme="dark"] .lesson circle[fill="#6b93bb"],
-[data-theme="dark"] .lesson ellipse[fill="#6b93bb"],
-[data-theme="dark"] .lesson path[fill="#6b93bb"],
-[data-theme="dark"] .lesson polygon[fill="#6b93bb"],
-[data-theme="dark"] .lesson polyline[fill="#6b93bb"],
-[data-theme="dark"] .lesson line[fill="#6b93bb"],
-[data-theme="dark"] .lesson g[fill="#6b93bb"]{fill:#8cabca}
-[data-theme="dark"] .lesson text[fill="#6b93bb"],
-[data-theme="dark"] .lesson tspan[fill="#6b93bb"],
-[data-theme="dark"] .lesson g[fill="#6b93bb"] text,
-[data-theme="dark"] .lesson g[fill="#6b93bb"] tspan{fill:#d6e1ec}
-[data-theme="dark"] .lesson [style*="background:#6b98bf"]{background-color:#3b6a97!important}
-[data-theme="dark"] .lesson rect[fill="#6d28d9"],
-[data-theme="dark"] .lesson circle[fill="#6d28d9"],
-[data-theme="dark"] .lesson ellipse[fill="#6d28d9"],
-[data-theme="dark"] .lesson path[fill="#6d28d9"],
-[data-theme="dark"] .lesson polygon[fill="#6d28d9"],
-[data-theme="dark"] .lesson polyline[fill="#6d28d9"],
-[data-theme="dark"] .lesson line[fill="#6d28d9"],
-[data-theme="dark"] .lesson g[fill="#6d28d9"]{fill:#c0a8ff}
-[data-theme="dark"] .lesson text[fill="#6d28d9"],
-[data-theme="dark"] .lesson tspan[fill="#6d28d9"],
-[data-theme="dark"] .lesson g[fill="#6d28d9"] text,
-[data-theme="dark"] .lesson g[fill="#6d28d9"] tspan{fill:#c0a8ff}
-[data-theme="dark"] .lesson [style^="color:#6d28d9"],
-[data-theme="dark"] .lesson [style*=";color:#6d28d9"]{color:#c0a8ff!important}
-[data-theme="dark"] .lesson [stroke="#6ee7b7"]{stroke:#2a6b52}
-[data-theme="dark"] .lesson [style*="background:#6f9fc8"]{background-color:#1e2a38!important}
-[data-theme="dark"] .lesson rect[fill="#76b7b2"],
-[data-theme="dark"] .lesson circle[fill="#76b7b2"],
-[data-theme="dark"] .lesson ellipse[fill="#76b7b2"],
-[data-theme="dark"] .lesson path[fill="#76b7b2"],
-[data-theme="dark"] .lesson polygon[fill="#76b7b2"],
-[data-theme="dark"] .lesson polyline[fill="#76b7b2"],
-[data-theme="dark"] .lesson line[fill="#76b7b2"],
-[data-theme="dark"] .lesson g[fill="#76b7b2"]{fill:#8fd0cb}
-[data-theme="dark"] .lesson text[fill="#76b7b2"],
-[data-theme="dark"] .lesson tspan[fill="#76b7b2"],
-[data-theme="dark"] .lesson g[fill="#76b7b2"] text,
-[data-theme="dark"] .lesson g[fill="#76b7b2"] tspan{fill:#8fd0cb}
-[data-theme="dark"] .lesson rect[fill="#7aabd0"],
-[data-theme="dark"] .lesson circle[fill="#7aabd0"],
-[data-theme="dark"] .lesson ellipse[fill="#7aabd0"],
-[data-theme="dark"] .lesson path[fill="#7aabd0"],
-[data-theme="dark"] .lesson polygon[fill="#7aabd0"],
-[data-theme="dark"] .lesson polyline[fill="#7aabd0"],
-[data-theme="dark"] .lesson line[fill="#7aabd0"],
-[data-theme="dark"] .lesson g[fill="#7aabd0"]{fill:#97bdda}
-[data-theme="dark"] .lesson text[fill="#7aabd0"],
-[data-theme="dark"] .lesson tspan[fill="#7aabd0"],
-[data-theme="dark"] .lesson g[fill="#7aabd0"] text,
-[data-theme="dark"] .lesson g[fill="#7aabd0"] tspan{fill:#dae7f2}
-[data-theme="dark"] .lesson rect[fill="#7c3aed"],
-[data-theme="dark"] .lesson circle[fill="#7c3aed"],
-[data-theme="dark"] .lesson ellipse[fill="#7c3aed"],
-[data-theme="dark"] .lesson path[fill="#7c3aed"],
-[data-theme="dark"] .lesson polygon[fill="#7c3aed"],
-[data-theme="dark"] .lesson polyline[fill="#7c3aed"],
-[data-theme="dark"] .lesson line[fill="#7c3aed"],
-[data-theme="dark"] .lesson g[fill="#7c3aed"]{fill:#9d7bf5}
-[data-theme="dark"] .lesson text[fill="#7c3aed"],
-[data-theme="dark"] .lesson tspan[fill="#7c3aed"],
-[data-theme="dark"] .lesson g[fill="#7c3aed"] text,
-[data-theme="dark"] .lesson g[fill="#7c3aed"] tspan{fill:#dac8fa}
-[data-theme="dark"] .lesson [style*="background:#7c3aed"]{background-color:#7c3aed!important}
-[data-theme="dark"] .lesson [style^="color:#7c3aed"],
-[data-theme="dark"] .lesson [style*=";color:#7c3aed"]{color:#dac8fa!important}
-[data-theme="dark"] .lesson [style*="background:#7dc99a"]{background-color:#203131!important}
-[data-theme="dark"] .lesson rect[fill="#7f1d1d"],
-[data-theme="dark"] .lesson circle[fill="#7f1d1d"],
-[data-theme="dark"] .lesson ellipse[fill="#7f1d1d"],
-[data-theme="dark"] .lesson path[fill="#7f1d1d"],
-[data-theme="dark"] .lesson polygon[fill="#7f1d1d"],
-[data-theme="dark"] .lesson polyline[fill="#7f1d1d"],
-[data-theme="dark"] .lesson line[fill="#7f1d1d"],
-[data-theme="dark"] .lesson g[fill="#7f1d1d"]{fill:#c59999}
-[data-theme="dark"] .lesson text[fill="#7f1d1d"],
-[data-theme="dark"] .lesson tspan[fill="#7f1d1d"],
-[data-theme="dark"] .lesson g[fill="#7f1d1d"] text,
-[data-theme="dark"] .lesson g[fill="#7f1d1d"] tspan{fill:#fca5a5}
-[data-theme="dark"] .lesson rect[fill="#7fb3d5"],
-[data-theme="dark"] .lesson circle[fill="#7fb3d5"],
-[data-theme="dark"] .lesson ellipse[fill="#7fb3d5"],
-[data-theme="dark"] .lesson path[fill="#7fb3d5"],
-[data-theme="dark"] .lesson polygon[fill="#7fb3d5"],
-[data-theme="dark"] .lesson polyline[fill="#7fb3d5"],
-[data-theme="dark"] .lesson line[fill="#7fb3d5"],
-[data-theme="dark"] .lesson g[fill="#7fb3d5"]{fill:#9bc4de}
-[data-theme="dark"] .lesson text[fill="#7fb3d5"],
-[data-theme="dark"] .lesson tspan[fill="#7fb3d5"],
-[data-theme="dark"] .lesson g[fill="#7fb3d5"] text,
-[data-theme="dark"] .lesson g[fill="#7fb3d5"] tspan{fill:#dbeaf3}
-[data-theme="dark"] .lesson [style*="background:#7fb3d5"]{background-color:#35608a!important}
-[data-theme="dark"] .lesson [stroke="#86efac"]{stroke:#213734}
-[data-theme="dark"] .lesson rect[fill="#88b4d6"],
-[data-theme="dark"] .lesson circle[fill="#88b4d6"],
-[data-theme="dark"] .lesson ellipse[fill="#88b4d6"],
-[data-theme="dark"] .lesson path[fill="#88b4d6"],
-[data-theme="dark"] .lesson polygon[fill="#88b4d6"],
-[data-theme="dark"] .lesson polyline[fill="#88b4d6"],
-[data-theme="dark"] .lesson line[fill="#88b4d6"],
-[data-theme="dark"] .lesson g[fill="#88b4d6"]{fill:#a2c4df}
-[data-theme="dark"] .lesson text[fill="#88b4d6"],
-[data-theme="dark"] .lesson tspan[fill="#88b4d6"],
-[data-theme="dark"] .lesson g[fill="#88b4d6"] text,
-[data-theme="dark"] .lesson g[fill="#88b4d6"] tspan{fill:#deeaf4}
-[data-theme="dark"] .lesson [stroke="#8b5cf6"]{stroke:#a78bfa}
-[data-theme="dark"] .lesson [style*="background:#8b5cf6"]{background-color:#222040!important}
-[data-theme="dark"] .lesson rect[fill="#8b7355"],
-[data-theme="dark"] .lesson circle[fill="#8b7355"],
-[data-theme="dark"] .lesson ellipse[fill="#8b7355"],
-[data-theme="dark"] .lesson path[fill="#8b7355"],
-[data-theme="dark"] .lesson polygon[fill="#8b7355"],
-[data-theme="dark"] .lesson polyline[fill="#8b7355"],
-[data-theme="dark"] .lesson line[fill="#8b7355"],
-[data-theme="dark"] .lesson g[fill="#8b7355"]{fill:#c0a882}
-[data-theme="dark"] .lesson text[fill="#8b7355"],
-[data-theme="dark"] .lesson tspan[fill="#8b7355"],
-[data-theme="dark"] .lesson g[fill="#8b7355"] text,
-[data-theme="dark"] .lesson g[fill="#8b7355"] tspan{fill:#dfd8cf}
-[data-theme="dark"] .lesson rect[fill="#8fb0cd"],
-[data-theme="dark"] .lesson circle[fill="#8fb0cd"],
-[data-theme="dark"] .lesson ellipse[fill="#8fb0cd"],
-[data-theme="dark"] .lesson path[fill="#8fb0cd"],
-[data-theme="dark"] .lesson polygon[fill="#8fb0cd"],
-[data-theme="dark"] .lesson polyline[fill="#8fb0cd"],
-[data-theme="dark"] .lesson line[fill="#8fb0cd"],
-[data-theme="dark"] .lesson g[fill="#8fb0cd"]{fill:#a8c1d8}
-[data-theme="dark"] .lesson text[fill="#8fb0cd"],
-[data-theme="dark"] .lesson tspan[fill="#8fb0cd"],
-[data-theme="dark"] .lesson g[fill="#8fb0cd"] text,
-[data-theme="dark"] .lesson g[fill="#8fb0cd"] tspan{fill:#e0e9f1}
-[data-theme="dark"] .lesson [style*="background:#8fb3d3"]{background-color:#2f5679!important}
-[data-theme="dark"] .lesson [style*="background:#8fcf9f"]{background-color:#233232!important}
-[data-theme="dark"] .lesson rect[fill="#92400e"],
-[data-theme="dark"] .lesson circle[fill="#92400e"],
-[data-theme="dark"] .lesson ellipse[fill="#92400e"],
-[data-theme="dark"] .lesson path[fill="#92400e"],
-[data-theme="dark"] .lesson polygon[fill="#92400e"],
-[data-theme="dark"] .lesson polyline[fill="#92400e"],
-[data-theme="dark"] .lesson line[fill="#92400e"],
-[data-theme="dark"] .lesson g[fill="#92400e"]{fill:#fbbf24}
-[data-theme="dark"] .lesson text[fill="#92400e"],
-[data-theme="dark"] .lesson tspan[fill="#92400e"],
-[data-theme="dark"] .lesson g[fill="#92400e"] text,
-[data-theme="dark"] .lesson g[fill="#92400e"] tspan{fill:#fbbf24}
-[data-theme="dark"] .lesson [stroke="#93c5fd"]{stroke:#3a5c8c}
-[data-theme="dark"] .lesson rect[fill="#94a3b8"],
-[data-theme="dark"] .lesson circle[fill="#94a3b8"],
-[data-theme="dark"] .lesson ellipse[fill="#94a3b8"],
-[data-theme="dark"] .lesson path[fill="#94a3b8"],
-[data-theme="dark"] .lesson polygon[fill="#94a3b8"],
-[data-theme="dark"] .lesson polyline[fill="#94a3b8"],
-[data-theme="dark"] .lesson line[fill="#94a3b8"],
-[data-theme="dark"] .lesson g[fill="#94a3b8"]{fill:#acb7c8}
-[data-theme="dark"] .lesson text[fill="#94a3b8"],
-[data-theme="dark"] .lesson tspan[fill="#94a3b8"],
-[data-theme="dark"] .lesson g[fill="#94a3b8"] text,
-[data-theme="dark"] .lesson g[fill="#94a3b8"] tspan{fill:#e1e5eb}
-[data-theme="dark"] .lesson [stroke="#94a3b8"]{stroke:#acb7c8}
-[data-theme="dark"] .lesson [style^="color:#94a3b8"],
-[data-theme="dark"] .lesson [style*=";color:#94a3b8"]{color:#e1e5eb!important}
-[data-theme="dark"] .lesson [stroke="#991b1b"]{stroke:#fca5a5}
-[data-theme="dark"] .lesson [stroke="#9a5b12"]{stroke:#d9a441}
-[data-theme="dark"] .lesson rect[fill="#9c755f"],
-[data-theme="dark"] .lesson circle[fill="#9c755f"],
-[data-theme="dark"] .lesson ellipse[fill="#9c755f"],
-[data-theme="dark"] .lesson path[fill="#9c755f"],
-[data-theme="dark"] .lesson polygon[fill="#9c755f"],
-[data-theme="dark"] .lesson polyline[fill="#9c755f"],
-[data-theme="dark"] .lesson line[fill="#9c755f"],
-[data-theme="dark"] .lesson g[fill="#9c755f"]{fill:#bb9581}
-[data-theme="dark"] .lesson text[fill="#9c755f"],
-[data-theme="dark"] .lesson tspan[fill="#9c755f"],
-[data-theme="dark"] .lesson g[fill="#9c755f"] text,
-[data-theme="dark"] .lesson g[fill="#9c755f"] tspan{fill:#e3d8d2}
-[data-theme="dark"] .lesson [style*="background:#9ccbb0"]{background-color:#253135!important}
-[data-theme="dark"] .lesson rect[fill="#9db8ce"],
-[data-theme="dark"] .lesson circle[fill="#9db8ce"],
-[data-theme="dark"] .lesson ellipse[fill="#9db8ce"],
-[data-theme="dark"] .lesson path[fill="#9db8ce"],
-[data-theme="dark"] .lesson polygon[fill="#9db8ce"],
-[data-theme="dark"] .lesson polyline[fill="#9db8ce"],
-[data-theme="dark"] .lesson line[fill="#9db8ce"],
-[data-theme="dark"] .lesson g[fill="#9db8ce"]{fill:#4a5f73}
-[data-theme="dark"] .lesson text[fill="#9db8ce"],
-[data-theme="dark"] .lesson tspan[fill="#9db8ce"],
-[data-theme="dark"] .lesson g[fill="#9db8ce"] text,
-[data-theme="dark"] .lesson g[fill="#9db8ce"] tspan{fill:#e4ebf1}
-[data-theme="dark"] .lesson [style*="background:#9dbdd8"]{background-color:#2a4d6d!important}
-[data-theme="dark"] .lesson rect[fill="#a4c6e0"],
-[data-theme="dark"] .lesson circle[fill="#a4c6e0"],
-[data-theme="dark"] .lesson ellipse[fill="#a4c6e0"],
-[data-theme="dark"] .lesson path[fill="#a4c6e0"],
-[data-theme="dark"] .lesson polygon[fill="#a4c6e0"],
-[data-theme="dark"] .lesson polyline[fill="#a4c6e0"],
-[data-theme="dark"] .lesson line[fill="#a4c6e0"],
-[data-theme="dark"] .lesson g[fill="#a4c6e0"]{fill:#27486a}
-[data-theme="dark"] .lesson text[fill="#a4c6e0"],
-[data-theme="dark"] .lesson tspan[fill="#a4c6e0"],
-[data-theme="dark"] .lesson g[fill="#a4c6e0"] text,
-[data-theme="dark"] .lesson g[fill="#a4c6e0"] tspan{fill:#a4c6e0}
-[data-theme="dark"] .lesson rect[fill="#a5b4fc"],
-[data-theme="dark"] .lesson circle[fill="#a5b4fc"],
-[data-theme="dark"] .lesson ellipse[fill="#a5b4fc"],
-[data-theme="dark"] .lesson path[fill="#a5b4fc"],
-[data-theme="dark"] .lesson polygon[fill="#a5b4fc"],
-[data-theme="dark"] .lesson polyline[fill="#a5b4fc"],
-[data-theme="dark"] .lesson line[fill="#a5b4fc"],
-[data-theme="dark"] .lesson g[fill="#a5b4fc"]{fill:#4a4f8f}
-[data-theme="dark"] .lesson text[fill="#a5b4fc"],
-[data-theme="dark"] .lesson tspan[fill="#a5b4fc"],
-[data-theme="dark"] .lesson g[fill="#a5b4fc"] text,
-[data-theme="dark"] .lesson g[fill="#a5b4fc"] tspan{fill:#e6eafe}
-[data-theme="dark"] .lesson [stroke="#a5b4fc"]{stroke:#4a4f8f}
-[data-theme="dark"] .lesson [stroke="#a7f3d0"]{stroke:#1f5a43}
-[data-theme="dark"] .lesson [style*="border-color:#a7f3d0"]{border-color:#1f5a43!important}
-[data-theme="dark"] .lesson rect[fill="#a8c8e0"],
-[data-theme="dark"] .lesson circle[fill="#a8c8e0"],
-[data-theme="dark"] .lesson ellipse[fill="#a8c8e0"],
-[data-theme="dark"] .lesson path[fill="#a8c8e0"],
-[data-theme="dark"] .lesson polygon[fill="#a8c8e0"],
-[data-theme="dark"] .lesson polyline[fill="#a8c8e0"],
-[data-theme="dark"] .lesson line[fill="#a8c8e0"],
-[data-theme="dark"] .lesson g[fill="#a8c8e0"]{fill:#436d92}
-[data-theme="dark"] .lesson text[fill="#a8c8e0"],
-[data-theme="dark"] .lesson tspan[fill="#a8c8e0"],
-[data-theme="dark"] .lesson g[fill="#a8c8e0"] text,
-[data-theme="dark"] .lesson g[fill="#a8c8e0"] tspan{fill:#a8c8e0}
-[data-theme="dark"] .lesson [style*="background:#a8c8e0"]{background-color:#436d92!important}
-[data-theme="dark"] .lesson rect[fill="#a9c3da"],
-[data-theme="dark"] .lesson circle[fill="#a9c3da"],
-[data-theme="dark"] .lesson ellipse[fill="#a9c3da"],
-[data-theme="dark"] .lesson path[fill="#a9c3da"],
-[data-theme="dark"] .lesson polygon[fill="#a9c3da"],
-[data-theme="dark"] .lesson polyline[fill="#a9c3da"],
-[data-theme="dark"] .lesson line[fill="#a9c3da"],
-[data-theme="dark"] .lesson g[fill="#a9c3da"]{fill:#27486a}
-[data-theme="dark"] .lesson text[fill="#a9c3da"],
-[data-theme="dark"] .lesson tspan[fill="#a9c3da"],
-[data-theme="dark"] .lesson g[fill="#a9c3da"] text,
-[data-theme="dark"] .lesson g[fill="#a9c3da"] tspan{fill:#a9c3da}
-[data-theme="dark"] .lesson [style*="background:#a9dfbf"]{background-color:#273437!important}
-[data-theme="dark"] .lesson rect[fill="#aed6f1"],
-[data-theme="dark"] .lesson circle[fill="#aed6f1"],
-[data-theme="dark"] .lesson ellipse[fill="#aed6f1"],
-[data-theme="dark"] .lesson path[fill="#aed6f1"],
-[data-theme="dark"] .lesson polygon[fill="#aed6f1"],
-[data-theme="dark"] .lesson polyline[fill="#aed6f1"],
-[data-theme="dark"] .lesson line[fill="#aed6f1"],
-[data-theme="dark"] .lesson g[fill="#aed6f1"]{fill:#22405c}
-[data-theme="dark"] .lesson text[fill="#aed6f1"],
-[data-theme="dark"] .lesson tspan[fill="#aed6f1"],
-[data-theme="dark"] .lesson g[fill="#aed6f1"] text,
-[data-theme="dark"] .lesson g[fill="#aed6f1"] tspan{fill:#aed6f1}
-[data-theme="dark"] .lesson [style*="background:#aed6f1"]{background-color:#22405c!important}
-[data-theme="dark"] .lesson rect[fill="#b07aa1"],
-[data-theme="dark"] .lesson circle[fill="#b07aa1"],
-[data-theme="dark"] .lesson ellipse[fill="#b07aa1"],
-[data-theme="dark"] .lesson path[fill="#b07aa1"],
-[data-theme="dark"] .lesson polygon[fill="#b07aa1"],
-[data-theme="dark"] .lesson polyline[fill="#b07aa1"],
-[data-theme="dark"] .lesson line[fill="#b07aa1"],
-[data-theme="dark"] .lesson g[fill="#b07aa1"]{fill:#c99abd}
-[data-theme="dark"] .lesson text[fill="#b07aa1"],
-[data-theme="dark"] .lesson tspan[fill="#b07aa1"],
-[data-theme="dark"] .lesson g[fill="#b07aa1"] text,
-[data-theme="dark"] .lesson g[fill="#b07aa1"] tspan{fill:#e9dae5}
-[data-theme="dark"] .lesson [style*="background:#b07aa1"]{background-color:#282432!important}
-[data-theme="dark"] .lesson rect[fill="#b45309"],
-[data-theme="dark"] .lesson circle[fill="#b45309"],
-[data-theme="dark"] .lesson ellipse[fill="#b45309"],
-[data-theme="dark"] .lesson path[fill="#b45309"],
-[data-theme="dark"] .lesson polygon[fill="#b45309"],
-[data-theme="dark"] .lesson polyline[fill="#b45309"],
-[data-theme="dark"] .lesson line[fill="#b45309"],
-[data-theme="dark"] .lesson g[fill="#b45309"]{fill:#fbbf24}
-[data-theme="dark"] .lesson text[fill="#b45309"],
-[data-theme="dark"] .lesson tspan[fill="#b45309"],
-[data-theme="dark"] .lesson g[fill="#b45309"] text,
-[data-theme="dark"] .lesson g[fill="#b45309"] tspan{fill:#fbbf24}
-[data-theme="dark"] .lesson [stroke="#b45309"]{stroke:#fbbf24}
-[data-theme="dark"] .lesson [style*="background:#b45309"]{background-color:#b45309!important}
-[data-theme="dark"] .lesson [style^="color:#b45309"],
-[data-theme="dark"] .lesson [style*=";color:#b45309"]{color:#fbbf24!important}
-[data-theme="dark"] .lesson rect[fill="#b91c1c"],
-[data-theme="dark"] .lesson circle[fill="#b91c1c"],
-[data-theme="dark"] .lesson ellipse[fill="#b91c1c"],
-[data-theme="dark"] .lesson path[fill="#b91c1c"],
-[data-theme="dark"] .lesson polygon[fill="#b91c1c"],
-[data-theme="dark"] .lesson polyline[fill="#b91c1c"],
-[data-theme="dark"] .lesson line[fill="#b91c1c"],
-[data-theme="dark"] .lesson g[fill="#b91c1c"]{fill:#f87171}
-[data-theme="dark"] .lesson text[fill="#b91c1c"],
-[data-theme="dark"] .lesson tspan[fill="#b91c1c"],
-[data-theme="dark"] .lesson g[fill="#b91c1c"] text,
-[data-theme="dark"] .lesson g[fill="#b91c1c"] tspan{fill:#ebbfbf}
-[data-theme="dark"] .lesson [stroke="#b91c1c"]{stroke:#f87171}
-[data-theme="dark"] .lesson [style*="background:#b91c1c"]{background-color:#b91c1c!important}
-[data-theme="dark"] .lesson [style^="color:#b91c1c"],
-[data-theme="dark"] .lesson [style*=";color:#b91c1c"]{color:#ebbfbf!important}
-[data-theme="dark"] .lesson rect[fill="#b9d3e8"],
-[data-theme="dark"] .lesson circle[fill="#b9d3e8"],
-[data-theme="dark"] .lesson ellipse[fill="#b9d3e8"],
-[data-theme="dark"] .lesson path[fill="#b9d3e8"],
-[data-theme="dark"] .lesson polygon[fill="#b9d3e8"],
-[data-theme="dark"] .lesson polyline[fill="#b9d3e8"],
-[data-theme="dark"] .lesson line[fill="#b9d3e8"],
-[data-theme="dark"] .lesson g[fill="#b9d3e8"]{fill:#244163}
-[data-theme="dark"] .lesson text[fill="#b9d3e8"],
-[data-theme="dark"] .lesson tspan[fill="#b9d3e8"],
-[data-theme="dark"] .lesson g[fill="#b9d3e8"] text,
-[data-theme="dark"] .lesson g[fill="#b9d3e8"] tspan{fill:#b9d3e8}
-[data-theme="dark"] .lesson [stroke="#bae6fd"]{stroke:#2c4f6b}
-[data-theme="dark"] .lesson [stroke="#bbf7d0"]{stroke:#1a4530}
-[data-theme="dark"] .lesson [style*="background:#bcd2e6"]{background-color:#213a54!important}
-[data-theme="dark"] .lesson rect[fill="#bcd6ea"],
-[data-theme="dark"] .lesson circle[fill="#bcd6ea"],
-[data-theme="dark"] .lesson ellipse[fill="#bcd6ea"],
-[data-theme="dark"] .lesson path[fill="#bcd6ea"],
-[data-theme="dark"] .lesson polygon[fill="#bcd6ea"],
-[data-theme="dark"] .lesson polyline[fill="#bcd6ea"],
-[data-theme="dark"] .lesson line[fill="#bcd6ea"],
-[data-theme="dark"] .lesson g[fill="#bcd6ea"]{fill:#1f374f}
-[data-theme="dark"] .lesson text[fill="#bcd6ea"],
-[data-theme="dark"] .lesson tspan[fill="#bcd6ea"],
-[data-theme="dark"] .lesson g[fill="#bcd6ea"] text,
-[data-theme="dark"] .lesson g[fill="#bcd6ea"] tspan{fill:#bcd6ea}
-[data-theme="dark"] .lesson [style*="background:#bcd6ea"]{background-color:#1f374f!important}
-[data-theme="dark"] .lesson [style^="color:#be185d"],
-[data-theme="dark"] .lesson [style*=";color:#be185d"]{color:#edbed2!important}
-[data-theme="dark"] .lesson [stroke="#bfdbfe"]{stroke:#2f4a72}
-[data-theme="dark"] .lesson [style*="border-color:#bfdbfe"]{border-color:#2f4a72!important}
-[data-theme="dark"] .lesson rect[fill="#c0392b"],
-[data-theme="dark"] .lesson circle[fill="#c0392b"],
-[data-theme="dark"] .lesson ellipse[fill="#c0392b"],
-[data-theme="dark"] .lesson path[fill="#c0392b"],
-[data-theme="dark"] .lesson polygon[fill="#c0392b"],
-[data-theme="dark"] .lesson polyline[fill="#c0392b"],
-[data-theme="dark"] .lesson line[fill="#c0392b"],
-[data-theme="dark"] .lesson g[fill="#c0392b"]{fill:#e0685c}
-[data-theme="dark"] .lesson text[fill="#c0392b"],
-[data-theme="dark"] .lesson tspan[fill="#c0392b"],
-[data-theme="dark"] .lesson g[fill="#c0392b"] text,
-[data-theme="dark"] .lesson g[fill="#c0392b"] tspan{fill:#edc8c4}
-[data-theme="dark"] .lesson [stroke="#c0392b"]{stroke:#e0685c}
-[data-theme="dark"] .lesson [style*="background:#c0392b"]{background-color:#c0392b!important}
-[data-theme="dark"] .lesson rect[fill="#c2410c"],
-[data-theme="dark"] .lesson circle[fill="#c2410c"],
-[data-theme="dark"] .lesson ellipse[fill="#c2410c"],
-[data-theme="dark"] .lesson path[fill="#c2410c"],
-[data-theme="dark"] .lesson polygon[fill="#c2410c"],
-[data-theme="dark"] .lesson polyline[fill="#c2410c"],
-[data-theme="dark"] .lesson line[fill="#c2410c"],
-[data-theme="dark"] .lesson g[fill="#c2410c"]{fill:#fb923c}
-[data-theme="dark"] .lesson text[fill="#c2410c"],
-[data-theme="dark"] .lesson tspan[fill="#c2410c"],
-[data-theme="dark"] .lesson g[fill="#c2410c"] text,
-[data-theme="dark"] .lesson g[fill="#c2410c"] tspan{fill:#eecabb}
-[data-theme="dark"] .lesson rect[fill="#c7d2fe"],
-[data-theme="dark"] .lesson circle[fill="#c7d2fe"],
-[data-theme="dark"] .lesson ellipse[fill="#c7d2fe"],
-[data-theme="dark"] .lesson path[fill="#c7d2fe"],
-[data-theme="dark"] .lesson polygon[fill="#c7d2fe"],
-[data-theme="dark"] .lesson polyline[fill="#c7d2fe"],
-[data-theme="dark"] .lesson line[fill="#c7d2fe"],
-[data-theme="dark"] .lesson g[fill="#c7d2fe"]{fill:#3b4382}
-[data-theme="dark"] .lesson text[fill="#c7d2fe"],
-[data-theme="dark"] .lesson tspan[fill="#c7d2fe"],
-[data-theme="dark"] .lesson g[fill="#c7d2fe"] text,
-[data-theme="dark"] .lesson g[fill="#c7d2fe"] tspan{fill:#c7d2fe}
-[data-theme="dark"] .lesson [stroke="#c7d2fe"]{stroke:#3b4382}
-[data-theme="dark"] .lesson rect[fill="#c7d9ea"],
-[data-theme="dark"] .lesson circle[fill="#c7d9ea"],
-[data-theme="dark"] .lesson ellipse[fill="#c7d9ea"],
-[data-theme="dark"] .lesson path[fill="#c7d9ea"],
-[data-theme="dark"] .lesson polygon[fill="#c7d9ea"],
-[data-theme="dark"] .lesson polyline[fill="#c7d9ea"],
-[data-theme="dark"] .lesson line[fill="#c7d9ea"],
-[data-theme="dark"] .lesson g[fill="#c7d9ea"]{fill:#1f374f}
-[data-theme="dark"] .lesson text[fill="#c7d9ea"],
-[data-theme="dark"] .lesson tspan[fill="#c7d9ea"],
-[data-theme="dark"] .lesson g[fill="#c7d9ea"] text,
-[data-theme="dark"] .lesson g[fill="#c7d9ea"] tspan{fill:#c7d9ea}
-[data-theme="dark"] .lesson [style*="background:#c7d9ea"]{background-color:#1f374f!important}
-[data-theme="dark"] .lesson rect[fill="#c9dded"],
-[data-theme="dark"] .lesson circle[fill="#c9dded"],
-[data-theme="dark"] .lesson ellipse[fill="#c9dded"],
-[data-theme="dark"] .lesson path[fill="#c9dded"],
-[data-theme="dark"] .lesson polygon[fill="#c9dded"],
-[data-theme="dark"] .lesson polyline[fill="#c9dded"],
-[data-theme="dark"] .lesson line[fill="#c9dded"],
-[data-theme="dark"] .lesson g[fill="#c9dded"]{fill:#20384f}
-[data-theme="dark"] .lesson text[fill="#c9dded"],
-[data-theme="dark"] .lesson tspan[fill="#c9dded"],
-[data-theme="dark"] .lesson g[fill="#c9dded"] text,
-[data-theme="dark"] .lesson g[fill="#c9dded"] tspan{fill:#c9dded}
-[data-theme="dark"] .lesson rect[fill="#cbd5e1"],
-[data-theme="dark"] .lesson circle[fill="#cbd5e1"],
-[data-theme="dark"] .lesson ellipse[fill="#cbd5e1"],
-[data-theme="dark"] .lesson path[fill="#cbd5e1"],
-[data-theme="dark"] .lesson polygon[fill="#cbd5e1"],
-[data-theme="dark"] .lesson polyline[fill="#cbd5e1"],
-[data-theme="dark"] .lesson line[fill="#cbd5e1"],
-[data-theme="dark"] .lesson g[fill="#cbd5e1"]{fill:#3a4859}
-[data-theme="dark"] .lesson text[fill="#cbd5e1"],
-[data-theme="dark"] .lesson tspan[fill="#cbd5e1"],
-[data-theme="dark"] .lesson g[fill="#cbd5e1"] text,
-[data-theme="dark"] .lesson g[fill="#cbd5e1"] tspan{fill:#cbd5e1}
-[data-theme="dark"] .lesson [stroke="#cbd5e1"]{stroke:#3a4859}
-[data-theme="dark"] .lesson [style*="solid #cbd5e1"]{border-color:#3a4859!important}
-[data-theme="dark"] .lesson [style*="background:#d0e0ee"]{background-color:#1c3247!important}
-[data-theme="dark"] .lesson rect[fill="#d1fae5"],
-[data-theme="dark"] .lesson circle[fill="#d1fae5"],
-[data-theme="dark"] .lesson ellipse[fill="#d1fae5"],
-[data-theme="dark"] .lesson path[fill="#d1fae5"],
-[data-theme="dark"] .lesson polygon[fill="#d1fae5"],
-[data-theme="dark"] .lesson polyline[fill="#d1fae5"],
-[data-theme="dark"] .lesson line[fill="#d1fae5"],
-[data-theme="dark"] .lesson g[fill="#d1fae5"]{fill:#123527}
-[data-theme="dark"] .lesson text[fill="#d1fae5"],
-[data-theme="dark"] .lesson tspan[fill="#d1fae5"],
-[data-theme="dark"] .lesson g[fill="#d1fae5"] text,
-[data-theme="dark"] .lesson g[fill="#d1fae5"] tspan{fill:#d1fae5}
-[data-theme="dark"] .lesson rect[fill="#d6eaf8"],
-[data-theme="dark"] .lesson circle[fill="#d6eaf8"],
-[data-theme="dark"] .lesson ellipse[fill="#d6eaf8"],
-[data-theme="dark"] .lesson path[fill="#d6eaf8"],
-[data-theme="dark"] .lesson polygon[fill="#d6eaf8"],
-[data-theme="dark"] .lesson polyline[fill="#d6eaf8"],
-[data-theme="dark"] .lesson line[fill="#d6eaf8"],
-[data-theme="dark"] .lesson g[fill="#d6eaf8"]{fill:#16283a}
-[data-theme="dark"] .lesson text[fill="#d6eaf8"],
-[data-theme="dark"] .lesson tspan[fill="#d6eaf8"],
-[data-theme="dark"] .lesson g[fill="#d6eaf8"] text,
-[data-theme="dark"] .lesson g[fill="#d6eaf8"] tspan{fill:#d6eaf8}
-[data-theme="dark"] .lesson [style*="background:#d6eaf8"]{background-color:#16283a!important}
-[data-theme="dark"] .lesson rect[fill="#d7dee6"],
-[data-theme="dark"] .lesson circle[fill="#d7dee6"],
-[data-theme="dark"] .lesson ellipse[fill="#d7dee6"],
-[data-theme="dark"] .lesson path[fill="#d7dee6"],
-[data-theme="dark"] .lesson polygon[fill="#d7dee6"],
-[data-theme="dark"] .lesson polyline[fill="#d7dee6"],
-[data-theme="dark"] .lesson line[fill="#d7dee6"],
-[data-theme="dark"] .lesson g[fill="#d7dee6"]{fill:#2b3747}
-[data-theme="dark"] .lesson text[fill="#d7dee6"],
-[data-theme="dark"] .lesson tspan[fill="#d7dee6"],
-[data-theme="dark"] .lesson g[fill="#d7dee6"] text,
-[data-theme="dark"] .lesson g[fill="#d7dee6"] tspan{fill:#d7dee6}
-[data-theme="dark"] .lesson [style*="background:#d7ecd9"]{background-color:#18382a!important}
-[data-theme="dark"] .lesson rect[fill="#d97706"],
-[data-theme="dark"] .lesson circle[fill="#d97706"],
-[data-theme="dark"] .lesson ellipse[fill="#d97706"],
-[data-theme="dark"] .lesson path[fill="#d97706"],
-[data-theme="dark"] .lesson polygon[fill="#d97706"],
-[data-theme="dark"] .lesson polyline[fill="#d97706"],
-[data-theme="dark"] .lesson line[fill="#d97706"],
-[data-theme="dark"] .lesson g[fill="#d97706"]{fill:#fbbf24}
-[data-theme="dark"] .lesson text[fill="#d97706"],
-[data-theme="dark"] .lesson tspan[fill="#d97706"],
-[data-theme="dark"] .lesson g[fill="#d97706"] text,
-[data-theme="dark"] .lesson g[fill="#d97706"] tspan{fill:#fbbf24}
-[data-theme="dark"] .lesson [stroke="#d97706"]{stroke:#fbbf24}
-[data-theme="dark"] .lesson [style*="background:#d97706"]{background-color:#2e2419!important}
-[data-theme="dark"] .lesson [style^="color:#d97706"],
-[data-theme="dark"] .lesson [style*=";color:#d97706"]{color:#fbbf24!important}
-[data-theme="dark"] .lesson [style*="background:#dae6f1"]{background-color:#192d42!important}
-[data-theme="dark"] .lesson rect[fill="#dbeafe"],
-[data-theme="dark"] .lesson circle[fill="#dbeafe"],
-[data-theme="dark"] .lesson ellipse[fill="#dbeafe"],
-[data-theme="dark"] .lesson path[fill="#dbeafe"],
-[data-theme="dark"] .lesson polygon[fill="#dbeafe"],
-[data-theme="dark"] .lesson polyline[fill="#dbeafe"],
-[data-theme="dark"] .lesson line[fill="#dbeafe"],
-[data-theme="dark"] .lesson g[fill="#dbeafe"]{fill:#1b2f4d}
-[data-theme="dark"] .lesson text[fill="#dbeafe"],
-[data-theme="dark"] .lesson tspan[fill="#dbeafe"],
-[data-theme="dark"] .lesson g[fill="#dbeafe"] text,
-[data-theme="dark"] .lesson g[fill="#dbeafe"] tspan{fill:#dbeafe}
-[data-theme="dark"] .lesson [style*="background:#dbeafe"]{background-color:#1b2f4d!important}
-[data-theme="dark"] .lesson rect[fill="#dc2626"],
-[data-theme="dark"] .lesson circle[fill="#dc2626"],
-[data-theme="dark"] .lesson ellipse[fill="#dc2626"],
-[data-theme="dark"] .lesson path[fill="#dc2626"],
-[data-theme="dark"] .lesson polygon[fill="#dc2626"],
-[data-theme="dark"] .lesson polyline[fill="#dc2626"],
-[data-theme="dark"] .lesson line[fill="#dc2626"],
-[data-theme="dark"] .lesson g[fill="#dc2626"]{fill:#f87171}
-[data-theme="dark"] .lesson text[fill="#dc2626"],
-[data-theme="dark"] .lesson tspan[fill="#dc2626"],
-[data-theme="dark"] .lesson g[fill="#dc2626"] text,
-[data-theme="dark"] .lesson g[fill="#dc2626"] tspan{fill:#f5c2c2}
-[data-theme="dark"] .lesson [style^="color:#dc2626"],
-[data-theme="dark"] .lesson [style*=";color:#dc2626"]{color:#f5c2c2!important}
-[data-theme="dark"] .lesson rect[fill="#dcfce7"],
-[data-theme="dark"] .lesson circle[fill="#dcfce7"],
-[data-theme="dark"] .lesson ellipse[fill="#dcfce7"],
-[data-theme="dark"] .lesson path[fill="#dcfce7"],
-[data-theme="dark"] .lesson polygon[fill="#dcfce7"],
-[data-theme="dark"] .lesson polyline[fill="#dcfce7"],
-[data-theme="dark"] .lesson line[fill="#dcfce7"],
-[data-theme="dark"] .lesson g[fill="#dcfce7"]{fill:#14331f}
-[data-theme="dark"] .lesson text[fill="#dcfce7"],
-[data-theme="dark"] .lesson tspan[fill="#dcfce7"],
-[data-theme="dark"] .lesson g[fill="#dcfce7"] text,
-[data-theme="dark"] .lesson g[fill="#dcfce7"] tspan{fill:#dcfce7}
-[data-theme="dark"] .lesson [style*="background:#dcfce7"]{background-color:#14331f!important}
-[data-theme="dark"] .lesson [stroke="#ddd6fe"]{stroke:#453a78}
-[data-theme="dark"] .lesson [style*="border-color:#ddd6fe"]{border-color:#453a78!important}
-[data-theme="dark"] .lesson rect[fill="#e0e7ff"],
-[data-theme="dark"] .lesson circle[fill="#e0e7ff"],
-[data-theme="dark"] .lesson ellipse[fill="#e0e7ff"],
-[data-theme="dark"] .lesson path[fill="#e0e7ff"],
-[data-theme="dark"] .lesson polygon[fill="#e0e7ff"],
-[data-theme="dark"] .lesson polyline[fill="#e0e7ff"],
-[data-theme="dark"] .lesson line[fill="#e0e7ff"],
-[data-theme="dark"] .lesson g[fill="#e0e7ff"]{fill:#262c52}
-[data-theme="dark"] .lesson text[fill="#e0e7ff"],
-[data-theme="dark"] .lesson tspan[fill="#e0e7ff"],
-[data-theme="dark"] .lesson g[fill="#e0e7ff"] text,
-[data-theme="dark"] .lesson g[fill="#e0e7ff"] tspan{fill:#e0e7ff}
-[data-theme="dark"] .lesson [stroke="#e0e7ff"]{stroke:#262c52}
-[data-theme="dark"] .lesson [style*="background:#e0eaf3"]{background-color:#172a3d!important}
-[data-theme="dark"] .lesson rect[fill="#e0f2fe"],
-[data-theme="dark"] .lesson circle[fill="#e0f2fe"],
-[data-theme="dark"] .lesson ellipse[fill="#e0f2fe"],
-[data-theme="dark"] .lesson path[fill="#e0f2fe"],
-[data-theme="dark"] .lesson polygon[fill="#e0f2fe"],
-[data-theme="dark"] .lesson polyline[fill="#e0f2fe"],
-[data-theme="dark"] .lesson line[fill="#e0f2fe"],
-[data-theme="dark"] .lesson g[fill="#e0f2fe"]{fill:#17293b}
-[data-theme="dark"] .lesson text[fill="#e0f2fe"],
-[data-theme="dark"] .lesson tspan[fill="#e0f2fe"],
-[data-theme="dark"] .lesson g[fill="#e0f2fe"] text,
-[data-theme="dark"] .lesson g[fill="#e0f2fe"] tspan{fill:#e0f2fe}
-[data-theme="dark"] .lesson rect[fill="#e15759"],
-[data-theme="dark"] .lesson circle[fill="#e15759"],
-[data-theme="dark"] .lesson ellipse[fill="#e15759"],
-[data-theme="dark"] .lesson path[fill="#e15759"],
-[data-theme="dark"] .lesson polygon[fill="#e15759"],
-[data-theme="dark"] .lesson polyline[fill="#e15759"],
-[data-theme="dark"] .lesson line[fill="#e15759"],
-[data-theme="dark"] .lesson g[fill="#e15759"]{fill:#ef7f81}
-[data-theme="dark"] .lesson text[fill="#e15759"],
-[data-theme="dark"] .lesson tspan[fill="#e15759"],
-[data-theme="dark"] .lesson g[fill="#e15759"] text,
-[data-theme="dark"] .lesson g[fill="#e15759"] tspan{fill:#f7d0d1}
-[data-theme="dark"] .lesson [stroke="#e15759"]{stroke:#ef7f81}
-[data-theme="dark"] .lesson [style*="background:#e15759"]{background-color:#301f27!important}
-[data-theme="dark"] .lesson rect[fill="#e2e8f0"],
-[data-theme="dark"] .lesson circle[fill="#e2e8f0"],
-[data-theme="dark"] .lesson ellipse[fill="#e2e8f0"],
-[data-theme="dark"] .lesson path[fill="#e2e8f0"],
-[data-theme="dark"] .lesson polygon[fill="#e2e8f0"],
-[data-theme="dark"] .lesson polyline[fill="#e2e8f0"],
-[data-theme="dark"] .lesson line[fill="#e2e8f0"],
-[data-theme="dark"] .lesson g[fill="#e2e8f0"]{fill:#2b3747}
-[data-theme="dark"] .lesson text[fill="#e2e8f0"],
-[data-theme="dark"] .lesson tspan[fill="#e2e8f0"],
-[data-theme="dark"] .lesson g[fill="#e2e8f0"] text,
-[data-theme="dark"] .lesson g[fill="#e2e8f0"] tspan{fill:#e2e8f0}
-[data-theme="dark"] .lesson [stroke="#e2e8f0"]{stroke:#2b3747}
-[data-theme="dark"] .lesson [style*="solid #e2e8f0"]{border-color:#2b3747!important}
-[data-theme="dark"] .lesson rect[fill="#e3eef7"],
-[data-theme="dark"] .lesson circle[fill="#e3eef7"],
-[data-theme="dark"] .lesson ellipse[fill="#e3eef7"],
-[data-theme="dark"] .lesson path[fill="#e3eef7"],
-[data-theme="dark"] .lesson polygon[fill="#e3eef7"],
-[data-theme="dark"] .lesson polyline[fill="#e3eef7"],
-[data-theme="dark"] .lesson line[fill="#e3eef7"],
-[data-theme="dark"] .lesson g[fill="#e3eef7"]{fill:#18293c}
-[data-theme="dark"] .lesson text[fill="#e3eef7"],
-[data-theme="dark"] .lesson tspan[fill="#e3eef7"],
-[data-theme="dark"] .lesson g[fill="#e3eef7"] text,
-[data-theme="dark"] .lesson g[fill="#e3eef7"] tspan{fill:#e3eef7}
-[data-theme="dark"] .lesson [style*="background:#e6a09b"]{background-color:#312a31!important}
-[data-theme="dark"] .lesson rect[fill="#e8933a"],
-[data-theme="dark"] .lesson circle[fill="#e8933a"],
-[data-theme="dark"] .lesson ellipse[fill="#e8933a"],
-[data-theme="dark"] .lesson path[fill="#e8933a"],
-[data-theme="dark"] .lesson polygon[fill="#e8933a"],
-[data-theme="dark"] .lesson polyline[fill="#e8933a"],
-[data-theme="dark"] .lesson line[fill="#e8933a"],
-[data-theme="dark"] .lesson g[fill="#e8933a"]{fill:#f0a95c}
-[data-theme="dark"] .lesson text[fill="#e8933a"],
-[data-theme="dark"] .lesson tspan[fill="#e8933a"],
-[data-theme="dark"] .lesson g[fill="#e8933a"] text,
-[data-theme="dark"] .lesson g[fill="#e8933a"] tspan{fill:#f0a95c}
-[data-theme="dark"] .lesson [style*="background:#e8b931"]{background-color:#312e20!important}
-[data-theme="dark"] .lesson rect[fill="#e8f1f8"],
-[data-theme="dark"] .lesson circle[fill="#e8f1f8"],
-[data-theme="dark"] .lesson ellipse[fill="#e8f1f8"],
-[data-theme="dark"] .lesson path[fill="#e8f1f8"],
-[data-theme="dark"] .lesson polygon[fill="#e8f1f8"],
-[data-theme="dark"] .lesson polyline[fill="#e8f1f8"],
-[data-theme="dark"] .lesson line[fill="#e8f1f8"],
-[data-theme="dark"] .lesson g[fill="#e8f1f8"]{fill:#16283a}
-[data-theme="dark"] .lesson text[fill="#e8f1f8"],
-[data-theme="dark"] .lesson tspan[fill="#e8f1f8"],
-[data-theme="dark"] .lesson g[fill="#e8f1f8"] text,
-[data-theme="dark"] .lesson g[fill="#e8f1f8"] tspan{fill:#e8f1f8}
-[data-theme="dark"] .lesson [style*="background:#e8f1f8"]{background-color:#16283a!important}
-[data-theme="dark"] .lesson [stroke="#ea580c"]{stroke:#fb923c}
-[data-theme="dark"] .lesson [style*="background:#eaf2f8"]{background-color:#16243a!important}
-[data-theme="dark"] .lesson rect[fill="#ecfdf5"],
-[data-theme="dark"] .lesson circle[fill="#ecfdf5"],
-[data-theme="dark"] .lesson ellipse[fill="#ecfdf5"],
-[data-theme="dark"] .lesson path[fill="#ecfdf5"],
-[data-theme="dark"] .lesson polygon[fill="#ecfdf5"],
-[data-theme="dark"] .lesson polyline[fill="#ecfdf5"],
-[data-theme="dark"] .lesson line[fill="#ecfdf5"],
-[data-theme="dark"] .lesson g[fill="#ecfdf5"]{fill:#10291f}
-[data-theme="dark"] .lesson text[fill="#ecfdf5"],
-[data-theme="dark"] .lesson tspan[fill="#ecfdf5"],
-[data-theme="dark"] .lesson g[fill="#ecfdf5"] text,
-[data-theme="dark"] .lesson g[fill="#ecfdf5"] tspan{fill:#ecfdf5}
-[data-theme="dark"] .lesson [style*="background:#ecfdf5"]{background-color:#10291f!important}
-[data-theme="dark"] .lesson rect[fill="#eef2f7"],
-[data-theme="dark"] .lesson circle[fill="#eef2f7"],
-[data-theme="dark"] .lesson ellipse[fill="#eef2f7"],
-[data-theme="dark"] .lesson path[fill="#eef2f7"],
-[data-theme="dark"] .lesson polygon[fill="#eef2f7"],
-[data-theme="dark"] .lesson polyline[fill="#eef2f7"],
-[data-theme="dark"] .lesson line[fill="#eef2f7"],
-[data-theme="dark"] .lesson g[fill="#eef2f7"]{fill:#0e141d}
-[data-theme="dark"] .lesson text[fill="#eef2f7"],
-[data-theme="dark"] .lesson tspan[fill="#eef2f7"],
-[data-theme="dark"] .lesson g[fill="#eef2f7"] text,
-[data-theme="dark"] .lesson g[fill="#eef2f7"] tspan{fill:#eef2f7}
-[data-theme="dark"] .lesson [stroke="#eef2f7"]{stroke:#0e141d}
-[data-theme="dark"] .lesson [style*="background:#eef2f7"]{background-color:#0e141d!important}
-[data-theme="dark"] .lesson rect[fill="#eef2ff"],
-[data-theme="dark"] .lesson circle[fill="#eef2ff"],
-[data-theme="dark"] .lesson ellipse[fill="#eef2ff"],
-[data-theme="dark"] .lesson path[fill="#eef2ff"],
-[data-theme="dark"] .lesson polygon[fill="#eef2ff"],
-[data-theme="dark"] .lesson polyline[fill="#eef2ff"],
-[data-theme="dark"] .lesson line[fill="#eef2ff"],
-[data-theme="dark"] .lesson g[fill="#eef2ff"]{fill:#1e2340}
-[data-theme="dark"] .lesson text[fill="#eef2ff"],
-[data-theme="dark"] .lesson tspan[fill="#eef2ff"],
-[data-theme="dark"] .lesson g[fill="#eef2ff"] text,
-[data-theme="dark"] .lesson g[fill="#eef2ff"] tspan{fill:#eef2ff}
-[data-theme="dark"] .lesson [style*="background:#eef2ff"]{background-color:#1e2340!important}
-[data-theme="dark"] .lesson rect[fill="#eff6ff"],
-[data-theme="dark"] .lesson circle[fill="#eff6ff"],
-[data-theme="dark"] .lesson ellipse[fill="#eff6ff"],
-[data-theme="dark"] .lesson path[fill="#eff6ff"],
-[data-theme="dark"] .lesson polygon[fill="#eff6ff"],
-[data-theme="dark"] .lesson polyline[fill="#eff6ff"],
-[data-theme="dark"] .lesson line[fill="#eff6ff"],
-[data-theme="dark"] .lesson g[fill="#eff6ff"]{fill:#16243a}
-[data-theme="dark"] .lesson text[fill="#eff6ff"],
-[data-theme="dark"] .lesson tspan[fill="#eff6ff"],
-[data-theme="dark"] .lesson g[fill="#eff6ff"] text,
-[data-theme="dark"] .lesson g[fill="#eff6ff"] tspan{fill:#eff6ff}
-[data-theme="dark"] .lesson [style*="background:#eff6ff"]{background-color:#16243a!important}
-[data-theme="dark"] .lesson rect[fill="#f0f9ff"],
-[data-theme="dark"] .lesson circle[fill="#f0f9ff"],
-[data-theme="dark"] .lesson ellipse[fill="#f0f9ff"],
-[data-theme="dark"] .lesson path[fill="#f0f9ff"],
-[data-theme="dark"] .lesson polygon[fill="#f0f9ff"],
-[data-theme="dark"] .lesson polyline[fill="#f0f9ff"],
-[data-theme="dark"] .lesson line[fill="#f0f9ff"],
-[data-theme="dark"] .lesson g[fill="#f0f9ff"]{fill:#14202f}
-[data-theme="dark"] .lesson text[fill="#f0f9ff"],
-[data-theme="dark"] .lesson tspan[fill="#f0f9ff"],
-[data-theme="dark"] .lesson g[fill="#f0f9ff"] text,
-[data-theme="dark"] .lesson g[fill="#f0f9ff"] tspan{fill:#f0f9ff}
-[data-theme="dark"] .lesson rect[fill="#f0fdf4"],
-[data-theme="dark"] .lesson circle[fill="#f0fdf4"],
-[data-theme="dark"] .lesson ellipse[fill="#f0fdf4"],
-[data-theme="dark"] .lesson path[fill="#f0fdf4"],
-[data-theme="dark"] .lesson polygon[fill="#f0fdf4"],
-[data-theme="dark"] .lesson polyline[fill="#f0fdf4"],
-[data-theme="dark"] .lesson line[fill="#f0fdf4"],
-[data-theme="dark"] .lesson g[fill="#f0fdf4"]{fill:#10291f}
-[data-theme="dark"] .lesson text[fill="#f0fdf4"],
-[data-theme="dark"] .lesson tspan[fill="#f0fdf4"],
-[data-theme="dark"] .lesson g[fill="#f0fdf4"] text,
-[data-theme="dark"] .lesson g[fill="#f0fdf4"] tspan{fill:#f0fdf4}
-[data-theme="dark"] .lesson [style*="background:#f0fdf4"]{background-color:#10291f!important}
-[data-theme="dark"] .lesson [style*="background:#f0fdfa"]{background-color:#0f2b2b!important}
-[data-theme="dark"] .lesson rect[fill="#f1f5f9"],
-[data-theme="dark"] .lesson circle[fill="#f1f5f9"],
-[data-theme="dark"] .lesson ellipse[fill="#f1f5f9"],
-[data-theme="dark"] .lesson path[fill="#f1f5f9"],
-[data-theme="dark"] .lesson polygon[fill="#f1f5f9"],
-[data-theme="dark"] .lesson polyline[fill="#f1f5f9"],
-[data-theme="dark"] .lesson line[fill="#f1f5f9"],
-[data-theme="dark"] .lesson g[fill="#f1f5f9"]{fill:#1f2937}
-[data-theme="dark"] .lesson text[fill="#f1f5f9"],
-[data-theme="dark"] .lesson tspan[fill="#f1f5f9"],
-[data-theme="dark"] .lesson g[fill="#f1f5f9"] text,
-[data-theme="dark"] .lesson g[fill="#f1f5f9"] tspan{fill:#f1f5f9}
-[data-theme="dark"] .lesson [stroke="#f1f5f9"]{stroke:#1f2937}
-[data-theme="dark"] .lesson [style*="background:#f2f2f2"]{background-color:#222c3a!important}
-[data-theme="dark"] .lesson rect[fill="#f5a85a"],
-[data-theme="dark"] .lesson circle[fill="#f5a85a"],
-[data-theme="dark"] .lesson ellipse[fill="#f5a85a"],
-[data-theme="dark"] .lesson path[fill="#f5a85a"],
-[data-theme="dark"] .lesson polygon[fill="#f5a85a"],
-[data-theme="dark"] .lesson polyline[fill="#f5a85a"],
-[data-theme="dark"] .lesson line[fill="#f5a85a"],
-[data-theme="dark"] .lesson g[fill="#f5a85a"]{fill:#332c27}
-[data-theme="dark"] .lesson text[fill="#f5a85a"],
-[data-theme="dark"] .lesson tspan[fill="#f5a85a"],
-[data-theme="dark"] .lesson g[fill="#f5a85a"] text,
-[data-theme="dark"] .lesson g[fill="#f5a85a"] tspan{fill:#fce7d1}
-[data-theme="dark"] .lesson rect[fill="#f5b7b1"],
-[data-theme="dark"] .lesson circle[fill="#f5b7b1"],
-[data-theme="dark"] .lesson ellipse[fill="#f5b7b1"],
-[data-theme="dark"] .lesson path[fill="#f5b7b1"],
-[data-theme="dark"] .lesson polygon[fill="#f5b7b1"],
-[data-theme="dark"] .lesson polyline[fill="#f5b7b1"],
-[data-theme="dark"] .lesson line[fill="#f5b7b1"],
-[data-theme="dark"] .lesson g[fill="#f5b7b1"]{fill:#332e35}
-[data-theme="dark"] .lesson text[fill="#f5b7b1"],
-[data-theme="dark"] .lesson tspan[fill="#f5b7b1"],
-[data-theme="dark"] .lesson g[fill="#f5b7b1"] text,
-[data-theme="dark"] .lesson g[fill="#f5b7b1"] tspan{fill:#f5b7b1}
-[data-theme="dark"] .lesson [style*="background:#f5b7b1"]{background-color:#332e35!important}
-[data-theme="dark"] .lesson rect[fill="#f5f3ff"],
-[data-theme="dark"] .lesson circle[fill="#f5f3ff"],
-[data-theme="dark"] .lesson ellipse[fill="#f5f3ff"],
-[data-theme="dark"] .lesson path[fill="#f5f3ff"],
-[data-theme="dark"] .lesson polygon[fill="#f5f3ff"],
-[data-theme="dark"] .lesson polyline[fill="#f5f3ff"],
-[data-theme="dark"] .lesson line[fill="#f5f3ff"],
-[data-theme="dark"] .lesson g[fill="#f5f3ff"]{fill:#221a3a}
-[data-theme="dark"] .lesson text[fill="#f5f3ff"],
-[data-theme="dark"] .lesson tspan[fill="#f5f3ff"],
-[data-theme="dark"] .lesson g[fill="#f5f3ff"] text,
-[data-theme="dark"] .lesson g[fill="#f5f3ff"] tspan{fill:#f5f3ff}
-[data-theme="dark"] .lesson [style*="background:#f5f3ff"]{background-color:#221a3a!important}
-[data-theme="dark"] .lesson rect[fill="#f6f8fb"],
-[data-theme="dark"] .lesson circle[fill="#f6f8fb"],
-[data-theme="dark"] .lesson ellipse[fill="#f6f8fb"],
-[data-theme="dark"] .lesson path[fill="#f6f8fb"],
-[data-theme="dark"] .lesson polygon[fill="#f6f8fb"],
-[data-theme="dark"] .lesson polyline[fill="#f6f8fb"],
-[data-theme="dark"] .lesson line[fill="#f6f8fb"],
-[data-theme="dark"] .lesson g[fill="#f6f8fb"]{fill:#1b2431}
-[data-theme="dark"] .lesson text[fill="#f6f8fb"],
-[data-theme="dark"] .lesson tspan[fill="#f6f8fb"],
-[data-theme="dark"] .lesson g[fill="#f6f8fb"] text,
-[data-theme="dark"] .lesson g[fill="#f6f8fb"] tspan{fill:#f6f8fb}
-[data-theme="dark"] .lesson [style*="background:#f6f8fb"]{background-color:#1b2431!important}
-[data-theme="dark"] .lesson [style*="background:#f7d4d2"]{background-color:#33333a!important}
-[data-theme="dark"] .lesson rect[fill="#f8c28c"],
-[data-theme="dark"] .lesson circle[fill="#f8c28c"],
-[data-theme="dark"] .lesson ellipse[fill="#f8c28c"],
-[data-theme="dark"] .lesson path[fill="#f8c28c"],
-[data-theme="dark"] .lesson polygon[fill="#f8c28c"],
-[data-theme="dark"] .lesson polyline[fill="#f8c28c"],
-[data-theme="dark"] .lesson line[fill="#f8c28c"],
-[data-theme="dark"] .lesson g[fill="#f8c28c"]{fill:#8a5f36}
-[data-theme="dark"] .lesson text[fill="#f8c28c"],
-[data-theme="dark"] .lesson tspan[fill="#f8c28c"],
-[data-theme="dark"] .lesson g[fill="#f8c28c"] text,
-[data-theme="dark"] .lesson g[fill="#f8c28c"] tspan{fill:#f8c28c}
-[data-theme="dark"] .lesson rect[fill="#f8fafc"],
-[data-theme="dark"] .lesson circle[fill="#f8fafc"],
-[data-theme="dark"] .lesson ellipse[fill="#f8fafc"],
-[data-theme="dark"] .lesson path[fill="#f8fafc"],
-[data-theme="dark"] .lesson polygon[fill="#f8fafc"],
-[data-theme="dark"] .lesson polyline[fill="#f8fafc"],
-[data-theme="dark"] .lesson line[fill="#f8fafc"],
-[data-theme="dark"] .lesson g[fill="#f8fafc"]{fill:#1b2431}
-[data-theme="dark"] .lesson text[fill="#f8fafc"],
-[data-theme="dark"] .lesson tspan[fill="#f8fafc"],
-[data-theme="dark"] .lesson g[fill="#f8fafc"] text,
-[data-theme="dark"] .lesson g[fill="#f8fafc"] tspan{fill:#f8fafc}
-[data-theme="dark"] .lesson [style*="background:#f8fafc"]{background-color:#1b2431!important}
-[data-theme="dark"] .lesson rect[fill="#fbd9b5"],
-[data-theme="dark"] .lesson circle[fill="#fbd9b5"],
-[data-theme="dark"] .lesson ellipse[fill="#fbd9b5"],
-[data-theme="dark"] .lesson path[fill="#fbd9b5"],
-[data-theme="dark"] .lesson polygon[fill="#fbd9b5"],
-[data-theme="dark"] .lesson polyline[fill="#fbd9b5"],
-[data-theme="dark"] .lesson line[fill="#fbd9b5"],
-[data-theme="dark"] .lesson g[fill="#fbd9b5"]{fill:#6d4c2c}
-[data-theme="dark"] .lesson text[fill="#fbd9b5"],
-[data-theme="dark"] .lesson tspan[fill="#fbd9b5"],
-[data-theme="dark"] .lesson g[fill="#fbd9b5"] text,
-[data-theme="dark"] .lesson g[fill="#fbd9b5"] tspan{fill:#fbd9b5}
-[data-theme="dark"] .lesson rect[fill="#fde68a"],
-[data-theme="dark"] .lesson circle[fill="#fde68a"],
-[data-theme="dark"] .lesson ellipse[fill="#fde68a"],
-[data-theme="dark"] .lesson path[fill="#fde68a"],
-[data-theme="dark"] .lesson polygon[fill="#fde68a"],
-[data-theme="dark"] .lesson polyline[fill="#fde68a"],
-[data-theme="dark"] .lesson line[fill="#fde68a"],
-[data-theme="dark"] .lesson g[fill="#fde68a"]{fill:#6a5219}
-[data-theme="dark"] .lesson text[fill="#fde68a"],
-[data-theme="dark"] .lesson tspan[fill="#fde68a"],
-[data-theme="dark"] .lesson g[fill="#fde68a"] text,
-[data-theme="dark"] .lesson g[fill="#fde68a"] tspan{fill:#fde68a}
-[data-theme="dark"] .lesson [stroke="#fde68a"]{stroke:#6a5219}
-[data-theme="dark"] .lesson [style*="border-color:#fde68a"]{border-color:#6a5219!important}
-[data-theme="dark"] .lesson [style*="background:#fdf1d6"]{background-color:#312712!important}
-[data-theme="dark"] .lesson [style*="background:#fdf2f8"]{background-color:#2b1626!important}
-[data-theme="dark"] .lesson [stroke="#fecaca"]{stroke:#6b2b2f}
-[data-theme="dark"] .lesson [style*="border-color:#fecaca"]{border-color:#6b2b2f!important}
-[data-theme="dark"] .lesson [stroke="#fed7aa"]{stroke:#6b4320}
-[data-theme="dark"] .lesson rect[fill="#fef2f2"],
-[data-theme="dark"] .lesson circle[fill="#fef2f2"],
-[data-theme="dark"] .lesson ellipse[fill="#fef2f2"],
-[data-theme="dark"] .lesson path[fill="#fef2f2"],
-[data-theme="dark"] .lesson polygon[fill="#fef2f2"],
-[data-theme="dark"] .lesson polyline[fill="#fef2f2"],
-[data-theme="dark"] .lesson line[fill="#fef2f2"],
-[data-theme="dark"] .lesson g[fill="#fef2f2"]{fill:#2c1618}
-[data-theme="dark"] .lesson text[fill="#fef2f2"],
-[data-theme="dark"] .lesson tspan[fill="#fef2f2"],
-[data-theme="dark"] .lesson g[fill="#fef2f2"] text,
-[data-theme="dark"] .lesson g[fill="#fef2f2"] tspan{fill:#fef2f2}
-[data-theme="dark"] .lesson [style*="background:#fef2f2"]{background-color:#2c1618!important}
-[data-theme="dark"] .lesson rect[fill="#fef3c7"],
-[data-theme="dark"] .lesson circle[fill="#fef3c7"],
-[data-theme="dark"] .lesson ellipse[fill="#fef3c7"],
-[data-theme="dark"] .lesson path[fill="#fef3c7"],
-[data-theme="dark"] .lesson polygon[fill="#fef3c7"],
-[data-theme="dark"] .lesson polyline[fill="#fef3c7"],
-[data-theme="dark"] .lesson line[fill="#fef3c7"],
-[data-theme="dark"] .lesson g[fill="#fef3c7"]{fill:#33290c}
-[data-theme="dark"] .lesson text[fill="#fef3c7"],
-[data-theme="dark"] .lesson tspan[fill="#fef3c7"],
-[data-theme="dark"] .lesson g[fill="#fef3c7"] text,
-[data-theme="dark"] .lesson g[fill="#fef3c7"] tspan{fill:#fef3c7}
-[data-theme="dark"] .lesson [style*="background:#fef3c7"]{background-color:#33290c!important}
-[data-theme="dark"] .lesson rect[fill="#fff7ed"],
-[data-theme="dark"] .lesson circle[fill="#fff7ed"],
-[data-theme="dark"] .lesson ellipse[fill="#fff7ed"],
-[data-theme="dark"] .lesson path[fill="#fff7ed"],
-[data-theme="dark"] .lesson polygon[fill="#fff7ed"],
-[data-theme="dark"] .lesson polyline[fill="#fff7ed"],
-[data-theme="dark"] .lesson line[fill="#fff7ed"],
-[data-theme="dark"] .lesson g[fill="#fff7ed"]{fill:#2b1c0e}
-[data-theme="dark"] .lesson text[fill="#fff7ed"],
-[data-theme="dark"] .lesson tspan[fill="#fff7ed"],
-[data-theme="dark"] .lesson g[fill="#fff7ed"] text,
-[data-theme="dark"] .lesson g[fill="#fff7ed"] tspan{fill:#fff7ed}
-[data-theme="dark"] .lesson rect[fill="#fffbeb"],
-[data-theme="dark"] .lesson circle[fill="#fffbeb"],
-[data-theme="dark"] .lesson ellipse[fill="#fffbeb"],
-[data-theme="dark"] .lesson path[fill="#fffbeb"],
-[data-theme="dark"] .lesson polygon[fill="#fffbeb"],
-[data-theme="dark"] .lesson polyline[fill="#fffbeb"],
-[data-theme="dark"] .lesson line[fill="#fffbeb"],
-[data-theme="dark"] .lesson g[fill="#fffbeb"]{fill:#2a2109}
-[data-theme="dark"] .lesson text[fill="#fffbeb"],
-[data-theme="dark"] .lesson tspan[fill="#fffbeb"],
-[data-theme="dark"] .lesson g[fill="#fffbeb"] text,
-[data-theme="dark"] .lesson g[fill="#fffbeb"] tspan{fill:#fffbeb}
-[data-theme="dark"] .lesson [style*="background:#fffbeb"]{background-color:#2a2109!important}
+[data-theme="dark"] .subcontent rect[fill="#666"],
+[data-theme="dark"] .subcontent circle[fill="#666"],
+[data-theme="dark"] .subcontent ellipse[fill="#666"],
+[data-theme="dark"] .subcontent path[fill="#666"],
+[data-theme="dark"] .subcontent polygon[fill="#666"],
+[data-theme="dark"] .subcontent polyline[fill="#666"],
+[data-theme="dark"] .subcontent line[fill="#666"],
+[data-theme="dark"] .subcontent g[fill="#666"]{fill:#9aa8ba}
+[data-theme="dark"] .subcontent text[fill="#666"],
+[data-theme="dark"] .subcontent tspan[fill="#666"],
+[data-theme="dark"] .subcontent g[fill="#666"] text,
+[data-theme="dark"] .subcontent g[fill="#666"] tspan{fill:#d4d4d4}
+[data-theme="dark"] .subcontent [stroke="#666"]{stroke:#9aa8ba}
+[data-theme="dark"] .subcontent rect[fill="#fff"],
+[data-theme="dark"] .subcontent circle[fill="#fff"],
+[data-theme="dark"] .subcontent ellipse[fill="#fff"],
+[data-theme="dark"] .subcontent path[fill="#fff"],
+[data-theme="dark"] .subcontent polygon[fill="#fff"],
+[data-theme="dark"] .subcontent polyline[fill="#fff"],
+[data-theme="dark"] .subcontent line[fill="#fff"],
+[data-theme="dark"] .subcontent g[fill="#fff"]{fill:#171f2b}
+[data-theme="dark"] .subcontent text[fill="#fff"],
+[data-theme="dark"] .subcontent tspan[fill="#fff"],
+[data-theme="dark"] .subcontent g[fill="#fff"] text,
+[data-theme="dark"] .subcontent g[fill="#fff"] tspan{fill:#fff}
+[data-theme="dark"] .subcontent [stroke="#fff"]{stroke:#171f2b}
+[data-theme="dark"] .subcontent [style*="background:#fff"]{background-color:#171f2b!important}
+[data-theme="dark"] .subcontent [style^="color:#fff"],
+[data-theme="dark"] .subcontent [style*=";color:#fff"]{color:#fff!important}
+[data-theme="dark"] .subcontent rect[fill="#0284c7"],
+[data-theme="dark"] .subcontent circle[fill="#0284c7"],
+[data-theme="dark"] .subcontent ellipse[fill="#0284c7"],
+[data-theme="dark"] .subcontent path[fill="#0284c7"],
+[data-theme="dark"] .subcontent polygon[fill="#0284c7"],
+[data-theme="dark"] .subcontent polyline[fill="#0284c7"],
+[data-theme="dark"] .subcontent line[fill="#0284c7"],
+[data-theme="dark"] .subcontent g[fill="#0284c7"]{fill:#6cb6e8}
+[data-theme="dark"] .subcontent text[fill="#0284c7"],
+[data-theme="dark"] .subcontent tspan[fill="#0284c7"],
+[data-theme="dark"] .subcontent g[fill="#0284c7"] text,
+[data-theme="dark"] .subcontent g[fill="#0284c7"] tspan{fill:#b8ddef}
+[data-theme="dark"] .subcontent [stroke="#0284c7"]{stroke:#6cb6e8}
+[data-theme="dark"] .subcontent rect[fill="#0369a1"],
+[data-theme="dark"] .subcontent circle[fill="#0369a1"],
+[data-theme="dark"] .subcontent ellipse[fill="#0369a1"],
+[data-theme="dark"] .subcontent path[fill="#0369a1"],
+[data-theme="dark"] .subcontent polygon[fill="#0369a1"],
+[data-theme="dark"] .subcontent polyline[fill="#0369a1"],
+[data-theme="dark"] .subcontent line[fill="#0369a1"],
+[data-theme="dark"] .subcontent g[fill="#0369a1"]{fill:#6cb6e8}
+[data-theme="dark"] .subcontent text[fill="#0369a1"],
+[data-theme="dark"] .subcontent tspan[fill="#0369a1"],
+[data-theme="dark"] .subcontent g[fill="#0369a1"] text,
+[data-theme="dark"] .subcontent g[fill="#0369a1"] tspan{fill:#b8d5e5}
+[data-theme="dark"] .subcontent rect[fill="#047857"],
+[data-theme="dark"] .subcontent circle[fill="#047857"],
+[data-theme="dark"] .subcontent ellipse[fill="#047857"],
+[data-theme="dark"] .subcontent path[fill="#047857"],
+[data-theme="dark"] .subcontent polygon[fill="#047857"],
+[data-theme="dark"] .subcontent polyline[fill="#047857"],
+[data-theme="dark"] .subcontent line[fill="#047857"],
+[data-theme="dark"] .subcontent g[fill="#047857"]{fill:#4ade9f}
+[data-theme="dark"] .subcontent text[fill="#047857"],
+[data-theme="dark"] .subcontent tspan[fill="#047857"],
+[data-theme="dark"] .subcontent g[fill="#047857"] text,
+[data-theme="dark"] .subcontent g[fill="#047857"] tspan{fill:#4ade9f}
+[data-theme="dark"] .subcontent [stroke="#047857"]{stroke:#4ade9f}
+[data-theme="dark"] .subcontent [style^="color:#047857"],
+[data-theme="dark"] .subcontent [style*=";color:#047857"]{color:#4ade9f!important}
+[data-theme="dark"] .subcontent rect[fill="#059669"],
+[data-theme="dark"] .subcontent circle[fill="#059669"],
+[data-theme="dark"] .subcontent ellipse[fill="#059669"],
+[data-theme="dark"] .subcontent path[fill="#059669"],
+[data-theme="dark"] .subcontent polygon[fill="#059669"],
+[data-theme="dark"] .subcontent polyline[fill="#059669"],
+[data-theme="dark"] .subcontent line[fill="#059669"],
+[data-theme="dark"] .subcontent g[fill="#059669"]{fill:#34d399}
+[data-theme="dark"] .subcontent text[fill="#059669"],
+[data-theme="dark"] .subcontent tspan[fill="#059669"],
+[data-theme="dark"] .subcontent g[fill="#059669"] text,
+[data-theme="dark"] .subcontent g[fill="#059669"] tspan{fill:#34d399}
+[data-theme="dark"] .subcontent [stroke="#059669"]{stroke:#34d399}
+[data-theme="dark"] .subcontent [style*="background:#059669"]{background-color:#0d2929!important}
+[data-theme="dark"] .subcontent [style^="color:#059669"],
+[data-theme="dark"] .subcontent [style*=";color:#059669"]{color:#34d399!important}
+[data-theme="dark"] .subcontent rect[fill="#065f46"],
+[data-theme="dark"] .subcontent circle[fill="#065f46"],
+[data-theme="dark"] .subcontent ellipse[fill="#065f46"],
+[data-theme="dark"] .subcontent path[fill="#065f46"],
+[data-theme="dark"] .subcontent polygon[fill="#065f46"],
+[data-theme="dark"] .subcontent polyline[fill="#065f46"],
+[data-theme="dark"] .subcontent line[fill="#065f46"],
+[data-theme="dark"] .subcontent g[fill="#065f46"]{fill:#4ade9f}
+[data-theme="dark"] .subcontent text[fill="#065f46"],
+[data-theme="dark"] .subcontent tspan[fill="#065f46"],
+[data-theme="dark"] .subcontent g[fill="#065f46"] text,
+[data-theme="dark"] .subcontent g[fill="#065f46"] tspan{fill:#4ade9f}
+[data-theme="dark"] .subcontent rect[fill="#0f172a"],
+[data-theme="dark"] .subcontent circle[fill="#0f172a"],
+[data-theme="dark"] .subcontent ellipse[fill="#0f172a"],
+[data-theme="dark"] .subcontent path[fill="#0f172a"],
+[data-theme="dark"] .subcontent polygon[fill="#0f172a"],
+[data-theme="dark"] .subcontent polyline[fill="#0f172a"],
+[data-theme="dark"] .subcontent line[fill="#0f172a"],
+[data-theme="dark"] .subcontent g[fill="#0f172a"]{fill:#93979f}
+[data-theme="dark"] .subcontent text[fill="#0f172a"],
+[data-theme="dark"] .subcontent tspan[fill="#0f172a"],
+[data-theme="dark"] .subcontent g[fill="#0f172a"] text,
+[data-theme="dark"] .subcontent g[fill="#0f172a"] tspan{fill:#f1f5f9}
+[data-theme="dark"] .subcontent [stroke="#0f172a"]{stroke:#93979f}
+[data-theme="dark"] .subcontent [style*="background:#0f172a"]{background-color:#0f172a!important}
+[data-theme="dark"] .subcontent [style^="color:#0f766e"],
+[data-theme="dark"] .subcontent [style*=";color:#0f766e"]{color:#2dd4bf!important}
+[data-theme="dark"] .subcontent rect[fill="#15803d"],
+[data-theme="dark"] .subcontent circle[fill="#15803d"],
+[data-theme="dark"] .subcontent ellipse[fill="#15803d"],
+[data-theme="dark"] .subcontent path[fill="#15803d"],
+[data-theme="dark"] .subcontent polygon[fill="#15803d"],
+[data-theme="dark"] .subcontent polyline[fill="#15803d"],
+[data-theme="dark"] .subcontent line[fill="#15803d"],
+[data-theme="dark"] .subcontent g[fill="#15803d"]{fill:#57d68a}
+[data-theme="dark"] .subcontent text[fill="#15803d"],
+[data-theme="dark"] .subcontent tspan[fill="#15803d"],
+[data-theme="dark"] .subcontent g[fill="#15803d"] text,
+[data-theme="dark"] .subcontent g[fill="#15803d"] tspan{fill:#57d68a}
+[data-theme="dark"] .subcontent rect[fill="#16a34a"],
+[data-theme="dark"] .subcontent circle[fill="#16a34a"],
+[data-theme="dark"] .subcontent ellipse[fill="#16a34a"],
+[data-theme="dark"] .subcontent path[fill="#16a34a"],
+[data-theme="dark"] .subcontent polygon[fill="#16a34a"],
+[data-theme="dark"] .subcontent polyline[fill="#16a34a"],
+[data-theme="dark"] .subcontent line[fill="#16a34a"],
+[data-theme="dark"] .subcontent g[fill="#16a34a"]{fill:#4ade80}
+[data-theme="dark"] .subcontent text[fill="#16a34a"],
+[data-theme="dark"] .subcontent tspan[fill="#16a34a"],
+[data-theme="dark"] .subcontent g[fill="#16a34a"] text,
+[data-theme="dark"] .subcontent g[fill="#16a34a"] tspan{fill:#4ade80}
+[data-theme="dark"] .subcontent [stroke="#16a34a"]{stroke:#4ade80}
+[data-theme="dark"] .subcontent [style^="color:#16a34a"],
+[data-theme="dark"] .subcontent [style*=";color:#16a34a"]{color:#4ade80!important}
+[data-theme="dark"] .subcontent [style*="background:#196f3d"]{background-color:#196f3d!important}
+[data-theme="dark"] .subcontent rect[fill="#1b4f72"],
+[data-theme="dark"] .subcontent circle[fill="#1b4f72"],
+[data-theme="dark"] .subcontent ellipse[fill="#1b4f72"],
+[data-theme="dark"] .subcontent path[fill="#1b4f72"],
+[data-theme="dark"] .subcontent polygon[fill="#1b4f72"],
+[data-theme="dark"] .subcontent polyline[fill="#1b4f72"],
+[data-theme="dark"] .subcontent line[fill="#1b4f72"],
+[data-theme="dark"] .subcontent g[fill="#1b4f72"]{fill:#3f6f9e}
+[data-theme="dark"] .subcontent text[fill="#1b4f72"],
+[data-theme="dark"] .subcontent tspan[fill="#1b4f72"],
+[data-theme="dark"] .subcontent g[fill="#1b4f72"] text,
+[data-theme="dark"] .subcontent g[fill="#1b4f72"] tspan{fill:#bfced8}
+[data-theme="dark"] .subcontent [stroke="#1b4f72"]{stroke:#3f6f9e}
+[data-theme="dark"] .subcontent [style*="background:#1b4f72"]{background-color:#1b4f72!important}
+[data-theme="dark"] .subcontent rect[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent circle[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent ellipse[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent path[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent polygon[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent polyline[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent line[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent g[fill="#1d4ed8"]{fill:#7aa5f5}
+[data-theme="dark"] .subcontent text[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent tspan[fill="#1d4ed8"],
+[data-theme="dark"] .subcontent g[fill="#1d4ed8"] text,
+[data-theme="dark"] .subcontent g[fill="#1d4ed8"] tspan{fill:#c0cdf4}
+[data-theme="dark"] .subcontent [style^="color:#1d4ed8"],
+[data-theme="dark"] .subcontent [style*=";color:#1d4ed8"]{color:#c0cdf4!important}
+[data-theme="dark"] .subcontent [stroke="#1e3a5f"]{stroke:#9aa6b7}
+[data-theme="dark"] .subcontent [style*="background:#1e7d52"]{background-color:#1e7d52!important}
+[data-theme="dark"] .subcontent rect[fill="#1f2937"],
+[data-theme="dark"] .subcontent circle[fill="#1f2937"],
+[data-theme="dark"] .subcontent ellipse[fill="#1f2937"],
+[data-theme="dark"] .subcontent path[fill="#1f2937"],
+[data-theme="dark"] .subcontent polygon[fill="#1f2937"],
+[data-theme="dark"] .subcontent polyline[fill="#1f2937"],
+[data-theme="dark"] .subcontent line[fill="#1f2937"],
+[data-theme="dark"] .subcontent g[fill="#1f2937"]{fill:#9a9fa5}
+[data-theme="dark"] .subcontent text[fill="#1f2937"],
+[data-theme="dark"] .subcontent tspan[fill="#1f2937"],
+[data-theme="dark"] .subcontent g[fill="#1f2937"] text,
+[data-theme="dark"] .subcontent g[fill="#1f2937"] tspan{fill:#e6ecf3}
+[data-theme="dark"] .subcontent rect[fill="#1f5c92"],
+[data-theme="dark"] .subcontent circle[fill="#1f5c92"],
+[data-theme="dark"] .subcontent ellipse[fill="#1f5c92"],
+[data-theme="dark"] .subcontent path[fill="#1f5c92"],
+[data-theme="dark"] .subcontent polygon[fill="#1f5c92"],
+[data-theme="dark"] .subcontent polyline[fill="#1f5c92"],
+[data-theme="dark"] .subcontent line[fill="#1f5c92"],
+[data-theme="dark"] .subcontent g[fill="#1f5c92"]{fill:#4a7fae}
+[data-theme="dark"] .subcontent text[fill="#1f5c92"],
+[data-theme="dark"] .subcontent tspan[fill="#1f5c92"],
+[data-theme="dark"] .subcontent g[fill="#1f5c92"] text,
+[data-theme="dark"] .subcontent g[fill="#1f5c92"] tspan{fill:#c0d1e0}
+[data-theme="dark"] .subcontent rect[fill="#2563eb"],
+[data-theme="dark"] .subcontent circle[fill="#2563eb"],
+[data-theme="dark"] .subcontent ellipse[fill="#2563eb"],
+[data-theme="dark"] .subcontent path[fill="#2563eb"],
+[data-theme="dark"] .subcontent polygon[fill="#2563eb"],
+[data-theme="dark"] .subcontent polyline[fill="#2563eb"],
+[data-theme="dark"] .subcontent line[fill="#2563eb"],
+[data-theme="dark"] .subcontent g[fill="#2563eb"]{fill:#7aa5f5}
+[data-theme="dark"] .subcontent text[fill="#2563eb"],
+[data-theme="dark"] .subcontent tspan[fill="#2563eb"],
+[data-theme="dark"] .subcontent g[fill="#2563eb"] text,
+[data-theme="dark"] .subcontent g[fill="#2563eb"] tspan{fill:#c2d3f9}
+[data-theme="dark"] .subcontent [stroke="#2563eb"]{stroke:#7aa5f5}
+[data-theme="dark"] .subcontent [style^="color:#2563eb"],
+[data-theme="dark"] .subcontent [style*=";color:#2563eb"]{color:#c2d3f9!important}
+[data-theme="dark"] .subcontent rect[fill="#2e6da4"],
+[data-theme="dark"] .subcontent circle[fill="#2e6da4"],
+[data-theme="dark"] .subcontent ellipse[fill="#2e6da4"],
+[data-theme="dark"] .subcontent path[fill="#2e6da4"],
+[data-theme="dark"] .subcontent polygon[fill="#2e6da4"],
+[data-theme="dark"] .subcontent polyline[fill="#2e6da4"],
+[data-theme="dark"] .subcontent line[fill="#2e6da4"],
+[data-theme="dark"] .subcontent g[fill="#2e6da4"]{fill:#4d84b4}
+[data-theme="dark"] .subcontent text[fill="#2e6da4"],
+[data-theme="dark"] .subcontent tspan[fill="#2e6da4"],
+[data-theme="dark"] .subcontent g[fill="#2e6da4"] text,
+[data-theme="dark"] .subcontent g[fill="#2e6da4"] tspan{fill:#c4d6e6}
+[data-theme="dark"] .subcontent rect[fill="#2e86c1"],
+[data-theme="dark"] .subcontent circle[fill="#2e86c1"],
+[data-theme="dark"] .subcontent ellipse[fill="#2e86c1"],
+[data-theme="dark"] .subcontent path[fill="#2e86c1"],
+[data-theme="dark"] .subcontent polygon[fill="#2e86c1"],
+[data-theme="dark"] .subcontent polyline[fill="#2e86c1"],
+[data-theme="dark"] .subcontent line[fill="#2e86c1"],
+[data-theme="dark"] .subcontent g[fill="#2e86c1"]{fill:#5390c4}
+[data-theme="dark"] .subcontent text[fill="#2e86c1"],
+[data-theme="dark"] .subcontent tspan[fill="#2e86c1"],
+[data-theme="dark"] .subcontent g[fill="#2e86c1"] text,
+[data-theme="dark"] .subcontent g[fill="#2e86c1"] tspan{fill:#c4ddee}
+[data-theme="dark"] .subcontent [stroke="#2f5c29"]{stroke:#86c67c}
+[data-theme="dark"] .subcontent rect[fill="#2f5d80"],
+[data-theme="dark"] .subcontent circle[fill="#2f5d80"],
+[data-theme="dark"] .subcontent ellipse[fill="#2f5d80"],
+[data-theme="dark"] .subcontent path[fill="#2f5d80"],
+[data-theme="dark"] .subcontent polygon[fill="#2f5d80"],
+[data-theme="dark"] .subcontent polyline[fill="#2f5d80"],
+[data-theme="dark"] .subcontent line[fill="#2f5d80"],
+[data-theme="dark"] .subcontent g[fill="#2f5d80"]{fill:#8ab4e8}
+[data-theme="dark"] .subcontent text[fill="#2f5d80"],
+[data-theme="dark"] .subcontent tspan[fill="#2f5d80"],
+[data-theme="dark"] .subcontent g[fill="#2f5d80"] text,
+[data-theme="dark"] .subcontent g[fill="#2f5d80"] tspan{fill:#c5d2db}
+[data-theme="dark"] .subcontent rect[fill="#312e81"],
+[data-theme="dark"] .subcontent circle[fill="#312e81"],
+[data-theme="dark"] .subcontent ellipse[fill="#312e81"],
+[data-theme="dark"] .subcontent path[fill="#312e81"],
+[data-theme="dark"] .subcontent polygon[fill="#312e81"],
+[data-theme="dark"] .subcontent polyline[fill="#312e81"],
+[data-theme="dark"] .subcontent line[fill="#312e81"],
+[data-theme="dark"] .subcontent g[fill="#312e81"]{fill:#a2a1c6}
+[data-theme="dark"] .subcontent text[fill="#312e81"],
+[data-theme="dark"] .subcontent tspan[fill="#312e81"],
+[data-theme="dark"] .subcontent g[fill="#312e81"] text,
+[data-theme="dark"] .subcontent g[fill="#312e81"] tspan{fill:#b3bcff}
+[data-theme="dark"] .subcontent [stroke="#312e81"]{stroke:#a2a1c6}
+[data-theme="dark"] .subcontent rect[fill="#334155"],
+[data-theme="dark"] .subcontent circle[fill="#334155"],
+[data-theme="dark"] .subcontent ellipse[fill="#334155"],
+[data-theme="dark"] .subcontent path[fill="#334155"],
+[data-theme="dark"] .subcontent polygon[fill="#334155"],
+[data-theme="dark"] .subcontent polyline[fill="#334155"],
+[data-theme="dark"] .subcontent line[fill="#334155"],
+[data-theme="dark"] .subcontent g[fill="#334155"]{fill:#a3aab2}
+[data-theme="dark"] .subcontent text[fill="#334155"],
+[data-theme="dark"] .subcontent tspan[fill="#334155"],
+[data-theme="dark"] .subcontent g[fill="#334155"] text,
+[data-theme="dark"] .subcontent g[fill="#334155"] tspan{fill:#d3dbe5}
+[data-theme="dark"] .subcontent [stroke="#334155"]{stroke:#a3aab2}
+[data-theme="dark"] .subcontent rect[fill="#3730a3"],
+[data-theme="dark"] .subcontent circle[fill="#3730a3"],
+[data-theme="dark"] .subcontent ellipse[fill="#3730a3"],
+[data-theme="dark"] .subcontent path[fill="#3730a3"],
+[data-theme="dark"] .subcontent polygon[fill="#3730a3"],
+[data-theme="dark"] .subcontent polyline[fill="#3730a3"],
+[data-theme="dark"] .subcontent line[fill="#3730a3"],
+[data-theme="dark"] .subcontent g[fill="#3730a3"]{fill:#a5a2d6}
+[data-theme="dark"] .subcontent text[fill="#3730a3"],
+[data-theme="dark"] .subcontent tspan[fill="#3730a3"],
+[data-theme="dark"] .subcontent g[fill="#3730a3"] text,
+[data-theme="dark"] .subcontent g[fill="#3730a3"] tspan{fill:#a5b0ff}
+[data-theme="dark"] .subcontent rect[fill="#3b82f6"],
+[data-theme="dark"] .subcontent circle[fill="#3b82f6"],
+[data-theme="dark"] .subcontent ellipse[fill="#3b82f6"],
+[data-theme="dark"] .subcontent path[fill="#3b82f6"],
+[data-theme="dark"] .subcontent polygon[fill="#3b82f6"],
+[data-theme="dark"] .subcontent polyline[fill="#3b82f6"],
+[data-theme="dark"] .subcontent line[fill="#3b82f6"],
+[data-theme="dark"] .subcontent g[fill="#3b82f6"]{fill:#60a5fa}
+[data-theme="dark"] .subcontent text[fill="#3b82f6"],
+[data-theme="dark"] .subcontent tspan[fill="#3b82f6"],
+[data-theme="dark"] .subcontent g[fill="#3b82f6"] text,
+[data-theme="dark"] .subcontent g[fill="#3b82f6"] tspan{fill:#c8dcfc}
+[data-theme="dark"] .subcontent [style*="background:#3b82f6"]{background-color:#152640!important}
+[data-theme="dark"] .subcontent rect[fill="#3d6b34"],
+[data-theme="dark"] .subcontent circle[fill="#3d6b34"],
+[data-theme="dark"] .subcontent ellipse[fill="#3d6b34"],
+[data-theme="dark"] .subcontent path[fill="#3d6b34"],
+[data-theme="dark"] .subcontent polygon[fill="#3d6b34"],
+[data-theme="dark"] .subcontent polyline[fill="#3d6b34"],
+[data-theme="dark"] .subcontent line[fill="#3d6b34"],
+[data-theme="dark"] .subcontent g[fill="#3d6b34"]{fill:#8fcf7f}
+[data-theme="dark"] .subcontent text[fill="#3d6b34"],
+[data-theme="dark"] .subcontent tspan[fill="#3d6b34"],
+[data-theme="dark"] .subcontent g[fill="#3d6b34"] text,
+[data-theme="dark"] .subcontent g[fill="#3d6b34"] tspan{fill:#8fcf7f}
+[data-theme="dark"] .subcontent [style*="background:#3d6b94"]{background-color:#3d6b94!important}
+[data-theme="dark"] .subcontent rect[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent circle[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent ellipse[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent path[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent polygon[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent polyline[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent line[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent g[fill="#3d7ea8"]{fill:#689abb}
+[data-theme="dark"] .subcontent text[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent tspan[fill="#3d7ea8"],
+[data-theme="dark"] .subcontent g[fill="#3d7ea8"] text,
+[data-theme="dark"] .subcontent g[fill="#3d7ea8"] tspan{fill:#c9dbe7}
+[data-theme="dark"] .subcontent [style*="background:#3d7ea8"]{background-color:#4a7ba8!important}
+[data-theme="dark"] .subcontent rect[fill="#4338ca"],
+[data-theme="dark"] .subcontent circle[fill="#4338ca"],
+[data-theme="dark"] .subcontent ellipse[fill="#4338ca"],
+[data-theme="dark"] .subcontent path[fill="#4338ca"],
+[data-theme="dark"] .subcontent polygon[fill="#4338ca"],
+[data-theme="dark"] .subcontent polyline[fill="#4338ca"],
+[data-theme="dark"] .subcontent line[fill="#4338ca"],
+[data-theme="dark"] .subcontent g[fill="#4338ca"]{fill:#a5b0ff}
+[data-theme="dark"] .subcontent text[fill="#4338ca"],
+[data-theme="dark"] .subcontent tspan[fill="#4338ca"],
+[data-theme="dark"] .subcontent g[fill="#4338ca"] text,
+[data-theme="dark"] .subcontent g[fill="#4338ca"] tspan{fill:#a5b0ff}
+[data-theme="dark"] .subcontent [stroke="#4338ca"]{stroke:#a5b0ff}
+[data-theme="dark"] .subcontent [style^="color:#4338ca"],
+[data-theme="dark"] .subcontent [style*=";color:#4338ca"]{color:#a5b0ff!important}
+[data-theme="dark"] .subcontent rect[fill="#475569"],
+[data-theme="dark"] .subcontent circle[fill="#475569"],
+[data-theme="dark"] .subcontent ellipse[fill="#475569"],
+[data-theme="dark"] .subcontent path[fill="#475569"],
+[data-theme="dark"] .subcontent polygon[fill="#475569"],
+[data-theme="dark"] .subcontent polyline[fill="#475569"],
+[data-theme="dark"] .subcontent line[fill="#475569"],
+[data-theme="dark"] .subcontent g[fill="#475569"]{fill:#b9c4d1}
+[data-theme="dark"] .subcontent text[fill="#475569"],
+[data-theme="dark"] .subcontent tspan[fill="#475569"],
+[data-theme="dark"] .subcontent g[fill="#475569"] text,
+[data-theme="dark"] .subcontent g[fill="#475569"] tspan{fill:#b9c4d1}
+[data-theme="dark"] .subcontent rect[fill="#4884b8"],
+[data-theme="dark"] .subcontent circle[fill="#4884b8"],
+[data-theme="dark"] .subcontent ellipse[fill="#4884b8"],
+[data-theme="dark"] .subcontent path[fill="#4884b8"],
+[data-theme="dark"] .subcontent polygon[fill="#4884b8"],
+[data-theme="dark"] .subcontent polyline[fill="#4884b8"],
+[data-theme="dark"] .subcontent line[fill="#4884b8"],
+[data-theme="dark"] .subcontent g[fill="#4884b8"]{fill:#709fc8}
+[data-theme="dark"] .subcontent text[fill="#4884b8"],
+[data-theme="dark"] .subcontent tspan[fill="#4884b8"],
+[data-theme="dark"] .subcontent g[fill="#4884b8"] text,
+[data-theme="dark"] .subcontent g[fill="#4884b8"] tspan{fill:#ccddeb}
+[data-theme="dark"] .subcontent rect[fill="#4a7dab"],
+[data-theme="dark"] .subcontent circle[fill="#4a7dab"],
+[data-theme="dark"] .subcontent ellipse[fill="#4a7dab"],
+[data-theme="dark"] .subcontent path[fill="#4a7dab"],
+[data-theme="dark"] .subcontent polygon[fill="#4a7dab"],
+[data-theme="dark"] .subcontent polyline[fill="#4a7dab"],
+[data-theme="dark"] .subcontent line[fill="#4a7dab"],
+[data-theme="dark"] .subcontent g[fill="#4a7dab"]{fill:#6fa3d4}
+[data-theme="dark"] .subcontent text[fill="#4a7dab"],
+[data-theme="dark"] .subcontent tspan[fill="#4a7dab"],
+[data-theme="dark"] .subcontent g[fill="#4a7dab"] text,
+[data-theme="dark"] .subcontent g[fill="#4a7dab"] tspan{fill:#ccdbe7}
+[data-theme="dark"] .subcontent [stroke="#4a7dab"]{stroke:#6fa3d4}
+[data-theme="dark"] .subcontent [style*="background:#4a7dab"]{background-color:#182534!important}
+[data-theme="dark"] .subcontent rect[fill="#4e79a7"],
+[data-theme="dark"] .subcontent circle[fill="#4e79a7"],
+[data-theme="dark"] .subcontent ellipse[fill="#4e79a7"],
+[data-theme="dark"] .subcontent path[fill="#4e79a7"],
+[data-theme="dark"] .subcontent polygon[fill="#4e79a7"],
+[data-theme="dark"] .subcontent polyline[fill="#4e79a7"],
+[data-theme="dark"] .subcontent line[fill="#4e79a7"],
+[data-theme="dark"] .subcontent g[fill="#4e79a7"]{fill:#6d9ec9}
+[data-theme="dark"] .subcontent text[fill="#4e79a7"],
+[data-theme="dark"] .subcontent tspan[fill="#4e79a7"],
+[data-theme="dark"] .subcontent g[fill="#4e79a7"] text,
+[data-theme="dark"] .subcontent g[fill="#4e79a7"] tspan{fill:#cdd9e6}
+[data-theme="dark"] .subcontent [stroke="#4e79a7"]{stroke:#6d9ec9}
+[data-theme="dark"] .subcontent [style*="background:#4e79a7"]{background-color:#182433!important}
+[data-theme="dark"] .subcontent rect[fill="#4f46e5"],
+[data-theme="dark"] .subcontent circle[fill="#4f46e5"],
+[data-theme="dark"] .subcontent ellipse[fill="#4f46e5"],
+[data-theme="dark"] .subcontent path[fill="#4f46e5"],
+[data-theme="dark"] .subcontent polygon[fill="#4f46e5"],
+[data-theme="dark"] .subcontent polyline[fill="#4f46e5"],
+[data-theme="dark"] .subcontent line[fill="#4f46e5"],
+[data-theme="dark"] .subcontent g[fill="#4f46e5"]{fill:#7b73f0}
+[data-theme="dark"] .subcontent text[fill="#4f46e5"],
+[data-theme="dark"] .subcontent tspan[fill="#4f46e5"],
+[data-theme="dark"] .subcontent g[fill="#4f46e5"] text,
+[data-theme="dark"] .subcontent g[fill="#4f46e5"] tspan{fill:#cecbf8}
+[data-theme="dark"] .subcontent [stroke="#4f46e5"]{stroke:#7b73f0}
+[data-theme="dark"] .subcontent [style*="background:#5499c7"]{background-color:#45749f!important}
+[data-theme="dark"] .subcontent rect[fill="#59a14f"],
+[data-theme="dark"] .subcontent circle[fill="#59a14f"],
+[data-theme="dark"] .subcontent ellipse[fill="#59a14f"],
+[data-theme="dark"] .subcontent path[fill="#59a14f"],
+[data-theme="dark"] .subcontent polygon[fill="#59a14f"],
+[data-theme="dark"] .subcontent polyline[fill="#59a14f"],
+[data-theme="dark"] .subcontent line[fill="#59a14f"],
+[data-theme="dark"] .subcontent g[fill="#59a14f"]{fill:#79bd6f}
+[data-theme="dark"] .subcontent text[fill="#59a14f"],
+[data-theme="dark"] .subcontent tspan[fill="#59a14f"],
+[data-theme="dark"] .subcontent g[fill="#59a14f"] text,
+[data-theme="dark"] .subcontent g[fill="#59a14f"] tspan{fill:#d1e5ce}
+[data-theme="dark"] .subcontent [stroke="#59a14f"]{stroke:#79bd6f}
+[data-theme="dark"] .subcontent [style*="background:#59a14f"]{background-color:#1a2b25!important}
+[data-theme="dark"] .subcontent rect[fill="#5a93c2"],
+[data-theme="dark"] .subcontent circle[fill="#5a93c2"],
+[data-theme="dark"] .subcontent ellipse[fill="#5a93c2"],
+[data-theme="dark"] .subcontent path[fill="#5a93c2"],
+[data-theme="dark"] .subcontent polygon[fill="#5a93c2"],
+[data-theme="dark"] .subcontent polyline[fill="#5a93c2"],
+[data-theme="dark"] .subcontent line[fill="#5a93c2"],
+[data-theme="dark"] .subcontent g[fill="#5a93c2"]{fill:#7eabcf}
+[data-theme="dark"] .subcontent text[fill="#5a93c2"],
+[data-theme="dark"] .subcontent tspan[fill="#5a93c2"],
+[data-theme="dark"] .subcontent g[fill="#5a93c2"] text,
+[data-theme="dark"] .subcontent g[fill="#5a93c2"] tspan{fill:#d1e1ee}
+[data-theme="dark"] .subcontent rect[fill="#5b8db8"],
+[data-theme="dark"] .subcontent circle[fill="#5b8db8"],
+[data-theme="dark"] .subcontent ellipse[fill="#5b8db8"],
+[data-theme="dark"] .subcontent path[fill="#5b8db8"],
+[data-theme="dark"] .subcontent polygon[fill="#5b8db8"],
+[data-theme="dark"] .subcontent polyline[fill="#5b8db8"],
+[data-theme="dark"] .subcontent line[fill="#5b8db8"],
+[data-theme="dark"] .subcontent g[fill="#5b8db8"]{fill:#7fa6c8}
+[data-theme="dark"] .subcontent text[fill="#5b8db8"],
+[data-theme="dark"] .subcontent tspan[fill="#5b8db8"],
+[data-theme="dark"] .subcontent g[fill="#5b8db8"] text,
+[data-theme="dark"] .subcontent g[fill="#5b8db8"] tspan{fill:#d1dfeb}
+[data-theme="dark"] .subcontent [style*="background:#5b8db8"]{background-color:#416f9c!important}
+[data-theme="dark"] .subcontent rect[fill="#5b9450"],
+[data-theme="dark"] .subcontent circle[fill="#5b9450"],
+[data-theme="dark"] .subcontent ellipse[fill="#5b9450"],
+[data-theme="dark"] .subcontent path[fill="#5b9450"],
+[data-theme="dark"] .subcontent polygon[fill="#5b9450"],
+[data-theme="dark"] .subcontent polyline[fill="#5b9450"],
+[data-theme="dark"] .subcontent line[fill="#5b9450"],
+[data-theme="dark"] .subcontent g[fill="#5b9450"]{fill:#7ec070}
+[data-theme="dark"] .subcontent text[fill="#5b9450"],
+[data-theme="dark"] .subcontent tspan[fill="#5b9450"],
+[data-theme="dark"] .subcontent g[fill="#5b9450"] text,
+[data-theme="dark"] .subcontent g[fill="#5b9450"] tspan{fill:#d1e1ce}
+[data-theme="dark"] .subcontent [stroke="#5b9450"]{stroke:#7ec070}
+[data-theme="dark"] .subcontent [style*="background:#5b9450"]{background-color:#1a2825!important}
+[data-theme="dark"] .subcontent [style*="background:#5bb377"]{background-color:#1a2d2b!important}
+[data-theme="dark"] .subcontent rect[fill="#6366f1"],
+[data-theme="dark"] .subcontent circle[fill="#6366f1"],
+[data-theme="dark"] .subcontent ellipse[fill="#6366f1"],
+[data-theme="dark"] .subcontent path[fill="#6366f1"],
+[data-theme="dark"] .subcontent polygon[fill="#6366f1"],
+[data-theme="dark"] .subcontent polyline[fill="#6366f1"],
+[data-theme="dark"] .subcontent line[fill="#6366f1"],
+[data-theme="dark"] .subcontent g[fill="#6366f1"]{fill:#8b8df5}
+[data-theme="dark"] .subcontent text[fill="#6366f1"],
+[data-theme="dark"] .subcontent tspan[fill="#6366f1"],
+[data-theme="dark"] .subcontent g[fill="#6366f1"] text,
+[data-theme="dark"] .subcontent g[fill="#6366f1"] tspan{fill:#d3d4fb}
+[data-theme="dark"] .subcontent [stroke="#6366f1"]{stroke:#8b8df5}
+[data-theme="dark"] .subcontent [style*="solid #6366f1"]{border-color:#8b8df5!important}
+[data-theme="dark"] .subcontent rect[fill="#64748b"],
+[data-theme="dark"] .subcontent circle[fill="#64748b"],
+[data-theme="dark"] .subcontent ellipse[fill="#64748b"],
+[data-theme="dark"] .subcontent path[fill="#64748b"],
+[data-theme="dark"] .subcontent polygon[fill="#64748b"],
+[data-theme="dark"] .subcontent polyline[fill="#64748b"],
+[data-theme="dark"] .subcontent line[fill="#64748b"],
+[data-theme="dark"] .subcontent g[fill="#64748b"]{fill:#9aa8ba}
+[data-theme="dark"] .subcontent text[fill="#64748b"],
+[data-theme="dark"] .subcontent tspan[fill="#64748b"],
+[data-theme="dark"] .subcontent g[fill="#64748b"] text,
+[data-theme="dark"] .subcontent g[fill="#64748b"] tspan{fill:#d4d8df}
+[data-theme="dark"] .subcontent [stroke="#64748b"]{stroke:#9aa8ba}
+[data-theme="dark"] .subcontent [style^="color:#64748b"],
+[data-theme="dark"] .subcontent [style*=";color:#64748b"]{color:#d4d8df!important}
+[data-theme="dark"] .subcontent [style*="background:#6a97be"]{background-color:#3b6a97!important}
+[data-theme="dark"] .subcontent [stroke="#6b4763"]{stroke:#c9a3c0}
+[data-theme="dark"] .subcontent rect[fill="#6b93bb"],
+[data-theme="dark"] .subcontent circle[fill="#6b93bb"],
+[data-theme="dark"] .subcontent ellipse[fill="#6b93bb"],
+[data-theme="dark"] .subcontent path[fill="#6b93bb"],
+[data-theme="dark"] .subcontent polygon[fill="#6b93bb"],
+[data-theme="dark"] .subcontent polyline[fill="#6b93bb"],
+[data-theme="dark"] .subcontent line[fill="#6b93bb"],
+[data-theme="dark"] .subcontent g[fill="#6b93bb"]{fill:#8cabca}
+[data-theme="dark"] .subcontent text[fill="#6b93bb"],
+[data-theme="dark"] .subcontent tspan[fill="#6b93bb"],
+[data-theme="dark"] .subcontent g[fill="#6b93bb"] text,
+[data-theme="dark"] .subcontent g[fill="#6b93bb"] tspan{fill:#d6e1ec}
+[data-theme="dark"] .subcontent [style*="background:#6b98bf"]{background-color:#3b6a97!important}
+[data-theme="dark"] .subcontent rect[fill="#6d28d9"],
+[data-theme="dark"] .subcontent circle[fill="#6d28d9"],
+[data-theme="dark"] .subcontent ellipse[fill="#6d28d9"],
+[data-theme="dark"] .subcontent path[fill="#6d28d9"],
+[data-theme="dark"] .subcontent polygon[fill="#6d28d9"],
+[data-theme="dark"] .subcontent polyline[fill="#6d28d9"],
+[data-theme="dark"] .subcontent line[fill="#6d28d9"],
+[data-theme="dark"] .subcontent g[fill="#6d28d9"]{fill:#c0a8ff}
+[data-theme="dark"] .subcontent text[fill="#6d28d9"],
+[data-theme="dark"] .subcontent tspan[fill="#6d28d9"],
+[data-theme="dark"] .subcontent g[fill="#6d28d9"] text,
+[data-theme="dark"] .subcontent g[fill="#6d28d9"] tspan{fill:#c0a8ff}
+[data-theme="dark"] .subcontent [stroke="#6d28d9"]{stroke:#c0a8ff}
+[data-theme="dark"] .subcontent [style^="color:#6d28d9"],
+[data-theme="dark"] .subcontent [style*=";color:#6d28d9"]{color:#c0a8ff!important}
+[data-theme="dark"] .subcontent [stroke="#6ee7b7"]{stroke:#2a6b52}
+[data-theme="dark"] .subcontent [style*="background:#6f9fc8"]{background-color:#1e2a38!important}
+[data-theme="dark"] .subcontent rect[fill="#76b7b2"],
+[data-theme="dark"] .subcontent circle[fill="#76b7b2"],
+[data-theme="dark"] .subcontent ellipse[fill="#76b7b2"],
+[data-theme="dark"] .subcontent path[fill="#76b7b2"],
+[data-theme="dark"] .subcontent polygon[fill="#76b7b2"],
+[data-theme="dark"] .subcontent polyline[fill="#76b7b2"],
+[data-theme="dark"] .subcontent line[fill="#76b7b2"],
+[data-theme="dark"] .subcontent g[fill="#76b7b2"]{fill:#8fd0cb}
+[data-theme="dark"] .subcontent text[fill="#76b7b2"],
+[data-theme="dark"] .subcontent tspan[fill="#76b7b2"],
+[data-theme="dark"] .subcontent g[fill="#76b7b2"] text,
+[data-theme="dark"] .subcontent g[fill="#76b7b2"] tspan{fill:#8fd0cb}
+[data-theme="dark"] .subcontent rect[fill="#7aabd0"],
+[data-theme="dark"] .subcontent circle[fill="#7aabd0"],
+[data-theme="dark"] .subcontent ellipse[fill="#7aabd0"],
+[data-theme="dark"] .subcontent path[fill="#7aabd0"],
+[data-theme="dark"] .subcontent polygon[fill="#7aabd0"],
+[data-theme="dark"] .subcontent polyline[fill="#7aabd0"],
+[data-theme="dark"] .subcontent line[fill="#7aabd0"],
+[data-theme="dark"] .subcontent g[fill="#7aabd0"]{fill:#97bdda}
+[data-theme="dark"] .subcontent text[fill="#7aabd0"],
+[data-theme="dark"] .subcontent tspan[fill="#7aabd0"],
+[data-theme="dark"] .subcontent g[fill="#7aabd0"] text,
+[data-theme="dark"] .subcontent g[fill="#7aabd0"] tspan{fill:#dae7f2}
+[data-theme="dark"] .subcontent rect[fill="#7c3aed"],
+[data-theme="dark"] .subcontent circle[fill="#7c3aed"],
+[data-theme="dark"] .subcontent ellipse[fill="#7c3aed"],
+[data-theme="dark"] .subcontent path[fill="#7c3aed"],
+[data-theme="dark"] .subcontent polygon[fill="#7c3aed"],
+[data-theme="dark"] .subcontent polyline[fill="#7c3aed"],
+[data-theme="dark"] .subcontent line[fill="#7c3aed"],
+[data-theme="dark"] .subcontent g[fill="#7c3aed"]{fill:#9d7bf5}
+[data-theme="dark"] .subcontent text[fill="#7c3aed"],
+[data-theme="dark"] .subcontent tspan[fill="#7c3aed"],
+[data-theme="dark"] .subcontent g[fill="#7c3aed"] text,
+[data-theme="dark"] .subcontent g[fill="#7c3aed"] tspan{fill:#dac8fa}
+[data-theme="dark"] .subcontent [style*="background:#7c3aed"]{background-color:#7c3aed!important}
+[data-theme="dark"] .subcontent [style^="color:#7c3aed"],
+[data-theme="dark"] .subcontent [style*=";color:#7c3aed"]{color:#dac8fa!important}
+[data-theme="dark"] .subcontent [style*="background:#7dc99a"]{background-color:#203131!important}
+[data-theme="dark"] .subcontent rect[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent circle[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent ellipse[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent path[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent polygon[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent polyline[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent line[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent g[fill="#7f1d1d"]{fill:#c59999}
+[data-theme="dark"] .subcontent text[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent tspan[fill="#7f1d1d"],
+[data-theme="dark"] .subcontent g[fill="#7f1d1d"] text,
+[data-theme="dark"] .subcontent g[fill="#7f1d1d"] tspan{fill:#fca5a5}
+[data-theme="dark"] .subcontent rect[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent circle[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent ellipse[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent path[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent polygon[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent polyline[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent line[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent g[fill="#7fb3d5"]{fill:#9bc4de}
+[data-theme="dark"] .subcontent text[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent tspan[fill="#7fb3d5"],
+[data-theme="dark"] .subcontent g[fill="#7fb3d5"] text,
+[data-theme="dark"] .subcontent g[fill="#7fb3d5"] tspan{fill:#dbeaf3}
+[data-theme="dark"] .subcontent [style*="background:#7fb3d5"]{background-color:#35608a!important}
+[data-theme="dark"] .subcontent [stroke="#86efac"]{stroke:#213734}
+[data-theme="dark"] .subcontent rect[fill="#88b4d6"],
+[data-theme="dark"] .subcontent circle[fill="#88b4d6"],
+[data-theme="dark"] .subcontent ellipse[fill="#88b4d6"],
+[data-theme="dark"] .subcontent path[fill="#88b4d6"],
+[data-theme="dark"] .subcontent polygon[fill="#88b4d6"],
+[data-theme="dark"] .subcontent polyline[fill="#88b4d6"],
+[data-theme="dark"] .subcontent line[fill="#88b4d6"],
+[data-theme="dark"] .subcontent g[fill="#88b4d6"]{fill:#a2c4df}
+[data-theme="dark"] .subcontent text[fill="#88b4d6"],
+[data-theme="dark"] .subcontent tspan[fill="#88b4d6"],
+[data-theme="dark"] .subcontent g[fill="#88b4d6"] text,
+[data-theme="dark"] .subcontent g[fill="#88b4d6"] tspan{fill:#deeaf4}
+[data-theme="dark"] .subcontent [stroke="#8b5cf6"]{stroke:#a78bfa}
+[data-theme="dark"] .subcontent [style*="background:#8b5cf6"]{background-color:#222040!important}
+[data-theme="dark"] .subcontent rect[fill="#8b7355"],
+[data-theme="dark"] .subcontent circle[fill="#8b7355"],
+[data-theme="dark"] .subcontent ellipse[fill="#8b7355"],
+[data-theme="dark"] .subcontent path[fill="#8b7355"],
+[data-theme="dark"] .subcontent polygon[fill="#8b7355"],
+[data-theme="dark"] .subcontent polyline[fill="#8b7355"],
+[data-theme="dark"] .subcontent line[fill="#8b7355"],
+[data-theme="dark"] .subcontent g[fill="#8b7355"]{fill:#c0a882}
+[data-theme="dark"] .subcontent text[fill="#8b7355"],
+[data-theme="dark"] .subcontent tspan[fill="#8b7355"],
+[data-theme="dark"] .subcontent g[fill="#8b7355"] text,
+[data-theme="dark"] .subcontent g[fill="#8b7355"] tspan{fill:#dfd8cf}
+[data-theme="dark"] .subcontent rect[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent circle[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent ellipse[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent path[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent polygon[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent polyline[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent line[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent g[fill="#8fb0cd"]{fill:#a8c1d8}
+[data-theme="dark"] .subcontent text[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent tspan[fill="#8fb0cd"],
+[data-theme="dark"] .subcontent g[fill="#8fb0cd"] text,
+[data-theme="dark"] .subcontent g[fill="#8fb0cd"] tspan{fill:#e0e9f1}
+[data-theme="dark"] .subcontent [style*="background:#8fb3d3"]{background-color:#2f5679!important}
+[data-theme="dark"] .subcontent [style*="background:#8fcf9f"]{background-color:#233232!important}
+[data-theme="dark"] .subcontent rect[fill="#92400e"],
+[data-theme="dark"] .subcontent circle[fill="#92400e"],
+[data-theme="dark"] .subcontent ellipse[fill="#92400e"],
+[data-theme="dark"] .subcontent path[fill="#92400e"],
+[data-theme="dark"] .subcontent polygon[fill="#92400e"],
+[data-theme="dark"] .subcontent polyline[fill="#92400e"],
+[data-theme="dark"] .subcontent line[fill="#92400e"],
+[data-theme="dark"] .subcontent g[fill="#92400e"]{fill:#fbbf24}
+[data-theme="dark"] .subcontent text[fill="#92400e"],
+[data-theme="dark"] .subcontent tspan[fill="#92400e"],
+[data-theme="dark"] .subcontent g[fill="#92400e"] text,
+[data-theme="dark"] .subcontent g[fill="#92400e"] tspan{fill:#fbbf24}
+[data-theme="dark"] .subcontent [stroke="#93c5fd"]{stroke:#3a5c8c}
+[data-theme="dark"] .subcontent rect[fill="#94a3b8"],
+[data-theme="dark"] .subcontent circle[fill="#94a3b8"],
+[data-theme="dark"] .subcontent ellipse[fill="#94a3b8"],
+[data-theme="dark"] .subcontent path[fill="#94a3b8"],
+[data-theme="dark"] .subcontent polygon[fill="#94a3b8"],
+[data-theme="dark"] .subcontent polyline[fill="#94a3b8"],
+[data-theme="dark"] .subcontent line[fill="#94a3b8"],
+[data-theme="dark"] .subcontent g[fill="#94a3b8"]{fill:#acb7c8}
+[data-theme="dark"] .subcontent text[fill="#94a3b8"],
+[data-theme="dark"] .subcontent tspan[fill="#94a3b8"],
+[data-theme="dark"] .subcontent g[fill="#94a3b8"] text,
+[data-theme="dark"] .subcontent g[fill="#94a3b8"] tspan{fill:#e1e5eb}
+[data-theme="dark"] .subcontent [stroke="#94a3b8"]{stroke:#acb7c8}
+[data-theme="dark"] .subcontent [style^="color:#94a3b8"],
+[data-theme="dark"] .subcontent [style*=";color:#94a3b8"]{color:#e1e5eb!important}
+[data-theme="dark"] .subcontent [stroke="#991b1b"]{stroke:#fca5a5}
+[data-theme="dark"] .subcontent [stroke="#9a5b12"]{stroke:#d9a441}
+[data-theme="dark"] .subcontent rect[fill="#9c755f"],
+[data-theme="dark"] .subcontent circle[fill="#9c755f"],
+[data-theme="dark"] .subcontent ellipse[fill="#9c755f"],
+[data-theme="dark"] .subcontent path[fill="#9c755f"],
+[data-theme="dark"] .subcontent polygon[fill="#9c755f"],
+[data-theme="dark"] .subcontent polyline[fill="#9c755f"],
+[data-theme="dark"] .subcontent line[fill="#9c755f"],
+[data-theme="dark"] .subcontent g[fill="#9c755f"]{fill:#bb9581}
+[data-theme="dark"] .subcontent text[fill="#9c755f"],
+[data-theme="dark"] .subcontent tspan[fill="#9c755f"],
+[data-theme="dark"] .subcontent g[fill="#9c755f"] text,
+[data-theme="dark"] .subcontent g[fill="#9c755f"] tspan{fill:#e3d8d2}
+[data-theme="dark"] .subcontent [style*="background:#9ccbb0"]{background-color:#253135!important}
+[data-theme="dark"] .subcontent rect[fill="#9db8ce"],
+[data-theme="dark"] .subcontent circle[fill="#9db8ce"],
+[data-theme="dark"] .subcontent ellipse[fill="#9db8ce"],
+[data-theme="dark"] .subcontent path[fill="#9db8ce"],
+[data-theme="dark"] .subcontent polygon[fill="#9db8ce"],
+[data-theme="dark"] .subcontent polyline[fill="#9db8ce"],
+[data-theme="dark"] .subcontent line[fill="#9db8ce"],
+[data-theme="dark"] .subcontent g[fill="#9db8ce"]{fill:#4a5f73}
+[data-theme="dark"] .subcontent text[fill="#9db8ce"],
+[data-theme="dark"] .subcontent tspan[fill="#9db8ce"],
+[data-theme="dark"] .subcontent g[fill="#9db8ce"] text,
+[data-theme="dark"] .subcontent g[fill="#9db8ce"] tspan{fill:#e4ebf1}
+[data-theme="dark"] .subcontent [style*="background:#9dbdd8"]{background-color:#2a4d6d!important}
+[data-theme="dark"] .subcontent rect[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent circle[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent ellipse[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent path[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent polygon[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent polyline[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent line[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent g[fill="#a4c6e0"]{fill:#27486a}
+[data-theme="dark"] .subcontent text[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent tspan[fill="#a4c6e0"],
+[data-theme="dark"] .subcontent g[fill="#a4c6e0"] text,
+[data-theme="dark"] .subcontent g[fill="#a4c6e0"] tspan{fill:#a4c6e0}
+[data-theme="dark"] .subcontent rect[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent circle[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent ellipse[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent path[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent polygon[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent polyline[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent line[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent g[fill="#a5b4fc"]{fill:#4a4f8f}
+[data-theme="dark"] .subcontent text[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent tspan[fill="#a5b4fc"],
+[data-theme="dark"] .subcontent g[fill="#a5b4fc"] text,
+[data-theme="dark"] .subcontent g[fill="#a5b4fc"] tspan{fill:#e6eafe}
+[data-theme="dark"] .subcontent [stroke="#a5b4fc"]{stroke:#4a4f8f}
+[data-theme="dark"] .subcontent [stroke="#a7f3d0"]{stroke:#1f5a43}
+[data-theme="dark"] .subcontent [style*="border-color:#a7f3d0"]{border-color:#1f5a43!important}
+[data-theme="dark"] .subcontent rect[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent circle[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent ellipse[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent path[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent polygon[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent polyline[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent line[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent g[fill="#a8c8e0"]{fill:#436d92}
+[data-theme="dark"] .subcontent text[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent tspan[fill="#a8c8e0"],
+[data-theme="dark"] .subcontent g[fill="#a8c8e0"] text,
+[data-theme="dark"] .subcontent g[fill="#a8c8e0"] tspan{fill:#a8c8e0}
+[data-theme="dark"] .subcontent [style*="background:#a8c8e0"]{background-color:#436d92!important}
+[data-theme="dark"] .subcontent rect[fill="#a9c3da"],
+[data-theme="dark"] .subcontent circle[fill="#a9c3da"],
+[data-theme="dark"] .subcontent ellipse[fill="#a9c3da"],
+[data-theme="dark"] .subcontent path[fill="#a9c3da"],
+[data-theme="dark"] .subcontent polygon[fill="#a9c3da"],
+[data-theme="dark"] .subcontent polyline[fill="#a9c3da"],
+[data-theme="dark"] .subcontent line[fill="#a9c3da"],
+[data-theme="dark"] .subcontent g[fill="#a9c3da"]{fill:#27486a}
+[data-theme="dark"] .subcontent text[fill="#a9c3da"],
+[data-theme="dark"] .subcontent tspan[fill="#a9c3da"],
+[data-theme="dark"] .subcontent g[fill="#a9c3da"] text,
+[data-theme="dark"] .subcontent g[fill="#a9c3da"] tspan{fill:#a9c3da}
+[data-theme="dark"] .subcontent [style*="background:#a9dfbf"]{background-color:#273437!important}
+[data-theme="dark"] .subcontent rect[fill="#aed6f1"],
+[data-theme="dark"] .subcontent circle[fill="#aed6f1"],
+[data-theme="dark"] .subcontent ellipse[fill="#aed6f1"],
+[data-theme="dark"] .subcontent path[fill="#aed6f1"],
+[data-theme="dark"] .subcontent polygon[fill="#aed6f1"],
+[data-theme="dark"] .subcontent polyline[fill="#aed6f1"],
+[data-theme="dark"] .subcontent line[fill="#aed6f1"],
+[data-theme="dark"] .subcontent g[fill="#aed6f1"]{fill:#22405c}
+[data-theme="dark"] .subcontent text[fill="#aed6f1"],
+[data-theme="dark"] .subcontent tspan[fill="#aed6f1"],
+[data-theme="dark"] .subcontent g[fill="#aed6f1"] text,
+[data-theme="dark"] .subcontent g[fill="#aed6f1"] tspan{fill:#aed6f1}
+[data-theme="dark"] .subcontent [style*="background:#aed6f1"]{background-color:#22405c!important}
+[data-theme="dark"] .subcontent rect[fill="#b07aa1"],
+[data-theme="dark"] .subcontent circle[fill="#b07aa1"],
+[data-theme="dark"] .subcontent ellipse[fill="#b07aa1"],
+[data-theme="dark"] .subcontent path[fill="#b07aa1"],
+[data-theme="dark"] .subcontent polygon[fill="#b07aa1"],
+[data-theme="dark"] .subcontent polyline[fill="#b07aa1"],
+[data-theme="dark"] .subcontent line[fill="#b07aa1"],
+[data-theme="dark"] .subcontent g[fill="#b07aa1"]{fill:#c99abd}
+[data-theme="dark"] .subcontent text[fill="#b07aa1"],
+[data-theme="dark"] .subcontent tspan[fill="#b07aa1"],
+[data-theme="dark"] .subcontent g[fill="#b07aa1"] text,
+[data-theme="dark"] .subcontent g[fill="#b07aa1"] tspan{fill:#e9dae5}
+[data-theme="dark"] .subcontent [style*="background:#b07aa1"]{background-color:#282432!important}
+[data-theme="dark"] .subcontent rect[fill="#b45309"],
+[data-theme="dark"] .subcontent circle[fill="#b45309"],
+[data-theme="dark"] .subcontent ellipse[fill="#b45309"],
+[data-theme="dark"] .subcontent path[fill="#b45309"],
+[data-theme="dark"] .subcontent polygon[fill="#b45309"],
+[data-theme="dark"] .subcontent polyline[fill="#b45309"],
+[data-theme="dark"] .subcontent line[fill="#b45309"],
+[data-theme="dark"] .subcontent g[fill="#b45309"]{fill:#fbbf24}
+[data-theme="dark"] .subcontent text[fill="#b45309"],
+[data-theme="dark"] .subcontent tspan[fill="#b45309"],
+[data-theme="dark"] .subcontent g[fill="#b45309"] text,
+[data-theme="dark"] .subcontent g[fill="#b45309"] tspan{fill:#fbbf24}
+[data-theme="dark"] .subcontent [stroke="#b45309"]{stroke:#fbbf24}
+[data-theme="dark"] .subcontent [style*="background:#b45309"]{background-color:#b45309!important}
+[data-theme="dark"] .subcontent [style^="color:#b45309"],
+[data-theme="dark"] .subcontent [style*=";color:#b45309"]{color:#fbbf24!important}
+[data-theme="dark"] .subcontent rect[fill="#b91c1c"],
+[data-theme="dark"] .subcontent circle[fill="#b91c1c"],
+[data-theme="dark"] .subcontent ellipse[fill="#b91c1c"],
+[data-theme="dark"] .subcontent path[fill="#b91c1c"],
+[data-theme="dark"] .subcontent polygon[fill="#b91c1c"],
+[data-theme="dark"] .subcontent polyline[fill="#b91c1c"],
+[data-theme="dark"] .subcontent line[fill="#b91c1c"],
+[data-theme="dark"] .subcontent g[fill="#b91c1c"]{fill:#f87171}
+[data-theme="dark"] .subcontent text[fill="#b91c1c"],
+[data-theme="dark"] .subcontent tspan[fill="#b91c1c"],
+[data-theme="dark"] .subcontent g[fill="#b91c1c"] text,
+[data-theme="dark"] .subcontent g[fill="#b91c1c"] tspan{fill:#ebbfbf}
+[data-theme="dark"] .subcontent [stroke="#b91c1c"]{stroke:#f87171}
+[data-theme="dark"] .subcontent [style*="background:#b91c1c"]{background-color:#b91c1c!important}
+[data-theme="dark"] .subcontent [style^="color:#b91c1c"],
+[data-theme="dark"] .subcontent [style*=";color:#b91c1c"]{color:#ebbfbf!important}
+[data-theme="dark"] .subcontent rect[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent circle[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent ellipse[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent path[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent polygon[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent polyline[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent line[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent g[fill="#b9d3e8"]{fill:#244163}
+[data-theme="dark"] .subcontent text[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent tspan[fill="#b9d3e8"],
+[data-theme="dark"] .subcontent g[fill="#b9d3e8"] text,
+[data-theme="dark"] .subcontent g[fill="#b9d3e8"] tspan{fill:#b9d3e8}
+[data-theme="dark"] .subcontent [stroke="#bae6fd"]{stroke:#2c4f6b}
+[data-theme="dark"] .subcontent [stroke="#bbf7d0"]{stroke:#1a4530}
+[data-theme="dark"] .subcontent [style*="background:#bcd2e6"]{background-color:#213a54!important}
+[data-theme="dark"] .subcontent rect[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent circle[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent ellipse[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent path[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent polygon[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent polyline[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent line[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent g[fill="#bcd6ea"]{fill:#1f374f}
+[data-theme="dark"] .subcontent text[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent tspan[fill="#bcd6ea"],
+[data-theme="dark"] .subcontent g[fill="#bcd6ea"] text,
+[data-theme="dark"] .subcontent g[fill="#bcd6ea"] tspan{fill:#bcd6ea}
+[data-theme="dark"] .subcontent [style*="background:#bcd6ea"]{background-color:#1f374f!important}
+[data-theme="dark"] .subcontent [style^="color:#be185d"],
+[data-theme="dark"] .subcontent [style*=";color:#be185d"]{color:#edbed2!important}
+[data-theme="dark"] .subcontent [stroke="#bfdbfe"]{stroke:#2f4a72}
+[data-theme="dark"] .subcontent [style*="border-color:#bfdbfe"]{border-color:#2f4a72!important}
+[data-theme="dark"] .subcontent rect[fill="#c0392b"],
+[data-theme="dark"] .subcontent circle[fill="#c0392b"],
+[data-theme="dark"] .subcontent ellipse[fill="#c0392b"],
+[data-theme="dark"] .subcontent path[fill="#c0392b"],
+[data-theme="dark"] .subcontent polygon[fill="#c0392b"],
+[data-theme="dark"] .subcontent polyline[fill="#c0392b"],
+[data-theme="dark"] .subcontent line[fill="#c0392b"],
+[data-theme="dark"] .subcontent g[fill="#c0392b"]{fill:#e0685c}
+[data-theme="dark"] .subcontent text[fill="#c0392b"],
+[data-theme="dark"] .subcontent tspan[fill="#c0392b"],
+[data-theme="dark"] .subcontent g[fill="#c0392b"] text,
+[data-theme="dark"] .subcontent g[fill="#c0392b"] tspan{fill:#edc8c4}
+[data-theme="dark"] .subcontent [stroke="#c0392b"]{stroke:#e0685c}
+[data-theme="dark"] .subcontent [style*="background:#c0392b"]{background-color:#c0392b!important}
+[data-theme="dark"] .subcontent rect[fill="#c2410c"],
+[data-theme="dark"] .subcontent circle[fill="#c2410c"],
+[data-theme="dark"] .subcontent ellipse[fill="#c2410c"],
+[data-theme="dark"] .subcontent path[fill="#c2410c"],
+[data-theme="dark"] .subcontent polygon[fill="#c2410c"],
+[data-theme="dark"] .subcontent polyline[fill="#c2410c"],
+[data-theme="dark"] .subcontent line[fill="#c2410c"],
+[data-theme="dark"] .subcontent g[fill="#c2410c"]{fill:#fb923c}
+[data-theme="dark"] .subcontent text[fill="#c2410c"],
+[data-theme="dark"] .subcontent tspan[fill="#c2410c"],
+[data-theme="dark"] .subcontent g[fill="#c2410c"] text,
+[data-theme="dark"] .subcontent g[fill="#c2410c"] tspan{fill:#eecabb}
+[data-theme="dark"] .subcontent rect[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent circle[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent ellipse[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent path[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent polygon[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent polyline[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent line[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent g[fill="#c7d2fe"]{fill:#3b4382}
+[data-theme="dark"] .subcontent text[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent tspan[fill="#c7d2fe"],
+[data-theme="dark"] .subcontent g[fill="#c7d2fe"] text,
+[data-theme="dark"] .subcontent g[fill="#c7d2fe"] tspan{fill:#c7d2fe}
+[data-theme="dark"] .subcontent [stroke="#c7d2fe"]{stroke:#3b4382}
+[data-theme="dark"] .subcontent rect[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent circle[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent ellipse[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent path[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent polygon[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent polyline[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent line[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent g[fill="#c7d9ea"]{fill:#1f374f}
+[data-theme="dark"] .subcontent text[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent tspan[fill="#c7d9ea"],
+[data-theme="dark"] .subcontent g[fill="#c7d9ea"] text,
+[data-theme="dark"] .subcontent g[fill="#c7d9ea"] tspan{fill:#c7d9ea}
+[data-theme="dark"] .subcontent [style*="background:#c7d9ea"]{background-color:#1f374f!important}
+[data-theme="dark"] .subcontent rect[fill="#c9dded"],
+[data-theme="dark"] .subcontent circle[fill="#c9dded"],
+[data-theme="dark"] .subcontent ellipse[fill="#c9dded"],
+[data-theme="dark"] .subcontent path[fill="#c9dded"],
+[data-theme="dark"] .subcontent polygon[fill="#c9dded"],
+[data-theme="dark"] .subcontent polyline[fill="#c9dded"],
+[data-theme="dark"] .subcontent line[fill="#c9dded"],
+[data-theme="dark"] .subcontent g[fill="#c9dded"]{fill:#20384f}
+[data-theme="dark"] .subcontent text[fill="#c9dded"],
+[data-theme="dark"] .subcontent tspan[fill="#c9dded"],
+[data-theme="dark"] .subcontent g[fill="#c9dded"] text,
+[data-theme="dark"] .subcontent g[fill="#c9dded"] tspan{fill:#c9dded}
+[data-theme="dark"] .subcontent rect[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent circle[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent ellipse[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent path[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent polygon[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent polyline[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent line[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent g[fill="#cbd5e1"]{fill:#3a4859}
+[data-theme="dark"] .subcontent text[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent tspan[fill="#cbd5e1"],
+[data-theme="dark"] .subcontent g[fill="#cbd5e1"] text,
+[data-theme="dark"] .subcontent g[fill="#cbd5e1"] tspan{fill:#cbd5e1}
+[data-theme="dark"] .subcontent [stroke="#cbd5e1"]{stroke:#3a4859}
+[data-theme="dark"] .subcontent [style*="solid #cbd5e1"]{border-color:#3a4859!important}
+[data-theme="dark"] .subcontent [style*="background:#d0e0ee"]{background-color:#1c3247!important}
+[data-theme="dark"] .subcontent rect[fill="#d1fae5"],
+[data-theme="dark"] .subcontent circle[fill="#d1fae5"],
+[data-theme="dark"] .subcontent ellipse[fill="#d1fae5"],
+[data-theme="dark"] .subcontent path[fill="#d1fae5"],
+[data-theme="dark"] .subcontent polygon[fill="#d1fae5"],
+[data-theme="dark"] .subcontent polyline[fill="#d1fae5"],
+[data-theme="dark"] .subcontent line[fill="#d1fae5"],
+[data-theme="dark"] .subcontent g[fill="#d1fae5"]{fill:#123527}
+[data-theme="dark"] .subcontent text[fill="#d1fae5"],
+[data-theme="dark"] .subcontent tspan[fill="#d1fae5"],
+[data-theme="dark"] .subcontent g[fill="#d1fae5"] text,
+[data-theme="dark"] .subcontent g[fill="#d1fae5"] tspan{fill:#d1fae5}
+[data-theme="dark"] .subcontent rect[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent circle[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent ellipse[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent path[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent polygon[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent polyline[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent line[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent g[fill="#d6eaf8"]{fill:#16283a}
+[data-theme="dark"] .subcontent text[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent tspan[fill="#d6eaf8"],
+[data-theme="dark"] .subcontent g[fill="#d6eaf8"] text,
+[data-theme="dark"] .subcontent g[fill="#d6eaf8"] tspan{fill:#d6eaf8}
+[data-theme="dark"] .subcontent [style*="background:#d6eaf8"]{background-color:#16283a!important}
+[data-theme="dark"] .subcontent rect[fill="#d7dee6"],
+[data-theme="dark"] .subcontent circle[fill="#d7dee6"],
+[data-theme="dark"] .subcontent ellipse[fill="#d7dee6"],
+[data-theme="dark"] .subcontent path[fill="#d7dee6"],
+[data-theme="dark"] .subcontent polygon[fill="#d7dee6"],
+[data-theme="dark"] .subcontent polyline[fill="#d7dee6"],
+[data-theme="dark"] .subcontent line[fill="#d7dee6"],
+[data-theme="dark"] .subcontent g[fill="#d7dee6"]{fill:#2b3747}
+[data-theme="dark"] .subcontent text[fill="#d7dee6"],
+[data-theme="dark"] .subcontent tspan[fill="#d7dee6"],
+[data-theme="dark"] .subcontent g[fill="#d7dee6"] text,
+[data-theme="dark"] .subcontent g[fill="#d7dee6"] tspan{fill:#d7dee6}
+[data-theme="dark"] .subcontent [style*="background:#d7ecd9"]{background-color:#18382a!important}
+[data-theme="dark"] .subcontent rect[fill="#d97706"],
+[data-theme="dark"] .subcontent circle[fill="#d97706"],
+[data-theme="dark"] .subcontent ellipse[fill="#d97706"],
+[data-theme="dark"] .subcontent path[fill="#d97706"],
+[data-theme="dark"] .subcontent polygon[fill="#d97706"],
+[data-theme="dark"] .subcontent polyline[fill="#d97706"],
+[data-theme="dark"] .subcontent line[fill="#d97706"],
+[data-theme="dark"] .subcontent g[fill="#d97706"]{fill:#fbbf24}
+[data-theme="dark"] .subcontent text[fill="#d97706"],
+[data-theme="dark"] .subcontent tspan[fill="#d97706"],
+[data-theme="dark"] .subcontent g[fill="#d97706"] text,
+[data-theme="dark"] .subcontent g[fill="#d97706"] tspan{fill:#fbbf24}
+[data-theme="dark"] .subcontent [stroke="#d97706"]{stroke:#fbbf24}
+[data-theme="dark"] .subcontent [style*="background:#d97706"]{background-color:#2e2419!important}
+[data-theme="dark"] .subcontent [style^="color:#d97706"],
+[data-theme="dark"] .subcontent [style*=";color:#d97706"]{color:#fbbf24!important}
+[data-theme="dark"] .subcontent [style*="background:#dae6f1"]{background-color:#192d42!important}
+[data-theme="dark"] .subcontent rect[fill="#dbeafe"],
+[data-theme="dark"] .subcontent circle[fill="#dbeafe"],
+[data-theme="dark"] .subcontent ellipse[fill="#dbeafe"],
+[data-theme="dark"] .subcontent path[fill="#dbeafe"],
+[data-theme="dark"] .subcontent polygon[fill="#dbeafe"],
+[data-theme="dark"] .subcontent polyline[fill="#dbeafe"],
+[data-theme="dark"] .subcontent line[fill="#dbeafe"],
+[data-theme="dark"] .subcontent g[fill="#dbeafe"]{fill:#1b2f4d}
+[data-theme="dark"] .subcontent text[fill="#dbeafe"],
+[data-theme="dark"] .subcontent tspan[fill="#dbeafe"],
+[data-theme="dark"] .subcontent g[fill="#dbeafe"] text,
+[data-theme="dark"] .subcontent g[fill="#dbeafe"] tspan{fill:#dbeafe}
+[data-theme="dark"] .subcontent [style*="background:#dbeafe"]{background-color:#1b2f4d!important}
+[data-theme="dark"] .subcontent rect[fill="#dc2626"],
+[data-theme="dark"] .subcontent circle[fill="#dc2626"],
+[data-theme="dark"] .subcontent ellipse[fill="#dc2626"],
+[data-theme="dark"] .subcontent path[fill="#dc2626"],
+[data-theme="dark"] .subcontent polygon[fill="#dc2626"],
+[data-theme="dark"] .subcontent polyline[fill="#dc2626"],
+[data-theme="dark"] .subcontent line[fill="#dc2626"],
+[data-theme="dark"] .subcontent g[fill="#dc2626"]{fill:#f87171}
+[data-theme="dark"] .subcontent text[fill="#dc2626"],
+[data-theme="dark"] .subcontent tspan[fill="#dc2626"],
+[data-theme="dark"] .subcontent g[fill="#dc2626"] text,
+[data-theme="dark"] .subcontent g[fill="#dc2626"] tspan{fill:#f5c2c2}
+[data-theme="dark"] .subcontent [style^="color:#dc2626"],
+[data-theme="dark"] .subcontent [style*=";color:#dc2626"]{color:#f5c2c2!important}
+[data-theme="dark"] .subcontent rect[fill="#dcfce7"],
+[data-theme="dark"] .subcontent circle[fill="#dcfce7"],
+[data-theme="dark"] .subcontent ellipse[fill="#dcfce7"],
+[data-theme="dark"] .subcontent path[fill="#dcfce7"],
+[data-theme="dark"] .subcontent polygon[fill="#dcfce7"],
+[data-theme="dark"] .subcontent polyline[fill="#dcfce7"],
+[data-theme="dark"] .subcontent line[fill="#dcfce7"],
+[data-theme="dark"] .subcontent g[fill="#dcfce7"]{fill:#14331f}
+[data-theme="dark"] .subcontent text[fill="#dcfce7"],
+[data-theme="dark"] .subcontent tspan[fill="#dcfce7"],
+[data-theme="dark"] .subcontent g[fill="#dcfce7"] text,
+[data-theme="dark"] .subcontent g[fill="#dcfce7"] tspan{fill:#dcfce7}
+[data-theme="dark"] .subcontent [style*="background:#dcfce7"]{background-color:#14331f!important}
+[data-theme="dark"] .subcontent [stroke="#ddd6fe"]{stroke:#453a78}
+[data-theme="dark"] .subcontent [style*="border-color:#ddd6fe"]{border-color:#453a78!important}
+[data-theme="dark"] .subcontent rect[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent circle[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent ellipse[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent path[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent polygon[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent polyline[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent line[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent g[fill="#e0e7ff"]{fill:#262c52}
+[data-theme="dark"] .subcontent text[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent tspan[fill="#e0e7ff"],
+[data-theme="dark"] .subcontent g[fill="#e0e7ff"] text,
+[data-theme="dark"] .subcontent g[fill="#e0e7ff"] tspan{fill:#e0e7ff}
+[data-theme="dark"] .subcontent [stroke="#e0e7ff"]{stroke:#262c52}
+[data-theme="dark"] .subcontent [style*="background:#e0eaf3"]{background-color:#172a3d!important}
+[data-theme="dark"] .subcontent rect[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent circle[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent ellipse[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent path[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent polygon[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent polyline[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent line[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent g[fill="#e0f2fe"]{fill:#17293b}
+[data-theme="dark"] .subcontent text[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent tspan[fill="#e0f2fe"],
+[data-theme="dark"] .subcontent g[fill="#e0f2fe"] text,
+[data-theme="dark"] .subcontent g[fill="#e0f2fe"] tspan{fill:#e0f2fe}
+[data-theme="dark"] .subcontent rect[fill="#e15759"],
+[data-theme="dark"] .subcontent circle[fill="#e15759"],
+[data-theme="dark"] .subcontent ellipse[fill="#e15759"],
+[data-theme="dark"] .subcontent path[fill="#e15759"],
+[data-theme="dark"] .subcontent polygon[fill="#e15759"],
+[data-theme="dark"] .subcontent polyline[fill="#e15759"],
+[data-theme="dark"] .subcontent line[fill="#e15759"],
+[data-theme="dark"] .subcontent g[fill="#e15759"]{fill:#ef7f81}
+[data-theme="dark"] .subcontent text[fill="#e15759"],
+[data-theme="dark"] .subcontent tspan[fill="#e15759"],
+[data-theme="dark"] .subcontent g[fill="#e15759"] text,
+[data-theme="dark"] .subcontent g[fill="#e15759"] tspan{fill:#f7d0d1}
+[data-theme="dark"] .subcontent [stroke="#e15759"]{stroke:#ef7f81}
+[data-theme="dark"] .subcontent [style*="background:#e15759"]{background-color:#301f27!important}
+[data-theme="dark"] .subcontent rect[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent circle[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent ellipse[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent path[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent polygon[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent polyline[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent line[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent g[fill="#e2e8f0"]{fill:#2b3747}
+[data-theme="dark"] .subcontent text[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent tspan[fill="#e2e8f0"],
+[data-theme="dark"] .subcontent g[fill="#e2e8f0"] text,
+[data-theme="dark"] .subcontent g[fill="#e2e8f0"] tspan{fill:#e2e8f0}
+[data-theme="dark"] .subcontent [stroke="#e2e8f0"]{stroke:#2b3747}
+[data-theme="dark"] .subcontent [style*="solid #e2e8f0"]{border-color:#2b3747!important}
+[data-theme="dark"] .subcontent rect[fill="#e3eef7"],
+[data-theme="dark"] .subcontent circle[fill="#e3eef7"],
+[data-theme="dark"] .subcontent ellipse[fill="#e3eef7"],
+[data-theme="dark"] .subcontent path[fill="#e3eef7"],
+[data-theme="dark"] .subcontent polygon[fill="#e3eef7"],
+[data-theme="dark"] .subcontent polyline[fill="#e3eef7"],
+[data-theme="dark"] .subcontent line[fill="#e3eef7"],
+[data-theme="dark"] .subcontent g[fill="#e3eef7"]{fill:#18293c}
+[data-theme="dark"] .subcontent text[fill="#e3eef7"],
+[data-theme="dark"] .subcontent tspan[fill="#e3eef7"],
+[data-theme="dark"] .subcontent g[fill="#e3eef7"] text,
+[data-theme="dark"] .subcontent g[fill="#e3eef7"] tspan{fill:#e3eef7}
+[data-theme="dark"] .subcontent [style*="background:#e6a09b"]{background-color:#312a31!important}
+[data-theme="dark"] .subcontent rect[fill="#e8933a"],
+[data-theme="dark"] .subcontent circle[fill="#e8933a"],
+[data-theme="dark"] .subcontent ellipse[fill="#e8933a"],
+[data-theme="dark"] .subcontent path[fill="#e8933a"],
+[data-theme="dark"] .subcontent polygon[fill="#e8933a"],
+[data-theme="dark"] .subcontent polyline[fill="#e8933a"],
+[data-theme="dark"] .subcontent line[fill="#e8933a"],
+[data-theme="dark"] .subcontent g[fill="#e8933a"]{fill:#f0a95c}
+[data-theme="dark"] .subcontent text[fill="#e8933a"],
+[data-theme="dark"] .subcontent tspan[fill="#e8933a"],
+[data-theme="dark"] .subcontent g[fill="#e8933a"] text,
+[data-theme="dark"] .subcontent g[fill="#e8933a"] tspan{fill:#f0a95c}
+[data-theme="dark"] .subcontent [style*="background:#e8b931"]{background-color:#312e20!important}
+[data-theme="dark"] .subcontent rect[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent circle[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent ellipse[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent path[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent polygon[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent polyline[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent line[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent g[fill="#e8f1f8"]{fill:#16283a}
+[data-theme="dark"] .subcontent text[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent tspan[fill="#e8f1f8"],
+[data-theme="dark"] .subcontent g[fill="#e8f1f8"] text,
+[data-theme="dark"] .subcontent g[fill="#e8f1f8"] tspan{fill:#e8f1f8}
+[data-theme="dark"] .subcontent [style*="background:#e8f1f8"]{background-color:#16283a!important}
+[data-theme="dark"] .subcontent [stroke="#ea580c"]{stroke:#fb923c}
+[data-theme="dark"] .subcontent [style*="background:#eaf2f8"]{background-color:#16243a!important}
+[data-theme="dark"] .subcontent rect[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent circle[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent ellipse[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent path[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent polygon[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent polyline[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent line[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent g[fill="#ecfdf5"]{fill:#10291f}
+[data-theme="dark"] .subcontent text[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent tspan[fill="#ecfdf5"],
+[data-theme="dark"] .subcontent g[fill="#ecfdf5"] text,
+[data-theme="dark"] .subcontent g[fill="#ecfdf5"] tspan{fill:#ecfdf5}
+[data-theme="dark"] .subcontent [style*="background:#ecfdf5"]{background-color:#10291f!important}
+[data-theme="dark"] .subcontent rect[fill="#eef2f7"],
+[data-theme="dark"] .subcontent circle[fill="#eef2f7"],
+[data-theme="dark"] .subcontent ellipse[fill="#eef2f7"],
+[data-theme="dark"] .subcontent path[fill="#eef2f7"],
+[data-theme="dark"] .subcontent polygon[fill="#eef2f7"],
+[data-theme="dark"] .subcontent polyline[fill="#eef2f7"],
+[data-theme="dark"] .subcontent line[fill="#eef2f7"],
+[data-theme="dark"] .subcontent g[fill="#eef2f7"]{fill:#0e141d}
+[data-theme="dark"] .subcontent text[fill="#eef2f7"],
+[data-theme="dark"] .subcontent tspan[fill="#eef2f7"],
+[data-theme="dark"] .subcontent g[fill="#eef2f7"] text,
+[data-theme="dark"] .subcontent g[fill="#eef2f7"] tspan{fill:#eef2f7}
+[data-theme="dark"] .subcontent [stroke="#eef2f7"]{stroke:#0e141d}
+[data-theme="dark"] .subcontent [style*="background:#eef2f7"]{background-color:#0e141d!important}
+[data-theme="dark"] .subcontent rect[fill="#eef2ff"],
+[data-theme="dark"] .subcontent circle[fill="#eef2ff"],
+[data-theme="dark"] .subcontent ellipse[fill="#eef2ff"],
+[data-theme="dark"] .subcontent path[fill="#eef2ff"],
+[data-theme="dark"] .subcontent polygon[fill="#eef2ff"],
+[data-theme="dark"] .subcontent polyline[fill="#eef2ff"],
+[data-theme="dark"] .subcontent line[fill="#eef2ff"],
+[data-theme="dark"] .subcontent g[fill="#eef2ff"]{fill:#1e2340}
+[data-theme="dark"] .subcontent text[fill="#eef2ff"],
+[data-theme="dark"] .subcontent tspan[fill="#eef2ff"],
+[data-theme="dark"] .subcontent g[fill="#eef2ff"] text,
+[data-theme="dark"] .subcontent g[fill="#eef2ff"] tspan{fill:#eef2ff}
+[data-theme="dark"] .subcontent [style*="background:#eef2ff"]{background-color:#1e2340!important}
+[data-theme="dark"] .subcontent rect[fill="#eff6ff"],
+[data-theme="dark"] .subcontent circle[fill="#eff6ff"],
+[data-theme="dark"] .subcontent ellipse[fill="#eff6ff"],
+[data-theme="dark"] .subcontent path[fill="#eff6ff"],
+[data-theme="dark"] .subcontent polygon[fill="#eff6ff"],
+[data-theme="dark"] .subcontent polyline[fill="#eff6ff"],
+[data-theme="dark"] .subcontent line[fill="#eff6ff"],
+[data-theme="dark"] .subcontent g[fill="#eff6ff"]{fill:#16243a}
+[data-theme="dark"] .subcontent text[fill="#eff6ff"],
+[data-theme="dark"] .subcontent tspan[fill="#eff6ff"],
+[data-theme="dark"] .subcontent g[fill="#eff6ff"] text,
+[data-theme="dark"] .subcontent g[fill="#eff6ff"] tspan{fill:#eff6ff}
+[data-theme="dark"] .subcontent [style*="background:#eff6ff"]{background-color:#16243a!important}
+[data-theme="dark"] .subcontent rect[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent circle[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent ellipse[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent path[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent polygon[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent polyline[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent line[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent g[fill="#f0f9ff"]{fill:#14202f}
+[data-theme="dark"] .subcontent text[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent tspan[fill="#f0f9ff"],
+[data-theme="dark"] .subcontent g[fill="#f0f9ff"] text,
+[data-theme="dark"] .subcontent g[fill="#f0f9ff"] tspan{fill:#f0f9ff}
+[data-theme="dark"] .subcontent rect[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent circle[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent ellipse[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent path[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent polygon[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent polyline[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent line[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent g[fill="#f0fdf4"]{fill:#10291f}
+[data-theme="dark"] .subcontent text[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent tspan[fill="#f0fdf4"],
+[data-theme="dark"] .subcontent g[fill="#f0fdf4"] text,
+[data-theme="dark"] .subcontent g[fill="#f0fdf4"] tspan{fill:#f0fdf4}
+[data-theme="dark"] .subcontent [style*="background:#f0fdf4"]{background-color:#10291f!important}
+[data-theme="dark"] .subcontent [style*="background:#f0fdfa"]{background-color:#0f2b2b!important}
+[data-theme="dark"] .subcontent rect[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent circle[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent ellipse[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent path[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent polygon[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent polyline[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent line[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent g[fill="#f1f5f9"]{fill:#1f2937}
+[data-theme="dark"] .subcontent text[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent tspan[fill="#f1f5f9"],
+[data-theme="dark"] .subcontent g[fill="#f1f5f9"] text,
+[data-theme="dark"] .subcontent g[fill="#f1f5f9"] tspan{fill:#f1f5f9}
+[data-theme="dark"] .subcontent [stroke="#f1f5f9"]{stroke:#1f2937}
+[data-theme="dark"] .subcontent [style*="background:#f2f2f2"]{background-color:#222c3a!important}
+[data-theme="dark"] .subcontent rect[fill="#f5a85a"],
+[data-theme="dark"] .subcontent circle[fill="#f5a85a"],
+[data-theme="dark"] .subcontent ellipse[fill="#f5a85a"],
+[data-theme="dark"] .subcontent path[fill="#f5a85a"],
+[data-theme="dark"] .subcontent polygon[fill="#f5a85a"],
+[data-theme="dark"] .subcontent polyline[fill="#f5a85a"],
+[data-theme="dark"] .subcontent line[fill="#f5a85a"],
+[data-theme="dark"] .subcontent g[fill="#f5a85a"]{fill:#332c27}
+[data-theme="dark"] .subcontent text[fill="#f5a85a"],
+[data-theme="dark"] .subcontent tspan[fill="#f5a85a"],
+[data-theme="dark"] .subcontent g[fill="#f5a85a"] text,
+[data-theme="dark"] .subcontent g[fill="#f5a85a"] tspan{fill:#fce7d1}
+[data-theme="dark"] .subcontent rect[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent circle[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent ellipse[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent path[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent polygon[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent polyline[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent line[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent g[fill="#f5b7b1"]{fill:#332e35}
+[data-theme="dark"] .subcontent text[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent tspan[fill="#f5b7b1"],
+[data-theme="dark"] .subcontent g[fill="#f5b7b1"] text,
+[data-theme="dark"] .subcontent g[fill="#f5b7b1"] tspan{fill:#f5b7b1}
+[data-theme="dark"] .subcontent [style*="background:#f5b7b1"]{background-color:#332e35!important}
+[data-theme="dark"] .subcontent rect[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent circle[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent ellipse[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent path[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent polygon[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent polyline[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent line[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent g[fill="#f5f3ff"]{fill:#221a3a}
+[data-theme="dark"] .subcontent text[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent tspan[fill="#f5f3ff"],
+[data-theme="dark"] .subcontent g[fill="#f5f3ff"] text,
+[data-theme="dark"] .subcontent g[fill="#f5f3ff"] tspan{fill:#f5f3ff}
+[data-theme="dark"] .subcontent [style*="background:#f5f3ff"]{background-color:#221a3a!important}
+[data-theme="dark"] .subcontent rect[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent circle[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent ellipse[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent path[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent polygon[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent polyline[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent line[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent g[fill="#f6f8fb"]{fill:#1b2431}
+[data-theme="dark"] .subcontent text[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent tspan[fill="#f6f8fb"],
+[data-theme="dark"] .subcontent g[fill="#f6f8fb"] text,
+[data-theme="dark"] .subcontent g[fill="#f6f8fb"] tspan{fill:#f6f8fb}
+[data-theme="dark"] .subcontent [style*="background:#f6f8fb"]{background-color:#1b2431!important}
+[data-theme="dark"] .subcontent [style*="background:#f7d4d2"]{background-color:#33333a!important}
+[data-theme="dark"] .subcontent rect[fill="#f8c28c"],
+[data-theme="dark"] .subcontent circle[fill="#f8c28c"],
+[data-theme="dark"] .subcontent ellipse[fill="#f8c28c"],
+[data-theme="dark"] .subcontent path[fill="#f8c28c"],
+[data-theme="dark"] .subcontent polygon[fill="#f8c28c"],
+[data-theme="dark"] .subcontent polyline[fill="#f8c28c"],
+[data-theme="dark"] .subcontent line[fill="#f8c28c"],
+[data-theme="dark"] .subcontent g[fill="#f8c28c"]{fill:#8a5f36}
+[data-theme="dark"] .subcontent text[fill="#f8c28c"],
+[data-theme="dark"] .subcontent tspan[fill="#f8c28c"],
+[data-theme="dark"] .subcontent g[fill="#f8c28c"] text,
+[data-theme="dark"] .subcontent g[fill="#f8c28c"] tspan{fill:#f8c28c}
+[data-theme="dark"] .subcontent rect[fill="#f8fafc"],
+[data-theme="dark"] .subcontent circle[fill="#f8fafc"],
+[data-theme="dark"] .subcontent ellipse[fill="#f8fafc"],
+[data-theme="dark"] .subcontent path[fill="#f8fafc"],
+[data-theme="dark"] .subcontent polygon[fill="#f8fafc"],
+[data-theme="dark"] .subcontent polyline[fill="#f8fafc"],
+[data-theme="dark"] .subcontent line[fill="#f8fafc"],
+[data-theme="dark"] .subcontent g[fill="#f8fafc"]{fill:#1b2431}
+[data-theme="dark"] .subcontent text[fill="#f8fafc"],
+[data-theme="dark"] .subcontent tspan[fill="#f8fafc"],
+[data-theme="dark"] .subcontent g[fill="#f8fafc"] text,
+[data-theme="dark"] .subcontent g[fill="#f8fafc"] tspan{fill:#f8fafc}
+[data-theme="dark"] .subcontent [style*="background:#f8fafc"]{background-color:#1b2431!important}
+[data-theme="dark"] .subcontent rect[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent circle[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent ellipse[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent path[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent polygon[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent polyline[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent line[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent g[fill="#fbd9b5"]{fill:#6d4c2c}
+[data-theme="dark"] .subcontent text[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent tspan[fill="#fbd9b5"],
+[data-theme="dark"] .subcontent g[fill="#fbd9b5"] text,
+[data-theme="dark"] .subcontent g[fill="#fbd9b5"] tspan{fill:#fbd9b5}
+[data-theme="dark"] .subcontent rect[fill="#fde68a"],
+[data-theme="dark"] .subcontent circle[fill="#fde68a"],
+[data-theme="dark"] .subcontent ellipse[fill="#fde68a"],
+[data-theme="dark"] .subcontent path[fill="#fde68a"],
+[data-theme="dark"] .subcontent polygon[fill="#fde68a"],
+[data-theme="dark"] .subcontent polyline[fill="#fde68a"],
+[data-theme="dark"] .subcontent line[fill="#fde68a"],
+[data-theme="dark"] .subcontent g[fill="#fde68a"]{fill:#6a5219}
+[data-theme="dark"] .subcontent text[fill="#fde68a"],
+[data-theme="dark"] .subcontent tspan[fill="#fde68a"],
+[data-theme="dark"] .subcontent g[fill="#fde68a"] text,
+[data-theme="dark"] .subcontent g[fill="#fde68a"] tspan{fill:#fde68a}
+[data-theme="dark"] .subcontent [stroke="#fde68a"]{stroke:#6a5219}
+[data-theme="dark"] .subcontent [style*="border-color:#fde68a"]{border-color:#6a5219!important}
+[data-theme="dark"] .subcontent [style*="background:#fdf1d6"]{background-color:#312712!important}
+[data-theme="dark"] .subcontent [style*="background:#fdf2f8"]{background-color:#2b1626!important}
+[data-theme="dark"] .subcontent [stroke="#fecaca"]{stroke:#6b2b2f}
+[data-theme="dark"] .subcontent [style*="border-color:#fecaca"]{border-color:#6b2b2f!important}
+[data-theme="dark"] .subcontent [stroke="#fed7aa"]{stroke:#6b4320}
+[data-theme="dark"] .subcontent rect[fill="#fef2f2"],
+[data-theme="dark"] .subcontent circle[fill="#fef2f2"],
+[data-theme="dark"] .subcontent ellipse[fill="#fef2f2"],
+[data-theme="dark"] .subcontent path[fill="#fef2f2"],
+[data-theme="dark"] .subcontent polygon[fill="#fef2f2"],
+[data-theme="dark"] .subcontent polyline[fill="#fef2f2"],
+[data-theme="dark"] .subcontent line[fill="#fef2f2"],
+[data-theme="dark"] .subcontent g[fill="#fef2f2"]{fill:#2c1618}
+[data-theme="dark"] .subcontent text[fill="#fef2f2"],
+[data-theme="dark"] .subcontent tspan[fill="#fef2f2"],
+[data-theme="dark"] .subcontent g[fill="#fef2f2"] text,
+[data-theme="dark"] .subcontent g[fill="#fef2f2"] tspan{fill:#fef2f2}
+[data-theme="dark"] .subcontent [style*="background:#fef2f2"]{background-color:#2c1618!important}
+[data-theme="dark"] .subcontent rect[fill="#fef3c7"],
+[data-theme="dark"] .subcontent circle[fill="#fef3c7"],
+[data-theme="dark"] .subcontent ellipse[fill="#fef3c7"],
+[data-theme="dark"] .subcontent path[fill="#fef3c7"],
+[data-theme="dark"] .subcontent polygon[fill="#fef3c7"],
+[data-theme="dark"] .subcontent polyline[fill="#fef3c7"],
+[data-theme="dark"] .subcontent line[fill="#fef3c7"],
+[data-theme="dark"] .subcontent g[fill="#fef3c7"]{fill:#33290c}
+[data-theme="dark"] .subcontent text[fill="#fef3c7"],
+[data-theme="dark"] .subcontent tspan[fill="#fef3c7"],
+[data-theme="dark"] .subcontent g[fill="#fef3c7"] text,
+[data-theme="dark"] .subcontent g[fill="#fef3c7"] tspan{fill:#fef3c7}
+[data-theme="dark"] .subcontent [style*="background:#fef3c7"]{background-color:#33290c!important}
+[data-theme="dark"] .subcontent rect[fill="#fff7ed"],
+[data-theme="dark"] .subcontent circle[fill="#fff7ed"],
+[data-theme="dark"] .subcontent ellipse[fill="#fff7ed"],
+[data-theme="dark"] .subcontent path[fill="#fff7ed"],
+[data-theme="dark"] .subcontent polygon[fill="#fff7ed"],
+[data-theme="dark"] .subcontent polyline[fill="#fff7ed"],
+[data-theme="dark"] .subcontent line[fill="#fff7ed"],
+[data-theme="dark"] .subcontent g[fill="#fff7ed"]{fill:#2b1c0e}
+[data-theme="dark"] .subcontent text[fill="#fff7ed"],
+[data-theme="dark"] .subcontent tspan[fill="#fff7ed"],
+[data-theme="dark"] .subcontent g[fill="#fff7ed"] text,
+[data-theme="dark"] .subcontent g[fill="#fff7ed"] tspan{fill:#fff7ed}
+[data-theme="dark"] .subcontent rect[fill="#fffbeb"],
+[data-theme="dark"] .subcontent circle[fill="#fffbeb"],
+[data-theme="dark"] .subcontent ellipse[fill="#fffbeb"],
+[data-theme="dark"] .subcontent path[fill="#fffbeb"],
+[data-theme="dark"] .subcontent polygon[fill="#fffbeb"],
+[data-theme="dark"] .subcontent polyline[fill="#fffbeb"],
+[data-theme="dark"] .subcontent line[fill="#fffbeb"],
+[data-theme="dark"] .subcontent g[fill="#fffbeb"]{fill:#2a2109}
+[data-theme="dark"] .subcontent text[fill="#fffbeb"],
+[data-theme="dark"] .subcontent tspan[fill="#fffbeb"],
+[data-theme="dark"] .subcontent g[fill="#fffbeb"] text,
+[data-theme="dark"] .subcontent g[fill="#fffbeb"] tspan{fill:#fffbeb}
+[data-theme="dark"] .subcontent [style*="background:#fffbeb"]{background-color:#2a2109!important}
 
 
 /* --- code blocks opt out ------------------------------------------------
-   <pre> is a dark island in both themes. Re-declaring the palette on it
+   .lesson <pre> is a dark island in both themes. Re-declaring the palette
    restores the light values for the panel and every syntax colour that
    inherits from it, rather than patching them one at a time.      --- */
 [data-theme="dark"] .lesson pre,
