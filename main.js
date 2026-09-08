@@ -1,5 +1,6 @@
 import "./style.css";
 import { mountLabs } from "./lab-ui.js";
+import { mountCharts } from "./lab-chart.js";
 
 // ---------------------------------------------------------------------------
 // Content map: tab -> sub -> loader returning the fragment's HTML
@@ -129,6 +130,13 @@ const content = {
 // Rendering helpers
 // ---------------------------------------------------------------------------
 
+// KaTeX's inline delimiter is a single `$` — which is also how every lesson
+// writes money. On a page quoting "$725K … $392K" those pair up and the prose
+// between them gets rendered as an equation. Only the ML and statistics lessons
+// actually contain maths, so math rendering is scoped to them; everywhere else
+// a dollar sign is just a dollar sign.
+const MATH_TABS = new Set(["ml", "math"]);
+
 // Render math once KaTeX has finished loading (scripts are deferred).
 function renderMath(element) {
   if (window.renderMathInElement) {
@@ -216,10 +224,11 @@ async function showSub(tab, sub, { updateHash = true, scroll = false } = {}) {
     try {
       el.innerHTML = await content[tab][sub]();
       loaded.add(`${tab}-${sub}`);
-      renderMath(el);
+      if (MATH_TABS.has(tab)) renderMath(el);
       highlightCode(el);
       addCopyButtons(el);
       mountLabs(el);
+      mountCharts(el);
     } catch (err) {
       el.innerHTML = `<div class="load-error">
           <p><strong>Couldn't load this page.</strong></p>

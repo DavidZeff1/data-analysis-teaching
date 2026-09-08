@@ -150,11 +150,26 @@ export const FULL = {
     ["Binders", 30222], ["Paper", 34053], ["Accessories", 41937], ["Phones", 44516],
     ["Copiers", 55618],
   ],
+  // Profit by Category, folded up from the sub-categories below. The three
+  // figures sum to `profit` above, which is the check that the fold is right —
+  // and the gap between Furniture's sales and its profit is the whole reason
+  // the combo chart in the charts lesson exists.
+  byCategoryProfit: { Furniture: 18451, "Office Supplies": 122491, Technology: 145455 },
   // Average margin by discount band — the finding the dashboard project chases.
   discountBands: [
     ["0%", 0.29], ["10%", 0.19], ["20%", 0.06], ["30%", -0.12],
     ["40%", -0.28], ["50%", -0.66], ["60%", -0.96], ["70%+", -1.28],
   ],
+};
+
+// Which Category each Sub-Category rolls up to. Used to fold `subCategoryProfit`
+// into `byCategoryProfit`; kept here so the two can never disagree.
+export const SUBCATEGORY_PARENT = {
+  Bookcases: "Furniture", Chairs: "Furniture", Furnishings: "Furniture", Tables: "Furniture",
+  Appliances: "Office Supplies", Art: "Office Supplies", Binders: "Office Supplies",
+  Envelopes: "Office Supplies", Fasteners: "Office Supplies", Labels: "Office Supplies",
+  Paper: "Office Supplies", Storage: "Office Supplies", Supplies: "Office Supplies",
+  Accessories: "Technology", Copiers: "Technology", Machines: "Technology", Phones: "Technology",
 };
 
 // Distinct-value helper used by several widgets to build dropdowns.

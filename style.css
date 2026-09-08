@@ -4344,3 +4344,616 @@
 [data-theme="dark"] .lesson .chip {
   color: #fff;
 }
+
+/* ===========================================================================
+   Lesson design system — part 7: the chart widgets
+
+   These are the only components whose colours are declared as custom
+   properties rather than literal hex. The charts are drawn by lab-chart.js at
+   runtime, so the fragment palette remap above can't reach them; instead the
+   marks are painted with `style="fill:var(--kc-…)"` and the whole palette is
+   swapped at the bottom of this file for dark mode.
+
+   `--kc-0…7` is a categorical ramp; the rest are roles: `hi`/`mute` for the
+   highlight-one technique, `pos`/`neg` for encoding sign, `cb-0…5` for the
+   Okabe–Ito colour-blind-safe set.
+   =========================================================================== */
+@layer components {
+  .lesson .chartlab {
+    --kc-plot: #ffffff;
+    --kc-plotarea: #fcfdfe;
+    --kc-grid: #e7ebf1;
+    --kc-axis: #94a3b8;
+    --kc-ink: #1f2937;
+    --kc-dim: #64748b;
+    --kc-label-in: #ffffff;
+    --kc-0: #4e79a7;
+    --kc-1: #f28e2b;
+    --kc-2: #e15759;
+    --kc-3: #76b7b2;
+    --kc-4: #59a14f;
+    --kc-5: #edc948;
+    --kc-6: #b07aa1;
+    --kc-7: #9c755f;
+    --kc-mono: #4e79a7;
+    --kc-hi: #e8763a;
+    --kc-mute: #cbd5e1;
+    --kc-pos: #2e9e6b;
+    --kc-neg: #d1495b;
+    --kc-trend: #7c3aed;
+    --kc-cb-0: #0072b2;
+    --kc-cb-1: #e69f00;
+    --kc-cb-2: #009e73;
+    --kc-cb-3: #cc79a7;
+    --kc-cb-4: #56b4e9;
+    --kc-cb-5: #d55e00;
+
+    background: var(--c-f8fafc);
+    border: 1px solid var(--l-line);
+    border-radius: 12px;
+    padding: 0.75rem;
+    margin: 0.85rem 0;
+  }
+
+  /* --- header: which data are we charting -------------------------------- */
+  .lesson .chartlab .cl-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+  .lesson .chartlab .cl-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--l-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .lesson .chartlab .cl-field.wide {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .lesson .chartlab select,
+  .lesson .chartlab input[type="text"] {
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--l-ink);
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 7px;
+    padding: 0.28rem 0.5rem;
+    max-width: 100%;
+  }
+  .lesson .chartlab input[type="text"]:focus,
+  .lesson .chartlab select:focus {
+    outline: none;
+    border-color: var(--c-6366f1);
+    box-shadow: 0 0 0 3px var(--c-e0e7ff);
+  }
+  .lesson .chartlab .cl-story {
+    margin: 0;
+    flex: 1 1 18rem;
+    min-width: 0;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--l-dim);
+  }
+
+  /* --- the type gallery --------------------------------------------------- */
+  .lesson .chartlab .cl-types {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.6rem;
+    scrollbar-width: thin;
+  }
+  .lesson .chartlab .cl-type {
+    flex: 0 0 auto;
+    width: 4.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.4rem 0.2rem 0.35rem;
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 9px;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+  .lesson .chartlab .cl-type svg {
+    width: 2.4rem;
+    height: 1.6rem;
+    fill: var(--kc-0);
+    stroke: var(--kc-0);
+  }
+  .lesson .chartlab .cl-type svg [fill-opacity],
+  .lesson .chartlab .cl-type svg [opacity] {
+    fill: var(--kc-0);
+  }
+  .lesson .chartlab .cl-type span {
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: var(--l-dim);
+    text-align: center;
+    line-height: 1.15;
+  }
+  .lesson .chartlab .cl-type:hover:not(:disabled) {
+    border-color: var(--c-a5b4fc);
+    transform: translateY(-1px);
+  }
+  .lesson .chartlab .cl-type.is-on {
+    border-color: var(--c-4f46e5);
+    background: var(--c-eef2ff);
+    box-shadow: 0 0 0 1px var(--c-4f46e5);
+  }
+  .lesson .chartlab .cl-type.is-on span {
+    color: var(--c-4338ca);
+  }
+  .lesson .chartlab .cl-type:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  /* A dot in the corner says whether this type suits the data on screen. It is
+     a hint, not a lock — the risky ones stay clickable, because the fastest
+     way to learn why a pie fails is to make one. */
+  .lesson .chartlab .cl-type.is-good::after,
+  .lesson .chartlab .cl-type.is-risky::after {
+    content: "";
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+  }
+  .lesson .chartlab .cl-type.is-good::after {
+    background: var(--c-16a34a);
+  }
+  .lesson .chartlab .cl-type.is-risky::after {
+    background: var(--c-d97706);
+  }
+
+  /* --- stage + control rail ----------------------------------------------- */
+  .lesson .chartlab .cl-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+  @media (min-width: 880px) {
+    .lesson .chartlab .cl-body {
+      grid-template-columns: minmax(0, 1fr) 16.5rem;
+    }
+    /* The control rail is taller than the chart, so let the chart take the
+       slack rather than leaving a hole under it. The SVG keeps its aspect
+       ratio (preserveAspectRatio), and the letterboxing is invisible because
+       the canvas and the chart's own background are the same colour. */
+    .lesson .chartlab .cl-stage {
+      display: flex;
+      flex-direction: column;
+    }
+    .lesson .chartlab .cl-canvas {
+      flex: 1 1 auto;
+      min-height: 22rem;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .lesson .chartlab .cl-canvas {
+    background: var(--kc-plot);
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .lesson .chartlab .cl-canvas svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* --- the critique -------------------------------------------------------- */
+  .lesson .chartlab .cl-verdict {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 0.55rem;
+  }
+  .lesson .chartlab .cl-note {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    padding: 0.42rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid;
+  }
+  .lesson .chartlab .cl-ni {
+    flex: 0 0 auto;
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  .lesson .chartlab .cl-note.is-bad {
+    background: var(--c-fef2f2);
+    border-color: var(--c-fecaca);
+    color: var(--c-991b1b);
+  }
+  .lesson .chartlab .cl-note.is-warn {
+    background: var(--c-fffbeb);
+    border-color: var(--c-fde68a);
+    color: var(--c-92400e);
+  }
+  .lesson .chartlab .cl-note.is-tip {
+    background: var(--c-eff6ff);
+    border-color: var(--c-bfdbfe);
+    color: var(--c-1d4ed8);
+  }
+  .lesson .chartlab .cl-note.is-good {
+    background: var(--c-f0fdf4);
+    border-color: var(--c-bbf7d0);
+    color: var(--c-15803d);
+  }
+
+  /* --- controls ------------------------------------------------------------ */
+  .lesson .chartlab .cl-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+  .lesson .chartlab .cl-group {
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem 0.6rem;
+  }
+  .lesson .chartlab .cl-group h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+  }
+  .lesson .chartlab .cl-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.45rem;
+  }
+  .lesson .chartlab .cl-row:last-child {
+    margin-bottom: 0;
+  }
+  .lesson .chartlab .cl-row[hidden] {
+    display: none;
+  }
+  .lesson .chartlab .cl-lab {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--l-dim);
+  }
+  .lesson .chartlab .cl-lab b {
+    font-weight: 700;
+    color: var(--c-4338ca);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lesson .chartlab .cl-seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    background: var(--c-f1f5f9);
+    border-radius: 7px;
+    padding: 2px;
+  }
+  .lesson .chartlab .cl-segb {
+    flex: 1 1 auto;
+    font: inherit;
+    font-size: 0.71rem;
+    font-weight: 600;
+    color: var(--l-dim);
+    background: transparent;
+    border: 0;
+    border-radius: 5px;
+    padding: 0.2rem 0.35rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s, color 0.12s;
+  }
+  .lesson .chartlab .cl-segb:hover {
+    color: var(--l-ink);
+  }
+  .lesson .chartlab .cl-segb.is-on {
+    background: var(--c-ffffff);
+    color: var(--c-4338ca);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  }
+  .lesson .chartlab .cl-range {
+    width: 100%;
+    accent-color: var(--c-4f46e5);
+  }
+
+  /* --- "and here is where that control lives in Excel" ---------------------- */
+  .lesson .chartlab .cl-xl {
+    background: var(--c-eef2ff);
+    border: 1px solid var(--c-c7d2fe);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem;
+  }
+  .lesson .chartlab .cl-xl-h {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--c-4338ca);
+    margin-bottom: 0.25rem;
+  }
+  .lesson .chartlab .cl-xl-p {
+    margin: 0;
+    font-size: 0.79rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--c-312e81);
+  }
+  .lesson .chartlab .cl-xl-x {
+    margin: 0.3rem 0 0;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--c-4338ca);
+  }
+  .lesson .chartlab .cl-xl-x:empty {
+    display: none;
+  }
+
+  /* --- broken-chart challenges --------------------------------------------- */
+  .lesson .chartlab .cl-presets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--l-line);
+  }
+  /* Keep the critique from resizing the widget every time the note count
+     changes — a panel that jumps under the cursor is hard to read. */
+  .lesson .chartlab .cl-verdict {
+    min-height: 8.5rem;
+  }
+  .lesson .chartlab .cl-pl {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+    margin-right: 0.15rem;
+  }
+  .lesson .chartlab .cl-preset {
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--c-92400e);
+    background: var(--c-fffbeb);
+    border: 1px solid var(--c-fde68a);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+  }
+  .lesson .chartlab .cl-preset:hover {
+    background: var(--c-fef3c7);
+  }
+  .lesson .chartlab .cl-preset.cl-reset {
+    color: var(--l-dim);
+    background: var(--c-f1f5f9);
+    border-color: var(--l-line);
+  }
+  .lesson .chartlab .cl-task {
+    margin: 0.55rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    padding: 0.5rem 0.7rem;
+    border-radius: 9px;
+    background: var(--c-fffbeb);
+    border: 1px solid var(--c-fde68a);
+    color: var(--c-92400e);
+  }
+  .lesson .chartlab .cl-task[hidden] {
+    display: none;
+  }
+
+  /* --- anatomy explorer ---------------------------------------------------- */
+  .lesson .chartanat .ca-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+  @media (min-width: 820px) {
+    .lesson .chartanat .ca-wrap {
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    }
+  }
+  .lesson .chartanat .ca-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .lesson .chartanat .ca-hot {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 1.5;
+    cursor: pointer;
+  }
+  .lesson .chartanat .ca-hot:hover,
+  .lesson .chartanat .ca-hot:focus-visible {
+    fill: var(--kc-hi);
+    fill-opacity: 0.07;
+    stroke: var(--kc-hi);
+    stroke-dasharray: 4 3;
+    outline: none;
+  }
+  .lesson .chartanat .ca-hot.is-on {
+    fill: var(--kc-hi);
+    fill-opacity: 0.1;
+    stroke: var(--kc-hi);
+    stroke-dasharray: 4 3;
+  }
+  .lesson .chartanat svg text[data-part].is-on {
+    fill: var(--kc-hi) !important;
+    font-weight: 700;
+  }
+  .lesson .chartanat svg rect[data-part].is-on:not(.ca-hot),
+  .lesson .chartanat svg line[data-part].is-on {
+    stroke: var(--kc-hi);
+    stroke-width: 2;
+  }
+  .lesson .chartanat .ca-info {
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.7rem 0.8rem;
+    align-self: start;
+  }
+  .lesson .chartanat .ca-name {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--l-ink);
+    margin-bottom: 0.3rem;
+  }
+  .lesson .chartanat .ca-lead {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--l-dim);
+  }
+  .lesson .chartanat .ca-dl {
+    margin: 0;
+  }
+  .lesson .chartanat .ca-dl dt {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-4338ca);
+    margin-top: 0.5rem;
+  }
+  .lesson .chartanat .ca-dl dd {
+    margin: 0.1rem 0 0;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--l-ink);
+  }
+  .lesson .chartanat .ca-chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0;
+    margin: 0.6rem 0 0;
+  }
+  .lesson .chartanat .ca-chips li {
+    margin: 0;
+  }
+  .lesson .chartanat .ca-chip {
+    font: inherit;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--l-dim);
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 999px;
+    padding: 0.16rem 0.55rem;
+    cursor: pointer;
+  }
+  .lesson .chartanat .ca-chip:hover {
+    border-color: var(--c-a5b4fc);
+    color: var(--l-ink);
+  }
+  .lesson .chartanat .ca-chip.is-on {
+    background: var(--c-eef2ff);
+    border-color: var(--c-4f46e5);
+    color: var(--c-4338ca);
+  }
+
+  /* --- fixed before/after pairs -------------------------------------------- */
+  .lesson .chartcmp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+  @media (min-width: 760px) {
+    .lesson .chartcmp {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lesson .chartcmp .cc-side {
+    margin: 0;
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--kc-plot);
+  }
+  .lesson .chartcmp .cc-cap {
+    font-size: 0.79rem;
+    font-weight: 600;
+    line-height: 1.45;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--l-line);
+  }
+  .lesson .chartcmp .cc-side.is-bad .cc-cap {
+    background: var(--c-fef2f2);
+    color: var(--c-991b1b);
+  }
+  .lesson .chartcmp .cc-side.is-good .cc-cap {
+    background: var(--c-f0fdf4);
+    color: var(--c-15803d);
+  }
+  .lesson .chartcmp .cc-canvas svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* --- chart palette, dark ---------------------------------------------------
+   Unlayered, so it wins over the light defaults above the same way the rest of
+   the dark rules in this file do. */
+[data-theme="dark"] .lesson .chartlab {
+  --kc-plot: #141b25;
+  --kc-plotarea: #171f2b;
+  --kc-grid: #2b3747;
+  --kc-axis: #55647a;
+  --kc-ink: #e6ecf3;
+  --kc-dim: #9aa8ba;
+  --kc-0: #6f9fc8;
+  --kc-1: #f0a860;
+  --kc-2: #e8898b;
+  --kc-3: #8fc9c5;
+  --kc-4: #82bd77;
+  --kc-5: #e6cf72;
+  --kc-6: #c894ba;
+  --kc-7: #b39178;
+  --kc-mono: #6f9fc8;
+  --kc-hi: #f5934f;
+  --kc-mute: #3d4a5c;
+  --kc-pos: #4ade9f;
+  --kc-neg: #f28b8b;
+  --kc-trend: #a78bfa;
+  --kc-cb-0: #4aa3dd;
+  --kc-cb-1: #efb03c;
+  --kc-cb-2: #2fbe94;
+  --kc-cb-3: #e096c0;
+  --kc-cb-4: #7cc7f0;
+  --kc-cb-5: #ef7f45;
+}
