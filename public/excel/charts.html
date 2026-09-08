@@ -1,7 +1,7 @@
 <div class="lesson">
   <header class="lesson-hero">
     <h1><span>📈</span> Designing Charts</h1>
-    <p>A table tells you data exists. A chart tells you what it <em>means</em> — but only if it's built to. This page is mostly hands-on: a live studio where you turn every dial Excel gives you, see what it does to the picture, and get told where that dial lives in the real thing.</p>
+    <p>How to build and format a chart in Excel: which type fits which question, what each control in the Format pane does, and where to find it. The studio below runs on real Superstore figures — change a setting and the chart, the critique of it, and the matching Excel menu path all update.</p>
     <div class="lesson-meta">
       <span>⏱️ 45 min</span>
       <span>🛠️ Hands-on</span>
@@ -32,25 +32,25 @@
 
   <section class="lcard" id="ch-anatomy">
     <h2><span class="ic">🔬</span> Anatomy — every part has a name</h2>
-    <p>Excel has no "format the chart" command. It formats <em>whatever is selected</em>, and there are ten different things you can select. That's why chart formatting feels like guesswork at first: you're not failing to find a setting, you're failing to select the object the setting belongs to.</p>
-    <p class="muted">So learn the ten names first. Click any part of the chart below.</p>
+    <p>Excel has no "format the chart" command. It formats <em>whatever is selected</em>, and there are ten different things you can select. A setting you can't find is usually a setting that belongs to an object you haven't selected.</p>
+    <p class="muted">Click any part of the chart below.</p>
 
     <div data-chart-anatomy></div>
 
     <div class="callout tip" style="margin-top:.7rem">
       <div class="callout-title">The two-click rule</div>
-      <p>One click on a bar selects the whole <strong>series</strong> — every bar of that colour. A second click on the same bar narrows the selection to that single <strong>data point</strong>. That difference is the entire technique behind "make one bar orange and the rest grey", and it's why people who don't know it end up recolouring every bar by hand.</p>
+      <p>One click on a bar selects the whole <strong>series</strong> — every bar of that colour. A second click on the same bar narrows the selection to that single <strong>data point</strong>. Formatting applies to whichever of the two is selected, so the second click is what lets you recolour one bar and leave the rest of the series alone.</p>
     </div>
   </section>
 
   <section class="lcard" id="ch-create">
     <h2><span class="ic">🛠️</span> Getting a chart on the page</h2>
-    <p>Four routes, and they suit different moments.</p>
+    <p>Four routes: two keyboard shortcuts and two dialogs.</p>
 
     <div class="grid2">
       <div class="tile">
         <h3>⌨️ <span class="keys"><span class="kbd">Alt</span><span class="plus">+</span><span class="kbd">F1</span></span> — instant chart</h3>
-        <p style="margin:.25rem 0 0;font-size:.86rem">Select the range, hit it, and Excel drops a default clustered column onto the sheet. Zero decisions. This is the one to use while you're still exploring, because it's fast enough that you'll actually bother.</p>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Select the range, hit it, and Excel drops a default clustered column onto the sheet — no dialog, no choices. Useful while you're still exploring the data.</p>
       </div>
       <div class="tile">
         <h3>⌨️ <span class="kbd">F11</span> — chart on its own sheet</h3>
@@ -58,7 +58,7 @@
       </div>
       <div class="tile">
         <h3>🧠 <span class="uibtn">Insert ▸ Recommended Charts</span></h3>
-        <p style="margin:.25rem 0 0;font-size:.86rem">Excel reads the shape of your selection and previews a handful of options with live data. Genuinely useful when you're unsure — and the <span class="uibtn">All Charts</span> tab beside it is the full gallery.</p>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Excel reads the shape of your selection and previews a handful of options with your own data in them. The <span class="uibtn">All Charts</span> tab beside it is the full gallery.</p>
       </div>
       <div class="tile">
         <h3>⚡ <span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">Q</span></span> — Quick Analysis</h3>
@@ -93,14 +93,14 @@
       <figure class="bstep done">
         <div class="bs-h"><span class="pin">3</span> Refine</div>
         <div class="bs-frame" style="align-items:center">
-          <p class="bs-d" style="margin:0">Title, sort order, colour, labels. This is the 80% of the work, and it's what the studio below is for. The default chart is a starting point, never a finished one.</p>
+          <p class="bs-d" style="margin:0">Title, sort order, colour, labels. This is the 80% of the work, and it's what the studio below is for — including a full build recipe for every one of the ten chart types. The default chart is a starting point, never a finished one.</p>
         </div>
       </figure>
     </div>
 
     <div class="callout tip" style="margin-top:.7rem">
       <div class="callout-title">Chart a Table, not a range</div>
-      <p>If your data is a real Excel <a href="#excel/tables">Table</a> (<span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">T</span></span>), the chart's source grows with it. Add fifty rows next month and the chart just includes them. Chart a plain range like <code>A1:B5</code> and you'll be editing <span class="uibtn">Select Data</span> by hand forever.</p>
+      <p>If your data is a real Excel <a href="#excel/tables">Table</a> (<span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">T</span></span>), the chart's source grows with it. Add fifty rows next month and the chart just includes them. Chart a plain range like <code>A1:B5</code> and you'll be editing <span class="uibtn">Select Data</span> by hand every time the data grows.</p>
     </div>
 
     <div class="callout note">
@@ -112,25 +112,26 @@
 
   <section class="lcard accent" id="ch-studio">
     <h2><span class="ic">🎛️</span> The chart studio</h2>
-    <p>Everything below this section is explained here first, by doing it. Pick a dataset, pick a chart type, then turn the dials. Three things update as you go:</p>
+    <p>Every control the rest of this page describes is on this widget. Pick a dataset, pick a chart type, then turn the dials. Four things update as you go:</p>
     <ul>
       <li><strong>The chart</strong> — real Sample Superstore figures, drawn with Excel's actual geometry (gap width really is a percentage of bar width).</li>
       <li><strong>The critique</strong> underneath — what a reviewer would say about the chart as it currently stands, including the arithmetic when a setting is distorting something.</li>
       <li><strong>“In Excel”</strong> in the corner — the menu path for the dial you just moved, so the muscle memory transfers.</li>
+      <li><strong>“Build this in Excel”</strong> at the bottom — the full recipe for whichever chart type is selected: the shape the source range has to be in, the clicks in order, the formatting that makes it worth showing, and the specific way that type goes wrong. It's the part you take back to your own spreadsheet.</li>
     </ul>
-    <p class="muted">The green and amber dots on the chart-type buttons flag which types suit the selected data. The amber ones aren't disabled — the fastest way to learn why a pie fails on seventeen categories is to build one.</p>
+    <p class="muted">The green and amber dots on the chart-type buttons flag which types suit the selected data. The amber ones aren't disabled: build one and the critique underneath explains what it does to the numbers.</p>
 
     <div data-chart-studio></div>
 
     <div class="callout tip" style="margin-top:.7rem">
       <div class="callout-title">Start with the five broken charts</div>
-      <p>The chips at the bottom load charts people really make, each with a specific fault. Read the task, then find the dial that fixes it. "The misleading one" and "Two units, one axis" are the two that show up most often in real reports.</p>
+      <p>Each chip loads a chart with one specific fault. Read the task, then find the dial that fixes it.</p>
     </div>
   </section>
 
   <section class="lcard" id="ch-choose">
     <h2><span class="ic">🎨</span> Choosing the type</h2>
-    <p>Chart choice is not taste. Answer "what is the reader's question?" and the type is usually already decided. For the full framework — distributions, flows, maps — see the <a href="#excel/chartdecision">Chart Decision Tree</a>.</p>
+    <p>The type follows from three things: what the reader is asking, how many categories there are, and whether the numbers share a unit. For the full framework — distributions, flows, maps — see the <a href="#excel/chartdecision">Chart Decision Tree</a>.</p>
 
     <div class="charts-grid">
       <div class="cthumb">
@@ -141,12 +142,12 @@
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="Bar chart"><rect x="6" y="4" width="52" height="7" rx="1" fill="#6366f1"/><rect x="6" y="14" width="74" height="7" rx="1" fill="#6366f1"/><rect x="6" y="24" width="31" height="7" rx="1" fill="#6366f1"/><rect x="6" y="34" width="45" height="6" rx="1" fill="#6366f1"/><line x1="5" y1="2" x2="5" y2="40" stroke="#cbd5e1" stroke-width="1.5"/></svg>
         <div class="ct-n">Bar (horizontal)</div>
-        <div class="ct-d"><strong>Ranking many categories, or long labels.</strong> Seventeen sub-categories fit here and nowhere else. Names read straight instead of tilted.</div>
+        <div class="ct-d"><strong>Ranking many categories, or long labels.</strong> Seventeen sub-categories fit down the side; across the bottom they wouldn't. Names read straight instead of tilted.</div>
       </div>
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="Line chart"><polyline points="6,32 25,26 44,29 63,14 82,8 94,12" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linejoin="round"/><g fill="#10b981"><circle cx="25" cy="26" r="2.2"/><circle cx="44" cy="29" r="2.2"/><circle cx="63" cy="14" r="2.2"/><circle cx="82" cy="8" r="2.2"/></g><line x1="4" y1="40" x2="96" y2="40" stroke="#cbd5e1" stroke-width="1.5"/></svg>
         <div class="ct-n">Line</div>
-        <div class="ct-d"><strong>A shape over time.</strong> Time runs left to right, always. A line between two categories that aren't in time order is a lie about continuity.</div>
+        <div class="ct-d"><strong>A shape over time.</strong> Time runs left to right, always. A line drawn between categories that have no order implies a sequence that isn't there.</div>
       </div>
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="Area chart"><path d="M6,32 25,26 44,29 63,14 82,8 94,12 94,40 6,40Z" fill="#6366f1" fill-opacity=".35"/><polyline points="6,32 25,26 44,29 63,14 82,8 94,12" fill="none" stroke="#6366f1" stroke-width="2"/><line x1="4" y1="40" x2="96" y2="40" stroke="#cbd5e1" stroke-width="1.5"/></svg>
@@ -161,12 +162,12 @@
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="100% stacked chart"><rect x="14" y="18" width="16" height="22" fill="#6366f1"/><rect x="14" y="0" width="16" height="18" fill="#a5b4fc"/><rect x="42" y="11" width="16" height="29" fill="#6366f1"/><rect x="42" y="0" width="16" height="11" fill="#a5b4fc"/><rect x="70" y="24" width="16" height="16" fill="#6366f1"/><rect x="70" y="0" width="16" height="24" fill="#a5b4fc"/></svg>
         <div class="ct-n">100% stacked</div>
-        <div class="ct-d"><strong>Mix only.</strong> It deliberately destroys size: a region worth $70K and one worth $700K look identical. Use it when share is the whole question.</div>
+        <div class="ct-d"><strong>Mix only.</strong> Every bar is drawn to the same height, so a region worth $70K and one worth $700K look identical. Use it when share is the whole question.</div>
       </div>
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="Scatter plot"><line x1="10" y1="40" x2="96" y2="40" stroke="#cbd5e1" stroke-width="1.5"/><line x1="10" y1="2" x2="10" y2="40" stroke="#cbd5e1" stroke-width="1.5"/><g fill="#6366f1" opacity=".75"><circle cx="20" cy="32" r="2.6"/><circle cx="28" cy="27" r="2.6"/><circle cx="34" cy="30" r="2.6"/><circle cx="42" cy="22" r="2.6"/><circle cx="50" cy="24" r="2.6"/><circle cx="58" cy="16" r="2.6"/><circle cx="66" cy="19" r="2.6"/><circle cx="76" cy="10" r="2.6"/></g></svg>
         <div class="ct-n">Scatter</div>
-        <div class="ct-d"><strong>Two numbers per row.</strong> Discount vs Profit is the Superstore chart that reveals the most. Note it's <em>Scatter</em>, not Line — Line would treat X as a category.</div>
+        <div class="ct-d"><strong>Two numbers per row.</strong> Discount vs Profit is where the Superstore's margin turns negative. Note it's <em>Scatter</em>, not Line — Line would treat X as a category.</div>
       </div>
       <div class="cthumb">
         <svg viewBox="0 0 100 40" role="img" aria-label="Combo chart"><rect x="14" y="20" width="11" height="20" fill="#c7d2fe"/><rect x="32" y="14" width="11" height="26" fill="#c7d2fe"/><rect x="50" y="24" width="11" height="16" fill="#c7d2fe"/><rect x="68" y="10" width="11" height="30" fill="#c7d2fe"/><polyline points="19,12 37,18 55,8 73,20" fill="none" stroke="#ef4444" stroke-width="2"/><line x1="8" y1="40" x2="96" y2="40" stroke="#cbd5e1" stroke-width="1.5"/></svg>
@@ -176,7 +177,7 @@
       <div class="cthumb warn-c">
         <svg viewBox="0 0 100 40" role="img" aria-label="Pie chart"><g transform="translate(50,20)"><path d="M0,0 L0,-18 A18,18 0 0,1 15.6,9 Z" fill="#6366f1"/><path d="M0,0 L15.6,9 A18,18 0 0,1 -15.6,9 Z" fill="#a5b4fc"/><path d="M0,0 L-15.6,9 A18,18 0 0,1 0,-18 Z" fill="#e0e7ff"/></g></svg>
         <div class="ct-n">Pie / doughnut</div>
-        <div class="ct-d"><strong>Two to five slices, adding to a meaningful whole.</strong> Past five, nobody can rank angles. It also silently drops the sign on negatives.</div>
+        <div class="ct-d"><strong>Two to five slices, adding to a meaningful whole.</strong> Beyond five, the slices are too close in angle to put in order by eye. Negatives are drawn at their size with the sign dropped.</div>
       </div>
     </div>
 
@@ -185,7 +186,7 @@
       <p>If you can't say what the chart shows in one sentence, you've picked the wrong chart — or you're trying to show two things at once and need two charts.</p>
     </div>
 
-    <h3 style="margin-top:1.1rem">The ones people forget Excel has</h3>
+    <h3 style="margin-top:1.1rem">Chart types added in Excel 2016</h3>
     <p class="muted">All of these live under <span class="uibtn">Insert ▸ Charts</span> in Excel 2016 and later, and each replaces a workaround you might otherwise build by hand.</p>
     <div class="scrollx">
       <table class="ltable">
@@ -206,8 +207,6 @@
 
   <section class="lcard" id="ch-axis">
     <h2><span class="ic">📐</span> The value axis</h2>
-    <p>One setting on this axis causes more misleading charts than everything else in Excel combined.</p>
-
     <h3>Bounds — where the axis starts</h3>
     <p>A bar means its <strong>length</strong>. A length is only meaningful measured from zero, so the moment you set <span class="uibtn">Format Axis ▸ Bounds ▸ Minimum</span> above zero, every bar's length stops corresponding to its value.</p>
 
@@ -217,16 +216,16 @@
       data-right-caption="✓ Minimum on Auto. West is 1.85× the South — which is what the numbers actually say."
       data-right='{"dataset":"region","type":"column","zeroBase":true,"sort":"desc","palette":"highlight","gridlines":"h","legend":"none","labels":"all","axisTitles":"off","title":"West leads; the South trails by $334K"}'></div>
 
-    <p style="margin-top:.6rem">West sells $725K, the South $392K — a real and interesting gap of 1.85×. The left-hand chart draws it as 4.6×. Nobody typed a wrong number; someone changed one axis setting. Flip <strong>Value axis</strong> in the studio and read the exaggeration factor it calculates.</p>
+    <p style="margin-top:.6rem">West sells $725K, the South $392K — a gap of 1.85×. The left-hand chart draws it as 4.6×. The numbers are identical in both; only the axis minimum changed. Flip <strong>Value axis</strong> in the studio and read the exaggeration factor it calculates.</p>
 
     <div class="callout warn">
       <div class="callout-title">The one exception</div>
-      <p>A <em>line</em> chart encodes position, not length, so trimming its axis to show a 2% movement is defensible — stock charts do it constantly. Say so on the chart. Bars, columns and areas never get that licence, because their ink is the measurement.</p>
+      <p>A <em>line</em> chart encodes position, not length, so trimming its axis to show a 2% movement is defensible — stock charts do it constantly. Say so on the chart. Bars, columns and areas can't: their length <em>is</em> the measurement.</p>
     </div>
 
     <h3 style="margin-top:1.1rem">Display units — six digits on every tick</h3>
-    <p><span class="uibtn">Format Axis ▸ Display units ▸ Thousands</span> turns 725,458 into 725 and puts a "Thousands" label on the axis. It's the difference between an axis you skim and an axis you decode. Tick <span class="uibtn">Show display units label on chart</span>, or put the unit in the axis title yourself — <strong>“Sales ($000)”</strong>.</p>
-    <p class="muted">Try <strong>Number format ▸ Thousands</strong> in the studio against <strong>Full number</strong> and watch how much of the chart's width the axis stops eating.</p>
+    <p><span class="uibtn">Format Axis ▸ Display units ▸ Thousands</span> turns 725,458 into 725 and puts a "Thousands" label on the axis. Tick <span class="uibtn">Show display units label on chart</span>, or put the unit in the axis title yourself — <strong>“Sales ($000)”</strong>.</p>
+    <p class="muted">Try <strong>Number format ▸ Thousands</strong> in the studio against <strong>Full number</strong> — the tick labels get shorter, which leaves more of the width for the plot itself.</p>
 
     <h3 style="margin-top:1.1rem">The rest of the panel</h3>
     <div class="scrollx">
@@ -243,18 +242,18 @@
       </table>
     </div>
     <div class="callout note" style="margin-top:.6rem">
-      <p>That last row matters for the Profit by Sub-Category chart: three sub-categories are negative, so by default Excel prints "Tables", "Bookcases" and the rest straight across the bars. <span class="uibtn">Labels ▸ Label Position ▸ Low</span> moves them to the edge where they belong.</p>
+      <p>That last row matters for the Profit by Sub-Category chart: three sub-categories are negative, so by default Excel prints "Tables", "Bookcases" and the rest straight across the bars. <span class="uibtn">Labels ▸ Label Position ▸ Low</span> moves them to the edge of the plot.</p>
     </div>
   </section>
 
   <section class="lcard" id="ch-series">
-    <h2><span class="ic">📊</span> Series options — the panel nobody finds</h2>
-    <p>Right-click any bar ▸ <span class="uibtn">Format Data Series</span>. Two sliders live here and nowhere else, and they change the character of a chart more than any colour choice.</p>
+    <h2><span class="ic">📊</span> Series options</h2>
+    <p>Right-click any bar ▸ <span class="uibtn">Format Data Series</span>. Gap Width and Series Overlap are only in this pane — not on the ribbon, not under the ⊕ button.</p>
 
     <div class="grid2">
       <div class="tile">
         <h3>Gap Width <span class="badge" style="background:#eef2ff;color:#4338ca">default 219%</span></h3>
-        <p style="margin:.25rem 0 0;font-size:.86rem">The gap between bars, as a percentage <em>of bar width</em>. At 219% each bar takes about a third of its slot. Drop it to 0% and the bars touch — which is the convention for a histogram, i.e. continuous data. Using 0% on categories quietly tells the reader something untrue.</p>
+        <p style="margin:.25rem 0 0;font-size:.86rem">The gap between bars, as a percentage <em>of bar width</em>. At 219% each bar takes about a third of its slot. Drop it to 0% and the bars touch — which is the convention for a histogram, i.e. continuous data. Using 0% on separate categories signals continuous data when it isn't.</p>
         <p style="margin:.3rem 0 0;font-size:.82rem;color:#64748b">Sensible range for a category chart: 40–150%. Excel's default is on the thin side.</p>
       </div>
       <div class="tile">
@@ -266,7 +265,7 @@
     <p class="muted" style="margin-top:.5rem">Both sliders are live in the studio — pick <strong>Sales by Region × Category</strong> and a clustered column to feel what they do.</p>
 
     <h3 style="margin-top:1.1rem">The secondary axis</h3>
-    <p>Two measures in different units on one chart is the single most common reason a chart says nothing. Sales are hundreds of thousands; margin is a number between 0 and 0.2. On one scale, the margin series is a flat line along the floor.</p>
+    <p>Sales are hundreds of thousands; margin is a number between 0 and 0.2. Share one scale between them and the margin series is drawn a pixel high, flat along the axis.</p>
 
     <div data-chart-compare
       data-left-caption="⛔ Dollars and a percentage sharing one axis. The margin bars are there — all three of them, one pixel tall."
@@ -277,7 +276,7 @@
     <p style="margin-top:.6rem"><strong>How:</strong> click the small series once to select it (or pick it from <span class="uibtn">Format ▸ Chart Elements</span> dropdown when it's too small to hit) ▸ <span class="uibtn">Format Data Series ▸ Plot Series On ▸ Secondary Axis</span>. Then change that series to a Line via <span class="uibtn">Change Chart Type</span>, so the two measures don't compete as bars.</p>
 
     <div class="callout warn">
-      <div class="callout-title">A secondary axis can prove anything</div>
+      <div class="callout-title">Two axes means two choices of scale</div>
       <p>Because you choose both axes' bounds independently, you can make any two series appear to move together or apart. If you use one, keep both axes on Auto, label both with their units, and match each axis's colour to its series. Otherwise you've built a chart that can be tuned to whatever conclusion you wanted.</p>
     </div>
 
@@ -298,13 +297,13 @@
 
   <section class="lcard" id="ch-colour">
     <h2><span class="ic">🌈</span> Colour</h2>
-    <p>Excel's default is a different colour per series, and people extend the habit to a different colour per <em>bar</em>. Ask what the colour is encoding. If the answer is "which bar this is" — the label already said that, and the colour is decoration wearing the costume of information.</p>
+    <p>Excel's default is a different colour per series, and people extend the habit to a different colour per <em>bar</em>. Ask what the colour is encoding. If the answer is "which bar this is", the axis label already said it and the colour adds nothing to read.</p>
 
     <div class="grid2">
       <div class="tile"><h3>1 · Encode a category</h3><p style="margin:0;font-size:.86rem">Different colours for different series, kept identical across every chart in the report. Furniture is the same blue everywhere or the reader relearns the legend each time.</p></div>
       <div class="tile"><h3>2 · Encode a quantity</h3><p style="margin:0;font-size:.86rem">One hue, light to dark. Only for genuinely ordered values — a heat map or a filled map, never a category list.</p></div>
-      <div class="tile"><h3>3 · Encode a sign or a threshold</h3><p style="margin:0;font-size:.86rem">Red below zero, grey or green above. On the Profit by Sub-Category chart this does real work: three bars go red and the finding is instant.</p></div>
-      <div class="tile"><h3>4 · Point at the subject</h3><p style="margin:0;font-size:.86rem">Everything grey, one thing coloured. The highest-leverage move in chart design, and two clicks in Excel.</p></div>
+      <div class="tile"><h3>3 · Encode a sign or a threshold</h3><p style="margin:0;font-size:.86rem">Red below zero, grey or green above. On the Profit by Sub-Category chart, three bars go red and the loss-makers can be picked out without reading the axis.</p></div>
+      <div class="tile"><h3>4 · Point at the subject</h3><p style="margin:0;font-size:.86rem">Everything grey, one thing coloured. Two clicks: click the bar to get the series, click again for the single point, then set the fill.</p></div>
     </div>
 
     <h3 style="margin-top:1.1rem">Highlighting one thing</h3>
@@ -317,8 +316,8 @@
     <p style="margin-top:.6rem"><strong>How, for a single bar:</strong> click the bar once (selects the series), click it again (selects that point), then <span class="uibtn">Format ▸ Shape Fill</span>. For a line series, select the line and set its colour to a light grey. That's it — no helper columns, no second series.</p>
 
     <div class="callout tip">
-      <div class="callout-title">Colour blindness is not an edge case</div>
-      <p>Around 8% of men can't reliably separate red from green — so red-vs-green as your <em>only</em> signal fails for roughly one reader in twenty. Two fixes, both cheap: use the <strong>Okabe–Ito</strong> palette (the studio has it under Colour), and make sure colour is never carrying information on its own. Add a label, a symbol, or an order that says the same thing.</p>
+      <div class="callout-title">Red–green colour blindness</div>
+      <p>Around 8% of men and 0.5% of women can't reliably separate red from green. If colour is the only thing distinguishing two series, those readers lose the distinction entirely. Two fixes: use the <strong>Okabe–Ito</strong> palette (the studio has it under Colour), and make sure something else — a label, a position, an order — carries the same information.</p>
     </div>
 
     <div class="callout note">
@@ -359,7 +358,7 @@
   <section class="lcard" id="ch-cataxis">
     <h2><span class="ic">📅</span> The category axis</h2>
 
-    <h3>Text axis vs Date axis — the gotcha that hides missing months</h3>
+    <h3>Text axis vs Date axis — what happens to missing months</h3>
     <p>If your labels are real dates, <span class="uibtn">Format Axis ▸ Axis Type</span> offers two behaviours, and they tell different stories from identical data:</p>
     <div class="grid2">
       <div class="cmp" style="background:#eff6ff;border-color:#bfdbfe">
@@ -368,7 +367,7 @@
       </div>
       <div class="cmp" style="background:#fffbeb;border-color:#fde68a">
         <div class="h" style="color:#92400e">Text axis</div>
-        <p style="margin:.3rem 0 0;font-size:.86rem">Gives every label an equal slot. January and June end up adjacent and equally spaced — the missing months vanish, and the trend line through them is fiction.</p>
+        <p style="margin:.3rem 0 0;font-size:.86rem">Gives every label an equal slot. January and June end up adjacent and equally spaced — the missing months vanish, so the line implies a continuous series the data doesn't have.</p>
       </div>
     </div>
     <p style="margin-top:.5rem"><strong>Rule:</strong> if the axis is time, use a Date axis, and let the gaps show. Use a Text axis only when your labels are grouping names — "Q1", "FY24", "Week 1" — that aren't dates at all.</p>
@@ -376,18 +375,18 @@
     <h3 style="margin-top:1.1rem">Sort order, and the upside-down bar chart</h3>
     <p>A chart has no sort of its own. It draws the source range in the order the range is in — so you sort the data, not the chart (<span class="uibtn">Data ▸ Sort</span>, or the Table header dropdown).</p>
     <div class="callout warn">
-      <div class="callout-title">Then the bar chart betrays you</div>
+      <div class="callout-title">Then the order comes out backwards</div>
       <p>Excel plots the <strong>first</strong> row of a bar (horizontal) chart at the <strong>bottom</strong>. So you sort high-to-low, and the chart comes out climbing — biggest at the bottom, smallest at the top. Fix it with <span class="uibtn">Format Axis ▸ Categories in reverse order</span>, not by re-sorting your data backwards. The studio has that exact checkbox: pick <strong>Profit by Sub-Category</strong>, a bar chart, sort <strong>High → low</strong>, then toggle it.</p>
       <p style="margin-top:.35rem">Ticking it also flings the value axis to the top of the chart. <span class="uibtn">Format Axis ▸ Horizontal axis crosses ▸ At maximum category</span> puts it back at the bottom.</p>
     </div>
 
     <h3 style="margin-top:1.1rem">Long labels</h3>
-    <p>When names don't fit, Excel tilts them to 45° or stacks them vertically. Both are a signal, not a solution: the chart wanted to be horizontal. Switch to a bar chart and every label reads straight, with as much room as it needs. Try it in the studio — <strong>Profit by Sub-Category</strong> as a column chart tilts all seventeen names; as a bar chart it's immediately readable.</p>
+    <p>When names don't fit, Excel tilts them to 45° or stacks them vertically. Both are a symptom: the names are wider than the slot a column chart gives each category. Switch to a bar chart and every label reads straight, with as much room as it needs. Try it in the studio — <strong>Profit by Sub-Category</strong> as a column chart tilts all seventeen names; as a bar chart it's immediately readable.</p>
   </section>
 
   <section class="lcard" id="ch-combo">
     <h2><span class="ic">🔀</span> Building a combo chart</h2>
-    <p>Sales as columns, margin % as a line. The full sequence, in the order it actually works:</p>
+    <p>Sales as columns, margin % as a line:</p>
 
     <div class="buildsteps">
       <figure class="bstep">
@@ -432,19 +431,19 @@
 
   <section class="lcard" id="ch-spark">
     <h2><span class="ic">⚡</span> Sparklines — a chart inside a cell</h2>
-    <p>Word-sized charts that live in the cell background, so a table can carry a trend for every row without a wall of charts. On a dashboard they do more per square centimetre than anything else in Excel.</p>
+    <p>Word-sized charts that live in the cell background, so a 20-row table can carry 20 trends without 20 charts.</p>
 
     <p><strong>Insert:</strong> select the cells where you want them ▸ <span class="uibtn">Insert ▸ Sparklines ▸ Line / Column / Win-Loss</span> ▸ choose the data range. A <span class="uibtn">Sparkline</span> tab appears while one is selected.</p>
 
     <div class="grid3">
-      <div class="tile"><h3>Line</h3><p style="margin:0;font-size:.85rem">Shape of a trend. The default and the most useful.</p></div>
+      <div class="tile"><h3>Line</h3><p style="margin:0;font-size:.85rem">The default. Best for a continuous trend.</p></div>
       <div class="tile"><h3>Column</h3><p style="margin:0;font-size:.85rem">Discrete periods, and negatives read clearly.</p></div>
       <div class="tile"><h3>Win/Loss</h3><p style="margin:0;font-size:.85rem">Sign only, no magnitude. Up months vs down months.</p></div>
     </div>
 
     <div class="callout warn" style="margin-top:.6rem">
-      <div class="callout-title">Set the axis, or the column lies</div>
-      <p>By default each sparkline scales to its own data, so a row going 1 → 2 looks identical to one going 100 → 200. When you're comparing rows, set <span class="uibtn">Sparkline ▸ Axis ▸ Vertical Axis Minimum/Maximum ▸ Same for All Sparklines</span>. This is the sparkline version of the axis problem from earlier, and it catches everyone once.</p>
+      <div class="callout-title">Set the axis, or the rows aren't comparable</div>
+      <p>By default each sparkline scales to its own data, so a row going 1 → 2 looks identical to one going 100 → 200. When you're comparing rows, set <span class="uibtn">Sparkline ▸ Axis ▸ Vertical Axis Minimum/Maximum ▸ Same for All Sparklines</span>. It's the same problem as the value axis above: a shared scale is what makes two rows comparable.</p>
     </div>
 
     <p><span class="uibtn">Sparkline ▸ Show</span> adds a marker on the <strong>High Point</strong>, <strong>Low Point</strong> and <strong>Last Point</strong> — with a group of sparklines, high and low points let a reader scan the column and find the interesting rows without reading any numbers.</p>
@@ -460,12 +459,12 @@
 
   <section class="lcard" id="ch-dynamic">
     <h2><span class="ic">🔄</span> Charts that update themselves</h2>
-    <p>A chart you have to rebuild each month is a chart that will silently go stale. Four ways to stop that, cheapest first.</p>
+    <p>Four ways to keep a chart's source growing with the data, cheapest first.</p>
 
     <div class="grid2">
       <div class="tile">
         <h3>1 · Chart a Table</h3>
-        <p style="margin:.25rem 0 0;font-size:.86rem">Rows added to a Table are inside the chart's source automatically. This solves 90% of the problem for the price of <span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">T</span></span>.</p>
+        <p style="margin:.25rem 0 0;font-size:.86rem">Rows added to a Table are inside the chart's source automatically. One keystroke — <span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span><span class="kbd">T</span></span> — and the chart's range stops being something you maintain.</p>
       </div>
       <div class="tile">
         <h3>2 · Link the title to a cell</h3>
@@ -492,7 +491,7 @@
 
     <div class="callout tip">
       <div class="callout-title">Laying charts out on a dashboard</div>
-      <p>Hold <span class="kbd">Alt</span> while dragging or resizing a chart and it snaps to the cell grid — the fastest way to get six charts genuinely aligned. <span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span>drag</span> duplicates one, so build the first chart properly and copy it rather than formatting each from scratch. More on this in the <a href="#excel/dashboard">Dashboard Project</a>.</p>
+      <p>Hold <span class="kbd">Alt</span> while dragging or resizing a chart and it snaps to the cell grid — the way to get six charts aligned without nudging them. <span class="keys"><span class="kbd">Ctrl</span><span class="plus">+</span>drag</span> duplicates one, so build the first chart properly and copy it rather than formatting each from scratch. More on this in the <a href="#excel/dashboard">Dashboard Project</a>.</p>
     </div>
   </section>
 
@@ -514,12 +513,12 @@
       data-right='{"dataset":"trend","type":"line","palette":"mono","labels":"max","gridlines":"h","legend":"none","axisTitles":"off","title":"November is 2017’s biggest month — $118K, a third clear of the rest"}'></div>
 
     <div class="grid2" style="margin-top:1.1rem">
-      <div class="cmp bad"><div class="h">❌ 3D effects</div><p style="margin:0;font-size:.82rem">Perspective makes the front series look bigger than the back one at identical values. There is no chart that is improved by it.</p></div>
+      <div class="cmp bad"><div class="h">❌ 3D effects</div><p style="margin:0;font-size:.82rem">Perspective draws the front series larger than the back one at identical values.</p></div>
       <div class="cmp bad"><div class="h">❌ A legend for one series</div><p style="margin:0;font-size:.82rem">It names a colour that means nothing. Select it and press Delete; the title already says what's being measured.</p></div>
       <div class="cmp bad"><div class="h">❌ Doughnut holes full of nothing</div><p style="margin:0;font-size:.82rem">If you're using a doughnut, put the total in the middle. Otherwise it's a pie with less room for labels.</p></div>
-      <div class="cmp bad"><div class="h">❌ "Chart 1" as a title</div><p style="margin:0;font-size:.82rem">The title is the most-read text on the chart. Spend it on the finding, not on restating the axis labels.</p></div>
+      <div class="cmp bad"><div class="h">❌ "Chart 1" as a title</div><p style="margin:0;font-size:.82rem">Restating the axis labels tells the reader nothing the axes don't. Put the finding there instead.</p></div>
       <div class="cmp bad"><div class="h">❌ Dual axes tuned to agree</div><p style="margin:0;font-size:.82rem">Two independent scales can be set to make any pair of series look correlated. Keep both on Auto.</p></div>
-      <div class="cmp bad"><div class="h">❌ Every category a different colour</div><p style="margin:0;font-size:.82rem">Colour that encodes nothing costs the reader attention and gives nothing back.</p></div>
+      <div class="cmp bad"><div class="h">❌ Every category a different colour</div><p style="margin:0;font-size:.82rem">The colour repeats what the axis label already says.</p></div>
     </div>
   </section>
 
@@ -530,7 +529,7 @@
       <table class="ltable">
         <thead><tr><th style="width:2.2rem"></th><th>Question</th><th>If the answer is no</th></tr></thead>
         <tbody>
-          <tr><td><strong>1</strong></td><td>Can I say what this chart shows in one sentence?</td><td>It's two charts wearing a trench coat. Split it.</td></tr>
+          <tr><td><strong>1</strong></td><td>Can I say what this chart shows in one sentence?</td><td>It's answering two questions. Split it into two charts.</td></tr>
           <tr><td><strong>2</strong></td><td>Does the title say the finding rather than the fields?</td><td>Rewrite it. "West leads by $334K" beats "Sales by Region".</td></tr>
           <tr><td><strong>3</strong></td><td>Does the value axis start at zero?</td><td>Unless it's a line chart and you've said so, put it back.</td></tr>
           <tr><td><strong>4</strong></td><td>Is it sorted, if it's a ranking?</td><td>Sort the source. Then check a bar chart isn't upside down.</td></tr>
@@ -555,7 +554,7 @@
       <li>On <strong>Sales by Region × Category</strong>, find the gap width and overlap that make the clusters read as four groups rather than twelve strays.</li>
       <li>Put <strong>Sales by Region</strong> on a 100% stacked chart and write down what question it can no longer answer.</li>
       <li>On <strong>Discount vs Profit</strong>, turn on the trendline and explain what the R² is telling you — and what it isn't.</li>
-      <li>Take any chart and set the title to something a manager could act on. Watch the critique panel change its mind about you.</li>
+      <li>Take any chart and set the title to something a manager could act on. The critique panel checks the title along with everything else.</li>
     </ol>
 
     <p style="margin-top:.9rem"><strong>In Excel</strong>, on the real Superstore file:</p>

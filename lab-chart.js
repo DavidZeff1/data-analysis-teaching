@@ -119,7 +119,7 @@ export const CHART_DATA = {
 
   subprofit: {
     name: "Profit by Sub-Category",
-    story: "Seventeen names, and three of them lose money. The chart has to make the losers unmissable.",
+    story: "Seventeen names, three of them with negative profit. The chart has to keep the sign readable.",
     kind: "nominal",
     catLabel: "Sub-Category",
     valLabel: "Profit",
@@ -133,7 +133,7 @@ export const CHART_DATA = {
 
   discount: {
     name: "Average margin by discount band",
-    story: "Ordered bands, and a number that crosses zero. This is the chart that found the Superstore's problem.",
+    story: "Ordered bands, and a number that crosses zero — average margin goes negative partway along the range.",
     kind: "ordinal",
     catLabel: "Discount band",
     valLabel: "Avg margin",
@@ -147,7 +147,7 @@ export const CHART_DATA = {
 
   combo: {
     name: "Sales and margin by Category",
-    story: "Dollars and a percentage on one chart. Two units means two axes — or a misleading picture.",
+    story: "Dollars and a percentage on one chart. Two units, so either two axes or one series drawn flat against the baseline.",
     kind: "nominal",
     catLabel: "Category",
     valLabel: "Sales",
@@ -1056,7 +1056,7 @@ export function diagnose(data, spec) {
 
   // --- the chart type is wrong for the data -------------------------------
   if (radial && nCats > 5) {
-    add("bad", `${nCats} slices. Nobody can rank ${nCats} angles — a sorted bar chart gives the same answer in a glance.`);
+    add("bad", `${nCats} slices. Angles this close can't be put in order by eye; a sorted bar chart gives the same answer from the lengths.`);
   }
   if (radial && hasNeg) {
     add("bad", "There is a negative value in here. A pie draws its size and silently drops its sign, so the chart says the opposite of the data.");
@@ -1065,13 +1065,13 @@ export function diagnose(data, spec) {
     add("warn", `A pie shows one series. The other ${nSeries - 1} are simply not on the chart.`);
   }
   if ((type === "line" || type === "area") && data.kind === "nominal") {
-    add("warn", `A line says "and then". ${data.catLabel} → ${data.catLabel} is not a journey, so the slope between two bars means nothing.`);
+    add("warn", `A line implies the categories run in a sequence. One ${data.catLabel} does not lead to the next, so the slope between two points means nothing.`);
   }
   if (type === "column" && data.kind === "time" && nCats >= 12 && nSeries === 1) {
-    add("tip", "Twelve columns of a time series read as a fence. A line reads as a shape — which is the thing you actually want to see.");
+    add("tip", "Twelve separate columns make you compare heights a pair at a time. A line joins them, so the rises and falls read as one shape.");
   }
   if (type === "line" && nSeries > 4) {
-    add("warn", `${nSeries} lines is spaghetti. Grey the others and colour the one you're talking about, or give each its own small chart.`);
+    add("warn", `${nSeries} lines cross each other too often to follow any one of them. Grey the rest and colour the one you're talking about, or give each its own small chart.`);
   }
   if (type === "bar" && data.kind === "time") {
     add("warn", "Time is running down the page. Readers expect it left to right — use a column or line chart.");
@@ -1088,7 +1088,7 @@ export function diagnose(data, spec) {
     const fmt = makeFormatter(data.format, "plain", Math.abs(axMin));
 
     if (axMin <= 0) {
-      add("tip", "You trimmed the axis, but Excel's rounding put the minimum back at zero — so nothing actually changed. It won't always be that forgiving.");
+      add("tip", "You trimmed the axis, but Excel rounded the minimum back down to zero, so the bars are unchanged. With values spread more narrowly it won't round to zero.");
     } else if (lo > axMin && hi > lo) {
       const trueRatio = hi / lo;
       const drawnRatio = (hi - axMin) / (lo - axMin);
@@ -1101,15 +1101,15 @@ export function diagnose(data, spec) {
     }
   }
   if (!spec.zeroBase && type === "line" && data.kind === "time") {
-    add("tip", "A line encodes position, not length, so trimming its axis is defensible here — as long as you say so. Bars never get that licence.");
+    add("tip", "A line encodes position, not length, so trimming its axis is defensible here if you label it. A bar's length is the measurement, so a bar chart can't do the same.");
   }
 
   // --- composition ---------------------------------------------------------
   if (type === "stacked100") {
-    add("tip", "100% stacked answers “what is the mix?” and deliberately destroys “how big?”. If both matter, you need two charts.");
+    add("tip", "Every bar is drawn to the same height, so this shows the mix and not the size. If both matter, you need two charts.");
   }
   if ((type === "stacked" || type === "stacked100") && nSeries > 3) {
-    add("warn", `Only the bottom segment sits on a straight baseline. Comparing the other ${nSeries - 1} across categories is guesswork.`);
+    add("warn", `Only the bottom segment sits on a straight baseline. The other ${nSeries - 1} each start at a different height in every bar, so there is no shared line to compare them from.`);
   }
 
   // --- geometry ------------------------------------------------------------
@@ -1117,7 +1117,7 @@ export function diagnose(data, spec) {
     add("warn", "Bars touching is the convention for a histogram — continuous data. For separate categories, leave a gap.");
   }
   if (barish && spec.gap > 380) {
-    add("tip", "Hairline bars. The length is the message, so give it some ink — Excel's default gap is 219%.");
+    add("tip", "Bars this thin are hard to compare by length. Excel's default gap width is 219%.");
   }
   if (type === "column" && nCats >= 8) {
     const longest = Math.max(...data.categories.map((c) => String(c).length));
@@ -1129,7 +1129,7 @@ export function diagnose(data, spec) {
     add("warn", "No gridlines and no data labels — there is no way to recover a value from this chart, only a vague sense of bigger and smaller.");
   }
   if (spec.labels === "all" && spec.gridlines !== "none" && nCats <= 8 && nSeries === 1) {
-    add("tip", "Every bar is labelled, so the gridlines are now repeating information. Removing them is free clarity.");
+    add("tip", "Every bar is labelled, so the gridlines now repeat what the labels already give.");
   }
   if (spec.labels === "all" && nCats * nSeries > 24) {
     add("warn", `${nCats * nSeries} data labels is more text than chart. Label the points you're making a point about.`);
@@ -1150,11 +1150,11 @@ export function diagnose(data, spec) {
       "good",
       nSeries > 1
         ? "One line in colour, the rest in grey. The others still give context, but only one of them is making an argument."
-        : "Greying everything except the one bar you're talking about is the single highest-leverage move in chart design.",
+        : "Everything grey except the one bar in question — the reader's eye lands on the subject before reading a single label.",
     );
   }
   if (spec.palette === "sign" && !hasNeg) {
-    add("tip", "Colour-by-sign with no negatives in the data is just one colour with extra steps.");
+    add("tip", "Every value here is above zero, so colour-by-sign paints them all the same colour.");
   }
   if (spec.palette === "sign" && hasNeg) {
     add("good", "Red for losses, green for gains — colour is carrying real information here.");
@@ -1165,7 +1165,7 @@ export function diagnose(data, spec) {
 
   // --- combo ---------------------------------------------------------------
   if (type === "combo") {
-    add("tip", "Two scales on one chart. Label both axes and match each one's colour to its series, or half your readers will read the line against the wrong numbers.");
+    add("tip", "Two scales on one chart. Label both axes and colour each to match its series — otherwise nothing on the chart says which axis the line belongs to.");
   }
 
   // --- story ---------------------------------------------------------------
@@ -1173,16 +1173,16 @@ export function diagnose(data, spec) {
   if (!t) {
     add("warn", "No title. “Chart 1” is what Excel calls it; the reader needs to be told what they're looking at.");
   } else if (/^(chart|sheet|total|sum of|untitled)\b/i.test(t) || t.toLowerCase() === (data.name || "").toLowerCase()) {
-    add("tip", "The title names the fields. A title that states the finding — “Three sub-categories lose money” — does far more work.");
+    add("tip", "The title names the fields. One that states the finding — “Three sub-categories lose money” — gives the reader the answer up front.");
   } else if (t.length > 12) {
-    add("good", "The title is a sentence, not a field name. That's the difference between a chart and a picture of some data.");
+    add("good", "The title is a sentence, not a field name, so the reader gets the conclusion without decoding the chart first.");
   }
 
   if (spec.sort === "none" && data.kind === "nominal" && nSeries === 1 && (type === "column" || type === "bar")) {
     add("tip", "Unsorted. A ranking that isn't in rank order makes the reader do the sorting in their head.");
   }
   if (spec.sort !== "none" && data.kind === "time") {
-    add("bad", "This is a time series — sorting it by value destroys the only thing it had to say.");
+    add("bad", "This is a time series. Sorting by value puts the periods out of order, so the trend can no longer be read.");
   }
   if (spec.sort === "desc" && data.kind === "nominal") {
     if (type === "bar" && spec.reverse !== "on") {
@@ -1196,7 +1196,7 @@ export function diagnose(data, spec) {
     const fit = leastSquares(data.points.map((p) => p.x), data.points.map((p) => p.y));
     add(
       fit.r2 > 0.25 ? "good" : "tip",
-      `Trendline slope ${fit.m > 0 ? "+" : ""}${Math.round(fit.m)} per unit of ${data.xLabel.toLowerCase()}, R² = ${fit.r2.toFixed(2)}. R² is the share of the variation the line explains — the rest is everything else going on.`,
+      `Trendline slope ${fit.m > 0 ? "+" : ""}${Math.round(fit.m)} per unit of ${data.xLabel.toLowerCase()}, R² = ${fit.r2.toFixed(2)} — the share of the variation in ${data.yLabel ? data.yLabel.toLowerCase() : "the y values"} that the line accounts for.`,
     );
   }
 
@@ -1229,6 +1229,326 @@ const EXCEL_PATH = {
   reverse: { path: "Right-click the category axis ▸ Format Axis ▸ Categories in reverse order", extra: "Tick it and Excel also moves the value axis to the top; Format Axis ▸ Horizontal axis crosses ▸ At maximum category puts it back at the bottom." },
   markers: { path: "Format Data Series ▸ Marker ▸ Built-in", extra: "Markers help when points are sparse and clutter when they aren't." },
 };
+
+// ---------------------------------------------------------------------------
+// How to actually build each chart in Excel
+//
+// The studio teaches what a setting does; this teaches where it is and what
+// order to do it in. One recipe per chart type: the shape the source range has
+// to be in, the clicks that produce the chart, the formatting that makes it
+// worth showing, and the specific way that type goes wrong.
+//
+// Tiny markup so the prose stays readable in source:
+//   [[…]] an on-screen control   {{…}} a key   `…` a formula   _…_ emphasis
+// ---------------------------------------------------------------------------
+
+function rich(s) {
+  // Escape first, so the markup below can never introduce a tag from data.
+  return esc(s)
+    .replace(/\[\[([^\]]+)\]\]/g, '<span class="uibtn">$1</span>')
+    .replace(/\{\{([^}]+)\}\}/g, '<span class="kbd">$1</span>')
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/_([^_<>]+)_/g, "<em>$1</em>");
+}
+
+const RECIPES = {
+  column: {
+    lead: "The default for comparing a handful of categories. Two columns of data and four clicks gets you the chart; the gap width, sort order and labels below are what make it readable.",
+    shape: "Labels down the left, numbers to the right, headers on row 1 — one row per bar. Sort the range before you insert: a chart has no sort of its own, it draws the range in the order the range is in.",
+    steps: [
+      ["Sort the source", "[[Data ▸ Sort]] ▸ sort by the value column ▸ _Largest to Smallest_. Do this first and the chart comes out as a ranking instead of an alphabet."],
+      ["Select the block", "Click any cell inside it and press {{Ctrl}}+{{Shift}}+{{*}} to grab the whole contiguous range, headers included. (On a Mac, {{⌘}}+{{Shift}}+{{*}}.)"],
+      ["Insert", "[[Insert ▸ Insert Column or Bar Chart ▸ Clustered Column]] — the first icon under _2-D Column_. {{Alt}}+{{F1}} drops Excel's default straight onto the sheet if you're still exploring."],
+      ["Write the title", "Click the title and type the finding. Or select it, type `=` in the formula bar and click a cell, so the title updates itself."],
+    ],
+    polish: [
+      "Right-click a bar ▸ [[Format Data Series ▸ Gap Width]] → 60–100%. Excel's 219% default leaves the bars too thin to compare.",
+      "Select the legend and press {{Delete}} — a single series doesn't need one.",
+      "[[⊕ ▸ Data Labels ▸ Outside End]], then turn gridlines off. They're two ways to do the same job; pick one.",
+      "Click one bar _twice_ to select just that point, then [[Format ▸ Shape Fill]]. The rest of the series is left alone.",
+    ],
+    traps: [
+      "Leave [[Format Axis ▸ Bounds ▸ Minimum]] on _Auto_. A column is read as its height, and a height measured from anything but zero no longer matches the value.",
+      "If your category labels are numbers — years, order IDs — Excel plots them as a second series. Clear cell A1 so the top-left corner is blank and Excel reads column A as the categories.",
+      "Labels tilting to 45° means the names are wider than the slot each category gets. A bar chart gives every name a full line.",
+    ],
+  },
+
+  bar: {
+    lead: "The same chart lying down. Reach for it when you have more categories than fit across the page, or names too long to read on the tilt.",
+    shape: "Identical to a column chart — labels left, values right. The difference is entirely in which Insert icon you press, and in one axis setting afterwards.",
+    steps: [
+      ["Sort the source", "[[Data ▸ Sort]] ▸ _Largest to Smallest_, as usual."],
+      ["Insert", "Select the range ▸ [[Insert ▸ Insert Column or Bar Chart ▸ Clustered Bar]]."],
+      ["Turn it the right way up", "Excel draws the _first_ row at the _bottom_, so a descending sort comes out climbing. Right-click the category axis ▸ [[Format Axis ▸ Categories in reverse order]]."],
+      ["Put the value axis back", "That same tick throws the value axis to the top of the chart. [[Format Axis ▸ Horizontal axis crosses ▸ At maximum category]] returns it to the bottom."],
+    ],
+    polish: [
+      "[[Format Data Series ▸ Gap Width]] → 40–60%. Bars can sit closer together than columns because there are usually more of them.",
+      "Drag the plot area's left edge to give long names room rather than letting Excel truncate them.",
+      "Data labels [[Outside End]] and no value axis at all works well for a pure ranking.",
+    ],
+    traps: [
+      "Fix it on the axis, not by sorting the data backwards. A range sorted ascending so the chart reads descending is confusing to the next person who opens the sheet.",
+      "With negative values, Excel prints the category names straight across the bars. [[Format Axis ▸ Labels ▸ Label Position ▸ Low]] moves them to the edge.",
+    ],
+  },
+
+  line: {
+    lead: "For the shape of something over time. Inserting it is three clicks; the axis type setting decides whether a missing month shows as a gap or disappears.",
+    shape: "Dates or periods down the left _in date order_, one column per series. Excel will not sort this for you, and an unsorted line chart zig-zags backwards through time.",
+    steps: [
+      ["Sort by date, ascending", "[[Data ▸ Sort]] ▸ _Oldest to Newest_. Check it: a line that doubles back means the range is out of order."],
+      ["Insert", "Select the range ▸ [[Insert ▸ Insert Line or Area Chart]] ▸ _Line with Markers_ up to about 15 points, plain _Line_ beyond that."],
+      ["Set the axis type", "Right-click the horizontal axis ▸ [[Format Axis ▸ Axis Type]]. _Date axis_ spaces points by real elapsed time and leaves a hole where a month is missing. _Text axis_ gives every label an equal slot and hides the gap."],
+      ["Decide what blanks mean", "[[Chart Design ▸ Select Data ▸ Hidden and Empty Cells]] — gap, zero, or joined across. Choose deliberately; the default is a gap."],
+    ],
+    polish: [
+      "[[Format Data Series ▸ Line ▸ Width]] — 2.25pt is the default; 3pt is easier to read when projected.",
+      "Label the end instead of using a legend: click the line, click the _last_ point, ⊕ ▸ Data Labels, then [[Format Data Labels ▸ Label Contains ▸ Series Name]]. Delete the legend.",
+      "Grey every series but one — [[Format Data Series ▸ Line ▸ Solid line]] in a light grey — so it is obvious which line the title is about.",
+    ],
+    traps: [
+      "A formula returning `\"\"` plots as _zero_, so the line dives to the floor. Return `=NA()` instead — Excel skips `#N/A` in charts. `=IF(cond, value, NA())`.",
+      "Leave _Smoothed line_ unticked. It draws values between your points that you never measured.",
+      "A line chart with numbers on the horizontal axis is not a scatter: it spaces them evenly whatever their value.",
+    ],
+  },
+
+  area: {
+    lead: "A line chart where the quantity _under_ the line is the point. Worth it for one or two series, rarely more.",
+    shape: "Same as a line chart — periods down the left in order, one column per series.",
+    steps: [
+      ["Sort by date, ascending", "As with any time series."],
+      ["Insert", "Select the range ▸ [[Insert ▸ Insert Line or Area Chart ▸ Area]]. Take the plain 2-D Area, not the 3-D one."],
+      ["Soften the fill", "[[Format Data Series ▸ Fill ▸ Transparency]] → 25–35%, so a series behind still shows through."],
+    ],
+    polish: [
+      "Put the biggest series at the back: [[Chart Design ▸ Select Data ▸ Legend Entries]] and move it up the list.",
+      "Keep the series outline solid at full opacity even when the fill is transparent — the edge is what your eye follows.",
+    ],
+    traps: [
+      "The axis _must_ start at zero. The filled area is the measurement, so trimming the axis changes the quantity you're drawing.",
+      "Three or more overlapping areas hide each other. Switch to _Stacked Area_ if the total matters, or plain lines if it doesn't.",
+    ],
+  },
+
+  stacked: {
+    lead: "Total and composition in one bar. The chart is easy; most of the work is building the crosstab it needs.",
+    shape: "A crosstab: categories down the left, one column per segment, segment names in the header row. Build it with a PivotTable and paste the values, or with SUMIFS.",
+    formula: '=SUMIFS(Orders[Sales], Orders[Region], $A2, Orders[Category], B$1)',
+    formulaNote: "Mixed references — `$A2` locks the column, `B$1` locks the row — so one formula fills the whole grid.",
+    steps: [
+      ["Build the crosstab", "PivotTable, or the SUMIFS above dragged across and down. Include the header row and the label column."],
+      ["Insert", "Select the whole block ▸ [[Insert ▸ Insert Column or Bar Chart ▸ Stacked Column]]."],
+      ["Order the segments", "[[Chart Design ▸ Select Data ▸ Legend Entries]] — move the segment you care about to the _top_ of the list and it draws at the _bottom_ of the bar, on the flat baseline where it can actually be compared."],
+      ["Label inside", "[[⊕ ▸ Data Labels]], then [[Format Data Labels ▸ Label Position ▸ Inside End]]. Outside End makes no sense on a stack."],
+    ],
+    polish: [
+      "[[Gap Width]] still works; _Series Overlap_ is locked at 100% and that's what makes the segments line up.",
+      "Totals on top: add a Total column to the source, add it as a series, [[Change Series Chart Type]] it to _Line_, set the line to _No Line_, and give it data labels positioned _Above_. The label shows and the line itself draws nothing.",
+      "Use one hue at different lightnesses if the segments are ordered (small/medium/large), separate hues only if they aren't.",
+    ],
+    traps: [
+      "Only the bottom segment sits on a common baseline. Every other segment starts at a different height in each bar, so comparing one across bars means judging lengths with no shared start.",
+      "Past three segments almost every comparison is mid-stack. Keep it to two or three, or use a different chart.",
+    ],
+  },
+
+  stacked100: {
+    lead: "Mix only. Every bar is drawn to the same height, so it shows what each one is made of and not how big it is.",
+    shape: "The same crosstab as a stacked chart. Excel does the percentage arithmetic itself — don't pre-divide the numbers.",
+    steps: [
+      ["Build the crosstab", "Raw values, not percentages. Excel converts each bar to 100% for you."],
+      ["Insert", "Select the block ▸ [[Insert ▸ Insert Column or Bar Chart ▸ 100% Stacked Column]]."],
+      ["Format the axis", "[[Format Axis ▸ Number ▸ Percentage]] with 0 decimals. Two decimal places on a share implies a precision the underlying counts don't have."],
+      ["Give the size back", "Put the total into the category label with a helper column, so the chart shows the mix and the label shows the magnitude."],
+    ],
+    formula: '=A2 & " ($" & TEXT(E2/1000, "0") & "K)"',
+    formulaNote: "Gives you _West ($725K)_ as the axis label, so the size is still on the chart somewhere.",
+    polish: [
+      "Data labels showing _Percentage_, positioned _Inside End_.",
+      "Drop the value axis entirely once every segment is labelled — it runs 0–100% on every bar and says nothing.",
+    ],
+    traps: [
+      "A region worth $70K and one worth $700K come out identical. If size matters at all, this is the wrong chart.",
+      "With only two segments the second is 100% minus the first, so the chart carries one number per bar. Write the number down instead.",
+    ],
+  },
+
+  combo: {
+    lead: "Two measures in different units on one chart — dollars and a percentage, volume and a rate. Each gets its own axis; share one and the smaller series is drawn flat against the baseline.",
+    shape: "Three columns: the category, then one column per measure. Keep percentages as real percentages (0.174, formatted as 17.4%), not as 17.4.",
+    steps: [
+      ["Lay out both measures", "Category, measure 1, measure 2 — side by side, headers on row 1."],
+      ["Insert", "Select all three columns ▸ [[Insert ▸ Insert Combo Chart ▸ Create Custom Combination Chart]]."],
+      ["Assign the types", "In the grid at the bottom of the dialog: the big measure → _Clustered Column_; the small one → _Line with Markers_, and tick its _Secondary Axis_ box. Then OK."],
+      ["Format the second axis", "Right-click the new right-hand axis ▸ [[Format Axis ▸ Number]] and give it the format of _its_ unit — 0% for a margin."],
+    ],
+    polish: [
+      "Colour each axis's labels to match its series: [[Format Axis ▸ Text Options ▸ Text Fill]]. Without it there is nothing on the chart saying which axis the line belongs to.",
+      "Both axis titles, both with units. With two scales in play, an unlabelled axis can't be read at all.",
+      "Series too small to click? Pick it from the dropdown at the far left of the [[Format]] tab, then Ctrl+1.",
+    ],
+    traps: [
+      "Two independent scales can be set so that any two series appear to move together. Leave both on _Auto_.",
+      "Already built a plain column chart? Right-click the series you want to move ▸ [[Change Series Chart Type]] opens the same grid — no need to start again.",
+    ],
+  },
+
+  pie: {
+    lead: "Two to five slices of a whole that means something, all positive. Outside those conditions a sorted bar chart answers the same question more accurately.",
+    shape: "One label column, one value column. The values should add up to something a reader would recognise as a total.",
+    steps: [
+      ["Sort descending", "So the slices run largest to smallest clockwise and the reader can follow them."],
+      ["Insert", "Select the two columns ▸ [[Insert ▸ Insert Pie or Doughnut Chart ▸ Pie]]. Flat 2-D — the 3-D one distorts the slice at the front."],
+      ["Start at twelve o'clock", "[[Format Data Series ▸ Angle of first slice]] → 0°, so the biggest slice begins at the top and reads clockwise."],
+      ["Label on the slices", "[[⊕ ▸ Data Labels ▸ More Options]] ▸ tick _Category Name_ and _Percentage_, then delete the legend. A legend forces a lookup the labels make unnecessary."],
+    ],
+    polish: [
+      "[[Label Position ▸ Best Fit]], and drag any label that still collides — leader lines appear automatically.",
+      "One accent colour for the slice you're discussing, greys for the rest.",
+    ],
+    traps: [
+      "A negative value is drawn at its size with the sign silently dropped. The chart says the opposite of the data.",
+      "More than five slices and the angles are too close to put in order by eye. Use a bar chart.",
+      "Don't _Explode_ slices. And don't put two pies side by side to compare two years: judging angle against angle across two circles is much harder than comparing two bar lengths.",
+    ],
+  },
+
+  donut: {
+    lead: "A pie with the middle cut out, leaving room for the total in the centre.",
+    shape: "Same as a pie: one label column, one value column, few slices, all positive.",
+    steps: [
+      ["Sort descending", "As for a pie."],
+      ["Insert", "Select the two columns ▸ [[Insert ▸ Insert Pie or Doughnut Chart ▸ Doughnut]]."],
+      ["Open the hole up", "[[Format Data Series ▸ Doughnut Hole Size]] — the 75% default leaves a thin ring that's hard to compare. 55–60% is a better trade."],
+      ["Put the KPI in the middle", "[[Insert ▸ Text Box]], draw it over the hole, then _with the box selected_ type `=` in the formula bar and click the cell holding the total. It now updates itself."],
+    ],
+    polish: [
+      "Category name and percentage on the slices; delete the legend.",
+      "Keep the text box's fill and outline set to none so it reads as part of the chart, and group it with the chart before moving anything.",
+    ],
+    traps: [
+      "An empty hole is just a pie with less room for labels. If you're not putting a number in the middle, use a pie.",
+      "Every pie limit still applies: few slices, no negatives.",
+    ],
+  },
+
+  scatter: {
+    lead: "Two numbers per row, and the only chart that plots both as positions. Which column you select first decides which one becomes X.",
+    shape: "Two _numeric_ columns and nothing else. The left-hand one becomes X. A text column anywhere in the selection gets plotted as its own series.",
+    steps: [
+      ["Put X on the left", "Excel takes the first selected column as the X values. Discount before Profit, not the other way round."],
+      ["Select only the numbers", "Two adjacent columns, or {{Ctrl}}-click to pick two that aren't. Leave the name column out of the selection."],
+      ["Insert", "[[Insert ▸ Insert Scatter (X, Y) or Bubble Chart ▸ Scatter]] — the markers-only icon, not one of the “with lines” variants."],
+      ["Add the trendline", "[[⊕ ▸ Trendline ▸ Linear]], then [[Format Trendline ▸ Display R-squared value on chart]] so the fit is visible rather than implied."],
+    ],
+    polish: [
+      "[[Format Data Series ▸ Marker ▸ Size]] 5–7, and Fill transparency around 25% wherever points pile up on each other.",
+      "Both axis titles with units — a bare scatter is unreadable without them.",
+      "To label individual points, [[Format Data Labels ▸ Label Contains ▸ Value From Cells]] and point it at your name column.",
+    ],
+    traps: [
+      "Axes the wrong way round? [[Chart Design ▸ Select Data ▸ Edit]] and swap _Series X values_ and _Series Y values_. No need to rebuild.",
+      "If Excel draws one point at (1,1), (2,2), (3,3)… you picked a Line chart, not a Scatter.",
+      "R² is the share of the variation the line accounts for. It is not evidence that X causes Y, and on 32 rows it is a thin basis for a decision.",
+    ],
+  },
+};
+
+// The source range, drawn from whatever dataset is loaded, so the shape shown
+// is the shape of the data the chart above is actually made from.
+function rangePreview(data) {
+  const COLS = ["A", "B", "C", "D", "E"];
+  let head;
+  let rows;
+  let total;
+
+  if (data.kind === "xy") {
+    const fx = makeFormatter(data.xFormat, "plain", 1);
+    const fy = makeFormatter(data.format, "plain", 1);
+    head = [data.xLabel, data.yLabel];
+    rows = data.points.slice(0, 4).map((p) => [fx(p.x), fy(p.y)]);
+    total = data.points.length;
+  } else {
+    head = [data.catLabel, ...data.series.map((s) => s.name)];
+    rows = data.categories.slice(0, 4).map((c, i) => [
+      c,
+      ...data.series.map((s) => makeFormatter(s.format || data.format, "plain", 1)(s.values[i])),
+    ]);
+    total = data.categories.length;
+  }
+
+  const cols = COLS.slice(0, head.length);
+  const cell = (v, cls) => `<td class="${cls}" title="${esc(v)}">${esc(v)}</td>`;
+  const body = rows
+    .map((r, i) => `<tr><th>${i + 2}</th>${r.map((v, j) => cell(v, j ? "num" : "")).join("")}</tr>`)
+    .join("");
+
+  return `<table class="cl-r-sheet">
+    <thead><tr><th></th>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead>
+    <tbody>
+      <tr class="hd"><th>1</th>${head.map((h) => cell(h, "hd")).join("")}</tr>
+      ${body}
+    </tbody>
+  </table>
+  ${total > 4 ? `<p class="cl-r-more">…${total - 4} more row${total - 4 === 1 ? "" : "s"}</p>` : ""}`;
+}
+
+// A multi-column source changes the recipe slightly; say so rather than
+// printing a two-column recipe next to a three-column grid.
+function multiSeriesNote(data, type) {
+  if (data.kind === "xy" || data.series.length < 2) return "";
+  if (type === "column" || type === "bar") {
+    return "This dataset has more than one value column, so you get a _clustered_ chart and a legend. Keep [[Series Overlap]] near 0% so each cluster reads as one group rather than several strays.";
+  }
+  if (type === "line" || type === "area") {
+    return "One column per line, and Excel takes the header row as the series names — so name the columns the way you want the legend to read.";
+  }
+  return "";
+}
+
+function renderRecipe(data, spec) {
+  const t = TYPE_BY_ID[spec.type];
+  const r = RECIPES[spec.type];
+  if (!r) return "";
+  const extra = multiSeriesNote(data, spec.type);
+
+  const list = (items) => items.map((x) => `<li>${rich(x)}</li>`).join("");
+
+  return `
+    <div class="cl-r-head">
+      <h4>Build this in Excel — <b>${esc(t.name)}</b></h4>
+      <p class="cl-r-lead">${rich(r.lead)}</p>
+    </div>
+    <div class="cl-r-cols">
+      <div class="cl-r-range">
+        <div class="cl-r-h">1 · The source range</div>
+        ${rangePreview(data)}
+        <p class="cl-r-note">${rich(r.shape)}</p>
+        ${extra ? `<p class="cl-r-note">${rich(extra)}</p>` : ""}
+        ${r.formula ? `<pre class="cl-r-formula">${esc(r.formula)}</pre>` : ""}
+        ${r.formulaNote ? `<p class="cl-r-note">${rich(r.formulaNote)}</p>` : ""}
+      </div>
+      <div class="cl-r-steps">
+        <div class="cl-r-h">2 · The clicks, in order</div>
+        <ol>
+          ${r.steps.map(([h, d]) => `<li><b>${rich(h)}</b><span>${rich(d)}</span></li>`).join("")}
+        </ol>
+      </div>
+    </div>
+    <div class="cl-r-two">
+      <div class="cl-r-box is-good">
+        <div class="cl-r-h">3 · Then make it worth showing</div>
+        <ul>${list(r.polish)}</ul>
+      </div>
+      <div class="cl-r-box is-warn">
+        <div class="cl-r-h">How this type goes wrong</div>
+        <ul>${list(r.traps)}</ul>
+      </div>
+    </div>`;
+}
 
 // ---------------------------------------------------------------------------
 // The studio
@@ -1371,6 +1691,7 @@ function mountStudio(host) {
       </div>
     </div>
 
+    <section class="cl-recipe" aria-live="polite"></section>
   `;
 
   const q = (sel) => host.querySelector(sel);
@@ -1383,6 +1704,7 @@ function mountStudio(host) {
   const task = q(".cl-task");
   const xlPath = q(".cl-xl-p");
   const xlExtra = q(".cl-xl-x");
+  const recipe = q(".cl-recipe");
 
   let lastTouched = "dataset";
 
@@ -1556,6 +1878,14 @@ function mountStudio(host) {
     const xl = lastTouched === "type" ? { path: TYPE_BY_ID[spec.type].ribbon, extra: EXCEL_PATH.type.extra } : EXCEL_PATH[lastTouched] || EXCEL_PATH.dataset;
     xlPath.textContent = xl.path;
     xlExtra.textContent = xl.extra;
+
+    // The recipe depends only on the chart type and the shape of the data, so
+    // leave it alone while the reader is turning dials.
+    const recipeKey = `${spec.type}|${spec.dataset}`;
+    if (recipe.dataset.key !== recipeKey) {
+      recipe.dataset.key = recipeKey;
+      recipe.innerHTML = renderRecipe(data, spec);
+    }
   }
 
   function set(name, value) {
@@ -1641,14 +1971,14 @@ const PARTS = [
     name: "Plot Area",
     select: "Click just inside the axes but not on a bar.",
     format: "Format Plot Area, or drag its handles to resize it inside the chart area.",
-    tip: "Widening the plot area is how you claw back the space Excel gives to margins by default.",
+    tip: "Dragging its handles outward reclaims the margin Excel leaves around the plot by default.",
   },
   {
     id: "vaxis",
     name: "Vertical (Value) Axis",
     select: "Click any of the numbers up the side.",
     format: "Format Axis ▸ Bounds, Units, Number, Display units.",
-    tip: "Bounds ▸ Minimum is the single most abused setting in Excel. Leave it on Auto for anything drawn as a length.",
+    tip: "Leave Bounds ▸ Minimum on Auto for anything drawn as a length — bar, column, area. Raising it above zero changes what those lengths mean.",
   },
   {
     id: "haxis",
@@ -1669,14 +1999,14 @@ const PARTS = [
     name: "Data Series",
     select: "Click any bar once — all bars of that colour get handles.",
     format: "Format Data Series ▸ Gap Width, Series Overlap, Fill, Plot on Secondary Axis.",
-    tip: "This is the panel people never find. Gap Width and Series Overlap live here and nowhere else.",
+    tip: "Gap Width and Series Overlap are only in this pane — not on the ribbon and not under the ⊕ button.",
   },
   {
     id: "point",
     name: "Data Point",
     select: "Click the bar once to get the series, then again to get just that bar.",
     format: "Format Data Point ▸ Fill.",
-    tip: "This is how you make one bar orange and the rest grey — the whole highlight technique is two clicks and a fill.",
+    tip: "Click once for the series, again for the single point, then set the fill. The other bars keep the series colour.",
   },
   {
     id: "labels",

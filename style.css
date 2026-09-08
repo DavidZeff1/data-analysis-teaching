@@ -4773,6 +4773,224 @@
     display: none;
   }
 
+  /* --- "build this in Excel" recipe ----------------------------------------
+     Full width under the studio, because it is the part the reader takes back
+     to their own spreadsheet. Rebuilt only when the chart type or the dataset
+     changes, so it stays put while dials move. */
+  .lesson .chartlab .cl-recipe {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--l-line);
+  }
+  .lesson .chartlab .cl-r-head h4 {
+    margin: 0 0 0.2rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+  }
+  .lesson .chartlab .cl-r-head h4 b {
+    color: var(--c-4338ca);
+  }
+  .lesson .chartlab .cl-r-lead {
+    margin: 0 0 0.7rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--l-ink);
+    max-width: 68ch;
+  }
+  .lesson .chartlab .cl-r-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+  @media (min-width: 820px) {
+    .lesson .chartlab .cl-r-cols {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+    }
+  }
+  /* The range card is short by nature; don't stretch it to match the steps. */
+  .lesson .chartlab .cl-r-range {
+    align-self: start;
+  }
+  .lesson .chartlab .cl-r-range,
+  .lesson .chartlab .cl-r-steps,
+  .lesson .chartlab .cl-r-box {
+    background: var(--c-ffffff);
+    border: 1px solid var(--l-line);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem 0.7rem;
+    min-width: 0;
+  }
+  .lesson .chartlab .cl-r-h {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--l-dim);
+    margin-bottom: 0.45rem;
+  }
+
+  /* The source range, drawn as a slice of a sheet so the shape is unmistakable. */
+  .lesson .chartlab .cl-r-sheet {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.76rem;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    table-layout: fixed;
+  }
+  .lesson .chartlab .cl-r-sheet th,
+  .lesson .chartlab .cl-r-sheet td {
+    border: 1px solid var(--l-line);
+    padding: 0.2rem 0.35rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .lesson .chartlab .cl-r-sheet thead th,
+  .lesson .chartlab .cl-r-sheet tbody th {
+    background: var(--c-f1f5f9);
+    color: var(--l-dim);
+    font-weight: 600;
+    text-align: center;
+    width: 1.6rem;
+  }
+  .lesson .chartlab .cl-r-sheet td.hd {
+    background: var(--c-eef2ff);
+    font-weight: 700;
+    color: var(--c-4338ca);
+  }
+  .lesson .chartlab .cl-r-sheet td.num {
+    text-align: right;
+  }
+  .lesson .chartlab .cl-r-more {
+    margin: 0.25rem 0 0;
+    font-size: 0.72rem;
+    color: var(--l-dim);
+  }
+  .lesson .chartlab .cl-r-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.81rem;
+    line-height: 1.55;
+    color: var(--l-dim);
+  }
+  .lesson .chartlab .cl-r-formula {
+    margin: 0.5rem 0 0;
+    padding: 0.4rem 0.55rem;
+    border-radius: 7px;
+    background: var(--c-0f172a);
+    color: var(--c-a7f3d0);
+    font-size: 0.74rem;
+    line-height: 1.5;
+    /* Wrap rather than scroll — a formula you have to drag sideways to read
+       is a formula nobody reads. */
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .lesson .chartlab .cl-r-steps ol {
+    list-style: none;
+    counter-reset: rstep;
+    margin: 0;
+    padding: 0;
+  }
+  .lesson .chartlab .cl-r-steps li {
+    counter-increment: rstep;
+    position: relative;
+    padding-left: 1.75rem;
+    margin: 0 0 0.55rem;
+  }
+  .lesson .chartlab .cl-r-steps li:last-child {
+    margin-bottom: 0;
+  }
+  .lesson .chartlab .cl-r-steps li::before {
+    content: counter(rstep);
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--c-4f46e5);
+    color: var(--c-fff);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .lesson .chartlab .cl-r-steps li > b {
+    display: block;
+    font-size: 0.84rem;
+    color: var(--l-ink);
+    line-height: 1.35;
+  }
+  .lesson .chartlab .cl-r-steps li > span {
+    display: block;
+    margin-top: 0.12rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--l-dim);
+  }
+  /* Chips sit in the flow of the sentence, and wrap with it. */
+  .lesson .chartlab .cl-recipe .uibtn,
+  .lesson .chartlab .cl-recipe .kbd {
+    white-space: normal;
+  }
+
+  .lesson .chartlab .cl-r-two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+  }
+  @media (min-width: 820px) {
+    .lesson .chartlab .cl-r-two {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .lesson .chartlab .cl-r-box.is-good {
+    background: var(--c-f0fdf4);
+    border-color: var(--c-bbf7d0);
+  }
+  .lesson .chartlab .cl-r-box.is-good .cl-r-h {
+    color: var(--c-15803d);
+  }
+  .lesson .chartlab .cl-r-box.is-warn {
+    background: var(--c-fffbeb);
+    border-color: var(--c-fde68a);
+  }
+  .lesson .chartlab .cl-r-box.is-warn .cl-r-h {
+    color: var(--c-92400e);
+  }
+  .lesson .chartlab .cl-r-box ul {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+  .lesson .chartlab .cl-r-box li {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin: 0 0 0.35rem;
+    color: var(--l-ink);
+  }
+  .lesson .chartlab .cl-r-box li:last-child {
+    margin-bottom: 0;
+  }
+  .lesson .chartlab .cl-r-box li::marker {
+    color: var(--c-94a3b8);
+  }
+  .lesson .chartlab .cl-recipe code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85em;
+    background: var(--c-f1f5f9);
+    border: 1px solid var(--l-line);
+    border-radius: 5px;
+    padding: 0.05em 0.3em;
+  }
+
   /* --- anatomy explorer ---------------------------------------------------- */
   .lesson .chartanat .ca-wrap {
     display: grid;
@@ -4929,6 +5147,14 @@
 /* --- chart palette, dark ---------------------------------------------------
    Unlayered, so it wins over the light defaults above the same way the rest of
    the dark rules in this file do. */
+/* The recipe's sheet preview and formula block sit on their own surfaces. */
+[data-theme="dark"] .lesson .chartlab .cl-r-formula {
+  background: #0b1017;
+}
+[data-theme="dark"] .lesson .chartlab .cl-r-sheet td:not(.hd) {
+  background: #131a24;
+}
+
 [data-theme="dark"] .lesson .chartlab {
   --kc-plot: #141b25;
   --kc-plotarea: #171f2b;
